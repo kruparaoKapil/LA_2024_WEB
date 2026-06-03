@@ -177,7 +177,19 @@ All `*.service.ts` retain identical method signatures and HTTP request/response 
   - `rich-editor/` — `<app-rich-editor>` (CVA) over `p-editor` (Quill)
   - `index.ts` barrel for one-line consumer imports
   - Wrappers tree-shake: 0 KB initial impact when not consumed; build still 2.07 MB initial.
-- Phase 4: lazy routing skeleton
+- [x] Phase 4: AppShell + lazy routing skeleton
+  - `layout/app-shell.component.ts` — header (brand, company, user avatar, sign-out) + collapsible PanelMenu sidebar + content `<router-outlet />`
+  - `shared/ui/feature-placeholder/` — single component renders "Feature X — Phase Y" via route `data`; consumed by every un-ported route so links never 404
+  - 7 feature `*.routes.ts` files registered as lazy children of the shell:
+    - `features/common/common.routes.ts` (3 routes — Phase 5)
+    - `features/settings/settings.routes.ts` (~30 routes — Phase 6)
+    - `features/loans/loans.routes.ts` (~70 routes — Phase 7)
+    - `features/accounting/accounting.routes.ts` (~50 routes — Phase 8)
+    - `features/banking/banking.routes.ts` (~30 routes — Phase 9)
+    - `features/hrms/hrms.routes.ts` (~25 routes — Phase 10)
+    - `features/tds/tds.routes.ts` (~15 routes — Phase 10)
+  - All shell-children also mounted at `path: ''` so legacy un-prefixed bookmarks (`#/CashBook`, `#/Fiindividual`) resolve unchanged.
+  - Bundle: chunks split per feature (loans-routes 6.2 KB, accounting-routes 5.9 KB, etc.); only the shell + dashboard load on first visit.
 - Phase 5: Common
 - Phase 6: Settings
 - Phase 7: Loans
