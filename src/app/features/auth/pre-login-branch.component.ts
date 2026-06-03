@@ -14,7 +14,10 @@ import { SelectModule } from 'primeng/select';
 
 import { finalize } from 'rxjs/operators';
 
+import { AuthStore } from '../../core/auth/auth.store';
+import { clearAuthSession } from '../../core/auth/session-clear.util';
 import { LoaderService } from '../../core/loader/loader.service';
+import { CookieService } from 'ngx-cookie-service';
 import { ToastService } from '../../core/notifications/toast.service';
 import {
   PreLoginBranchService,
@@ -143,6 +146,8 @@ import {
 })
 export class PreLoginBranchComponent implements OnInit {
   private readonly api = inject(PreLoginBranchService);
+  private readonly authStore = inject(AuthStore);
+  private readonly cookies = inject(CookieService);
   private readonly toast = inject(ToastService);
   private readonly loader = inject(LoaderService);
   private readonly router = inject(Router);
@@ -155,6 +160,7 @@ export class PreLoginBranchComponent implements OnInit {
   protected readonly loadingBranches = signal(false);
 
   ngOnInit(): void {
+    clearAuthSession(this.authStore, this.cookies);
     this.loader.reset();
     this.api.clearSelection();
     this.api

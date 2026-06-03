@@ -16,6 +16,7 @@ import { registerLocaleData } from '@angular/common';
 import localeEn from '@angular/common/locales/en-IN';
 
 import { routes } from './app.routes';
+import { branchContextInterceptor } from './core/interceptors/branch-context.interceptor';
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { AppConfigService } from './core/config/app-config.service';
@@ -28,7 +29,10 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideAnimationsAsync(),
     provideRouter(routes, withHashLocation()),
-    provideHttpClient(withFetch(), withInterceptors([jwtInterceptor, errorInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([branchContextInterceptor, jwtInterceptor, errorInterceptor]),
+    ),
     provideAppInitializer(() => inject(AppConfigService).load()),
     providePrimeNG({
       theme: {

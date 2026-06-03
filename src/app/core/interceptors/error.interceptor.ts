@@ -13,7 +13,9 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       const status = err.status;
       const message = err.error?.message ?? err.message ?? 'Request failed';
 
-      if (status === 401 && !req.url.includes('/login')) {
+      const path = req.url.split('?')[0].toLowerCase();
+      const isLoginAttempt = path.endsWith('/login') || path.endsWith('/verifyotp');
+      if (status === 401 && !isLoginAttempt) {
         void router.navigate(['/Login']);
       }
 

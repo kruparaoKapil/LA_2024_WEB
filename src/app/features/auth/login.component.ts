@@ -16,9 +16,11 @@ import { PasswordModule } from 'primeng/password';
 import { CardModule } from 'primeng/card';
 
 import { AuthService } from '../../core/auth/auth.service';
+import { clearAuthSession } from '../../core/auth/session-clear.util';
 import { PreLoginBranchService } from '../../core/auth/pre-login-branch.service';
 import { ToastService } from '../../core/notifications/toast.service';
 import { LoaderService } from '../../core/loader/loader.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -112,6 +114,7 @@ import { LoaderService } from '../../core/loader/loader.service';
 })
 export class LoginComponent implements OnInit {
   private readonly auth = inject(AuthService);
+  private readonly cookies = inject(CookieService);
   private readonly branchSvc = inject(PreLoginBranchService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
@@ -128,6 +131,7 @@ export class LoginComponent implements OnInit {
   );
 
   ngOnInit(): void {
+    clearAuthSession(this.auth.store, this.cookies);
     this.loader.reset();
     const branch = this.branchSvc.readSelection();
     if (!branch?.pbranch_name) {
