@@ -49,10 +49,11 @@ export interface BranchSelection {
   [key: string]: unknown;
 }
 
+/** POST `/login` and `/VerifyOtp` body — must match legacy `LoginForm.value`. */
 export interface LoginRequest {
-  username: string;
-  password: string;
-  [key: string]: unknown;
+  pUserName: string;
+  pPassword: string;
+  pOtp: string;
 }
 
 export interface LoginResponse {

@@ -12,7 +12,7 @@ import { CurrentUser, LoginRequest, LoginResponse } from './auth.types';
  * password reset, etc.
  *
  * Behavioural contract (kept identical):
- * - POST `/login`  with body `{ username, password, ... }`
+ * - POST `/login`  with body `{ pUserName, pPassword, pOtp }`
  * - POST `/VerifyOtp` with body
  * - On logout, clear sessionStorage and navigate to `/Login` (legacy used `/`).
  */
@@ -28,8 +28,8 @@ export class AuthService {
     );
   }
 
-  verifyOtp(payload: unknown): Observable<LoginResponse> {
-    return this.api.post<LoginResponse>('/VerifyOtp', payload).pipe(
+  verifyOtp(payload: LoginRequest): Observable<LoginResponse> {
+    return this.api.post<LoginResponse, LoginRequest>('/VerifyOtp', payload).pipe(
       tap((resp) => this.applyLoginResponse(resp)),
     );
   }

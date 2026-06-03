@@ -156,8 +156,11 @@ export class LoginComponent implements OnInit {
     }
     this.busy.set(true);
     this.loader.show('Signing in…');
-    this.auth
-      .login({ username: this.username().trim(), password: this.password() })
+    this.auth.login({
+      pUserName: this.username().trim(),
+      pPassword: this.password(),
+      pOtp: '',
+    })
       .pipe(
         finalize(() => {
           this.busy.set(false);
