@@ -1,13 +1,15 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { CardModule } from 'primeng/card';
-import { MessageService } from 'primeng/api';
+
+import { AuthService } from '../../core/auth/auth.service';
+import { ToastService } from '../../core/notifications/toast.service';
+import { LoaderService } from '../../core/loader/loader.service';
 
 @Component({
   selector: 'app-login',
@@ -22,9 +24,10 @@ import { MessageService } from 'primeng/api';
           <input
             id="username"
             pInputText
+            autocomplete="username"
             [ngModel]="username()"
             (ngModelChange)="username.set($event)"
-            autocomplete="username"
+            (keyup.enter)="signIn()"
           />
         </div>
         <div class="field">
@@ -35,12 +38,14 @@ import { MessageService } from 'primeng/api';
             (ngModelChange)="password.set($event)"
             [feedback]="false"
             [toggleMask]="true"
+            (keyup.enter)="signIn()"
           />
         </div>
         <p-button
           label="Sign in"
           icon="pi pi-sign-in"
-          [loading]="loading()"
+          [loading]="busy()"
+          [disabled]="signInDisabled()"
           (onClick)="signIn()"
         />
       </p-card>
@@ -68,27 +73,41 @@ import { MessageService } from 'primeng/api';
   ],
 })
 export class LoginComponent {
+  private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly messages = inject(MessageService, { optional: true });
+  private readonly route = inject(ActivatedRoute);
+  private readonly toast = inject(ToastService);
+  private readonly loader = inject(LoaderService);
 
   protected readonly username = signal('');
   protected readonly password = signal('');
-  protected readonly loading = signal(false);
+  protected readonly busy = signal(false);
+
+  protected readonly signInDisabled = computed(
+    () => this.busy() || !this.username().trim() || !this.password(),
+  );
 
   protected signIn(): void {
-    if (!this.username() || !this.password()) {
-      this.messages?.add({
-        severity: 'warn',
-        summary: 'Missing credentials',
-        detail: 'Enter both username and password.',
-      });
+    if (this.signInDisabled()) {
+      this.toast.warn('Enter both username and password.', 'Missing credentials');
       return;
     }
-    this.loading.set(true);
-    // Real auth wiring lands in Phase 2 once AuthService is ported.
-    setTimeout(() => {
-      this.loading.set(false);
-      this.router.navigate(['/Dashboard']);
-    }, 300);
+    this.busy.set(true);
+    this.loader.show('Signing in…');
+    this.auth
+      .login({ username: this.username().trim(), password: this.password() })
+      .subscribe({
+        next: () => {
+          this.busy.set(false);
+          this.loader.hide();
+          const target = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/Dashboard';
+          void this.router.navigateByUrl(target);
+        },
+        error: () => {
+          // toast already raised by errorInterceptor
+          this.busy.set(false);
+          this.loader.hide();
+        },
+      });
   }
 }

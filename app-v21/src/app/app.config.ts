@@ -1,6 +1,8 @@
 import {
   ApplicationConfig,
   LOCALE_ID,
+  inject,
+  provideAppInitializer,
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
@@ -8,6 +10,7 @@ import { provideRouter, withHashLocation } from '@angular/router';
 import { provideHttpClient, withInterceptors, withFetch } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import Aura from '@primeuix/themes/aura';
 import { registerLocaleData } from '@angular/common';
 import localeEn from '@angular/common/locales/en-IN';
@@ -15,6 +18,7 @@ import localeEn from '@angular/common/locales/en-IN';
 import { routes } from './app.routes';
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
+import { AppConfigService } from './core/config/app-config.service';
 
 registerLocaleData(localeEn, 'en-IN');
 
@@ -25,6 +29,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideRouter(routes, withHashLocation()),
     provideHttpClient(withFetch(), withInterceptors([jwtInterceptor, errorInterceptor])),
+    provideAppInitializer(() => inject(AppConfigService).load()),
     providePrimeNG({
       theme: {
         preset: Aura,
@@ -40,6 +45,8 @@ export const appConfig: ApplicationConfig = {
       ripple: true,
       inputVariant: 'outlined',
     }),
+    MessageService,
+    ConfirmationService,
     { provide: LOCALE_ID, useValue: 'en-IN' },
   ],
 };

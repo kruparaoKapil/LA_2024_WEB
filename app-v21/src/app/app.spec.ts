@@ -3,6 +3,7 @@ import { provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MessageService, ConfirmationService } from 'primeng/api';
 
 import { App } from './app';
 
@@ -15,6 +16,8 @@ describe('App', () => {
         provideRouter([]),
         provideHttpClient(),
         provideAnimationsAsync(),
+        MessageService,
+        ConfirmationService,
       ],
     }).compileComponents();
   });
