@@ -12,3 +12,5 @@ export * from './tree/tree.component';
 export * from './tabs/tabs.component';
 export * from './toolbar/toolbar.component';
 export * from './rich-editor/rich-editor.component';
+export * from './validation-message/validation-message.component';
+export * from './feature-placeholder/feature-placeholder.component';
