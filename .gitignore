@@ -53,6 +53,9 @@ Thumbs.db
 public/assets/appsettings.json
 legacy/src/assets/appsettings.json
 
+# QA screenshots (local only)
+migration/screenshots/
+
 # Legacy reports & logs
 report.*.json
 debug.log

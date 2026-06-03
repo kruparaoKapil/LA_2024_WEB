@@ -313,6 +313,12 @@ All `*.service.ts` retain identical method signatures and HTTP request/response 
   - Root `package.json` / `angular.json` / `tsconfig.*` now target Angular 21 + PrimeNG; project name `PresentationPages`, output `dist/PresentationPages/`.
   - Kendo, ngx-bootstrap, ngx-toastr, `rxjs-compat`, and related deps removed from the active install (remain only under `legacy/` if needed).
   - `public/assets/appsettings.json` remains the runtime API config entry point.
-- Phase 12: QA + perf
+- [x] Phase 12: QA + perf — `migration/QA_REPORT.md`, `migration/QA_CHECKLIST.md`
+  - Production build verified at repo root; Vitest: app shell + `ExcelExportService` + `PdfExportService`.
+  - `npm run qa` / `npm run qa:full` — `migration/scripts/analyze-routes.mjs` + `analyze-bundle.mjs` → `route-coverage.json`, `bundle-stats.json`.
+  - Route coverage vs Phase-0 inventory: 134 implemented exact paths, 47 placeholders, 198 legacy-only (many consolidated into shells).
+  - Bundle: ~4 MB total output, ~160 KB initial transfer; largest lazy chunk is jsPDF/html2canvas (~1.3 MB).
+  - Manual visual parity checklist + screenshot table in `QA_CHECKLIST.md`; legacy UI via `legacy/` or tag `pre-migration-snapshot`.
+  - E2E (Cypress/Playwright) deferred — recommended before production cutover to `main`.
 - Phase 13: write `MIGRATION_NOTES.md`
 

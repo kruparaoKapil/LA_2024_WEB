@@ -1,0 +1,62 @@
+{
+  "generatedAt": "2026-06-03T17:46:59.236Z",
+  "statsOutputs": 211,
+  "totalBytes": 4184032,
+  "totalKb": 4086,
+  "byExt": {
+    "js": 3508217,
+    "css": 42950,
+    "other": 632865
+  },
+  "diskBrowserKb": 3455,
+  "topJsChunks": [
+    {
+      "file": "chunk-2EEIQSN3.js",
+      "bytes": 1341281
+    },
+    {
+      "file": "chunk-Z27M7K2C.js",
+      "bytes": 202845
+    },
+    {
+      "file": "chunk-Q7AQ6HGO.js",
+      "bytes": 179668
+    },
+    {
+      "file": "main-JORVH4GJ.js",
+      "bytes": 168565
+    },
+    {
+      "file": "chunk-XNW6L3ZO.js",
+      "bytes": 166070
+    },
+    {
+      "file": "chunk-BP3OUEUJ.js",
+      "bytes": 162438
+    },
+    {
+      "file": "chunk-7SE2Z7Z4.js",
+      "bytes": 158923
+    },
+    {
+      "file": "chunk-ZYLTWWAB.js",
+      "bytes": 109574
+    },
+    {
+      "file": "chunk-BBSJCZ5N.js",
+      "bytes": 96595
+    },
+    {
+      "file": "chunk-WPNMQ5XL.js",
+      "bytes": 74009
+    },
+    {
+      "file": "chunk-ZWNBFTX5.js",
+      "bytes": 67780
+    },
+    {
+      "file": "chunk-2DA46QV6.js",
+      "bytes": 47942
+    }
+  ]
+}
