@@ -20,16 +20,46 @@ export const LOANS_ROUTES: Routes = [
   { path: 'transactions', ...placeholder('Loans Transactions') },
   { path: 'reports', ...placeholder('Loans Reports') },
 
-  // legacy individual screens (paths preserved verbatim)
-  { path: 'LoansMaster', ...placeholder('Loans Master') },
-  { path: 'ChargesMaster', ...placeholder('Charges Master') },
+  // -------- Phase 7A: real masters --------
+  {
+    path: 'ChargesMaster',
+    loadComponent: () =>
+      import('./charges/charges.component').then((m) => m.ChargesComponent),
+  },
+  {
+    path: 'Documents',
+    loadComponent: () =>
+      import('./documents/documents.component').then((m) => m.DocumentsComponent),
+  },
+  {
+    path: 'SchemeView',
+    loadComponent: () =>
+      import('./scheme/scheme.component').then((m) => m.SchemeComponent),
+  },
+  {
+    path: 'SchemeMaster',
+    loadComponent: () =>
+      import('./scheme/scheme.component').then((m) => m.SchemeComponent),
+  },
+  {
+    path: 'PreclosureView',
+    loadComponent: () =>
+      import('./preclosure/preclosure.component').then(
+        (m) => m.PreclosureComponent,
+      ),
+  },
+  {
+    path: 'PreclosureMaster',
+    loadComponent: () =>
+      import('./preclosure/preclosure.component').then(
+        (m) => m.PreclosureComponent,
+      ),
+  },
+
+  // -------- still placeholders --------
+  { path: 'LoansMaster', ...placeholder('Loans Master (multi-tab)') },
   { path: 'ChargeconfigurationView', ...placeholder('Charge Configuration View') },
   { path: 'ChargeconfigurationMaster', ...placeholder('Charge Configuration Master') },
-  { path: 'Documents', ...placeholder('Documents Master') },
-  { path: 'SchemeView', ...placeholder('Scheme View') },
-  { path: 'SchemeMaster', ...placeholder('Scheme Master') },
-  { path: 'PreclosureView', ...placeholder('Preclosure View') },
-  { path: 'PreclosureMaster', ...placeholder('Preclosure Master') },
   { path: 'ContactForm', ...placeholder('Contact Form') },
   { path: 'ContactMore', ...placeholder('Contact More') },
   { path: 'ContactMoreNew', ...placeholder('Contact More (New)') },

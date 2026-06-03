@@ -216,7 +216,17 @@ All `*.service.ts` retain identical method signatures and HTTP request/response 
     - `generate-id/generate-id.component.ts` — list + dialog edit with form/mode cascade
   - Settings routes wired both at PrimeNG-style paths (`/settings/users`, `/settings/branch-config`) and legacy hash names (`/UsersView`, `/BranchConfig`, `/AdvocateLawyerView`, `/AdvocateLawyerMaster`, `/ReferralAgentView`, `/ReferralAgentMaster`, `/GenerateidMaster`).
   - Multi-tab forms (Company Config, Employee Master, User Rights / Add Menu / Menu Sorting, Party Master / Contacts) deferred — they share sub-form building blocks (KYC, Family Details, Contact tree) with FIIndividual and port together in Phase 7.
-- Phase 7: Loans
+- [x] Phase 7A: Loans Masters — `app-v21/src/app/features/loans/`
+  - 5 services on `ApiClient`: `charges.service.ts`, `documents.service.ts`, `scheme.service.ts`, `preclosure.service.ts`, `loans-master.service.ts` (the legacy 358-LOC `LoansmasterService` was split — its API surface is the new service; the cross-tab state-bag goes into the LoanCreation form's local signals when ported in Phase 7B)
+  - 4 master CRUD components, all signal-only with `<app-data-grid>` + `<app-dialog>`:
+    - `charges/charges.component.ts` — Amount / Percentage type toggle
+    - `documents/documents.component.ts` — two-tab (Groups | Documents) using `<app-tabs>`
+    - `scheme/scheme.component.ts` — cascading Loan Type → Loan Name picker
+    - `preclosure/preclosure.component.ts`
+  - Routes wired at legacy hash names (`/ChargesMaster`, `/Documents`, `/SchemeView`, `/SchemeMaster`, `/PreclosureView`, `/PreclosureMaster`); LoanCreation, ChargeconfigurationView/Master remain placeholders pending Phase 7B
+- Phase 7B: FIIndividual + bank/kyc/personal/contact-select sub-forms (next)
+- Phase 7C: Verification / Approval / Disbursement
+- Phase 7D: Receipts / Letters / Reports
 - Phase 8: Accounting
 - Phase 9: Banking
 - Phase 10: HRMS, TDS, rest
