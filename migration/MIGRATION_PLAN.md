@@ -27,7 +27,7 @@
 
 ## Strategy
 
-**Greenfield Angular 21 standalone app at `app-v21/`** built side-by-side with the legacy code, ported feature-by-feature, then cut over. Avoids the impossible chain `ng update 8→9→…→21` against a 1341-line `app.module.ts` with duplicated declarations.
+**Greenfield Angular 21 standalone app** (scaffolded under `app-v21/`, then cut over to repo root in Phase 11) built side-by-side with the legacy code, ported feature-by-feature. Avoids the impossible chain `ng update 8→9→…→21` against a 1341-line `app.module.ts` with duplicated declarations.
 
 ## Phases
 
@@ -308,7 +308,11 @@ All `*.service.ts` retain identical method signatures and HTTP request/response 
   - `transactions/challana-tds-shell.component.ts` — `checking` | `payment` | `cin-entry` via `data.kind`.
   - `masters/pan-update.component.ts`, `masters/pan-validation.component.ts`, `masters/tds-form-shell.component.ts` — PAN maintenance + simplified Form 15-H/121/reprint (full legacy multi-tab forms deferred).
   - TDS routes wired; `TdsAccountsSetup` still placeholder.
-- Phase 11: cutover
+- [x] Phase 11: Cutover — `app-v21/` promoted to repository root
+  - Legacy Angular 8 tree archived under `legacy/` (`legacy/src`, `legacy/package.json`, `legacy/angular.json`, Karma/e2e).
+  - Root `package.json` / `angular.json` / `tsconfig.*` now target Angular 21 + PrimeNG; project name `PresentationPages`, output `dist/PresentationPages/`.
+  - Kendo, ngx-bootstrap, ngx-toastr, `rxjs-compat`, and related deps removed from the active install (remain only under `legacy/` if needed).
+  - `public/assets/appsettings.json` remains the runtime API config entry point.
 - Phase 12: QA + perf
 - Phase 13: write `MIGRATION_NOTES.md`
 

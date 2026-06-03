@@ -1,27 +1,31 @@
-# PresentationPages
+# LA_2024_WEB
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.0.
+Angular **21** + **PrimeNG** web client for LA 2024 (hash routing, zoneless, standalone components).
 
-## Development server
+## Prerequisites
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- **Node.js 20+** (LTS recommended)
+- npm 10+
 
-## Code scaffolding
+## Development
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+npm install
+npm start
+```
 
-## Build
+Open `http://localhost:4200/`. API base URL is loaded from `public/assets/appsettings.json` at startup.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Production build
 
-## Running unit tests
+```bash
+npm run build:prod
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Output: `dist/PresentationPages/`
 
-## Running end-to-end tests
+## Migration
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Side-by-side migration notes and phase history: [`migration/MIGRATION_PLAN.md`](migration/MIGRATION_PLAN.md).
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Legacy Angular 8 sources are archived under [`legacy/`](legacy/README.md).

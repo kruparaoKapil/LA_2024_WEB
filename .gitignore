@@ -1,21 +1,23 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files
 
-# compiled output
+# Compiled output
 /dist
 /tmp
 /out-tsc
-# Only exists if Bazel was run
 /bazel-out
+/.angular/cache
 
-# dependencies
+# Node
 /node_modules
+npm-debug.log
+yarn-error.log
 
-# profiling files
-chrome-profiler-events*.json
-speed-measure-plugin*.json
+# Legacy app (optional local install)
+legacy/node_modules/
+legacy/dist/
 
 # IDEs and editors
-/.idea
+.idea/
 .project
 .classpath
 .c9/
@@ -23,62 +25,40 @@ speed-measure-plugin*.json
 .settings/
 *.sublime-workspace
 
-# IDE - VSCode
+# Visual Studio Code
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/mcp.json
 .history/*
 
-# misc
-/.sass-cache
+# Miscellaneous
+.sass-cache/
 /connect.lock
 /coverage
 /libpeerconnection.log
-npm-debug.log
-yarn-error.log
 testem.log
 /typings
+__screenshots__/
+.vitest-cache/
 
-# System Files
+# System files
 .DS_Store
 Thumbs.db
 
-/FinstaGenericWeb/PresentationPages/src/assets/
-/FinstaGenericWeb/appsettings.json
-
+# Local API settings (often environment-specific)
 */appsettings.json
-
-# Migration: new Angular 21 app artefacts
-app-v21/node_modules/
-app-v21/dist/
-app-v21/.angular/
-app-v21/.vitest-cache/
+public/assets/appsettings.json
+legacy/src/assets/appsettings.json
 
 # Legacy reports & logs
 report.*.json
 debug.log
-
-# OS
-.DS_Store
-# Legacy app
-node_modules/
-dist/
-.angular/
-.tmp/
-debug.log
-
-# New app under app-v21/
-app-v21/node_modules/
-app-v21/dist/
-app-v21/.angular/
-app-v21/.vitest-cache/
-
-# OS / editor
-.DS_Store
-.idea/
-.vscode/.cache/
 *.log
 *.tmp
-report.*.json
+
+# Finsta paths (historical)
+/FinstaGenericWeb/PresentationPages/src/assets/
+/FinstaGenericWeb/appsettings.json
