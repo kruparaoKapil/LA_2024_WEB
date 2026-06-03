@@ -122,8 +122,13 @@ All `*.service.ts` retain identical method signatures and HTTP request/response 
 ## Progress checklist
 - [x] Phase 0: snapshot tag + branch
 - [x] Phase 0: route inventory captured (`route-inventory.raw.txt`, 387 entries)
-- [ ] Phase 1: scaffold `app-v21/`
-- [ ] Phase 1: configure PrimeNG (Aura) + zoneless + hash routing
+- [x] Phase 1: scaffold `app-v21/` (Angular 21.2.0, TS 5.9, RxJS 7.8, Vitest)
+- [x] Phase 1: PrimeNG 21 + Aura + primeicons installed (`@primeuix/themes`)
+- [x] Phase 1: zoneless change detection enabled (`provideZonelessChangeDetection()`)
+- [x] Phase 1: hash routing preserved (`provideRouter(routes, withHashLocation())`)
+- [x] Phase 1: functional `jwt.interceptor.ts` + `error.interceptor.ts` wired
+- [x] Phase 1: `en-IN` locale + INR rupee setup
+- [x] Phase 1: signal-based placeholder Login + Dashboard, dev build green (2.04 MB initial)
 - [ ] Phase 2: cross-cutting layer
 - [ ] Phase 3: shared/ui wrappers
 - [ ] Phase 4: lazy routing skeleton

@@ -1,0 +1,29 @@
+@use 'primeicons/primeicons.css';
+
+:root {
+  --app-radius: 6px;
+  --app-bg: var(--p-surface-50);
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
+  background: var(--app-bg);
+  color: var(--p-text-color);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@layer theme, base, primeng;

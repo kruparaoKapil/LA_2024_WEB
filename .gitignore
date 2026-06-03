@@ -49,3 +49,36 @@ Thumbs.db
 /FinstaGenericWeb/appsettings.json
 
 */appsettings.json
+
+# Migration: new Angular 21 app artefacts
+app-v21/node_modules/
+app-v21/dist/
+app-v21/.angular/
+app-v21/.vitest-cache/
+
+# Legacy reports & logs
+report.*.json
+debug.log
+
+# OS
+.DS_Store
+# Legacy app
+node_modules/
+dist/
+.angular/
+.tmp/
+debug.log
+
+# New app under app-v21/
+app-v21/node_modules/
+app-v21/dist/
+app-v21/.angular/
+app-v21/.vitest-cache/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/.cache/
+*.log
+*.tmp
+report.*.json
