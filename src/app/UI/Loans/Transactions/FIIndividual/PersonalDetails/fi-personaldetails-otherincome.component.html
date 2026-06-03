@@ -1,0 +1,63 @@
+<h2 class="sec-head" *ngIf="showIncome"> Income from other sources</h2>
+<form [formGroup]="personalOtherIncomeDetailsIncomeForm" *ngIf="showIncome">
+  
+<div class="form-group col-md-6 pl-0">
+    <label id="psourcename" title="Select Source">Select Source</label>
+    <div class="input-group">
+      <select id="" class="form-control" formControlName="psourcename" (change)="onSourceNameChange()"
+       [ngClass]="{ 'is-invalid': otherincomeValidationErrors.psourcename }"
+      >
+      
+        <option class="" value="Bonus Received">Bonus Received</option>
+        <option class="" value="Capital Gains">Capital Gains</option>
+        <option class="" value="Dividend Income">Dividend Income</option>
+        <option class="" value="Income from Agriculture">Income from Agriculture</option>
+        <option class="" value="Interest Income">Interest Income</option>
+        <option class="" value="Rental Income">Rental Income</option>
+      </select>
+      <!-- <div class="input-group-append">
+        <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" class="" width="20px" height="20px"></button>
+      </div> -->
+      <div class="invalid-feedback">
+          <span *ngIf="otherincomeValidationErrors.psourcename">{{otherincomeValidationErrors?.psourcename}}</span>
+        </div>
+    </div>
+   
+  </div>
+  <div class="form-group col-md-6 pl-0">
+    <label id="pgrossannual" title="Annual Amount Recieved">Annual Amount Recieved</label>
+    <input class="form-control text-right" type="text" placeholder="Enter Annual Amount Recieved" appNumbersonly maxlength="12" removeZero formControlName="pgrossannual" [ngClass]="{ 'is-invalid': otherincomeValidationErrors.pgrossannual }">
+    <div class="invalid-feedback">
+        <span *ngIf="otherincomeValidationErrors.pgrossannual">{{otherincomeValidationErrors?.pgrossannual}}</span>
+      </div>
+  </div>
+  <div class="col-md-6 pl-0">
+      <div *ngIf="showIncome" class="d-flex justify-content-end mt-4 mb-4"> <a href="#" class="btn btn-b-icon px-3 border-0" data-toggle="collapse" data-target="#gold-compute" (click)="saveOtherincomedetail()"><img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px" >Add</a> </div>
+    </div>
+  </form>
+ 
+
+  <!-- <div class="row mt-4"> -->
+      <div *ngIf="showIncome" class="col-md-12 col-xl-12">        
+        <kendo-grid [data]="otherIncomeGridData" [reorderable]="true" [resizable]="true" [sortable]="true" (remove)="removeHandler($event)">
+    
+          <kendo-grid-column field="psourcename" title="Income Source" width="100">
+          </kendo-grid-column>
+          <kendo-grid-column field="pgrossannual" title="Annual Amount" width="100"
+          [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+          </kendo-grid-column>
+         
+          <kendo-grid-command-column title="" width="100">
+            <ng-template kendoGridCellTemplate>
+              <!-- <button kendoGridEditCommand>Edit</button> -->
+              <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+              <!-- <button kendoGridEditCommand><div id="icon-edit"></div></button> -->
+            </ng-template>
+          </kendo-grid-command-column>
+    
+        </kendo-grid>
+      </div>
+  <!-- </div> -->
+    <label *ngIf="showIncome">Estimated Annual Savings : 
+      <strong class="bc-1" [ngClass]="colorBoolean ? 'red-color' : 'green-color'" >{{dataOFCompute}}</strong></label>
+ 

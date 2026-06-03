@@ -1,0 +1,1277 @@
+<kendo-grid [kendoGridBinding]="countamountlist" [resizable]="true" >
+    <!-- [selectedKeys]="mySelection"  [skip]="skip" [reorderable]="true"
+        [height]="480" [columnMenu]="{ filter: true }" [pageable]="true" [sortable]="true" -->
+   <ng-template kendoGridToolbarTemplate>
+      <!-- <input placeholder="Search in all columns..." kendoTextBox (input)="SearchRecord($event.target.value)" />
+     <button kendoGridExcelCommand type="button" icon="file-excel" style="float:right;">Export to
+       Excel</button>
+     <button kendoGridPDFCommand icon="file-pdf" style="float:right;">Export to PDF</button>  -->
+     <div class="row mb-5">
+               <div class="col-4 pl-0 mt-n1">
+                 <!-- <input placeholder="Search in all columns..." formControlName="SearchClear" kendoTextBox class="form-control search-k-cst sb"
+                   (input)="SearchRecord($event.target.value)" /> -->
+               </div>
+               <div class="col-7 pr-0 pl-4 ml-4">
+                 <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                   <li class="temp-ico ml-2">
+                     <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                         width="20px"></a></li>
+                   <li class="temp-ico ml-2">
+                     <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                         width="20px"></a></li>
+                 </ul>
+               </div>
+             </div>
+   </ng-template>   
+   <kendo-grid-column field="pparticulars" title="Collection And Due" [locked]="true" width="150"></kendo-grid-column>
+   <kendo-grid-column-group title="Trend Report (Collection And Due) " [headerClass]="{'kendo-g-center' : true}">  
+   
+   <kendo-grid-column field="pamount1"  title="{{monthlist[0]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <div *ngIf="dataItem.pamount1==0"></div>
+        <div *ngIf="dataItem.pamount1 != '0'">
+            <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                {{dataItem.pamount1 | mycurrencypipe}}
+          </div>
+          <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3' ">
+            <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[0].pparticulars,'ALL')">{{dataItem.pamount1 | mycurrencypipe}}</a >
+          </div>
+        </div>
+      </ng-template>
+   </kendo-grid-column>
+    <kendo-grid-column field="pamount2" title="{{monthlist[1]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount2==0"></div>
+            <div *ngIf="dataItem.pamount2 != '0'">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount2 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[1].pparticulars,'ALL')">{{dataItem.pamount2 | mycurrencypipe}}</a>
+              </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount3"  title="{{monthlist[2]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount3==0"></div>
+            <div *ngIf="dataItem.pamount3 != '0'">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount3 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[2].pparticulars,'ALL')">{{dataItem.pamount3 | mycurrencypipe}}</a>
+              </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount4" title="{{monthlist[3]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount4==0"></div>
+            <div *ngIf="dataItem.pamount4 != '0'">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount4 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[3].pparticulars,'ALL')">{{dataItem.pamount4 | mycurrencypipe}}</a>
+              </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount5" title="{{monthlist[4]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount5==0"></div>
+            <div *ngIf="dataItem.pamount5 != '0'">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount5 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[4].pparticulars,'ALL')">{{dataItem.pamount5 | mycurrencypipe}}</a>
+              </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount6"  title="{{monthlist[5]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount6==0"></div>
+            <div *ngIf="dataItem.pamount6 != '0'">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount6 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}"  (click)="CollectionDues(dataItem,monthlist[5].pparticulars,'ALL')">{{dataItem.pamount6 | mycurrencypipe}}</a>
+              </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount7"  title="{{monthlist[6]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount7==0"></div>
+            <div *ngIf="dataItem.pamount7 != '0'">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount7 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[6].pparticulars,'ALL')">{{dataItem.pamount7 | mycurrencypipe}}</a>
+              </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount8"  title="{{monthlist[7]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount8==0"></div>
+            <div *ngIf="dataItem.pamount8 != '0'">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount8 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[7].pparticulars,'ALL')">{{dataItem.pamount8 | mycurrencypipe}}</a>
+              </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount9"  title="{{monthlist[8]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount9==0"></div>
+            <div *ngIf="dataItem.pamount9 != '0'">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount9 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[8].pparticulars,'ALL')">{{dataItem.pamount9 | mycurrencypipe}}</a>
+              </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount10" title="{{monthlist[9]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount10==0"></div>
+            <div *ngIf="dataItem.pamount10 != '0'">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount10 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a  href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[9].pparticulars,'ALL')">{{dataItem.pamount10 | mycurrencypipe}}</a>
+              </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount11"  title="{{monthlist[10]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount11==0"></div>
+            <div *ngIf="dataItem.pamount11 != '0'"> 
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount11 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a  href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[10].pparticulars,'ALL')">{{dataItem.pamount11 | mycurrencypipe}}</a>
+              </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount12"  title="{{monthlist[11]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount12==0"></div>
+            <div *ngIf="dataItem.pamount12 != '0'">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount12 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a  href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[11].pparticulars,'ALL')">{{dataItem.pamount12 | mycurrencypipe}}</a>
+              </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+   </kendo-grid-column-group>
+    <kendo-grid-pdf fileName="trendreport-collection&dues.pdf" [allPages]="true" paperSize="A2" [repeatHeaders]="true" [landscape]="true">
+       <ng-template kendoGridPDFTemplate>
+           <div class="page-template">
+              <div class="header bc-2 text-center">
+               <h5> Trend Report (Collection And Due) </h5>
+              </div>
+            </div>
+          </ng-template>
+     <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+     <kendo-grid-column field="pparticulars" title="Collection And Due" width="150"></kendo-grid-column>
+     <kendo-grid-column field="pamount1"  title="{{monthlist[0]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+      <ng-template kendoGridCellTemplate let-dataItem>
+          <div *ngIf="dataItem.pamount1==0"></div>
+          <div *ngIf="dataItem.pamount1 != '0'">
+              <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                  {{dataItem.pamount1 | mycurrencypipe}}
+            </div>
+            <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3' ">
+              <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[0].pparticulars,'ALL')">{{dataItem.pamount1 | mycurrencypipe}}</a >
+            </div>
+          </div>
+        </ng-template>
+     </kendo-grid-column>
+      <kendo-grid-column field="pamount2" title="{{monthlist[1]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+          <ng-template kendoGridCellTemplate let-dataItem>
+              <div *ngIf="dataItem.pamount2==0"></div>
+              <div *ngIf="dataItem.pamount2 != '0'">
+                  <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                      {{dataItem.pamount2 | mycurrencypipe}}
+                </div>
+                <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                  <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[1].pparticulars,'ALL')">{{dataItem.pamount2 | mycurrencypipe}}</a>
+                </div>
+              </div>
+            </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="pamount3"  title="{{monthlist[2]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+          <ng-template kendoGridCellTemplate let-dataItem>
+              <div *ngIf="dataItem.pamount3==0"></div>
+              <div *ngIf="dataItem.pamount3 != '0'">
+                  <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                      {{dataItem.pamount3 | mycurrencypipe}}
+                </div>
+                <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                  <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[2].pparticulars,'ALL')">{{dataItem.pamount3 | mycurrencypipe}}</a>
+                </div>
+              </div>
+            </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="pamount4" title="{{monthlist[3]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+          <ng-template kendoGridCellTemplate let-dataItem>
+              <div *ngIf="dataItem.pamount4==0"></div>
+              <div *ngIf="dataItem.pamount4 != '0'">
+                  <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                      {{dataItem.pamount4 | mycurrencypipe}}
+                </div>
+                <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                  <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[3].pparticulars,'ALL')">{{dataItem.pamount4 | mycurrencypipe}}</a>
+                </div>
+              </div>
+            </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="pamount5" title="{{monthlist[4]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+          <ng-template kendoGridCellTemplate let-dataItem>
+              <div *ngIf="dataItem.pamount5==0"></div>
+              <div *ngIf="dataItem.pamount5 != '0'">
+                  <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                      {{dataItem.pamount5 | mycurrencypipe}}
+                </div>
+                <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                  <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[4].pparticulars,'ALL')">{{dataItem.pamount5 | mycurrencypipe}}</a>
+                </div>
+              </div>
+            </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="pamount6"  title="{{monthlist[5]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+          <ng-template kendoGridCellTemplate let-dataItem>
+              <div *ngIf="dataItem.pamount6==0"></div>
+              <div *ngIf="dataItem.pamount6 != '0'">
+                  <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                      {{dataItem.pamount6 | mycurrencypipe}}
+                </div>
+                <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                  <a href="#report{{dataItem.precordid}}"  (click)="CollectionDues(dataItem,monthlist[5].pparticulars,'ALL')">{{dataItem.pamount6 | mycurrencypipe}}</a>
+                </div>
+              </div>
+            </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="pamount7"  title="{{monthlist[6]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+          <ng-template kendoGridCellTemplate let-dataItem>
+              <div *ngIf="dataItem.pamount7==0"></div>
+              <div *ngIf="dataItem.pamount7 != '0'">
+                  <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                      {{dataItem.pamount7 | mycurrencypipe}}
+                </div>
+                <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                  <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[6].pparticulars,'ALL')">{{dataItem.pamount7 | mycurrencypipe}}</a>
+                </div>
+              </div>
+            </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="pamount8"  title="{{monthlist[7]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+          <ng-template kendoGridCellTemplate let-dataItem>
+              <div *ngIf="dataItem.pamount8==0"></div>
+              <div *ngIf="dataItem.pamount8 != '0'">
+                  <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                      {{dataItem.pamount8 | mycurrencypipe}}
+                </div>
+                <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                  <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[7].pparticulars,'ALL')">{{dataItem.pamount8 | mycurrencypipe}}</a>
+                </div>
+              </div>
+            </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="pamount9"  title="{{monthlist[8]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+          <ng-template kendoGridCellTemplate let-dataItem>
+              <div *ngIf="dataItem.pamount9==0"></div>
+              <div *ngIf="dataItem.pamount9 != '0'">
+                  <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                      {{dataItem.pamount9 | mycurrencypipe}}
+                </div>
+                <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                  <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[8].pparticulars,'ALL')">{{dataItem.pamount9 | mycurrencypipe}}</a>
+                </div>
+              </div>
+            </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="pamount10" title="{{monthlist[9]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+          <ng-template kendoGridCellTemplate let-dataItem>
+              <div *ngIf="dataItem.pamount10==0"></div>
+              <div *ngIf="dataItem.pamount10 != '0'">
+                  <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                      {{dataItem.pamount10 | mycurrencypipe}}
+                </div>
+                <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                  <a  href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[9].pparticulars,'ALL')">{{dataItem.pamount10 | mycurrencypipe}}</a>
+                </div>
+              </div>
+            </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="pamount11"  title="{{monthlist[10]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+          <ng-template kendoGridCellTemplate let-dataItem>
+              <div *ngIf="dataItem.pamount11==0"></div>
+              <div *ngIf="dataItem.pamount11 != '0'"> 
+                  <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                      {{dataItem.pamount11 | mycurrencypipe}}
+                </div>
+                <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                  <a  href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[10].pparticulars,'ALL')">{{dataItem.pamount11 | mycurrencypipe}}</a>
+                </div>
+              </div>
+            </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="pamount12"  title="{{monthlist[11]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+          <ng-template kendoGridCellTemplate let-dataItem>
+              <div *ngIf="dataItem.pamount12==0"></div>
+              <div *ngIf="dataItem.pamount12 != '0'">
+                  <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                      {{dataItem.pamount12 | mycurrencypipe}}
+                </div>
+                <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                  <a  href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[11].pparticulars,'ALL')">{{dataItem.pamount12 | mycurrencypipe}}</a>
+                </div>
+              </div>
+            </ng-template>
+      </kendo-grid-column>
+   </kendo-grid-pdf>
+   <kendo-grid-excel fileName="trendreport-collection&dues.xlsx"></kendo-grid-excel>
+   </kendo-grid>
+<br/>
+<kendo-grid [kendoGridBinding]="gridData"  [resizable]="true" [group]="groups">
+    <!-- [selectedKeys]="mySelection"  [skip]="skip" [reorderable]="true"
+        [resizable]="true" [height]="480" [columnMenu]="{ filter: true }" [pageable]="true" [sortable]="true"  -->
+     <ng-template kendoGridToolbarTemplate>
+       <!-- <input placeholder="Search in all columns..." kendoTextBox (input)="SearchRecord($event.target.value)" />
+      <button kendoGridExcelCommand type="button" icon="file-excel" style="float:right;">Export to
+        Excel</button>
+      <button kendoGridPDFCommand icon="file-pdf" style="float:right;">Export to PDF</button>  -->
+      <div class="row mb-5">
+                <div class="col-4 pl-0 mt-n1">
+                  <!-- <input placeholder="Search in all columns..." formControlName="SearchClear" kendoTextBox class="form-control search-k-cst sb"
+                    (input)="SearchRecord($event.target.value)" /> -->
+                </div>
+                <div class="col-7 pr-0 pl-4 ml-4">
+                  <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                    <li class="temp-ico ml-2">
+                      <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                          width="20px"></a></li>
+                    <li class="temp-ico ml-2">
+                      <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                          width="20px"></a></li>
+                  </ul>
+                </div>
+              </div>
+    </ng-template>
+    <kendo-grid-column field="pparticulars" title="{{title}}" width="200" [locked]="true">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.psortorder == 1">
+                <div class="font-weight-bold">{{dataItem.pparticulars}}</div>
+            </div>
+            <div *ngIf="dataItem.psortorder != 1">
+                {{dataItem.pparticulars}}
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column-group title="Trend Report - Detailed (Collection And Due)" [headerClass]="{'kendo-g-center' : true}">   
+    <!-- <kendo-grid-column field="ptype" title="" [hidden]="true">
+        <ng-template kendoGridGroupHeaderTemplate let-value="value" >
+            {{value}}
+        </ng-template>
+    </kendo-grid-column> -->
+    <kendo-grid-column field="precordid" title="ID"  >
+        <ng-template  kendoGridGroupHeaderTemplate let-value="value">
+        <div *ngIf="value==1">{{groupinglist[1]}}</div>
+        <div *ngIf="value==2">{{groupinglist[2]}}</div>
+        <div *ngIf="value==3">{{groupinglist[3]}}</div>
+        <div *ngIf="value==4">{{groupinglist[4]}}</div>
+        <div *ngIf="value==5">{{groupinglist[5]}}</div>
+        <div *ngIf="value==6">{{groupinglist[6]}}</div>
+        <div *ngIf="value==7">{{groupinglist[7]}}</div>
+        <div *ngIf="value==8">{{groupinglist[8]}}</div>
+        </ng-template>
+    </kendo-grid-column>
+   
+    <kendo-grid-column field="pamount1"  title="{{monthlist[0]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount1=='0'"></div>
+            <div *ngIf="dataItem.pamount1 != '0'">
+            <div *ngIf="dataItem.psortorder == '1'">
+                <div class="font-weight-bold">{{dataItem.pamount1 | mycurrencypipe}}</div>
+            </div>
+            <div *ngIf="dataItem.psortorder != 1">
+                    <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                        {{dataItem.pamount1 | mycurrencypipe}}
+                  </div>
+                  <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                    <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[0].pparticulars,'NONE')">{{dataItem.pamount1 | mycurrencypipe}}</a>
+                  </div>
+                </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount2" title="{{monthlist[1]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount2=='0'"></div>
+            <div *ngIf="dataItem.pamount2 != '0'">
+            <div *ngIf="dataItem.psortorder == '1'">
+                <div class="font-weight-bold">{{dataItem.pamount2 | mycurrencypipe}}</div>
+            </div>
+            <div *ngIf="dataItem.psortorder != 1">
+                    <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                        {{dataItem.pamount2 | mycurrencypipe}}
+                  </div>
+                  <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                    <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[1].pparticulars,'NONE')">{{dataItem.pamount2 | mycurrencypipe}}</a>
+                  </div>
+                </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount3"  title="{{monthlist[2]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount3=='0'"></div>
+            <div *ngIf="dataItem.pamount3 != '0'">
+            <div *ngIf="dataItem.psortorder == '1'">
+                <div class="font-weight-bold">{{dataItem.pamount3 | mycurrencypipe}}</div>
+            </div>
+            <div *ngIf="dataItem.psortorder != 1">
+                    <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                        {{dataItem.pamount3 | mycurrencypipe}}
+                  </div>
+                  <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                    <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[2].pparticulars,'NONE')">{{dataItem.pamount3 | mycurrencypipe}}</a>
+                  </div>
+                </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount4" title="{{monthlist[3]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount4=='0'"></div>
+            <div *ngIf="dataItem.pamount4 != '0'">
+            <div *ngIf="dataItem.psortorder == '1'">
+                <div class="font-weight-bold">{{dataItem.pamount4 | mycurrencypipe}}</div>
+            </div>
+            <div *ngIf="dataItem.psortorder != 1">
+                    <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                        {{dataItem.pamount4 | mycurrencypipe}}
+                  </div>
+                  <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                    <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[3].pparticulars,'NONE')">{{dataItem.pamount4 | mycurrencypipe}}</a>
+                  </div>
+                </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount5"  title="{{monthlist[4]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount5=='0'"></div>
+            <div *ngIf="dataItem.pamount5 != '0'">
+            <div *ngIf="dataItem.psortorder == '1'">
+                <div class="font-weight-bold">{{dataItem.pamount5 | mycurrencypipe}}</div>
+            </div>
+            <div *ngIf="dataItem.psortorder != 1">
+                    <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                        {{dataItem.pamount5 | mycurrencypipe}}
+                  </div>
+                  <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                    <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[4].pparticulars,'NONE')">{{dataItem.pamount5 | mycurrencypipe}}</a>
+                  </div>
+                </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount6"  title="{{monthlist[5]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount6=='0'"></div>
+            <div *ngIf="dataItem.pamount6 != '0'">
+            <div *ngIf="dataItem.psortorder == '1'">
+                <div class="font-weight-bold">{{dataItem.pamount6 | mycurrencypipe}}</div>
+            </div>
+            <div *ngIf="dataItem.psortorder != 1">
+                    <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                        {{dataItem.pamount6 | mycurrencypipe}}
+                  </div>
+                  <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                    <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[5].pparticulars,'NONE')">{{dataItem.pamount6 | mycurrencypipe}}</a>
+                  </div>
+                </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount7"  title="{{monthlist[6]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount7=='0'"></div>
+            <div *ngIf="dataItem.pamount7 != '0'">
+            <div *ngIf="dataItem.psortorder == '1'">
+                <div class="font-weight-bold">{{dataItem.pamount7 | mycurrencypipe}}</div>
+            </div>
+            <div *ngIf="dataItem.psortorder != 1">
+                    <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                        {{dataItem.pamount7 | mycurrencypipe}}
+                  </div>
+                  <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                    <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[6].pparticulars,'NONE')">{{dataItem.pamount7 | mycurrencypipe}}</a>
+                  </div>
+                </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount8"  title="{{monthlist[7]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount8=='0'"></div>
+            <div *ngIf="dataItem.pamount8 != '0'">
+            <div *ngIf="dataItem.psortorder == '1'">
+                <div class="font-weight-bold">{{dataItem.pamount8 | mycurrencypipe}}</div>
+            </div>
+            <div *ngIf="dataItem.psortorder != 1">
+                    <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                        {{dataItem.pamount8 | mycurrencypipe}}
+                  </div>
+                  <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                    <a  href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[7].pparticulars,'NONE')">{{dataItem.pamount8 | mycurrencypipe}}</a>
+                  </div>
+                </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount9"  title="{{monthlist[8]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount9=='0'"></div>
+            <div *ngIf="dataItem.pamount9 != '0'">
+            <div *ngIf="dataItem.psortorder == '1'">
+                <div class="font-weight-bold">{{dataItem.pamount9 | mycurrencypipe}}</div>
+            </div>
+            <div *ngIf="dataItem.psortorder != 1">
+                    <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                        {{dataItem.pamount9 | mycurrencypipe}}
+                  </div>
+                  <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                    <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[8].pparticulars,'NONE')">{{dataItem.pamount9 | mycurrencypipe}}</a>
+                  </div>
+                </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount10" title="{{monthlist[9]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount10=='0'"></div>
+            <div *ngIf="dataItem.pamount10 != '0'">
+            <div *ngIf="dataItem.psortorder == '1'">
+                <div class="font-weight-bold">{{dataItem.pamount10 | mycurrencypipe}}</div>
+            </div>
+            <div *ngIf="dataItem.psortorder != 1">
+                    <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                        {{dataItem.pamount10 | mycurrencypipe}}
+                  </div>
+                  <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                    <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[9].pparticulars,'NONE')">{{dataItem.pamount10 | mycurrencypipe}}</a>
+                  </div>
+                </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount11"  title="{{monthlist[10]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount11=='0'"></div>
+            <div *ngIf="dataItem.pamount11 != '0'">
+            <div *ngIf="dataItem.psortorder == '1'">
+                <div class="font-weight-bold">{{dataItem.pamount11 | mycurrencypipe}}</div>
+            </div>
+            <div *ngIf="dataItem.psortorder != 1">
+                    <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                        {{dataItem.pamount11 | mycurrencypipe}}
+                  </div>
+                  <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                    <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[10].pparticulars,'NONE')">{{dataItem.pamount11 | mycurrencypipe}}</a>
+                  </div>
+                </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="pamount12"  title="{{monthlist[11]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pamount12=='0'"></div>
+            <div *ngIf="dataItem.pamount12 != '0'">
+            <div *ngIf="dataItem.psortorder == '1'">
+                <div class="font-weight-bold">{{dataItem.pamount12 | mycurrencypipe}}</div>
+            </div>
+            <div *ngIf="dataItem.psortorder != 1">
+                    <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                        {{dataItem.pamount12 | mycurrencypipe}}
+                  </div>
+                  <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                    <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[11].pparticulars,'NONE')">{{dataItem.pamount12 | mycurrencypipe}}</a>
+                  </div>
+                </div>
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    </kendo-grid-column-group>
+     <kendo-grid-pdf fileName="trendreportdetailed.pdf" [allPages]="true" paperSize="A2" [repeatHeaders]="true" [landscape]="true">
+        <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+               <div class="header bc-2 text-center">
+                <h5> Trend Report - Detailed (Collection And Due) </h5>
+               </div>
+             </div>
+           </ng-template>
+      <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+      
+    <kendo-grid-column field="pparticulars" title="{{title}}" width="200">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.psortorder == 1">
+                <div class="font-weight-bold">{{dataItem.pparticulars}}</div>
+            </div>
+            <div *ngIf="dataItem.psortorder != 1">
+                {{dataItem.pparticulars}}
+            </div>
+          </ng-template>
+    </kendo-grid-column>
+    <!-- <kendo-grid-column field="ptype" title="" [hidden]="true">
+      <ng-template kendoGridGroupHeaderTemplate let-value="value" >
+          {{value}}
+      </ng-template>
+  </kendo-grid-column> -->
+  <kendo-grid-column field="precordid" title="ID"  [hidden]="true" >
+    <ng-template  kendoGridGroupHeaderTemplate let-value="value">
+    <div *ngIf="value==1">{{groupinglist[1]}}</div>
+    <div *ngIf="value==2">{{groupinglist[2]}}</div>
+    <div *ngIf="value==3">{{groupinglist[3]}}</div>
+    <div *ngIf="value==4">{{groupinglist[4]}}</div>
+    <div *ngIf="value==5">{{groupinglist[5]}}</div>
+    <div *ngIf="value==6">{{groupinglist[6]}}</div>
+    <div *ngIf="value==7">{{groupinglist[7]}}</div>
+    <div *ngIf="value==8">{{groupinglist[8]}}</div>
+    </ng-template>
+</kendo-grid-column>
+ 
+  <kendo-grid-column field="pamount1"  title="{{monthlist[0]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <div *ngIf="dataItem.pamount1=='0'"></div>
+        <div *ngIf="dataItem.pamount1 != '0'">
+        <div *ngIf="dataItem.psortorder == '1'">
+            <div class="font-weight-bold">{{dataItem.pamount1 | mycurrencypipe}}</div>
+        </div>
+        <div *ngIf="dataItem.psortorder != 1">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount1 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[0].pparticulars,'NONE')">{{dataItem.pamount1 | mycurrencypipe}}</a>
+              </div>
+            </div>
+        </div>
+      </ng-template>
+</kendo-grid-column>
+<kendo-grid-column field="pamount2" title="{{monthlist[1]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <div *ngIf="dataItem.pamount2=='0'"></div>
+        <div *ngIf="dataItem.pamount2 != '0'">
+        <div *ngIf="dataItem.psortorder == '1'">
+            <div class="font-weight-bold">{{dataItem.pamount2 | mycurrencypipe}}</div>
+        </div>
+        <div *ngIf="dataItem.psortorder != 1">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount2 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[1].pparticulars,'NONE')">{{dataItem.pamount2 | mycurrencypipe}}</a>
+              </div>
+            </div>
+        </div>
+      </ng-template>
+</kendo-grid-column>
+<kendo-grid-column field="pamount3"  title="{{monthlist[2]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <div *ngIf="dataItem.pamount3=='0'"></div>
+        <div *ngIf="dataItem.pamount3 != '0'">
+        <div *ngIf="dataItem.psortorder == '1'">
+            <div class="font-weight-bold">{{dataItem.pamount3 | mycurrencypipe}}</div>
+        </div>
+        <div *ngIf="dataItem.psortorder != 1">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount3 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[2].pparticulars,'NONE')">{{dataItem.pamount3 | mycurrencypipe}}</a>
+              </div>
+            </div>
+        </div>
+      </ng-template>
+</kendo-grid-column>
+<kendo-grid-column field="pamount4" title="{{monthlist[3]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <div *ngIf="dataItem.pamount4=='0'"></div>
+        <div *ngIf="dataItem.pamount4 != '0'">
+        <div *ngIf="dataItem.psortorder == '1'">
+            <div class="font-weight-bold">{{dataItem.pamount4 | mycurrencypipe}}</div>
+        </div>
+        <div *ngIf="dataItem.psortorder != 1">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount4 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[3].pparticulars,'NONE')">{{dataItem.pamount4 | mycurrencypipe}}</a>
+              </div>
+            </div>
+        </div>
+      </ng-template>
+</kendo-grid-column>
+<kendo-grid-column field="pamount5"  title="{{monthlist[4]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <div *ngIf="dataItem.pamount5=='0'"></div>
+        <div *ngIf="dataItem.pamount5 != '0'">
+        <div *ngIf="dataItem.psortorder == '1'">
+            <div class="font-weight-bold">{{dataItem.pamount5 | mycurrencypipe}}</div>
+        </div>
+        <div *ngIf="dataItem.psortorder != 1">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount5 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[4].pparticulars,'NONE')">{{dataItem.pamount5 | mycurrencypipe}}</a>
+              </div>
+            </div>
+        </div>
+      </ng-template>
+</kendo-grid-column>
+<kendo-grid-column field="pamount6"  title="{{monthlist[5]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <div *ngIf="dataItem.pamount6=='0'"></div>
+        <div *ngIf="dataItem.pamount6 != '0'">
+        <div *ngIf="dataItem.psortorder == '1'">
+            <div class="font-weight-bold">{{dataItem.pamount6 | mycurrencypipe}}</div>
+        </div>
+        <div *ngIf="dataItem.psortorder != 1">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount6 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[5].pparticulars,'NONE')">{{dataItem.pamount6 | mycurrencypipe}}</a>
+              </div>
+            </div>
+        </div>
+      </ng-template>
+</kendo-grid-column>
+<kendo-grid-column field="pamount7"  title="{{monthlist[6]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <div *ngIf="dataItem.pamount7=='0'"></div>
+        <div *ngIf="dataItem.pamount7 != '0'">
+        <div *ngIf="dataItem.psortorder == '1'">
+            <div class="font-weight-bold">{{dataItem.pamount7 | mycurrencypipe}}</div>
+        </div>
+        <div *ngIf="dataItem.psortorder != 1">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount7 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[6].pparticulars,'NONE')">{{dataItem.pamount7 | mycurrencypipe}}</a>
+              </div>
+            </div>
+        </div>
+      </ng-template>
+</kendo-grid-column>
+<kendo-grid-column field="pamount8"  title="{{monthlist[7]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <div *ngIf="dataItem.pamount8=='0'"></div>
+        <div *ngIf="dataItem.pamount8 != '0'">
+        <div *ngIf="dataItem.psortorder == '1'">
+            <div class="font-weight-bold">{{dataItem.pamount8 | mycurrencypipe}}</div>
+        </div>
+        <div *ngIf="dataItem.psortorder != 1">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount8 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a  href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[7].pparticulars,'NONE')">{{dataItem.pamount8 | mycurrencypipe}}</a>
+              </div>
+            </div>
+        </div>
+      </ng-template>
+</kendo-grid-column>
+<kendo-grid-column field="pamount9"  title="{{monthlist[8]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <div *ngIf="dataItem.pamount9=='0'"></div>
+        <div *ngIf="dataItem.pamount9 != '0'">
+        <div *ngIf="dataItem.psortorder == '1'">
+            <div class="font-weight-bold">{{dataItem.pamount9 | mycurrencypipe}}</div>
+        </div>
+        <div *ngIf="dataItem.psortorder != 1">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount9 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[8].pparticulars,'NONE')">{{dataItem.pamount9 | mycurrencypipe}}</a>
+              </div>
+            </div>
+        </div>
+      </ng-template>
+</kendo-grid-column>
+<kendo-grid-column field="pamount10" title="{{monthlist[9]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <div *ngIf="dataItem.pamount10=='0'"></div>
+        <div *ngIf="dataItem.pamount10 != '0'">
+        <div *ngIf="dataItem.psortorder == '1'">
+            <div class="font-weight-bold">{{dataItem.pamount10 | mycurrencypipe}}</div>
+        </div>
+        <div *ngIf="dataItem.psortorder != 1">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount10 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[9].pparticulars,'NONE')">{{dataItem.pamount10 | mycurrencypipe}}</a>
+              </div>
+            </div>
+        </div>
+      </ng-template>
+</kendo-grid-column>
+<kendo-grid-column field="pamount11"  title="{{monthlist[10]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <div *ngIf="dataItem.pamount11=='0'"></div>
+        <div *ngIf="dataItem.pamount11 != '0'">
+        <div *ngIf="dataItem.psortorder == '1'">
+            <div class="font-weight-bold">{{dataItem.pamount11 | mycurrencypipe}}</div>
+        </div>
+        <div *ngIf="dataItem.psortorder != 1">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount11 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[10].pparticulars,'NONE')">{{dataItem.pamount11 | mycurrencypipe}}</a>
+              </div>
+            </div>
+        </div>
+      </ng-template>
+</kendo-grid-column>
+<kendo-grid-column field="pamount12"  title="{{monthlist[11]?.pparticulars}}" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <div *ngIf="dataItem.pamount12=='0'"></div>
+        <div *ngIf="dataItem.pamount12 != '0'">
+        <div *ngIf="dataItem.psortorder == '1'">
+            <div class="font-weight-bold">{{dataItem.pamount12 | mycurrencypipe}}</div>
+        </div>
+        <div *ngIf="dataItem.psortorder != 1">
+                <div *ngIf="dataItem.precordid == '7' || dataItem.precordid == '8' || dataItem.precordid == '3'">
+                    {{dataItem.pamount12 | mycurrencypipe}}
+              </div>
+              <div *ngIf="dataItem.precordid!= '7' && dataItem.precordid!='8' && dataItem.precordid!='3'">
+                <a href="#report{{dataItem.precordid}}" (click)="CollectionDues(dataItem,monthlist[11].pparticulars,'NONE')">{{dataItem.pamount12 | mycurrencypipe}}</a>
+              </div>
+            </div>
+        </div>
+      </ng-template>
+</kendo-grid-column>
+    </kendo-grid-pdf>
+    <kendo-grid-excel fileName="trendreportdetailed.xlsx"></kendo-grid-excel>
+    </kendo-grid>
+
+
+    <div class="row" id="report{{id}}" *ngIf="showduereport">
+
+        <div class="col-md-12 col-xl-12">
+    
+            <!-- <div class="col-md-12">
+                <div id="template">
+                    <div class="d-flex justify-content-end mr-3">
+                        <ul class="temp-ul">
+                            <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                                <li class="temp-ico ml-2">
+                                    <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg "
+                                            title="pdf" width="20px"></a></li>
+                                <li class="temp-ico ml-2">
+                                    <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg "
+                                            title="Excel" width="20px"></a></li>
+                            </ul>
+                        </ul>
+                    </div>
+                </div>
+            </div> -->
+            <div class="col-4">
+              <!-- <input placeholder="Search in all columns..." kendoTextBox class="form-control sb" (input)="onFilter($event.target.value)" /> -->
+          </div>
+      
+          <div class="d-flex justify-content-end">
+              <ul class="temp-ul mt-2">
+                  <li class="temp-ico ml-2">
+                      <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('DueReport('+startDatesReport+'to'+endDatesReport+').pdf')" />
+                  </li>
+                  <li class="temp-ico ml-2">
+                      <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                  </li>
+              </ul>
+          </div>
+     
+            <kendo-pdf-export #pdf [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+                <div id="temp-box">
+    
+    
+                    <div class="col-md-12 col-xl-12 mt-3">
+                        <div class="mt-2 border rounded shadow-sm bg-white">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <app-company-details></app-company-details>
+                                    <div class="report-head">
+                                        <p class="font-18 text-dark text-center m-0">
+                                            {{duereporttitle}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border rounded shadow-sm bg-white p-2 ">
+                            <!-- <h2 class="font-14">As on {{startDate}}</h2> -->
+                            <div class="col-md-6">
+                              <div *ngIf="ShowAsOn">
+                                <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                                    font-weight: bold !important;">As On:</span>
+                                <label class="print-font">{{asondate}}</label>
+                              </div>
+                              <div *ngIf="ShowBetween">
+                                <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                                      font-weight: bold !important;">Between:</span>
+                                <label class="print-font">&nbsp;&nbsp;&nbsp;{{from}}&nbsp;and&nbsp;{{to}}</label>
+                              </div>
+                            </div>
+                            <div class="page-responsive">
+                                <kendo-grid [kendoGridBinding]="duesData" [pageable]="false" [sortable]="false" [groupable]="false" [reorderable]="true" [resizable]="true" [group]="group">
+                                    <!-- <ng-template kendoGridToolbarTemplate>
+                                        <div class="row mt-4 mb-3">
+                                            <div class="col-4 pl-0 mt-n1">
+                                               <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" /> 
+                                            </div>
+                                            <div class="col-7 pr-0 pl-4 ml-4">
+                                                <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                                                    <li class="temp-ico ml-2">
+                                                        <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                                    </li>
+                                                    <li class="temp-ico ml-2">
+                                                        <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                                                    </li>
+                                                     <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </ng-template> -->
+                                    <!-- <kendo-grid-column field="pLoantype" title="Loan Type" width="150"  [hidden]="hdpLoantype"></kendo-grid-column> -->
+                                    <kendo-grid-column field="pLoantype" title="Loan Type" width="150" [hidden]="hdpLoantype">
+                                        <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                                            {{value}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pLoanname" title="Loan Name" width="150"></kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantname" title="Applicant Name" width="150">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pLoanaccountno" title="Loan A/c Number" width="150">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column title="Disbursed Loan Amount" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <div *ngIf="dataItem.pDisbursedamount == 0"></div>
+                                            <div *ngIf="dataItem.pDisbursedamount !== 0">
+                                                {{dataItem.pDisbursedamount.toFixed(2) | mycurrencypipe}}
+                                            </div>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column title="Current Period Dues" field="pcurrentdues" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right" [hidden]="hide">
+                                      <ng-template kendoGridCellTemplate let-dataItem>
+                                        <div *ngIf="dataItem.pcurrentdues == 0"></div>
+                                        <div *ngIf="dataItem.pcurrentdues !== 0">
+                                            {{dataItem.pcurrentdues.toFixed(2) | mycurrencypipe}}
+                                        </div>
+                                    </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column title="Collection" field="pcollection" width="150" [hidden]="hide" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                      <ng-template kendoGridCellTemplate let-dataItem>
+                                        <div *ngIf="dataItem.pcollection == 0"></div>
+                                        <div *ngIf="dataItem.pcollection !== 0">
+                                            {{dataItem.pcollection.toFixed(2) | mycurrencypipe}}
+                                        </div>
+                                    </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column title="Due Amount" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <div *ngIf="dataItem.pPresentDueamount == 0"></div>
+                                            <div *ngIf="dataItem.pPresentDueamount !== 0">
+                                                {{dataItem.pPresentDueamount.toFixed(2) | mycurrencypipe}}
+                                            </div>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column title="Total No. of Dues" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <div *ngIf="dataItem.pTotalDues == 0"></div>
+                                            <div *ngIf="dataItem.pTotalDues !== 0">
+                                                {{dataItem.pTotalDues}}
+                                            </div>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                
+      
+                                    <kendo-grid-column title="Due Penalty" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <div *ngIf="dataItem.pDuesPenalty == 0"></div>
+                                            <div *ngIf="dataItem.pDuesPenalty !== 0">
+                                                {{dataItem.pDuesPenalty.toFixed(2) | mycurrencypipe}}
+                                            </div>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column title="Total Due Amount(With Penalty)" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <div *ngIf="dataItem.pTotaldueamountwithpenalty == 0"></div>
+                                            <div *ngIf="dataItem.pTotaldueamountwithpenalty !== 0">
+                                                {{dataItem.pTotaldueamountwithpenalty.toFixed(2) | mycurrencypipe}}
+                                            </div>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                   
+                                    <kendo-grid-column title="Outstanding Principle" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <div *ngIf="dataItem.pOutstandingPrinciple == 0"></div>
+                                            <div *ngIf="dataItem.pOutstandingPrinciple !== 0">
+                                                {{dataItem.pOutstandingPrinciple.toFixed(2) | mycurrencypipe}}
+                                            </div>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column title="Future Installements" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <div *ngIf="dataItem.pFutureinstallments == 0"></div>
+                                            <div *ngIf="dataItem.pFutureinstallments !== 0">
+                                                {{dataItem.pFutureinstallments}}
+                                            </div>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column title="Sales Executive" width="150">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.psalesExecutive}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column title="No of Installments Paid" width="150">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <div *ngIf="dataItem.pNoofInstallmentsPaid == 0"></div>
+                                            <div *ngIf="dataItem.pNoofInstallmentsPaid !== 0">
+                                                {{dataItem.pNoofInstallmentsPaid}}
+                                            </div>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column title="Last Paid Amount" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <div *ngIf="dataItem.pLastPaidamount == 0"></div>
+                                            <div *ngIf="dataItem.pLastPaidamount !== 0">
+                                                {{dataItem.pLastPaidamount.toFixed(2) | mycurrencypipe}}
+                                            </div>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pLastpaidDate" title="Last Paid Date" width="150">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column title="Tenure of Loan" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <div *ngIf="dataItem.pTenure == 0"></div>
+                                            <div *ngIf="dataItem.pTenure !== 0">
+                                                {{dataItem.pTenure}}
+                                            </div>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pLoanPayin" title="Loan Pay-In" width="150">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pDisbursedDate" title="Disbursed Date" width="150">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pLoanstartdate" title="Loan Start Date" width="150">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pLoanenddate" title="Loan End Date" width="150">
+                                    </kendo-grid-column>
+                                    <div *kendoGridDetailTemplate="let dataItem" style="max-width: 30% !important;">
+                                    <app-duereports-emi [dueemireports]=dataItem [fromdate]=fromdate [todate]="todate" [GroupType]="grouptype">
+                                        </app-duereports-emi>
+                                    </div>
+                                    <kendo-grid-pdf fileName="Due_reports.pdf" [repeatHeaders]="true" [allPages]="true">
+    
+                                        <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm">
+                                        </kendo-grid-pdf-margin>
+                                    </kendo-grid-pdf>
+                                    <kendo-grid-excel fileName="Due_reports.xlsx"></kendo-grid-excel>
+                                </kendo-grid>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </kendo-pdf-export>
+    
+        </div>
+    </div>
+
+    <div class="row mt-4 ml-0" id="report{{collectionid}}" *ngIf="collectionreport">
+        <div class="col-4">
+            <!-- <input placeholder="Search in all columns..." kendoTextBox class="form-control sb" (input)="onFilter($event.target.value)" /> -->
+        </div>
+
+        <div class="col-8">
+            <div class="d-flex justify-content-end">
+                <ul class="temp-ul mt-2">
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('CollectionReport('+startDatesReport+'to'+endDatesReport+').pdf')" />
+                    </li>
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print1()" style="cursor: pointer;" />
+                    </li>
+                </ul>
+            </div>
+        </div>
+    
+    <kendo-pdf-export #pdf paperSize="A3" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+        <!-- <div class="col-md-12 col-xl-12 mt-3">
+          <div class="border rounded shadow-sm bg-white p-2   ">
+            <label class="print-font"> {{startDatesReport}} and {{endDatesReport}}</label>
+            <h2 class="font-14">Collection Report From {{startDatesReport}} To {{endDatesReport}} </h2>
+            <div class="page-responsive">
+
+            </div>
+          </div>
+        </div> -->
+        <div id="temp-box">
+        <div class="col-md-12 col-xl-12 mt-3">
+          <div class="mt-2 border rounded shadow-sm bg-white">
+              <div class="row">
+                  <div class="col-md-12">
+                      <app-company-details></app-company-details>
+                      <div class="report-head">
+                          <p class="font-18 text-dark text-center m-0">
+                              {{collectionreporttitle}}
+                          </p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+       
+       
+            <div class="border rounded shadow-sm bg-white p-2   ">
+                <!-- <label class="print-font"> {{startDatesReport}} and {{endDatesReport}}</label> -->
+                <h2 class="font-14">Collection Report From {{startDatesReport}} To {{endDatesReport}} </h2>
+                <div class="page-responsive">
+                </div>
+                <kendo-grid [kendoGridBinding]="gridView" [groupable]="false" [resizable]="true" [resizable]="true" [pageable]="false" [sortable]="false" [selectable]="true" (edit)="addHandler($event)">
+
+
+                    <kendo-grid-column field="pApplicantname" width="90" title="Applicant Name">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pApplicanttype" title="Applicant Type" width="130">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pLoantype" title="Loan Type" width="90">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pVchapplicationid" title="Loan A/c Number" width="130">
+                        <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <a kendoGridEditCommand class="text-blue font-weight-bold">{{dataItem.pVchapplicationid}}</a>
+                        </ng-template> -->
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="pPrinciple" title="Principle" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <!-- {{dataItem.pPrinciple | mycurrencypipe}} -->
+                            <div *ngIf="dataItem.pPrinciple == 0"></div>
+                            <div *ngIf="dataItem.pPrinciple !== 0">
+                                {{dataItem.pPrinciple.toFixed(2) | mycurrencypipe}}</div>
+                        </ng-template>
+                        <ng-template kendoGridFooterTemplate>
+                          <p class="bc-2 text-right"> {{totalprincipleamount | mycurrencypipe}}</p>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pInterest" title="Interest" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <!-- {{dataItem.pInterest | mycurrencypipe}} -->
+                            <div *ngIf="dataItem.pInterest == 0"></div>
+                            <div *ngIf="dataItem.pInterest !== 0">
+                                {{dataItem.pInterest.toFixed(2) | mycurrencypipe}}</div>
+                        </ng-template>
+                        <ng-template kendoGridFooterTemplate>
+                          <p class="bc-2 text-right"> {{totalInterestamount | mycurrencypipe}}</p>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pPenality" title="Penality" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <!-- {{dataItem.pPenality | mycurrencypipe}}-->
+                            <div *ngIf="dataItem.pPenality == 0"></div>
+                            <div *ngIf="dataItem.pPenality !== 0"> {{dataItem.pPenality.toFixed(2) | mycurrencypipe}}</div>
+                        </ng-template>
+                        <ng-template kendoGridFooterTemplate>
+                          <p class="bc-2 text-right"> {{totalPenalityamount | mycurrencypipe}}</p>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="pCharges " title="Charges" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <!-- {{dataItem.pCharges | mycurrencypipe}}-->
+                            <div *ngIf="dataItem.pCharges == 0"></div>
+                            <div *ngIf="dataItem.pCharges !== 0"> {{dataItem.pCharges.toFixed(2) | mycurrencypipe}}</div>
+                        </ng-template>
+                        <ng-template kendoGridFooterTemplate>
+                          <p class="bc-2 text-right">  {{totalChargesamount | mycurrencypipe}}</p>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pTotalamount " title="Total Received" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <!-- {{dataItem.pCharges | mycurrencypipe}}-->
+                            <div *ngIf="dataItem.pTotalamount == 0"></div>
+                            <div *ngIf="dataItem.pTotalamount !== 0"> {{dataItem.pTotalamount.toFixed(2) | mycurrencypipe}}</div>
+                        </ng-template>
+                        <ng-template kendoGridFooterTemplate>
+                          <p class="bc-2 text-right"> {{totalTotalamount | mycurrencypipe}}</p>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <!-- <kendo-grid-pdf fileName="General_Receipt.pdf" [repeatHeaders]="true"></kendo-grid-pdf> -->
+                    <!-- <kendo-grid-pdf fileName="General_Receipt.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+                      [landscape]="true">
+                      <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+                      <ng-template kendoGridPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+                        <div class="page-template">
+                          <div class="header">
+                            <div style="float: right">Page {{ pageNum }} of {{ totalPages }}</div>
+                           
+                          </div>
+                          <div class="footer">
+                            Page {{ pageNum }} of {{ totalPages }}
+                          </div>
+                        </div>
+                      </ng-template>
+                    </kendo-grid-pdf> -->
+                    <!--  <kendo-grid-excel fileName="General_Receipt.xlsx"></kendo-grid-excel> -->
+                    <div *kendoGridDetailTemplate="let dataItem">
+                        <app-collection-reports-detail-section [collectionreports]=dataItem [startDatesReport]=startDatesReport [endDatesReport]=endDatesReport>
+                        </app-collection-reports-detail-section>
+                    </div>
+                </kendo-grid>
+
+            </div>
+
+        </div>
+        </div>
+    </kendo-pdf-export> 
+</div>
+
+
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+        <h3>
+          Loading...
+        </h3>
+  
+      </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+  
+  </div>

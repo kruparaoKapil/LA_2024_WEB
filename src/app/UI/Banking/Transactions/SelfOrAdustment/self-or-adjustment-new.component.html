@@ -1,0 +1,493 @@
+<div class="row mt-2">
+  <div class="col-md-6 col-xl-6 ">
+    <p class="bc-2">Self Or Adjustment</p>
+  </div>
+  <div class="col-md-6 col-xl-6">
+    <span (click)="back()" class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+      color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;">
+      <img src="assets/images/icon-back-blue.svg" width="25px" height="25px"> View
+    </span>
+  </div>
+</div>
+
+<div class="row mt-3">
+  <div class="col-md-8 col-xl-8">
+    <div class="section-container">
+      <form [formGroup]="SelforAdjustmentForm">
+        <div class="row mt-3">
+
+          <div class="col-md-4  col-xl-4">
+            <div class="form-group">
+              <label id="pTransdate" title="Transaction Date" class="mt-1" for="">Transaction Date</label>
+              <input readonly type="text" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom"
+                (ngModelChange)="DateChange($event)" class="form-control" formControlName="pTransdate"
+                [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pTransdate }">
+              <div class="invalid-feedback">
+                <span *ngIf="SelfAdjustmentErrors.pTransdate">{{SelfAdjustmentErrors?.pTransdate}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 col-xl-4">
+            <div class="form-group">
+              <label id="branch" title="Branch Name">Branch Name</label>
+              <ng-select title="Branch" id="pBranch" [items]="BranchDetails" bindLabel="pBranchname"
+                bindValue="pBranchname" [multiple]=false placeholder="Select" formControlName="branch"
+                (change)="BranchChange($event);" [searchable]=true [clearable]=true dropdownPosition="bottom"
+                [clearOnBackspace]=true [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.branch }">
+              </ng-select>
+              <div class="invalid-feedback">
+                <span *ngIf="SelfAdjustmentErrors.branch">{{SelfAdjustmentErrors?.branch}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-xl-4">
+            <div class="form-group">
+              <label title="Scheme Type">Select Scheme Type</label>
+              <ng-select title="Select Scheme Type" id="pSchemeName" [items]="SchemeNames" bindLabel="pSchemeName"
+                bindValue="pSchemeName" formControlName="pSchemeName" [multiple]=false placeholder="Select"
+                [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                (change)="schemetypechanges($event)" [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pSchemeName }">
+
+              </ng-select>
+              <div class="invalid-feedback">
+                <span *ngIf="SelfAdjustmentErrors.pSchemeName">{{SelfAdjustmentErrors?.pSchemeName}}</span>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-xl-4 members">
+            <div class="form-group">
+              <label id="pMemberid" title="Member">Member</label>
+              <!-- <div class="demo-section k-content">
+                <input id="MemberData" name="MemberData" formControlName="pMemberid" style="width: 100%;"  [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pMemberid}">
+
+              </div> -->
+              <ng-select [items]="memberdetails" formControlName="pMemberid" bindLabel="pMembername"
+                bindValue="pMembername" [multiple]=false placeholder="Select" [searchable]="true"
+                (change)="MemberChanges($event);" [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pMemberid }">
+                <ng-template ng-header-tmp>
+                  <label class="col-4 p-0"><strong>Member</strong> </label>
+                  <label class="col-4 p-0" style="text-align:center"><strong>Member Code</strong> </label>
+                  <label class="col-4 p-0" style="text-align:center"><strong>Contact No.</strong> </label>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  <div class="row">
+                    <span class="col-4 text-dark  word-break text-wrap">{{item.pMembername}}</span>
+                    <span class="col-4 text-dark">{{item.pMembercode}}</span>
+                    <span class="col-4 text-dark">{{item.pMobileno}}</span>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <div class="invalid-feedback">
+                <span *ngIf="SelfAdjustmentErrors.pMemberid">{{SelfAdjustmentErrors?.pMemberid}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 col-xl-4 members">
+            <div class="form-group">
+              <label id="pFdaccountid" title="Advance Account No.">Advance Account No.</label>
+              <!-- <div class="demo-section k-content">
+                <input id="FdAccount" name="FdAccount" formControlName="pFdaccountid" style="width: 100%;"  [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pFdaccountid }">
+
+              </div> -->
+              <ng-select [items]="Fdaccountdetails" formControlName="pFdaccountid" bindLabel="pFdaccountnumber"
+                bindValue="pFdaccountnumber" [multiple]=false placeholder="Select" [searchable]="true"
+                (change)="fdChanges($event);" [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pFdaccountid }">
+                <ng-template ng-header-tmp>
+                  <label class="col-4 p-0"><strong>Advance Account No.</strong> </label>
+                  <label class="col-4 p-0" style="text-align:center"><strong>Advance Account ID</strong> </label>
+                  <label class="col-4 p-0" style="text-align:center"><strong>Member</strong> </label>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  <div class="row">
+                    <span class="col-4 text-dark  word-break text-wrap">{{item.pFdaccountnumber}}</span>
+                    <span class="col-4 text-dark">{{item.pFdaccountid}}</span>
+                    <span class="col-4 text-dark word-break text-wrap">{{item.pMembername}}</span>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <div class="invalid-feedback">
+                <span *ngIf="SelfAdjustmentErrors.pFdaccountid">{{SelfAdjustmentErrors?.pFdaccountid}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-6" *ngIf="showSelfForEdit">
+            <div class="form-group">
+              <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                <input class="form-check-input" type="radio" name="pPaymenttype" formControlName="pPaymenttype"
+                  id="interestd1" value="SELF" [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pPaymenttype }"
+                  (change)="Radiobuttonchecked($event,'SELF')">
+                <label id="pPaymenttype" title="Self" class="mt-2" for="interestd1"> Self </label>
+              </div>
+              <div class="invalid-feedback">
+                <span *ngIf="SelfAdjustmentErrors.pPaymenttype">{{SelfAdjustmentErrors?.pPaymenttype}}</span>
+              </div>
+            </div>
+
+            <div *ngIf="showself">
+              <div class="form-group">
+                  <label id="pBankname" title="Bank Name" for="">Bank Name: </label>
+                  <!-- <input type="text" class="col-md-6 col-xl-6 pl-0 mt-1 form-control" maxlength="50" appCharactersonly
+                    for="" formControlName="pBankname" [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pBankname }"> -->
+                  <ng-select title="Bank Name" id="pBankname" [items]="globalBanksList" (change)="bankName_Change($event)"
+                   class="w-100" bindLabel="pBankname" bindValue="pBankname" [multiple]=false
+                    placeholder="Select" formControlName="pBankname" [searchable]=true [clearable]=true
+                    dropdownPosition="bottom" [clearOnBackspace]=true
+                    [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pBankname }">
+                  </ng-select>
+                <div class="d-flex">
+                  <label class="" for=""></label>
+                  <div class="invalid-feedback col-md-4 col-xl-4 pl-0 mt-1">
+                    <span *ngIf="SelfAdjustmentErrors.pBankname">{{SelfAdjustmentErrors?.pBankname}}</span>
+                  </div>
+                </div>
+
+              </div>
+              <div class="form-group">
+                
+                  <label id="pBankbranch" title="Branch" for="">Branch: </label>
+                  <!-- <input type="text" class="col-md-6 col-xl-6 pl-0 mt-1 form-control" for="" appCharactersonly
+                    maxlength="50" formControlName="pBankbranch"
+                    [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pBankbranch }"> -->
+                  <ng-select title="Branch" id="pBankbranch" [items]="branchnamedata" class="w-100" 
+                    bindLabel="pBankbranch" bindValue="pBankbranch" [multiple]=false placeholder="Select"
+                    formControlName="pBankbranch" [searchable]=true [clearable]=true dropdownPosition="bottom"  (change)="branchnamesName_Change($event)"
+                    [clearOnBackspace]=true [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pBankbranch }">
+                  </ng-select>
+                
+                <div class="d-flex">
+                  <label class="" for=""></label>
+                  <div class="invalid-feedback col-md-4 col-xl-4 pl-0 mt-1">
+                    <span *ngIf="SelfAdjustmentErrors.pBankbranch">{{SelfAdjustmentErrors?.pBankbranch}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                
+                  <label id="pIfsccode" title="IFSC Code" for="">IFSC Code: </label>
+                  <input class="w-100"  formControlName="pIfsccode" type="text"
+                    maxlength="49" appIfsccodevalidator appAlphanumericcharsonly appUppercase
+                    [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pIfsccode }">
+                  <!-- <input type="text" class="col-md-6 col-xl-6 pl-0 mt-1 form-control" appIfsccodevalidator for="" maxlength="11" formControlName="pIfsccode" [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pIfsccode }"> -->
+
+           
+                <div>
+                  <label class="" for=""></label>
+                  <div class="invalid-feedback col-md-4 col-xl-4 pl-0 mt-1">
+                    <span *ngIf="SelfAdjustmentErrors.pIfsccode">{{SelfAdjustmentErrors?.pIfsccode}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                
+                  <label id="pBankaccountno" title="Account No" for="">
+                    Account No:
+                  </label>
+                  <input type="text" class="w-100"  for="" appNumbersonly
+                    maxlength="20" formControlName="pBankaccountno"
+                    [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pBankaccountno }">
+
+                
+                <div class="d-flex">
+                  <label class="" for=""></label>
+                  <div class="invalid-feedback col-md-4 col-xl-4 pl-0 mt-1">
+                    <span *ngIf="SelfAdjustmentErrors.pBankaccountno">{{SelfAdjustmentErrors?.pBankaccountno}}</span>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="form-group">
+                <div class="d-flex">
+                  <label id="pIfsccode" title="IFSC Code" class="col-md-6 col-xl-6 pl-0 mt-1" for="">IFSC Code: </label>
+                  <input class="col-md-6 col-xl-6 pl-0 mt-1 form-control" formControlName="pIfsccode" type="text"
+                    maxlength="15" placeholder="Enter IFSC Code" value=""
+                    [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pIfsccode }"> -->
+              <!-- <input type="text" class="col-md-6 col-xl-6 pl-0 mt-1 form-control" appIfsccodevalidator for="" maxlength="11" formControlName="pIfsccode" [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pIfsccode }"> -->
+
+              <!-- </div>
+                <div class="d-flex">
+                  <label class="col-md-6 col-xl-6 pl-0 mt-1" for=""></label>
+                  <div class="invalid-feedback col-md-6 col-xl-6 pl-0 mt-1">
+                    <span *ngIf="SelfAdjustmentErrors.pIfsccode">{{SelfAdjustmentErrors?.pIfsccode}}</span>
+                  </div>
+                </div>
+              </div> -->
+              <!-- <div class="form-group">
+                <div class="d-flex">
+                  <label id="pBankbranch" title="Branch" class="col-md-6 col-xl-6 pl-0 mt-1" for="">Branch: </label>
+                  <input type="text" class="col-md-6 col-xl-6 pl-0 mt-1 form-control" for="" appCharactersonly
+                    maxlength="50" formControlName="pBankbranch"
+                    [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pBankbranch }">
+                  <ng-select title="Branch" id="pBankbranch" [items]="Branchlist"
+                    class="col-md-12 col-xl-8 p-0 mt-1" bindLabel="pbranchname" bindValue="pbranchname"
+                    [multiple]=false placeholder="Select" formControlName="pBankbranch" [searchable]=true
+                    [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                    [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pBankbranch }">
+                  </ng-select>
+                </div>
+                <div class="d-flex">
+                  <label class="col-md-6 col-xl-6 pl-0 mt-1" for=""></label>
+                  <div class="invalid-feedback col-md-6 col-xl-6 pl-0 mt-1">
+                    <span *ngIf="SelfAdjustmentErrors.pBankbranch">{{SelfAdjustmentErrors?.pBankbranch}}</span>
+                  </div>
+                </div>
+              </div> -->
+
+            </div>
+
+
+
+
+          </div>
+
+          <div class="col-md-6 col-xl-6" *ngIf="showAdjustmentForEdit">
+            <div class="form-group">
+              <div class="form-group">
+                <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                  <input class="form-check-input" type="radio" name="pPaymenttype" formControlName="pPaymenttype"
+                    id="interestd2" value="ADJUSTMENT" (change)="Radiobuttonchecked($event,'ADJUSTMENT')"
+                    [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pPaymenttype}">
+                  <label id="pPaymenttype" title="Adjustment" class="mt-2" for="interestd2"> Adjustment </label>
+                </div>
+                <div class="invalid-feedback">
+                  <span *ngIf="SelfAdjustmentErrors.pPaymenttype">{{SelfAdjustmentErrors?.pPaymenttype}}</span>
+                </div>
+              </div>
+            </div>
+
+
+            <div *ngIf="showAdjustment">
+              <div class="form-group">
+                  <label  for="">Company: </label>
+
+                  <ng-select title="Company" id="pCompnayname" [items]="companydetails"
+                    class="w-100"  bindLabel="pcompanyname" bindValue="pcompanyname"
+                    [multiple]=false placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom"
+                    [clearOnBackspace]=true formControlName="pCompnayname" (change)="companynamechange($event)"
+                    [ngClass]="{'is-invalid': SelfAdjustmentErrors.pCompnayname}">
+
+                  </ng-select>
+                <div class="d-flex">
+                  <label class="" for=""></label>
+                  <div class="invalid-feedback col-md-4 col-xl-4 pl-0 mt-1">
+                    <span *ngIf="SelfAdjustmentErrors.pCompnayname">{{SelfAdjustmentErrors?.pCompnayname}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                
+                  <label for="">CAO: </label>
+                  <ng-select title="CAO" id="pBranchname" [items]="caoDetails" class="w-100" 
+                    bindLabel="pbranchname" (change)="caoChange($event)" bindValue="pbranchname" [multiple]=false
+                    placeholder="Select" formControlName="pBranchname" [searchable]=true [clearable]=true
+                    dropdownPosition="bottom" [clearOnBackspace]=true
+                    [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pBranchname }">
+
+                  </ng-select>
+
+                
+                <div class="d-flex">
+                  <label class="" for=""></label>
+                  <div class="invalid-feedback col-md-4 col-xl-4 pl-0 mt-1">
+                    <span *ngIf="SelfAdjustmentErrors.pBranchname">{{SelfAdjustmentErrors?.pBranchname}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+
+                  <label for="">KGMS Branch: </label>
+                  <ng-select title="Branch" id="chitbranchname" [items]="easyChitBranchDetails"
+                    class="w-100"  bindLabel="pbranchname" bindValue="pbranchname"
+                    [multiple]=false placeholder="Select" formControlName="chitbranchname" [searchable]=true
+                    [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                    [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.chitbranchname }">
+
+                  </ng-select>
+
+               
+                <div class="d-flex">
+                  <label class="" for=""></label>
+                  <div class="invalid-feedback col-md-4 col-xl-4 pl-0 mt-1">
+                    <span *ngIf="SelfAdjustmentErrors.chitbranchname">{{SelfAdjustmentErrors?.chitbranchname}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">               
+                  <label title="Person" id="pChitpersonname"  for="">Person
+                  </label>
+                  <input type="text" class="w-100"  for="" appCharactersonly
+                    maxlength="75"  class="w-100"  formControlName="pChitpersonname"
+                    [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pChitpersonname}">
+                <div class="d-flex">
+                  <label class="" for=""></label>
+                  <div class="invalid-feedback col-md-4 col-xl-4 pl-0 mt-1">
+                    <span *ngIf="SelfAdjustmentErrors.pChitpersonname">{{SelfAdjustmentErrors?.pChitpersonname}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                
+                  <label title="Adjust to" id="pGroupcodeticketno"  for="">
+                    Adjust to
+                  </label>
+                  <ng-select title="Adjust to" id="pGroupcodeticketno" [items]="adjustToDetails"
+                    class="w-100"  bindLabel="pgroupcodeticketno" bindValue="pgroupcodeticketno"
+                    [multiple]=false placeholder="Select" (change)="adjustChange($event)"
+                    formControlName="pGroupcodeticketno" [searchable]=true [clearable]=true dropdownPosition="bottom"
+                    [clearOnBackspace]=true [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pGroupcodeticketno }">
+
+                  </ng-select>
+              
+                <div class="d-flex">
+                  <label class="" for=""></label>
+                  <div class="invalid-feedback col-md-4 col-xl-4 pl-0 mt-1">
+                    <span
+                      *ngIf="SelfAdjustmentErrors.pGroupcodeticketno">{{SelfAdjustmentErrors?.pGroupcodeticketno}}</span>
+                  </div>
+                </div>
+
+              </div>
+              <!-- //bhargavi start -->
+              <!-- <div class="form-group">
+                <div class="d-flex col-4" >
+                  <label title="Subscriber Name" id="pSubscriber" class="col-md-12 col-xl-12 pl-0 mt-1" for="">
+                    Subscriber Name
+                  </label>
+                 
+                  <input class="form-control" type="text" formControlName="pSubscriber" maxlength="50">
+                </div>
+                 
+
+              </div> -->
+
+              <div class="form-group">
+                
+                  <label title="Subscriber Name" id="psubscribername"  for="">
+                    Subscriber Name
+                  </label>
+                  <input type="text" class="col-md-12 col-xl-12 pl-0 mt-1 form-control" maxlength="150"
+                    formControlName="psubscribername" readonly>
+               
+
+              </div>
+
+              <!-- bhargavi end -->
+              <div class="form-group" hidden>
+                <div class="d-flex">
+                  <label title="Adjust to" id="pGroupcodeticketno" class="col-md-12 col-xl-12 pl-0 mt-1" for="">
+                    Adjust to
+                  </label>
+                  <input type="text" class="col-md-12 col-xl-12 pl-0 mt-1 form-control" for="" maxlength="50"
+                    formControlName="pGroupcodeticketno" appAlphanumeric
+                    [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pGroupcodeticketno}">
+                </div>
+                <div class="d-flex">
+                  <label class="" for=""></label>
+                  <div class="invalid-feedback col-md-12 col-xl-12 pl-0 mt-1">
+                    <span
+                      *ngIf="SelfAdjustmentErrors.pGroupcodeticketno">{{SelfAdjustmentErrors?.pGroupcodeticketno}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+
+
+
+      </form>
+    </div>
+  </div>
+  <div class="col-md-4 col-xl-4 pl-0">
+    <div class="section-container h-100">
+
+      <div class="form-check form-check-inline radio-btn" [ngClass]="disabledforButtons ? 'disableTabs':''">
+        <input class="form-check-input" type="radio" name="FDAndTransactionDetails" id="AccountDetails"
+          [checked]="ShowFixeddepositdetails" value="AccountDetails">
+        <label class="mt-2 w-m-100 text-center" for="AccountDetails" checked>
+          Transaction Details
+        </label>
+      </div>
+      <div *ngIf="ShowFixeddepositdetails">
+
+        <div class="col-md-12 col-xl-12  d-flex">
+          <label class="col-md-6 pl-0 pr-0">Advance Account No.:</label>
+          <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left  word-break text-wrap">{{Fdaccountno}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Member :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left  word-break text-wrap"><b>{{Membername}}</b></label>
+        </div>
+        <div class="col-md-12 col-xl-12  d-flex">
+          <label class="col-md-6 pl-0 pr-0">Scheme Amount :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{Depositamount | currencypipewithdecimal}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Maturity Amount :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{Maturityamount | currencypipewithdecimal}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12  d-flex">
+          <label class="col-md-6 pl-0 pr-0">Deposit Date :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{DepositDate}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Maturity Date :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{MaturityDate}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Tenure :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{Tenor}} {{Tenortype}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Interest Type :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{Interesttype}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Interest Rate :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{Interestrate | currencypipewithdecimal}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Interest Payble :</label>
+          <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{InterestPayble | currencypipewithdecimal}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Interest Payout :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{InterestPayout}}</label>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<div class="row mt-2 ml-1">
+  <div class="col-md-12 col-xl-12">
+    <div class="d-flex justify-content-end mt-4">
+      <a (click)="clear()" class="btn btn-g-icon mr-4 px-3 border-0">
+        <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear
+      </a>
+      <!-- <a href="#" data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" role="tab"
+                        aria-controls="hot" aria-selected="false"><img src="assets/images/icon-chewron-left-whitesolid.svg"
+                            width="20px" height="20px" class="mr-3" />Back</a> -->
+      <a (click)="SaveForm()" data-toggle="tab" class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot"
+        aria-selected="false">
+        <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />{{buttonName}}
+      </a>
+    </div>
+  </div>
+</div>

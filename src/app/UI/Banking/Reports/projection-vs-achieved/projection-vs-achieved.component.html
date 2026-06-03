@@ -1,0 +1,155 @@
+<div class="row">
+    <div class="col-md-12 mt-3 mb-4">
+        <p class="bc-2">Projections Vs Achieved</p>
+    </div>
+</div>
+
+<div class="section-container">
+    <div class="container-fluid py-4" style="background-color: #f3f4f6; min-height: 100vh;">
+        <div class="projection-card mx-auto">
+            <form [formGroup]="projectionReprintForm">
+                <div class="row">
+                    <!-- Month Picker -->
+                    <div class="col-md-4 col-xl-4">
+                        <div class="form-group">
+                            <label id="Month" title="Month">Month</label>
+                            <input class="form-control col-md-12" readonly type="text" [bsConfig]="dpConfig"
+                                #dp="bsDatepicker" readonly bsDatepicker placeholder="mmm/YY" formControlName="Month"
+                                [bsValue]="projectionReprintForm.get('Month').value"
+                                (ngModelChange)="DateChange($event)" (onShown)="onOpenCalendar($event)">
+                        </div>
+                    </div>
+
+                    <div class="justify-content-end d-flex">
+                        <div class=" pt-4 mt-2">
+                            <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0"
+                                data-toggle="tab" role="tab" (click)="GenerateReport()">
+                                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                                <span *ngIf="!isLoading">
+                                    <img class="mr-3" height="20px" src="assets/images/reports-white.svg" width="20px">
+                                </span>
+                                {{savebutton}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="temp-box" *ngIf="tabledisable">
+                    <div class="section-container">
+                        <div class="d-flex justify-content-end mt-3">
+                            <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"
+                                kendo-button (click)="pdf.saveAs('Projection_Vs_Achieved.pdf')">
+                        </div>
+                        <kendo-pdf-export #pdf paperSize="A4" [landscape]="true" [allPages]="false"
+                            [repeatHeaders]="true" [scale]="0.8">
+                            <!-- <div id="temp-box"> -->
+                            <div class="mt-2 border rounded shadow-sm bg-white">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <app-company-details></app-company-details>
+
+                                    </div>
+                                </div>
+                                <div class="container">
+                                    <b>
+                                        <p class="text-center text-black">PROJECTION VS ACHIEVED</p>
+                                    </b>
+
+                                    <table *ngIf="groupedData.length > 0" border="1" width="100%" cellspacing="0"
+                                        cellpadding="8">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2">Scheme Name</th>
+                                                <th *ngFor="let month of months" colspan="3"
+                                                    style="text-align: center;">
+                                                    {{ month }}
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <ng-container *ngFor="let month of months">
+                                                    <th style="text-align: center;">Projection</th>
+                                                    <th style="text-align: center;">Achieved</th>
+                                                    <th style="text-align: center;">Variance <br /> Ex/(Sh)</th>
+                                                </ng-container>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of groupedData">
+                                                <td>{{ item.name }}</td>
+                                                <ng-container *ngFor="let month of months">
+                                                    <td style="text-align: right;">{{ item.name === 'Sale of Units'?
+                                                        (item.data[month]?.projection
+                                                        ||0)
+                                                        : (item.data[month]?.projection || 0 | number:'1.2-2')}}</td>
+                                                    <!-- <td style="text-align: right;">{{ item.name === 'Sale of Units'?
+                                                        (item.data[month]?.achieved ||
+                                                        0):
+                                                        (item.data[month]?.achieved || 0 | number:'1.2-2') }}</td> -->
+                                                        <td style="text-align: right;">{{item.name === 'Sale of Units'? (
+                                                        (item.data[month]?.achieved || 0) < 0 ? '('
+                                                            +Math.abs(item.data[month]?.achieved || 0) + ')'
+                                                            :(item.data[month]?.achieved || 0)) : (
+                                                            (item.data[month]?.achieved || 0) < 0 ? '('
+                                                            +(Math.abs(item.data[month]?.achieved || 0) |
+                                                            number:'1.2-2')+ ')' : ((item.data[month]?.achieved || 0) |
+                                                            number:'1.2-2')) }} </td>
+                                                    <td style="text-align: right;">{{item.name === 'Sale of Units'? (
+                                                        (item.data[month]?.variance || 0) < 0 ? '('
+                                                            +Math.abs(item.data[month]?.variance || 0) + ')'
+                                                            :(item.data[month]?.variance || 0)) : (
+                                                            (item.data[month]?.variance || 0) < 0 ? '('
+                                                            +(Math.abs(item.data[month]?.variance || 0) |
+                                                            number:'1.2-2')+ ')' : ((item.data[month]?.variance || 0) |
+                                                            number:'1.2-2')) }} </td>
+                                                </ng-container>
+
+                                            </tr>
+                                            <tr class="bg-light fw-bold">
+                                                <td class="text-end"><b>Total</b></td>
+                                                <ng-container *ngFor="let month of months">
+                                                    <td style="text-align: end;"><b>{{ totals.projection[month] || 0
+                                                            |number: '1.2-2'}}</b></td>
+                                                    <!-- <td style="text-align: end;"><b>{{ totals.achieved[month] || 0
+                                                            |number: '1.2-2'}}</b></td> -->
+                                                     <td style="text-align: end;"><b>{{totals.achieved[month] < 0 ? '(' +
+                                                                (Math.abs(totals.achieved[month]) |number:'1.2-2') + ')'
+                                                                : (totals.achieved[month] |number:'1.2-2') }} </b>       
+                                                    <td style="text-align: end;"><b>{{totals.variance[month] < 0 ? '(' +
+                                                                (Math.abs(totals.variance[month]) |number:'1.2-2') + ')'
+                                                                : (totals.variance[month] |number:'1.2-2') }} </b>
+                                                    </td>
+                                                </ng-container>
+                                            </tr>
+
+                                            <tr *ngIf="saleOfUnitsRow">
+                                                <td>{{ saleOfUnitsRow.name }}</td>
+                                                <ng-container *ngFor="let month of months">
+                                                    <td style="text-align: right;">
+                                                        {{ saleOfUnitsRow.data[month]?.projection || 0 }}
+                                                    </td>
+                                                    <!-- <td style="text-align: right;">
+                                                        {{ saleOfUnitsRow.data[month]?.achieved || 0 }}
+                                                    </td> -->
+                                                    <td style="text-align: right;">
+                                                        {{ (saleOfUnitsRow.data[month]?.achieved || 0) < 0 ? '(' +
+                                                            Math.abs(saleOfUnitsRow.data[month]?.achieved || 0) + ')' :
+                                                            (saleOfUnitsRow.data[month]?.achieved || 0) }} </td>
+                                                    <td style="text-align: right;">
+                                                        {{ (saleOfUnitsRow.data[month]?.variance || 0) < 0 ? '(' +
+                                                            Math.abs(saleOfUnitsRow.data[month]?.variance || 0) + ')' :
+                                                            (saleOfUnitsRow.data[month]?.variance || 0) }} </td>
+                                                </ng-container>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- </div> -->
+                        </kendo-pdf-export>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

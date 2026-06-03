@@ -1,0 +1,322 @@
+<div class="row">
+  <div class="col-6">
+    <p class="bc-2">Lien Release</p>
+  </div>
+  <div class="col-md-6 col-xl-6">
+    <span (click)="back()" class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+		color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;">
+      <img src="assets/images/icon-back-blue.svg"
+           width="25px" height="25px"> View
+    </span>
+  </div>
+</div>
+
+
+
+<div class="row mt-3">
+  <div class="col-md-8 col-xl-8">
+    <div class="section-container">
+      <form [formGroup]="LienReleaseform">
+        <div class="row mt-1">
+          <div class="col-md-4 col-xl-4">
+            <div class="form-group" [ngClass]="{'for-disable-radio-btn': false}">
+              <label id="pLiendate" title="Lien Date">Lien Release Date </label>
+              <input readonly type="text" class="form-control" formControlName="pLienrealsedate" [bsConfig]="dpConfig"
+                     #dp="bsDatepicker" bsDatepicker placement="bottom" (ngModelChange)="LienrealsedateChange()">
+              <div class="invalid-feedback">
+                <span *ngIf="LienReleaseformErrorMessages.pLienrealsedate">{{LienReleaseformErrorMessages?.pLienrealsedate}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-xl-4">
+            <div class="form-group">
+              <label id="pCompanybranch" title="Branch">Branch</label>
+              <ng-select title="Member" id="pCompanybranch" [items]="BranchDetails" formControlName="pCompanybranch"
+                         bindLabel="pBranchname" bindValue="pBranchname" [multiple]=false placeholder="Select"
+                         [searchable]=true [clearable]=true dropdownPosition="bottom" (change)="BranchChange($event)" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': LienReleaseformErrorMessages.pCompanybranch }">
+              </ng-select>
+              <div class="invalid-feedback">
+                <span *ngIf="LienReleaseformErrorMessages.pCompanybranch">{{LienReleaseformErrorMessages?.pCompanybranch}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 col-xl-4 members">
+            <div class="form-group" [ngClass]="{'for-disable-radio-btn': notEditable}">
+              <label id="pMembercode" title="Member">Member</label>
+              <ng-select [items]="MemberDetailsListAll" formControlName="pMembercode"
+                         bindLabel="pMembername" bindValue="pMembercode" [multiple]=false placeholder="Select" [searchable]="true"
+                         [searchFn]="customSearchFn" (change)="MemberChange($event);" [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': LienReleaseformErrorMessages.pMembercode }">
+                <ng-template ng-header-tmp>
+                  <label class="col-4 p-0"><strong>Member</strong> </label>
+                  <label class="col-4 p-0" style="text-align:center"><strong>Member Code</strong> </label>
+                  <label class="col-4 p-0" style="text-align:center"><strong>Contact No.</strong> </label>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  <div class="row">
+                    <span class="col-4 text-dark word-break text-wrap">{{item.pMembername}}</span>
+                    <span class="col-4 text-dark">{{item.pMembercode}}</span>
+                    <span class="col-4 text-dark">{{item.pContactnumber}}</span>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <!--<div class="demo-section k-content">
+              <input id="MemberData" name="MemberData" formControlName="pMembercode" style="width: 100%;" [ngClass]="{ 'is-invalid': LienReleaseformErrorMessages.pMembercode }" />
+            </div>-->
+              <div class="invalid-feedback">
+                <span *ngIf="LienReleaseformErrorMessages.pMembercode">{{LienReleaseformErrorMessages?.pMembercode}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-xl-4">
+
+            <div class="form-group">
+              <label id="pFdaccountno" title="Advance Account No.">Advance Account No.</label>
+              <div class="demo-section k-content">
+
+              </div>
+              <ng-select title="Fdaccount no " id="pFdacctid" [items]="FddetaisList" formControlName="pFdaccountno"
+                         bindLabel="pFdaccountno" bindValue="pFdaccountno" [multiple]=false
+                         placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" (change)="FdCreationChange($event);"
+                         [clearOnBackspace]=true [ngClass]="{ 'is-invalid': LienReleaseformErrorMessages.pFdaccountno }">
+              </ng-select>
+
+              <div class="invalid-feedback">
+                <span *ngIf="LienReleaseformErrorMessages.pFdaccountno">{{LienReleaseformErrorMessages?.pFdaccountno}}</span>
+              </div>
+            </div>
+
+          </div>
+          <hr class="light">
+
+        </div>
+        <!--<div *ngIf="IsFddetailsview">
+        <div class="row mt-1">
+
+          <div class="col-md-4 col-xl-4  d-flex">
+            <label class="col-md-6 pl-0 pr-0">Lien date:</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-right">{{Liendate}}</label>
+          </div>
+          <div class="col-md-4 col-xl-4">
+            <label class="col-md-6 pl-0 pr-0">Name Of the Holder: </label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-right"><b>{{MemberName}}</b></label>
+          </div>
+
+
+          <div class="col-md-4 col-xl-4  d-flex">
+            <label class="col-md-6 pl-0 pr-0">Tenor</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-right">{{Tenor}}</label>
+          </div>
+          <div class="col-md-4 col-xl-4">
+            <label class="col-md-6 pl-0 pr-0">Amount:</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-right">{{Depositamount | mycurrencypipe}}</label>
+          </div>
+        </div>
+
+      </div>-->
+
+
+        <div class="row mt-1" *ngIf="IsFddetailsview">
+
+          <div class="col-md-12 col-xl-12">
+            <ngx-datatable class="material expandable table" [rows]="memberLienDetails" [headerHeight]="40" [footerHeight]="20"
+                           [scrollbarH]="true" [height]="" [columnMode]="force" [selected]="" rowHeight="auto" [limit]="10">
+
+              <ngx-datatable-column name="Select" prop="" [cellClass]="'cell-left'"
+                                    [headerClass]="'header-left'" width="30">
+                <ng-template ngx-datatable-header-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+                             let-selectFn="selectFn">
+                  <input type="checkbox" [checked]="allRowsSelected"
+                         (change)="selectAll($event,row,rowIndex)" />
+                </ng-template>
+                <ng-template class="column-fixed" ngx-datatable-cell-template
+                             let-rowIndex="rowIndex" let-value="value" let-group="group">
+                  <input type="checkbox" [value]="select"
+                         (change)="SelectLienAmount($event,value,rowIndex)" [checked]="check">
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Lien Date" prop="pLiendate" [cellClass]="'cell-center'"
+                                    [headerClass]="'header-center'">
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Lien Amount" prop="pLienamount" [cellClass]="'cell-right'"
+                                    [headerClass]="'header-right'">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{row.pLienamount|mycurrencypipe}}
+                </ng-template>
+              </ngx-datatable-column>
+              
+              <ngx-datatable-column name="Branch" prop="pCompanybranch" [cellClass]="'cell-center'"
+                                    [headerClass]="'header-center'">
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Lien Adjust To" prop="pLienadjuestto" [cellClass]="'cell-center'"
+                                    [headerClass]="'header-center'">
+              </ngx-datatable-column>
+            </ngx-datatable>
+            <!--<kendo-grid [kendoGridBinding]="memberLienDetails" [pageSize]="pageSize" [skip]="gridState.skip" [pageable]="{buttonCount: 2}" [sort]="gridState.sort" [sortable]="true" [resizable]="true">
+
+
+            <kendo-grid-column-group title="Lien Release" [headerClass]="{'kendo-g-center' : true}">
+              <kendo-grid-column field="pIsprimaryLien" title="Select" width="80">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                  <input type="radio" name="anotsend" [checked]="dataItem.pIsprimaryLien" (click)="SelectLienAmount(dataItem,rowIndex)" />
+                </ng-template>
+              </kendo-grid-column>
+
+
+
+
+              <kendo-grid-column field="pLienamount" title="Lien Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pLienamount | mycurrencypipe}}
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pCompanybranch" title="Branch">
+              </kendo-grid-column>
+              <kendo-grid-column field="pLienadjuestto" title="Lien Adjuestto"></kendo-grid-column>
+
+            </kendo-grid-column-group>
+
+          </kendo-grid>-->
+
+          </div>
+          <hr class="light">
+
+        </div>
+
+      </form>
+    </div>
+    <div class="d-flex justify-content-end mt-4"> <a *ngIf="ClearButtonHideShowInEdit" (click)="clearNameandCode()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a> <a (click)="SaveLienRelease()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />Save</a> </div>
+  </div>
+<div class="col-md-4 col-xl-4 pl-0">
+  <div class="section-container h-100">
+    <div class="col-md-12 col-xl-12 p-0">
+      <div class="form-group pt-1">
+        <div class="form-check form-check-inline radio-btn" [ngClass]="disabledforButtons ? 'disableTabs':''">
+          <input class="form-check-input" type="radio" name="FDAndTransactionDetails" id="AccountDetails" [checked]="ShowFixeddepositdetails"
+                 value="AccountDetails">
+          <label class="mt-1 w-m-100 text-center" (click)="GetFDAndTransactionDetails('AccountDetails')" for="AccountDetails" checked>
+            Transaction Details
+          </label>
+        </div>
+        <div class="form-check form-check-inline radio-btn " [ngClass]="disabledforButtons ? 'disableTabs':''">
+          <input class="form-check-input" type="radio" name="FDAndTransactionDetails" id="TransactionDetails" [checked]="ShowRecenttransaction"
+                 value="TransactionDetails">
+          <label class="mt-1 w-m-100 text-center" (click)="GetFDAndTransactionDetails('TransactionDetails')" for="TransactionDetails">
+            Lien History
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="ShowFixeddepositdetails">
+      <div class="col-md-12 col-xl-12  d-flex">
+        <label class="col-md-6 pl-0 pr-0">Advance Account No.:</label>
+        <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left  word-break text-wrap">{{Fdaccountno}}</label>
+      </div>
+      <div class="col-md-12 col-xl-12">
+        <label class="col-md-6 pl-0 pr-0">Member :</label>
+        <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left  word-break text-wrap"><b>{{Membername}}</b></label>
+      </div>
+      <div class="col-md-12 col-xl-12  d-flex">
+        <label class="col-md-6 pl-0 pr-0">Scheme Amount :</label>
+        <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{Depositamount | currencypipewithdecimal}}</label>
+      </div>
+      <div class="col-md-12 col-xl-12">
+        <label class="col-md-6 pl-0 pr-0">Maturity Amount :</label>
+        <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{Maturityamount | currencypipewithdecimal}}</label>
+      </div>
+      <div class="col-md-12 col-xl-12">
+        <label class="col-md-6 pl-0 pr-0">Total Received Amount :</label>
+        <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{ReceivedAmount | currencypipewithdecimal}}</label>
+      </div>
+      <div class="col-md-12 col-xl-12">
+        <label class="col-md-6 pl-0 pr-0">Balance Amount :</label>
+        <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{TotalBalanceAmount | currencypipewithdecimal}}</label>
+      </div>
+      <div class="col-md-12 col-xl-12  d-flex">
+        <label class="col-md-6 pl-0 pr-0">Transaction Date :</label>
+        <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{TransDate}}</label>
+      </div>
+      <div class="col-md-12 col-xl-12  d-flex">
+        <label class="col-md-6 pl-0 pr-0">Advance Date :</label>
+        <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{DepositDate}}</label>
+      </div>
+      <div class="col-md-12 col-xl-12">
+        <label class="col-md-6 pl-0 pr-0">Maturity Date :</label>
+        <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{MaturityDate}}</label>
+      </div>
+      <div class="col-md-12 col-xl-12">
+        <label class="col-md-6 pl-0 pr-0">Tenure :</label>
+        <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{Tenor}} {{Tenortype}}</label>
+      </div>
+      <div class="col-md-12 col-xl-12">
+        <label class="col-md-6 pl-0 pr-0">Interest Type :</label>
+        <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{Interesttype}}</label>
+      </div>
+      <div class="col-md-12 col-xl-12">
+        <label class="col-md-6 pl-0 pr-0">Interest Rate :</label>
+        <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{Interestrate | currencypipewithdecimal}}</label>
+      </div>
+      <div class="col-md-12 col-xl-12">
+        <label class="col-md-6 pl-0 pr-0">Interest Payble :</label>
+        <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{InterestPayble | currencypipewithdecimal}}</label>
+      </div>
+      <div class="col-md-12 col-xl-12">
+        <label class="col-md-6 pl-0 pr-0">Interest Payout :</label>
+        <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{InterestPayout}}</label>
+      </div>
+
+    </div>
+
+    <div *ngIf="ShowRecenttransaction">
+      <div style="margin-right:0px !important;">
+        <div class="">
+          <div class="modal-header">
+            <div class="col-12">
+              <h2 class="sec-head-bold">
+                <img src="assets/images/calendar.svg" class="mr-2" width="18" height="18"> Recent
+                5 Transactions
+              </h2>
+            </div>
+
+          </div>
+          <div class="modal-body" style="overflow-y: scroll !important; height: 100%;">
+            <div class="col-xl-12 col-md-12">
+
+              <ul class="timeline ml-n4" style="overflow-y:auto !important;
+            height: 500px !important;">
+                <ng-container *ngFor="let data of LienEntryDataonFdaccount; let i = index">
+                  <li *ngIf="i <= 4 ">
+                    <div>
+                      <img src="assets/images/rupee-icon-black.svg" class="mt-0" width="15" height="15">
+                      <span class="font-16 text-dark">{{data.pLienamount | currencypipewithdecimal}}/-</span>
+                      <span class="float-right pl-1 pr-1 rounded  bg-white  border shadow-sm border-primary ">
+                        {{data.pLiendate}}
+                      </span>
+                    </div>
+
+
+                    <p class="text-grey">Lien Adjust To. {{data.pLienadjuestto}}</p>
+                    <p class="text-grey">Branch. {{data.pCompanybranch}}</p>
+
+                    <p *ngIf="data.pLienstatus == 'Y'" class="badge-danger badge pull-right mt-n2">Lien Released  </p>
+                  </li>
+                </ng-container>
+              </ul>
+
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+<!--form-end--><!--form-end-->
+<!--row-end-->
+
+<!--buttons-end-->

@@ -1,0 +1,286 @@
+<div class="row ">
+    <div class="col-12 mb-3">
+        <p class="bc-2">Comparison Trial Balance</p>
+    </div>
+</div>
+
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+
+<div class="section-container">
+<form [formGroup]="ComparisionTBForm" autocomplete="off">
+    <div class="row">
+        <div class="col-xs-4 col-md-4 form-group">
+            <div class="d-flex">
+                <div class="col-md-6 col-xl-6 pl-0">
+                    <label>From Date</label>
+                    <!-- <input type="text" class="form-control" bsDatepicker [bsConfig]="{ isAnimated: true }" [maxDate]="startDate" formControlName="fromDate" [ngClass]="{ 'is-invalid': f.fromDate.errors }"> -->
+                    <input type="text" class="form-control" formControlName="fromDate" placeholder="Date picker here" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+                    <!-- <div *ngIf="submitted &&f.fromDate.errors" class="invalid-feedback">
+              <div *ngIf="f.fromDate.errors.required">Select From Date</div>
+          </div> -->
+                </div>
+                <div class="col-md-6 col-xl-6">
+                    <label>To Date</label>
+                    <input type="text" class="form-control" formControlName="toDate" placeholder="Date picker here" [bsConfig]="dpConfig1" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+                    <!-- <div *ngIf="submitted &&f.toDate.errors" class="invalid-feedback">
+              <div *ngIf="f.toDate.errors.required">Select To Date</div>
+          </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="justify-content-end d-flex  pb-3">
+        <div class="form-group mt-3 pt-3">
+            <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetComparisionTBReports()">
+                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                <span *ngIf="!isLoading">
+          <img class="mr-3" height="25px" src="assets/images/reports-white.svg"
+               width="20px">
+        </span> Generate Report
+            </a>
+
+            <!-- <button (click)="cashBookData()" class="btn btn-b-icon px-3 border-0" [disabled]="isLoading"><i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i> {{savebutton}}</button> -->
+</div>
+        </div>
+    </div>
+
+
+    <div id="template">
+        <!-- <div class="d-flex justify-content-end">
+            <ul class="temp-ul">
+
+                <li class="temp-ico">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('ComparisionTB.pdf')" />
+                </li>
+                <li class="temp-ico" *ngIf="hideprint">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li>
+
+            </ul>
+
+        </div> -->
+
+
+        <!-- <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true" [scale]="0.9"> -->
+            <div id="temp-box">
+
+                <div class="mt-2 border rounded shadow-sm bg-white">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <app-company-details></app-company-details>
+                            <div class="report-head mt-2">
+                                <p class="font-16 text-dark text-center m-0 ">
+                                    Comparison Trial Balance
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class=" border  shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+					font-weight: bold !important;">Between :</span>
+                            <label class="print-font">{{from}} and {{to}}</label>
+                        </div>
+                        <!-- <div class="col-md-6">
+                      <p class="font-14 text-right m-0" style="font-size: 14px !important;
+    font-weight: bold !important;">CENTRAL REVOLVING FUND</p>
+                  </div> -->
+                    </div>
+
+                    <table class="table mt-2" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th class="text-center" colspan="3">As at</th>
+                                <th class="text-center" colspan="3">{{startDate}}</th>
+                                <th class="text-center" colspan="3">{{endDate}}</th>
+                                <th class="text-center" colspan="3">For the Period</th>
+
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <kendo-grid [kendoGridBinding]="gridData" [pageable]="false" [sortable]="true" [groupable]="false" [reorderable]="true" [resizable]="true" [group]="groups">
+
+                        <ng-template kendoGridToolbarTemplate>
+                            <div class="mb-3">
+                              <div class="col-12 mt-5">
+                                <ul class="temp-ul pull-right mr-4 pb-3">
+                                  <li class="temp-ico ml-2">
+                                    <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                                        width="20px"></a>
+                                  </li>
+                                
+                                  <li class="temp-ico ml-2">
+                                    <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                                        width="20px"></a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </ng-template>
+
+
+
+                        <kendo-grid-column field="pparentaccountName" title="Type of Account" [hidden]="hdnparentaccountname">
+                            <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                                {{value}}
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="paccountName" title="Particulars">
+
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2">Total</p>
+                            </ng-template>
+                            <ng-template kendoGridFooterTemplate>
+                                <p class="bc-2">Grand Total</p>
+                            </ng-template>
+                        </kendo-grid-column>
+
+
+                        <kendo-grid-column field="pdebitamount1" title="Debit" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <div *ngIf="dataItem.pdebitamount1 == 0"></div>
+                                <div *ngIf="dataItem.pdebitamount1 !== 0">
+                                    {{dataItem.pdebitamount1 | mycurrencypipe}}
+                                </div>
+                            </ng-template>
+                            <ng-template kendoGridFooterTemplate>
+                                <p class="bc-2 text-body">{{totaldebitamount1 | mycurrencypipe}}</p>
+
+                            </ng-template>
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pcreditamount1" title="Credit" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <div *ngIf="dataItem.pcreditamount1 == 0"></div>
+                                <div *ngIf="dataItem.pcreditamount1 !== 0">
+                                    {{dataItem.pcreditamount1 | mycurrencypipe}}
+                                </div>
+                            </ng-template>
+                            <ng-template kendoGridFooterTemplate>
+                                <p class="bc-2">{{totalcreditamount1 | mycurrencypipe}}</p>
+
+                            </ng-template>
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2 text-right"> {{aggregates[field].sum | mycurrencypipe}}</p>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdebitamount2" title="Debit" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <div *ngIf="dataItem.pdebitamount2 == 0"></div>
+                                <div *ngIf="dataItem.pdebitamount2 !== 0">
+                                    {{dataItem.pdebitamount2 | mycurrencypipe}}
+                                </div>
+
+                            </ng-template>
+                            <ng-template kendoGridFooterTemplate>
+                                <p class="bc-2">{{totaldebitamount2 | mycurrencypipe}}</p>
+
+                            </ng-template>
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pcreditamount2" title="Credit" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <div *ngIf="dataItem.pcreditamount2 == 0"></div>
+                                <div *ngIf="dataItem.pcreditamount2 !== 0">
+                                    {{dataItem.pcreditamount2 | mycurrencypipe}}
+                                </div>
+
+                            </ng-template>
+                            <ng-template kendoGridFooterTemplate>
+                                <p class="bc-2">{{totalcreditamount2 | mycurrencypipe}}</p>
+
+                            </ng-template>
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2 text-right"> {{aggregates[field].sum | mycurrencypipe}}</p>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdebittotal" title="Debit" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <div *ngIf="dataItem.pdebittotal == 0"></div>
+                                <div *ngIf="dataItem.pdebittotal !== 0">
+                                    {{dataItem.pdebittotal | mycurrencypipe}}
+                                </div>
+
+                            </ng-template>
+                            <ng-template kendoGridFooterTemplate>
+                                <p class="bc-2"> {{totaldebitamount3 | mycurrencypipe}}</p>
+
+                            </ng-template>
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2 text-right"> {{aggregates[field].sum | mycurrencypipe}}</p>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pcredittotal" title="Credit" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <div *ngIf="dataItem.pcredittotal == 0"></div>
+                                <div *ngIf="dataItem.pcredittotal !== 0">
+                                    {{dataItem.pcredittotal | mycurrencypipe}}
+                                </div>
+
+                            </ng-template>
+                            <ng-template kendoGridFooterTemplate>
+                                <p class="bc-2"> {{totalcreditamount3 | mycurrencypipe}}</p>
+
+                            </ng-template>
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2 text-right"> {{aggregates[field].sum | mycurrencypipe}}</p>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-pdf fileName="ComparisionTB.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [scale]="0.5" [margin]="0.5"
+                        [landscape]="false">
+          
+                        <kendo-grid-pdf-margin top="2cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+          
+                        <ng-template kendoGridPDFTemplate>
+                          <div class="page-template">
+                            <div class="header">
+                              <app-company-details></app-company-details>
+          
+                            </div>
+          
+                          </div>
+                        </ng-template>
+          
+                      </kendo-grid-pdf>
+                      <kendo-grid-excel fileName="ComparisionTB.xlsx" [fetchData]="allData"></kendo-grid-excel>
+
+
+
+                    </kendo-grid>
+
+
+
+
+                </div>
+                <!-- row end -->
+
+            </div>
+        <!-- </kendo-pdf-export> -->
+    </div>
+    <!-- main content end -->
+
+</form>
+</div>

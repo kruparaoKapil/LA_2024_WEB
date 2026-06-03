@@ -1,0 +1,753 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6">
+        <p class="bc-2">Maturity Payment</p>
+    </div>
+    <div class="col-md-6 col-xl-6">
+        <a (click)="back()" class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+      color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;">
+            <img src="assets/images/icon-back-blue.svg" width="25px" height="25px">View
+        </a>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-12 col-lg-12">
+        <div class="section-container">
+            <form [formGroup]="MaturityPaymentForm" autocomplete="off">
+                <div class="row mt-2">
+                    <div class="col-md-3 col-xl-3">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <fieldset [disabled]="!disabletransactiondate">
+                                <input class="form-control" readonly type="text" [bsConfig]="pMaturitypaymentdateConfig"
+                                    bsDatepicker formControlName="pMaturitypaymentdate"
+                                    [ngClass]="{ 'is-invalid': formValidationMessages?.pMaturitypaymentdate }">
+                            </fieldset>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-xl-3">
+                        <div class="form-group">
+                            <label id="pPaymentType" title="Payment Type">Payment Type</label>
+
+                            <ng-select title="Maturity" [items]="PaymentTypeList" formControlName="pPaymentType"
+                                bindLabel="PaymentType" bindValue="PaymentType" [multiple]=false placeholder="Select"
+                                (change)="PaymentTypeChange($event,'Payment Type');" [searchable]=true [clearable]=true
+                                dropdownPosition="bottom" [clearOnBackspace]=true
+                                [ngClass]="{ 'is-invalid': formValidationMessages?.pPaymentType }">
+                            </ng-select>
+                            <div class="invalid-feedback-cst">
+                                <span
+                                    *ngIf="formValidationMessages.pPaymentType">{{formValidationMessages.pPaymentType}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-xl-4 members">
+                        <div class="form-group">
+                            <label id="pMemberid" title="Member">Member</label>
+                            <ng-select [items]="MaturityMemberDetails" formControlName="pMemberid"
+                                bindLabel="pMembername" bindValue="pMemberid" [multiple]=false placeholder="Select"
+                                [searchable]="true" [searchFn]="customSearchFn" (change)="MemberChange($event);"
+                                [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                                [ngClass]="{ 'is-invalid': formValidationMessages.pMemberid }">
+                                <ng-template ng-header-tmp>
+                                    <label class="col-6 p-0"><strong>Member</strong> </label>
+                                    <!-- <label class="col-4 p-0" style="text-align:center"><strong>Member Code</strong>
+                                    </label> -->
+                                    <label class="col-6 p-0" style="text-align:center"><strong>Contact No.</strong>
+                                    </label>
+                                    <!-- <label hidden class="col-4 p-0" style="text-align:center"><strong>MemberType
+                                            Id</strong> </label>
+                                    <label hidden class="col-4 p-0" style="text-align:center"><strong>Member
+                                            Type</strong> </label> -->
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                    <div class="row">
+                                        <span class="col-6 text-dark word-break text-wrap">{{item.pMembername}}</span>
+                                        <!-- <span class="col-4 text-dark">{{item.pMembercode}}</span> -->
+                                        <span class="col-6 text-dark"
+                                            [ngOptionHighlight]="search">{{item.pMobileno}}</span>
+                                        <!-- <span hidden class="col-4 text-dark"
+                                            [ngOptionHighlight]="search">{{item.pMemberTypeid}}</span>
+                                        <span hidden class="col-4 text-dark"
+                                            [ngOptionHighlight]="search">{{item.pMemberType}}</span> -->
+                                    </div>
+                                </ng-template>
+                            </ng-select>
+
+                            <div class="invalid-feedback-cst">
+                                <span
+                                    *ngIf="formValidationMessages.pMemberid">{{formValidationMessages.pMemberid}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-xl-2 mt-4">
+                        <button appButtonDoubleClick [debounceTime]="1000" (debounceClick)="GetMemberDetailsData()"
+                            class="btn btn-b-icon px-3 border-0">
+                            <i class="fa fa-plus"></i> Add
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 col-xl-12">
+                        <ngx-datatable class="material expandable table" [rows]="FdDetailsList" [headerHeight]="40"
+                            [footerHeight]="20" [scrollbarH]="true" [height]="" [columnMode]="force" [selected]=""
+                            rowHeight="auto" [limit]="10">
+
+                            <ngx-datatable-column name="Select" prop="pabc" [cellClass]="'cell-left'"
+                                [headerClass]="'header-left'" width="60">
+                                <ng-template ngx-datatable-header-template let-rowIndex="rowIndex" let-value="value"
+                                    let-row="row" let-selectFn="selectFn">
+                                    <input type="checkbox" [checked]="allRowsSelected"
+                                        (change)="selectAll($event,row,rowIndex)" />
+                                </ng-template>
+                                <ng-template class="column-fixed" ngx-datatable-cell-template let-rowIndex="rowIndex"
+                                    let-value="value" let-group="group">
+                                    <input type="checkbox" [value]="select"
+                                        (change)="SelectMaturitybond($event,value,rowIndex)" [checked]="value.pStatus">
+                                </ng-template>
+
+                                <div id="icon-delete" (click)="gridDataDelete(row,rowIndex)">
+                                </div>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Advance Account No." prop="pFdaccountno"
+                                [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Member Name" prop="pmemberName"
+                                [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                            </ngx-datatable-column>
+                            
+                            <ngx-datatable-column name="Advance Amount" prop="pDepositamount"
+                                [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.pDepositamount|mycurrencypipe}}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+
+                            <ngx-datatable-column name="Interest Payble" prop="pInterestpayble"
+                                [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+
+                                    {{row.pInterestpayble|mycurrencypipe}}
+
+                                </ng-template>
+
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Late Fee Amount" prop="pLateFeeAmount"
+                                [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.pLateFeeAmount|mycurrencypipe}}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Outstanding Amount" prop="pNetPayable"
+                                [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.pNetPayable|mycurrencypipe}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Paid Amount" prop="pPaid_Amount" [cellClass]="'cell-center'"
+                                [headerClass]="'header-center'">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.pPaid_Amount|mycurrencypipe}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Pending Amount" prop="pPending_Amount"
+                                [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.pPending_Amount|mycurrencypipe}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Maturity Type" prop="pMaturityType" [cellClass]="'cell-center'"
+                                [headerClass]="'header-center'">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Renewal Amount" prop="" width="170" [cellClass]="'cell-center'"
+                                [headerClass]="'header-center'">
+                                <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex"
+                                    let-value="value">
+                                    <input type="text" class="form-control text-right" [disabled]="value.Editable"
+                                        *ngIf="ShowRenewal" maxlength="17"
+                                        (change)="ValidateRenewalAmount($event,row,rowIndex)"
+                                        value="{{row.pRenewalAmount}}" (keyup)="checkRenewalAmount($event,rowIndex)"
+                                        appNumbersonly removeZero [ngClass]="{'is-invalid': value.IsRenewal}">
+                                    <div class="invalid-feedback-cst">
+                                        <span *ngIf="value.IsRenewal">Renewal Amount Required</span>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <!--<ngx-datatable-column name="" prop="" width="170" [cellClass]="'cell-center'"
+                        [headerClass]="'header-center'">
+    <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value">
+      <button appButtonDoubleClick [debounceTime]="1000" (debounceClick)="ViewDetails($event,row,rowIndex)" class="btn btn-b-icon px-3 border-0">  View Details..</button>
+    </ng-template>
+  </ngx-datatable-column>-->
+
+                        </ngx-datatable>
+                        <div class="d-flex justify-content-end" *ngIf="ShowRenewal">
+                            <label id="pTotalpaymentamount" class="text-dark pl-4">Total Renewal Amount : </label>
+                            <label><strong class="bc-2 pl-2"> {{totalRenewalAmount |
+                                    currencypipewithdecimal}}</strong></label>
+                        </div>
+                        <div class="d-flex justify-content-end" *ngIf="ShowRenewal">
+                            <button appButtonDoubleClick [debounceTime]="1000" (debounceClick)="AddRenewal()"
+                                class="btn btn-b-icon px-3 border-0">
+                                <i class="fa fa-plus"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+
+
+
+            <!-- MEMEBR DATA ENT -->
+
+            <div class="row">
+                <div class="col-md-12 col-xl-12" *ngIf="SelectMemberFlag">
+                    <div class="section-container mt-3 P-0">
+                        <ul class="nav nav-tabs tip-top wiz-tab " id="myTab" role="tablist">
+                            <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover"
+                                data-content="Select Member">
+                                <a class="active disableTabs" data-toggle="tab" href="#selectmember" role="tab"
+                                    aria-controls="fresh" aria-selected="true">Select Member</a>
+                            </li>
+                            <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover"
+                                data-content="Add Joint Member">
+                                <a class="disableTabs" data-toggle="tab" href="#add-joint-member" role="tab"
+                                    aria-controls="warm" aria-selected="false">Add Joint Member</a>
+                            </li>
+                            <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover"
+                                data-content="Referral/CP/Agent Details">
+                                <a class="disableTabs" data-toggle="tab" href="#refferral" role="tab"
+                                    aria-controls="cold" aria-selected="false">Referral</a>
+                            </li>
+                        </ul>
+
+                        <form [formGroup]="FdTranscationform" autocomplete="off">
+                            <div class="row mt-3" *ngIf="SelectMemberFlag">
+
+                                <div class="col-md-5" *ngIf="showchit">
+
+                                    <div class="form-group">
+                                        <label id="pChitbranchname" title="Chit Branch" class="mt-1" for="">Chit
+                                            Branch</label>
+                                        <ng-select title="Interest Payout" id="pChitbranchId" [items]="Branchdetails"
+                                            formControlName="pChitbranchname" bindLabel="pBranchname"
+                                            bindValue="pBranchname" [multiple]=false
+                                            (change)="chitbranchchanges($event)" placeholder="Select" [searchable]=true
+                                            [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                                            [ngClass]="{ 'is-invalid': formValidationMessages.pChitbranchname }">
+                                        </ng-select>
+                                        <div class="invalid-feedback">
+                                            <span
+                                                *ngIf="formValidationMessages.pChitbranchname">{{formValidationMessages?.pChitbranchname}}</span>
+                                        </div>
+
+                                    </div>
+                                    <!--<label class="mt-1" id="pMemberId" title="Member">Select Member</label>
+<div class="form-group" [ngClass]="{'for-disable-radio-btn': notEditable}">
+
+  <div class="demo-section k-content">
+    <input id="MemberData" name="MemberData" formControlName="pMemberId" style="width: 100%;" />
+  </div>
+  <div class="invalid-feedback">
+    <span *ngIf="FdtranscationErrors.pMemberId">{{FdtranscationErrors?.pMemberId}}</span>
+  </div>
+</div>-->
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="individual">
+
+                                        <div class="form-group" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                            <label class="mt-1" for="" id="pApplicantType"
+                                                title="Applicant Type">Applicant
+                                                Type</label>
+                                            <div class="form-group" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                                <ng-select id="pApplicantType" [items]="ApplicantTypes"
+                                                    formControlName="pApplicantType" bindLabel="pApplicantType"
+                                                    bindValue="pApplicantType" [multiple]=false placeholder="Select"
+                                                    [searchable]=true [clearable]=true dropdownPosition="bottom"
+                                                    [clearOnBackspace]=true (change)="ApplicanttypeChange($event);"
+                                                    [ngClass]="{ 'is-invalid': formValidationMessages.pApplicantType }">
+                                                </ng-select>
+                                                <div class="invalid-feedback">
+                                                    <span
+                                                        *ngIf="formValidationMessages.pApplicantType">{{formValidationMessages?.pApplicantType}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mt-1" for="" id="pFdConfigId" title="Scheme Name">Scheme
+                                            Name</label>
+                                        <ng-select title="Fixed Deposit" id="pFdConfigId" [items]="FdSchemes"
+                                            formControlName="pFdConfigId" bindLabel="pFdname" bindValue="pFdConfigId"
+                                            [multiple]=false placeholder="Select" [searchable]=true [clearable]=true
+                                            dropdownPosition="bottom" [clearOnBackspace]=true
+                                            [ngClass]="{ 'is-invalid': formValidationMessages.pFdConfigId }"
+                                            (change)="Fdschemechange($event)">
+                                        </ng-select>
+                                        <div class="invalid-feedback">
+                                            <span
+                                                *ngIf="formValidationMessages.pFdConfigId">{{formValidationMessages?.pFdConfigId}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4" *ngIf="DepositAmountBaseconintrest">
+                                    <div class="form-group">
+                                        <label id="pDepositAmount" title="Advance Amount">Advance Amount </label>
+                                        <div class="d-flex">
+                                            <input class="form-control  col-md-12 col-xl-12"
+                                                [ngClass]="{ 'is-invalid': formValidationMessages.pDepositAmount}"
+                                                appNumbersonly style="text-align:right;" appMycurrencyFormatter
+                                                formControlName="pDepositAmount" (change)="Depositchanges($event)">
+
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            <span
+                                                *ngIf="formValidationMessages.pDepositAmount">{{formValidationMessages?.pDepositAmount}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4" *ngIf="tenureontable">
+                                    <div class="form-group">
+                                        <div class="col-md-6 p-0">
+                                            <label class="mt-1" id="pInterestTenureMode" title="Tenure">Tenure</label>
+                                            <div class="input-group">
+                                                <div class="input-group-append">
+                                                    <select class="form-control col-md-12 btn-lg-icon"
+                                                        formControlName="pInterestTenureMode"
+                                                        (change)="Tenuremodechanges($event)"
+                                                        [ngClass]="{'is-invalid': formValidationMessages.pInterestTenureMode}">
+                                                        <option value="" [disabled]>select</option>
+                                                        <option>Days</option>
+                                                        <option>Months</option>
+                                                        <option>Years</option>
+                                                    </select>
+
+                                                    <label id="pInterestTenure" title="Tenure"></label>
+                                                    <select class="form-control col-md-12 btn-lg-icon"
+                                                        formControlName="pInterestTenure"
+                                                        [ngClass]="{ 'is-invalid': formValidationMessages.pInterestTenure}"
+                                                        (change)="Tenurechanges($event)">
+                                                        <option value="" [disabled]>select</option>
+                                                        <option *ngFor="let i of Tenuremodedetails"
+                                                            [value]="i.pInterestTenure">
+                                                            {{i.pInterestTenure}}</option>
+                                                    </select>
+
+
+                                                </div>
+                                                <span class="invalid-feedback"
+                                                    *ngIf="formValidationMessages.pInterestTenure">{{formValidationMessages?.pInterestTenure}}</span>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4" *ngIf="showtenureonintrest">
+                                    <div class="form-group">
+                                        <label class="mt-1" id="pInterestTenure" title="Tenure">Tenure</label>
+                                        <div class="input-group">
+                                            <input class="form-control text-right" type="text" value="" appNumbersonly
+                                                formControlName="pInterestTenure" (change)="Tenurechanges($event)"
+                                                [ngClass]="{ 'is-invalid': formValidationMessages.pInterestTenure }">
+                                            <!-- <span class="invalid-feedback" *ngIf="formValidationMessages.pInterestTenure">{{formValidationMessages?.pInterestTenure}}</span>  -->
+                                            <div class="input-group-append">
+                                                <label id="pInterestTenureMode" title="Tenure Mode"></label>
+                                                <select class="form-control w-auto btn-lg-icon"
+                                                    [ngClass]="{ 'is-invalid': formValidationMessages.pInterestTenureMode}"
+                                                    formControlName="pInterestTenureMode"
+                                                    (change)="Tenuremodechanges($event)">
+                                                    <option value="" [disabled]>select</option>
+                                                    <option *ngFor="let i of tenuremodelist" [value]="i.pTenurename">
+                                                        {{i.pTenurename}}</option>
+                                                </select>
+
+                                            </div>
+                                            <span class="invalid-feedback"
+                                                *ngIf="formValidationMessages.pInterestTenureMode">{{formValidationMessages?.pInterestTenureMode}}</span>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4" *ngIf="DepositAmountBasedontable">
+                                    <div class="form-group">
+                                        <label class="mt-1 pr-3" for="" id="pDepositAmount" title="FD Amount">FD
+                                            Amount</label>
+                                        <select class="form-control col-md-12 btn-lg-icon"
+                                            formControlName="pDepositAmount"
+                                            [ngClass]="{ 'is-invalid': formValidationMessages.pDepositAmount }"
+                                            (change)="DepositAmountontablechanges($event)">
+                                            <option value="" [disabled]>select</option>
+                                            <option *ngFor="let i of DepositAmountdetails" [value]="i.pDepositAmount">
+                                                {{i.pDepositAmount}}</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            <span
+                                                *ngIf="formValidationMessages.pDepositAmount">{{formValidationMessages?.pDepositAmount}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mt-1" for="" id="pInterestPayOut" title="Interest Payout">Interest
+                                            Payout</label>
+                                        <div class="d-flex ">
+                                            <ng-select title="Interest Payout" class="col-md-12 col-xl-12 p-0"
+                                                id="pInterestPayOut" [items]="FdSchemeDetails"
+                                                formControlName="pInterestPayOut" bindLabel="pInterestPayOut"
+                                                bindValue="pInterestPayOut" [multiple]=false placeholder="Select"
+                                                [searchable]=true (change)="Intrestpayoutchanges($event)"
+                                                [clearable]=true dropdownPosition="bottom"
+                                                [ngClass]="{ 'is-invalid': formValidationMessages.pInterestPayOut }"
+                                                [clearOnBackspace]=true>
+                                            </ng-select>
+
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            <span
+                                                *ngIf="formValidationMessages.pInterestPayOut">{{formValidationMessages?.pInterestPayOut}}</span>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+
+                                <div *ngIf="showintrestrate" class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mt-1" for="" id="pInterestRate" title="Interest Rate Percentage">
+                                            Interest Rate
+                                        </label>
+                                        <div class="input-group">
+                                            <input class="form-control col-md-12"
+                                                [attr.disabled]="Intrestratedisable ? '' : null"
+                                                formControlName="pInterestRate" appRoundecimal="2@2"
+                                                [ngClass]="{ 'is-invalid': formValidationMessages.pInterestRate }"
+                                                (change)="Intrestratechanges($event)">
+                                            <div class="input-group-append">
+                                                <label
+                                                    class="w-auto btn-lg-icon  pt-1 pl-1 pr-1 h-100 rounded-right ">P.A</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="invalid-feedback">
+                                            <span
+                                                *ngIf="formValidationMessages.pInterestRate">{{formValidationMessages?.pInterestRate}}</span>
+                                        </div>
+                                    </div>
+                                    <a *ngIf="showcalculate" (click)="GetintrestAmount()"
+                                        class="btn btn-b-icon  pl-2 mt-2 ">
+                                        <img src="assets/images/icon-add-white.svg" class="mr-3 col-md-3" width="20px"
+                                            height="20px">Calculate
+                                    </a>
+
+                                </div>
+
+
+                                <div class="col-md-4" *ngIf="showvalueper100">
+
+                                    <div class="form-group">
+                                        <label class="mt-1" for="" id="pInterestRate" title="Interest Rate Percentage">
+                                            Value Per 100
+                                        </label>
+                                        <div class="input-group">
+                                            <input class="form-control col-md-12"
+                                                [attr.disabled]="Intrestratedisable ? '' : null"
+                                                formControlName="pInterestRate" appRoundecimal="2@2"
+                                                [ngClass]="{ 'is-invalid': formValidationMessages.pInterestRate }">
+
+                                        </div>
+
+                                        <div class="invalid-feedback">
+                                            <span
+                                                *ngIf="formValidationMessages.pInterestRate">{{formValidationMessages?.pInterestRate}}</span>
+                                        </div>
+                                    </div>
+
+
+                                    <a *ngIf="showcalculate" (click)="GetintrestAmount()"
+                                        class="btn btn-b-icon  pl-2 mt-2 ">
+                                        <img src="assets/images/icon-add-white.svg" class="mr-3 col-md-3" width="20px"
+                                            height="20px">Calculate
+                                    </a>
+
+
+                                </div>
+
+
+
+
+                                <div *ngIf="ShowIntrestamount" class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="d-flex pt-4">
+                                            <label id="pInterestAmount" class="col-md-6 col-xl-6 pl-0 mt-1"
+                                                title="Intrest Amount">Interest Amount :</label>
+                                            <label class="col-md-6 col-xl-6 pl-0 mt-1 font-weight-bold"
+                                                for="">{{intrestamountontable|mycurrencypipe}}</label>
+                                        </div>
+                                        <!-- <input class="form-control w-auto border-warning sec-head-bold" formControlName="pInterestAmount" readonly
+  [ngClass]="{ 'is-invalid': FdtranscationErrors.pInterestAmount }"> -->
+                                        <div class="invalid-feedback">
+                                            <span
+                                                *ngIf="formValidationMessages.pInterestAmount">{{formValidationMessages?.pInterestAmount}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="Showmaturityamount" class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="d-flex pt-4">
+                                            <label id="pMaturityAmount" title="Maturity Amount"
+                                                class="col-md-6 col-xl-6 pl-0 mt-1" for="">Maturity Amount: </label>
+                                            <label class="col-md-6 col-xl-6 pl-0 mt-1 font-weight-bold"
+                                                for="">{{Matrityamountontable|mycurrencypipe}}</label>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            <span
+                                                *ngIf="formValidationMessages.pMaturityAmount">{{formValidationMessages?.pMaturityAmount}}</span>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div *ngIf="ShowIntrestamountforintrest" class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="d-flex pt-4">
+                                            <label id="pInterestAmount" class="col-md-6 col-xl-6 pl-0 mt-1"
+                                                title="Intrest Amount">Interest Amount </label>
+                                            <label class="col-md-6 col-xl-6 pl-0 mt-1 font-weight-bold"
+                                                for="">{{IntrestAmount|mycurrencypipe}}</label>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            <span
+                                                *ngIf="formValidationMessages.pInterestAmount">{{formValidationMessages?.pInterestAmount}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div *ngIf="Showmaturityamountforintrest" class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="d-flex pt-4">
+                                            <label id="pMaturityAmount" title="Maturity Amount"
+                                                class="col-md-6 col-xl-6 pl-0 mt-1" for="">Maturity Amount </label>
+                                            <label class="col-md-6 col-xl-6 pl-0 mt-1 font-weight-bold"
+                                                for="">{{MaturityAmnt|mycurrencypipe}}</label>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            <span
+                                                *ngIf="formValidationMessages.pMaturityAmount">{{formValidationMessages?.pMaturityAmount}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label id="pDepositDate" title="Advance Date" for="">Expected Advance
+                                            Date</label>
+                                        <input class="col-md-12 col-xl-12 form-control" readonly
+                                            [bsConfig]="depositdateConfig" formControlName="pDepositDate"
+                                            [ngClass]="{'is-invalid': formValidationMessages.pDepositDate}"
+                                            (ngModelChange)="DepositDatechanges()" #dp="bsDatepicker" bsDatepicker
+                                            placement="bottom" />
+                                        <div class="invalid-feedback">
+                                            <span
+                                                *ngIf="formValidationMessages.pDepositDate">{{formValidationMessages?.pDepositDate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label id="pMaturityDate" title="Maturity Date" class="mt-1" for="">Expected
+                                            Maturity Date</label>
+                                        <input class="col-md-12 col-xl-12  form-control" readonly
+                                            [bsConfig]="maturitydateConfig" formControlName="pMaturityDate"
+                                            [attr.disabled]="maturitydate ? '' : null"
+                                            [ngClass]="{ 'is-invalid': formValidationMessages.pMaturityDate }"
+                                            #dp="bsDatepicker" bsDatepicker placement="bottom" />
+                                        <div class="invalid-feedback">
+                                            <span
+                                                *ngIf="formValidationMessages.pMaturityDate">{{formValidationMessages?.pMaturityDate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--  -->
+
+            <div class="tab-pane fade" id="add-joint-member" role="tabpanel" aria-labelledby="warm-tab" *ngIf="jointMemberFlag">
+                <form [formGroup]="JointMemberAndNomineeForm">
+                    <div class="border mt-5">
+                        <div class="col-md-12 col-xl-12 p-4">
+                            <div class="row">
+                                <div class="col-md-6 col-xl-6">
+                                    <label>Add Joint Member </label>
+                                    <div class="material-switch pull-right" *ngIf="!ShowJointmembersvalidation">
+                                        <input id="AddJointMember" name="AddJointMember" [ngClass]="{ 'is-invalid': JointMemberErrorMessages.pIsjointapplicableorNot}" formControlName="pIsjointapplicableorNot" (change)="JointMemberchange($event)" type="checkbox">
+                                        <label class="check-success" for="AddJointMember"></label>
+                                        <div class="invalid-feedback">
+                                            <span *ngIf="JointMemberErrorMessages.pIsjointapplicableorNot">{{JointMemberErrorMessages?.pIsjointapplicableorNot}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class=" row mt-1" *ngIf="ShowJointmembers">
+                                <div class="col-md-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label class="mt-1" id="pMemberId" title="Member">Member</label>
+                                        <div class="form-group ">
+                                            <ng-select title="Member" id="pMemberId" [items]="MemberDetailsListAll" formControlName="pMemberId" bindLabel="pContactName" bindValue="pMembertypeId" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                                [ngClass]="{ 'is-invalid': JointMemberErrorMessages.pMemberId}" [clearOnBackspace]=false (change)="MemberChange1($event);">
+                                            </ng-select>
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="JointMemberErrorMessages.pMemberId">{{JointMemberErrorMessages?.pMemberId}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                
+                
+                
+                                </div>
+                                <div class="col-md-4 col-xl-4 mt-2">
+                                    <div class="d-flex justify-content-start mt-4">
+                                        <a (click)="AddJointMembers()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false">
+                                            <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4" *ngIf="ShowJointmembers">
+                
+                                <div class="col-md-12 col-xl-12">
+                                    <kendo-grid [data]="MembersandContactDetailsList" [pageSize]="5" [skip]="skip" [pageable]="{buttonCount: 2}" [reorderable]="true" [resizable]="true" [columnMenu]="{ filter: true }" [sortable]="true" (edit)="datatableclickedit($event)" (remove)="removeHandler($event)"
+                                        [selectable]="selectableSettings">
+                                        <kendo-grid-column field="pMemberName" title="Member" width="150">
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="pMemberCode" title="Member Code" width="150">
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="pContacttype" title="Contact Type" width="150"></kendo-grid-column>
+                                        <!-- <kendo-grid-column field="pContactNo" title="Contact No." width="150"></kendo-grid-column>
+                   -->
+                                        <kendo-grid-command-column title="" width="100">
+                                            <ng-template kendoGridCellTemplate>
+                
+                                                <div id="icon-delete" kendoGridRemoveCommand></div>
+                                            </ng-template>
+                                        </kendo-grid-command-column>
+                                    </kendo-grid>
+                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border mt-4">
+                        <div class="col-md-12 col-xl-12 p-4">
+                            <div class="row">
+                                <div class="col-md-6 col-xl-6">
+                                    <label>Add Nominee Details </label>
+                                    <div class="material-switch pull-right" *ngIf="!AddNomineevalidation">
+                                        <input id="AddNominee" name="AddNominee" formControlName="pIsNomineesApplicableorNot" (change)="Nomineechange($event)" type="checkbox">
+                                        <label class="check-success" for="AddNominee"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-12 col-xl-12">
+                
+                                    <app-co-nomineedetails [showNominee]="showNominee" [nomineeDetailsEditData]="nomineeDetailsEditData"></app-co-nomineedetails>
+                                </div>
+                            </div>
+
+                          
+
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tab-pane fade" id="refferral" role="tabpanel" aria-labelledby="cold-tab" *ngIf="referralDetailsFlag">
+                                
+                <app-co-referral1 [referraldata]="{accounttype:'FD Transaction',validation:false,returnurl:'MaturitypaymentView',Button:false}">
+                </app-co-referral1>
+            </div>
+
+
+            <form [formGroup]="MaturityPaymentForm" autocomplete="off">
+                <div class="row">
+                    <div class="col-md-12 col-xl-12">
+                        <div class="form-group mt-2">
+                            <label id="pnarration" title="Narration">Narration</label>
+                            <textarea class="form-control" rows="4" id="pnarration" title="Narration"
+                                formControlName="pnarration" maxlength="250"
+                                [ngClass]="{ 'is-invalid': formValidationMessages.pnarration }"></textarea>
+
+                            <app-validation-message
+                                [messgae]="formValidationMessages?.pnarration"></app-validation-message>
+
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+
+            <!------------- save Buttons ------------>
+
+            <div class="row mt-1 ml-1 mb-4">
+                <div class="col-md-12 col-xl-12">
+                    <div class="d-flex justify-content-end mt-4">
+
+                        <a data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot"
+                            aria-selected="false" appButtonDoubleClick [debounceTime]="1000"
+                            (debounceClick)="ClearDetails()"><img src="assets/images/icon-cancel-white.svg" width="20px"
+                                height="20px" class="mr-3">Clear</a>
+
+                        <!--<a data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="savePaymentVoucher()"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save</a>-->
+
+                        <button appButtonDoubleClick [debounceTime]="1000" (debounceClick)="saveMaturityPayment()"
+                            class="btn btn-b-icon px-3 border-0">
+                            <!--<img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">--><i
+                                class="fa"></i> {{savebutton}}
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <!------------- save Buttons ------------>
+
+
+        </div>
+    </div>
+</div>

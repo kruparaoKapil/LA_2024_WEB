@@ -1,0 +1,255 @@
+
+<div class="row mt-4">
+  <div class="col-12">
+    <p class="bc-2">Basic Information</p>
+  </div>
+</div>
+<form [formGroup]="branchConfigform">
+  <div class="row mt-1">
+    <div class="col-md-6 col-xl-4 ">
+      <div class="form-group">
+        <label id="pbranchname" title="Branch Name">Branch Name</label>
+        <input appInitCap appAlphanumericwithSpecialCharacters class="form-control" type="text" value="" formControlName="pbranchname" maxlength="75" (change)="checkbranchduplicates()" [ngClass]="{ 'is-invalid': BranchConfigvalidators.pbranchname }">
+
+      </div>
+      <div class="invalid-feedback">
+        <span *ngIf="BranchConfigvalidators.pbranchname">{{BranchConfigvalidators?.pbranchname}}</span>
+      </div>
+    </div>
+    <!--col-end-->
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label id="pbranchcode" title="Branch Code">Branch Code</label>
+        <input class="form-control" type="text" value="" formControlName="pbranchcode" maxlength="5" [ngClass]="{ 'is-invalid': BranchConfigvalidators.pbranchcode }">
+      </div>
+      <div class="invalid-feedback">
+        <span *ngIf="BranchConfigvalidators.pbranchcode">{{BranchConfigvalidators?.pbranchcode}}</span>
+      </div>
+    </div>
+    <!--col-end-->
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label>Date of Establishment</label>
+        <input class="form-control" type="text" placeholder="date picker" formControlName="pestablishmentdate" [bsConfig]="dpConfig" readonly bsDatepicker [bsValue]="bsValue" placement="bottom" [minDate]="minDate" [maxDate]="maxDate">
+        <!--<small class="form-text">Error message or hint will go here</small>-->
+      </div>
+    </div>
+  </div>
+
+  <hr class="light">
+  <div class="row">
+    <div class="col-md-6 col-xl-4 ">
+      <div class="form-group">
+        <label>GSTIN</label>
+        <input class="form-control" type="text" placeholder="GSTIN" formControlName="pgstinnumber" maxlength="15">
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group ">
+        <label id="pcontactnumber" title="Contact Number">Contact Number</label>
+        <input class="form-control" type="text" placeholder="" formControlName="pcontactnumber" maxlength="12" [ngClass]="{ 'is-invalid': BranchConfigvalidators.pcontactnumber }" appNumbersonly>
+      </div>
+      <div class="invalid-feedback">
+        <span *ngIf="BranchConfigvalidators.pcontactnumber">{{BranchConfigvalidators?.pcontactnumber}}</span>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label id="pemailid" title="Branch Mail ID">Branch Mail ID</label>
+        <input class="form-control" type="text" placeholder="Enter Branch Mail ID" formControlName="pemailid" maxlength="75" [ngClass]="{ 'is-invalid': BranchConfigvalidators.pemailid }" appEmailFormat appEmailpattern pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$">
+      </div>
+      <div class="invalid-feedback">
+        <span *ngIf="BranchConfigvalidators.pemailid">{{BranchConfigvalidators?.pemailid}}</span>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <div class="row">
+    <div class="col-md-12 col-xl-12">
+      <h2 class="sec-head"> Address Details</h2>
+    </div>
+    <div class="col-md-6  col-xl-4">
+      <div class="form-group">
+        <label id="pAddressType" title="Select Address Type">Select Address Type</label>
+        <div class="input-group">
+          <select class="form-control" formControlName="pAddressType" [ngClass]="{ 'is-invalid':BranchConfigvalidators.pAddressType }">
+            <option value="" ng-selected="selected">Select</option>
+            <option *ngFor="let addtype of addressTypes" [value]="addtype.pAddressType">{{addtype.pAddressType}}</option>
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" class="" width="18px" height="18px" data-toggle="modal" data-target="#addresstype"></button>
+          </div>
+        </div>
+      </div>
+      <div class="invalid-feedback">
+        <span *ngIf="BranchConfigvalidators.pAddressType">{{BranchConfigvalidators?.pAddressType}}</span>
+      </div>
+    </div>
+    <hr class="light">
+    <app-address></app-address>
+  </div>
+  <div class="d-flex justify-content-end  mt-4 ml-3 mb-4"> <a href="" data-toggle="tab" class="btn  btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" (click)="addAddressDetails()"><img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add </a> </div>
+  <hr>
+  <div class="col-md-12 col-xl-12">
+    <kendo-grid [data]="griddata" [height]=""
+                [pageable]="false" [sortable]="true" [resizable]="true"
+                width="100%" (remove)="removeHandler($event)">
+
+      <kendo-grid-column field="pPriority" title="Select Primary Account" width="200">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          <input type="radio" name="priority" [checked]="dataItem.pPriority" />
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="pAddressType" title="Address Type"></kendo-grid-column>
+      <kendo-grid-column field="pAddress1" title="Address Details">
+        <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+
+          <div *ngIf="dataItem.paddress1!=''">  {{dataItem.paddress1}},</div>
+          <div *ngIf="dataItem.paddress2!=''">  {{dataItem.paddress2}},</div>
+          <div *ngIf="dataItem.pcity!=''">  {{dataItem.pcity}},</div>
+          <div *ngIf="dataItem.pState!=''">  {{dataItem.pState}},</div>
+          <div *ngIf="dataItem.pDistrict!=''">  {{dataItem.pDistrict}},</div>
+          <div *ngIf="dataItem.pCountry!=''">  {{dataItem.pCountry}},</div>
+          <div *ngIf="dataItem.pPinCode!=''">  {{dataItem.Pincode}}</div>
+
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-command-column title="" width="220">
+        <ng-template kendoGridCellTemplate>
+          <div id="icon-edit" kendoGridEditCommand [primary]="true" hidden></div>
+          <div id="icon-delete" kendoGridRemoveCommand></div>
+        </ng-template>
+      </kendo-grid-command-column>
+    </kendo-grid>
+
+  </div>
+  <hr>
+  <div class="row">
+    <!--<div class="col-md-12 col-xl-12">
+      <h2 class="sec-head"> Branch Reference Documents</h2>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label>ID Proof Type</label>
+        <div class="input-group">
+          <select id="u4290_input" class="form-control">
+            <option class="" value="Identification Proof">Identification Proof</option>
+            <option class="" value="Residential Proof">Residential Proof</option>
+            <option class="" value="Physical Loan Application Form">Physical Loan Application Form</option>
+            <option class="" value="Other">Other</option>
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" class="" width="18px" height="18px"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label>ID Proof Name</label>
+        <div class="input-group">
+          <select id="" class="form-control">
+            <option>GSTIN</option>
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" class="" width="18px" height="18px"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label>Reference Number</label>
+        <input type="text" value="" class="form-control">
+      </div>
+    </div>
+    <hr class="light">
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label>Upload Identification Proof</label>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="">
+          <div class="input-group-append">
+            <button class="btn btn-lg-icon"> <img src="assets/images/icon-upload-blue.svg" class="" width="18px" height="18px"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="d-flex justify-content-start mt-3 pt-2 ml-3"> <a href="" data-toggle="tab" class="btn  btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add </a> </div>
+    </div>-->
+    <app-companyconfig-documents></app-companyconfig-documents>
+  </div>
+  <!--<div class="col-md-12 col-xl-12">
+    <table id="example" class="table text-center" style="width:100%">
+      <thead>
+        <tr>
+          <th>ID Proof Type</th>
+          <th>ID Proof Name</th>
+          <th>Reference Number</th>
+          <th>Upload Identification Proof</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Identification Proof</td>
+          <td>GSTIN</td>
+          <td>10ABCDE1234F2Z5</td>
+          <td>GSTIN.pdf</td>
+          <td>
+            <a href="#">
+              <div id="icon-edit"></div>
+            </a> <a href="#">
+              <div id="icon-delete"></div>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>-->
+  <!--col-end-->
+  <!--row-end-->
+</form>
+<!--form-end--><!--form-end-->
+<!--row-end-->
+<div class="d-flex justify-content-end mt-4">
+  <a *ngIf="clearbuttonshow" class="btn btn-g-icon mr-4 px-3 border-0" (click)="clear()"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a> <button (click)="saveBranchConfigform()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" /> {{buttonname}}</button>
+</div>
+
+<div class="modal right slideInRight" id="addresstype">
+  <div class="modal-dialog" style="margin-right:0px !important; ">
+    <div class="model-cst modal-content">
+
+      <div class="modal-body">
+
+        <button type="button" class="close" appButtonDoubleClick [debounceTime]="1000">&times;</button>
+        <form [formGroup]="addresstypeForm" autocomplete="off">
+          <div class="form-group">
+            <label id="pAddressTypeMst" title="Address Type">Address Type</label>
+            <input type="text" class="form-control" maxlength="50" appCharactersonly appTitlecaseword
+                   formControlName="pAddressType" placeholder="Enter Address Type" />
+          </div>
+          <div class="d-flex justify-content-end mt-4">
+            <a class="close" class="btn btn-g-icon mr-4 px-3 border-0" appButtonDoubleClick [debounceTime]="1000">
+              <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear
+            </a>
+            <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" (click)="saveaddresstype()"
+               aria-selected="false" appButtonDoubleClick [debounceTime]="1000">
+              <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i>
+              Save
+            </a>
+
+            <!-- <button  class="btn btn-b-icon px-3 border-0"
+                      [disabled]="disableaddresstypesavebutton">
+
+              </button> -->
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--buttons-end-->

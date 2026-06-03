@@ -1,0 +1,181 @@
+<div class="section-container">
+    <div class="col-md-12 col-xl-12 p-0">
+        <p class="bc-2">Delay Interest Report</p>
+    </div>
+    <div class="my-container">
+        <ng-template #customLoadingTemplate>
+            <div class="custom-class">
+
+            </div>
+        </ng-template>
+        <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+        </ngx-loading>
+
+    </div>
+    <div class="col-md-12 p-0">
+        <div id="template">
+            <form [formGroup]="interestdelayform" autocomplete="off">
+                <div class="row mb-4 pb-4">
+                    <div class="col-xl-3 col-md-3 ">
+                        <div class="form-group">
+                            <label title="From Date">From Date</label>
+                            <input type="text" class="form-control " formControlName="pFromDate"
+                                (ngModelChange)="FromDateChange($event)" placeholder="Date picker here"
+                                [bsConfig]="dpFromConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-3 form-group">
+                        <label title="To Date">To Date </label>
+                        <input type="text" class="form-control" formControlName="pToDate" placeholder="Date picker here"
+                            [bsConfig]="dpToConfig" #dp="bsDatepicker" (ngModelChange)="ToDateChange($event)"
+                            bsDatepicker placement="bottom" readonly>
+                        <div *ngIf="validation" class="text-danger">
+                            please select valid date
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 mt-4 pt-2">
+                        <div class="form-group">
+                            <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon  border-0"
+                                data-toggle="tab" role="tab" (click)="GetInterestDelayData()">
+                                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                                <span *ngIf="!isLoading"><img class="mr-3" height="20px"
+                                        src="assets/images/reports-white.svg" width="20px"></span> Generate Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div *ngIf="showgrid">
+                <div id="temp-box">
+                    <div class="mt-2 border rounded shadow-sm bg-white">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <app-company-details></app-company-details>
+
+                                <div class="report-head">
+                                    <p class="font-16 text-dark text-center m-0">
+                                        Delay Interest Report
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-2">
+                        <div class="col-12">
+                            <div>
+                                <kendo-grid [kendoGridBinding]="gridData" [groupable]="false" [pageSize]="10"
+                                    [skip]="skip" [pageable]="{buttonCount: 2}" [kendoGridSelectBy]="'id'"
+                                    [reorderable]="true" [sortable]="true" [resizable]="true">
+                                    <ng-template kendoGridToolbarTemplate>
+                                        <div class="mb-3">
+                                            <div class="col-12 mt-5">
+                                                <ul class="temp-ul pull-right mr-4 pb-3">
+                                                    <li class="temp-ico ml-2">
+                                                        <a kendoGridPDFCommand>
+                                                            <img class="pt-2" src="assets/images/pdf-icon-blue.svg "
+                                                                title="pdf" width="20px">
+                                                        </a>
+                                                    </li>
+                                                    <li class="temp-ico ml-2">
+                                                        <a kendoGridExcelCommand>
+                                                            <img class="pt-2" src="assets/images/icon-excel.svg "
+                                                                title="excel" width="20px">
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+
+
+
+                                    <kendo-grid-column field="pfdaccountno" title="Fdaccountno" width="100">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pfdname" title="Fdname" width="100">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pdepositamount" class="kendo-center" width="120"
+                                        title="Deposit Amount">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pdepositamount | mycurrencypipe}}
+                                        </ng-template>
+                                        <!-- <ng-template kendoGridFooterTemplate>
+                                        <p class="text-right" style="padding-right: 25px;">{{ totaldepositamount |
+                                            mycurrencypipe }}</p>
+                                    </ng-template> -->
+                                    </kendo-grid-column>
+                                     <kendo-grid-column field="pdepositdate" title="DepositDate" width="120"
+                                        class="kendo-center">
+                                    </kendo-grid-column>
+
+                                    <kendo-grid-column field="pmaturitydate" title="MaturityDate" width="120"
+                                        class="kendo-center">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pdelay_interestamount" title="Delay InterestAmount"
+                                        width="150" class="kendo-center">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pdelay_interestamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+
+                                    <kendo-grid-column field="ptds_amount" title="Tds Amount" width="120"
+                                        class="kendo-center">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.ptds_amount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pdelay_interstpayable" title="Delay InterestPayable"
+                                        width="150" class="kendo-center">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pdelay_interstpayable | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pcreateddate" title="delay_paymentdate" width="120">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pvoucherno" title="delay_voucherno" width="120">
+                                    </kendo-grid-column>
+
+                                    <kendo-grid-pdf fileName="Delay Interest Report.pdf" [allPages]="true"
+                                        paperSize="A2" [repeatHeaders]="true" [landscape]="true" [scale="0.6"]>
+
+                                        <kendo-grid-pdf-margin top="8cm" left="1cm" right="1cm" bottom="2cm">
+                                        </kendo-grid-pdf-margin>
+
+                                        <ng-template kendoGridPDFTemplate let-pageNum="pageNum"
+                                            let-totalPages="totalPages">
+                                            <div class="page-template">
+                                                <div class="header">
+                                                    <app-company-details></app-company-details>
+                                                    <div class="report-head">
+                                                        <p class="text-dark text-center m-0">
+                                                            <span class="text-capitalize"
+                                                                style="font-size: 20px !important; font-weight: bold !important;">
+                                                                Delay Interest Report
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="footer"
+                                                    style="position: absolute; bottom: 1cm; right: 50px; width: 100%; text-align: right; font-size: 12px; color: #000;">
+                                                    Page {{ pageNum }} of {{ totalPages }}
+                                                </div>
+                                            </div>
+                                        </ng-template>
+
+                                    </kendo-grid-pdf>
+                                    <kendo-grid-excel fileName="Delay Interest Report.xlsx"
+                                        [fetchData]="allData"></kendo-grid-excel>
+
+                                </kendo-grid>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

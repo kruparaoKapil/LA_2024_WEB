@@ -1,0 +1,253 @@
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<style>
+
+</style>
+<div class="col-md-12 mt-5 mb-4">
+    <div id="template">
+        <div class="d-flex justify-content-end mr-3">
+            <ul class="temp-ul">
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Sanction Lette.pdf')" />
+                </li>
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="container report-Content">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="false" [scale]="0.8">
+                        <div class="py-3">
+                            <div id="temp-box">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <app-company-details></app-company-details>
+                                        <div class="report-head">
+                                            <p class="font-16  text-center m-0">SANCTION LETTER</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p class="font-14 mb-3 text-left m-0">18-Nov-2020</p>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p class="font-14 text-left m-0 mb-2">To<br> Mr.Saravana Kumar Shanmuganathan,<br> No:13/6/242,
+                                                <br> W-13,
+                                                <br> Bodi Thevaram Road,<br> B.Renganathapuram,
+                                                <br> Melachokkanathapuram,
+                                                <br> Bodi-625582.
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class="mb-3">Dear Customer,</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class="mb-3 font-weight-bold">Subject: Loan Sanction Letter</p>
+                                            <p class="mb-3 font-weight-bold"> Ref: Application No. __________</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class="mb-3">This has reference to your above referred loan application for a _______________________ (Product Name) of Rs. __________________ (”Loan”) for funding ___________________ (Purpose of obtaining loan). Based on
+                                                the details provided by you vide your said application, ENORME CAPITAL PRIVATE LIMITED is pleased to inform you about according of ‘in principle’ sanction of loan on the terms and conditions as mentioned
+                                                below:
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <ul>
+                                                <li class="font-weight-bold"> Sanctioned Loan Amount INR _______________.
+                                                </li>
+                                                <li class="font-weight-bold"> Repayment Mode NACH &amp; PDCs</li>
+                                                <li class="font-weight-bold">Instalment Frequency</li>
+                                                <li class="font-weight-bold"> Instalment Amount INR _______________.</li>
+                                                <li class="font-weight-bold"> Loan Tenure ____________ (including Moratorium, if any)</li>
+                                                <li class="font-weight-bold"> Moratorium period, if any ____________</li>
+                                                <li class="font-weight-bold">Is Interest payable during Moratorium? If yes, interest payable> ________ = INR __________
+                                                </li>
+                                                <li class="font-weight-bold"> Security (If any)________________________
+
+                                                </li>
+                                                <li class="font-weight-bold">Interest Type __________________ (Fixed / Floating / Combined)
+                                                </li>
+                                                <li class="font-weight-bold"> Interest Chargeable For Fixed Rate Loan: ……..% per annum compounded at monthly rests. For Floating Rate Loan: FRR+…….%=……% per annum compounded at monthly rests FRR (Floating Reference Rate) as on date:
+                                                    …………% Modes of communication of change of interest rate: Letters or other modes of communication. For Combined Interest Rate: Fixed for up to _____ months and floating for remaining period.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p>This sanction/offer letter will automatically stand withdrawn if the disbursement is not availed within _______ (Number of Days) from the date of issue of this sanction letter.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class="font-weight-bold">For Enorme Capital Private Limited</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class="mb-3 font-weight-bold ">Authorised Signatory</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                            <div class="">
+                                                <p class="font-14 font-weight-bold pb-3 text-center m-0">TERMS AND CONDITIONS OF SANCTION</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class="mb-3">Major Terms and Conditions agreed between the borrower and Enorme Capital Private Limited are as under:</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p> 1. Loan Sanction Amount: Rs.……………………….</p>
+                                            <p> 2. Installments Type: ______________________</p>
+                                            <p>3. Loan tenure: ___________________________ (including Moratorium, if any)</p>
+                                            <p>4. Purpose of Loan: ________________________ </p>
+                                            <p>5. Fee and Other Charges:</p>
+                                            <ul>
+                                                <li class="font-weight-bold"> Application Fees : ___ % of the loan applied</li>
+                                                <li class="font-weight-bold"> Processing Fees : ___ % of the loan sanctioned</li>
+                                                <li class="font-weight-bold"> Cheque/NACH Bounce Charges : Rs ………</li>
+                                                <li class="font-weight-bold"> Legal &amp; Recovery Charges : Actual</li>
+                                                <li class="font-weight-bold"> Late Payment Charges : 3% per month of the overdue amount. GST as applicable as per the prevailing rates over and above these charges. The rates, fees and charges etc as stated herein above are subject to
+                                                    changes/revision from time to time as per sole discretion of Enorme Capital Private Limited.</li>
+                                            </ul>
+                                            <p>Security / Collateral for the Loan: _______________</p>
+                                            <p>7. Conditions for Disbursement of the Loan Disbursement will be conditional to:</p>
+                                            <ul>
+                                                <li> The Borrower is liable to repay the dues as per repayment schedule whether demanded or not.</li>
+                                                <li> The Borrower shall at all times adhere to the terms and conditions set out in Loan Agreement and any amendments hereto.</li>
+                                                <li> The Lender shall have the right to appropriate the amounts paid by the Borrower in such manner, at the sole discretion of the Lender.</li>
+                                                <li> The Borrower shall be liable to pay / bear all taxes including GST that may be applicable from time to time.
+                                                </li>
+                                                <li> The Lender shall at any time, at its absolute discretion have the right to combine or consolidate or divide into two or more of any of the accounts of the Borrower accounts with the Lender and/or set-off
+                                                    or transfer or appropriate any sum or sums standing in the credit of any one or more of such accounts in or towards part or full satisfaction of the liabilities of the Borrower on any other account or
+                                                    any respect.</li>
+                                                <li> Without prejudice to any rights of the Lender, the Lender shall have a paramount lien and right of set-off against all monies of the Borrower standing to the credit of the Borrower in any account(s) of the
+                                                    Borrower with the Lender or its group companies / associate concerns and the Borrower authorizes the Lender to debit the account(s) of the Borrower with the Lender and / or request the Group Companies
+                                                    / Associate concerns for payment of the money standing to the credit of the Borrower, to and in favor of the Lender, to apply to any debit balance which the Borrower is liable to repay on any account
+                                                    of the Borrower for any other account with the Lender / group companies / associates in (part) satisfaction of any sum, whether for principal or interest or otherwise due and payable by the Borrower
+                                                    to the Lender under loan Agreement. The Borrower hereby agrees to pay to the Lender the outstanding amount if any in the loan account even after the credit of the amount from other accounts / the Group
+                                                    Companies / concerns.
+                                                </li>
+                                                <li> Nothing contained herein shall prejudice or adversely affect any general or special lien or right to set-off to which the Lender is or may by law or otherwise be entitled, or any rights or remedies of the
+                                                    Lender including in respect of any present or future security, guarantee, obligations of the Borrower.</li>
+                                                <li> It is hereby accepted by the Parties that the amounts stated by the Lender as due from the Borrower, shall be final and conclusive proof of the correctness of any sum claimed by the Lender to be due from
+                                                    the Borrower in respect of Loan Agreement, a statement of account made out from the books of the Lender, without production of any voucher, documents or other papers whether in support thereof or otherwise
+                                                    and the Parties hereby agree that the same shall not be disputed by the Borrower and /or the Guarantor(s).
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <ul>
+                                        <li> The right of the Lender to recover the dues from the Borrower shall be exercised either by the Lender or its authorized representatives and the Borrower hereby agrees to the same.</li>
+                                        <li> The Lender shall be entitled to assign / securitize its receivables from the Borrower and the Borrower and/or the Guarantor(s) hereby consent to the Lender exercising such right.</li>
+                                        <li>The Borrower shall not give or pay to the Guarantor(s) or any other person who agrees to incur any obligation for the Borrower in favor of the Lender, any monies or other consideration or remuneration, whether by
+                                            way of commission, brokerage or fee or in any other form whatsoever or howsoever for giving or confirming the personal guarantee or obligation.</li>
+                                        <li> The Borrower shall during business hours permit the Lender to inspect the place of business / residence of the Borrower and also agrees to produce any documents / additional documents as may be required by the Lender
+                                            from time to time. Further, the Borrower and the Guarantor hereby agrees to permit the Lender and its authorized representatives to contact / meet the Borrower / Guarantor at their place of residence for collection
+                                            of dues under Loan Agreement.</li>
+                                        <li> The Borrower agrees to pay all the applicable charges as per schedule together with all taxes as may be applicable from time to time.</li>
+                                        <li> Without prejudice to any other rights available to the Lender, in the event the Borrower commits a default in the repayment of the Loan, the Lender at its sole discretion shall make an application to the Adjudicating
+                                            Authority (as defined in the Code) and proceed under the Insolvency and the Bankruptcy Code, 2016 (“Code”) in order to realize the Loan Amount along with interest.</li>
+                                        <li> The Borrower and Guarantor hereby agree that the Borrower may seek any further loan facility from the Lender and any such further loan granted by the Lender to the Borrower shall be repaid by the Borrower / Guarantor
+                                            on terms that may be communicated by the Lender to the Borrower / Guarantor from time to time. For this purposes, the Parties hereby agree that any confirmation for further loan facility as confirmed and accepted
+                                            by the Borrower over the phone is binding on the Borrower and that the Borrower / Guarantor agrees to repay such loans granted based on oral confirmation (voice call), together with interest, month on month
+                                            by way of equated monthly installments as may be communicated by the Lender.
+                                        </li>
+                                    </ul>
+                                    <p>8. Repayment of the Loan &amp; Interest In consideration of the Lender extending the “Loan”, the Borrower and the Guarantor shall jointly and severally repay the Loan along with Interest in accordance with the Repayment
+                                        Schedule set out in Schedule 1 of Loan Agreement. The Borrower hereby confirms having perused, understood that the interest is applied on the principal on a daily basis and agreed to the method of computation of
+                                        EMI and the effective or Annualized rate of interest as stipulated in Schedule 1. The Borrower further agrees to pay the EMI and shall also pay overdue interest arising out of the default in repayment of installments,
+                                        any other charges such as Bank charges, pre-payment charge etc., as per Schedule 1 of the Loan Agreement together with Goods and Services tax and all other statutory taxes and levies as be applicable from time to
+                                        time. The Borrower hereby confirms that it has provided to the Lender the details of the bank account of the Borrower where all the receipts / receivables / income of the Borrower is being credited and the Borrower
+                                        hereby confirms that it shall issue binding irrevocable instructions to the said bank to debit the account periodically with the amounts due to the Lender as set out in Loan Agreement. Further, the Borrower hereby
+                                        confirms that it will not divert this income / inflow to any other bank account till such time the dues to the Lender remain under Loan Agreement.</p>
+                                    <p>The Borrower shall unconditionally and irrevocably authorize the Bank through National Automated Clearing House (NACH) Mandates to debit the Borrower account towards the dues payable to the Lender. The Borrower further
+                                        agrees to maintain sufficient balance in the account to enable his / her /its Bankers to facilitate the debit of the account, and remittance of the amount so debited to the credit of the Lender. Alternatively, where
+                                        the NACH facility is not available for the Borrower, the Borrower may issue to the Lender post dated cheques (PDC) towards repayment of the installments / dues arising under Loan Agreement and undertakes that sufficient
+                                        balance will be made available for honouring the cheques on the due date as and when presented for payment by the Lender on or after the due date.</p>
+
+                                    <p>
+                                        The Borrower, subject to the prior permission of the Lender may swap the PDCs issued or request for other mode of payment towards discharge of the liability and such swaps of PDCs and / or change of mode of Payment to NACH, if permitted by the Lender
+                                        shall be subject to payment of Swap charges as specified in Loan Agreement. Permitting Swap of other mode of payment is at the sole discretion of the Lender.</p>
+                                    <p> 9. Brief procedure to be followed for recovery of overdues:</p>
+                                    <ul>
+
+                                        <li>Customer may walk in to our local ENORME CAPITAL branch and pay the overdues.</li>
+                                        <li> Customer may send DD to our ENORME CAPITAL branch with bounce charges before due date.</li>
+                                        <li> Follow up though our representative.</li>
+                                        <li> Contact on phone for payment</li>
+                                        <li> Sending follow up Notice.</li>
+                                        <li> Sending Loan Recall notice.</li>
+                                        <li> Sending Bounce Notice.</li>
+                                        <li> Any other legal process as law empowers us.</li>
+                                    </ul>
+                                    <p>10. Grievance Redressal mechanism: Customers who wish to provide feedback or send in their complaint can use the following channels available with the company to lodge their complaints:</p>
+                                    <p> He/she can make complaint in writing addressed to the Manager concerned with the gist of complaint and complete contact address/phone number of the complainant.</p>
+                                    <p> Complaints can also be mailed to the Customer Service Department at the following email address: customerservice@enormecapital.com.
+                                    </p>
+                                    <p>If the customer is not satisfied with resolution provided by the office, the customer may provide feedback or send in their complaint using the following channels between 9:30 am and 5.00 pm, from Monday to Friday (except
+                                        on national holidays):</p>
+                                    <p>
+                                        V P Vishnu Prasad,<br> Grievance Redressal Officer,<br> Enorme Capital Private Limited,<br> 422, Second Floor, Periyakulam Road,<br> Theni - 625 531, Tamil Nadu, India<br> Phone: +919597895178<br> Email: vishnuprasad@enormecapital.com<br>
+                                    </p>
+                                    <p>
+                                        In order to avail the Loan, you are required to give your acceptance of all the terms and conditions of this Sanction Letter by acknowledging accepting the duplicate copy of this Sanction Letter and return the same to us within ….. days. In the event
+                                        that your acceptance/acknowledegment as aforesaid is not received by us on or before the expiry of the said period of …….. days, this Sanction Letter shall stand cancelled and withdrawn for all intent and purposes.
+                                    </p>
+                                    <p class="font-weight-bold">
+                                        For Enorme Capital Private Limited
+                                    </p>
+                                    <p class="font-weight-bold">
+                                        Authorized Signatory
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </kendo-pdf-export>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<form [formGroup]="personEducationDetailsForm" *ngIf="showEducation">
+<div class=" mt-3" >
+    <div class="row">
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="pqualification" title="Highest Qualification">Highest Qualification</label>
+          <div class="input-group">
+            <select id="" class="form-control"  formControlName="pqualification"
+             [ngClass]="{ 'is-invalid': educationValidationErrors.pqualification }">
+              <option value="" ng-selected="selected">Select</option>
+              <option class="" value="Graduate">Graduate</option>
+              <option class="" value="High School">High School</option>
+              <option class="" value="Non-Graduate">Non-Graduate</option>
+              <option class="" value="Others">Others</option>
+              <option class="" selected="" value="Post Graduate">Post Graduate</option>
+              <option class="" value="Professional ">Professional </option>
+              <option class="" value="Undergraduate">Undergraduate</option>
+            </select>
+            <!-- <div class="input-group-append">
+              <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" class="" width="20px" height="20px"></button>
+            </div> -->
+            <div class="invalid-feedback">
+                <span *ngIf="educationValidationErrors.pqualification">{{educationValidationErrors?.pqualification}}</span>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="pnameofthecourseorprofession" title="Name of Course or Profession">Name of Course or Profession</label>
+          <input class="form-control" type="text" placeholder="Enter Name of Course or Profession" maxlength="100" formControlName="pnameofthecourseorprofession" appCharactersonly
+          [ngClass]="{ 'is-invalid': educationValidationErrors.pnameofthecourseorprofession }">
+          <div class="invalid-feedback">
+              <span *ngIf="educationValidationErrors.pnameofthecourseorprofession">{{educationValidationErrors?.pnameofthecourseorprofession}}</span>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="poccupation" title="Occupation">Occupation</label>
+          <input class="form-control" type="text" placeholder="Enter Occupation" maxlength="50" formControlName="poccupation" appCharactersonly
+          [ngClass]="{ 'is-invalid': educationValidationErrors.poccupation }">
+          <div class="invalid-feedback">
+              <span *ngIf="educationValidationErrors.poccupation">{{educationValidationErrors?.poccupation}}</span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>

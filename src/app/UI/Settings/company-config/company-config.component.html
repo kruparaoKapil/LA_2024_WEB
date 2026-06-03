@@ -1,0 +1,394 @@
+<!-----------------Top Nav Start --------------------->
+
+<ul class="nav nav-tabs tip-top wiz-tab mt-5" id="myTab" role="tablist">
+    <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Basic Information">
+        <a class="active" (click)="ShowTitle('Basic Information')" data-toggle="tab" href="#basicinfo" role="tab" aria-controls="loanname" aria-selected="true">
+      1
+    </a>
+    </li>
+    <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Documents">
+        <a class="" (click)="ShowTitle('Documents')" data-toggle="tab" href="#documents" role="tab" aria-controls="loanconfig" aria-selected="false">
+      2 </a>
+    </li>
+    <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Promotors">
+        <a class="" (click)="ShowTitle('Promotors')" data-toggle="tab" href="#promotors" role="tab" aria-controls="Installmentduedate" aria-selected="false">
+      3
+    </a>
+    </li>
+</ul>
+<div class="btn-group quick-links">
+    <a class="btn btn-block dropdown-toggle mt-1 sm-dd" data-toggle="dropdown" href="#">
+    {{selectedtype}}
+    <span class="caret"></span>
+  </a>
+    <ul class="dropdown-menu">
+        <li class="dropdown-item"><a (click)="testlinks('basicinfo','Basic Information')">Basic Information</a></li>
+        <li class="dropdown-item"><a (click)="testlinks('documents','Documents')">Documents</a></li>
+        <li class="dropdown-item"><a (click)="testlinks('promotors','Promotors')">Promotors</a></li>
+    </ul>
+</div>
+<!-----------------Top Nav ENd --------------------->
+
+<div class="tab-content" id="myTabContent">
+
+
+    <div class="tab-pane fade  active show " id="basicinfo" role="tabpanel" aria-labelledby="fresh-tab">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <p class="bc-2">Basic Information</p>
+            </div>
+        </div>
+        <form [formGroup]="companyconfigform">
+            <div class="row mt-1">
+                <!--  <div class="col-12">
+        <h2 class="sec-head">Personal Details</h2>
+        </div>-->
+                <div class="col-md-6 col-xl-4 p-0">
+                    <div class="col-md-12 col-xl-12">
+                        <div class="form-group">
+                            <label id="pnameofenterprise" title="Name of the Enterprise">Name of the Enterprise</label>
+                            <input class="form-control" type="text" value="" formControlName="pnameofenterprise" maxlength="75" appCharactersonly [ngClass]="{ 'is-invalid': companyconfigvalidations.pnameofenterprise }">
+                            <div class="invalid-feedback">
+                                <span *ngIf="companyconfigvalidations.pnameofenterprise">{{companyconfigvalidations?.pnameofenterprise}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--col-end-->
+                    <div class="col-md-12 col-xl-12">
+                        <div class="form-group">
+                            <label id="penterprisecode" title="Enterprise Code">Enterprise Code</label>
+                            <input class="form-control" type="text" value="" formControlName="penterprisecode" maxlength="5" [ngClass]="{ 'is-invalid': companyconfigvalidations.penterprisecode }">
+                            <div class="invalid-feedback">
+                                <span *ngIf="companyconfigvalidations.penterprisecode">{{companyconfigvalidations?.penterprisecode}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--col-end-->
+                    <div class="col-md-12 col-xl-12">
+                        <div class="form-group">
+                            <label id="ppancard" title="PAN Card Number">PAN Card Number</label>
+                            <input class="form-control" type="text" value="" maxlength="10" appNumbersonly formControlName="ppancard" [ngClass]="{ 'is-invalid': companyconfigvalidations.ppancard }">
+                            <div class="invalid-feedback">
+                                <span *ngIf="companyconfigvalidations.ppancard">{{companyconfigvalidations?.ppancard}}</span>
+                            </div>
+                            <!--<small class="form-text">Error message or hint will go here</small>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xl-4 ml-5">
+                    <a href="" onclick="document.getElementById('upload').click(); return false"> <img [src]="croppedImage" alt="img" class="rounded-circle" width="140px" height="140px" title="uplaod Photo here" /></a>
+                    <input id="upload" type="file" #fileInput class="form-control mt-2" id="upload" (change)="uploadAndProgress($event,fileInput.files)">
+
+
+                    <!-- <input type="file" id="upload" name="profile_img" style="visibility: hidden;">
+          <a href="#photo" data-toggle="modal">
+            <img class="" src="assets/images/placeholder_02.png" alt="Profile" width="160" height="160"
+              title="uplaod logo here">
+          </a> -->
+
+                </div>
+
+
+            </div>
+
+            <hr>
+            <div class="row">
+                <div class="col-md-12 col-xl-8">
+                    <label id="ptypeofenterprise" title="Type of Enterprise" class="sec-head">Type of Enterprise</label>
+                    <div class="d-flex">
+                        <div class="col-md-6 col-xl-6 mt-1">
+                            <div *ngFor="let enterprise of typeofEnterpriseDetails; let i = index">
+                                <div class="form-group m-0">
+                                    <div class="form-check form-check-inline mr-5">
+                                        <input class="form-check-input" type="radio" name="ptypeofenterprise" formControlName="ptypeofenterprise" id="enterprise_{{i}}" value="{{enterprise.pEnterpriseType}}" (change)="enterpriseChange()">
+                                        <label class="mt-1" for="enterprise_{{i}}">{{enterprise.pEnterpriseType}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group m-0 ">
+                                <div class="form-check form-check-inline mr-5">
+                                    <input class="form-check-input" type="radio" name="ptypeofenterprise" id="Other" formControlName="ptypeofenterprise" value="Other" (change)="enterpriseChange()">
+                                    <label id="potherenterprise" title="Other Type of Enterprise" class="mt-1" for="Other"> Other</label>
+                                    <div *ngIf="showEnterprise">
+                                        <input type="text" formControlName="potherenterprise" maxlength="50" appCharactersonly appTitlecaseword placeholder="Enter Other Type of Enterprise" class="form-control w-auto ml-3" [ngClass]="{ 'is-invalid': companyconfigvalidations.potherenterprise }">
+                                        <div class="invalid-feedback">
+                                            <span *ngIf="companyconfigvalidations.potherenterprise">{{companyconfigvalidations?.potherenterprise}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <!--col-end-->
+
+            <!--col-end-->
+
+            <hr>
+            <div class="row">
+
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group m-0">
+                        <label id="pestablishmentdate" title="Date of Establishment">Date of Establishment</label>
+                    </div>
+                    <div class="form-group m-0">
+                        <input [bsConfig]="dpConfig" #dp="bsDatepicker" readonly bsDatepicker class="form-control" type="text" placeholder="" formControlName="pestablishmentdate" [ngClass]="{ 'is-invalid': companyconfigvalidations.pestablishmentdate }">
+                    </div>
+                    <div class="invalid-feedback">
+                        <span *ngIf="companyconfigvalidations.pestablishmentdate">{{companyconfigvalidations?.pestablishmentdate}}</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group m-0">
+                        <label id="pcommencementdate" title="Date of Commencement">Date of Commencement</label>
+                    </div>
+                    <div class="form-group m-0">
+                        <input [bsConfig]="dpConfig" #dp="bsDatepicker" readonly bsDatepicker class="form-control" type="text" placeholder="" formControlName="pcommencementdate" [ngClass]="{ 'is-invalid': companyconfigvalidations.pcommencementdate }">
+                    </div>
+                    <div class="invalid-feedback">
+                        <span *ngIf="companyconfigvalidations.pcommencementdate">{{companyconfigvalidations?.pcommencementdate}}</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-4">
+                    <div class="d-flex">
+                        <div class="col-md-6 col-xl-6 p-0">
+                            <div class="form-group">
+                                <label id="pcinnumber" title="CIN Number">CIN Number</label>
+                                <input class="form-control" type="text" appNumbersonly placeholder="101" maxlength="21" formControlName="pcinnumber" [ngClass]="{ 'is-invalid': companyconfigvalidations.pcinnumber }">
+                            </div>
+                            <div class="invalid-feedback">
+                                <span *ngIf="companyconfigvalidations.pcinnumber">{{companyconfigvalidations?.pcinnumber}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-6 pr-0">
+                            <div class="form-group">
+                                <label id="pgstinnumber" title="GSTIN">GSTIN</label>
+                                <input class="form-control" type="text" appNumbersonly placeholder="101" maxlength="15" formControlName="pgstinnumber" [ngClass]="{ 'is-invalid': companyconfigvalidations.pgstinnumber }">
+                            </div>
+                            <div class="invalid-feedback">
+                                <span *ngIf="companyconfigvalidations.pgstinnumber">{{companyconfigvalidations?.pgstinnumber}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <hr>
+            <div class="row">
+
+                <div class="col-md-12 col-xl-12">
+                    <h2 class="sec-head"> Contact Information </h2>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group ">
+                        <label id="pemailid" title="Primary E-mail ID">Primary E-mail ID </label>
+                        <input class="form-control" type="text" placeholder="" maxlength="75" appEmailFormat appEmailpattern formControlName="pemailid" [ngClass]="{ 'is-invalid': companyconfigvalidations.pemailid }">
+                        <div class="invalid-feedback">
+                            <span *ngIf="companyconfigvalidations.pemailid">{{companyconfigvalidations?.pemailid}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group ">
+                        <label id="pemailid2" title="E-mail ID ">E-mail ID </label>
+                        <input class="form-control" type="text" placeholder="" maxlength="75" appEmailFormat appEmailpattern formControlName="pemailid2" [ngClass]="{ 'is-invalid': companyconfigvalidations.pemailid2 }">
+                        <div class="invalid-feedback">
+                            <span *ngIf="companyconfigvalidations.pemailid2">{{companyconfigvalidations?.pemailid2}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group ">
+                        <label id="pcontactnumber" title="Primary Contact Number">Primary Contact Number </label>
+                        <input class="form-control" type="text" placeholder="" maxlength="12" appNumbersonly formControlName="pcontactnumber" [ngClass]="{ 'is-invalid': companyconfigvalidations.pcontactnumber }">
+                        <div class="invalid-feedback">
+                            <span *ngIf="companyconfigvalidations.pcontactnumber">{{companyconfigvalidations?.pcontactnumber}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group ">
+                        <label id="pAlternativeNo" title="Contact Number">Contact Number </label>
+                        <input class="form-control" type="text" placeholder="" maxlength="12" appNumbersonly formControlName="pAlternativeNo" [ngClass]="{ 'is-invalid': companyconfigvalidations.pAlternativeNo }">
+                        <div class="invalid-feedback">
+                            <span *ngIf="companyconfigvalidations.pAlternativeNo">{{companyconfigvalidations?.pAlternativeNo}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-12 col-xl-12">
+                    <h2 class="sec-head"> Address Details</h2>
+                </div>
+                <div class="col-md-6  col-xl-4">
+                    <fieldset>
+                        <div class="form-group">
+                            <label id="pAddressType" title="Address Type">Address Type</label>
+                            <div class="input-group">
+                                <select class="form-control" formControlName="pAddressType" [ngClass]="{ 'is-invalid': companyconfigvalidations.pAddressType }">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option *ngFor="let addtype of addressTypeDetails" [value]="addtype.pAddressType">
+                    {{addtype.pAddressType}}</option>
+                </select>
+                                <div class="input-group-append">
+                                    <button class="btn btn-lg-icon px-2 p-0" data-toggle="modal" data-target="#addresstype">
+                    <img src="assets/images/icon-add-blue.svg" class="" width="18px" height="18px"></button>
+
+                                </div>
+                                <div class="invalid-feedback">
+                                    <span *ngIf="companyconfigvalidations.pAddressType">{{companyconfigvalidations?.pAddressType}}</span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <hr class="light">
+            <app-address></app-address>
+            <div class="d-flex justify-content-end  mt-6 ml-3 mb-1">
+                <a href="" data-toggle="tab" class="btn  btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" (click)="adddata()">
+                    <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">{{buttontype}}
+                </a>
+            </div>
+            <hr>
+        </form>
+        <div class="col-md-12 col-xl-12">
+            <!-- <table id="example" class="table text-center" style="width:100%">
+            <thead>
+              <tr>
+                <th>Select Address to be displayed in reports</th>
+                <th>Address Type</th>
+                <th>Address Details</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let address of lstaddressdetails; let i = index">
+                <td>
+                  <input class="form-check-input" type="radio" name="pAddressTypeChk" formControlName="pAddressTypeChk" id="address_{{i}}" value="{{address.pAddressType}}" (change)="changeAddressPriority(i)">
+                </td>
+                <td>{{address.pAddressType}}</td>
+                <td>{{address.pAddressDetails}}</td>
+                <td>
+                  <a (click)="editAddressDeatails(i)"><div id="icon-edit"></div></a>
+                  <a (click)="deleteAddressDeatails(i)"><div id="icon-delete"></div></a>
+                </td>
+              </tr>
+            </tbody>
+          </table> -->
+            <kendo-grid [data]="griddata" [height]="" [pageable]="false" [sortable]="true" (edit)="editHandler($event)" (remove)="removeHandler($event)" [selectable]="selectableSettings">
+
+                <kendo-grid-column field="pAddressTypeChk" title="Select Primary Account">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        <input type="radio" name="priority" [checked]="dataItem.pPriority=='PRIMARY'" (change)="changeAddressPriority(dataItem,rowIndex)" />
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pAddressType" title="Address Type"></kendo-grid-column>
+                <kendo-grid-column field="pAddress1" title="Address Details">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+                        <div class="row">
+
+                            <div *ngIf="dataItem.pAddress1 !==''"> &nbsp;{{dataItem.pAddress1}},</div>
+                            <div *ngIf="dataItem.pAddress2 !==''"> &nbsp;{{dataItem.pAddress2}},</div>
+                            <div *ngIf="dataItem.pCity !==''"> &nbsp;{{dataItem.pCity}},</div>
+                            <div *ngIf="dataItem.pState !==''"> &nbsp;{{dataItem.pState}},</div>
+                            <div *ngIf="dataItem.pDistrict !==''"> &nbsp;{{dataItem.pDistrict}},</div>
+                            <div *ngIf="dataItem.pCountry !==''"> &nbsp;{{dataItem.pCountry}},</div>
+                            <div *ngIf="dataItem.pPinCode !==''"> &nbsp;{{dataItem.pPinCode}},</div>
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-command-column title="" width="220">
+                    <ng-template kendoGridCellTemplate>
+                        <div id="icon-edit" kendoGridEditCommand [primary]="true"></div>
+                        <div id="icon-delete" kendoGridRemoveCommand></div>
+                    </ng-template>
+                </kendo-grid-command-column>
+            </kendo-grid>
+        </div>
+
+
+
+
+
+        <!--col-end-->
+        <!--row-end-->
+
+        <!--form-end-->
+        <!--form-end-->
+        <!--row-end-->
+
+        <!--buttons-end-->
+
+    </div>
+    <!-- -*----------------------------------------Tab1 end ----------------------------------------->
+    <div class="modal right slideInRight" id="addresstype">
+        <div class="modal-dialog" style="margin-right:0px !important; ">
+            <div class="model-cst modal-content">
+
+                <div class="modal-body">
+
+                    <button type="button" class="close" appButtonDoubleClick [debounceTime]="1000">&times;</button>
+                    <form [formGroup]="addresstypeForm" autocomplete="off">
+                        <div class="form-group">
+                            <label id="pAddressTypeMst" title="Address Type">Address Type</label>
+                            <input type="text" class="form-control" maxlength="50" appCharactersonly appTitlecaseword formControlName="pAddressType" placeholder="Enter Address Type" />
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <a class="close" class="btn btn-g-icon mr-4 px-3 border-0" appButtonDoubleClick [debounceTime]="1000"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+                            <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" (click)="saveaddresstype('')" aria-selected="false" appButtonDoubleClick [debounceTime]="1000">
+                                <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesaveadressbutton, 'fa-check': !disablesaveadressbutton}"></i> {{saveadressbutton}}
+                            </a>
+
+                            <!-- <button  class="btn btn-b-icon px-3 border-0"
+                        [disabled]="disableaddresstypesavebutton">
+                  
+                </button> -->
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade pl-0" id="photo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog" style="margin-right:0px !important; ">
+            <div class="model-cst modal-content">
+                <app-photoupload (uploadPhoto)="loadImages($event)"></app-photoupload>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="hot-tab">
+
+        <app-companyconfig-documents></app-companyconfig-documents>
+
+    </div>
+
+    <!-- ==================================================================== tab content pannnel 2 end =================================================================== -->
+    <div class="tab-pane fade" id="promotors" role="tabpanel" aria-labelledby="hot-tab">
+        <app-companyconfig-promotors></app-companyconfig-promotors>
+
+    </div>
+    <div class="d-flex justify-content-end mt-4">
+        <a class="btn btn-g-icon mr-4 px-3 border-0" (click)="clear()">
+            <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" /> Clear
+        </a>
+        <a (click)="savecompanyconfigform()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false">
+            <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i> {{buttonname}}
+        </a>
+    </div>
+    <!-- Tab content end -->

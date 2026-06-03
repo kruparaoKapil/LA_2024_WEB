@@ -1,0 +1,270 @@
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+
+      </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+<div class="row">
+    <div class="col-md-6 col-xl-6 ">
+      <p class="bc-2">Maturity Completed</p>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-12 col-xl-12">
+      <div class="section-container">
+        <form [formGroup]="PrematurityForm" autocomplete="off">
+          <div class="row mt-1">
+            <div class="col-md-12">
+                <div class="row mt-1">
+                  <div class="col-md-2 col-xl-2">
+                    <div class="">
+                      <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                        <input class="form-check-input" type="radio" name="pDatetype" formControlName="pDatetype" id="interestd1" value="ASON" [ngClass]="{ 'is-invalid': PrematurityErrors.pDatetype }"
+                               (change)="DatetypeChange('ASON')">
+                        <label id="pDatetype" title="AsOn" class="mt-2" for="interestd1"> As On </label>
+                      </div>
+                    <div class="invalid-feedback">
+                        <span *ngIf="PrematurityErrors.pDatetype">{{PrematurityErrors?.pDatetype}}</span>
+                      </div> 
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-xl-2">
+                    <div class="">
+                      <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                        <input class="form-check-input" type="radio" name="pDatetype" formControlName="pDatetype" id="interestd2" value="BETWEEN"
+                               (change)="DatetypeChange('BETWEEN')" [ngClass]="{ 'is-invalid': PrematurityErrors.pDatetype}" >
+                        <label id="pDatetype" title="Between" class="mt-2" for="interestd2"> Between </label>
+                      </div>
+                       <div class="invalid-feedback">
+                        <span *ngIf="PrematurityErrors.pDatetype">{{PrematurityErrors?.pDatetype}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-4  col-xl-4" *ngIf="showFrommonth">
+                    <div class="">
+                      <label id="pFromMonthOf" title="Month Of">From Date</label>
+  
+                      <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                             bsDatepicker  formControlName="pFromMonthOf" (ngModelChange)="FromDateChange($event)"  [ngClass]="{ 'is-invalid': PrematurityErrors.pFromMonthOf }" >
+                      
+  
+                    </div>
+                  </div>
+  
+                  <div class="col-md-4  col-xl-4" *ngIf="showTomonth">
+                    <div class="">
+                      <label>{{displaytodate}}</label>
+                      <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+                             bsDatepicker  formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)" [ngClass]="{ 'is-invalid': PrematurityErrors.pToMonthOf }">
+                      <div *ngIf="validation" class="text-danger">
+                        please select a valid date
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="justify-content-end   mt-4 pt-1">
+               
+                  <div class="form-group">
+
+                    <div class="col-md-12 col-xl-12 pull-right">
+                      <div class="form-group mt-1">
+                        <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetPrematuritydetails()">
+                          <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                          <span *ngIf="!isLoading">
+                            <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                 width="20px">
+                          </span> {{savebutton}}
+                        </a>
+
+                      </div>
+                    </div>
+                
+                  </div>
+            
+           
+            </div>
+                </div>
+              </div> 
+             
+                    
+             
+          </div>
+        </form>
+        <!-- <div class="d-flex justify-content-end ">
+            <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" (click)="pdf()" style="cursor: pointer;" />
+    
+          </div> -->
+          <div class="row mt-3">
+            <div class="col-md-12">
+
+              <kendo-grid [kendoGridBinding]="prematuritylist" [sortable]="true" [selectedKeys]="mySelection"   [selectable]="selectableSettings" [pageSize]="10"  [pageable]="true" [skip]="skip" height="500" [group]="group" [sort]="sort" (sortChange)="onSortChange($event)">
+  
+                <ng-template kendoGridToolbarTemplate>
+                  <div class="mb-3">
+                    <div class="col-12 mt-5">
+                      <ul class="temp-ul pull-right mr-4 pb-3">
+                        <li class="temp-ico ml-2">
+                          <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                              width="20px"></a>
+                        </li>
+                        <li class="temp-ico ml-2">
+                          <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                              width="20px"></a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </ng-template>
+
+                <!-- <kendo-grid-column field="pinterestpayout" width="120" title="Interest Payout" class="kendo-left" [hidden]="hidden">
+                    <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                        {{value}}
+                    </ng-template>
+                </kendo-grid-column> -->
+
+                
+
+                <kendo-grid-column field="pFdAccountNo" title="Advance Acc. No." width="120"></kendo-grid-column>
+
+
+              <kendo-grid-column field="pSchemename" title="Scheme Name" width="100" [hidden]="hdnp">
+              </kendo-grid-column>
+
+              <kendo-grid-column field="pMembername" title="Member Name" width="110" >
+              </kendo-grid-column>
+
+              <kendo-grid-column field="pChitbranchname" title="Chit Branch" class="kendo-center" width="90"></kendo-grid-column>
+
+              
+              
+  
+              <!-- <kendo-grid-column field="pschemename" title="Scheme Name" width="140"></kendo-grid-column> -->
+  
+             
+  
+            
+              <kendo-grid-column field="pDepositamount" title="Advance " class="kendo-center" width="100">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.pDepositamount |currencypipewithdecimal }}
+                  </ng-template>
+              </kendo-grid-column>
+
+              <kendo-grid-column field="pDepositdate" title="Advance Date" class="kendo-center" width="100">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pDepositdate | date: 'dd-MM-yyyy'}}
+              </ng-template>
+              </kendo-grid-column>
+
+              <kendo-grid-column field="pMaturitydate" title="Maturity Date" class="kendo-center" width="100">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pMaturitydate | date: 'dd-MM-yyyy'}}
+              </ng-template>
+              </kendo-grid-column>
+
+              <kendo-grid-column field="pMaturityPaymentDate" title="Payment Date" class="kendo-center" width="100">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pMaturityPaymentDate | date: 'dd-MM-yyyy'}}
+              </ng-template>
+              </kendo-grid-column>
+
+              <kendo-grid-column field="pMaturityamount" title="Maturity Amount" class="kendo-center" width="130">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.pMaturityamount |currencypipewithdecimal }}
+                </ng-template>
+            </kendo-grid-column>
+
+              <kendo-grid-column field="pTenor" title="Period" width="100"></kendo-grid-column>
+
+              <kendo-grid-column field="preferralname" title="Agent Name" width="100"></kendo-grid-column>
+              
+              <!-- <kendo-grid-column field="pInterestPayable" title="Interest Payout" width="150" >
+              </kendo-grid-column> -->
+              
+             
+  
+
+
+              <kendo-grid-column field="pInterestrate" title="Interest Rate" class="kendo-center" width="100">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.pInterestrate |currencypipewithdecimal }}
+                </ng-template>
+            </kendo-grid-column>
+
+              <kendo-grid-column field="pInterestPayable" title="Interest Payable" class="kendo-center" width="150">   
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pInterestPayable  |currencypipewithdecimal }}
+              </ng-template>             
+            </kendo-grid-column>
+  
+              
+
+              <kendo-grid-column field="pPaidAmount" title="Paid Amount" class="kendo-center" width="130">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.pPaidAmount  |currencypipewithdecimal }}
+                </ng-template>
+            </kendo-grid-column>
+
+
+
+
+
+         
+  
+              
+             
+  
+  
+            
+  
+            <kendo-grid-pdf fileName="MATURITY_COMPLETED.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [scale]="0.38" [margin]="0.2"
+                      [landscape]="false">
+  
+                      <kendo-grid-pdf-margin top="4cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+  
+                      <ng-template kendoGridPDFTemplate>
+                        <div class="page-template">
+                          <div class="header">
+                            <app-company-details></app-company-details>
+  
+                            <div class="report-head mt-2" *ngIf="pdatecheked == 'ASON' ">
+                              <p class="font-15 text-dark text-center m-0" [ngClass]="{ 'bold-text': isBold }">
+                                  <span class="text-capitalize">MATURITY COMPLETED ASON : {{frommonthof}}</span>
+                              </p>
+                          </div>
+
+                          <div class="report-head mt-2" *ngIf="pdatecheked == 'BETWEEN' ">
+                            <p class="font-15 text-dark text-center m-0" [ngClass]="{ 'bold-text': isBold }">
+                                <span class="text-capitalize">MATURITY COMPLETED FOR THE PERIOD : {{frommonthof}} To {{tomonthof}}</span>
+                            </p>
+                        </div>
+  
+                          </div>
+  
+                        </div>
+                      </ng-template>
+                    </kendo-grid-pdf>
+
+                    <kendo-grid-excel fileName="MATURITY_COMPLETED.xlsx" [fetchData]="allData"></kendo-grid-excel>
+
+          </kendo-grid>
+
+
+
+
+
+    
+            </div>
+          </div>
+    
+      </div>
+    </div>
+</div>
+

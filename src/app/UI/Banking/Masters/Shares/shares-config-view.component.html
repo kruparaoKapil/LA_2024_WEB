@@ -1,0 +1,83 @@
+<div class="row mb-3">
+    <div class="col d-flex flex-wrap align-items-center">
+         <a routerLink='/SharesConfigNew' (click)="Newform()" class="btn btn-b-icon border-0">
+          <img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+         </div>
+</div>
+
+<div class="row ">
+    <div class="col-md-12 col-xl-12">
+  
+        <kendo-grid [kendoGridBinding]="gridData" [height]=""   [columnMenu]="{ filter: true }" [pageable]="{ buttonCount: 2 }"
+         [sortable]="true"  [skip]="skip" [resizable]="true" [pageSize]="10"
+        (edit)="editHandler($event)" (remove)="removeHandler($event)" 
+        [selectable]="selectableSettings" width="100%" >
+        <ng-template kendoGridToolbarTemplate>
+    
+          <div class="row p-3">
+            <div class="col-4 pl-0 mt-n1">
+              <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+                     (input)="SearchRecord($event.target.value)"/>
+            </div>
+            <!-- <div class="col-7 pr-0 pl-4 ml-4">
+              <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand>
+                    <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                         width="20px">
+                  </a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand>
+                    <img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                         width="20px">
+                  </a>
+                </li>
+              </ul>
+            </div> -->
+          </div>
+        </ng-template>
+                <kendo-grid-command-column title="" width="220">
+          <ng-template kendoGridCellTemplate>
+          <div id="icon-edit" kendoGridEditCommand [primary]="true"></div>
+          <div id="icon-delete" kendoGridRemoveCommand disabled></div>
+         </ng-template>
+        </kendo-grid-command-column>
+        <kendo-grid-column field="psharename" title="Share Capital Name" ></kendo-grid-column>
+        <kendo-grid-column field="psharenamecode" title="Share Capital Code" ></kendo-grid-column>
+        <kendo-grid-column field="pstatus" title="Status"class="material-switch" >
+
+        </kendo-grid-column>
+       <kendo-grid-pdf fileName="Share_Configuration.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true"
+        [landscape]="true">
+        <ng-template kendoGridPDFTemplate>
+          <div class="page-template">
+             <div class="header bc-2 text-center">
+              <h5>Share Configuration</h5>
+             </div>
+           </div>
+         </ng-template>
+        <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+        <kendo-grid-column field="psharename" width="100" title="Share Capital Name">
+        </kendo-grid-column>
+        <kendo-grid-column field="psharenamecode" width="100" title="Share Capital Code">
+        </kendo-grid-column>
+        <kendo-grid-column field="pstatus" width="100" title="Status">
+        </kendo-grid-column>
+      </kendo-grid-pdf>
+      <kendo-grid-excel fileName="Share_Configuration.xlsx" [fetchData]="allData">
+          <kendo-excelexport-column-group title="Share Configuration" [headerCellOptions]="headerCells">
+        <kendo-excelexport-column field="psharename"  title="Share Capital Name">
+        </kendo-excelexport-column>
+        <kendo-excelexport-column field="psharenamecode"  title="Share Capital Code">
+        </kendo-excelexport-column>
+        <kendo-excelexport-column field="pstatus"  title="Status">
+        </kendo-excelexport-column>
+      </kendo-excelexport-column-group>
+      </kendo-grid-excel>
+
+      </kendo-grid>
+   
+    </div>
+
+</div>

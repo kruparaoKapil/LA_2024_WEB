@@ -1,0 +1,373 @@
+
+
+<div *ngIf="showPage">
+
+  <form [formGroup]="contactForm" autocomplete="off">
+    <div class="row">
+
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group mt-1">
+          <fieldset [disabled]="disablecontactname">
+            <label id="pName" title="Name of the Enterprise">Name of the Enterprise</label>
+            <input class="form-control" maxlength="75" type="text" appEnterpriseNameFormat appTitlecaseword formControlName="pName" placeholder="Enter Name of the Enterprise" [ngClass]="{ 'is-invalid': contactValidationErrors.pName }">
+            <div class="invalid-feedback">
+              <span *ngIf="contactValidationErrors.pName">{{contactValidationErrors?.pName}}</span>
+            </div>
+          </fieldset>
+        </div>
+        <div class="form-group mt-1">
+          <label id="pBusinessEntityEmailid" title="Enterprise Email ID">Enterprise Email ID</label>
+          <input class="form-control" maxlength="75" type="text" appEmailpattern formControlName="pBusinessEntityEmailid" placeholder="Enter Enterprise Email ID" [ngClass]="{ 'is-invalid': contactValidationErrors.pBusinessEntityEmailid }" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$">
+          <div class="invalid-feedback">
+            <span *ngIf="contactValidationErrors.pBusinessEntityEmailid">{{contactValidationErrors?.pBusinessEntityEmailid}}</span>
+          </div>
+        </div>
+        <div class="form-group mt-1">
+          <label id="pBusinessEntityContactno" title="Enterprise Contact No.">Enterprise Contact No.</label>
+          <input class="form-control" maxlength="12" type="text" appNumbersonly formControlName="pBusinessEntityContactno" placeholder="Enter Enterprise Contact No." [ngClass]="{ 'is-invalid': contactValidationErrors.pBusinessEntityContactno }">
+          <div class="invalid-feedback">
+            <span *ngIf="contactValidationErrors.pBusinessEntityContactno">{{contactValidationErrors?.pBusinessEntityContactno}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-xl-4 ml-5">
+        <p class="mb-0 text-center">
+          <a href="#photo" data-toggle="modal" class="RL13">
+            <img [src]="croppedImage" alt="img" class="rounded-circle" width="120px"
+                 height="120px" title="uplaod Photo here" />
+          </a>
+        </p>
+        <label class="position-absolute p-0 ml-n3  w-100 text-center ">Upload Photo</label>
+      </div>
+      <hr class="light">
+
+      <div class="col-md-12 col-xl-8 p-0">
+        <label id="pEnterpriseType" title="Type of Enterprise" class="sec-head">Type of Enterprise</label>
+        <div class="d-flex">
+          <div class="col-md-6 col-xl-6 mt-1">
+            <div *ngFor="let enterprise of typeofEnterpriseDetails; let i = index">
+              <div class="form-group m-0">
+                <div class="form-check form-check-inline mr-5">
+                  <input class="form-check-input" type="radio" name="pEnterpriseType" formControlName="pEnterpriseType" id="enterprise_{{i}}" value="{{enterprise.pEnterpriseType}}" [ngClass]="{ 'is-invalid': contactValidationErrors.pEnterpriseType }" (change)="enterpriseChange()">
+                  <label class="mt-1" for="enterprise_{{i}}">{{enterprise.pEnterpriseType}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group m-0 ">
+              <div class="form-check form-check-inline mr-5">
+                <input class="form-check-input" type="radio" name="pEnterpriseType" id="Other" formControlName="pEnterpriseType" value="Other" (change)="enterpriseChange()">
+                <label title="Other Type of Enterprise" class="mt-1" for="Other"> Other</label>
+                <div *ngIf="showEnterprise">
+                  <input type="text" formControlName="pTypeofEnterpriseMst" maxlength="50" appCharactersonly appTitlecaseword placeholder="Enter Other Type of Enterprise" class="form-control w-auto ml-3" [ngClass]="{ 'is-invalid': contactValidationErrors.pTypeofEnterpriseMst }" (blur)="GetContactValidationByControl('pTypeofEnterpriseMst', true)">
+                  <div class="invalid-feedback">
+                    <span *ngIf="contactValidationErrors.pTypeofEnterpriseMst">{{contactValidationErrors?.pTypeofEnterpriseMst}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="invalid-feedback-cst">
+              <span *ngIf="contactValidationErrors.pEnterpriseType">{{contactValidationErrors?.pEnterpriseType}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-xl-4 mt-1">
+        <label id="pBusinesstype" title="Nature of Business" class="sec-head">Nature of Business</label>
+        <div *ngFor="let nature of natureofBussinessDetails; let i = index">
+          <div class="form-group m-0">
+            <div class="form-check form-check-inline mr-5">
+              <input class="form-check-input" type="radio" name="pBusinesstype" formControlName="pBusinesstype" id="nature_{{i}}" value="{{nature.pBusinesstype}}" [ngClass]="{ 'is-invalid': contactValidationErrors.pEnterpriseType }" (change)="businessNatureChange()">
+              <label class="mt-1" for="nature_{{i}}">{{nature.pBusinesstype}}</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group m-0 ">
+          <div class="form-check form-check-inline mr-5">
+            <input class="form-check-input" type="radio" name="pBusinesstype" formControlName="pBusinesstype" id="natureOther" value="Other" (change)="businessNatureChange()">
+            <label class="mt-1" id="pNatureofBussinessMst" title="Other Nature of Business" for="natureOther"> Other</label>
+            <div *ngIf="showBusinessNature">
+              <input type="text" formControlName="pNatureofBussinessMst"  maxlength="50" appCharactersonly appTitlecaseword placeholder="Enter Other Nature of Business" class="form-control w-auto ml-3" [ngClass]="{ 'is-invalid': contactValidationErrors.pNatureofBussinessMst }" (blur)="GetContactValidationByControl('pNatureofBussinessMst', true)">
+              <div class="invalid-feedback">
+                <span *ngIf="contactValidationErrors.pNatureofBussinessMst">{{contactValidationErrors?.pNatureofBussinessMst}}</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="invalid-feedback-cst">
+          <span *ngIf="contactValidationErrors.pBusinesstype">{{contactValidationErrors?.pBusinesstype}}</span>
+        </div>
+      </div>
+    </div>
+
+    <hr class="light">
+    <div class="row">
+
+      <div class="col-md-12 col-xl-12">
+        <h2 class="sec-head"> Contact Information </h2>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="pContactName" title="Contact Person">Contact Person</label>
+          <input class="form-control" maxlength="125" appCharactersonly appTitlecaseword type="text" placeholder="Enter Contact Person" formControlName="pContactName" [ngClass]="{ 'is-invalid': contactValidationErrors.pContactName }">
+          <div class="invalid-feedback">
+            <span *ngIf="contactValidationErrors.pContactName">{{contactValidationErrors?.pContactName}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group ">
+          <label id="pContactNumber" title="Primary Contact Number">Primary Contact Number</label>
+          <input class="form-control" type="text" maxlength="12" placeholder="Enter Primary Contact Number" appNumbersonly formControlName="pContactNumber" [ngClass]="{ 'is-invalid': contactValidationErrors.pContactNumber }">
+          <div class="invalid-feedback">
+            <span *ngIf="contactValidationErrors.pContactNumber">{{contactValidationErrors?.pContactNumber}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group ">
+          <label id="pAlternativeNo" title="Contact Number">Contact Number</label>
+          <input class="form-control" type="text" maxlength="12" placeholder="Enter Contact Number" appNumbersonly formControlName="pAlternativeNo" [ngClass]="{ 'is-invalid': contactValidationErrors.pAlternativeNo }">
+          <div class="invalid-feedback">
+            <span *ngIf="contactValidationErrors.pAlternativeNo">{{contactValidationErrors?.pAlternativeNo}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group ">
+          <label id="pEmailId" title="Primary Email ID">Primary Email ID</label>
+          <input class="form-control" type="text" maxlength="75" placeholder="Enter Primary Email ID" appEmailFormat appEmailpattern formControlName="pEmailId" [ngClass]="{ 'is-invalid': contactValidationErrors.pEmailId }" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$">
+          <div class="invalid-feedback">
+            <span *ngIf="contactValidationErrors.pEmailId">{{contactValidationErrors?.pEmailId}}</span>
+          </div>
+        </div>
+      </div>
+      <!--<hr class="light">-->
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group ">
+          <label id="pEmailId2" title="Email ID">Email ID</label>
+          <input class="form-control" type="text" maxlength="75" placeholder="Enter Email ID" appEmailFormat appEmailpattern formControlName="pEmailId2" [ngClass]="{ 'is-invalid': contactValidationErrors.pEmailId2 }" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$">
+          <div class="invalid-feedback">
+            <span *ngIf="contactValidationErrors.pEmailId2">{{contactValidationErrors?.pEmailId2}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div formGroupName="pAddressControls">
+      <div class="row">
+        <div class="col-md-12 col-xl-12">
+          <h2 class="sec-head"> Address Details</h2>
+        </div>
+        <div class="col-md-6  col-xl-4">
+          <fieldset >
+            <div class="form-group">
+              <label id="pAddressType" title="Address Type">Address Type</label>
+              <div class="input-group">
+                <select class="form-control" formControlName="pAddressType" [ngClass]="{ 'is-invalid': contactValidationErrors.pAddressType }">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option *ngFor="let addtype of addressTypeDetails" [value]="addtype.pAddressType">{{addtype.pAddressType}}</option>
+                </select>
+                <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0"    data-toggle="modal" data-target="#addresstype"> <img src="assets/images/icon-add-blue.svg" class="" width="18px" height="18px"></button>
+
+                </div>
+
+              </div>
+              <div class="invalid-feedback">
+                <span *ngIf="contactValidationErrors.pAddressType">{{contactValidationErrors?.pAddressType}}</span>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <hr class="light">
+        <div class="col-md-6  col-xl-4">
+          <div class="form-group">
+            <label id="pAddress1" title="Address Line 1">Address Line 1</label>
+            <input type="text" value="" maxlength="200" appAddressformat appTitlecaseword class="form-control" placeholder="Enter Address Line 1" formControlName="pAddress1" [ngClass]="{ 'is-invalid': contactValidationErrors.pAddress1 }">
+            <div class="invalid-feedback">
+              <span *ngIf="contactValidationErrors.pAddress1">{{contactValidationErrors?.pAddress1}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6  col-xl-4">
+          <div class="form-group">
+            <label id="pAddress2" title="Address Line 2">Address Line 2</label>
+            <input type="text" value="" maxlength="200" appAddressformat appTitlecaseword class="form-control" placeholder="Enter Address Line 2" formControlName="pAddress2" [ngClass]="{ 'is-invalid': contactValidationErrors.pAddress2 }">
+            <div class="invalid-feedback">
+              <span *ngIf="contactValidationErrors.pAddress2">{{contactValidationErrors?.pAddress2}}</span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-md-6  col-xl-4">
+          <div class="form-group">
+            <label id="pCity" title="City/Village">City/Village</label>
+            <input type="text" value="" maxlength="50" appCharactersonly appTitlecaseword class="form-control" placeholder="Enter City/Village" formControlName="pCity" [ngClass]="{ 'is-invalid': contactValidationErrors.pCity }">
+            <div class="invalid-feedback">
+              <span *ngIf="contactValidationErrors.pCity">{{contactValidationErrors?.pCity}}</span>
+            </div>
+          </div>
+        </div>
+        <hr class="light">
+
+        <div class="col-md-6 col-xl-4">
+          <div class="form-group">
+            <label id="pCountry" title="Country">Country</label>
+            <select id="" class="form-control" formControlName="pCountryId" [ngClass]="{ 'is-invalid': contactValidationErrors.pCountry }" (change)="pCountry_Change($event)">
+              <option value="" ng-selected="selected">Select</option>
+              <option *ngFor="let country of countryDetails" [value]="country.pCountryId">{{country.pCountry}}</option>
+            </select>
+            <div class="invalid-feedback">
+              <span *ngIf="contactValidationErrors.pCountry">{{contactValidationErrors?.pCountry}}</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-md-6  col-xl-4">
+          <div class="d-flex">
+            <div class="col-md-6 col-xl-6 pl-0">
+              <div class="form-group">
+                <label id="pState" title="State">State</label>
+                <select id="" class="form-control" formControlName="pStateId" [ngClass]="{ 'is-invalid': contactValidationErrors.pState }" (change)="pState_Change($event)">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option *ngFor="let state of stateDetails" [value]="state.pStateId">{{state.pState}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  <span *ngIf="contactValidationErrors.pState">{{contactValidationErrors?.pState}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-6 pr-0">
+              <div class="form-group">
+                <label id="pDistrict" title="District">District</label>
+                <select id="" class="form-control" formControlName="pDistrictId" [ngClass]="{ 'is-invalid': contactValidationErrors.pDistrict }" (change)="pDistrict_Change($event)">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option *ngFor="let district of districtDetails" [value]="district.pDistrictId">{{district.pDistrict}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  <span *ngIf="contactValidationErrors.pDistrict">{{contactValidationErrors?.pDistrict}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6  col-xl-4">
+
+          <div class="form-group">
+            <label id="pPinCode" title="Pincode">Pincode</label>
+            <input type="text" value="" maxlength="6" class="form-control" placeholder="Enter Pincode" appNumbersonly formControlName="pPinCode" [ngClass]="{ 'is-invalid':contactValidationErrors.pPinCode  }">
+            <div class="invalid-feedback">
+              <span *ngIf="contactValidationErrors.pPinCode">{{contactValidationErrors?.pPinCode}}</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="d-flex justify-content-end  mt-4 ml-3 mb-4">
+        <a href="" data-toggle="tab" class="btn  btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000"  (debounceClick)="addAddressDeatails()"><img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">{{addressTransType}}  </a>
+      </div>
+    </div>
+    <hr>
+
+    <div class="col-md-12 col-xl-12">
+      <table id="example" class="table text-center" style="width:100%">
+        <thead>
+          <tr>
+
+            <th>Primary Address</th>
+            <th>Address Type</th>
+            <th>Address Details</th>
+            <th></th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let address of lstaddressdetails; let i = index">
+            <td>
+              <input class="form-check-input" type="radio" name="pAddressTypeChk" formControlName="pAddressTypeChk" id="address_{{i}}" value="{{address.pAddressType}}" (change)="changeAddressPriority(i)">
+            </td>
+            <td>{{address.pAddressType}}</td>
+            <td>{{address.pAddressDetails}}</td>
+            <td>
+              <a (click)="editAddressDeatails(i)"><div id="icon-edit"></div></a>
+              <a (click)="deleteAddressDeatails(i)"><div id="icon-delete"></div></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="d-flex justify-content-end mt-4">
+      <a href="#loanconfig" data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearContactFormDeatails()"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+      <!--<a href="#loanconfig" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="saveContactDetails()"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />Submit</a>-->
+      <button appButtonDoubleClick [debounceTime]="1000" (debounceClick)="saveContactDetails()" class="btn btn-b-icon px-3 border-0"
+              [disabled]="disablesavebutton">
+        <i class="fa"
+           [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i> {{savebutton}}
+      </button>
+    </div>
+
+  </form>
+
+  <div class="modal fade pl-0" id="photo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+       aria-hidden="true">
+    <div class="modal-dialog" style="margin-right:0px !important; ">
+      <div class="model-cst modal-content">
+        <app-photoupload (uploadPhoto)="loadImages($event)"></app-photoupload>
+      </div>
+    </div>
+  </div>
+
+  <!--The Modal For Address Type-->
+  <div class="modal right slideInRight" id="addresstype">
+    <div class="modal-dialog" style="margin-right:0px !important; ">
+      <div class="model-cst modal-content">
+
+        <div class="modal-body">
+
+          <button type="button" class="close"  appButtonDoubleClick [debounceTime]="1000"  (debounceClick)="closeAddressType()" >&times;</button>
+          <form [formGroup]="addresstypeForm" autocomplete="off">
+            <div class="form-group">
+              <label id="pAddressTypeMst" title="Address Type">Address Type</label>
+              <input type="text" class="form-control" maxlength="50" appCharactersonly appTitlecaseword formControlName="pAddressType" placeholder="Enter Address Type" [ngClass]="{ 'is-invalid': addressTypeErrorMessage.pAddressTypeMst }" />
+
+              <div class="invalid-feedback">
+                <span *ngIf="addressTypeErrorMessage.pAddressTypeMst">{{addressTypeErrorMessage.pAddressTypeMst}}</span>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end mt-4">
+              <a class="close" class="btn btn-g-icon mr-4 px-3 border-0" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearAddressType()"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+              <!--<a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="saveAddressType()"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save</a>-->
+
+              <button (click)="saveAddressType()" class="btn btn-b-icon px-3 border-0"
+                      [disabled]="disableaddresstypesavebutton">
+                <i class="fa"
+                   [ngClass]="{'fa-spin fa-spinner': disableaddresstypesavebutton, 'fa-check': !disableaddresstypesavebutton}"></i> {{saveaddresstypebutton}}
+              </button>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+      <h3>
+        Loading...
+      </h3>
+    
+    </div>
+  </ng-template>
+  <ngx-loading [show]="load" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+</div>
+
+

@@ -1,0 +1,164 @@
+<div class="row">
+    <div class="col-6">
+        <p class="bc-2">Challana EntryForm</p>
+    </div>
+    <div class="col-md-6 col-xl-6">
+        <a routerLink="/ViewChallanaEntryHRMS" class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+        color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;">
+            <img src="assets/images/icon-back-blue.svg" width="25px" height="25px">View
+        </a>
+
+    </div>
+</div>
+
+
+
+<div class="section-container">
+    <div class="row p-0">
+        <div class="col-xl-12 col-md-12">
+            <div class="section-content">
+                <form [formGroup]="challanaEntryForm">
+                    <div class="row mt-3">
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label class="required-field" id="pPeriodType" title="Year">Year</label>
+                                <ng-select title="Select Year" [items]="calendarYearData" formControlName="pPeriodType"
+                                    bindLabel="pPeriodType" bindValue="pPeriodType"
+                                    (change)="GetCalendarYearMonth($event)" placeholder="Select" [searchable]="true"
+                                    [clearable]="true" dropdownPosition="bottom" [clearOnBackspace]="true" [ngClass]="{ 'is-invalid': formValidationMessages.pPeriodType }">
+                                </ng-select>
+                                <app-validation-message [messgae]="formValidationMessages?.pPeriodType"></app-validation-message>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label class="required-field" id="pCalendarMonth" title="Month">
+                                    Month</label>
+                                <ng-select title="Select Month" [items]="calendarMonthData"
+                                    formControlName="pCalendarMonth" bindLabel="pCalendarMonth"
+                                    (change)="calendarMonthChange($event)" bindValue="pCalendarMonth"
+                                    placeholder="Select" [searchable]="true" [clearable]="true"
+                                    dropdownPosition="bottom" [clearOnBackspace]="true" [ngClass]="{ 'is-invalid': formValidationMessages.pCalendarMonth }">
+                                </ng-select>
+                                <app-validation-message [messgae]="formValidationMessages?.pCalendarMonth"></app-validation-message>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label class="required-field" id="pChallanaType" title="Challana Type">
+                                    Challana Type</label>
+                                <ng-select title="Select Month" [items]="challanaTypeList"
+                                    formControlName="pChallanaType" bindLabel="challanaType"
+                                    (change)="changeChallanaType($event)" bindValue="challanaType" placeholder="Select"
+                                    [searchable]="true" [clearable]="true" dropdownPosition="bottom"
+                                    [clearOnBackspace]="true" [ngClass]="{ 'is-invalid': formValidationMessages.pChallanaType }">
+                                </ng-select>
+                                <app-validation-message [messgae]="formValidationMessages?.pChallanaType"></app-validation-message>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label class="required-field" id="challanaNo" title="Challana No.">
+                                    Challana No.</label>
+                                <input type="text" class="form-control" formControlName="challanaNo" [ngClass]="{ 'is-invalid': formValidationMessages.challanaNo }">
+                                <app-validation-message [messgae]="formValidationMessages?.challanaNo"></app-validation-message>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label class="required-field" id="challanaDate" title="Challana Date">
+                                    Challana Date</label>
+                                <input class="form-control" readonly type="text" [bsConfig]="datepickerConfig"
+                                    bsDatepicker formControlName="challanaDate" [ngClass]="{ 'is-invalid': formValidationMessages.challanaDate }">
+                                    <app-validation-message [messgae]="formValidationMessages?.challanaDate"></app-validation-message>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label class="required-field" id="challanaAmount" title="Challana Amount">
+                                    Challana No.</label>
+                                <input type="text" class="form-control text-right" appMycurrencyFormatter appNumbersonly
+                                    formControlName="challanaAmount" [ngClass]="{ 'is-invalid': formValidationMessages.challanaAmount }">
+                                    <app-validation-message [messgae]="formValidationMessages?.challanaAmount"></app-validation-message>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-1 ml-1 mb-4">
+                        <div class="col-md-12 col-xl-12">
+                            <div class="d-flex justify-content-end mt-4">
+                                <a data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab"
+                                    aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000"
+                                    (debounceClick)="clearDetails()"><img src="assets/images/icon-cancel-white.svg"
+                                        width="20px" height="20px" class="mr-3">Clear</a>
+                                <button appButtonDoubleClick [debounceTime]="500" (debounceClick)="addToGrid()" class="btn btn-b-icon px-3 border-0" role="tab"
+                            aria-controls="hot" aria-selected="false"><img src="assets/images/icon-add-white.svg"
+                                width="20px" height="20px" class="mr-3"> {{gridButton}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-box">
+                        <kendo-grid [kendoGridBinding]="gridData" [pageSize]="10" [pageable]="{buttonCount: 2}"
+                  [reorderable]="true" [sortable]="true" [resizable]="true" (edit)="editGridData($event)"
+                  (remove)="removeHandler($event)">
+
+
+                  <kendo-grid-column field="pchallanyearForBinding" title="Year" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pchallanmonthForBinding" title="Month" width="100" [headerClass]="{'kendo-g-center': true}"
+                    class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pchallantype" title="Challana Type" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pchallanno" title="Challana No." width="100" [headerClass]="{'kendo-g-center': true}"
+                    class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pchallandate" title="Challana Date" width="100" [headerClass]="{'kendo-g-center': true}"
+                    class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pchallanamount" title="Challana Amount" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  
+
+                  <kendo-grid-command-column title="Actions" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+
+                      <button kendoGridEditCommand [disabled]="">
+                        <div id="icon-edit"></div>
+                      </button>
+                      <button kendoGridRemoveCommand [disabled]="true">
+                        <div id="icon-delete"></div>
+                      </button>
+                    </ng-template>
+                  </kendo-grid-command-column>
+                </kendo-grid>
+                    </div>
+                    <div class="row mt-1 ml-1 mb-4">
+                        <div class="col-md-12 col-xl-12">
+                            <div class="d-flex justify-content-end mt-4">
+                                <a data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab"
+                                    aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000"
+                                    (debounceClick)="clearDetails()"><img src="assets/images/icon-cancel-white.svg"
+                                        width="20px" height="20px" class="mr-3">Clear</a>
+                                <button appButtonDoubleClick [debounceTime]="500" (debounceClick)="saveChallanaEntry()" class="btn btn-s-icon px-3 border-0">
+                                    <img src="assets/images/icon-check-white.svg" class="mr-3" width="20px"
+                                        height="20px"> Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

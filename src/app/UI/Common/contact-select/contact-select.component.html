@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-xl-4 col-md-4">
+  <form [formGroup]="ContactSelectForm" id="myform">
+        <div class="form-group">
+                <!-- <label class="mt-1" for="">Select {{SelectType}}</label> -->
+
+                    <div *ngIf="hidewhileupdate" class="demo-section k-content">
+                        <input id="contacts" name="Contact" formControlName="pContactId" width="100%" required />
+                    </div>
+                    <!-- <div class="for-error">
+                        <span *ngIf="forIndividualApplicantName == true">Applicant is required</span>
+                      </div> -->
+            </div>
+            <div class="loans-card  mb-4 " *ngIf="ShowImageCard">
+                    <div class="row">
+                        <div class="col-12 pt-2">
+                            <!-- <div class="dropdown lc-dd col-auto position-absolute float-right" style="right:0px;">
+                                <button class="btn dropdown-toggle border-0" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img
+                                        src="assets/images/icon-more-dots-blue.svg" width="25px" height="25px"> </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1"> <a class="dropdown-item" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a> </div>
+                            </div> -->
+                            <div class="user-pic"> <img [src]="croppedImage"> </div>
+                        </div>
+                        <div class="col-12 pt-2">
+                            <p class="lc-title text-center mb-auto">{{DisplayCardData?.pContactName}}</p>
+                            <div class="mt-3">
+                                <p class="lc-sub-title mb-0 text-center mt-3">{{DisplayCardData?.pBusinessEntitycontactNo}}
+                                </p>
+                                <p class="lc-txt mb-0 mt-1 text-center"> Unique ID - {{DisplayCardData?.pReferenceId}} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+      <!--col-end--> 
+    <!--row-end-->
+  </form>
+  </div>
+  </div>

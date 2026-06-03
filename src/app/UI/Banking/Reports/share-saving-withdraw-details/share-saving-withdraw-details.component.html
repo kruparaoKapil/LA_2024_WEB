@@ -1,0 +1,166 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6 ">
+      <p class="bc-2">Share/Saving Withdrawal Details</p>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-12 col-xl-12">
+      <div class="section-container">
+        <form [formGroup]="ShareSAWithdrawForm" autocomplete="off">
+          <div class="row mt-1">
+            <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-2 col-xl-2">
+                    <div class="">
+                      <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                        <input class="form-check-input" type="radio" name="datecheck" formControlName="datecheck" id="interestd1" value="ASON" 
+                               (change)="DatetypeChange('ASON')" [ngClass]="{ 'is-invalid': formValidationMessages.datecheck }">
+                        <label id="datecheck" title="AsOn" class="mt-2" for="interestd1"> As On </label>
+                      </div> 
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-xl-2">
+                    <div class="">
+                      <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                        <input class="form-check-input" type="radio" name="datecheck" formControlName="datecheck" id="interestd2" value="BETWEEN"
+                               (change)="DatetypeChange('BETWEEN')" [ngClass]="{ 'is-invalid': formValidationMessages.datecheck }">
+                        <label id="datecheck" title="Between" class="mt-2" for="interestd2"> Between </label>
+                      </div>
+                      <!-- <div class="invalid-feedback">
+                        <span *ngIf="formValidationMessages.datecheck">{{formValidationMessages?.datecheck}}</span>
+                      </div>  -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-12">
+              <div class="row"> -->
+               
+              <!-- </div>
+              </div> -->
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-2  col-xl-2" *ngIf="showbetween">
+                    <div class="">
+                      <label id="pFromMonthOf" title="Month Of">From Date</label>
+  
+                      <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                             bsDatepicker readonly formControlName="pFromMonthOf" (ngModelChange)="FromDateChange($event)" [ngClass]="{ 'is-invalid': formValidationMessages.pFromMonthOf }">
+                     </div>
+                  </div>
+  
+                  <div class="col-md-2 col-xl-2">
+                    <div class="">
+                      <!-- <label>{{displaytodate}}</label> -->
+                      <label id="pToMonthOf" title="As On" *ngIf="!showbetween">As On</label>
+                      <label id="pToMonthOf" title="To Date" *ngIf="showbetween">To Date</label>
+                      <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" readonly #dp="bsDatepicker"
+                             bsDatepicker  formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)" [ngClass]="{ 'is-invalid': formValidationMessages.pToMonthOf }">
+                    </div>
+                  </div>
+             <div class="col-md-4  col-xl-4">
+                    <div class="">
+                      <label id="accounttype" title="Account Type">Account Type</label>
+                    <select class="form-control" formControlName="accounttype" [ngClass]="{ 'is-invalid': formValidationMessages.accounttype }" (change)="AccountType_Change($event)">
+              <option value="" disabled>Select</option>
+              <option value="SHARE">Share Account</option>
+              <option value="SAVING">Saving Account</option>         
+            </select>
+             <div class="invalid-feedback">
+                        <span *ngIf="formValidationMessages.accounttype">{{formValidationMessages?.accounttype}}</span>
+                      </div>
+                     </div>
+                    
+                  </div>
+  
+              
+                  <div class="justify-content-end">
+                    <div class="form-group mt-4 pt-1">
+  
+                      <div class="col-md-12 col-xl-12 pull-right">
+                        <div class="form-group mt-1">
+                          <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetShareSADetails()">
+                            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                            <span *ngIf="!isLoading">
+                              <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                   width="20px">
+                            </span> {{showbutton}}
+                          </a>
+  
+                        </div>
+                      </div>
+                  
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </form>
+        <div class="d-flex justify-content-end">
+            <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" (click)="pdf()" style="cursor: pointer;" />
+    
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12">
+                            <ngx-datatable  id="ShareSADetailsList" class="material expandable table" [rows]="ShareSADetailsList"
+                            [headerHeight]="60" [footerHeight]="50" width="300"
+                            [scrollbarH]="true" [height]="" [selected]="" [scale]="0.9" [groupRowsBy]="'pVoucherno'"
+                             rowHeight="auto"
+                            [limit]="commencementgridPage.size" [count]="commencementgridPage.totalElements"
+                            [columnMode]="'force'"[columnMode]="ColumnMode.force"
+                            [offset]="commencementgridPage.pageNumber"
+                            [groupExpansionDefault]="true">
+
+                            
+                <!-- <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+                  <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+                    <div style="padding-left:5px;">
+                      <a [class.datatable-icon-right]="!expanded"
+                         [class.datatable-icon-down]="expanded"
+                         title="Expand/Collapse Group"
+                         (click)="toggleExpandGroup(group)">
+                        <b>{{ group.value[0].pMembername }}   </b>
+                      </a>
+    
+                    </div>
+                  </ng-template>
+                </ngx-datatable-group-header>  -->
+                  <ngx-datatable-column width="140" name="Voucher Number" prop="pVoucherno"
+                [cellClass]="'cell-left'" [headerClass]="'header-center'">
+                </ngx-datatable-column> 
+                <ngx-datatable-column width="120" name="Member Name" prop="pMembername" [cellClass]="'cell-left'" [headerClass]="'header-center'">                    
+                </ngx-datatable-column>
+                <ngx-datatable-column width="140" name="Account Number" prop="paccountno"
+                [cellClass]="'cell-left'" [headerClass]="'header-center'">
+                </ngx-datatable-column>
+                   <ngx-datatable-column width="140" name="Payment Date" prop="pPaymentdate" [cellClass]="'cell-center'" [headerClass]="'header-center'"> 
+                   <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{row.pPaymentdate  | date:'dd-MMM-yyyy'}}
+                   </ng-template>                                        
+                </ngx-datatable-column>      
+                <ngx-datatable-column width="100" name="Paid Amount" prop="pPaidamount"
+                [cellClass]="'cell-right'" [headerClass]="'header-center'">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.pPaidamount | mycurrencypipe}}
+                     </ng-template>
+              </ngx-datatable-column> 
+               <ngx-datatable-column width="120" name="Mode of Payment" prop="pModeofPayment" [cellClass]="'cell-left'" [headerClass]="'header-center'"> 
+                </ngx-datatable-column>    
+                 <ngx-datatable-column width="120" name="Scheme Name" prop="pname" [cellClass]="'cell-left'" [headerClass]="'header-center'">                    
+                </ngx-datatable-column>
+                 
+              
+              
+                    
+     
+      
+     
+       </ngx-datatable>   
+
+    
+            </div>
+          </div>
+    
+      </div>
+    </div>
+</div>

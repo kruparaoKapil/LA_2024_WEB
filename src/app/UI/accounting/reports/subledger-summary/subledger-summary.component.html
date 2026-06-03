@@ -1,0 +1,257 @@
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<div class="section-container">
+<div id="template">
+    <div class="col-xs-4 col-4 col-md-4">
+        <div class="row">
+            <div class="mb-3 pr-2">
+                <div class="form-check form-check-inline radio-btn-secondary">
+                    <input class="form-check-input" type="radio" name="ChkrbtType" id="net" value="1" (click)="Isseleted('Sub Ledger Summary')" [checked]="true">
+                    <label class="mt-1" for="net"> Sub Ledger Summary
+                    </label>
+                </div>
+                <div class="form-check form-check-inline radio-btn-secondary">
+                    <input class="form-check-input" type="radio" name="ChkrbtType" id="cheque" value="2" (click)="Isseleted('Monthly Comparison')">
+                    <label class=" mt-1" for="cheque"> Monthly Comparison</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="SubLedgerSummary">
+        <form [formGroup]="SubLedgerSummaryForm" autocomplete="off">
+            <div class="row mb-4">
+
+                <div class="col-xs-3 col-md-3 form-group">
+                    <label id="MainAccounthead" title="Main Account head">Main Account head:</label>
+                    <ng-select [items]="MainAccountheadArray" formControlName="MainAccounthead" bindLabel="paccountname" bindValue="paccountid" [multiple]=false placeholder="Select" [searchable]=false [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true (change)="MainAccounthead_Change($event,'SubLedgerSummary')"
+                        [ngClass]="{ 'is-invalid': f.MainAccounthead.errors && submitted }" [defaultItem]="defaultItem">
+                        <ng-template ng-optgroup-tmp let-item="item">
+                            {{item.paccountname}}
+                        </ng-template>
+                    </ng-select>
+                    <div *ngIf="submitted &&f.MainAccounthead.errors" class="invalid-feedback">
+                        <div *ngIf="f.MainAccounthead.errors.required">Select Main Account head</div>
+                    </div>
+                </div>
+                <div class="col-xs-3 col-md-3 form-group">
+                    <label id="Accounthead" title="Account head">Account head:</label>
+                    <ng-select [items]="Accountheads" formControlName="Accounthead" bindLabel="paccountname" bindValue="paccountid" [multiple]=true placeholder="Select" [searchable]=false [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': f.Accounthead.errors && submitted }">
+                        <ng-template ng-optgroup-tmp let-item="item">
+                            {{item.paccountname}}
+                        </ng-template>
+                    </ng-select>
+                    <div *ngIf="submitted &&f.Accounthead.errors" class="invalid-feedback">
+                        <div *ngIf="f.Accounthead.errors.required">Select Account head</div>
+                    </div>
+                </div>
+                <div class="col-xs-3 col-md-3 form-group">
+                    <label>From Date</label>
+                    <input type="text" class="form-control" formControlName="fromDate" (ngModelChange)="FromDateChange($event)" placeholder="Date picker here" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+                    <!-- <div *ngIf="submitted &&f.fromDate.errors" class="invalid-feedback">
+                                                <div *ngIf="f.fromDate.errors.required">Select From Date</div>
+                                            </div> -->
+                </div>
+
+                <div class="col-xs-3 col-md-3 form-group">
+                    <label>To Date</label>
+                    <input type="text" class="form-control" formControlName="toDate" placeholder="Date picker here" [bsConfig]="dpConfig1" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly (ngModelChange)="FromDateChange($event)">
+                </div>
+                <div class="justify-content-end d-flex col-md-12">
+                <div class="form-group mt-2">
+                    <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="SubmitSubLedgerSummaryForm()">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                        <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                width="20px"></span> {{savebutton}}
+                    </a>
+                </div>
+                </div>
+            </div>
+        </form>
+
+        <div id="template">
+            <!-- <div class="d-flex justify-content-end mr-3 mt-4">
+                <ul class="temp-ul">
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('AccountLedger('+startDatesReport+'to'+endDatesReport+').pdf')" />
+                    </li>
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                    </li>
+                </ul>
+            </div> -->
+            <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true" [scale]="0.9">
+                <div id="temp-box">
+                    <div class="mt-2 border rounded shadow-sm bg-white">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <app-company-details></app-company-details>
+                                <div class="report-head mt-2">
+                                    <p class="font-16 text-dark text-center m-0">
+                                        Sub Ledger Summary
+                                        <span class="text-capitalize">- {{LedgerName}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" border  shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                                    font-weight: bold !important;">Between :</span>
+                                <label class="print-font"> {{startDatesReport}} and  {{endDatesReport}}</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="font-14 text-right m-0" style="font-size: 14px !important;
+                                    font-weight: bold !important;">{{SubLedgerName}}</p>
+                            </div>
+                        </div>
+                        <kendo-grid [kendoGridBinding]="gridView" [groupable]="false" [resizable]="true" [pageable]="false" [sortable]="false">
+                            <ng-template kendoGridToolbarTemplate>
+                                <div class="row mb-3">
+                                    <div class="col-12 mt-2">
+                                        <ul class="temp-ul pull-right">
+                                            <li class="temp-ico">
+                                                <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                            </li>
+                                            <li class="temp-ico">
+                                                <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel" width="20px"></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <kendo-grid-column *ngFor="let column of gridData" field="{{column.field}}" title="{{column.title }}" format="{{column.format}}" filter="{{column.type}}" [headerClass]="{'kendo-right': true}" class="kendo-right" [width]="50" [minResizableWidth]="30">
+                                <ng-template let-value="value" kendoGridGroupHeaderTemplate>
+                                    {{value.column.field}}aaa
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-pdf fileName="SubledgerSummary_Reports.pdf" [repeatHeaders]="true" [allPages]="true">
+                                <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm">
+                                </kendo-grid-pdf-margin>
+                            </kendo-grid-pdf>
+                            <kendo-grid-excel fileName="SubledgerSummary_Reports.xlsx"></kendo-grid-excel>
+                        </kendo-grid>
+                    </div>
+                </div>
+            </kendo-pdf-export>
+        </div>
+
+    </div>
+    <div *ngIf="MonthlyComparison">
+        <form [formGroup]="MonthlyComparisonForm" autocomplete="off">
+            <div class="row mb-4">
+                <div class="col-xs-3 col-md-3 form-group">
+                    <label id="MainAccounthead" title="Main Account head">Main Account head:</label>
+                    <ng-select [items]="MainAccountheadArray" formControlName="MainAccounthead" bindLabel="paccountname" bindValue="paccountid" [multiple]=false placeholder="Select" [searchable]=false [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true (change)="MainAccounthead_Change($event,'MonthlyComparison')"
+                        [ngClass]="{ 'is-invalid': g.MainAccounthead.errors && submitted }" [defaultItem]="defaultItem">
+                        <ng-template ng-optgroup-tmp let-item="item">
+                            {{item.paccountname}}
+                        </ng-template>
+                    </ng-select>
+                    <div *ngIf="submitted &&g.MainAccounthead.errors" class="invalid-feedback">
+                        <div *ngIf="g.MainAccounthead.errors.required">Select Main Account head</div>
+                    </div>
+                </div>
+                <div class="col-xs-3 col-md-3 form-group">
+                    <label id="Accounthead" title="Account head">Account head:</label>
+                    <ng-select [items]="Accountheads" formControlName="Accounthead" bindLabel="paccountname" bindValue="paccountid" [multiple]=true placeholder="Select" [searchable]=false [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': g.Accounthead.errors && submitted  }">
+                        <ng-template ng-optgroup-tmp let-item="item">
+                            {{item.paccountname}}
+                        </ng-template>
+                    </ng-select>
+                    <div *ngIf="submitted &&g.Accounthead.errors" class="invalid-feedback">
+                        <div *ngIf="g.Accounthead.errors.required">Select Account head</div>
+                    </div>
+                </div>
+                <div class="col-xs-3 col-md-3 form-group">
+                    <label>Month</label>
+                    <input type="text" class="form-control" formControlName="fromDate" placeholder="Date picker here" [bsConfig]="dpConfig3" #dp="bsDatepicker" bsDatepicker placement="bottom" (onShown)="onOpenCalendar($event)" readonly>
+                </div>
+                <div class="col-xs-3 col-md-3 form-group">
+                    <br>
+                    <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="SubmitMonthlyComForm()">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                        <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                width="20px"></span> {{savebutton}}
+                    </a>
+                </div>
+            </div>
+        </form>
+        <div id="template">
+            <!-- <div class="d-flex justify-content-end mr-3 mt-4">
+                <ul class="temp-ul">
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('AccountLedger('+startDatesReport+'to'+endDatesReport+').pdf')" />
+                    </li>
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                    </li>
+                </ul>
+            </div> -->
+            <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+                <div id="temp-box">
+                    <div class="mt-2 border rounded shadow-sm bg-white">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <app-company-details></app-company-details>
+                                <div class="report-head mt-2">
+                                    <p class="font-16 text-dark text-center m-0">
+                                        Monthly Comparison
+                                        <span class="text-capitalize">- {{LedgerName}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important; font-weight: bold !important;">As on Month :</span>
+                            <label class="print-font"> {{MonthlystartDatesReport}}</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="font-14 text-right m-0" style="font-size: 14px !important;
+                                font-weight: bold !important;">{{SubLedgerName}}</p>
+                        </div>
+                    </div>
+                    <div class=" border shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                           
+                        <kendo-grid [kendoGridBinding]="gridView" [groupable]="false" [resizable]="true" [pageable]="false" [sortable]="false" [scale]="0.9">
+                            <ng-template kendoGridToolbarTemplate>
+                                <div class="row mb-3">
+                                    <div class="col-12 mt-2">
+                                        <ul class="temp-ul pull-right">
+                                            <li class="temp-ico">
+                                                <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                            </li>
+                                            <li class="temp-ico">
+                                                <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel" width="20px"></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ng-template>
+
+                            <kendo-grid-column *ngFor="let column of gridData" field="{{column.field}}" title="{{column.title}}" format="{{column.format}}" filter="{{column.type}}" [headerClass]="{'kendo-right': true}" class="kendo-right" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-pdf fileName="MonthlyComparison_Reports.pdf" [repeatHeaders]="true" [allPages]="true">
+                                <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm">
+                                </kendo-grid-pdf-margin>
+                            </kendo-grid-pdf>
+                            <kendo-grid-excel fileName="Monthlycomparison_Reports.xlsx"></kendo-grid-excel>
+                        </kendo-grid>
+                    </div>
+                </div>
+            </kendo-pdf-export>
+        </div>
+    </div>
+</div>
+</div>

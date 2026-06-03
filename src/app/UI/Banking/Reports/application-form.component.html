@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="col-md-12">
+      <div class="sec-head p-0">
+        Application Form 
+      </div>
+    </div>
+  </div>
+  <div class="">
+
+    <form [formGroup]="ApplicationForm">
+      <div class="row">
+        <div class="col-md-12 col-xl-12">
+          <div class="section-container inner-Pages">
+            <div class="card-box pb-4">
+              <div class="">
+            
+                <div class="row mt-2">
+                  <div class="col-md-4 col-xl-4 members">
+                    <!-- <div class="form-group m-0">
+          <select class="form-control">
+            <option>Name</option>
+            <option></option>
+            <option></option>
+            <option></option>
+          </select>
+        </div> -->  <label id="pFdAccountNo" title="FdAccount No.">FdAccount No.</label>
+                    <ng-select [items]="memberdetails" formControlName="pFdAccountNo" bindLabel="pFdAccountNo"
+                               bindValue="pFdAccountNo" [multiple]=false placeholder="Select" [searchable]="true"
+                               [searchFn]="customSearchFn" [ngClass]="{ 'is-invalid': Applicationformvalidations.pFdAccountNo }"  (change)="MemberChanges($event);" 
+                               [clearable]=true dropdownPosition="bottom"
+                               [clearOnBackspace]=true>
+                      <ng-template ng-header-tmp>
+                       
+                        <label class="col-4 p-0" style="text-align:center"><strong>FdAccount No</strong> </label>
+                        <label class="col-4 p-0" style="text-align:center"><strong>Contact No.</strong> </label>
+                      </ng-template>
+                      <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                        <div class="row">
+                          <span class="col-4 text-dark word-break text-wrap">{{item.pFdAccountNo}}</span>
+                         
+                          <span class="col-4 text-dark">{{item.pMobileNo}}</span>
+                        </div>
+                      </ng-template>
+                    </ng-select>
+                    <div class="invalid-feedback">
+                      <span *ngIf="Applicationformvalidations.pFdAccountNo">{{Applicationformvalidations?.pFdAccountNo}}</span>
+                    </div>
+                  </div>
+                  <div class="d-flex col-xl-3 col-md-4 form-group mt-3 pt-3">
+                    <label></label>
+                    <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon mr-2  border-0"
+                        data-toggle="tab" (click)="showdetails()" role="tab">
+                        Show
+                    </button>
+                </div>
+                </div>
+                
+                 
+            
+                
+  
+  
+  
+  
+                <!-----------------Top Nav Start --------------------->
+               
+  
+  
+  
+  
+  
+  
+  
+  
+  
+          </div>
+        </div>
+  
+      </div>
+
+      </div>
+      </div>
+    </form>
+  
+  </div>

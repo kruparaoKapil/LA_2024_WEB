@@ -1,0 +1,369 @@
+<div class="row mt-4">
+  <!-- <div class="col d-flex flex-wrap align-items-center">
+      <a class="btn btn-b-icon border-0" routerLink="/SelfOrAdjustmentNew">
+        <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+      </a>
+  
+    </div> -->
+</div>
+
+<div class="col-md-12 col-xl-12 mb-3  pl-0">
+  <p class="bc-2">Brs Statements</p>
+</div>
+
+<div class="row mt-3">
+  <div class="col-md-12 col-xl-12">
+    <div class="section-container">
+
+      <div class="row d-flex col-md-12 mt-3 ">
+
+
+        <div class="form-group">
+          <div class="form-check radio-btn form-check-inline mr-1  ">
+            <input class="form-check-input " [checked]="Type === 'BANKCREDIT'" type="radio" name="inlineRadioOptions1"
+              id="inlineRadio2" value="BANKCREDIT" (click)="bankCreditClick()">
+            <label class="mt-1" for="inlineRadio2">Bank Credit</label>
+          </div>
+          <div class="form-check radio-btn form-check-inline mr-2">
+            <input class="form-check-input radio-btn" [checked]="Type === 'BANKDEBIT'" type="radio"
+              name="inlineRadioOptions1" id="inlineRadio3" value="BANKDEBIT" (click)="bankDebitClick()">
+            <label class="mt-1" for="inlineRadio3">Bank Debit</label>
+          </div>
+          <div class="form-check radio-btn form-check-inline mr-2">
+            <input class="form-check-input radio-btn" [checked]="Type === 'JVDATA'" type="radio"
+              name="inlineRadioOptions1" id="inlineRadio4" value="JVDATA" (click)="jvDataClick()">
+            <label class="mt-1" for="inlineRadio4">JV Data</label>
+          </div>
+        </div>
+
+      </div>
+      <form [formGroup]="brsReportForm" autocomplete="off">
+
+        <div class="row mt-3">
+          <div class="col-xs-4 col-md-4  form-group">
+            <label title="Bank Name" id="pbankname">Bank Name</label>
+
+            <ng-select [items]="BanksList" formControlName="pbankname" bindLabel="pdepositbankname"
+              bindValue="pdepositbankname" [multiple]=false placeholder="Select" [searchable]=true [clearable]=true
+              dropdownPosition="bottom" [clearOnBackspace]=true (change)="BankName_Change($event)"
+              [ngClass]="{ 'is-invalid': IssuedChequeValidation.pbankname }">
+            </ng-select>
+            <!-- -->
+            <div class="invalid-feedback">
+              <span *ngIf="IssuedChequeValidation.pbankname">{{IssuedChequeValidation?.pbankname}}</span>
+            </div>
+          </div>
+          <div class="col-xs-2 col-md-2 form-group">
+            <label title="From Date" id="fromDate">From Date</label>
+            <input type="text" class="form-control" formControlName="fromDate" (ngModelChange)="ToDateChange($event)"
+              placeholder="Date picker here" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom"
+              readonly>
+
+          </div>
+
+          <div class="col-xs-2 col-md-2 form-group">
+            <label title="To Date" id="toDate">To Date</label>
+            <input type="text" class="form-control" formControlName="toDate" placeholder="Date picker here"
+              [bsConfig]="dpConfig1" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly
+              (ngModelChange)="FromDateChange($event)">
+
+          </div>
+
+          <div class="justify-content-end d-flex">
+            <div class=" pt-4 mt-2">
+              <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab"
+                role="tab" (click)="brsReports()">
+                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                    width="20px"></span> Show
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </form>
+
+
+      <div class="row mt-3">
+        <div class="col-md-12">
+          <!-- <kendo-grid [kendoGridBinding]="gridData" [groupable]="true" [group]="group" [pageSize]="10" [skip]="skip"
+            [pageable]="{buttonCount: 2}" [reorderable]="true" [resizable]="true" [pageable]="true" [sortable]="true">
+            <ng-template kendoGridToolbarTemplate>
+              <div class="row mb-5">
+               
+
+
+                <div class="col-12 ">
+                  <ul class="temp-ul pull-right">
+                    <li class="temp-ico ml-2">
+                      <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                          width="20px"></a>
+                    </li>
+                    <li class="temp-ico ">
+                      <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                          width="20px"></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+
+
+            </ng-template>
+
+            <kendo-grid-column field="pchequestatus" title="Cheque Status" width="150" [hidden]="hdnpPaymentstatus">
+            </kendo-grid-column>
+
+
+            <kendo-grid-column field="preceiptdate" width="150" title="Receipt Date" *ngIf="bankCreditView==true">
+            </kendo-grid-column>
+            <kendo-grid-column field="preceiptid" width="150" title="Receipt No." *ngIf="bankCreditView==true">
+            </kendo-grid-column>
+            <kendo-grid-column field="ptotalreceivedamount" width="150" title="Amount" *ngIf="bankCreditView==true">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pChequenumber" width="100" title="Cheque No." *ngIf="bankCreditView==true">
+            </kendo-grid-column>
+
+
+            <kendo-grid-column field="pchequedate" width="150" title="Cheque Date" *ngIf="bankCreditView==true">
+            </kendo-grid-column>
+            <kendo-grid-column field="pdepositeddate" width="150" title="Deposit Date" *ngIf="bankCreditView==true">
+            </kendo-grid-column>
+            <kendo-grid-column field="pcleardate" width="150" title="Cleared Date" *ngIf="bankCreditView==true">
+            </kendo-grid-column>
+
+
+            <kendo-grid-column field="pparticulars" title="Particulars" width="400" *ngIf="bankCreditView==true">
+            </kendo-grid-column>
+
+          
+            <kendo-grid-column field="pchequestatus" title="Status" width="100" *ngIf="bankCreditView==true">
+            </kendo-grid-column>
+
+
+
+
+            <kendo-grid-column field="preceiptdate" title="Trans Date" width="150" *ngIf="bankCreditView==false">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="preceiptid" title="Trans No." width="150" *ngIf="bankCreditView==false">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pChequenumber" title="Cheque No." width="150" *ngIf="bankCreditView==false">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ptotalreceivedamount" title="Amount" width="150" *ngIf="bankCreditView==false">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pcleardate" title="Clear Date" width="150" *ngIf="bankCreditView==false">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pparticulars" title="Particular" width="400" *ngIf="bankCreditView==false">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pchequestatus" title="Status" width="100" *ngIf="bankCreditView==false ">
+            </kendo-grid-column>
+
+            <kendo-grid-pdf fileName="BRS_Statements.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+              [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+              <kendo-grid-pdf-margin top="4.5cm" left="0.5cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+              <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                  <div class="header">
+                    <app-company-details></app-company-details>
+
+                    <div class="report-head mt-2">
+                      <p class="font-20 text-dark text-center m-0">
+                        <span class="text-capitalize"> BRS Statement Report</span>
+                      </p>
+
+                    </div>
+
+
+
+                  </div>
+
+                </div>
+              </ng-template>
+
+            </kendo-grid-pdf>
+
+            <kendo-grid-excel fileName="BRS_Report.xlsx" [fetchData]="allData"></kendo-grid-excel>
+
+          </kendo-grid> -->
+
+
+          <kendo-grid [kendoGridBinding]="gridData" [groupable]="true" [group]="group" [pageSize]="10" [skip]="skip"
+            [pageable]="{ buttonCount: 2 }" [reorderable]="true" [resizable]="true" [sortable]="true">
+
+            <ng-template kendoGridToolbarTemplate>
+             <div class="mb-3">
+              <div class="col-12 mt-5">
+                <ul class="temp-ul pull-right mr-4 pb-3">
+                    <li class="temp-ico ml-2">
+                      <a kendoGridPDFCommand>
+                        <img class="pt-2" src="assets/images/pdf-icon-blue.svg" title="PDF" width="20px">
+                      </a>
+                    </li>
+                    <li class="temp-ico ml-2">
+                      <a kendoGridExcelCommand>
+                        <img class="pt-2" src="assets/images/icon-excel.svg" title="Excel" width="20px">
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </ng-template>
+
+            <!-- BANKCREDIT  -->
+            <ng-container *ngIf="bankCreditView">
+              <kendo-grid-column field="preceiptdate" title="Receipt Date" width="150"></kendo-grid-column>
+              <kendo-grid-column field="preceiptid" title="Receipt No." width="150"></kendo-grid-column>
+              <kendo-grid-column field="ptotalreceivedamount" title="Amount" width="150">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{ dataItem.ptotalreceivedamount | mycurrencypipe }}
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pChequenumber" title="Cheque No." width="150"></kendo-grid-column>
+              <kendo-grid-column field="pchequedate" title="Cheque Date" width="150"></kendo-grid-column>
+              <kendo-grid-column field="pdepositeddate" title="Deposit Date" width="150"></kendo-grid-column>
+              <kendo-grid-column field="pcleardate" title="Cleared Date" width="150"></kendo-grid-column>
+              <kendo-grid-column field="pparticulars" title="Particulars" width="400"></kendo-grid-column>
+              <kendo-grid-column field="pCheckStatus" title="Status" width="100"></kendo-grid-column>
+            </ng-container>
+
+            <!-- BANKDEBIT  -->
+            <ng-container *ngIf="bankDebitView">
+              <kendo-grid-column field="preceiptdate" title="Trans Date" width="150"></kendo-grid-column>
+              <kendo-grid-column field="preceiptid" title="Trans No." width="150"></kendo-grid-column>
+              <kendo-grid-column field="pChequenumber" title="Cheque No." width="150"></kendo-grid-column>
+              <kendo-grid-column field="ptotalreceivedamount" title="Amount" width="150">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{ dataItem.ptotalreceivedamount | mycurrencypipe }}
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pcleardate" title="Clear Date" width="150"></kendo-grid-column>
+              <kendo-grid-column field="pparticulars" title="Particular" width="400"></kendo-grid-column>
+            </ng-container>
+
+            <!-- BANKJV  -->
+            <ng-container *ngIf="bankJvView">
+              <kendo-grid-column field="preceiptid" title="Trans No." width="150"></kendo-grid-column>
+              <kendo-grid-column field="preceiptdate" title="Trans Date" width="150"></kendo-grid-column>
+              <kendo-grid-column field="pparticulars" title="Particulars" width="150"></kendo-grid-column>
+              <kendo-grid-column field="ptotalreceivedamount" title="Amount" width="100">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{ dataItem.ptotalreceivedamount | mycurrencypipe }}
+                </ng-template>
+              </kendo-grid-column>
+            </ng-container>
+
+            <!-- PDF & Excel Export -->
+            <kendo-grid-pdf fileName="BRS_Statements.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+              [scale]="0.5" [margin]="0.5" [landscape]="true">
+              <kendo-grid-pdf-margin top="4.5cm" left="0.5cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+              <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                  <div class="header">
+                    <app-company-details></app-company-details>
+                    <div class="report-head mt-2 text-center">
+                      <p class="font-20 text-dark m-0">BRS Statement Report</p>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </kendo-grid-pdf>
+
+            <kendo-grid-excel fileName="BRS_Report.xlsx" [fetchData]="allData"></kendo-grid-excel>
+          </kendo-grid>
+
+
+        </div>
+
+      </div>
+
+      <div class="row mt-3" *ngIf="jvdataView">
+        <div class="col-md-12">
+          <kendo-grid [kendoGridBinding]="jvgriddataView" [pageable]="false" [sortable]="false" [groupable]="false"
+            [resizable]="true">
+            <ng-template kendoGridToolbarTemplate>
+              <div class="row mb-5">
+                <!-- <div class="col-4 pl-0 mt-n1">
+                  <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+                    (input)="onFilter($event.target.value)" />
+                </div> -->
+
+
+                <div class="col-12 ">
+                  <ul class="temp-ul pull-right">
+                    <li class="temp-ico ml-2">
+                      <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                          width="20px"></a>
+                    </li>
+                    <li class="temp-ico ">
+                      <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                          width="20px"></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+
+
+            </ng-template>
+
+            <kendo-grid-column field="preceiptid" title="Trans No." width="150" *ngIf="bankJvView==true">
+            </kendo-grid-column>
+
+
+            <kendo-grid-column field="preceiptdate" width="150" title="Trans Date" *ngIf="bankJvView==true">
+            </kendo-grid-column>
+            <kendo-grid-column field="pparticulars" width="150" title="Particulars" *ngIf="bankJvView==true">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ptotalreceivedamount" title="Amount" width="100" class="kendo-right" width="70"
+              [headerClass]="{'kendo-right': true}" *ngIf="bankJvView==true">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.ptotalreceivedamount | mycurrencypipe }}
+              </ng-template>
+            </kendo-grid-column>
+
+
+            <kendo-grid-pdf fileName="BRS_Statements.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+              [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+              <kendo-grid-pdf-margin top="4.5cm" left="0.5cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+              <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                  <div class="header">
+                    <app-company-details></app-company-details>
+
+                    <div class="report-head mt-2">
+                      <p class="font-20 text-dark text-center m-0">
+                        <span class="text-capitalize"> BRS Statement Report</span>
+                      </p>
+
+                    </div>
+
+
+
+                  </div>
+
+                </div>
+              </ng-template>
+
+            </kendo-grid-pdf>
+
+            <kendo-grid-excel fileName="BRS_Report.xlsx" [fetchData]="allData"></kendo-grid-excel>
+
+          </kendo-grid>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

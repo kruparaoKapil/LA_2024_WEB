@@ -1,0 +1,556 @@
+<div class="shadow-bg-view">
+
+  <!-- <div class="my-container">
+      <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+  
+        </div>
+      </ng-template>
+      <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+      </ngx-loading>
+  
+    </div> -->
+  <style>
+
+  </style>
+  <div class="col-md-12 mt-5 mb-4">
+    <div class="d-flex justify-content-end mr-3" *ngIf="!cancelled">
+      <ul class="temp-ul">
+
+        <li class="temp-ico ml-2">
+          <img src="assets/images/print-icon-blue.svg " width="28px" class="pt-2" title="print" style="cursor: pointer;"
+            (click)="pdfOrprint('Print')" />
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+
+  <div id="temp-box">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 offset-md-1">
+
+          <h1 *ngIf="cancelled">Cancelled</h1>
+          <div class="form15h-container">
+            <div class="page">
+              <div class="print-content">
+
+                <div class="header">
+                  <h6 class="font-size-12 text-center">FORM NO. 121</h6>
+                  <p class="sub-header text-center"> <strong>[See rule 211]</strong></p>
+                  <p class="declaration-text text-center font-size-8">
+                    <b>Declaration under section 393(6) for receipt of certain incomes without deduction of tax.</b>
+                  </p>
+                  <h6 class="font-size-12 text-center">PART A</h6>
+                  <p class="declaration-text text-center font-size-8">[ To be Filled by the person for receipt of
+                    certain incomes without deduction of tax ]</p>
+                </div>
+                <div class="p-2">
+                  <table class="print-table">
+                    <tr>
+                      <td colspan="7" class="text-center"><b>Details of the declarant </b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" width="10%" class="text-center">1</td>
+                      <td colspan="4" width="50%">Name</td>
+                      <td colspan="2"><b>{{formData.contactname}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">2</td>
+                      <td colspan="4">Address</td>
+                      <td colspan="2"><b>{{formData.contactaddress}}, {{formData.street}}, {{formData.areaname}},
+                          {{formData.districtname}}, {{formData.statename}}, {{formData.pincode}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">3</td>
+                      <td colspan="4">Permanent Account Number</td>
+                      <td colspan="2"><b>{{formData.subscriberpanno}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">4</td>
+                      <td colspan="4">Status</td>
+                      <td colspan="2"><b>Individual</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">5</td>
+                      <td colspan="4">Residential status</td>
+                      <td colspan="2"><b>Residential</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">5 (a).</td>
+                      <td colspan="4">If resident individual, whether age is 60 yeras or more at <br>any time during the
+                        tax year</td>
+                      <td colspan="2">
+                        <div class="checkbox-row">
+                          <span class="chk-label">Yes</span>
+                          <span class="checkbox-box">
+                            <span class="tick">&#10003;</span>
+                          </span>
+                          <span class="chk-label">No</span>
+                          <span class="checkbox-box"></span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">6</td>
+                      <td colspan="4">Email id</td>
+                      <td colspan="2"><b>{{formData.contactemailid}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">7</td>
+                      <td colspan="4">Contact number</td>
+                      <td>Country Code <br><b> +91</b></td>
+                      <td>Number <br><b>{{formData.contactmobilenumber}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">8</td>
+                      <td colspan="4">Tax Year (for which declaration is made)</td>
+                      <td colspan="2"><b>{{formData.fiscalYear}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7" class="text-center"><b>Details of the income </b></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="1" class="text-center">9</td>
+                      <td colspan="4">Nature of income</td>
+                      <td colspan="2"><b>{{formData.natur_of_income}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">10</td>
+                      <td colspan="4">Estimated income for which declaration is made </td>
+                      <td colspan="2"><b>{{formData.estimated_income_declartion_amount}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">11</td>
+                      <td colspan="4">Details of Form No. 121 other than this form filed during the tax year, if any
+                      </td>
+                      <td colspan="2">
+                        <div class="checkbox-row">
+                          <span class="chk-label">Yes</span>
+                          <span class="checkbox-box">
+                            <span class="tick" *ngIf="previoustaxstatus">&#10003;</span>
+                          </span>
+
+                          <!-- NO -->
+                          <span class="chk-label">No</span>
+                          <span class="checkbox-box">
+                            <span class="tick" *ngIf="!previoustaxstatus">&#10003;</span>
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">11 (a).</td>
+                      <td colspan="4">Total number of Form No. 121 filed earlier</td>
+                      <td colspan="2"><b>{{formData.form15_filedcount || '-'}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">11 (b).</td>
+                      <td colspan="4">Aggregate amount of income for which Form No. 121 were filed</td>
+                      <td colspan="2"><b>{{formData?.aggregateamount ? (formData.aggregateamount) : '-'}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">12</td>
+                      <td colspan="4">Aggregate amount of income for which declaration is made during the tax year [sum
+                        of column 10 and 11(b)]</td>
+                      <td colspan="2"><b>{{((formData?.estimated_income_declartion_amount || 0) +(formData?.aggregateamount || 0))}}</b> </td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">13</td>
+                      <td colspan="4">Estimated total income of the tax year including the income mentioned in column 12
+                      </td>
+                      <td colspan="2"><b>{{((formData?.estimated_income_declartion_amount || 0)+(formData?.aggregateamount || 0)+(formData?.income_paidamount || 0)) }}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">14</td>
+                      <td colspan="4">Details of the ITR filed for previous two tax years</td>
+                      <td colspan="2">
+                        <div class="checkbox-row">
+                          <span class="chk-label">Yes</span>
+                          <span class="checkbox-box">
+                            <span class="tick" *ngIf="previous_two_years_status">&#10003;</span>
+                          </span>
+
+                          <!-- NO -->
+                          <span class="chk-label">No</span>
+                          <span class="checkbox-box">
+                            <span class="tick" *ngIf="!previous_two_years_status">&#10003;</span>
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">15</td>
+                      <td class="text-center">Sl. NO. </td>
+                      <td class="text-center">Tax Year</td>
+                      <td class="text-center">Acknowledgment<br>Number</td>
+                      <td class="text-center">Return<br>income</td>
+                      <td colspan="2"><b></b></td>
+                    </tr>
+                    <tr >
+                      <td></td>
+                      <td>1. </td>
+                      <td>{{ (itrDetailsList && itrDetailsList[0]?.taxYear ) || '-'}}</td>
+                      <td>{{ itrDetailsList && itrDetailsList[0]?.ackNo  || '-' }}</td>
+                      <td>{{ (itrDetailsList && itrDetailsList[0]?.returnIncome  || '-') }}</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>2. </td>
+                      <td>{{ itrDetailsList && itrDetailsList[1]?.taxYear  || '-'}}</td>
+                      <td>{{ itrDetailsList && itrDetailsList[1]?.ackNo  || '-'}}</td>
+                      <td>{{ (itrDetailsList && itrDetailsList[1]?.returnIncome   || '-')  }}</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+
+                  </table>
+                </div>
+                <div class="declaration">
+                  <h6 class="text-center font-size-12"><strong> DECLARATION </strong></h6>
+
+                  <p class="declaration-content">
+                    I, <span class="underline-value"> {{formData.contactname}} </span> having Permanent Account Number
+                    <span class="underline-value"> {{formData.subscriberpanno}} </span> .do hereby declare that
+                  </p>
+                  <p> (i) to the best of my knowledge and belief what is stated above is correct, complete and is truly
+                    stated.</p>
+                  <p> (ii) the incomes referred to in this form are not includible in the total income of any other
+                    person under sections 96 to 99.</p>
+                  <p> (iii) tax on my estimated total income as referred to in column 13 of Part A (including the income
+                    referred to in column 12 of &nbsp;&nbsp;&nbsp;Part A) for tax year <b>{{formData.fiscalYear}}</b> will be <b>{{((formData?.estimated_income_declartion_amount || 0)+(formData?.aggregateamount || 0)+(formData?.income_paidamount || 0))  }}</b></p>
+                  <p> (iv) my income as referred to in column 12 of Part A does not exceed the maximum amount not
+                    chargeable to tax for tax year<span class="underline-value"> {{formData.fiscalYear}} </span>(not
+                    to be applicable in case of resident individual of age of sixty years or more at any time during the
+                    tax year)</p>
+                  <p> (v) in case this declaration is found to be false, I shall be liable to prosecution/penalty under
+                    the Act.</p>
+                </div>
+                <div class="signature-section mt-4 pt-4">
+                  <div class="signature-row">
+                    <div class="signature-left">
+                      <p class="place-line">Place:<span class="underline-value"> {{formData.districtname}} </span></p>
+                      <br>
+                      <p>Date:<span class="underline-value"> {{formData.declarationreceived_date}} </span>
+                      </p>
+                    </div>
+                    <div class="signature-right text-center">
+                      <p class="signature-line">Signature of the Declarant</p>
+                      <br>
+                      <p>Name : <span class="underline-value">{{formData.contactname}}</span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="page">
+              <div class="print-content">
+
+                <div class="header">
+                  <h6 class="font-size-12 text-center">PART B</h6>
+                  <p class="declaration-text text-center font-size-8">[Verifcation by the person who has received
+                    declaration(s) in Part-A from the declarant(s) and responsible for paying
+                    the income in respect of which this declaration is made]</p>
+                </div>
+                <div class="p-2">
+                  <table class="print-table">
+                    <tr>
+                      <td colspan="7" class="text-center"><b>Details of the person responsible for paying income
+                        </b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" width="10%" class="text-center">1</td>
+                      <td colspan="4" width="50%">Name</td>
+                      <td colspan="2"><b>{{ formData.companyname }}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">2</td>
+                      <td colspan="4">Address</td>
+                      <td colspan="2"><b>{{ formData.registration_address }}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">3</td>
+                      <td colspan="4">Tax Deduction and Collection Account Number</td>
+                      <td colspan="2"><b>{{ formData.tanno }}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">4</td>
+                      <td colspan="4">Permanent Account Number</td>
+                      <td colspan="2"><b>{{ formData.companypanno || " " }}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">5</td>
+                      <td colspan="4">Email id</td>
+                      <td colspan="2"><b>{{ formData.tabcompanymail }}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">6</td>
+                      <td colspan="4">Contact number</td>
+                      <td>Country Code <br> <b>+91</b></td>
+                      <td>Number <br> <b>{{ formData.tabcompanymobile }}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">7</td>
+                      <td colspan="4">Tax Year (for which declaration is made)</td>
+                      <td colspan="2"><b>{{formData.fiscalYear}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7" class="text-center"><b>Details of the declarant and the declarations received</b>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="1" class="text-center">8</td>
+                      <td colspan="4">Name of the declarant</td>
+                      <td colspan="2"><b>{{formData.contactname}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">9</td>
+                      <td colspan="4">Permanent Account Number</td>
+                      <td colspan="2"><b>{{formData.subscriberpanno}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">10</td>
+                      <td colspan="4">Unique Identifcation Number </td>
+                      <td colspan="2"><b>{{ formData.uid }}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">11</td>
+                      <td colspan="4">Date of Birth/Incorporation </td>
+                      <td colspan="2"><b>{{formData.dateofbirth}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">12</td>
+                      <td colspan="4">Address</td>
+                      <td colspan="2"><b>{{formData.contactaddress}}, {{formData.street}}, {{formData.areaname}},
+                          {{formData.districtname}}, {{formData.statename}}, {{formData.pincode}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">13</td>
+                      <td colspan="4">Email id</td>
+                      <td colspan="2"><b>{{formData.contactemailid}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">14</td>
+                      <td colspan="4">Contact number</td>
+                      <td>Country Code <br><b>+91</b></td>
+                      <td>Number <br><b> {{formData.contactmobilenumber}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">15</td>
+                      <td colspan="4">Estimated income for which declaration is made </td>
+                      <td colspan="2"><b>{{(formData?.estimated_income_declartion_amount || 0) }}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">16</td>
+                      <td colspan="4">Estimated total income of the tax year of the declarant</td>
+                      <td colspan="2"><b>{{((formData?.estimated_income_declartion_amount || 0)+(formData?.aggregateamount || 0)+(formData?.income_paidamount || 0))}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">17</td>
+                      <td colspan="4">Aggregate amount of income for which declaration is made during the tax year [sum
+                        of column 10 and 11(b)]</td>
+                      <td colspan="2"><b>{{ ((formData?.estimated_income_declartion_amount || 0) + (formData?.aggregateamount || 0))}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="text-center">18</td>
+                      <td colspan="4">Date on which declaration is received </td>
+                      <td colspan="2"><b>{{ formData.declarationreceived_date }}</b></td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="declaration mt-5 pt-4">
+                  <h6 class="font-size-12 text-center"><strong> DECLARATION </strong></h6>
+                  <p class="declaration-content">
+                    <b> I ( name of authorized person ) <span class="underline-value"> <b>{{formData.authorizedname}}</b> </span> having Permanent Account Number
+                      <span class="underline-value"> <b>{{formData.authorized_pan}}</b> </span> hereby certify that the
+                      information pertaining to the
+                      declarant(s) above has been duly furnished.</b>
+                  </p>
+                </div>
+                <div class="signature-section mt-4 pt-4">
+                  <div class="signature-row">
+                    <div class="signature-left">
+                      <p class="place-line">Place:<strong><span class="underline-value"> {{formData.districtname}}
+                          </span> </strong></p>
+                      <br>
+                      <p>Date:<strong><span class="underline-value"> {{formData.declarationreceived_date}}
+                          </span> </strong></p>
+                    </div>
+                    <div class="signature-right text-center">
+                      <p class="signature-line">Signature of the authorized person</p>
+                      <br>
+                      <p>Name : <span class="underline-value">{{formData.authorizedname}}</span></p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="page">
+              <div class="center">
+                <h6 class="text-center font-size-12"><strong> Notes </strong></h6>
+              </div>
+
+              <div style="font-size:14px; line-height:1.4; margin-top:10px;">
+                <ul>
+                  <li>In case of individual, the first, middle and last name shall be provided in full without any
+                    abbreviations. In any other case also, name shall be provided in full.</li>
+
+                  <li>The address shall contain i. Country/Region, ii. Flat/Door/Building, iii.
+                    Road/Street/Block/Sector, iv. PIN/ZIP Code, v. Post Office, vi. Area/locality, vii. District, viii.
+                    State.</li>
+
+                  <li>Declaration can be furnished by an individual being a resident under section 393(6) [Table: Sl.
+                    No. 1] or by any person, not being a company or a firm or an individual covered in section 393(6)
+                    [Table: Sl. No. 1], under section 393(6) [Table: Sl. No. 2].</li>
+
+                  <li>Fill ‘residential status’ as (i) Resident, (ii) Non-resident, (iii) Resident but not ordinarily
+                    resident.</li>
+
+                  <li>This application is applicable for following incomes, please fill as applicable:
+                    <ul class="lower-alpha">
+                      <li>Payment of accumulated balance due to an employee participating in recognized provident fund
+                      </li>
+                      <li>Insurance commission for soliciting or procuring insurance business including business related
+                        to continuance, renewal, or revival of the insurance policies</li>
+                      <li>Rent from a specified person</li>
+                      <li>Income in respect of: (i) units of a mutual fund, or (ii) units from the Administrator of the
+                        specified undertaking, or (iii) units from the specified company</li>
+                      <li>Interest on securities, interest other than interest on securities by a banking company or a
+                        co-operative society carrying on the business of banking or interest by a post office for a
+                        deposit made under a scheme notified by the Central Government or by Specified person</li>
+                      <li>Payment in respect of life insurance policy including the sum allocated as bonus on such
+                        policy</li>
+                      <li>Dividend (including dividend on preference shares) declared by domestic company. Refer Section
+                        393(6) for more details</li>
+                    </ul>
+                  </li>
+
+                  <li>In case any declaration(s) in Form No. 121 is filed before filing this declaration during the tax
+                    year, mention the total number of such Form No. 121 filed along with the total amount of income for
+                    which said declaration(s) have been filed.</li>
+
+                  <li>Please mention amount of estimated total income of the tax year for which declaration is filed
+                    including the amount of income for which this declaration and earlier declaration(s), if any, is
+                    made.</li>
+
+                  <li>The person responsible for paying income referred to in row no. 10 of Part A shall allot a unique
+                    identification number to all Form No. 121 received by him during a quarter of the tax year and
+                    report the same in TDS statement furnished for the same quarter.</li>
+
+                  <li>The person responsible for paying income referred to in row no. 10 of Part A shall accept the
+                    declaration where the tax on declarant's estimated total income as referred to in row no. 13 of Part
+                    A of the tax year will be nil.</li>
+
+                  <li>Estimated total income shall be calculated after allowing for deduction(s) under Chapter VIII of
+                    the Act, if any, or set off of loss, if any, under the head “Income from house property” and rebate
+                    allowable under section 156.</li>
+
+                  <li>For a declarant other than the resident individual whose age is 60 years or more at any time
+                    during the tax year, the person responsible for paying income referred to in row no. 10 of Part A
+                    shall not accept the declaration where the amount of income of the nature referred to in section
+                    393(6) or total amount of such income credited or paid or likely to be credited or paid during the
+                    tax year in which such income is to be included exceeds the maximum amount which is not chargeable
+                    to tax.</li>
+
+                  <li>Before signing the verification, the declarant should satisfy himself that the information
+                    furnished in the declaration is true, correct and complete in all respects. Any person making a
+                    false statement in the declaration shall be liable to prosecution under section 482.</li>
+
+                  <li>Some of the information in the form would be pre-filled to the extent possible.</li>
+
+                  <li>Amounts to be filled in ₹ unless otherwise provided.</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+  body,
+  html {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    font-family: 'Arial', serif !important;
+  }
+
+  .declaration,
+  .signature-section {
+    padding: 4px 0;
+    margin-top: 9px;
+    text-align: justify;
+    line-height: 1.5;
+    font-size: 12px;
+  }
+
+  .signature-row {
+    display: flex;
+    margin-top: 8px;
+  }
+
+  .signature-left,
+  .signature-right {
+    width: 48%;
+  }
+
+  .signature-right {
+    text-align: right;
+  }
+
+  .print-content tr,
+  .print-content td {
+    border-color: #000 !important;
+    color: #000 !important;
+    height: 28px !important;
+    padding: 0.25rem !important;
+  }
+
+  ul,
+  ol {
+    padding-inline-start: 18px;
+  }
+
+  ul li,
+  ol li {
+    list-style: decimal !important;
+    padding-inline-start: 15px;
+    font-size: 14px;
+  }
+
+  ul.lower-alpha li {
+    list-style: lower-alpha !important;
+  }
+
+  .print-table {
+    border-collapse: collapse !important;
+  }
+
+  .print-table tr,
+  .print-table td {
+    color: #000 !important;
+    font-size: 14px !important;
+    padding: 0.25rem !important;
+    border: 1px solid #000 !important;
+  }
+
+  .pagination {
+    display: none;
+  }
+</style>

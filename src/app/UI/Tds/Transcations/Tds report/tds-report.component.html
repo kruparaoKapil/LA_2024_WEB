@@ -1,0 +1,236 @@
+<div class="section-container">
+
+
+<div class="col-md-12 col-xl-12 p-0">
+    <p class="bc-2">TDS Report</p>
+</div>
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<div class="col-md-12 p-0">
+    <div id="template">
+        <form [formGroup]="TDSReport" autocomplete="off">
+            <div class="row mb-4 pb-4">
+                <div class="col-xl-3 col-md-4 form-group">
+
+
+                    <label>Section</label>
+                    <select class="form-control" (change)="sectionchange($event)" id="pTdsSection" title="Section"
+                        formControlName="pTdsSection">
+                        <option value="" ng-selected="selected" disabled>Select</option>
+                        <option *ngFor="let tds of tdssectionlist;trackBy: trackByFn" [value]="tds.pSection">
+                            {{tds.pSection}}
+                        </option>
+                    </select>
+
+                    <div class="invalid-feedback">
+                        <span *ngIf="Tdsreporterrors.pTdsSection">{{Tdsreporterrors?.pTdsSection}}</span>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="form-group">
+                        <label title="From Date">From Date</label>
+                        <input type="text" class="form-control " formControlName="fromDate"
+                            (ngModelChange)="FromDateChange($event)" placeholder="Date picker here"
+                            [bsConfig]="dpFromConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+                        <!-- [ngClass]="{ 'is-invalid': formValidationMessages.pchequedate }" -->
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-3 form-group">
+                    <label title="To Date">To Date </label>
+                    <input type="text" class="form-control" formControlName="toDate" placeholder="Date picker here"
+                        [bsConfig]="dpToConfig" #dp="bsDatepicker" (ngModelChange)="ToDateChange($event)" bsDatepicker
+                        placement="bottom" readonly>
+                    <!-- [ngClass]="{ 'is-invalid': formValidationMessages.pchequedate }" -->
+                    <div *ngIf="validation" class="text-danger">
+                        please select valid date
+                    </div>
+                </div>
+
+
+                <div class="col-md-3 mt-4 pt-2">
+                    <div class="form-group">
+
+                        <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon  border-0"
+                            data-toggle="tab" role="tab" (click)="generatetdsreport()">
+                            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                            <span *ngIf="!isLoading"><img class="mr-3" height="20px"
+                                    src="assets/images/reports-white.svg" width="20px"></span> {{savebutton}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+       
+     
+            <div id="temp-box">
+                <div class="mt-2 border rounded shadow-sm bg-white">
+                    <div class="row">
+                        <div class="col-md-12"> 
+                            <app-company-details></app-company-details>
+
+                            <div class="report-head">
+                                <p class="font-16 text-dark text-center m-0">
+                                    TDS Report
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row pt-2">
+                    <div class="col-12">
+
+                      <kendo-grid [kendoGridBinding]="gridData" [groupable]="false"
+                                  [group]="groups" [pageSize]="10" [skip]="skip" [pageable]="{buttonCount: 2}"
+                                  [kendoGridSelectBy]="'id'" [reorderable]="true"
+                                  [sortable]="true" [resizable]="true">
+                        <ng-template kendoGridToolbarTemplate>
+                          <div class="mb-3">
+                            <div class="col-12 mt-5">
+                              <ul class="temp-ul pull-right mr-4 pb-3">
+                                <li class="temp-ico ml-2">
+                                  <a kendoGridPDFCommand>
+                                    <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                                         width="20px">
+                                  </a>
+                                </li>
+                                <li class="temp-ico ml-2">
+                                  <a kendoGridExcelCommand>
+                                    <img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                                         width="20px">
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </ng-template>
+
+                        <kendo-grid-column field="pAccountName" title="Parent Name" width="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pSectionName" title="Party Name" width="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pTransDate" title="Trans Date" width="100">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pPanNo" title="Pan No." width="120">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pAmount" title="Amount"  width="100" class="kendo-center">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pAmount | mycurrencypipe}}
+                          </ng-template>
+
+                          <ng-template kendoGridFooterTemplate>
+                            <p class="bc-2 text-center"> {{netAmount | mycurrencypipe}}</p>
+                          </ng-template>
+
+
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pcaltds"  title="Calc TDS" width="100"
+                                           class="kendo-center">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pcaltds | mycurrencypipe}}
+                          </ng-template>
+
+                          <ng-template kendoGridFooterTemplate>
+                            <p class="bc-2 text-center"> {{netCalTDS | mycurrencypipe}}</p>
+                          </ng-template>
+                        </kendo-grid-column>                      
+
+                        <kendo-grid-column field="pPaidAmount" title="Paid TDS" width="100" class="kendo-center">
+
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            <div *ngIf="dataItem.pPaidAmount == null ">
+                                {{0}}
+                              </div>
+                              <div *ngIf="dataItem.pPaidAmount != null " >
+                                {{dataItem.pPaidAmount}}
+                              </div>
+                  
+                        </ng-template>
+                        <ng-template kendoGridFooterTemplate>
+                          <p class="bc-2 text-center"> {{netPaidAmount1 | mycurrencypipe}}</p>
+                        </ng-template>
+                        </kendo-grid-column>                      
+
+                        <kendo-grid-column field="pVoucherNo" title="Effected JV" width="150">
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdateofbirth" title="Date of Birth" width="150">
+                        </kendo-grid-column>
+
+                        <kendo-grid-pdf fileName="TDS_Report.pdf" [allPages]="true" paperSize="A2" [repeatHeaders]="true"
+                                        [landscape]="true">
+
+                          <kendo-grid-pdf-margin top="9.5cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+                          <ng-template kendoGridPDFTemplate>
+                            <div class="page-template">
+                              <div class="header">
+                                <app-company-details></app-company-details>
+
+                                <div class="report-head mt-2">
+                                  <p class="font-20 text-dark text-center m-0">
+                                      <span class="text-capitalize">  TDS Report</span>
+                                  </p>
+    
+                              </div>
+
+                                <div class="row">
+                                 
+    
+                                  <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                            font-weight: bold !important;">From : {{fromdate}}</span>
+    
+    
+                                  <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                            font-weight: bold !important; margin-left: 100px !important;">To : {{todate}}</span>
+
+                                 <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                            font-weight: bold !important;">Section Name : {{sectionName}} </span>
+
+                                <!-- <span  class="font-20 text-dark text-center m-0" style="font-size: 14px !important;
+                            font-weight: bold !important;">TDS Report</span> -->
+    
+                                  
+                                </div>
+
+                              </div>
+
+                              
+
+                            </div>
+
+                            </ng-template>
+
+                        </kendo-grid-pdf>
+                        <kendo-grid-excel fileName="TDS_Report.xlsx" [fetchData]="allData"></kendo-grid-excel>
+
+                      </kendo-grid>
+                    </div>
+                </div>
+                <!-- <div class="row">
+						<div class="col-md-6 text-right text-danger">
+							Total:{{caldebitamount  | mycurrencypipe}}
+						</div>
+						<div class="col-md-6 text-center text-danger">
+							Total:{{calcreditamount  | mycurrencypipe}}
+						</div>
+					</div> -->
+
+
+            </div>
+        
+
+    </div>
+</div>
+</div>

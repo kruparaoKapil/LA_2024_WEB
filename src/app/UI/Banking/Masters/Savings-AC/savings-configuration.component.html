@@ -1,0 +1,362 @@
+<div class="row">
+    <!-- <div class="col-12 mt-5">
+        <p class="bc-2">A/C Type Configuration</p>
+    </div> -->
+</div>
+<div class="my-container mt-5">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+            <h3>
+                Loading...
+            </h3>
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+</div>
+<form [formGroup]="SavingAccountConfigurationform">
+    <div class="row mt-1">
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label id="pMembertypeid" title="Member Type">Member Type</label>
+
+                <ng-select title="Member Type" id="pMembertypeid" [items]="MembertypeDetails" formControlName="pMembertypeid" bindLabel="pmembertype" bindValue="pmembertypeid" [multiple]=true placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom"
+                    [clearOnBackspace]=true [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pMembertypeid }" (change)="MemberTypeChange($event);">
+                </ng-select>
+                <!--<select class="form-control" formControlName="pMembertypeid" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pMembertypeid }" (change)="MemberTypeChange($event);">
+          <option value="" disabled>Select</option>
+          <option value="0">All</option>
+          <option *ngFor="let type of MembertypeDetails;trackBy: trackByFn;" [value]="type.pmembertypeid"> {{type.pmembertype}}</option>
+        </select>-->
+                <div class="invalid-feedback">
+                    <span *ngIf="AccountConfigErrorMessages.pMembertypeid">{{AccountConfigErrorMessages?.pMembertypeid}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label id="pApplicanttype" title="Applicant Type">Applicant Type</label>
+                <ng-select title="Member Type" id="pApplicanttype" [items]="ApplicantTypes" formControlName="pApplicanttype" bindLabel="pApplicanttype" bindValue="pApplicanttype" [multiple]=true placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom"
+                    [clearOnBackspace]=true [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pApplicanttype }" (change)="ApplicanttypeChange($event);">
+                </ng-select>
+                <!--<select class="form-control" formControlName="pApplicanttype" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pApplicanttype }">
+          <option value="" disabled>Select</option>
+          <option value="All">All</option>
+          <option *ngFor="let type of ApplicantTypes;trackBy: trackByFn;" [value]="type.pApplicanttype"> {{type.pApplicanttype}}</option>
+        </select>-->
+                <div class="invalid-feedback">
+                    <span *ngIf="AccountConfigErrorMessages.pApplicanttype">{{AccountConfigErrorMessages?.pApplicanttype}}</span>
+                </div>
+            </div>
+        </div>
+        <hr class="light">
+    </div>
+    <div class="row mt-2">
+        <div class=" col-md-6 col-xl-6">
+            <div class="border-box">
+
+                <div class="">
+                <div class="col-md-12 col-xl-12 p-0">
+                    <div class="form-group">
+                        <label id="pMinopenamount" title="Min Amount">Min Amount to Open Account</label>
+                        <input class="form-control" type="text" formControlName="pMinopenamount" appNumbersWithZeroOnly appNumbersonly maxlength="15" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pMinopenamount }" (blur)="ValidateAmount()">
+                        <div class="invalid-feedback">
+                            <span *ngIf="AccountConfigErrorMessages.pMinopenamount">{{AccountConfigErrorMessages?.pMinopenamount}}</span>
+                        </div>
+                    </div>
+                    </div>
+                      <div class="col-md-12 col-xl-12 p-0">
+                     <div class="form-group">
+                        <label id="pInterestpayout" title="Interest Payout">Interest Payout</label>
+                        <!-- <select class="form-control" formControlName="pInterestpayout" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pInterestpayout }">
+              <option value="" disabled>Select</option>
+              <option *ngFor="let type of Interestpayouts;trackBy: trackByFn;" [value]="type.pLoanpayin"> {{type.pLoanpayin}}</option>
+            </select> -->
+
+            <ng-select title="TDS" id="pInterestpayout" [items]="Interestpayouts" formControlName="pInterestpayout"
+            bindLabel="pLoanpayin" bindValue="pLoanpayin" [multiple]=false placeholder="Select" [searchable]=true
+            [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pInterestpayout }">
+          </ng-select>
+                        <div class="invalid-feedback">
+                            <span *ngIf="AccountConfigErrorMessages.pInterestpayout">{{AccountConfigErrorMessages?.pInterestpayout}}</span>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <!--col-end-->
+                <div class="col-md-12 col-xl-12">
+                   
+                </div>
+                <!--col-end-->
+                <!-- <div class="col-md-12 col-xl-12">
+                    <label>Interest Rate per Annum</label>
+                </div> -->
+                <div class="col-md-12 col-xl-12 p-0">
+                    <div class="form-group">
+                     <label id="pInterestrate" title="Interest Rate per Annum">Interest Rate per Annum</label>
+                        <div class="input-group">
+                            <input TwoDigitDecimalNumber class="form-control w-50" type="text" formControlName="pInterestrate" maxlength="5" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pInterestrate }" value="%">
+                            <div class="input-group-append">
+                                <span class=" btn-lg-icon h-100 pt-2 pl-2 pr-2  rounded-right">  P.A </span>
+                            </div>
+
+                        </div>
+                        <div class="invalid-feedback">
+                            <span *ngIf="AccountConfigErrorMessages.pInterestrate">{{AccountConfigErrorMessages?.pInterestrate}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xl-12 p-0">
+                    <div class="form-group">
+                        <label id="pMinbalance" title="Minimum Balance">Minimum Balance</label>
+                        <input class="form-control" type="text" formControlName="pMinbalance" appNumbersWithZeroOnly (keyup)="MinBalance_Change()" appNumbersonly maxlength="12" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pMinbalance }" placeholder="1,00,000">
+                    </div>
+                    <div class="invalid-feedback">
+                        <span *ngIf="AccountConfigErrorMessages.pMinbalance">{{AccountConfigErrorMessages?.pMinbalance}}</span>
+                    </div>
+                </div>
+                <div class="col-md-10 col-xl-10 p-0">
+                    <label class="text-dark"> If Minimum Balance is not Maintained, then Penalty is</label>
+                    <div class="material-switch pull-right">
+                        <input id="penaltyapplicable" name="penaltyapplicable" appMycurrencyFormatter formControlName="pIspenaltyapplicableonminbal" (change)="IspenaltyapplicableChange($event)" type="checkbox"><label class="check-success" for="penaltyapplicable"></label>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xl-12 p-0" *ngIf="ShowPenaltyvalue">
+                    <div class="form-group m-0">
+
+                        <input class="form-control" type="text" formControlName="pPenaltyvalue" appMycurrencyFormatter appNumbersonly maxlength="5" placeholder="%" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pPenaltyvalue }" id="pPenaltyvalue" title="penalty" [readonly]="PenaltyDisable">
+                        <div class="invalid-feedback">
+                            <span *ngIf="AccountConfigErrorMessages.pPenaltyvalue">{{AccountConfigErrorMessages?.pPenaltyvalue}}</span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <!--col-end-->
+        </div>
+        <div class="col-md-6 col-xl-6 ">
+            <div class="border-box p-0 h-100 ">
+                <!--col-end-->
+                <!--<div class="col-md-12 col-xl-12">
+            <div class="form-group">
+              <div class="form-check form-check-inline mr-5">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" formControlName="pIssavingspayinapplicable"  (change)="IssavingspayinChange($event);"value="option1">
+                <label class="form-check-label" for="inlineCheckbox2">Not Applicable</label>
+              </div>
+        </div>
+          </div>-->
+                <div class="col-md-10 col-xl-10 p-0">
+                    <label class="p-0 text-dark">Is Savings Payin Applicable?</label>
+                    <div class="material-switch pull-right">
+                        <input id="savingspayinapplicable" name="savingspayinapplicable" formControlName="pIssavingspayinapplicable" (change)="IssavingspayinChange($event)" type="checkbox"><label class="check-success" for="savingspayinapplicable"></label>
+                    </div>
+                </div>
+                <!-- <div class="col-md-12 col-xl-12" *ngIf="Issavingspayinapplicable">
+                    <label class="sec-head-bold">Savings pay-in</label>
+                </div> -->
+                <!--col-end-->
+                <div class="col-md-12 col-xl-12 p-0" *ngIf="Issavingspayinapplicable">
+                        <div class="col-md-6 col-xl-6 pl-0">
+                    <div class="form-group">
+                        <label id="pSavingspayinmode" title="Savings Pay-In">Savings Pay-In</label>
+                        <!-- <select class="form-control" formControlName="pSavingspayinmode" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pSavingspayinmode }">
+              <option value="" disabled>Select</option>
+              <option *ngFor="let type of Interestpayouts;trackBy: trackByFn;" [value]="type.pLoanpayin"> {{type.pLoanpayin}}</option>
+            </select> -->
+            <ng-select title="Savings Pay-In" id="pSavingspayinmode" [items]="Interestpayouts" formControlName="pSavingspayinmode" bindLabel="pLoanpayin" bindValue="pLoanpayin" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                            [clearOnBackspace]=true [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pSavingspayinmode }">
+                                        </ng-select>
+                        <div class="invalid-feedback">
+                            <span *ngIf="AccountConfigErrorMessages.pSavingspayinmode">{{AccountConfigErrorMessages?.pSavingspayinmode}}</span>
+                        </div>
+                    </div>
+                        </div>
+
+                    <div class="d-flex">
+                        <div class="col-md-6 col-xl-6 pl-0">
+                            <div class="form-group">
+                                <label id="pSavingmindepositamount" title="Min Deposit Amount">Min Deposit Amount</label>
+                                <input class="form-control" type="text" (blur)="ValidateAmount()" placeholder="1,00,000" formControlName="pSavingmindepositamount" appMycurrencyFormatter appNumbersonly maxlength="12" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pSavingmindepositamount }">
+                                <div class="invalid-feedback">
+                                    <span *ngIf="AccountConfigErrorMessages.pSavingmindepositamount">{{AccountConfigErrorMessages?.pSavingmindepositamount}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-6 pr-0">
+                            <div class="form-group">
+                                <label id="pSavingmaxdepositamount" title="Max Deposit Amount">Max Deposit Amount</label>
+                                <input class="form-control" type="text" placeholder="1,00,000" (blur)="CheckMaxMinValues()" formControlName="pSavingmaxdepositamount" appMycurrencyFormatter appNumbersonly maxlength="12" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pSavingmaxdepositamount }">
+                                <div class="invalid-feedback">
+                                    <span *ngIf="AccountConfigErrorMessages.pSavingmaxdepositamount">{{AccountConfigErrorMessages?.pSavingmaxdepositamount}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <!--col-end-->
+
+                <hr class="light">
+                <!--<div class="col-md-12 col-xl-12">
+          <div class="form-group">
+            <div class="form-check form-check-inline mr-5">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" formControlName="pIswithdrawallimitapplicable" (change)="IswithdrawallimitChange($event);">
+              <label class="form-check-label" for="inlineCheckbox1">Not Applicable</label>
+            </div>
+          </div>
+        </div>-->
+                <div class="col-md-10 col-xl-10 p-0">
+                    <label class="text-dark">Is Withdraw Limit Applicable?</label>
+                    <div class="material-switch pull-right">
+                        <input id="withdrawallimitapplicable" name="withdrawallimitapplicable" formControlName="pIswithdrawallimitapplicable" (change)="IswithdrawallimitChange($event)" type="checkbox"><label class="check-success" for="withdrawallimitapplicable"></label>
+                    </div>
+                </div>
+                <!--col-end-->
+
+                <!-- <div class="col-md-12 col-xl-12" *ngIf="Iswithdrawallimitapplicable">
+                    <label class="font-weight-bold">Withdrawal Limit</label>
+                </div> -->
+                <div class="col-md-12 col-xl-12 p-0" *ngIf="Iswithdrawallimitapplicable">
+                    <div class="form-group">
+                        <label id="pMaxwithdrawllimit" title="Withdrawal Limit">Maximum Withdrawal Amount per Day</label>
+                        <input class="form-control" type="text" formControlName="pMaxwithdrawllimit" appMycurrencyFormatter removeZero appNumbersonly maxlength="12" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pMaxwithdrawllimit }" (keyup)="MaxWithdrawLimit_Change()">
+                        <div class="invalid-feedback">
+                            <span *ngIf="AccountConfigErrorMessages.pMaxwithdrawllimit">{{AccountConfigErrorMessages?.pMaxwithdrawllimit}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--col-end-->
+        <!--row-end-->
+    </div>
+    <div class="d-flex justify-content-end mt-4 mb-5">
+        <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="clearConfig()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" class="mr-3" width="20px" height="20px">Clear</a>
+        <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="AddDataToDataTable()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add</a>
+    </div>
+
+
+    <!--row-end-->
+    <!--form-end-->
+    <!--form-end-->
+    <div class="row mt-5">
+        <hr>
+        <div class="col-md-12 col-xl-12">
+            <kendo-grid [data]="GridData" [height]="250" [pageSize]="gridState.take" [skip]="gridState.skip" [sort]="gridState.sort" [pageable]="false" [sortable]="true" (remove)="removeHandler($event)" [selectable]="selectableSettings">
+                <kendo-grid-command-column title="" width="100">
+                    <ng-template kendoGridCellTemplate>
+                        <div id="icon-delete" kendoGridRemoveCommand disabled></div>
+                    </ng-template>
+                </kendo-grid-command-column>
+                <kendo-grid-column field="pMembertype" title="Member type" width="150">
+                </kendo-grid-column>
+                <kendo-grid-column field="pApplicanttype" title="Applicant Type" width="150">
+                </kendo-grid-column>
+                <kendo-grid-column field="pMinopenamount" title="Min Openamount" width="150">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pMinopenamount | mycurrencypipe}}
+                </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pMinbalance" title="Min Balance" width="150">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pMinbalance | mycurrencypipe}}
+                </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pInterestpayout" title="Interest Payout" width="150">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pPenaltyvalue" title="Min Bal Penalty" width="120">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                           
+                    <div *ngIf="dataItem.pIspenaltyapplicableonminbal== true"> {{dataItem.pPenaltyvalue | mycurrencypipe}}</div>
+                   <div *ngIf="dataItem.pIspenaltyapplicableonminbal== false">{{dataItem.pPenaltyvalue}}</div>
+                </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pInterestrate" title="Interest Rate p.a" width="120"></kendo-grid-column>
+
+
+                <kendo-grid-column field="pIssavingspayinapplicable" title="Savings Payin Applicable" width="120"></kendo-grid-column>
+                <kendo-grid-column field="pSavingspayinmode" title="Savings Pay-In" width="150"></kendo-grid-column>
+                <kendo-grid-column field="pSavingmindepositamount" title="Min Deposit Amount" width="120">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                           <div *ngIf="dataItem.pIssavingspayinapplicable ==true"> {{dataItem.pSavingmindepositamount | mycurrencypipe}}</div>
+                           <div *ngIf="dataItem.pIssavingspayinapplicable== false"> {{dataItem.pSavingmindepositamount}}</div>
+                </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pSavingmaxdepositamount" title="Max Deposit Amount" width="120">
+                 <ng-template kendoGridCellTemplate let-dataItem>
+                            <div *ngIf="dataItem.pIssavingspayinapplicable== true"> {{dataItem.pSavingmaxdepositamount | mycurrencypipe}}</div>
+                           <div *ngIf="dataItem.pIssavingspayinapplicable== false"> {{dataItem.pSavingmaxdepositamount}}</div>
+                </ng-template>
+                </kendo-grid-column>
+
+                 <kendo-grid-column field="pIswithdrawallimitapplicable" title="Withdraw Limit Applicable" width="120"></kendo-grid-column>
+                <kendo-grid-column field="pMaxwithdrawllimit" title="Maximum Withdrawal Amount per Day" width="120">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                            <div *ngIf="dataItem.pIswithdrawallimitapplicable== true"> {{dataItem.pMaxwithdrawllimit | mycurrencypipe}}</div>
+                           <div *ngIf="dataItem.pIswithdrawallimitapplicable== false"> {{dataItem.pMaxwithdrawllimit}}</div>
+                </ng-template>
+                </kendo-grid-column>
+                
+
+               
+            </kendo-grid>
+            <!--<table id="example2" class="table text-center" style="width:100%">
+        <thead>
+          <tr>
+            <th>Applicant type</th>
+            <th>Min Balance</th>
+            <th>Interest Payout</th>
+            <th>Interest compounding</th>
+            <th>Savings Pay-in</th>
+            <th>Min Bal Penalty</th>
+            <th>Interest rate p.a</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Individual</td>
+            <td>100</td>
+            <td>Quarterly</td>
+            <td>Monthly</td>
+            <td></td>
+            <td>20</td>
+            <td>12</td>
+          </tr>
+           <tr>
+            <td>Senior Citizen</td>
+            <td>500</td>
+            <td>Half Yearly</td>
+            <td>Monthly</td>
+            <td></td>
+            <td>2</td>
+            <td>12</td>
+          </tr>
+           <tr>
+            <td>Minor</td>
+            <td>100</td>
+            <td>Half</td>
+            <td>Yearly</td>
+            <td></td>
+            <td>10</td>
+            <td>12</td>
+          </tr>
+        </tbody>
+      </table>-->
+        </div>
+    </div>
+
+    <!--row-end-->
+    <div class="d-flex justify-content-end mt-4">
+        <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="clearConfigurationList()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+        <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="nexttabclick()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i>{{buttonsave}}</a>
+    </div>
+</form>
+<!--buttons-end-->

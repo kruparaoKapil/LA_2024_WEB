@@ -1,0 +1,183 @@
+<div class="section-container">
+    <div class="row p-0">
+      <div class="col-xl-12 col-md-12">
+        <div class="section-content">
+            <form [formGroup]="empsalUpdateForm">
+                <div class="row mt-3">
+                    <div class="col-md-4 col-xl-4">
+                        <div class="form-group">
+                            <label id="employee" title="Select Employee" class="required-field">Select Employee</label>
+                            <ng-select title="Employee" [items]="employeesList" [multiple]="false" formControlName="employee" 
+                                bindLabel="pEmployeeName" bindValue="pEmployeecode" placeholder="Select" [searchable]=true 
+                                [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true (change)="employeeChange($event)" [ngClass]="{ 'is-invalid': empSalaryUpdateValidation.employee }"
+                                >
+                            </ng-select>
+                            <div class="invalid-feedback">
+                                <span *ngIf="empSalaryUpdateValidation.employee">{{empSalaryUpdateValidation?.employee}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-box">
+                    <div class="row mt-4">
+                      <div class="col-md-3 col-xl-3" >
+                        <div class="form-group">
+                          <span class="font-weight-bold">Employee Name</span>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-xl-3" >
+                        <div class="form-group">
+                          <span class="text-primary font-weight-bold">{{EmployeeName}}</span>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-xl-3" >
+                        <div class="form-group">
+                          <span class="font-weight-bold">EPF No.</span>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-xl-3" >
+                        <div class="form-group">
+                          <span class="text-primary font-weight-bold">{{selectedEmployeeDetails.pPfno}}</span>
+                        </div>
+                      </div>
+                    </div>
+  
+                    <div class="row mt-4">
+                      <div class="col-md-3 col-xl-3" >
+                        <div class="form-group">
+                          <span class="font-weight-bold">Designation</span>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-xl-3" >
+                        <div class="form-group">
+                          <span class="text-primary font-weight-bold">{{selectedEmployeeDetails.pDesignation}}</span>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-xl-3" >
+                        <div class="form-group">
+                          <span class="font-weight-bold">Hire Date  </span>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-xl-3" >
+                        <div class="form-group">
+                          <span class="text-primary font-weight-bold">{{selectedEmployeeDetails.pDateOfJoining}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-3 col-xl-3" >
+                          <div class="form-group">
+                            <span class="font-weight-bold">Basic Salary</span>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-xl-3" >
+                          <div class="form-group">
+                            <span class="text-primary font-weight-bold">{{selectedEmployeeDetails.pbasic_amount}}</span>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-xl-3" >
+                          <div class="form-group">
+                            <span class="font-weight-bold">Allowance</span>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-xl-3" >
+                          <div class="form-group">
+                            <span class="text-primary font-weight-bold">{{selectedEmployeeDetails.pallowance_amount}}</span>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-4 col-xl-4">
+                    <span class="text-primary"><b>Update Promotion</b></span>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-4 col-xl-4">
+                        <div class="form-group">
+                            <label class="required-field" id="newdesignation" title="New Designation">New Designation</label>
+                            <ng-select title="Designation" [items]="newDesignationsList" [multiple]="false" formControlName="newdesignation"
+                                bindLabel="designationname" bindValue="designationid" placeholder="Select" [searchable]=true
+                                [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true (change)="newDesignationChange($event)" [ngClass]="{ 'is-invalid': empSalaryUpdateValidation.newdesignation }"
+                                >
+                            </ng-select>
+                            <div class="invalid-feedback">
+                                <span *ngIf="empSalaryUpdateValidation.newdesignation">{{empSalaryUpdateValidation?.newdesignation}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-4">
+                        <div class="form-group">
+                            <label>Date of Promotion</label>
+                            <input class="form-control" readonly type="text" [bsConfig]="dateofpromotionDPconfig" bsDatepicker
+                                formControlName="dateofpromotion" #dp="bsDatepicker" placement="bottom">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xl-4">
+                        <div class="form-group">
+                            <label>Remarks</label>
+                            <input type="text" class="form-control" formControlName="remarks">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-4 col-xl-4">
+                        <div class="form-group">
+                            <label class="required-field" id="refno" title="SSS-No / Ref No">SSS-No / Ref No.</label>
+                            <input type="text" class="form-control" formControlName="refno" title="SSS-No"
+                            [ngClass]="{ 'is-invalid': empSalaryUpdateValidation.refno }">
+                            <div class="invalid-feedback">
+                                <span *ngIf="empSalaryUpdateValidation.refno">{{empSalaryUpdateValidation?.refno}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xl-4">
+                        <div class="form-group">
+                            <label>Minutes Date</label>
+                            <input class="form-control" readonly type="text" [bsConfig]="minutesdateDPconfig" bsDatepicker
+                                formControlName="minutesdate" #dp="bsDatepicker" placement="bottom">
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-4">
+                        <div class="form-group">
+                            <label>New Basic Salary</label>
+                            <input type="text" class="form-control" formControlName="newbasicsal" appMycurrencyFormatter
+                            appNumbersonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-4 col-xl-12">
+                        <div class="form-group">
+                            <label>New Allowance</label>
+                            <input type="text" formControlName="newallowance" appNumbersonly class="form-control"
+                              appMycurrencyFormatter appNumbersonly>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row mt-1 ml-1 mb-4">
+                <div class="col-md-12 col-xl-12">
+                  <div class="d-flex justify-content-end mt-4">
+      
+                    <a data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot"
+                      aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearDetails()"><img
+                        src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+      
+                    <button appButtonDoubleClick [debounceTime]="500" (debounceClick)="saveEmployeeSalaryUpdate()"
+                      class="btn btn-s-icon px-3 border-0">
+                      <img src="assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px"> Save
+                    </button>
+                  </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>

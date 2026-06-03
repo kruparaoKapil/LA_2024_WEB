@@ -1,0 +1,356 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6 ">
+        <p class="bc-2">Savings Transaction</p>
+    </div>
+    <div class="col-md-6 col-xl-6 ">
+        <span class="btn btn-b-icon border-0" (click)="back()" style="background-color: #4b70ff;
+		color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img src="assets/images/icon-back-blue.svg"
+		  width="25px" height="25px">View</span>
+    </div>
+</div>
+
+
+
+<div class="row mt-2">
+    <div class="col-md-8 col-xl-8">
+        <div class="section-container mt-3 P-0">
+            <ul class="nav nav-tabs tip-top wiz-tab" id="myTab" role="tablist">
+                <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Select Member">
+                    <a class="active disableTabs" data-toggle="tab" href="#selectmember" role="tab" aria-controls="fresh" aria-selected="true">Select Member</a>
+                </li>
+                <!--<li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Savings A/C">
+              <a class="disableTabs" data-toggle="tab" href="#savings-ac" role="tab" aria-controls="warm" aria-selected="false">2</a>
+            </li>-->
+                <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Add Joint Member">
+                    <a class="disableTabs" data-toggle="tab" href="#add-joint-member" role="tab" aria-controls="cold" aria-selected="false">Joint Member & Nominee</a>
+                </li>
+                <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Referral/CP/Agent Details">
+                    <a class="disableTabs" data-toggle="tab" href="#refferral" role="tab" aria-controls="cold" aria-selected="false">Referral</a>
+                </li>
+            </ul>
+            <!-- ======================================================================= tab nav end ============================================================================== -->
+            <form [formGroup]="SavingTranscationForm">
+                <div class="tab-content" id="myTabContent">
+
+                    <div class="tab-pane fade  active show " id="selectmember" role="tabpanel" aria-labelledby="fresh-tab">
+                        <div class="row mt-5">
+                            <div class="col-md-6">
+
+                                <div class="form-group" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                    <label class="mt-1" for="">Date Of Opening Account</label>
+                                    <fieldset [disabled]="!disabletransactiondate">
+                                        <input readonly type="text" class="form-control" formControlName="pTransdate" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom">
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="mt-1" id="pMembertypeid" title="Member Type">Member Type</label>
+                                    <div class="form-group" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                        <ng-select title="Member Type" id="pMembertypeid" [items]="membertypedetails" formControlName="pMembertypeid" bindLabel="pmembertype" bindValue="pmembertypeid" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                            [clearOnBackspace]=true (change)="MemberTypeChange($event);" [ngClass]="{ 'is-invalid': SavingTranscationErrorMessages.pMembertypeid }">
+                                        </ng-select>
+                                        <div class="invalid-feedback">
+                                            <span *ngIf="SavingTranscationErrorMessages.pMembertypeid">{{SavingTranscationErrorMessages.pMembertypeid}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+
+                                <div class="form-group">
+                                    <label class="mt-1" id="pContacttype" title="Contact Type">Contact Type</label>
+                                    <div class="form-group" [ngClass]="notEditable ? 'cursor-not-allowaed' : ''">
+                                        <div class="form-check form-check-inline mr-5 radio-btn" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                            <input class="form-check-input radio-btn" type="radio" formControlName="pContacttype" name="pContacttype" id="inlineRadio1" value="Individual" [checked]="SelectType=='Individual'" (change)="SelectTypeChange('Individual')">
+                                            <label class="mt-1" for="inlineRadio1"> Individual </label>
+                                        </div>
+                                        <div class="form-check form-check-inline mr-5 radio-btn" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                            <input class="form-check-input radio-btn" formControlName="pContacttype" [checked]="SelectType=='Business Entity'" type="radio" name="pContacttype" id="inlineRadio2" value="Business Entity" (change)="SelectTypeChange('Business Entity')">
+                                            <label class="mt-1" for="inlineRadio2"> Business Entity </label>
+                                        </div>
+                                        <div class="form-check form-check-inline mr-5 radio-btn" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                            <input class="form-check-input radio-btn" formControlName="pContacttype" type="radio" name="pContacttype" id="inlineRadio3" [checked]="SelectType=='Group'" value="Group" (change)="SelectTypeChange('Group')">
+                                            <label class="mt-1" for="inlineRadio3"> Group</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <label id="pGroupID" title="Group" hidden>Group</label>
+                            <div class="col-md-6" *ngIf="groupshow">
+                                <div class="form-group">
+                                    <label id="pGroupID" title="Group">Group</label>
+                                    <ng-select title="Group" id="pGroupID" [items]="GroupDetails" formControlName="pGroupID" bindLabel="pGroupname" bindValue="pGroupid" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true
+                                        (change)="GroupName_Change($event);" [ngClass]="{ 'is-invalid': SavingTranscationErrorMessages.pGroupID }">
+                                    </ng-select>
+                                    <app-validation-message [messgae]="SavingTranscationErrorMessages?.pGroupID"></app-validation-message>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6" *ngIf="showmember">
+                                <div class="form-group">
+                                    <label class="mt-1" id="pMemberid" title="Member">Member</label>
+                                    <div class="form-group" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                        <ng-select [items]="memberdetails" formControlName="pMemberid" bindLabel="pMemberName" bindValue="pMemberId" [multiple]=false placeholder="Select" [searchable]="true" (change)="MemberChange($event);" [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=false
+                                            [ngClass]="{ 'is-invalid': SavingTranscationErrorMessages.pMemberid }">
+                                            <ng-template ng-header-tmp>
+                                                <label class="col-4 p-0"><strong>Member</strong> </label>
+                                                <label class="col-4 p-0" style="text-align:center"><strong>Member
+                                                    Code</strong> </label>
+                                                <label class="col-4 p-0" style="text-align:center"><strong>Contact
+                                                    No.</strong> </label>
+                                            </ng-template>
+                                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                                <div class="row">
+                                                    <span class="col-4 text-dark word-break text-wrap">{{item.pMemberName}}</span>
+                                                    <span class="col-4 text-dark">{{item.pMemberCode}}</span>
+                                                    <span class="col-4 text-dark">{{item.pContactnumber}}</span>
+                                                </div>
+                                            </ng-template>
+                                        </ng-select>
+                                        <div class="invalid-feedback">
+                                            <span *ngIf="SavingTranscationErrorMessages.pMemberid">{{SavingTranscationErrorMessages.pMemberid}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="mt-1" id="pApplicanttype" title="Applicant Type">Applicant type</label>
+                                    <div class="form-group" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                        <ng-select title="Member Type" id="pApplicanttype" [items]="ApplicantTypes" formControlName="pApplicanttype" bindLabel="pApplicanttype" bindValue="pApplicanttype" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                            [clearOnBackspace]=true (change)="ApplicanttypeChange($event);" [ngClass]="{ 'is-invalid': SavingTranscationErrorMessages.pApplicanttype }">
+                                        </ng-select>
+                                        <div class="invalid-feedback">
+                                            <span *ngIf="SavingTranscationErrorMessages.pApplicanttype">{{SavingTranscationErrorMessages.pApplicanttype}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="mt-1" id="pSavingconfigid" title="A/C Type">A/C Type</label>
+                                    <ng-select title="A/C Type" id="pSavingconfigid" [items]="SavingAccDetails" formControlName="pSavingconfigid" bindLabel="pSavingaccname" bindValue="pSavingconfigid" [multiple]=false placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom"
+                                        [clearOnBackspace]=true (change)="SavingAccChange($event);" [ngClass]="{ 'is-invalid': SavingTranscationErrorMessages.pSavingconfigid }">
+                                    </ng-select>
+                                    <div class="invalid-feedback">
+                                        <span *ngIf="SavingTranscationErrorMessages.pSavingconfigid">{{SavingTranscationErrorMessages.pSavingconfigid}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div *ngIf="Showdepositamount" class="form-group">
+                                    <label class="mt-1" id="pSavingsamount" title="Deposit Amount">Deposit Amount:</label>
+                                    <input type="text" class="form-control" formControlName="pSavingsamount" (change)="changedepositamount($event)" appMycurrencyFormatter appNumbersonly maxlength="15" [ngClass]="{ 'is-invalid': SavingTranscationErrorMessages.pSavingsamount }">
+                                    <div class="invalid-feedback">
+                                        <span *ngIf="SavingTranscationErrorMessages.pSavingsamount">{{SavingTranscationErrorMessages.pSavingsamount}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+
+                                <div class="d-flex justify-content-end mt-4">
+                                    <a class="btn btn-g-icon mr-4 px-3 border-0" (click)="ClearForm()"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+                                    <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="SaveForm()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><i class="fa"
+                [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i>
+              {{savebutton}}</a>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="savings-ac" role="tabpanel" aria-labelledby="cold-tab">
+                        <div class="my-container">
+                            <ng-template #customLoadingTemplate>
+                                <div class="custom-class">
+                                    <h3>
+                                        Loading...
+                                    </h3>
+
+                                </div>
+                            </ng-template>
+                            <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md-12 col-xl-12">
+                                <h2 class="sec-head-bold">Generate Account or deposit number</h2>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6 col-xl-4">
+                                <!--<div class="form-group">
+            <label class="mt-1" id="pSavingconfigid" title="Savings a/c">Savings a/c</label>
+            <ng-select title="Savings a/c" id="pSavingconfigid" [items]="SavingAccDetails"
+                       formControlName="pSavingconfigid" bindLabel="pSavingaccname" bindValue="pSavingconfigid" [multiple]=false
+                       placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                       (change)="SavingAccChange($event);" [ngClass]="{ 'is-invalid': SavingTranscationErrorMessages.pSavingconfigid }">
+            </ng-select>
+            <div class="invalid-feedback">
+              <span *ngIf="SavingTranscationErrorMessages.pSavingconfigid">{{SavingTranscationErrorMessages.pSavingconfigid}}</span>
+            </div>
+          </div>-->
+                            </div>
+                        </div>
+                        <!--<div class="row" *ngIf="ShowAccountConfigDetails">
+        <div class="col-md-6 col-xl-4">
+          <div class="form-group">
+            <div class="d-flex">
+              <label class="col-md-6 col-xl-6 pl-0 mt-1" for="">Savings a/c Code: </label>
+              <label class="col-md-6 col-xl-6 pl-0 mt-1 font-weight-bold" for="">{{SavingCode}}</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="d-flex">
+              <label class="col-md-6 col-xl-6 pl-0 mt-1" for="">Min amt to open a/c: </label>
+              <label class="col-md-6 col-xl-6 pl-0 mt-1 font-weight-bold" for="">{{MinAmount}}</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-6 col-xl-6 pl-0 mt-1" for="">Interest Payout:</label>
+            <label class="col-md-6 col-xl-6 pl-0 mt-1 font-weight-bold" for="">{{IntrestPayout}}</label>
+          </div>
+          <div class="form-group">
+            <div *ngIf="Showdepositamount" class="d-flex">
+              <label class="col-md-6 col-xl-6 pl-0 mt-1" for="">Savings pay-in:</label>
+              <label class="col-md-6 col-xl-6 pl-0 mt-1 font-weight-bold" for="">{{SavingPayin}}</label>
+            </div>
+          </div>
+          <div *ngIf="Showdepositamount" class="form-group">
+            <div class="d-flex">
+              <label class="col-md-6 col-xl-6 pl-0 mt-1" for="">Min Deposit Amount:</label>
+              <label class="col-md-6 col-xl-6 pl-0 mt-1 font-weight-bold" for="">{{MinDepositAmount}}</label>
+            </div>
+          </div>
+          <div *ngIf="Showdepositamount" class="form-group">
+            <div class="d-flex">
+              <label class="col-md-6 col-xl-6 pl-0 mt-1" for="">Max Deposit Amount:</label>
+              <label class="col-md-6 col-xl-6 pl-0 mt-1 font-weight-bold" for="">{{MaxDepositAmount}}</label>
+            </div>
+          </div>
+
+          <div *ngIf="Showdepositamount" class="form-group">
+            <label class="mt-1" id="pSavingsamount" title="Deposit Amount">Deposit Amount:</label>
+            <input type="text" class="form-control" formControlName="pSavingsamount" (change)="changedepositamount($event)" appMycurrencyFormatter appNumbersonly  maxlength="15" [ngClass]="{ 'is-invalid': SavingTranscationErrorMessages.pSavingsamount }">
+            <div class="invalid-feedback">
+              <span *ngIf="SavingTranscationErrorMessages.pSavingsamount">{{SavingTranscationErrorMessages.pSavingsamount}}</span>
+            </div>
+          </div>
+        </div>
+      </div>-->
+
+                        <hr class="light">
+
+
+                        <div class="row mt-4 ml-1">
+                            <div class="col-md-12 col-xl-12">
+                                <div class="d-flex justify-content-end mt-4">
+                                    <!--<a href="#" class="btn btn-g-icon mr-4 px-3 border-0">
+              <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear
+            </a>-->
+                                    <!-- <a href="#" data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" role="tab" aria-controls="hot"
+        aria-selected="false"><img src="assets/images/icon-chewron-left-whitesolid.svg" width="20px" height="20px"
+          class="mr-3" />Back</a> -->
+                                    <a class="btn btn-g-icon mr-4 px-3 border-0" (click)="ClearForm()"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+                                    <a (click)="SaveForm()" data-toggle="tab" class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" aria-selected="false">
+                                        <img src="assets/images/icon-chewron-right-whitesolid.svg" width="20px" height="20px" class="mr-3" />Save & Continue
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- ==================================================================== tab content pannnel 2 end =================================================================== -->
+
+                    <!-- ==================================================================== tab content pannnel 2 end =================================================================== -->
+                    <div class="tab-pane fade" id="add-joint-member" role="tabpanel" aria-labelledby="warm-tab">
+
+                        <!--<app-jointmember-nominee></app-jointmember-nominee>-->
+                        <!-- <app-jointmember-nominee></app-jointmember-nominee> -->
+                        <app-co-jointmember [jointmemberdata]="{accounttype:'Savings Transaction',AddJointMembervalidation:false,AddNomineevalidation:false,Button:true}"></app-co-jointmember>
+                    </div>
+                    <!-- ==================================================================== tab content pannnel 3 end =================================================================== -->
+
+
+
+
+
+                    <div class="tab-pane fade" id="refferral" role="tabpanel" aria-labelledby="cold-tab">
+                        <!-- <app-referral></app-referral> -->
+                        <app-co-referral [referraldata]="{accounttype:'Savings Transaction',validation:false,returnurl:'SavingsTransactionsView',Button:true}"></app-co-referral>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-xl-4 pl-0 mt-3">
+
+        <div class="card-box ">
+            <div class=" ">
+                <div class="card-body">
+                    <div class="sec-headd">
+                        <h2>View here</h2>
+                    </div>
+                    <div class="row" *ngIf="ShowAccountConfigDetails">
+                        <div class="col-md-12 col-xl-12">
+                            <div class="border  mt-2">
+                                <div class="form-group mb-2 ">
+                                    <div class="d-flex border-bottom pt-2 px-2">
+                                        <label class="col-md-8 col-xl-8 pl-0 mt-1 font-weight-normal" for="">A/C Type Code: </label>
+                                        <label class="col-md-4 col-xl-4 pl-0 mt-1 text-dark font-weight-bold" for="">{{SavingCode}}</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-2 ">
+                                    <div class="d-flex border-bottom pb-0 px-2">
+                                        <label class="col-md-8 col-xl-8 pl-0  font-weight-normal" for="">Min amount to open A/c: </label>
+                                        <label class="col-md-4 col-xl-4 pl-0  text-dark font-weight-bold" for="">{{MinAmount | mycurrencypipe}}</label>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <div class="d-flex border-bottom pb-0 px-2">
+                                        <label class="col-md-8 col-xl-8 pl-0  font-weight-normal" for="">Min balance to maintain: </label>
+                                        <label class="col-md-4 col-xl-4 pl-0 text-dark  font-weight-bold" for="">{{Minmaintainbalance | mycurrencypipe}}</label>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2 ">
+                                    <div class="d-flex border-bottom pb-0 px-2">
+                                        <label class="col-md-8 col-xl-8 pl-0  font-weight-normal" for="">Interest Payout:</label>
+                                        <label class="col-md-4 col-xl-4 pl-0  text-dark font-weight-bold" for="">{{IntrestPayout}}</label>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <div *ngIf="Showdepositamount" class="d-flex border-bottom pb-0 px-2">
+                                        <label class="col-md-8 col-xl-8 pl-0  font-weight-normal" for="">Savings pay-in:</label>
+                                        <label class="col-md-4 col-xl-4 pl-0 text-dark   font-weight-bold" for="">{{SavingPayin}}</label>
+                                    </div>
+                                </div>
+                                <div *ngIf="Showdepositamount" class="form-group mb-2">
+                                    <div class="d-flex border-bottom pb-0 px-2">
+                                        <label class="col-md-8 col-xl-8 pl-0 font-weight-normal" for="">Min Deposit Amount:</label>
+                                        <label class="col-md-4 col-xl-4 pl-0 text-dark  font-weight-bold" for="">{{MinDepositAmount | mycurrencypipe}}</label>
+                                    </div>
+                                </div>
+                                <div *ngIf="Showdepositamount" class="form-group">
+                                    <div class="d-flex  pb-0 px-2 ">
+                                        <label class="col-md-8 col-xl-8 pl-0  font-weight-normal" for="">Max Deposit Amount:</label>
+                                        <label class="col-md-4 col-xl-4 pl-0  text-dark font-weight-bold" for="">{{MaxDepositAmount | mycurrencypipe}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

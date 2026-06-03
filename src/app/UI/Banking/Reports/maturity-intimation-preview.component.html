@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8 m-auto">
+
+      <div class=" p-2" *ngFor="let ShowDataDetails of ShowData">
+        <!--<div class=" p-2" >-->
+        <div class="row">
+          <div class="col-md-12 col-sm-12 mt-2 text-right justify-content-end">
+            <!-- <a class="pr-2">
+              <img class="justify-content-end text-right" src="assets/images/pdf-icon-blue.svg" (click)="pdf.saveAs('MaturityIntimation.pdf')"
+                   width="20" heigh="20">
+            </a> -->
+            <a><img src="assets/images/print-icon-blue.svg " (click)="print()" width="20" heigh="20"></a>
+          </div>
+        </div>
+
+        <div class="row" id="maturityletter">
+          <div class="col-md-8 m-auto">
+
+            <div class="p-2">
+
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="temp-head float-md-center pt-3">
+                    <h2 class="font-18 text-dark text-center m-0 font-weight-bold"> {{pCompanyName}}</h2>
+                    <p class="font-16 text-dark text-center m-0"> {{pAddress1}} {{pAddress2}} {{pDistrict}}, {{pcity}}, {{pState}} - {{pPincode}} </p>
+                    <p class="font-14 text-dark text-center">CIN : {{pCinNo}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="page-title">
+                MATURITY INTIMATION REPORT
+              </div>
+              
+              <div class="col-md-12 p-0">
+                <p>
+                To,
+                </p>
+                <p>{{ShowDataDetails.pmembername}},<p>
+                  <p> {{ShowDataDetails.pmemberaddress}}
+                <!-- H.NO:4/14,KONDASUNKESULA,CUDDAPAH-51643            4. -->
+              </p>
+              </div>
+              <p class="pt-3">
+                Since Your <b>{{ShowDataDetails.pschemename}}</b> certificate has Matured you are Kindly Requested to
+                send us Your Certificate No <b>{{ShowDataDetails.pfdaccountno}}</b> and Amount is: <b>{{ShowDataDetails.pdepositamount| mycurrencypipe}}</b>
+                Receipt with Duly Discharged on One Rupee Revenue Stamp for Repayment. Your <b>{{ShowDataDetails.pschemename}}</b> certificate Matured On <b>{{ShowDataDetails.pmaturitydate}}</b>.
+              </p>
+              <p class="pt-0">
+                Since this <b>{{ShowDataDetails.pschemename}}</b> has been lodged as security to Chit No:
+                The maturity amount will be paid to kapil chit funds on your behalf,
+                as per the lien letter given by you.
+              </p>
+              <!--<div class=" row">-->
+              <div class="col-md-12">
+                <label class="text-inner-left ">Date : {{todaydate | date:'dd-MM-yyyy'}}</label>
+                <!--<span>:</span>-->
+              </div>
+              <!--</div>-->
+              <!--<div class=" row">-->
+              <div class="col-md-12">
+                <div class="pull-right">
+                  <p class="font-bold text-right">
+                    <b> For {{pCompanyName}}</b>
+                  </p>
+                  <p class="font-bold text-right"><b>MANAGER</b></p>
+                </div>
+                <!--</div>-->
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

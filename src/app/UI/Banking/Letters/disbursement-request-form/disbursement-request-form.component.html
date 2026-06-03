@@ -1,0 +1,250 @@
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<style>
+
+</style>
+<div class="col-md-12 mt-5 mb-4">
+    <div id="template">
+        <div class="d-flex justify-content-end mr-3">
+            <ul class="temp-ul">
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Welcome Letter.pdf')" />
+                </li>
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="false">
+                        <div id="temp-box">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <app-company-details></app-company-details>
+                                    <div class="report-head">
+                                        <p class="font-18 text-dark text-center m-0">Disbursement Request </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <p class="font-14 text-left m-0  mb-3"><b>To</b> <br>The Branch Manager,<br> Enorme Capital Private Limited (Hereinafter referred to as “ECPL”)<br> ____________________________ Branch
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-5">Dear Sir/Madam,</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">Customer Name(s)<span
+                                                                        class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                                   
+                                                                </label>
+                                            </p>
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">Loan Account Number<span
+                                                                        class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                                   
+                                                                </label>
+                                            </p>
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">Sanctioned Amount<span
+                                                                        class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                                   
+                                                                </label>
+                                            </p>
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">Disbursement Amount<span
+                                                                        class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                                            (Please tick if Full Disbursement )
+                                                                </label>
+                                            </p>
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-6 pl-0 align-top">If Part Disbursal: First Disbursement<span
+                                                                        class="pull-right">Subsequent Disbursement</span></label>
+                                                <label class="col-md-6 p-0 font-weight-normal">
+                                                        Final Disbursement
+                                                                </label>
+                                            </p>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>
+                                            I/we request you to disburse the above loan amount, to the following beneficiaries as listed below: </p>
+                                        <table class="table table-bordered receipt-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-left">S.No.</th>
+                                                    <th class="text-left">Name of the Beneficiary</th>
+                                                    <th class="text-left">Bank</th>
+                                                    <th class="text-left">Branch</th>
+                                                    <th class="text-left">Account Number</th>
+                                                    <th class="text-left">IFSC Code</th>
+                                                    <th class="text-left">Amount (Rs.)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>5</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">
+                                            <b> For Top Up Cases:</b><br> I/We authorize ECPL to debit a sum of Rs. _____________ towards closing the existing loan account number _________ from the loan amount.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">
+                                            <b>For Balance Transfer Cases:</b> <br>I/We authorize ECPL to close my/our loan account __________________________ (loan a/c no.) with ______________________________ (Bank/Financial Institution) ___________________
+                                            (Branch) and collect the original receipt for payment from _____________________(Bank/ Financial Institution). We are also submitting the Authorisation letters as required for Balance Transfer cases.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">
+                                            <b> For Insurance:</b> <br>I/We authorize ECPL to debit a sum of Rs. ______________________ towards the premium payment of Property Insurance from the loan amount.<br> I/We authorize ECPL to debit a sum of Rs.
+                                            ______________________ towards the premium payment of Loan Protection Insurance from the loan amount.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">
+                                            <b>For Processing Fee:</b> <br>l/ We authorize ECPL to debit/adjust a sum of Rs. _______________ towards processing fee from my Disbursal amount.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">
+                                            <b>For Broken Period Interest:</b><br> I/We authorize ECPL to debit/adjust a sum of Rs. ________________ towards interest for broken period (from date of disbursement till _____ of next month) from my Disbursal
+                                            amount.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">
+                                            I/We hereby agree that aforesaid details including IFSC Code and beneficiary account number are correct. I/we further acknowledge that ECPL accepts no liability for any consequences arising out of erroneous details provided by me/us.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-5">
+                                            Sincerely,
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-5">
+                                            Signature of Applicant / Co-Applicant(s)
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">
+                                            Date:<br> Place:
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </kendo-pdf-export>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

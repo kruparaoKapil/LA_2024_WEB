@@ -1,0 +1,125 @@
+<div class="col-md-12 col-xl-12 pl-0">
+  <p class="bc-2">Cheque Enquiry</p>
+</div>
+<div class="section-container">
+<form [formGroup]="ChequeEnquiryForm" autocomplete="off">
+  <div id="template">
+    <div class="row mb-4">
+      <div class="col-xs-4 col-4 col-md-4">
+        <label>Cheque Status</label>
+        <div class="mb-3 pr-2">
+          <div class="form-check form-check-inline radio-btn-secondary">
+            <input class="form-check-input" type="radio" name="ChkrbtType" id="net" value="1" formControlName="ChkrbtType" (change)="Isseleted()">
+            <label class="mt-1" for="net"> Cheque Issued </label>
+          </div>
+          <div class="form-check form-check-inline radio-btn-secondary">
+            <input class="form-check-input" type="radio" name="ChkrbtType" id="cheque" value="2" formControlName="ChkrbtType" (change)="Isseleted()">
+            <label class=" mt-1" for="cheque"> Cheque Received </label>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3 col-md-3 pl-0">
+        <div class="form-group">
+          <label>Cheque No.</label>
+          <input type="text" class="form-control" formControlName="pChequeNo" placeholder="" [ngClass]="{ 'is-invalid': f.pChequeNo.errors && submitted }"  />
+          <div *ngIf="submitted &&f.pChequeNo.errors?.required" class="invalid-feedback">
+            Enter Cheque No.
+          </div>
+        </div>
+      </div>
+      <div class="justify-content-end d-flex ">
+      <div class="pt-4 mt-2">
+        <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetChequeEnquiryDetails()">
+          <i class="fa"></i>
+          <span>
+            <img class="mr-3" height="20px" src="assets/images/check-box-active.svg" width="18px">
+          </span> Show
+        </a>
+      </div>
+    </div>
+    </div>
+
+    <!--<div class="d-flex justify-content-end mr-3">
+      <ul class="temp-ul">
+        <li class="temp-ico ml-2">
+          <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Cheque_Enquiry.pdf')" />
+        </li>
+        <li class="temp-ico ml-2">
+          <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+        </li>
+      </ul>
+    </div>-->
+
+
+    <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+      <div id="temp-box">
+        <div class="mt-2 border rounded shadow-sm bg-white">
+          <div class="row">
+            <div class="col-md-12">
+              <!--<app-company-details></app-company-details>-->
+              <div class="report-head">
+                <p class="font-18 text-dark text-center m-0">
+                  Cheque Enquiry
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+
+
+
+          <kendo-grid [kendoGridBinding]="gridData" [pageable]="false" [sortable]="true" [groupable]="false" [reorderable]="true" [resizable]="true">
+
+            <ng-template kendoGridToolbarTemplate>
+  
+              <div class="row pb-3 p-0">
+                <div class="col-4 pl-0 mt-n1">
+                </div>
+                <div class="col-7 pr-0 pl-4">
+                  <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                    <li class="temp-ico ml-2">
+                      <a kendoGridExcelCommand>
+                        <img class="pt-2" src="assets/images/icon-excel.svg "   title="excel" width="20px">
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              </ng-template>
+
+            <kendo-grid-column field="preferencenumber" title="Cheque No." width="50">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="preceiptid" title="{{paymentId}}" width="50">
+
+
+            </kendo-grid-column>
+            <kendo-grid-column title="{{paymentDate}}" field="pchequedate" width="60"></kendo-grid-column>
+            <kendo-grid-column field="ptotalreceivedamount" title="Cheque Amt." class="kendo-center" [headerClass]="{'kendo-right': true}" width="60" >
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.ptotalreceivedamount | mycurrencypipe}}
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pbankname" title="Bank Name" width="60"></kendo-grid-column>
+            <kendo-grid-column field="pparticulars" title="{{paidTo}}" width="90"></kendo-grid-column>
+            <kendo-grid-column field="pchequesstatus" title="Cheque Status" width="70"></kendo-grid-column>
+            <kendo-grid-column title="Deposited Date" width="60" field="pdepositeddate" [hidden]="dipositdatehide">
+
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pcleardate" width="60" title="Cheque Status Date">
+            </kendo-grid-column>
+            <kendo-grid-column title="Deposited In" width="60" field="pdepositbankname" [hidden]="hndepositbankname">
+
+            </kendo-grid-column>
+
+            <kendo-grid-excel fileName="Cheque_Enquiry.xlsx" [fetchData]="allData"></kendo-grid-excel>
+          </kendo-grid>
+        </div>
+      </div>
+    </kendo-pdf-export>
+
+  </div>
+</form>
+</div>

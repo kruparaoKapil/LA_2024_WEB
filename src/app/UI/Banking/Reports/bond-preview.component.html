@@ -1,0 +1,507 @@
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+
+      </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+<div class="col-md-12 mt-5 mb-4">
+  <div id="template">
+      <div class="d-flex justify-content-end mr-3">
+          <ul class="temp-ul">
+              <li class="temp-ico ml-2">
+                  <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Bond Preview.pdf')" />
+              </li>
+              <li class="temp-ico ml-2">
+                  <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+              </li>
+          </ul>
+
+      </div>
+      <div class="container">
+          <div class="row">
+              <div class="col-md-10 mx-auto">
+                  <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="false" [landscape]="false" forcePageBreak=".page-break" [scale]="0.6" [margin]="0.8">
+                      <div id="temp-box">
+                          <div *ngFor="let ShowDataDetails of ShowData;">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <app-company-details></app-company-details>
+                               
+                           </div>
+                       </div>
+
+                       <hr>
+                       <div class="temp-box-inner" style="overflow: hidden;height: auto !important;">
+
+                        <div class="row">
+                        
+                          <p class="text-inner-center col-sm-12 col-md-12"> <b> <u> CERTIFICATE FOR ADVANCE FOR PURCHASE OF UNDIVIDED SHARE IN PLOT OF LAND FOR CONSTRUCTION OF HIGH RISE BUILDING </u> </b> </p>
+                          <!-- <p class="col-sm-1 col-md-1">:</p>
+                          <p class="text-inner-right  col-sm-8 col-md-8">{{ShowDataDetails.pMembername}}</p> -->
+                        </div>
+
+                       
+                        
+                       <div class="row">
+                        
+                        <p class="text-inner-center col-sm-12 col-md-12">This is to certify that the company has received advance for purchase of  {{ShowDataDetails.psqyards}} ({{ShowDataDetails.psqyardswords}}) square yards of
+                          undivided share, out of total land mentioned in <b>Schedule II</b>  of the memorandam of understanding (MOU) executed
+                          between the company and the applicant.</p>
+                        <!-- <p class="col-sm-1 col-md-1">:</p>
+                        <p class="text-inner-right  col-sm-8 col-md-8">{{ShowDataDetails.pMembername}}</p> -->
+                      </div>
+                      <hr>
+                       <div class="row">
+                       <div class="col-md-6 col-md-offset-1  text-right">
+                         
+                       </div>
+                       <div class="col-md-6 text-right">
+                         
+                       <div class="pull-right">
+                         
+                       <label class="text-inner-left  m-0">Certificate No</label><span>:</span>
+                       <label class="text-inner-right pl-1  m-0">{{ShowDataDetails.pvchcertno}}</label>
+                       </div>
+                       </div>
+                       <hr class="p-0">
+                       </div>
+                       
+                       <!-- <div class="row">
+                         <div class="col-md-12 col-sm-12">
+                           <label class="text-inner-left col-sm-3 col-md-3 p-0">Member</label><span class="px-2">:</span>
+                           <label class="text-inner-right">{{ShowDataDetails.pMembername}}</label>
+                           </div>
+                       <div class="col-md-12 col-sm-12">
+                        <div class="row">
+                          <p class="text-inner-left col-sm-3 col-md-3">Address</p>
+                          <p class="col-sm-1 col-md-1">:</p>
+                          <p class="text-inner-right  col-sm-8 col-md-8">{{ShowDataDetails.pAddress}}</p>
+                        </div>
+                       </div>
+                       </div> -->
+
+                       <div class="row">
+                        <p class="text-inner-left col-sm-3 col-md-3">Member</p>
+                        <p class="col-sm-1 col-md-1">:</p>
+                        <p class="text-inner-right  col-sm-8 col-md-8">{{ShowDataDetails.pvchname}}</p>
+                      </div>
+                       
+                       <div class="row">
+                        <p class="text-inner-left col-sm-3 col-md-3">Address</p>
+                        <p class="col-sm-1 col-md-1">:</p>
+                        <p class="text-inner-right  col-sm-8 col-md-8">{{ShowDataDetails.pvchaddress}}</p>
+                      </div>
+
+
+                      <div class="row">
+                        <p class="text-inner-left col-sm-3 col-md-3">Father/Husband Name</p>
+                        <p class="col-sm-1 col-md-1">:</p>
+                        <p class="text-inner-right  col-sm-8 col-md-8">{{ShowDataDetails.pvchfathername}}</p>
+                      </div>
+
+
+                       <!-- <div class="row">
+                       <div class="col-md-12">
+                       <label class="text-inner-left col-sm-3 col-md-3 p-0">Father/Husband Name</label><span class="px-2">:</span>
+                       <label class="text-inner-right">{{ShowDataDetails.pFathername}}</label>
+                       </div>
+                       </div> -->
+
+                       <div class="row">
+                        <p class="text-inner-left col-sm-3 col-md-3">Return on advance</p>
+                        <p class="col-sm-1 col-md-1">:</p>
+                        <p class="text-inner-right  col-sm-8 col-md-8">{{ShowDataDetails.pvchperiodmode}}</p>
+                      </div>
+
+                       <!-- <div class="row">
+                       <div class="col-md-12">
+                       <label class="text-inner-left col-sm-3 col-md-3 p-0">Return on advance</label><span class="px-2">:</span>
+                       <label class="text-inner-right">{{ShowDataDetails.pInterestpayout}}</label>
+                       </div>
+                       </div> -->
+                       <div class="row">
+                        <p class="text-inner-left col-sm-3 col-md-3">Initial advance</p>
+                        <p class="col-sm-1 col-md-1">:</p>
+                        <p class="text-inner-right  col-sm-8 col-md-8">{{ShowDataDetails.pnumamount |mycurrencypipe}}</p>
+                      </div>
+
+                       <!-- <div class="row">
+                       <div class="col-md-12">
+                       <label class="text-inner-left col-sm-3 col-md-3 p-0">Initial advance</label><span class="px-2">:</span>
+                       <label class="text-inner-right">{{ShowDataDetails.pDepositamount|mycurrencypipe}}</label>
+                       </div>
+                       </div> -->
+                       <!-- <div class="row">
+                        <p class="text-inner-left col-sm-3 col-md-3">Square Yard</p>
+                        <p class="col-sm-1 col-md-1">:</p>
+                        <p class="text-inner-right  col-sm-8 col-md-8">{{ShowDataDetails.psqyards|mycurrencypipe}}</p>
+                      </div> -->
+
+                       <!-- <div class="row">
+                         <div class="col-md-12">
+                         <label class="text-inner-left col-sm-3 col-md-3 p-0">Square Yard</label><span class="px-2">:</span>
+                         <label class="text-inner-right">{{ShowDataDetails.pSquareyard|mycurrencypipe}}</label>
+                         </div>
+                         </div> -->
+
+
+                         <div class="row">
+                          <p class="text-inner-left col-sm-3 col-md-3">Amount in Words</p>
+                          <p class="col-sm-1 col-md-1">:</p>
+                          <p class="text-inner-right  col-sm-8 col-md-8">{{ShowDataDetails.pvchamountwords | titlecase}}</p>
+                        </div>
+
+                       <!-- <div class="row">
+                       <div class="col-md-12">
+                       <label class="text-inner-left col-sm-3 col-md-3 p-0">Amount in Words</label><span class="px-2">:</span>
+                       <label class="text-inner-right">{{ShowDataDetails.pDepositamount|numberToWords | titlecase}}</label>
+                       </div>
+                       </div> -->
+                       <div class="row">
+                       <div class="col-md-12 col-xl-12 mt-4">
+                       <div class="table-responsive border p-0">
+                                 <table id="example" class="table text-center">
+                                         <thead>
+                                 <tr>
+                                   <th></th>
+                                             <th></th>
+                                             <th></th>
+                                 <th>ADVANCE PUT OPTION RATE</th>
+                                 <th></th>
+                                 <th></th>
+                                 </tr>
+                                           <tr>
+                                   <th class="font-bold">Option</th>
+                                             <th>Date</th>
+                                             <th>Period Months</th>
+                                             <th>Next Option Date</th>
+                                             <th>Interest Amount</th>
+                                             <th>Signature</th>
+                                           </tr>
+                                         </thead>
+                                         <tbody>
+                                           <tr>
+                                             <td> 1st </td>
+                                             <td>{{ShowDataDetails.pvchappdate | date : 'mediumDate'}}</td>
+                                             <td>{{ShowDataDetails.pvchperiod}}</td>
+                                             <td>{{ShowDataDetails.pvchmaturitydate | date : 'mediumDate'}}</td>
+                                             <td>{{ShowDataDetails.pmvalue|mycurrencypipe}}</td>
+                                    <td></td>
+                                         
+                                           </tr>	
+                        
+                                         </tbody>
+                                       </table>
+                               </div>
+                               </div>
+                               </div>
+                       
+                       
+                       
+                       </div>
+        
+                       <div class=" mt-3 ml-1 p-0  px-3">
+                         <label class="">Nominee Details</label>
+                         </div>
+                       <div class="border m-2 mx-3 p-4">
+                       <!-- <div class="row" *ngFor="let ind of ShowDataDetails.plstNomieeDetails; let indx = index"> -->
+                        <div class="row">
+                       <div class="col-md-4 col-sm-4">
+                         <!-- <span class="px-2">:</span> -->
+                          <!-- *ngIf="indx ==0"
+*ngIf="indx ==0"
+*ngIf="indx ==0" -->
+                       <label class="" >Nominee Name :</label>
+                       <label class="font-bold text-primary w-100">{{ShowDataDetails.pvchnomineename}}</label>
+                       <label class="font-bold text-primary w-100">{{ShowDataDetails.pvchnomineename2}}</label>
+                       </div>
+                       <div class="col-md-4 col-sm-4">
+                       <label class="" >Nominee Relation :</label>
+                       <label class="font-bold text-primary w-100 ">{{ShowDataDetails.pvchnomineerel}}</label>
+                       <label class="font-bold text-primary w-100 ">{{ShowDataDetails.pvchnomineerel2}}</label>
+                       </div>
+                       <div class="col-md-4 col-sm-4">
+                       <label class="" >Proportion :</label>
+                       <label class="font-bold text-primary w-100">{{ShowDataDetails.pvchproportion}}</label>
+                       <label class="font-bold text-primary w-100" *ngIf="ShowDataDetails.pvchproportion2 !=0">{{ShowDataDetails.pvchproportion2}}</label>
+                       </div>
+                       </div>
+                       </div>
+                       
+                     
+                       
+                       <div class="ml-1 mt-3 p-0  px-3">
+                         <label class="">Lien Details</label>
+                       </div>
+                      
+                        
+                       <div class="border m-2 mx-3 p-4" >
+                       <div class="row" >
+                       <div class="col-md-4 col-sm-4">
+                        <!-- *ngIf="lien==0"
+*ngIf="lien==0"
+*ngIf="lien==0" -->
+                         <label class="" >Lien To</label>
+                         <label class="font-bold text-primary w-100">{{ShowDataDetails.pvchgroupticket}}</label>
+                       
+                       </div>
+                       <div class="col-md-4 col-sm-4">
+                         <label class="" >Company Branch</label>
+                         <label class="font-bold text-primary w-100">{{ShowDataDetails.pvchlienname}}</label>
+                       
+                       </div>
+                       <div class="col-md-4 col-sm-4">
+                         <label class="" >Company Name</label>
+                         <label class="font-bold text-primary w-100">{{ShowDataDetails.pvchkapilcompany}}</label>
+                       
+                       </div>
+                       
+                       </div>
+                         </div>
+                        
+                       <div class="border m-3 p-3">
+                       <div class=" row">
+                       <div class="col-md-4 col-sm-4">
+                       <label class="">Print Date :</label><span class="px-2">:</span>
+                       <label class="font-bold text-primary">{{todaydate | date :'dd-MMM-yyyy h:mm:ss a '}}</label>
+                       </div>
+                       <div class="col-md-4 col-sm-4">
+                       <label class="">(Authorized Signatory)</label>
+                       
+                       </div>
+                       <div class="col-md-4 col-sm-4">
+                       <label class="">(Authorized Signatory)</label>
+                       </div>
+                       
+                       </div>
+                       </div>
+                       
+                      <p class="gap300" ></p>
+                          </div>
+                      </div>
+                  </kendo-pdf-export>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- ======================================================================================================== -->
+
+<!-- <div class="container-fluid"> 
+  <div class="row"> 
+<div class="col-md-8 m-auto">
+
+  <div class="p-2" *ngFor="let ShowDataDetails of ShowData">
+<div class="row">
+ <div class="col-md-12 col-sm-12 mt-2 text-right justify-content-end">
+ <a class="pr-2">
+   <img class="justify-content-end text-right" src="assets/images/pdf-icon-blue.svg" (click)="pdf.saveAs('Bond Preview.pdf')" 
+  width="20" heigh="20"></a>
+ <a><img src="assets/images/print-icon-blue.svg " (click)="print()" width="20" heigh="20"></a>
+ </div>
+ </div>
+
+ 
+     
+          <kendo-pdf-export #pdf paperSize="A3" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="false">
+              <div id="temp-box">
+
+                  <div class="row">
+                      <div class="col-md-12">
+                        <app-company-details></app-company-details>
+                       
+                   </div>
+               </div>
+                   
+               
+               <hr>
+               <div class="px-3">
+               
+               <div class="row">
+               <div class="col-md-6 col-md-offset-1  text-right">
+                 
+               </div>
+               <div class="col-md-6 text-right">
+                 
+               <div class="pull-right">
+                 
+               <label class="text-inner-left  m-0">Certificate No</label><span>:</span>
+               <label class="text-inner-right pl-1  m-0">{{ShowDataDetails.pFdaccountno}}</label>
+               </div>
+               </div>
+               <hr class="p-0">
+               </div>
+               
+               <div class="row">
+                 <div class="col-md-12 col-sm-12">
+                   <label class="text-inner-left col-sm-3 col-md-3 p-0">Member</label><span class="px-2">:</span>
+                   <label class="text-inner-right">{{ShowDataDetails.pMembername}}</label>
+                   </div>
+               <div class="col-md-12 col-sm-12">
+               <label class="text-inner-left col-sm-3 col-md-3 p-0">Address</label><span class="px-2">:</span>
+               <label class="text-inner-right">{{ShowDataDetails.pAddress}}</label>
+               </div>
+               </div>
+               <div class="row">
+               <div class="col-md-12">
+               <label class="text-inner-left col-sm-3 col-md-3 p-0">Father/Husband Name</label><span class="px-2">:</span>
+               <label class="text-inner-right">{{ShowDataDetails.pFathername}}</label>
+               </div>
+               </div>
+               <div class="row">
+               <div class="col-md-12">
+               <label class="text-inner-left col-sm-3 col-md-3 p-0">Return on advance</label><span class="px-2">:</span>
+               <label class="text-inner-right">{{ShowDataDetails.pInterestpayout}}</label>
+               </div>
+               </div>
+               <div class="row">
+               <div class="col-md-12">
+               <label class="text-inner-left col-sm-3 col-md-3 p-0">Initial advance</label><span class="px-2">:</span>
+               <label class="text-inner-right">{{ShowDataDetails.pDepositamount|mycurrencypipe}}</label>
+               </div>
+               </div>
+               <div class="row">
+                 <div class="col-md-12">
+                 <label class="text-inner-left col-sm-3 col-md-3 p-0">Square Yard</label><span class="px-2">:</span>
+                 <label class="text-inner-right">{{ShowDataDetails.pSquareyard|mycurrencypipe}}</label>
+                 </div>
+                 </div>
+               <div class="row">
+               <div class="col-md-12">
+               <label class="text-inner-left col-sm-3 col-md-3 p-0">Amount in Words</label><span class="px-2">:</span>
+               <label class="text-inner-right">{{ShowDataDetails.pDepositamount|numberToWords | titlecase}}</label>
+               </div>
+               </div>
+               <div class="row">
+               <div class="col-md-12 col-xl-12 mt-4">
+               <div class="table-responsive border p-0">
+                         <table id="example" class="table text-center">
+                                 <thead>
+                         <tr>
+                           <th></th>
+                                     <th></th>
+                                     <th></th>
+                         <th>ADVANCE PUT OPTION RATE</th>
+                         <th></th>
+                         <th></th>
+                         </tr>
+                                   <tr>
+                           <th class="font-bold">Option</th>
+                                     <th>Date</th>
+                                     <th>Period Months</th>
+                                     <th>Next Option Date</th>
+                                     <th>Interest Amount</th>
+                                     <th>Signature</th>
+                                   </tr>
+                                 </thead>
+                                 <tbody>
+                                   <tr>
+                                     <td> 1st </td>
+                                     <td>{{ShowDataDetails.pDepositdate}}</td>
+                                     <td>{{ShowDataDetails.pTenor}}</td>
+                                     <td>{{ShowDataDetails.pMaturitydate}}</td>
+                                     <td>{{ShowDataDetails.pInterestpayable|mycurrencypipe}}</td>
+                            <td></td>
+                                 
+                                   </tr>	
+                
+                                 </tbody>
+                               </table>
+                       </div>
+                       </div>
+                       </div>
+               
+               
+               
+               </div>
+
+               <div class=" mt-3 ml-1 p-0  px-3">
+                 <label class="">Nominee Details</label>
+                 </div>
+               <div class="border m-2 mx-3 p-4">
+               <div class="row" *ngFor="let ind of ShowDataDetails.plstNomieeDetails; let indx = index">
+               <div class="col-md-4 col-sm-4">
+               <label class="" *ngIf="indx ==0">Nominee Name :</label>
+               <label class="font-bold text-primary w-100">{{ind.pNomieename}}</label>
+               </div>
+               <div class="col-md-4 col-sm-4">
+               <label class="" *ngIf="indx ==0">Nominee Relation :</label>
+               <label class="font-bold text-primary w-100 ">{{ind.pReletaion}}</label>
+               </div>
+               <div class="col-md-4 col-sm-4">
+               <label class="" *ngIf="indx ==0">Proportion :</label>
+               <label class="font-bold text-primary w-100">{{ind.pProportion}}</label>
+               </div>
+               </div>
+               </div>
+               
+             
+               
+               <div class="ml-1 mt-3 p-0  px-3">
+                 <label class="">Lien Details</label>
+               </div>
+              
+                
+               <div class="border m-2 mx-3 p-4" >
+               <div class="row" *ngFor="let j  of ShowDataDetails.plstLienDetails;let lien=index">
+               <div class="col-md-4 col-sm-4">
+                 <label class="" *ngIf="lien==0">Lien To</label>
+                 <label class="font-bold text-primary w-100">{{j.pLiento}}</label>
+               
+               </div>
+               <div class="col-md-4 col-sm-4">
+                 <label class="" *ngIf="lien==0">Company Branch</label>
+                 <label class="font-bold text-primary w-100">{{j.pCompanybranch}}</label>
+               
+               </div>
+               <div class="col-md-4 col-sm-4">
+                 <label class="" *ngIf="lien==0">Company Name</label>
+                 <label class="font-bold text-primary w-100">{{j.pCompanyname}}</label>
+               
+               </div>
+               
+               </div>
+                 </div>
+                
+               <div class="border m-3 p-3">
+               <div class=" row">
+               <div class="col-md-4 col-sm-4">
+               <label class="">Print Date :</label><span class="px-2">:</span>
+               <label class="font-bold text-primary">{{todaydate | date :'dd-MMM-yyyy h:mm:ss a '}}</label>
+               </div>
+               <div class="col-md-4 col-sm-4">
+               <label class="">(Authorized Signatory)</label>
+               
+               </div>
+               <div class="col-md-4 col-sm-4">
+               <label class="">(Authorized Signatory)</label>
+               </div>
+               
+               </div>
+               </div>
+
+              </div>
+            </kendo-pdf-export>
+       
+  
+
+     
+     </div>
+</div>
+</div>
+</div> -->

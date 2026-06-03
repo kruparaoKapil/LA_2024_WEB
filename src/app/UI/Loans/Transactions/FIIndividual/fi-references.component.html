@@ -1,0 +1,131 @@
+<div class="row mt-5">
+    <div class="col-md-6 col-xl-4"> <a class="bc-2 mb-2 text-decoration-none"> References</a> </div>
+    <div class="col-md-6 col-xl-4">
+        <div class="material-switch pull-right"> <span class="mr-2">Not applicable</span>
+            <input id="referencess" name="referencess" type="checkbox" [(ngModel)]="notApplicableForReferencFlag" (change)="notApplicableForReferenc($event)">
+            <label for="referencess" class="check-danger"></label>
+
+        </div>
+    </div>
+</div>
+<form [formGroup]="referenceForm">
+    <div class="row" *ngIf="!notApplicableForReferencFlag">
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label class="mt-1" for="inlineRadio2" id="pRefFirstname" title="First Name">First Name</label>
+                <input class="form-control" formControlName="pRefFirstname" appCharactersonly maxlength="75" type="text" [ngClass]="{ 'is-invalid': referenceTypeErrorMessage.pRefFirstname}">
+                <div class="invalid-feedback-cst">
+                    <span *ngIf="referenceTypeErrorMessage.pRefFirstname">{{referenceTypeErrorMessage.pRefFirstname}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label class="mt-1" for="inlineRadio2" id="pRefLastname" title="Last Name">Last Name</label>
+                <input class="form-control" type="text" formControlName="pRefLastname" appCharactersonly maxlength="30" [ngClass]="{ 'is-invalid': referenceTypeErrorMessage.pRefLastname}">
+                <div class="invalid-feedback-cst">
+                    <span *ngIf="referenceTypeErrorMessage.pRefLastname">{{referenceTypeErrorMessage.pRefLastname}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label class="mt-1" for="inlineRadio2" id="pRefcontactNo" title="Primary Contact No.">Primary Contact No.</label>
+                <input class="form-control" type="text" appNumbersonly minlength="10" maxlength="12" formControlName="pRefcontactNo" [ngClass]="{ 'is-invalid': referenceTypeErrorMessage.pRefcontactNo}">
+                <div class="invalid-feedback-cst">
+                    <span *ngIf="referenceTypeErrorMessage.pRefcontactNo">{{referenceTypeErrorMessage.pRefcontactNo}}</span>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label class="mt-1" for="inlineRadio2" id="pRefalternatecontactNo" title="Contact Number">Contact Number</label>
+                <input class="form-control" type="text" appNumbersonly minlength="10" maxlength="12" formControlName="pRefalternatecontactNo" [ngClass]="{ 'is-invalid': referenceTypeErrorMessage.pRefalternatecontactNo}">
+                <div class="invalid-feedback-cst">
+                    <span *ngIf="referenceTypeErrorMessage.pRefalternatecontactNo">{{referenceTypeErrorMessage.pRefalternatecontactNo}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label class="mt-1" for="inlineRadio2" id="pRefEmailID" title="Primary Email Id">Primary Email ID</label>
+                <input class="form-control" type="email" appEmailFormat maxlength="75" appEmailpattern pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$" maxlength="50" formControlName="pRefEmailID" [ngClass]="{ 'is-invalid': referenceTypeErrorMessage.pRefEmailID}">
+                <div class="invalid-feedback-cst">
+                    <span *ngIf="referenceTypeErrorMessage.pRefEmailID">{{referenceTypeErrorMessage.pRefEmailID}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label class="mt-1" for="inlineRadio2" id="pRefAlternateEmailId" title="Email Id">Email ID</label>
+                <input class="form-control" type="email" appEmailFormat maxlength="75" appEmailpattern pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$" maxlength="50" formControlName="pRefAlternateEmailId" [ngClass]="{ 'is-invalid': referenceTypeErrorMessage.pRefAlternateEmailId}">
+                <div class="invalid-feedback-cst">
+                    <span *ngIf="referenceTypeErrorMessage.pRefAlternateEmailId">{{referenceTypeErrorMessage.pRefAlternateEmailId}}</span>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="col-md-12 col-xl-12">
+            <div class="form-group mb-1">
+                <div class="d-flex justify-content-end mt-4">
+                    <a href="#" data-toggle="tab" class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" aria-selected="false" (click)="saveReference()"><img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-xl-12">
+                <p class="bc-2">Reference</p>
+                <kendo-grid [data]="applicationReferenceData" [reorderable]="true" [resizable]="true" [sortable]="true" (remove)="removeHandler($event)">
+
+                    <kendo-grid-column field="pRefFirstname" title="First Name" width="100">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="pRefLastname" title="Last Name" width="100">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pRefcontactNo" width="100" title="Primary Contact No">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pRefalternatecontactNo" title="Contact Number" width="50">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pRefEmailID" title="Primary Email ID" width="100">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pRefAlternateEmailId" title="Email ID" width="100">
+                    </kendo-grid-column>
+                    <kendo-grid-command-column title="" width="220">
+                        <ng-template kendoGridCellTemplate>
+                            <!-- <button kendoGridEditCommand>Edit</button> -->
+                            <button kendoGridRemoveCommand>
+                <div id="icon-delete"></div>
+              </button>
+                        </ng-template>
+                    </kendo-grid-command-column>
+
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="row mt-4 ml-1">
+    <div class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end mt-4">
+            <a *ngIf="forClearButton" (click)="clearFormData()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+            <a href="#" data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" role="tab" aria-controls="hot" (click)="moveToPreviousTab()" aria-selected="false"><img src="assets/images/icon-chewron-left-whitesolid.svg" width="20px" height="20px" class="mr-3" />Back</a>
+
+            <!-- <a (click)="NextTabClick()" data-toggle="tab" class="btn btn-b-icon px-3 border-0 "
+        role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-chewron-right-whitesolid.svg"
+          width="20px" height="20px" class="mr-3" />Save & Continue</a>  -->
+
+            <button (click)="NextTabClick()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" [disabled]="isLoading">
+          <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading,'fa-check': !isLoading}"></i>
+          <span *ngIf="!isLoading">
+          </span>{{buttonName}}</button>
+
+        </div>
+    </div>
+</div>
+
+<div class="my-container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplateForFiView">
+    </ngx-loading>
+
+</div>

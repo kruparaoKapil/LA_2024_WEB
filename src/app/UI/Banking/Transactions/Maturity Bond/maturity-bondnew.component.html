@@ -1,0 +1,508 @@
+<div class="row">
+    <div class="col-6">
+        <p class="bc-2">Maturity Bond</p>
+    </div>
+    <div class="col-md-6 col-xl-6">
+        <a routerLink="/MaturityBondView" class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+        color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;">
+            <img src="assets/images/icon-back-blue.svg" width="25px" height="25px">View
+        </a>
+
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-8 col-xl-8">
+        <div class="section-container">
+            <form [formGroup]="MaturityBondForm" autocomplete="off">
+                <div class="row mt-2">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group" [ngClass]="{'for-disable-radio-btn': DateLockStatus}">
+                            <label>Date</label>
+                            <fieldset [disabled]="!disabletransactiondate">
+                                <input type="text" class="form-control" readonly placeholder="Date picker here" formControlName="pTransdate" [bsConfig]="dpConfig1" #dp="bsDatepicker" (ngModelChange)="ReceiptDateChange()" [bsValue]="bsValue" bsDatepicker placement="bottom" />
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label id="pMaturityType" title="Maturity Type">Maturity Type</label>
+                            <ng-select title="Maturity" [items]="MaturityTypeList" formControlName="pMaturityType" bindLabel="MaturityType" bindValue="MaturityType" [multiple]=false placeholder="Select" (change)="MaturityTypeChange($event);" [searchable]=true [clearable]=true dropdownPosition="bottom"
+                                [clearOnBackspace]=true [ngClass]="{ 'is-invalid': formValidationMessages.pMaturityType }">
+                            </ng-select>
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="formValidationMessages.pMaturityType">{{formValidationMessages.pMaturityType}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4" hidden>
+                        <div class="form-group">
+                            <label id="pTranstype" title="Transaction Type">Transaction Type</label>
+                            <!-- <ng-select title="Transaction Type" [items]="TransactionTypeDetails" formControlName="pTranstype" bindLabel="Transtype" bindValue="Transtype" [multiple]=false placeholder="Select" (change)="TransactionType($event);" [searchable]=true [clearable]=true
+                                dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': formValidationMessages.pTranstype }">
+                            </ng-select> -->
+                            <input type="text" class="form-control" formControlName="pTranstype" readonly>
+                            <!-- <div class="invalid-feedback-cst">
+                                <span *ngIf="formValidationMessages.pTranstype">{{formValidationMessages.pTranstype}}</span>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label id="pSchemeName" title="Scheme Name">Scheme Name</label>
+                            <ng-select title="Select Scheme Type" id="" [items]="Schemedata" bindLabel="pSchemeName" bindValue="pSchemeName" formControlName="pSchemeName" [multiple]=false placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                                (change)="SchemeNameChange($event);" [ngClass]="{ 'is-invalid': formValidationMessages.pSchemeName }">
+
+                            </ng-select>
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="formValidationMessages.pSchemeName">{{formValidationMessages.pSchemeName}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4 col-xl-4 members">
+                        <div class="form-group">
+                            <label id="paccountno" title="Account No">Account No.</label>
+                            <ng-select [items]="Accountdata" formControlName="paccountno" bindLabel="paccountno" bindValue="paccountno" [multiple]=false placeholder="Select" [searchable]="true" [searchFn]="customSearchFn" (change)="AccountNoChange($event)" [clearable]=true dropdownPosition="bottom"
+                                [clearOnBackspace]=true [ngClass]="{ 'is-invalid': formValidationMessages.paccountno }">
+                                <ng-template ng-header-tmp>
+                                    <label class="col-4 p-0"><strong>Account No</strong> </label>
+                                    <label class="col-4 p-0"><strong>Member</strong> </label>
+                                    <label class="col-4 p-0"><strong>Contact No.</strong> </label>
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                    <div class="row">
+                                        <span class="col-4 text-dark word-break text-wrap">{{item.paccountno}}</span>
+                                        <span class="col-4 word-break text-wrap text-dark">{{item.pMembername}}</span>
+                                        <span class="col-4 text-dark" [ngOptionHighlight]="search">{{item.pContactno}}</span>
+                                    </div>
+                                </ng-template>
+                            </ng-select>
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="formValidationMessages.paccountno">{{formValidationMessages.paccountno}}</span>
+                            </div>
+                            <!--<ng-select title="Maturity" [items]="FdDetailsList" formControlName="pFdaccountno"
+                   bindLabel="pFdaccountno" bindValue="pFdaccountno" [multiple]=false placeholder="Select" (change)="MaturityTypeChange($event);"
+                   [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true>
+          <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+            <div *ngIf="index ==0">
+              <label class="col-4 p-0"><strong>Advance Account No.</strong> </label>
+              <label class="col-4 p-0"><strong>Member Name</strong> </label>
+              <label class="col-4 p-0" style="text-align:center"><strong>Contactno</strong> </label>
+
+            </div>
+            <hr class="light">
+            <div class="row">
+              <span class="col-4 text-dark">{{item.pFdaccountno}}</span>
+
+              <span class="col-4 text-dark">{{item.pMembername}}</span>
+
+              <span class="col-4 text-dark">{{item.pContactno}}</span>
+              <hr class="light">
+            </div>
+
+          </ng-template>
+
+        </ng-select>-->
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 col-xl-4">
+                        <div class="form-group" [ngClass]="NotEditable ? 'disableTabs':''">
+                            <label id="pNetpayble" title="Advance Amount">Advance Amount</label>
+                            <input type="text" class="form-control" style="text-align:right;" value="{{Deposiamount}}" readonly>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row" *ngIf="MaturityDetails.length!='' && MaturityType=='Pre-Maturity'">
+                    <div class="col-md-12 col-xl-12">
+                        <div class="border rounded bg-white p-2">
+
+                            <label class="col-12 bc-2 p-0"><strong>Pre-Maturity</strong> </label>
+                            <hr class="light">
+                            <div class="row">
+                                <div class="col-md-3 col-xl-3">
+                                    <div class="form-group" [ngClass]="NotEditable ? 'disableTabs':''">
+                                        <label id="pInterestPayable" title="Interest Payable">Interest Amount</label>
+                                        <input type="text" class="form-control" formControlName="pInterestpayble" style="text-align:right;" appMycurrencyFormatter appNumbersonly maxlength="12" readonly>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3 col-xl-3">
+                                    <div class="form-group" [ngClass]="NotEditable ? 'disableTabs':''">
+                                        <label id="pAgentConsolidated" title="Agent Consolidated">Promoter Salary</label>
+                                        <input type="text" class="form-control" formControlName="pAgentcommssionPayable" style="text-align:right;" appMycurrencyFormatter appNumbersonly maxlength="12" readonly>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3 col-xl-3">
+                                    <div class="form-group">
+                                        <label id="pDamages" title="Damages">Damages</label>
+                                        <input type="text" class="form-control" formControlName="pDamages" (keyup)="DamagesChange($event);" style="text-align:right;" appMycurrencyFormatter appNumbersonly maxlength="12" readonly>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-3 col-xl-3">
+                                    <div class="form-group" [ngClass]="NotEditable ? 'disableTabs':''">
+                                        <label id="pNetpayble" title="NetPayble">Net Payable</label>
+                                        <input type="text" class="form-control" formControlName="pNetpayble" style="text-align:right;" appMycurrencyFormatter appNumbersonly maxlength="12" readonly>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3 col-xl-3">
+                                    <div class="form-group" [ngClass]="NotEditable ? 'disableTabs':''">
+                                        <label id="ptdsamount" title="TDS Payable">TDS Payable</label>
+                                        <input type="text" class="form-control" formControlName="ptdsamount" style="text-align:right;" appMycurrencyFormatter appNumbersonly maxlength="12" readonly>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-danger">
+
+                            Note:Net Payable= Advance Amount + Interest Amount - TDS - Promoter Salary - Interest Paid - Damages
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="row" *ngIf="MaturityDetails.length!='' && MaturityType=='Maturity'">
+                    <div class="col-md-12 col-xl-12">
+                        <div class="border rounded bg-white p-2">
+
+                            <label class="col-12 bc-2 p-0"><strong>Maturity</strong> </label>
+                            <hr class="light">
+                            <div class="row">
+                                <div class="col-md-4 col-xl-4">
+                                    <div class="form-group" [ngClass]="NotEditable ? 'disableTabs':''">
+                                        <label id="pInterestAmount" title="Interest Payable">Interest Amount</label>
+                                        <input type="text" class="form-control" formControlName="pInterestpayble" style="text-align:right;" appMycurrencyFormatter appNumbersonly maxlength="12" readonly>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4 col-xl-4">
+                                    <div class="form-group" [ngClass]="NotEditable ? 'disableTabs':''">
+                                        <label id="ptdsamount" title="TDS Payable">TDS Payable</label>
+                                        <input type="text" class="form-control" formControlName="ptdsamount" style="text-align:right;" appMycurrencyFormatter appNumbersonly maxlength="12" readonly>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4 col-xl-4">
+                                    <div class="form-group" [ngClass]="NotEditable ? 'disableTabs':''">
+                                        <label id="pNetpayble" title="Net Payable">Net Payable</label>
+                                        <input type="text" class="form-control" formControlName="pNetpayble" style="text-align:right;" appMycurrencyFormatter appNumbersonly maxlength="12" readonly>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <p class="text-danger">
+
+                            Note:Net Payable= Advace Amount+Interest Amount-TDS Payable
+                        </p>
+
+                    </div>
+                </div>
+
+                <div class="row mt-2" *ngIf="hideliendetails">
+                    <div class="col-md-12 col-xl-12">
+                        <div class="border rounded bg-white p-2">
+
+                            <label class="col-12 bc-2 p-0"><strong>Lien Details</strong> </label>
+                            <hr class="light">
+                            <ngx-datatable class="material expandable table" [rows]="LienDetails" [headerHeight]="60" [footerHeight]="50" [scrollbarH]="true" [height]="" [selected]="" rowHeight="auto">
+
+
+                                <ngx-datatable-column name="Lien Date" prop="pLiendate" [cellClass]="'cell-left'" [headerClass]="'header-left'"> </ngx-datatable-column>
+                                <ngx-datatable-column name="Member" prop="pMembername" [cellClass]="'cell-left'" [headerClass]="'header-left'"> </ngx-datatable-column>
+                                <ngx-datatable-column name="Advance Date" prop="pDepositdate" [cellClass]="'cell-left'" [headerClass]="'header-left'"> </ngx-datatable-column>
+                                <ngx-datatable-column name="Advance Amount" prop="pDepositamount" [cellClass]="'cell-right'" [headerClass]="'header-right'">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.pDepositamount|mycurrencypipe}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Lien Amount" prop="pLienamount" [cellClass]="'cell-right'" [headerClass]="'header-right'">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.pLienamount|mycurrencypipe}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Branch" prop="pCompanybranch" [cellClass]="'cell-left'" [headerClass]="'header-left'"> </ngx-datatable-column>
+                                <ngx-datatable-column name="Lien Adjust To." prop="pLienadjuestto" [cellClass]="'cell-left'" [headerClass]="'header-left'"> </ngx-datatable-column>
+                            </ngx-datatable>
+                            <p class="text-danger">Note:To Save The Maturity Bond You Should Release The Liens For This Advance Account No.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 p-0">
+                    <div class="col-12 p-0 form-group mt-4">
+                        <label id="pNarration" title="Narration">Narration</label>
+                        <textarea class="form-control" formControlName="pNarration" maxlength="150" [ngClass]="{ 'is-invalid': formValidationMessages.pNarration }"></textarea>
+                        <div class="invalid-feedback-cst">
+                            <span *ngIf="formValidationMessages.pNarration">{{formValidationMessages.pNarration}}</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row mt-4 ml-1 mb-4">
+                <div class="col-md-12 col-xl-12">
+                    <div class="d-flex justify-content-end mt-4">
+                        <a (click)="ClearAllData()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+                        <!-- <a href="#" data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" role="tab"
+                              aria-controls="hot" aria-selected="false"><img src="assets/images/icon-chewron-left-whitesolid.svg"
+                                  width="20px" height="20px" class="mr-3" />Back</a> -->
+                        <a (click)="SaveMaturityBond()" data-toggle="tab" class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />{{savebutton}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-4 col-xl-4 pl-0">
+        <div class="section-container h-100">
+            <div class="form-check form-check-inline boxx radio-btn" [ngClass]="disabledforButtons ? 'disableTabs':''" *ngIf="MaturityDetails.length!='' && MaturityType!='Maturity'">
+                <input class="form-check-input" type="radio" name="FDAndTransactionDetails" id="TransactionDetails" [checked]="showPreMaturityDetails" [checked]="MaturityTyperadio" value="TransactionDetails">
+                <label class="mt-1 w-m-100 boxx text-center" (click)="GetSchemAndMaturityDetails('PreMaturityDetails')" for="TransactionDetails">
+         {{MaturityType}} Details
+        </label>
+            </div>
+            <div class="form-check form-check-inline boxx radio-btn" [ngClass]="disabledforButtons ? 'disableTabs':''" *ngIf="MaturityDetails.length!=''">
+                <input class="form-check-input" type="radio" name="FDAndTransactionDetails" (click)="GetSchemAndMaturityDetails('SchemeDetails')" id="AccountDetails" [checked]="ShowFixeddepositdetails" value="AccountDetails">
+                <label class="mt-1 w-m-100 boxx text-center" for="AccountDetails" checked>
+          Transaction Details
+        </label>
+            </div>
+
+
+            <div *ngIf="MaturityDetails.length!='' && ShowFixeddepositdetails==true ">
+
+                <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0"> Account No :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left  word-break text-wrap">{{TransactionData[0]?.paccountno}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Member :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left  word-break text-wrap"><b>{{TransactionData[0]?.pMembername}}</b></label>
+                </div>
+
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Pan No. :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left  word-break text-wrap"><b>{{MaturityDetails.pPan}}</b></label>
+                </div>
+
+                
+
+                <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Advance Amount :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{TransactionData[0]?.pDeposiamount | currencypipewithdecimal}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Maturity Amount :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{TransactionData[0]?.pMaturityamount | currencypipewithdecimal}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Advance Date :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{TransactionData[0]?.pDeposidate}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Maturity Date :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{TransactionData[0]?.pMaturitydate}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Tenure :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{TransactionData[0]?.pTenor}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Tenure Type:</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{TransactionData[0]?.pTenortype}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Interest Type :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{TransactionData[0]?.pInteresttype}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Interest Rate :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{TransactionData[0]?.pInterestrate | currencypipewithdecimal}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Interest Payable :</label>
+                    <label class="col-md-4 pl-0 pr-0 sec-head-bold-style text-left">{{TransactionData[0]?.pInterestPayble | currencypipewithdecimal}}</label>
+                </div>
+
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Interest Payout :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{TransactionData[0]?.pInterestPayout}}</label>
+                </div>
+            </div>
+
+            <div *ngIf="MaturityDetails.length!='' && MaturityType=='Pre-Maturity' && MaturityTyperadio==true">
+
+
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Member :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left  word-break text-wrap"><b>{{MaturityDetails.pMember}}</b></label>
+                </div>
+
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Pan No. :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left  word-break text-wrap"><b>{{MaturityDetails.pPan}}</b></label>
+                </div>
+
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Bond Date :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityDetails.pBondDate}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Pre-Mature Date :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityDetails.pMatureDate}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Tenure :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{TransactionData[0]?.pTenor}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Advance Amount :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityDetails.pBondamount | currencypipewithdecimal}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Actual Rate of Interest:</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityDetails.pActualrateinterest}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Interest Paid Amount :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityDetails.pInterestpaidamt| currencypipewithdecimal}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Pre Rate of Interest :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityDetails.pRateofinterest}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Interest Amount :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityDetails.pCalcinterestamt| currencypipewithdecimal}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">TDS Payable :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityDetails.pTdsPayble| currencypipewithdecimal}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Interest Payable :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityDetails.pIntrestPayble| currencypipewithdecimal}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Commission Paid :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityDetails.pCommissionPaid| currencypipewithdecimal}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Promoter Salary :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityDetails.pPromotorsalary | currencypipewithdecimal}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Damages :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityBondForm.controls.pDamages.value}}</label>
+                </div>
+                <!-- <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Suspense Amount :</label>
+                    <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{MaturityDetails.pSuspenceAmount | currencypipewithdecimal}}</label>
+                </div> -->
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Net Payable :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{netPayableAmount | currencypipewithdecimal}}</label>
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+            <!-- <div *ngIf="MaturityDetails.length!='' && MaturityType=='Maturity' && MaturityTyperadio==true"> -->
+            <div *ngIf="MaturityDetails.length!=0">
+
+
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Member :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left  word-break text-wrap"><b>{{MaturityDetails.pMember}}</b></label>
+                </div>
+                <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Branch :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityDetails.pBranch}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Bond Date :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityDetails.pBondDate}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Pre-Mature Date :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityDetails.pMatureDate}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Tenure :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{TransactionData[0]?.pTenor}}</label>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Net Payable  :</label>
+                    <!-- <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{pre_BondAmount | currencypipewithdecimal}}</label> -->
+                     <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{MaturityBondForm.controls.pNetpayble.value }}</label>
+                </div>
+                <!-- <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Actual Rate of Interest :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{pre_Actualrateinterest}}</label>
+                </div> -->
+                <!-- <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Interest Paid Amount :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{pre_Interestpaidamt| currencypipewithdecimal}}</label>
+                </div> -->
+                <!-- <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Pre Rate of Interest :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{pre_Rateofinterest}}</label>
+                </div> -->
+                <!-- <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Interest Amount :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{PreMaturityInterestPayble| currencypipewithdecimal}}</label>
+                </div> -->
+                <!-- <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">TDS Payable :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{TdsPayble| currencypipewithdecimal}}</label>
+                </div> -->
+                <!-- <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Interest Payable :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{Interest_Payable| currencypipewithdecimal}}</label>
+                </div> -->
+                <!-- <div class="col-md-12 col-xl-12  d-flex">
+                    <label class="col-md-6 pl-0 pr-0">Commission Paid :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{CommissionPaid| currencypipewithdecimal}}</label>
+                </div> -->
+                <!-- <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Promoter Salary :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{Agencomm | currencypipewithdecimal}}</label>
+                </div> -->
+                <!-- <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Suspense Amount :</label>
+                    <label class="col-md-4 pl-0 pr-0 sec-head-bold-style text-left">{{SuspenseAmount | currencypipewithdecimal}}</label>
+                </div> -->
+                <!-- <div class="col-md-12 col-xl-12">
+                    <label class="col-md-6 pl-0 pr-0">Net Payable :</label>
+                    <label class="col-md-6 pl-0 pr-0 sec-head-bold-style text-left">{{pre_Netpay | currencypipewithdecimal}}</label>
+                </div> -->
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

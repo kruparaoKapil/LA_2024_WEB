@@ -1,0 +1,363 @@
+<ng-template #customLoadingTemplate>
+    <div class="custom-class">
+        <h3>
+            Loading...
+        </h3>
+
+    </div>
+</ng-template>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+</ngx-loading>
+
+<div class="row mt-2">
+
+    <div class="col-md-12 col-xl-12">
+
+        <ul class="nav  filtered-tab nav-tabs mt-0">
+            <li class="active"><a data-toggle="tab" href="#save" (click)="SelectTab('New')" class="active">New <span
+            class="badge badge-info">{{LoansCountNew}}</span></a>
+            </li>
+            <li><a data-toggle="tab" href="#approval" (click)="SelectTab('Approved')">Approved <span
+            class="badge badge-success">{{LoansCountApproved}}</span></a></li>
+            <li><a data-toggle="tab" href="#approved" (click)="SelectTab('Rejected')">Rejected <span
+            class="badge badge-danger">{{LoansCountRejected}}</span></a></li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+
+            <div class="tab-pane show active fade" id="save" role="tabpanel" aria-labelledby="hot-tab">
+
+
+                <kendo-grid [kendoGridBinding]="LoansDataNew" [pageSize]="10" [groupable]="true" [group]="groups" [resizable]="true" [pageable]="{buttonCount: 2}" [reorderable]="true" [columnMenu]="{ filter: true }" [pageable]="true" [sortable]="true">
+
+                    <ng-template kendoGridToolbarTemplate>
+                        <div class="row mt-4 mb-3 px-3 py-3">
+                            <div class="col-4 pl-0 mt-n1">
+                                <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="SearchRecord($event.target.value)" />
+                            </div>
+                            <div class="col-7 pr-0 pl-4 ml-4">
+                                <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                                    <li class="temp-ico ml-2">
+                                        <a kendoGridPDFCommand><img class="pt-1 pl-4" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                    </li>
+                                    <li class="temp-ico">
+                                        <a kendoGridExcelCommand><img class="pt-1 pl-4" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                                    </li>
+                                    <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <kendo-grid-column-group title="Approval (New)" [headerClass]="{'kendo-g-center' : true}">
+
+                        <kendo-grid-column field="pStatus" title="Loan Status" width="180">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <a (click)="SelectLoan(dataItem,'NotApproved')"><i class="notdone"></i> Not
+                  Approved</a>
+                            </ng-template>
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2">Total</p>
+                            </ng-template>
+                        </kendo-grid-column>
+
+
+                        <kendo-grid-column field="pApplicantname" title="Appl. Name" width="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pMobileno" title="Contact No" width="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pAmountrequested" title="Loan Amount" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pAmountrequested |mycurrencypipe }}
+                            </ng-template>
+
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2 text-right">{{aggregates[field]?.sum | mycurrencypipe}}</p>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <!-- <kendo-grid-column field="pDateofapplication" title="Date Of Application" width="150">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pDateofapplication }}
+            </ng-template>
+          </kendo-grid-column> -->
+                        <kendo-grid-column field="pDateofapplication" title="Date Of Application" width="150" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pLoantype" title="Loan Type" width="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pLoanname" title="Loan Name" width="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pVchapplicationid" title="Application No" width="150">
+                        </kendo-grid-column>
+                    </kendo-grid-column-group>
+                    <kendo-grid-pdf fileName="Approval_View.pdf" [repeatHeaders]="true" [allPages]="true" paperSize="A3" [landscape]="true">
+                        <ng-template kendoGridPDFTemplate>
+                            <div class="page-template">
+                                <div class="header bc-2 text-center">
+                                    <h5> Approval (New) </h5>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+
+                        <kendo-grid-column field="pApplicantname" title="Appl. Name" width="150">
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2">Total</p>
+                            </ng-template>
+                            <ng-template kendoGridFooterTemplate>
+                                <p class="bc-2">Grand Total</p>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pMobileno" title="Contact No" width="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pAmountrequested" title="Loan Amount" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pAmountrequested |mycurrencypipe }}
+                            </ng-template>
+
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2 text-right">{{aggregates[field]?.sum | mycurrencypipe}}</p>
+                            </ng-template>
+                            <ng-template kendoGridFooterTemplate>
+                                <p class="bc-2">{{loanamount1 | mycurrencypipe}}</p>
+
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pDateofapplication" title="Date Of Application" width="150" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        </kendo-grid-column>
+                        <!-- <kendo-grid-column field="pDateofapplication" title="Date Of Application" width="150"></kendo-grid-column> -->
+                        <kendo-grid-column field="pLoantype" title="Loan Type" width="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pLoanname" title="Loan Name" width="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pVchapplicationid" title="Application No" width="150">
+                        </kendo-grid-column>
+                    </kendo-grid-pdf>
+                    <kendo-grid-excel fileName="Approval_View.xlsx">
+                        <!-- <kendo-excelexport-column-group title="Approval (New)" [headerCellOptions]="headerCells">
+              </kendo-excelexport-column-group> -->
+                    </kendo-grid-excel>
+
+                </kendo-grid>
+            </div>
+
+            <div class="tab-pane fade" id="approval" role="tabpanel" aria-labelledby="hot-tab">
+                <kendo-grid [kendoGridBinding]="LoansDataApproved" [groupable]="true" [group]="groupsApproved" [resizable]="true" [pageSize]="10" [reorderable]="true" [columnMenu]="{ filter: true }" [pageable]="true" [sortable]="true">
+
+                    <ng-template kendoGridToolbarTemplate>
+                        <div class="row mt-4 mb-3 ml-3">
+                            <div class="col-4 pl-0 mt-n1">
+                                <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="SearchRecord($event.target.value)" />
+                            </div>
+                            <div class="col-7 pr-0 ">
+                                <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                                    <li class="temp-ico ml-2">
+                                        <a kendoGridPDFCommand><img class="pt-2 pl-4" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                    </li>
+                                    <li class="temp-ico">
+                                        <a kendoGridExcelCommand><img class="pt-2 pl-4" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                                    </li>
+                                    <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <kendo-grid-column-group title="Approval (Approved)" [headerClass]="{'kendo-g-center' : true}">
+                        <kendo-grid-column field="pStatus" title="Loan Status" width="180">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <a><i class="done"></i>Approved</a>
+                            </ng-template>
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2">Total</p>
+                            </ng-template>
+
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pApplicantname" title="Appl. Name" width="200">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pMobileno" title="Contact No" width="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pApprovedloanamount" title="Loan Amount" width="200" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pApprovedloanamount |mycurrencypipe }}
+                            </ng-template>
+
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2 text-right">{{aggregates[field]?.sum | mycurrencypipe}}</p>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <!-- <kendo-grid-column field="pDateofapplication" title="Date Of Application" width="175">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pDateofapplication }}
+                            </ng-template>
+                        </kendo-grid-column> -->
+                        <kendo-grid-column field="pDateofapplication" title="Date Of Application" width="150" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pAproveddate" title="Approved Date" width="175">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pAproveddate }}
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pLoantype" title="Loan Type" width="155">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pLoanname" title="Loan Name" width="155">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pVchapplicationid" title="Application No" width="175">
+                        </kendo-grid-column>
+
+                    </kendo-grid-column-group>
+                    <kendo-grid-pdf fileName="Approval_View.pdf" [repeatHeaders]="true" paperSize="A1" [allPages]="true">
+                        <ng-template kendoGridPDFTemplate>
+                            <div class="page-template">
+                                <div class="header bc-2 text-center">
+                                    <h5> Approval (Approved) </h5>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+
+                        <kendo-grid-column field="pApplicantname" title="Appl. Name" width="200">
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2">Total</p>
+                            </ng-template>
+
+                            <ng-template kendoGridFooterTemplate>
+                                <p class="bc-2">Grand Total</p>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pMobileno" title="Contact No" width="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pAmountrequested" title="Loan Amount" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pAmountrequested |mycurrencypipe }}
+                            </ng-template>
+                            <ng-template kendoGridFooterTemplate>
+                                <p class="bc-2">{{loanamount2 | mycurrencypipe}}</p>
+
+                            </ng-template>
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2 text-right">{{aggregates[field]?.sum | mycurrencypipe}}</p>
+                            </ng-template>
+                        </kendo-grid-column>
+                       <kendo-grid-column field="pDateofapplication" title="Date Of Application" width="150" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        </kendo-grid-column>>
+                        <kendo-grid-column field="pAproveddate" title="Approved Date" width="175"></kendo-grid-column>
+                        <kendo-grid-column field="pLoantype" title="Loan Type" width="155">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pLoanname" title="Loan Name" width="155">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pVchapplicationid" title="Application No" width="175">
+                        </kendo-grid-column>
+                    </kendo-grid-pdf>
+                    <kendo-grid-excel fileName="Approval_View.xlsx"></kendo-grid-excel>
+                </kendo-grid>
+            </div>
+
+            <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="warm-tab">
+                <kendo-grid [kendoGridBinding]="LoansDataRejected" [pageSize]="10" [groupable]="true" [group]="groups" [resizable]="true" [pageable]="{buttonCount: 2}" [reorderable]="true" [columnMenu]="{ filter: true }" [pageable]="true" [sortable]="true">
+
+                    <ng-template kendoGridToolbarTemplate>
+                        <div class="row mt-4 mb-3 ml-3">
+                            <div class="col-4 pl-0 mt-n1 ">
+                                <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="SearchRecord($event.target.value)" />
+                            </div>
+                            <div class="col-7 pr-0">
+                                <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                                    <li class="temp-ico ml-2">
+                                        <a kendoGridPDFCommand><img class="pt-2 pl-4" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                    </li>
+                                    <li class="temp-ico">
+                                        <a kendoGridExcelCommand><img class="pt-2 pl-4" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                                    </li>
+                                    <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <kendo-grid-column-group title="Approval (Rejected)" [headerClass]="{'kendo-g-center' : true}">
+                        <kendo-grid-column field="pStatus" title="Loan Status" width="180">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <a><i class="notdone"></i>Rejected</a>
+                            </ng-template>
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2">Total</p>
+                            </ng-template>
+
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pApplicantname" title="Appl. Name" width="200">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pMobileno" title="Contact No" width="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pAmountrequested" title="Loan Amount" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pAmountrequested |mycurrencypipe }}
+                            </ng-template>
+
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2 text-right">{{aggregates[field]?.sum | mycurrencypipe}}</p>
+                            </ng-template>
+                        </kendo-grid-column>
+                      <kendo-grid-column field="pDateofapplication" title="Date Of Application" width="150" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        </kendo-grid-column>>
+                        <kendo-grid-column field="pAproveddate" title="Rejected Date" width="175">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pAproveddate }}
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pLoantype" title="Loan Type" width="155">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pLoanname" title="Loan Name" width="155">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pVchapplicationid" title="Application No" width="175">
+                        </kendo-grid-column>
+                    </kendo-grid-column-group>
+                    <kendo-grid-pdf fileName="Approval_View.pdf" [repeatHeaders]="true" paperSize="A1" [allPages]="true">
+                        <!-- <ng-template kendoGridPDFTemplate>
+                  <div class="page-template">
+                     <div class="header bc-2 text-center">
+                      <h5> Approval (Rejected) </h5>
+                     </div>
+                   </div>
+                 </ng-template> -->
+                        <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+
+                        <kendo-grid-column field="pApplicantname" title="Appl. Name" width="200">
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2">Total</p>
+                            </ng-template>
+                            <ng-template kendoGridFooterTemplate>
+                                <p class="bc-2">Grand Total</p>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pMobileno" title="Contact No" width="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pAmountrequested" title="Loan Amount" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pAmountrequested |mycurrencypipe }}
+                            </ng-template>
+                            <ng-template kendoGridFooterTemplate>
+                                <p class="bc-2">{{loanamount3 | mycurrencypipe}}</p>
+
+                            </ng-template>
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p class="bc-2 text-right">{{aggregates[field]?.sum | mycurrencypipe}}</p>
+                            </ng-template>
+                        </kendo-grid-column>
+                       <kendo-grid-column field="pDateofapplication" title="Date Of Application" width="150" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        </kendo-grid-column>>
+                        <kendo-grid-column field="pAproveddate" title="Rejected Date" width="175"></kendo-grid-column>
+                        <kendo-grid-column field="pLoantype" title="Loan Type" width="155">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pLoanname" title="Loan Name" width="155">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pVchapplicationid" title="Application No" width="175">
+                        </kendo-grid-column>
+                    </kendo-grid-pdf>
+                    <kendo-grid-excel fileName="Approval_View.xlsx"></kendo-grid-excel>
+                </kendo-grid>
+            </div>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,134 @@
+<!-- modal -->
+
+  <div *ngIf="showPage">
+
+    <form [formGroup]="AccountMasterForm" autocomplete="off">
+      <div class="modal-dialog">
+        <div class="model-cst modal-content">
+          <div class="modal-header border-0">
+            <h5 class="bc-2"></h5>
+            <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+          </div>
+          
+          <div class="modal-body">
+
+            <div class="form-group" *ngIf="showacctype">
+
+              <div class="form-check form-check-inline mr-5 radio-btn-secondary" *ngIf="showaccledger">
+                <input class="form-check-input" type="radio" name="pChracctype" id="pChracctype" value="2" (change)="Isseleted()" formControlName="pChracctype" [readonly]="" [ngClass]="{ 'is-invalid': f.pChracctype.errors && submitted }">
+                <label class="form-check-label" for="pChracctype"> A/C Ledger</label>
+              </div>
+
+              <div class="form-check form-check-inline radio-btn-secondary" *ngIf="showaccgroup">
+                <input class="form-check-input" type="radio" name="pChracctype" id="pChracctype2" value="1" (change)="Isseleted()" formControlName="pChracctype" [ngClass]="{ 'is-invalid': f.pChracctype.errors && submitted }">
+                <!-- [readonly]="disablegroup" -->
+                <label class="form-check-label" for="pChracctype2"> Group</label>
+              </div>
+
+              <div *ngIf="submitted &&f.pChracctype.errors?.required" style="font-size:80%;color:#dc3545">Select Account Type</div>
+            </div>
+
+
+            <div class="form-group">
+              <label for="">Ledger</label>
+              <input type="text" class="form-control" value="{{parrentaccountname}}" readonly />
+
+            </div>
+            <div class="form-group">
+              <label for="">A/C ledger or Sub ledger</label>
+              <input type="text" class="form-control" formControlName="pAccountname" placeholder="Enter Account Name" [ngClass]="{ 'is-invalid': f.pAccountname.errors && submitted }" style="text-transform:uppercase;" />
+              <div *ngIf="submitted &&f.pAccountname.errors" class="invalid-feedback">
+                <div *ngIf="f.pAccountname.errors.required">Enter Account Name</div>
+              </div>
+            </div>
+            <div class="d-flex">
+              <div class="col-md-6 pl-0" *ngIf="showopeningbalance">
+
+                <div class="form-group">
+
+                  <label for="">Opening balance</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" formControlName="pOpeningamount" style="text-align:right;" appRoundecimal="12@0" appMycurrencyFormatter appNumbersonly />
+                    <div class="input-group-append">
+                      <select class="btn-lg-icon rounded-right pl-2 pr-2" formControlName="pOpeningBalanceType">
+                        <option value="DEBIT">Debit</option>
+                        <option value="CREDIT">Credit</option>
+                      </select>
+                    </div>
+
+                    <!--<div *ngIf=" submitted &&  f.pOpeningamount.errors" class="invalid-feedback">[ngClass]="{ 'is-invalid': f.pOpeningamount.errors && submitted }"
+            <div *ngIf="f.pOpeningamount.errors.required">Enter Opening balance</div>
+          </div>-->
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 pl-0">
+                <div class="form-group">
+                  <label for="">Date as on</label>
+
+                  <input type="text" class="form-control" id="pOpeningdate" title="Date as on"
+                         #dp="bsDatepicker" bsDatepicker disabled placement="down" formControlName="pOpeningdate" [ngClass]="{ 'is-invalid': f.pOpeningdate.errors && submitted }" readonly>
+
+                  <div *ngIf="submitted &&  f.pOpeningdate.errors" class="invalid-feedback">
+                    <div *ngIf="f.pOpeningdate.errors.required">Date as on</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <br />
+
+            <button (click)="SaveAccounts()" class="btn btn-b-icon px-3 border-0"
+                    [disabled]="disablesavebutton">
+              <i class="fa"
+                 [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i> {{savebutton}}
+            </button>
+
+            <!--<div class="d-flex justify-content-end mt-4"><a class="btn btn-b-icon px-3 border-0" (click)="SaveAccounts()" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-3">Save</a> </div>-->
+            <div class="form-group" *ngIf="showsubledgergrid">
+              <kendo-grid [kendoGridBinding]="gridView" [height]="300"
+                          [pageSize]="5"
+                          [reorderable]="true" [resizable]="true" [columnMenu]="{ filter: true }" [pageable]="true"
+                          [sortable]="true">
+
+                <ng-template kendoGridToolbarTemplate>
+
+                  <div class="row mt-4 mb-4">
+                    <div class="col-12 p-0">
+                      <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb  w-auto" (input)="onFilter($event.target.value)" />
+                    </div>
+                  </div>
+
+                </ng-template>
+                <kendo-grid-column field="psubledgername" title="Subledger Name." width="110"></kendo-grid-column>
+                <kendo-grid-column field="accountbalance" title="Amount" width="110"></kendo-grid-column>
+
+
+              </kendo-grid>
+            </div>
+          </div>
+
+        </div>
+        <div class="my-container">
+          <ng-template #customLoadingTemplate>
+            <div class="custom-class">
+              <h3>
+                Loading...
+              </h3>
+
+            </div>
+          </ng-template>
+          <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+        </div>
+      </div>
+
+    </form>
+
+   
+  </div>
+
+<!--modal-end-->
+<!-----------------------hghhghgf-->
+
+

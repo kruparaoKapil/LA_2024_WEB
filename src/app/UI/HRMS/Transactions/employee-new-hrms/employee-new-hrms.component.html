@@ -1,0 +1,1212 @@
+<div class="section-container">
+  <div class="row p-0">
+    <div class="col-xl-12 col-md-12">
+      <div class="section-content">
+
+        <form [formGroup]="newEmployeeForm">
+
+          <div class="row mt-2">
+            <div class="col-md-6 col-xl-6">
+              <div class="form-group">
+                <span class="text-primary">Salary Info</span>
+              </div>
+            </div>
+            <div class="col-md-3 col-xl-3">
+              <div class="form-group">
+                <input type="checkbox" value="false" (change)="payrollEligibleChange($event)"
+                  formControlName="payrolleligible">&nbsp;Payroll Eligible
+              </div>
+            </div>
+            <div class="col-md-3 col-xl-3">
+              <div class="form-group">
+                <button (click)="viewContactEmployee()" class="btn btn-primary">View</button>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row mt-3">
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label class="required-field" id="contact" title="Contact">Contact</label>
+                <ng-select title="Contact Name"  [items]="contactList" [multiple]="false" formControlName="contact"
+                  bindLabel="contact_mailing_name" bindValue="contact_mailing_name" placeholder="Select" [searchable]=true
+                  [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true (change)="contactChange($event)"
+                  [ngClass]="{ 'is-invalid': employeeHRMSValidation.contact }">
+                </ng-select>
+                <div class="invalid-feedback">
+                  <span *ngIf="employeeHRMSValidation.contact">{{employeeHRMSValidation?.contact}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label class="required-field" id="basicSalary" title="Basic Salary">Basic Salary</label>
+                <input type="text" class="form-control text-right" formControlName="basicSalary" appMycurrencyFormatter
+                  appNumbersonly (blur)="totalSalaryCalculation()"
+                  [ngClass]="{ 'is-invalid': employeeHRMSValidation.basicSalary }">
+                <div class="invalid-feedback">
+                  <span *ngIf="employeeHRMSValidation.basicSalary">{{employeeHRMSValidation?.basicSalary}}</span>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label id="variablepay" title="Allowance / Variable Pay">Allowance / Variable
+                  Pay</label>
+                <input type="text" class="form-control text-right" readonly formControlName="variablepay" appMycurrencyFormatter
+                  appNumbersonly (blur)="totalSalaryCalculation()">
+              </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label>Total Cost to Company (CTC)</label><br>
+                <label class="text-primary"> {{ctc | mycurrencypipe}}</label>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row mt-3">
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label class="required-field" id="designationid" title="Designation">Designation</label>
+                <ng-select title="Employee Names" [items]="empdesignationsList" [multiple]="false"
+                  formControlName="designationid" bindLabel="designationname" bindValue="designationname"
+                  placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom"
+                  [clearOnBackspace]=true (change)="designationChange($event)"
+                  [ngClass]="{ 'is-invalid': employeeHRMSValidation.designationid }">
+                </ng-select>
+                <div class="invalid-feedback">
+                  <span *ngIf="employeeHRMSValidation.designationid">{{employeeHRMSValidation?.designationid}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label id="pEmploymentRoleId" title="Role">Role</label>
+                <ng-select title="Employee Names" [items]="empRolesList" [multiple]="false"
+                  formControlName="pEmploymentRoleId" bindLabel="pEmploymentRoleName" bindValue="pEmploymentRoleId"
+                  (change)="roleChange($event)" placeholder="Select" [searchable]=true [clearable]=true
+                  dropdownPosition="bottom" [clearOnBackspace]=true>
+                </ng-select>
+
+              </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label id="branchName" title="Branch Name">Branch Name</label>
+                <ng-select title="Branch Names" [items]="branchnamesList" [multiple]="false"
+                  formControlName="branchName" bindLabel="pbranch_name" bindValue="pbranch_name" [searchable]=true
+                  [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true (chage)="branchNameChange($event)">
+                </ng-select>
+
+              </div>
+            </div>
+          </div>
+
+          <br>
+
+
+          <div class="border-box">
+            <div class="row">
+              <span class="text-primary">Personal Details</span>
+            </div>
+
+
+            <div class="row mt-3">
+              <div class="col-md-4 col-xl-4">
+                <div class="border-box">
+                  <div class="form-group">
+                    <label class="required-field" id="residentalstatus" title="Residential Status">Residential
+                      Status</label><br><br>
+                    <input type="radio" name="residentalstatus" value="R" formControlName="residentalstatus"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.residentalstatus}">&nbsp;Resident <br><br>
+                    <input type="radio" name="residentalstatus" value="N" formControlName="residentalstatus"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.residentalstatus}">&nbsp;Non-Resident <br><br>
+                    <input type="radio" name="residentalstatus" value="F" formControlName="residentalstatus"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.residentalstatus}">&nbsp;Foreign National
+                    <br><br>
+                    <input type="radio" name="residentalstatus" value="P" formControlName="residentalstatus"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.residentalstatus}">&nbsp;Person of Indian Origin
+
+                  </div>
+                  <div class="invalid-feedback">
+                    <span
+                      *ngIf="employeeHRMSValidation.residentalstatus">{{employeeHRMSValidation?.residentalstatus}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="col-md-4 col-xl-4">
+                <div class="border-box">
+                    <div class="form-group">
+                      <span class="font-weight-bold">Birth & Nationality</span>
+                      <div class="row">
+                        <label title="Place of Birth" id="placeofbirth">Place of Birth</label>
+                        <input type="text" class="form-control w-75" formControlName="placeofbirth">
+                      </div>
+                      <div class="row">
+                        <label id="country" title="Country of Birth">Country of Birth</label>
+                        <ng-select title="Employee Names" class="w-75"  [items]="countryList" [multiple]="false"
+                          formControlName="country" bindLabel="country" bindValue="country"
+                           [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true (change)="countryNameChange($event)">
+                        </ng-select>
+                      </div>
+                      <div class="row">
+                        <label id="nationality" title="Nationality/Citizen of">Nationality/Citizen of</label>
+                        <input type="text" class="form-control w-75" formControlName="nationality">
+                      </div>
+                      <div class="row">
+                        <label id="pminoritycommunity" title="Community Details">Community Details</label>
+                        <ng-select title="Community Details" class="w-75"  [items]="communityList" [multiple]="false"
+                          formControlName="pminoritycommunity" bindLabel="pminoritycommunity" bindValue="pminoritycommunity"
+                           [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true >
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                  </div> -->
+              <div class="col-md-4 col-xl-4">
+                <div class="border-box">
+                  <div class="form-group center-align-form">
+                    <span class="font-weight-bold">Birth & Nationality</span>
+                    <div class="row mt-2">
+                      <label title="Place of Birth" id="placeofbirth">Place of Birth</label>
+                      <input type="text" class="form-control w-75" formControlName="placeofbirth">
+                    </div>
+                    <div class="row">
+                      <label id="country" title="Country of Birth">Country of Birth</label>
+                      <ng-select title="Employee Names" class="w-75" [items]="countryList" [multiple]="false"
+                        formControlName="country" bindLabel="country" bindValue="country" [searchable]=true
+                        [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                        (change)="countryNameChange($event)">
+                      </ng-select>
+                    </div>
+                    <div class="row">
+                      <label id="nationality" title="Nationality/Citizen of">Nationality/Citizen of</label>
+                      <input type="text" class="form-control w-75" formControlName="nationality">
+                    </div>
+                    <div class="row">
+                      <label id="pminoritycommunity" title="Community Details">Community Details</label>
+                      <ng-select title="Community Details" class="w-75" [items]="communityList" [multiple]="false"
+                        formControlName="pminoritycommunity" bindLabel="pminoritycommunity"
+                        bindValue="pminoritycommunity" [searchable]=true [clearable]=true dropdownPosition="bottom"
+                        [clearOnBackspace]=true>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 col-xl-4">
+                <div class="border-box">
+                  <div class="form-group">
+                    <label class="required-field" id="maritalstatus" title="Marital Status">Marital Status</label>
+                    <br><br>
+                    <input type="radio" value="Ma" name="maritalstatus" formControlName="maritalstatus"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.maritalstatus}">&nbsp;Married <br><br>
+                    <input type="radio" name="maritalstatus" value="Si" formControlName="maritalstatus"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.maritalstatus}">&nbsp;Single <br><br>
+                    <input type="radio" name="maritalstatus" value="Se" formControlName="maritalstatus"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.maritalstatus}">&nbsp;Separated <br><br>
+                    <input type="radio" name="maritalstatus" value="Wi" formControlName="maritalstatus"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.maritalstatus}">&nbsp;Widowed
+                  </div>
+                  <div class="invalid-feedback">
+                    <span *ngIf="employeeHRMSValidation.maritalstatus">{{employeeHRMSValidation?.maritalstatus}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br><br>
+
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group" [ngClass]="notEditable ? 'cursor-not-allowaed' : ''">
+                <div class="form-check form-check-inline mr-5 radio-btn"
+                  [ngClass]="{'for-disable-radio-btn': notEditable}">
+                  <input class="form-check-input radio-btn active" type="radio" formControlName="pEntitytype"
+                    name="pEntitytype" id="inlineRadio1" value="Individual" (change)="generalinfoshow()">
+                  <label class="mt-1" for="inlineRadio1"> General Information </label>
+                </div>
+                <div class="form-check form-check-inline mr-5 radio-btn"
+                  [ngClass]="{'for-disable-radio-btn': notEditable}">
+                  <input class="form-check-input radio-btn" formControlName="pEntitytype" type="radio"
+                    name="pEntitytype" id="inlineRadio2" value="BusinessEntity" (change)="familydetailsshow()">
+                  <label class="mt-1" for="inlineRadio2"> Family Details </label>
+                </div>
+                <div class="form-check form-check-inline mr-5 radio-btn"
+                  [ngClass]="{'for-disable-radio-btn': notEditable}">
+                  <input class="form-check-input radio-btn" formControlName="pEntitytype" type="radio"
+                    name="pEntitytype" id="inlineRadio3" value="Group" (change)="educationshow()">
+                  <label class="mt-1" for="inlineRadio3"> Education</label>
+                </div>
+                <div class="form-check form-check-inline mr-5 radio-btn"
+                  [ngClass]="{'for-disable-radio-btn': notEditable}">
+                  <input class="form-check-input radio-btn" formControlName="pEntitytype" type="radio"
+                    name="pEntitytype" id="inlineRadio4" value="previousexperienceshow"
+                    (change)="previousexperienceshow()" >
+                  <label class="mt-1" for="inlineRadio4"> Previous Experience Details</label>
+                </div>
+                <div class="form-check form-check-inline mr-5 radio-btn"
+                  [ngClass]="{'for-disable-radio-btn': notEditable}">
+                  <input class="form-check-input radio-btn" formControlName="pEntitytype" type="radio"
+                    name="pEntitytype" id="inlineRadio5" value="kapilcareershow" (change)="kapilcareershow()">
+                  <label class="mt-1" for="inlineRadio5"> Kapil Career</label>
+                </div>
+                <div class="form-check form-check-inline mr-5 radio-btn"
+                  [ngClass]="{'for-disable-radio-btn': notEditable}">
+                  <input class="form-check-input radio-btn" formControlName="pEntitytype" type="radio"
+                    name="pEntitytype" id="inlineRadio6" value="departmenttrainingshow"
+                    (change)="departmenttrainingshow()">
+                  <label class="mt-1" for="inlineRadio6"> Department Training</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+
+        <div class="container">
+
+          <form [formGroup]="newEmployeeForm">
+            <div *ngIf="showgeneralinformation">
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <span class="text-primary font-weight-bold">General Information</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <span></span>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <input type="checkbox" value="false" formControlName="esieligible"
+                      (change)="esiEligibleChange($event)">&nbsp;ESI Eligible
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <input type="checkbox" value="true" (change)="pfEligibleChange($event)"
+                      formControlName="pfeligible">&nbsp;PF Eligible
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="khcno" title="K.H.C No.">K.H.C No.</label>
+                    <input type="text" class="form-control" formControlName="khcno">
+                  </div>
+                </div>
+
+                <div class="col-md-4 col-xl-4" *ngIf="esiNoFlag">
+                  <div class="form-group">
+                    <label class="required-field" id="esiNo" title="ESI No.">ESI No.</label>
+                    <input type="text" class="form-control" formControlName="esiNo">
+                    <!-- [ngClass]="{ 'is-invalid': employeeHRMSValidation.esiNo}" -->
+                    <!-- <div class="invalid-feedback">
+                      <span *ngIf="employeeHRMSValidation.esiNo">{{employeeHRMSValidation?.esiNo}}</span>
+                    </div> -->
+                  </div>
+                </div>
+
+                <div class="col-md-4 col-xl-4" *ngIf="pfNoFlag">
+                  <div class="form-group">
+                    <label class="required-field" id="pfNo" title="PF No.">PF No.</label>
+                    <input type="text" class="form-control" formControlName="pfNo">
+                    <!-- [ngClass]="{ 'is-invalid': employeeHRMSValidation.pfNo}" -->
+                    <!-- <div class="invalid-feedback">
+                      <span *ngIf="employeeHRMSValidation.pfNo">{{employeeHRMSValidation?.pfNo}}</span>
+                    </div> -->
+                  </div>
+                </div>
+
+              </div>
+
+
+
+
+
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="passportno" title="Passport No.">Passport No.</label>
+                    <input type="text" class="form-control" formControlName="passportno">
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="pancardno" title="PAN Card No.">PAN Card No.</label>
+                    <input type="text" class="form-control" formControlName="pancardno" (blur)="panAvalableOrNot()"
+                      appUppercase [ngClass]="{ 'is-invalid': employeeHRMSValidation.pancardno}">
+                    <div class="invalid-feedback">
+                      <span *ngIf="employeeHRMSValidation.pancardno">{{employeeHRMSValidation?.pancardno}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="licenseno" title="Driving License No.">Driving License No.</label>
+                    <input type="text" class="form-control" formControlName="licenseno">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="department" title="Department">Department</label>
+                    <input type="text" class="form-control" formControlName="department" appTitlecaseword
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.department}">
+                    <div class="invalid-feedback">
+                      <span *ngIf="employeeHRMSValidation.department">{{employeeHRMSValidation?.department}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="joindate" title="Join Date">Join Date</label>
+                    <input class="form-control" readonly type="text" [bsConfig]="datepickerConfig0" bsDatepicker
+                      (ngModelChange)="changeJoinDate()" formControlName="joindate" #dp="bsDatepicker"
+                      placement="bottom">
+                    <div class="invalid-feedback" [ngClass]="{ 'is-invalid': employeeHRMSValidation.joindate}">
+                      <span *ngIf="employeeHRMSValidation.joindate">{{employeeHRMSValidation?.joindate}}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="pJoinedAs" title="Joined As">Joined As</label>
+                    <ng-select title="Joined As" [items]="empdesignationsList" [multiple]="false"
+                      formControlName="pJoinedAs" bindLabel="designationname" bindValue="designationname"
+                      [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                      (change)="joinedAsChange($event)" [ngClass]="{ 'is-invalid': employeeHRMSValidation.pJoinedAs}">
+                    </ng-select>
+                    <div class="invalid-feedback">
+                      <span *ngIf="employeeHRMSValidation.pJoinedAs">{{employeeHRMSValidation?.pJoinedAs}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="dateofreporting" title="Date Of Reporting">Date Of
+                      Reporting</label>
+                    <input class="form-control" readonly type="text" [bsConfig]="datepickerConfig1" bsDatepicker
+                      formControlName="dateofreporting" #dp="bsDatepicker" placement="bottom"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.dateofreporting}">
+                    <div class="invalid-feedback">
+                      <span
+                        *ngIf="employeeHRMSValidation.dateofreporting">{{employeeHRMSValidation?.dateofreporting}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="previousearnedleaves" title="Previous Earned Leaves Claim Date">Previous Earned Leaves
+                      Claim Date</label>
+                    <input class="form-control" readonly type="text" [bsConfig]="datepickerConfig2" bsDatepicker
+                      formControlName="previousearnedleaves" #dp="bsDatepicker" placement="bottom">
+                  </div>
+                </div>
+
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="bloodgroup">Blood Group</label>
+                    <ng-select title="Blood Group" [items]="lstbloodgroup" [multiple]="false"
+                      formControlName="bloodgroup" bindLabel="bloodgroup" bindValue="bloodgroup" [searchable]=true
+                      [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4" *ngIf="pHandicapFlag">
+                  <div class="form-group">
+                    <label class="required-field" id="healthProblems" title="Health Problems">Health Problems</label>
+                    <input type="text" class="form-control" formControlName="healthProblems">
+                    <!-- [ngClass]="{ 'is-invalid': employeeHRMSValidation.healthProblems}" -->
+                    <!-- <div class="invalid-feedback">
+                      <span *ngIf="employeeHRMSValidation.healthProblems">{{employeeHRMSValidation?.healthProblems}}</span>
+                    </div> -->
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="uanno" title="UAN Number">UAN Number</label>
+                    <input type="text" class="form-control" formControlName="uanno" appNumbersonly maxlength="12">
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label>Earned Leaves Claim Branch</label>
+                    <ng-select title="Earned Leaves Claim Branch"  [items]="branchList" [multiple]="false"
+                          formControlName="branchNameClaim" bindLabel="pbranch_name" bindValue="pbranch_name"
+                           [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                           (change)="claimBranchChange($event)" >
+                    </ng-select>
+                  </div>
+                </div>
+              </div>  
+                
+
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <input type="checkbox" value="Physical handicap" formControlName="physicalhandicap" (change)="physicalHadicapChange($event)">&nbsp;Physical handicap                
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </form>
+
+          <form [formGroup]="familyDetailsForm">
+            <div *ngIf="showfamilydetails">
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <span class="text-primary font-weight-bold">Family Details</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="familyrelationship" title="Relationship">Relationship</label>
+                    <ng-select title="Relationship" [items]="relationList" [multiple]="false"
+                      formControlName="familyrelationship" bindLabel="relationshipname" bindValue="relationshipname"
+                      (change)="familyRelationshipChange($event)" [searchable]=true [clearable]=true
+                      dropdownPosition="bottom" [clearOnBackspace]=true
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.familyrelationship}">
+                    </ng-select>
+                    <div class="invalid-feedback">
+                      <span
+                        *ngIf="employeeHRMSValidation.familyrelationship">{{employeeHRMSValidation?.familyrelationship}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="familyName" title="Name">Name</label>
+                    <input type="text" class="form-control" formControlName="familyName"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.familyName}">
+                    <div class="invalid-feedback">
+                      <span *ngIf="employeeHRMSValidation.familyName">{{employeeHRMSValidation?.familyName}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="familyDOB" title="Date of Birth">Date of Birth</label>
+                    <input class="form-control" readonly type="text" [bsConfig]="datepickerConfig3" bsDatepicker
+                      formControlName="familyDOB" (ngModelChange)="ageCalculator($event)" #dp="bsDatepicker"
+                      placement="bottom" [ngClass]="{ 'is-invalid': employeeHRMSValidation.familyDOB}">
+                    <div class="invalid-feedback">
+                      <span *ngIf="employeeHRMSValidation.familyDOB">{{employeeHRMSValidation?.familyDOB}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="familyAge" title="Age">Age</label>
+                    <input type="text" class="form-control" readonly formControlName="familyAge">
+                  </div>
+                </div>
+
+
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group m-0">
+                    <label id="familyGender" title="Gender" class="mt-2 required-field">Gender</label>
+                  </div>
+
+                  <div class="form-check form-check-inline radio-btn-secondary">
+                    <input class="form-check-input" type="radio" id="male" name="familyGender" value="M"
+                      formControlName="familyGender">
+                    <label class="p-0 mt-1 ml-1" for="male"> Male &nbsp; &nbsp; </label>
+                  </div>
+                  <div class="form-check form-check-inline radio-btn-secondary">
+                    <input class="form-check-input" type="radio" id="female" name="familyGender" value="F"
+                      formControlName="familyGender">
+                    <label class="p-0 mt-1 ml-1 " for="female"> Female &nbsp; &nbsp;</label>
+                  </div>
+                  <div class="form-check form-check-inline radio-btn-secondary">
+                    <input class="form-check-input" type="radio" name="familyGender" id="tgender" value="T"
+                      formControlName="familyGender">
+                    <label class="p-0 mt-1 ml-1" for="tgender"> Third Gender </label>
+                  </div>
+
+
+                </div>
+
+
+
+
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group m-0">
+                    <label id="familyMartialstatus" title="Martial Status" class="mt-2 required-field">Martial
+                      Status</label>
+                  </div>
+
+                  <div class="form-check form-check-inline radio-btn-secondary">
+                    <input class="form-check-input" type="radio" id="married" name="familyMartialstatus" value="M"
+                      formControlName="familyMartialstatus">
+                    <label class="p-0 mt-1 ml-1" for="married"> Married &nbsp; &nbsp; </label>
+                  </div>
+                  <div class="form-check form-check-inline radio-btn-secondary">
+                    <input class="form-check-input" type="radio" id="ummarried" name="familyMartialstatus" value="U"
+                      formControlName="familyMartialstatus">
+                    <label class="p-0 mt-1 ml-1 " for="ummarried"> Un-Married &nbsp; &nbsp;</label>
+                  </div>
+
+
+                </div>
+
+
+              </div>
+
+
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="education" title="Education">Education</label>
+                    <ng-select title="Education" [items]="educationList" [multiple]="false"
+                      formControlName="familyeducation" bindLabel="qualificationname" bindValue="qualificationname"
+                      (change)="familyEducationChange($event)" [searchable]=true [clearable]=true
+                      dropdownPosition="bottom" [clearOnBackspace]=true>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="familyoccupation" title="Occupation">Occupation</label>
+                    <input type="text" class="form-control" formControlName="familyoccupation">
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="familyphno" title="Phone No.">Phone No.</label>
+                    <input type="text" class="form-control" appNumbersonly formControlName="familyphno" maxlength="10">
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="d-flex justify-content-end mt-4">
+                <a (click)="addFamilyDetails()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab"
+                  aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px"
+                    height="20px" class="mr-3" />{{gridButton}}</a>
+              </div>
+              <br>
+
+              <div>
+                <kendo-grid [kendoGridBinding]="familyDetailsList" [pageSize]="10" [pageable]="{buttonCount: 2}"
+                  [reorderable]="true" [sortable]="true" [resizable]="true" (edit)="editFamilyDetails($event)"
+                  (remove)="removeHandler($event)">
+
+
+                  <kendo-grid-column field="relationshipname" title="Relation" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pname" title="Name" width="100" [headerClass]="{'kendo-g-center': true}"
+                    class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pdateofbirth" title="DOB" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="page" title="Age" width="100" [headerClass]="{'kendo-g-center': true}"
+                    class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pgender" title="Gender" width="100" [headerClass]="{'kendo-g-center': true}"
+                    class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pmaritialstatus" title="Martial Status	Education" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="poccupation" title="Occupation" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+
+                  <kendo-grid-column field="pphoneno" title="Phone No." width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-command-column title="Actions" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+
+                      <button kendoGridEditCommand [disabled]="">
+                        <div id="icon-edit"></div>
+                      </button>
+                      <button kendoGridRemoveCommand [disabled]="true">
+                        <div id="icon-delete"></div>
+                      </button>
+                    </ng-template>
+                  </kendo-grid-command-column>
+                </kendo-grid>
+              </div>
+
+
+            </div>
+          </form>
+
+          <form [formGroup]="educationDetailsForm">
+            <div *ngIf="showeducation">
+
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <span class="text-primary font-weight-bold">Education</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="educationCourse" title="Course">Course</label>
+                    <input type="text" class="form-control" formControlName="educationCourse"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.educationCourse}">
+                    <div class="invalid-feedback">
+                      <span
+                        *ngIf="employeeHRMSValidation.educationCourse">{{employeeHRMSValidation?.educationCourse}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="educationGroup" title="Group">Group</label>
+                    <input type="text" class="form-control" formControlName="educationGroup"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.educationGroup}">
+                    <div class="invalid-feedback">
+                      <span
+                        *ngIf="employeeHRMSValidation.educationGroup">{{employeeHRMSValidation?.educationGroup}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="educationSchool" title="School / College">School / College</label>
+                    <input type="text" class="form-control" formControlName="educationSchool"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.educationSchool}">
+                    <div class="invalid-feedback">
+                      <span
+                        *ngIf="employeeHRMSValidation.educationSchool">{{employeeHRMSValidation?.educationSchool}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="educationPlace" title="Place">Place</label>
+                    <input type="text" class="form-control" formControlName="educationPlace"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.educationPlace}">
+                    <div class="invalid-feedback">
+                      <span
+                        *ngIf="employeeHRMSValidation.educationPlace">{{employeeHRMSValidation?.educationPlace}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label>Year</label>
+                    <input type="text" class="form-control" appNumbersonly formControlName="educationYear">
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label>% Of Marks</label>
+                    <input type="text" class="form-control" appNumbersonly formControlName="educationMarks">
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="justify-content-end">
+                    <button (click)="addEducationDetails()">Add</button>
+                  </div>
+                </div>
+              </div> -->
+
+              <div class="d-flex justify-content-end mt-4">
+                <a (click)="addEducationDetails()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab"
+                  aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px"
+                    height="20px" class="mr-3" />{{gridButton}}</a>
+              </div>
+
+              <div>
+                <br>
+                <kendo-grid [kendoGridBinding]="educationListData" [pageSize]="10" [pageable]="{buttonCount: 2}"
+                  [reorderable]="true" [sortable]="true" [resizable]="true" (edit)="editEducationDetails($event)"
+                  (remove)="educationremoveHandler($event)">
+
+
+                  <kendo-grid-column field="pcourse" title="Course" width="100" [headerClass]="{'kendo-g-center': true}"
+                    class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pgroup" title="Group" width="100" [headerClass]="{'kendo-g-center': true}"
+                    class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pschool" title="School / College" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pplace" title="Place" width="100" [headerClass]="{'kendo-g-center': true}"
+                    class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pyear" title="Year" width="100" [headerClass]="{'kendo-g-center': true}"
+                    class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="ppercentofmarks" title="% of marks" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-command-column title="Actions" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <button kendoGridEditCommand [disabled]="">
+                        <div id="icon-edit"></div>
+                      </button>
+                      <button kendoGridRemoveCommand [disabled]="true">
+                        <div id="icon-delete"></div>
+                      </button>
+                    </ng-template>
+                  </kendo-grid-command-column>
+                </kendo-grid>
+              </div>
+
+            </div>
+          </form>
+
+
+
+          <form [formGroup]="previousExpDetailsForm">
+            <div *ngIf="showpreviousexperience">
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <span class="text-primary font-weight-bold">Previous Experience Details</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="previousorginazationname" title="Organization Name">Organization
+                      Name</label>
+                    <input type="text" class="form-control" formControlName="previousorginazationname"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.previousorginazationname}">
+                    <div class="invalid-feedback">
+                      <span
+                        *ngIf="employeeHRMSValidation.previousorginazationname">{{employeeHRMSValidation?.previousorginazationname}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="previousdesignationname" title="Designation">Designation</label>
+                    <ng-select title="Designation" [items]="empdesignationsList" [multiple]="false"
+                      formControlName="previousdesignationname" bindLabel="designationname" bindValue="designationname"
+                      [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                      (change)="previousExpDesignationChange($event)"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.previousdesignationname}">
+                    </ng-select>
+                    <div class="invalid-feedback">
+                      <span
+                        *ngIf="employeeHRMSValidation.previousdesignationname">{{employeeHRMSValidation?.previousdesignationname}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="previousfromdate" title="From Date">From Date</label>
+                    <input class="form-control" readonly type="text" [bsConfig]="datepickerConfig4" bsDatepicker
+                      formControlName="previousfromdate" #dp="bsDatepicker" placement="bottom">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="previoustodate" title="To Date">To Date</label>
+                    <input class="form-control" readonly type="text" [bsConfig]="datepickerConfig5" bsDatepicker
+                      formControlName="previoustodate" #dp="bsDatepicker" placement="bottom">
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="previouslastpay" title="Last Pay">Last Pay</label>
+                    <input type="text" class="form-control text-right" appMycurrencyFormatter appNumbersonly
+                      formControlName="previouslastpay">
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="previousreasonforleaving" title="Reason For Leaving">Reason For Leaving</label>
+                    <input type="text" class="form-control" formControlName="previousreasonforleaving">
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="justify-content-end">
+                    <button (click)="addPreviousExp()">Add</button>
+                  </div>
+                </div>
+              </div> -->
+
+              <div class="d-flex justify-content-end mt-4">
+                <a (click)="addPreviousExp()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab"
+                  aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px"
+                    height="20px" class="mr-3" />{{gridButton}}</a>
+              </div>
+
+              <div>
+                <br>
+                <kendo-grid [kendoGridBinding]="previousexpList" [pageSize]="10" [pageable]="{buttonCount: 2}"
+                  [reorderable]="true" [sortable]="true" [resizable]="true" (edit)="editPrevExp($event)"
+                  (remove)="experienceremoveHandler($event)">
+
+
+                  <kendo-grid-column field="porginazationname" title="Organization Name	" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pdesignationname" title="Designation" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pfromdate" title="From Date" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="ptodate" title="To Date" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="plastpay" title="Last Pay" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="preasonforleaving" title="Reason For Leaving" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-command-column title="Actions" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <button kendoGridEditCommand [disabled]="">
+                        <div id="icon-edit"></div>
+                      </button>
+                      <button kendoGridRemoveCommand [disabled]="true">
+                        <div id="icon-delete"></div>
+                      </button>
+                    </ng-template>
+                  </kendo-grid-command-column>
+                </kendo-grid>
+              </div>
+
+            </div>
+          </form>
+
+
+          <form [formGroup]="kapilCareerDetailsForm">
+            <div *ngIf="showkapilcareer">
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <span class="text-primary font-weight-bold">Kapil Career</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="company" title="Company / Office">Company / Office</label>
+                    <input type="text" class="form-control" formControlName="company"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.company}">
+                    <div class="invalid-feedback">
+                      <span *ngIf="employeeHRMSValidation.company">{{employeeHRMSValidation?.company}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="designationCareer" title="Designation">Designation</label>
+                    <ng-select title="Designation" [items]="empdesignationsList" [multiple]="false"
+                      formControlName="designationCareer" bindLabel="designationname" bindValue="designationname"
+                      [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                      (change)="designationKapilCareer($event)"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.designationCareer}">
+                    </ng-select>
+                    <div class="invalid-feedback">
+                      <span
+                        *ngIf="employeeHRMSValidation.designationCareer">{{employeeHRMSValidation?.designationCareer}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="fromDate" title="From Date">From Date</label>
+                    <input class="form-control" readonly type="text" [bsConfig]="datepickerConfig6" bsDatepicker
+                      formControlName="fromDate" #dp="bsDatepicker" placement="bottom">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="toDate" title="To Date">To Date</label>
+                    <input class="form-control" readonly type="text" [bsConfig]="datepickerConfig7" bsDatepicker
+                      formControlName="toDate" #dp="bsDatepicker" placement="bottom">
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label id="sscMinutesNo" title="SSC Minutes No.">SSC Minutes No.</label>
+                    <input type="text" class="form-control" formControlName="sscMinutesNo">
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="reasonForTransfer" title="Reason For Transfer">Reason For
+                      Transfer</label>
+                    <input type="text" class="form-control" formControlName="reasonForTransfer"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.reasonForTransfer}">
+                    <div class="invalid-feedback">
+                      <span
+                        *ngIf="employeeHRMSValidation.reasonForTransfer">{{employeeHRMSValidation?.reasonForTransfer}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="justify-content-end">
+                    <button (click)="addKapilCareer()">Add</button>
+                  </div>
+                </div>
+              </div> -->
+
+              <div class="d-flex justify-content-end mt-4">
+                <a (click)="addKapilCareer()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab"
+                  aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px"
+                    height="20px" class="mr-3" />{{gridButton}}</a>
+              </div>
+
+              <div>
+                <br>
+                <kendo-grid [kendoGridBinding]="kapilCarrerList" [pageSize]="10" [pageable]="{buttonCount: 2}"
+                  [reorderable]="true" [sortable]="true" [resizable]="true" (edit)="editkapilCareer($event)"
+                  (remove)="kapilremoveHandler($event)">
+
+
+                  <kendo-grid-column field="pcompanyname" title="Company / Office" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="designationname" title="Designation" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pfromdate" title="From Date" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="ptodate" title="To Date" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="psscminutesno" title="SSC No." width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="preasonfortransfer" title="Reason For Transfer" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-command-column title="Actions" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <button kendoGridEditCommand [disabled]="">
+                        <div id="icon-edit"></div>
+                      </button>
+                      <button kendoGridRemoveCommand [disabled]="true">
+                        <div id="icon-delete"></div>
+                      </button>
+                    </ng-template>
+                  </kendo-grid-command-column>
+                </kendo-grid>
+              </div>
+
+            </div>
+          </form>
+
+
+
+          <form [formGroup]="departmentTrainingDetailsForm">
+            <div *ngIf="showdepartmenttraining">
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <span class="text-primary font-weight-bold">Department Training</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="depttrainingcoursename" title="Course Name">Course Name</label>
+                    <input type="text" class="form-control" formControlName="depttrainingcoursename"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.depttrainingcoursename}">
+                    <div class="invalid-feedback">
+                      <span
+                        *ngIf="employeeHRMSValidation.depttrainingcoursename">{{employeeHRMSValidation?.depttrainingcoursename}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="depttrainingdate" title="Date">Date</label>
+                    <input class="form-control" readonly type="text" [bsConfig]="datepickerConfig8" bsDatepicker
+                      formControlName="depttrainingdate" #dp="bsDatepicker" placement="bottom"
+                      [ngClass]="{ 'is-invalid': employeeHRMSValidation.depttrainingdate}">
+                    <div class="invalid-feedback">
+                      <span
+                        *ngIf="employeeHRMSValidation.depttrainingdate">{{employeeHRMSValidation?.depttrainingdate}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="justify-content-end">
+                    <button (click)="addDeptTraining()">Add</button>
+                  </div>
+                </div>
+              </div> -->
+
+              <div class="d-flex justify-content-end mt-4">
+                <a (click)="addDeptTraining()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab"
+                  aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px"
+                    height="20px" class="mr-3" />{{gridButton}}</a>
+              </div>
+
+              <div>
+                <br>
+                <kendo-grid [kendoGridBinding]="trainingList" [pageSize]="10" [pageable]="{buttonCount: 2}"
+                  [reorderable]="true" [sortable]="true" [resizable]="true" (edit)="editDeptTraining($event)"
+                  (remove)="departmentremoveHandler($event)">
+
+                  <kendo-grid-column field="pcoursename" title="Name of the Course" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-column field="pdate" title="Date" width="100" [headerClass]="{'kendo-g-center': true}"
+                    class="kendo-center"></kendo-grid-column>
+
+                  <kendo-grid-command-column title="Actions" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <button kendoGridEditCommand [disabled]="">
+                        <div id="icon-edit"></div>
+                      </button>
+                      <button kendoGridRemoveCommand [disabled]="true">
+                        <div id="icon-delete"></div>
+                      </button>
+                    </ng-template>
+                  </kendo-grid-command-column>
+                </kendo-grid>
+                <br>
+                <hr>
+                <br>
+
+
+              </div>
+            </div>
+          </form>
+
+          <form [formGroup]="newEmployeeForm">
+            <div *ngIf="showdepartmenttraining">
+
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label>Disciplinary Actions</label>
+                    <input type="text" class="form-control" formControlName="pdisciplinaryactions">
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label>Extra Curricular Activities</label>
+                    <input type="text" class="form-control" formcotrolName="pextracurricularactivities">
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label>List Of Copies</label>
+                    <div class="input-group">
+                      <input #input type="text" class="form-control" [value]="imageResponse?.name" disabled
+                        formControlName="inputfiles">
+                      <div class="input-group-append">
+                        <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()">
+                          <img src="assets/images/icon-upload-blue.svg" class="" width="18px" height="18px">
+                        </button>
+                        <input id="fileInput1" style="display: none" type="file"
+                          (change)="uploadAndProgress($event,fileInput.files)" #fileInput>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </form>
+
+        </div>
+
+
+
+        <div class="row mt-1 ml-1 mb-4">
+          <div class="col-md-12 col-xl-12">
+            <div class="d-flex justify-content-end mt-4">
+
+              <a data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot"
+                aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearDetails()"><img
+                  src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+
+              <button appButtonDoubleClick [debounceTime]="500" (debounceClick)="saveEmployee()"
+                class="btn btn-s-icon px-3 border-0">
+                <img src="assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px"> {{saveOrUpdateButton}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Apply centering only to form-group with class 'center-align-form' */
+  .center-align-form .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .center-align-form .form-control,
+  .center-align-form ng-select {
+    width: 75%;
+    /* Keeps your current width for form controls */
+  }
+
+  .center-align-form .form-group {
+    text-align: center;
+  }
+
+  /* Optional: For a cleaner look, you can add spacing between form controls */
+  .center-align-form .row {
+    margin-bottom: 10px;
+  }
+</style>

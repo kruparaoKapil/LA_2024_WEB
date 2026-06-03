@@ -1,0 +1,905 @@
+<div id="Home-Loan">
+  <div class="row">
+    <div class="col-12 mt-5">
+      <p class="bc-2">Home Loan </p>
+    </div>
+  </div>
+
+  <hr>
+  <form [formGroup]="HomeloanForm">
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label id="pinitialpayment" title="Initial Payment">Initial Payment (Paid by applicant)</label>
+        <input type="text" class="form-control text-right" formControlName="pinitialpayment" appNumbersonly maxlength="12"  removeZero
+          [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pinitialpayment }">
+        <div class="invalid-feedback-cst">
+          <span *ngIf="HomeloanErrorMessage.pinitialpayment">{{HomeloanErrorMessage.pinitialpayment}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+        <a class="lc-title text-decoration-none" data-toggle="collapse"(click)="arrowChangeforprodetails()"
+        href="#propertydetails" role="button" aria-expanded="false" aria-controls="family">
+        <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"
+        [ngClass]="arrowforprodetails?'arrowright':'down'">
+        &nbsp; &nbsp;  Property Details </a>
+      
+      <div class="mt-3 collapse show" id="propertydetails">
+        <div class="row">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="ppropertylocation" title="Property Location">Property Location</label>
+              <div class="input-group">
+                <select id="u1819_input" class="form-control" formControlName="ppropertylocation"
+                  [ngClass]="{ 'is-invalid': HomeloanErrorMessage.ppropertylocation }">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option class="" *ngFor="let data of proloaction">{{data.prolocation}}</option>
+
+
+                </select>
+                <!-- <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0" data-toggle="modal" tabindex="-1" data-target="#propertyloc">
+                    <img src="assets/images/icon-add-blue.svg" class="" width="18px" height="18px"></button>
+
+                </div> -->
+
+              </div>
+              <!-- <div class="invalid-feedback-cst">
+                <span *ngIf="HomeloanErrorMessage.proloaction">{{HomeloanErrorMessage.proloaction}}</span>
+              </div> -->
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+              <label id="ppropertyownershiptype" title="Property Ownership type">Property Ownership type</label>
+              <div class="input-group">
+                <select id="u1823_input" class="form-control" formControlName="ppropertyownershiptype"
+                  [ngClass]="{ 'is-invalid': HomeloanErrorMessage.ppropertyownershiptype }">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option class="" *ngFor="let data of proownership">{{data.proownersship}}</option>
+
+
+                </select>
+                <!-- <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0" data-toggle="modal" tabindex="-1"
+                    data-target="#proprtyownertype"> <img src="assets/images/icon-add-blue.svg" class="" width="18px"
+                      height="18px"></button>
+
+                </div> -->
+              </div>
+              <!-- <div class="invalid-feedback-cst">
+                <span *ngIf="HomeloanErrorMessage.ppropertyownershiptype">{{HomeloanErrorMessage.ppropertyownershiptype}}</span>
+              </div> -->
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+              <label id="ppropertytype" title="Property Type">Property Type</label>
+              <div class="input-group">
+                <select id="u1822_input" class="form-control"  formControlName="ppropertytype"
+                  [ngClass]="{ 'is-invalid': HomeloanErrorMessage.ppropertytype }">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option *ngFor="let data of propertytypearray">{{data.typepro}}</option>
+
+                </select>
+                <!-- <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0" data-toggle="modal" tabindex="-1" data-target="#proprtytype">
+                    <img src="assets/images/icon-add-blue.svg" class="" width="18px" height="18px"></button>
+
+                </div> -->
+              </div>
+              <!-- <div class="invalid-feedback-cst">
+                <span *ngIf="HomeloanErrorMessage.ppropertytype">{{HomeloanErrorMessage.ppropertytype}}</span>
+              </div> -->
+            </div>
+          </div>
+          <hr class="light">
+          <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+              <label id="ppurpose" title="Purpose">Purpose</label>
+              <div class="input-group">
+                <select id="u1824_input" class="form-control" formControlName="ppurpose"
+                  [ngClass]="{ 'is-invalid': HomeloanErrorMessage.ppurpose }">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option class="" *ngFor="let data of purposepro">{{data.purpose}}</option>
+
+                </select>
+                <!-- <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0" data-toggle="modal" tabindex="-1"
+                    data-target="#purpoesofproperty"> <img src="assets/images/icon-add-blue.svg" class="" width="18px"
+                      height="18px"></button>
+
+                </div> -->
+              </div>
+              <!-- <div class="invalid-feedback-cst">
+                <span *ngIf="HomeloanErrorMessage.ppurpose">{{HomeloanErrorMessage.ppurpose}}</span>
+              </div> -->
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+              <label id="ppropertystatus" title="Status of Property">Status of Property</label>
+              <div class="input-group">
+                <select id="u1825_input" class="form-control" formControlName="ppropertystatus"
+                  [ngClass]="{ 'is-invalid': HomeloanErrorMessage.ppropertystatus }">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option class="" *ngFor="let data of statusofpro">{{data .status}}</option>
+
+                </select>
+                <!-- <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0" data-toggle="modal" tabindex="-1"
+                    data-target="#statusofproperty"> <img src="assets/images/icon-add-blue.svg" class="" width="18px"
+                      height="18px"></button>
+
+                </div> -->
+              </div>
+              <!-- <div class="invalid-feedback-cst">
+                <span *ngIf="HomeloanErrorMessage.ppropertystatus">{{HomeloanErrorMessage.ppropertystatus}}</span>
+              </div> -->
+            </div>
+          </div>
+          
+          <!-- <div class="builderdetails" >
+            <div class="row"> -->
+              <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                  <label id="pprojectname" title="Name of Project">Name of Project</label>
+                  <input type="text" class="form-control" appCharactersonly maxlength="50" formControlName="pprojectname"
+                    [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pprojectname }">
+                  <div class="invalid-feedback-cst">
+                    <span *ngIf="HomeloanErrorMessage.pprojectname">{{HomeloanErrorMessage.pprojectname}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                  <label id="pownername" title="Name of Current Owner/Builder/Seller">Name of Current
+                    Owner/Builder/Seller</label>
+                  <input type="text" class="form-control" appCharactersonly maxlength="75" formControlName="pownername"
+                    [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pownername }">
+                  <div class="invalid-feedback-cst">
+                    <span
+                      *ngIf="HomeloanErrorMessage.pownername">{{HomeloanErrorMessage.pownername}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                  <label id="pselleraddress" title="Address of Seller">Address of Seller</label>
+                  <textarea type="text" class="form-control" style="height:32px" maxlength="200" formControlName="pselleraddress"
+                    [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pselleraddress }">
+                          <div class="invalid-feedback-cst">
+                              <span *ngIf="HomeloanErrorMessage.pselleraddress">{{HomeloanErrorMessage.pselleraddress}}</span>
+                            </div></textarea>
+                </div>
+              </div>
+              <hr class="light">
+              <div class="col-md-6 col-xl-4">
+                <div class=" border rounded p-2 h-100">
+                  <div class="form-group">
+                    <label id="pbuildingname" title="Building Name">Building Name</label>
+                    <input type="text" class="form-control" appCharactersonly maxlength="50" formControlName="pbuildingname"
+                      [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pbuildingname }">
+                    <div class="invalid-feedback-cst">
+                      <span *ngIf="HomeloanErrorMessage.pbuildingname">{{HomeloanErrorMessage.pbuildingname}}</span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label id="pblockname" title="Wing/Block Name">Wing/Block Name</label>
+                    <input type="text" class="form-control" formControlName="pblockname" maxlength="50"
+                      [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pblockname }">
+                    <div class="invalid-feedback-cst">
+                      <span *ngIf="HomeloanErrorMessage.pblockname">{{HomeloanErrorMessage.pblockname}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                <div class=" border rounded p-2 h-100">
+                  <div class="row ">
+                    <div class="col-md-6 col-xl-6">
+                      <div class="form-group">
+                        <label id="pbuiltupareain" title="Built up area in Sft">Built up area in Sft</label>
+                        <input type="text" class="form-control" appNumbersonly maxlength="7" formControlName="pbuiltupareain"
+                          [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pbuiltupareain }">
+                        <div class="invalid-feedback-cst">
+                          <span
+                            *ngIf="HomeloanErrorMessage.pbuiltupareain">{{HomeloanErrorMessage.pbuiltupareain}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-xl-6">
+                      <div class="form-group">
+                        <label id="pplotarea" title="Plot area in sqyds">Plot area in sqyds</label>
+                        <input type="text" class="form-control" appNumbersonly maxlength="7"  formControlName="pplotarea"
+                          [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pplotarea }">
+                        <div class="invalid-feedback-cst">
+                          <span
+                            *ngIf="HomeloanErrorMessage.pplotarea">{{HomeloanErrorMessage.pplotarea}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-xl-6">
+                      <div class="form-group">
+                        <label id="pundividedshare " title="Undivided share ">Undivided share </label>
+                        <input type="text" class="form-control" formControlName="pundividedshare"  appNumbersonly maxlength="7"
+                          [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pundividedshare }">
+                        <div class="invalid-feedback-cst">
+                          <span *ngIf="HomeloanErrorMessage.pundividedshare">{{HomeloanErrorMessage.pundividedshare}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-xl-6">
+                      <div class="form-group">
+                        <label id="pplintharea" title="Plinth Area">Plinth Area</label>
+                        <input type="text" class="form-control" appNumbersonly formControlName="pplintharea" appNumbersonly maxlength="7"
+                          [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pplintharea }">
+                        <div class="invalid-feedback-cst">
+                          <span *ngIf="HomeloanErrorMessage.pplintharea">{{HomeloanErrorMessage.pplintharea}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                <div class=" border rounded p-2">
+                  <div class="form-group">
+                    <label id="pbookingdate" title="Date of Booking">Date of Booking</label>
+                    <input type="text" readonly class="form-control" [bsConfig]="pDateOfBookingConfig" 
+                    #dp="bsDatepicker" bsDatepicker formControlName="pbookingdate" (ngModelChange)="onDateOfBookingChange($event)"
+                      [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pbookingdate }">
+                    <!-- <div class="invalid-feedback-cst">
+                      <span *ngIf="HomeloanErrorMessage.pbookingdate">{{HomeloanErrorMessage.pbookingdate}}</span>
+                    </div> -->
+                  </div>
+                  <div class="form-group">
+                    <label id="pcompletiondate" title="Likely Date of Completion">Likely Date of Completion</label>
+                    <input type="text" readonly [bsConfig]="pDateOfLikelyCompletionConfig" class="form-control" 
+                    #dp="bsDatepicker" bsDatepicker (ngModelChange)="onLikelyDateChange($event)"
+                      formControlName="pcompletiondate"
+                      [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pcompletiondate }">
+                    <!-- <div class="invalid-feedback-cst">
+                      <span
+                        *ngIf="HomeloanErrorMessage.pcompletiondate">{{HomeloanErrorMessage.pcompletiondate}}</span>
+                    </div> -->
+                  </div>
+                  <div class="form-group">
+                    <label id="poccupancycertificatedate" title="Occupancy Certificate date">Occupancy Certificate
+                      date</label>
+                      <input type="text" readonly class="form-control" [bsConfig]="pDateOfBookingOccupancyDateConfig"
+                        #dp="bsDatepicker" bsDatepicker 
+                      formControlName="poccupancycertificatedate"
+                      [ngClass]="{ 'is-invalid': HomeloanErrorMessage.poccupancycertificatedate }">
+                    <!-- <div class="invalid-feedback-cst">
+                      <span
+                        *ngIf="HomeloanErrorMessage.poccupancycertificatedate">{{HomeloanErrorMessage.poccupancycertificatedate}}</span>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            <!-- </div>
+          </div> -->
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-6  col-xl-4">
+              <div class="form-group">
+                <label> Builder Tie-Up</label>
+                <div class="d-flex mb-1">
+                  <div class="col-md-6 col-xl-6">
+                    <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                      <input class="form-check-input" type="radio" name="pbuildertieup" checked id="builderyes" formControlName="pbuildertieup" (change)="associateConcernsChange($event)"  value="yes">
+                      <label class="" for="builderyes"> Yes </label>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-xl-6">
+                    <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                      <input class="form-check-input" type="radio" name="pbuildertieup" formControlName="pbuildertieup" (change)="associateConcernsChange($event)" id="builderno" value="no">
+                      <label class="" for="builderno"> No </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+         
+      </div>
+    </div>
+    <hr>
+    <!-- Address component -->
+    <div class="col-12">
+    <!-- <app-address></app-address> -->
+
+    <div class="row">
+
+      <div class="col-md-12 col-xl-12" >
+              <a class="lc-title text-decoration-none" data-toggle="collapse" (click)="arrowChangeForAddress()"
+              href="#homeLoanAddress" role="button" aria-expanded="false" aria-controls="family">
+              <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"
+              [ngClass]="arrowForHomeLoanAddress ? 'arrowright' : 'down'">
+              &nbsp; &nbsp;  Address of institution </a>
+            
+            </div>
+  </div>
+      <!-- <form [formGroup]="businessaddressForm"> -->
+          <div class="row  collapse show" id="homeLoanAddress">
+              <div class="col-md-6 col-xl-4">
+                  <div class="form-group">
+                      <label id="paddress1" title="Address Line 1">Address Line 1</label>
+                      <input type="text" value="" maxlength="100" formControlName="paddress1" class="form-control" appAddressformat
+                          >
+                          <!-- [ngClass]="{ 'is-invalid': businessLoanErrorMessage.paddress1 }" -->
+                      <!-- <div class="invalid-feedback-cst">
+                          <span *ngIf="businessLoanErrorMessage.paddress1">{{businessLoanErrorMessage.paddress1}}</span>
+                      </div> -->
+                  </div>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                  <div class="form-group">
+                      <label id="paddress2" title="Address Line 2">Address Line 2</label>
+                      <input type="text" value=""  maxlength="100" formControlName="paddress2" class="form-control" appAddressformat
+                          >
+                          <!-- [ngClass]="{ 'is-invalid': businessLoanErrorMessage.paddress2 }" -->
+                      <!-- <div class="invalid-feedback-cst">
+                          <span *ngIf="businessLoanErrorMessage.paddress2">{{businessLoanErrorMessage.paddress2}}</span>
+                      </div> -->
+                  </div>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                  <div class="form-group">
+                      <label id="pcity" title="City / Village">City / Village</label>
+                      <input type="text" value="" maxlength="100" class="form-control" formControlName="pcity" appAddressformat
+                         >
+                         <!-- [ngClass]="{ 'is-invalid': businessLoanErrorMessage.pcity }" -->
+                      <!-- <div class="invalid-feedback-cst">
+                          <span *ngIf="businessLoanErrorMessage.pcity">{{businessLoanErrorMessage.pcity}}</span>
+                      </div> -->
+                  </div>
+              </div>
+              <hr class="light">
+              <div class="col-md-6 col-xl-4">
+                  <div class="form-group">
+                      <label id="businesspCountry" title="Country">Country</label>
+                      <select id="" class="form-control" formControlName="pCountryId"
+                          (change)="pCountry_Change($event)">
+                          <option value="" ng-selected="selected">Select</option>
+                          <option *ngFor="let country of countryDetails" [value]="country.pCountryId">{{country.pCountry}}
+                          </option>
+  
+                      </select>
+                      <!-- [ngClass]="{ 'is-invalid': businessLoanErrorMessage.businesspCountry }" -->
+                      <!-- <div class="invalid-feedback-cst">
+                          <span *ngIf="businessLoanErrorMessage.businesspCountry">{{businessLoanErrorMessage.businesspCountry}}</span>
+                      </div> -->
+  
+  
+  
+  
+                  </div>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                  <div class="d-flex">
+                      <div class="col-md-6 col-xl-6 pl-0">
+                          <div class="form-group">
+                              <label id="businesspState" title="State">State</label>
+                              <select id="" class="form-control" formControlName="pStateId" 
+                                  
+                                  (change)="pState_Change($event)">
+                                  <option value="" ng-selected="selected">Select</option>
+                                  <option *ngFor="let state of stateDetails" [value]="state?.pStateId">{{state?.pState}}
+                                  </option>
+  
+                              </select>
+                              <!-- [ngClass]="{ 'is-invalid': businessLoanErrorMessage.businesspState }" -->
+                              <!-- <div class="invalid-feedback-cst">
+                                  <span *ngIf="businessLoanErrorMessage.businesspState">{{businessLoanErrorMessage.businesspState}}</span>
+                              </div> -->
+  
+                          </div>
+                      </div>
+                      <div class="col-md-6 col-xl-6 pr-0">
+                          <div class="form-group">
+                              <label id="businesspDistrict" title="District">District</label>
+                              <select id="" class="form-control" formControlName="pDistrictId"
+                                 
+                                  (change)="pDistrict_Change($event)">
+                                  <option value="" ng-selected="selected">Select</option>
+                                  <option *ngFor="let district of districtDetails" [value]="district?.pDistrictId">
+                                      {{district?.pDistrict}}</option>
+  
+                              </select>
+                              <!-- [ngClass]="{ 'is-invalid': businessLoanErrorMessage.businesspDistrict }" -->
+                              <!-- <div class="invalid-feedback-cst">
+                                  <span
+                                      *ngIf="businessLoanErrorMessage.businesspDistrict">{{businessLoanErrorMessage.businesspDistrict}}</span>
+                              </div> -->
+  
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                  <div class="form-group">
+                      <label id="ppincode" title="pincode">Pincode</label>
+                      <input type="text" value="" maxlength="6" class="form-control" appNumbersonly formControlName="ppincode"
+                         >
+                         <!-- [ngClass]="{ 'is-invalid': businessLoanErrorMessage.ppincode }" -->
+                      <!-- <div class="invalid-feedback-cst">
+                          <span *ngIf="businessLoanErrorMessage.ppincode">{{businessLoanErrorMessage.ppincode}}</span>
+                      </div> -->
+                  </div>
+              </div>
+          </div>
+      <!-- </form> -->
+
+
+  </div>
+    <hr>
+  
+    
+    <div class="col-12"> <a class="lc-title  text-decoration-none" (click)="arrowChangeforcostfund()"
+       data-toggle="collapse" href="#costnfund"
+        role="button" aria-expanded="false" aria-controls="family"> <img id="close"
+          src="/assets/images/icon-toggle-default.svg" class="display-content" width="12px" height="12px"
+          [ngClass]="arrowforcostfund?'arrowright':'down'"> 
+        &nbsp; &nbsp; Cost and Fund Information</a>
+      <div class="mt-3 collapse show" id="costnfund">
+        <div class="row">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pactualcost"
+                title="Actual cost / Estimate of Property being purchased"> Actual cost / Estimate of Property being
+                purchased</label>
+              <input type="text" class="form-control text-right" appNumbersonly maxlength="13"  removeZero formControlName="pactualcost"
+                [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pactualcost }">
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="HomeloanErrorMessage.pactualcost">{{HomeloanErrorMessage.pactualcost}}</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label id="psaleagreementvalue" title="Sale agreement Value">Sale agreement Value (A)</label>
+              <input type="text" class="form-control text-right" formControlName="psaleagreementvalue" removeZero appNumbersonly maxlength="13"
+               (change)="totalPropertyPurchase()"  [ngClass]="{ 'is-invalid': HomeloanErrorMessage.psaleagreementvalue }">
+              <div class="invalid-feedback-cst">
+                <span *ngIf="HomeloanErrorMessage.psaleagreementvalue">{{HomeloanErrorMessage.psaleagreementvalue}}</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label id="pstampdutycharges" title="Registration/Stamp Duty Charges">Registration/Stamp Duty
+                Charges(B)</label>
+              <input type="text" class="form-control text-right" formControlName="pstampdutycharges" removeZero appNumbersonly maxlength="10"
+              (change)="totalPropertyPurchase()"  [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pstampdutycharges }">
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="HomeloanErrorMessage.pstampdutycharges">{{HomeloanErrorMessage.pstampdutycharges}}</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label id="potheramenitiescharges" title="Cost of Car parking and other amenities"> Cost of Car
+                parking and other amenities (C)</label>
+              <input type="text" class="form-control text-right" formControlName="potheramenitiescharges" removeZero appNumbersonly maxlength="10"
+              (change)="totalPropertyPurchase()" [ngClass]="{ 'is-invalid': HomeloanErrorMessage.potheramenitiescharges }">
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="HomeloanErrorMessage.potheramenitiescharges">{{HomeloanErrorMessage.potheramenitiescharges}}</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label id="potherincidentalexpenditure" title="Any other incidental Expenditure(D)">Any other incidental
+                Expenditure(D)</label>
+              <input type="text" class="form-control text-right" formControlName="potherincidentalexpenditure" removeZero appNumbersonly maxlength="10"
+              (change)="totalPropertyPurchase()" [ngClass]="{ 'is-invalid': HomeloanErrorMessage.potherincidentalexpenditure }">
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="HomeloanErrorMessage.potherincidentalexpenditure">{{HomeloanErrorMessage.potherincidentalexpenditure}}</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label id="ppropertyownershiptype" title="Property Ownership type">Total Value of Property
+                Purchased(A+B+C+D)</label>
+              <label class="bc-2-bold">&nbsp;&nbsp;{{HomeloanForm.value.ptotalvalueofproperty}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="col-12"> <a class="lc-title  text-decoration-none" (click)="arrowChangeforrepairs()"
+       data-toggle="collapse" href="#Repairs"
+        role="button" aria-expanded="false" aria-controls="family"> <img id="close"
+          src="/assets/images/icon-toggle-default.svg" class="display-content" width="12px" height="12px"
+          [ngClass]="arrowforrepairs?'arrowright':'down'"> 
+        &nbsp; &nbsp; Repairs, Renovation and reimbursement of expenditure</a>
+      <div class="mt-3 collapse show" id="Repairs">
+        <div class="row">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pageofbuilding" title="Age of Building"> Age of Building</label>
+              <input type="text" class="form-control" maxlength="10" formControlName="pageofbuilding"
+                [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pageofbuilding }">
+              <!-- <div class="invalid-feedback-cst">
+                <span *ngIf="HomeloanErrorMessage.pageofbuilding">{{HomeloanErrorMessage.pageofbuilding}}</span>
+              </div> -->
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="poriginalcostofproperty" title="Original Cost of Property">Original Cost of Property</label>
+              <input type="text" class="form-control text-right" maxlength="13" formControlName="poriginalcostofproperty" appNumbersonly  removeZero
+                [ngClass]="{ 'is-invalid': HomeloanErrorMessage.poriginalcostofproperty }">
+              <!-- <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="HomeloanErrorMessage.poriginalcostofproperty">{{HomeloanErrorMessage.poriginalcostofproperty}}</span>
+              </div> -->
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pestimatedvalueofrepairs" title="Estimated value of repairs">Estimated value of repairs</label>
+              <input type="text" maxlength="13" class="form-control border-warning sec-head-bold text-right" appNumbersonly removeZero
+                formControlName="pestimatedvalueofrepairs"
+                [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pestimatedvalueofrepairs }">
+              <!-- <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="HomeloanErrorMessage.pestimatedvalueofrepairs">{{HomeloanErrorMessage.pestimatedvalueofrepairs}}</span>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <!-- <div class="col-12"> 
+      <a class="lc-title  text-decoration-none" (click)="arrowChangeforBalance()" data-toggle="collapse"
+        href="#balancetransfer" role="utton" aria-expanded="false" aria-controls="family"> <img id="close"
+          src="/assets/images/icon-toggle-default.svg" class="display-content" width="12px" height="12px" 
+          [ngClass]="arrowforBalance?'arrowright':'down'"> 
+        &nbsp; &nbsp;
+        Balance Transfer </a>
+      <div class="mt-3 collapse show" id="balancetransfer">
+        <div class="row">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="BankCreditFacilityName" title="Bank/Credit Facility Name"> Bank/Credit Facility Name</label>
+              <input type="text" class="form-control" formControlName="BankCreditFacilityName" appCharactersonly
+                [ngClass]="{ 'is-invalid': HomeloanErrorMessage.BankCreditFacilityName }">
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="HomeloanErrorMessage.BankCreditFacilityName">{{HomeloanErrorMessage.BankCreditFacilityName}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="LoanDate" title=" Loan Date"> Loan Date</label>
+              <input type="text" class="form-control"   #dp="bsDatepicker"
+                bsDatepicker formControlName="LoanDate" [ngClass]="{ 'is-invalid': HomeloanErrorMessage.LoanDate }">
+              <div class="invalid-feedback-cst">
+                <span *ngIf="HomeloanErrorMessage.LoanDate">{{HomeloanErrorMessage.LoanDate}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="LoanacNumber" title="Loan a/c Number">Loan a/c Number</label>
+              <input type="text" class="form-control" formControlName="LoanacNumber" appNumbersonly
+                [ngClass]="{ 'is-invalid': HomeloanErrorMessage.LoanacNumber }">
+              <div class="invalid-feedback-cst">
+                <span *ngIf="HomeloanErrorMessage.LoanacNumber">{{HomeloanErrorMessage.LoanacNumber}}</span>
+              </div>
+            </div>
+          </div>
+          <hr class="light">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="LoanAmount" title="Loan Amount">Loan Amount</label>
+              <input type="text" class="form-control" formControlName="LoanAmount" appNumbersonly  removeZero
+                [ngClass]="{ 'is-invalid': HomeloanErrorMessage.LoanAmount }">
+              <div class="invalid-feedback-cst">
+                <span *ngIf="HomeloanErrorMessage.LoanAmount">{{HomeloanErrorMessage.LoanAmount}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="AsonDateOutstanding" title="As on Date Outstanding">As on Date Outstanding</label>
+              <input type="text" class="form-control" formControlName="AsonDateOutstanding"
+                [ngClass]="{ 'is-invalid': HomeloanErrorMessage.AsonDateOutstanding }">
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="HomeloanErrorMessage.AsonDateOutstanding">{{HomeloanErrorMessage.AsonDateOutstanding}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="Installmentamount" title="Installment amount">Installment amount</label>
+              <input type="text" class="form-control" formControlName="Installmentamount" appNumbersonly  removeZero
+                [ngClass]="{ 'is-invalid': HomeloanErrorMessage.Installmentamount }">
+              <div class="invalid-feedback-cst">
+                <span *ngIf="HomeloanErrorMessage.Installmentamount">{{HomeloanErrorMessage.Installmentamount}}</span>
+              </div>
+            </div>
+          </div>
+          <hr class="light">
+          <div class="d-flex col-md-6  col-xl-4">
+            <div class="form-group pr-1">
+              <label id="TotalTenureofLoan" title="Total Tenure of Loan"> Total Tenure of Loan</label>
+              <div class="input-group">
+                <input class="form-control" type="text" value="">
+                <div class="input-group-append">
+                  <select class="form-control p-0  btn-lg-icon" formControlName="TotalTenureofLoan"
+                    [ngClass]="{ 'is-invalid': HomeloanErrorMessage.TotalTenureofLoan }">
+
+                    <option>Days</option>
+                    <option>Months</option>
+                    <option>Years</option>
+                  </select>
+                </div>
+              </div>
+              <div class="invalid-feedback-cst">
+                <span *ngIf="HomeloanErrorMessage.TotalTenureofLoan">{{HomeloanErrorMessage.TotalTenureofLoan}}</span>
+              </div>
+            </div>
+            <div class="form-group ">
+              <label id="RemainingTenureofloan" title="Remaining Tenure of loan">Remaining Tenure of loan</label>
+              <div class="input-group">
+                <input class="form-control" type="text" value="">
+                <div class="input-group-append ">
+                  <select class="form-control  p-0 btn-lg-icon" formControlName="RemainingTenureofloan"
+                    [ngClass]="{ 'is-invalid': HomeloanErrorMessage.RemainingTenureofloan }">
+
+                    <option>Days</option>
+                    <option>Months</option>
+                    <option>Years</option>
+                  </select>
+                </div>
+              </div>
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="HomeloanErrorMessage.RemainingTenureofloan">{{HomeloanErrorMessage.RemainingTenureofloan}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+
+
+            <div class="form-group">
+              <label id="UploadLoanSanctionDocument" title="Upload Loan Sanction Document">Upload Loan Sanction
+                Document</label>
+              <div class="input-group">
+                <input type="text" class="form-control" formControlName="UploadLoanSanctionDocument" [value]="fileName"
+                  [ngClass]="{ 'is-invalid': HomeloanErrorMessage.UploadLoanSanctionDocument }">
+                <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()"><img
+                      src="./assets/images/icon-upload-blue.svg" class="" width="18px" height="18px"></button>
+                  <input style="display: none" type="file" (change)="upload($event.target.files)" #fileInput>
+                </div>
+              </div>
+              <span class="text-success">
+                <ng-container *ngIf="uploadSuccess">Uploaded Successfully</ng-container>
+              </span>
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="HomeloanErrorMessage.UploadLoanSanctionDocument">{{HomeloanErrorMessage.UploadLoanSanctionDocument}}</span>
+              </div>
+            </div>
+
+
+
+          </div>
+          <div class="col-md-6 col-xl-4">
+
+
+            <div class="form-group">
+              <label id="UploadEMIChart" title="Upload EMI Chart">Upload EMI Chart</label>
+              <div class="input-group">
+                <input type="text" class="form-control" formControlName="UploadEMIChart" [value]="fileName"
+                  [ngClass]="{ 'is-invalid': HomeloanErrorMessage.UploadEMIChart }">
+                <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()"><img
+                      src="./assets/images/icon-upload-blue.svg" class="" width="18px" height="18px"></button>
+                  <input style="display: none" type="file" (change)="upload2($event.target.files)" #fileInput>
+                </div>
+              </div>
+              <span class="text-success">
+                <ng-container *ngIf="uploadSuccess">Uploaded Successfully</ng-container>
+              </span>
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="HomeloanErrorMessage.UploadEMIChart">{{HomeloanErrorMessage.UploadEMIChart}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!-- <hr> -->
+    <!-- <div class="col-12">
+       <a class="lc-title  text-decoration-none" (click)="arrowChangeforSources()" data-toggle="collapse" href="#sourcesfunds"
+        role="button" aria-expanded="false" aria-controls="family"> <img id="close" src="assets/images/icon-toggle-default.svg"
+          class="display-content" width="12px" height="12px"
+          [ngClass]="arrowforSources?'arrowright':'down'">  &nbsp; &nbsp; Sources of Funds </a>
+        
+      <div class="mt-3 collapse show" id="sourcesfunds">
+        <div class="row">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label class="col-md-12 col-xl-12"> Downpayment / Initial Paid Amount</label>
+              <label class="col-md-12 col-xl-12 sec-head-bold"> 1,00,000</label>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pamountalreadyspent" title="Amount Already Spent">Amount Already Spent</label>
+              <input type="text" class="form-control" maxlength="12" placeholder="25,00,000" formControlName="pamountalreadyspent" appNumbersonly removeZero maxlength="10"
+                [ngClass]="{ 'is-invalid': HomeloanErrorMessage.pamountalreadyspent }">
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="potherborrowings" title="Other Borrowings">Other Borrowings</label>
+              <input type="text" class="form-control" maxlength="12" formControlName="potherborrowings" maxlength="10" appNumbersonly removeZero  
+                [ngClass]="{ 'is-invalid': HomeloanErrorMessage.potherborrowings }">
+            </div>
+          </div>
+          <hr>
+          <p class="w-100">Requested Loan Amount : <span class="bc-2-bold"> 20,00,000</span> </p>
+          <br>
+          <h2 class="w-100 bc-1-bold">Total: {{ HomeloanForm.value.ptotalvalue }}</h2>
+          <hr>
+        </div>
+      </div>
+    </div> -->
+  </form>
+</div>
+<div class="modal right slideInRight" id="propertyloc" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="margin-right:0px !important; ">
+    <div class="model-cst modal-content">
+
+      <div class="modal-body">
+
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <form [formGroup]="prolocationform" autocomplete="off">
+          <div class="form-group">
+            <label>Property Location</label>
+            <input type="text" class="form-control" appTitlecaseword appCharactersonly maxlength="50"
+              placeholder="Enter Property Location" formControlName="prolocation" />
+
+            <div class="invalid-feedback">
+            </div>
+          </div>
+          <div class="d-flex justify-content-end mt-4">
+            <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0"
+              ><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px"
+                class="mr-3">Clear</a>
+            <a href="" data-toggle="tab" data-dismiss="modal" class="btn btn-b-icon px-3 border-0" role="tab"
+              aria-controls="hot" aria-selected="false" (click)="saveprolocation()"><img
+                src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal right slideInRight" id="proprtyownertype" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="margin-right:0px !important; ">
+    <div class="model-cst modal-content">
+
+      <div class="modal-body">
+
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <form [formGroup]="proownerform" autocomplete="off">
+          <div class="form-group">
+            <label> Property Ownership Type</label>
+            <input type="text" class="form-control" appTitlecaseword appCharactersonly maxlength="30"
+              placeholder="Enter Property Ownership Type" formControlName="proownersship" />
+
+            <div class="invalid-feedback">
+            </div>
+          </div>
+          <div class="d-flex justify-content-end mt-4">
+            <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0"
+              ><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px"
+                class="mr-3">Clear</a>
+            <a href="" data-toggle="tab" data-dismiss="modal" class="btn btn-b-icon px-3 border-0" role="tab"
+              aria-controls="hot" aria-selected="false" (click)="saveproownersship()"><img
+                src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal right slideInRight" id="proprtytype" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="margin-right:0px !important; ">
+    <div class="model-cst modal-content">
+
+      <div class="modal-body">
+
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <form [formGroup]="propertytypeform" autocomplete="off">
+          <div class="form-group">
+            <label>Property Type</label>
+            <input type="text" class="form-control" appTitlecaseword appCharactersonly maxlength="30" placeholder="Enter Property Type"
+              formControlName="typepro" />
+
+
+          </div>
+          <div class="d-flex justify-content-end mt-4">
+            <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0"
+              ><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px"
+                class="mr-3">Clear</a>
+            <a href="" data-toggle="tab" data-dismiss="modal" class="btn btn-b-icon px-3 border-0" role="tab"
+              aria-controls="hot" aria-selected="false" (click)="savepropertytype()"><img
+                src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal right slideInRight" id="purpoesofproperty" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="margin-right:0px !important; ">
+    <div class="model-cst modal-content">
+
+      <div class="modal-body">
+
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <form [formGroup]="purposeForm" autocomplete="off">
+          <div class="form-group">
+            <label>Purpoes Of Property</label>
+            <input type="text" class="form-control" appTitlecaseword appCharactersonly maxlength="50"
+              placeholder="Enter Purpoes Of Property" formControlName="purpose" />
+
+            <div class="invalid-feedback">
+            </div>
+          </div>
+          <div class="d-flex justify-content-end mt-4">
+            <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0"
+              ><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px"
+                class="mr-3">Clear</a>
+            <a href="" data-toggle="tab" data-dismiss="modal" class="btn btn-b-icon px-3 border-0" role="tab"
+              aria-controls="hot" aria-selected="false" (click)="savepurposepro()"><img
+                src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal right slideInRight" id="statusofproperty" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="margin-right:0px !important; ">
+    <div class="model-cst modal-content">
+
+      <div class="modal-body">
+
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <form [formGroup]="statusofform" autocomplete="off">
+          <div class="form-group">
+            <label>status of property</label>
+            <input type="text" class="form-control" appTitlecaseword appCharactersonly
+              placeholder="Enter status of property" formControlName="status" />
+
+            <div class="invalid-feedback">
+            </div>
+          </div>
+          <div class="d-flex justify-content-end mt-4">
+            <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0"
+              ><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px"
+                class="mr-3">Clear</a>
+            <a href="" data-toggle="tab" data-dismiss="modal" class="btn btn-b-icon px-3 border-0" role="tab"
+              aria-controls="hot" aria-selected="false" (click)="savestatusofpro()"><img
+                src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .arrowright {
+      transform: rotate(90deg)
+  }
+</style>

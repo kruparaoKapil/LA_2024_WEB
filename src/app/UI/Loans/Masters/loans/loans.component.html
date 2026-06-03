@@ -1,0 +1,127 @@
+<div class="row">
+
+    <div class="col">
+        <!--<input type="search" class="form-control border-left-0 border-top-0 shadow-none border-right-0 rounded-0 sb" placeholder="Vignesh Kumar 1- 54-896543">-->
+    </div>
+    <!--col-end-->
+
+    <!--<div class="col-auto dropdown">
+    <button class="btn btn-sm sm-dd dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Select action
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" href="#">Action</a>
+      <a class="dropdown-item" href="#">Another action</a>
+      <a class="dropdown-item" href="#">Something else here</a>
+    </div>
+  </div>dropdown-end-->
+
+</div>
+<!--row-end-->
+<!-- ======================================================================= tab nav end ============================================================================== -->
+<div class="row">
+    <div class="col-12 mb-3">
+        <p class="bc-2">Loans Configuration</p>
+    </div>
+    <div class="col d-flex flex-wrap align-items-center">
+        <a routerLink="/LoansCreation" (click)="NewButtonClick('New')" class="btn btn-b-icon border-0 pull-right"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+    </div>
+</div>
+<!-- <div class="row mt-2 mb-2">
+    <div class="col d-flex flex-wrap align-items-center">
+        <a routerLink="/LoansCreation" (click)="NewButtonClick('New')" class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+    </div>
+</div> -->
+<div class="d-flex justify-content-end">
+    <ul class="temp-ul mt-2">
+        <!-- <li class="temp-ico ml-2"><img class="pt-2"  src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></li>
+            <li class="temp-ico ml-2"><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel" width="20px"></li> -->
+    </ul>
+</div>
+
+
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+            <h3>
+                Loading...
+            </h3>
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+</div>
+<div class="section-container">
+    <div class="row mb-2">
+        <div class="col-12">
+            <!-- <table id="Transfer" class="table" width="100%">
+      <thead>
+      </thead>
+      <tbody>
+      </tbody>
+    </table> -->
+            <kendo-grid [kendoGridBinding]="DisplayData" [groupable]="true" [columnMenu]="{ filter: true }" [group]="groups" [reorderable]="true" [resizable]="true" [height]="500" [sort]="gridState.sort" [pageable]="{ buttonCount: 2 }" [sortable]="true" [pageSize]="10"
+                (edit)="datatableclickedit($event)" (remove)="datatableclickdelete($event)">
+                <ng-template kendoGridToolbarTemplate>
+
+                    <div class="row mb-3 ">
+                        <div class="col-4 pl-0 mt-n1">
+                            <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+                        </div>
+                        <div class="col-7 pr-0 pl-4 ml-4">
+                            <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                                <li class="temp-ico ml-2">
+                                    <a kendoGridPDFCommand><img class="pt-1 pl-4" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                </li>
+                                <li class="temp-ico">
+                                    <a kendoGridExcelCommand><img class="pt-1 pl-4" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                                </li>
+                                <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                            </ul>
+                        </div>
+                    </div>
+                </ng-template>
+
+                <kendo-grid-column-group title="Loan Configuration" [headerClass]="{'kendo-g-center' : true}">
+                    <kendo-grid-column field="pLoantype" title="Loan Type"></kendo-grid-column>
+                    <kendo-grid-column field="pLoanname" title="Loan Name"></kendo-grid-column>
+                    <kendo-grid-column field="pLoanidcode" title="Loan ID"></kendo-grid-column>
+                    <!--<kendo-grid-column field="pStatusname" title="Status"></kendo-grid-column>-->
+
+
+
+
+                    <kendo-grid-command-column>
+                        <ng-template kendoGridCellTemplate width="150">
+                            <div id="icon-edit" kendoGridEditCommand [primary]="true"></div>
+                            <div id="icon-delete" kendoGridRemoveCommand [primary]="true"></div>
+                        </ng-template>
+                    </kendo-grid-command-column>
+                </kendo-grid-column-group>
+                <kendo-grid-pdf fileName="Loan.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [landscape]="true">
+                    <ng-template kendoGridPDFTemplate>
+                        <div class="page-template">
+                            <div class="header bc-2 text-center">
+                                <h5> Loan Configuration </h5>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+                    <kendo-grid-column field="pLoantype" title="Loan Type"></kendo-grid-column>
+                    <kendo-grid-column field="pLoanname" title="Loan Name"></kendo-grid-column>
+                    <kendo-grid-column field="pLoanidcode" title="Loan ID"></kendo-grid-column>
+                    <!--<kendo-grid-column field="pStatusname" title="Status"></kendo-grid-column>-->
+                </kendo-grid-pdf>
+                <kendo-grid-excel fileName="Loan Configuration.xlsx" [fetchData]="allData">
+                    <kendo-excelexport-column-group title="Loan Configuration" [headerCellOptions]="headerCells">
+                        <kendo-excelexport-column field="pLoantype" title="Loan Type"></kendo-excelexport-column>
+                        <kendo-excelexport-column field="pLoanname" title="Loan Name"></kendo-excelexport-column>
+                        <kendo-excelexport-column field="pLoanidcode" title="Loan ID"></kendo-excelexport-column>
+                        <!--<kendo-excelexport-column field="pStatusname" title="Status"></kendo-excelexport-column>-->
+                    </kendo-excelexport-column-group>
+                </kendo-grid-excel>
+            </kendo-grid>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,133 @@
+<form [formGroup]="chequemanagementform">
+<div class="row"> 
+        <!--col-end-->
+        <div class="col-md-12 col-xl-12">
+          <h2 class="sec-head">Add Cheque Book</h2>
+          <div class="section-container">
+          <div class="col-md-6 col-xl-4 pl-0">
+            <div class="form-group">
+              <label>Select Bank</label>
+              <div class="input-group">
+                <select class="form-control" id="pBankname" title="Select Bank" formControlName="pBankname" (change)="getrecordid($event)" [ngClass]="{ 'is-invalid': chequemanagementvalidations.pBankname }">
+                    <option *ngFor="let i of bankdetails" [value]="i.pBankname">
+                        {{i.pBankname}}
+                      </option>            
+                </select> 
+                <div class="invalid-feedback">
+                  <span *ngIf="chequemanagementvalidations.pBankname">{{chequemanagementvalidations?.pBankname}}</span>
+                </div>           
+              </div>
+            </div>       
+            <div class="form-group">
+              <label>Number Of Cheques </label>
+              <input type="text" class="form-control" id="pNoofcheques" appZero title="Number Of Cheques"maxlength="3" formControlName="pNoofcheques" (change)="noofcheques($event)" appNumbersonly [ngClass]="{ 'is-invalid': chequemanagementvalidations.pNoofcheques }">
+              <div class="invalid-feedback">
+                <span *ngIf="chequemanagementvalidations.pNoofcheques">{{chequemanagementvalidations?.pNoofcheques}}</span>
+              </div>
+            </div>
+            <div class="d-flex">
+              <div class="col-md-6 col-xl-6 pl-0">
+                <div class="form-group">
+                  <label>From No.</label>
+                  <input type="text" class="form-control" id="pChequefrom" appZero  title="From No"maxlength="6" formControlName="pChequefrom" (change)="fromchequeno($event)" appNumbersonly [ngClass]="{ 'is-invalid': chequemanagementvalidations.pChequefrom }">
+                  <div class="invalid-feedback">
+                    <span *ngIf="chequemanagementvalidations.pChequefrom">{{chequemanagementvalidations?.pChequefrom}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-xl-6 pr-0">
+                <div class="form-group">
+                  <label>To No.</label>
+                  <input type="text" class="form-control" id="pChequeto" title="To No"  formControlName="pChequeto" readonly appNumbersonly [ngClass]="{ 'is-invalid': chequemanagementvalidations.pChequeto }">
+                  <div class="invalid-feedback">
+                    <span *ngIf="chequemanagementvalidations.pChequeto">{{chequemanagementvalidations?.pChequeto}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end"> 
+              <a (click)="addtoGrid()"  class="btn btn-b-icon border-0">
+                <img src="assets/images/icon-add-white.svg" class="mr-2" width="20px" height="20px">Add</a> 
+              </div>
+          </div>
+       
+        <hr class="light">
+        <div class="col-md-8 col-xl-8 mb-3 p-0">
+          <!-- <table id="example" class="table" style="width:100%">
+            <thead>
+              <tr>
+                <th>Book ID</th>
+                <th>No. of Cheques</th>
+                <th>From No.</th>
+                <th>To No.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>101234</td>
+                <td>100</td>
+                <td>1</td>
+                <td>100</td>     
+              </tr>
+              <tr>
+                <td>101234</td>
+                <td>100</td>
+                <td>1</td>
+                <td>100</td>    
+              </tr>
+              <tr>
+                <td>101234</td>
+                <td>100</td>
+                <td>1</td>
+                <td>100</td>            
+              </tr>
+              <tr>
+                <td>101234</td>
+                <td>100</td>
+                <td>1</td>
+                <td>100</td>            
+              </tr>
+            </tbody>
+          </table> -->
+          <kendo-grid [data]="gridData" [pageSize]="pageSize"
+           
+          (remove)="removeHandler($event)"
+          >
+             
+              <kendo-grid-column field="pNoofcheques" title="No. of Cheques"></kendo-grid-column>
+              <kendo-grid-column field="pChequefrom" title="From No."></kendo-grid-column>
+              <kendo-grid-column field="pChequeto" title="To No."></kendo-grid-column>
+              <kendo-grid-command-column>
+                  <ng-template kendoGridCellTemplate>                  
+                    <div id="icon-remove"  kendoGridRemoveCommand></div>
+                  </ng-template>
+              </kendo-grid-command-column>
+          </kendo-grid>  
+          <div class="d-flex justify-content-end">
+          
+        </div>
+        </div>
+      </div>
+   
+      <!--row-end--> 
+      <div class="row  ml-1">
+          <div class="col-md-12 col-xl-12">
+            <div class="d-flex justify-content-end mt-4">
+               <a (click)="clear()" class="btn btn-g-icon mr-4 px-3 border-0">
+                 <img src="assets/images/icon-cancel-white.svg" class="mr-3" width="20px" height="20px">Clear
+              </a>
+              <a (click)="save('InActive')" data-toggle="tab" class="btn btn-b-icon px-3 border-0 mr-4" role="tab" aria-controls="hot" aria-selected="false">
+                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i>
+         
+                     {{buttonname}}
+              </a>
+              <a  (click)="save('Active')" class="btn btn-s-icon border-0">
+                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesaveactivebutton, 'fa-check': !disablesaveactivebutton}"></i>{{buttonnameactive}}
+              </a> 
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+      </form>
+      

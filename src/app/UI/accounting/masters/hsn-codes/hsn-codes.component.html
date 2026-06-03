@@ -1,0 +1,158 @@
+<div class="section-container mb-4">
+    <div class="row">
+        <div class="col-md-12 col-xl-12 ">
+            <kendo-grid [kendoGridBinding]="hsnCodes" [groupable]="false"
+                          [resizable]="true"  [skip]="skip" [reorderable]="true" [pageSize]="10" [sortable]="true"  [pageable]="{buttonCount: 2}" (remove)="removeProducts($event)">
+                <ng-template kendoGridToolbarTemplate>
+
+                  <div class="row mb-4">
+                    <div class="col-md-4 col-xl-4 pl-0 mt-n1">
+                        <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+                               (input)="SearchRecord($event.target.value)" />
+                      </div>
+
+                      <div class="col-12 mt-5">
+                        <ul class="temp-ul pull-right mr-4 pb-3">
+                          <li class="temp-ico ml-2">
+                            <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                                width="20px"></a>
+                          </li>
+                         
+                          <li class="temp-ico ml-2">
+                            <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                                width="20px"></a>
+                          </li>
+                        </ul>
+                      </div>
+                  </div>
+                  </ng-template>
+
+                  <!--  <kendo-grid-command-column title="Actions" width="30">
+                      <ng-template kendoGridCellTemplate>
+                        <div id="icon-delete" kendoGridRemoveCommand title="Delete"  width="40"></div>
+                      </ng-template>
+                  </kendo-grid-command-column> -->
+                  
+
+                  <kendo-grid-column field="pProductName" title="Product Name"  width="30"   >
+                   
+                  </kendo-grid-column>
+
+                  <kendo-grid-column field="pHsnCode" title="HSN Code"  width="30">
+                 </kendo-grid-column>
+
+                  <kendo-grid-column field="pGstPercentage" title="HSN GST%"  width="30" >
+            
+                  </kendo-grid-column>
+
+                 <!-- <kendo-grid-column field="pStatus" title="Status" width="30"  >
+                   
+                </kendo-grid-column> -->
+                <!-- <kendo-grid-column field="pStatus" title="Status" field="ID" class="material-switch">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <input id="status{{rowIndex}}" type="checkbox" [checked]="dataItem.pStatus" data-toggle="collapse" data-target="#tds" (click)="status(dataItem)">
+                    <label for="status{{rowIndex}}" class="badge-success" data-toggle="collapse" data-target="#tds"></label>
+                </ng-template>
+            </kendo-grid-column> -->
+                <!-- </kendo-grid-column-group> -->
+                 
+                  
+
+            <kendo-grid-pdf fileName="hsnCode.pdf" [allPages]="true" paperSize="A4"
+                      [repeatHeaders]="true" [scale]="0.5" [margin]="0.5" [landscape]="false">
+
+                    <kendo-grid-pdf-margin top="4.5cm" left="0.5cm" right="0.5cm"
+                        bottom="2cm"></kendo-grid-pdf-margin>
+
+                      <ng-template kendoGridPDFTemplate>
+                        <div class="page-template">
+                          <div class="header">
+                            <app-company-details></app-company-details>
+
+                            <div class="report-head mt-2">
+                              <p class="font-20 text-dark text-center m-0">
+                                  <span class="text-capitalize">HSN codeS</span>
+                              </p>
+
+                          </div>
+                        </div>
+                       </div>
+                    </ng-template>
+                </kendo-grid-pdf>
+
+
+        <kendo-grid-excel fileName="hsnCode.xlsx" [fetchData]="allData"></kendo-grid-excel>
+      
+
+        </kendo-grid>
+
+              
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <p class="bc-2 ml-4">Add HSN Code</p>
+</div>
+<div class="section-container"> 
+   <form [formGroup]="hsnForm">
+ 
+  <div class="row mt-3">
+      <div class="col-md-4 col-xl-4">
+          <div class="form-group">
+               <label class="required-field" id="productName" title="ProductName">ProductName</label>
+               <input type="text" formControlName="productName" class="form-control" 
+                  [ngClass]="{ 'is-invalid':ErrorMessages['productName']}">
+
+              <span style="color: red;" *ngIf="ErrorMessages['productName']">
+                {{ErrorMessages['productName']}}</span>
+          </div>
+       </div>
+
+      <div class="col-md-4 col-xl-4">
+          <div class="form-group">
+               <label class="required-field" id="hsnCode" title="HSN Code">HSN Code</label>
+               <input type="text" formControlName="hsnCode" class="form-control" appNumbersonly
+                  [ngClass]="{ 'is-invalid':ErrorMessages['hsnCode']}">  
+            
+            <span style="color: red;" *ngIf="ErrorMessages['hsnCode']">
+                {{ErrorMessages['hsnCode']}}</span>
+          </div>
+       </div>
+
+        <div class="col-md-4 col-xl-4">
+          <div class="form-group">
+               <label class="required-field"  id="hsnGst" title="HSN GST">HSN GST(%)</label>
+               <!-- <input type="text" formControlName="hsnGst" class="form-control" appNumbersonly [ngClass]="{ 'is-invalid':ErrorMessages['hsnGst'] && hsnForm.get('hsnGst')?.invalid}" > -->
+                <ng-select title="HSN Code" [items]="gstList" [multiple]="false"
+                  formControlName="hsnGst" [searchable]=true bindLabel="gst" bindValue="gst"  [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                  [ngClass]="{ 'is-invalid':ErrorMessages['hsnGst']}">
+               </ng-select>
+
+               <span style="color: red;" *ngIf="ErrorMessages['hsnGst']">
+                {{ErrorMessages['hsnGst']}}</span>
+          </div>
+       </div>
+
+  </div>
+   </form>
+
+
+
+
+<div class="row mt-1 ml-1 mb-4">
+    <div class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end mt-4">
+           <button appButtonDoubleClick [debounceTime]="500" (debounceClick)="saveData()"
+                class="btn btn-s-icon px-3 border-0 mr-4">
+                <img src="assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px">Save
+            </button>
+
+            <a data-toggle="tab" class="btn btn-g-icon  px-3 border-0" role="tab" aria-controls="hot"
+                aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearDetails()"><img
+                src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+        </div>
+    </div>
+</div>
+</div>

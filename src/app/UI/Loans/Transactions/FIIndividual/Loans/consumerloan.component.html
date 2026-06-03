@@ -1,0 +1,329 @@
+<div id="consumer-Loan">
+  <div class="row">
+    <div class="col-12 mt-5">
+      <p class="bc-2">Consumer Loan</p>
+    </div>
+  </div>
+
+  <hr>
+  <form [formGroup]="consumerLoanForm">
+    <div class="col-12"><a class="lc-title acc8 mb-2 text-decoration-none" data-toggle="collapse"
+        href="#products-details" role="button" aria-expanded="true" aria-controls=""> <img id="close"
+          src="./assets/images/icon-toggle-default.svg" width="12px" height="12px" class="display-content"> <img
+          id="open" src="./assets/images/icon-toogle-bottom.svg" width="12px" height="12px" class="display-content">
+        &nbsp; &nbsp; Product Details</a>
+      <div class="mt-3 collapse show" id="products-details">
+        <div class="row">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pproducttype" title="Product Type / Category">Product Type / Category</label>
+              <div class="input-group">
+                <select class="form-control" formControlName="pproducttype" (change)="changeCategory($event)"
+                  [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pproducttype}">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option *ngFor="let consumableproductType of getExistingConsumableproductTypes"> {{consumableproductType.pproducttype}}</option>
+                </select>
+                <!-- <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0" data-toggle="modal" tabindex="-1"
+                    data-target="#idProductTypeModel">
+                    <img src="assets/images/icon-add-blue.svg" class="" width="20px" height="20px">
+                  </button>
+                </div> -->
+                <div class="invalid-feedback"><span
+                    *ngIf="consumerLoanErrorMessage.pproducttype">{{consumerLoanErrorMessage.pproducttype}}</span></div>
+              </div>
+            </div>
+          </div>
+          <hr class="light">
+        </div>
+        <div class="row">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pproductname" title="Product Name">Product Name</label>
+              <input type="text" class="form-control" formControlName="pproductname" appCharactersonly maxlength="75"
+                [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pproductname }">
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="consumerLoanErrorMessage.pproductname">{{consumerLoanErrorMessage.pproductname}}</span></div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pmanufacturer" title="Manufacturer">Manufacturer</label>
+              <input type="text" class="form-control" formControlName="pmanufacturer" maxlength="75"
+                [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pmanufacturer }">
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="consumerLoanErrorMessage.pmanufacturer">{{consumerLoanErrorMessage.pmanufacturer}}</span></div>
+            </div>
+          </div>
+
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pproductmodel" title="Product Model">Product Model</label>
+              <input type="text" class="form-control" formControlName="pproductmodel" maxlength="75"
+                [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pproductmodel }">
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="consumerLoanErrorMessage.pproductmodel">{{consumerLoanErrorMessage.pproductmodel}}</span></div>
+            </div>
+          </div>
+        </div>
+        <hr class="light">
+        <div class="row">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pquantity" title="Quantity">Quantity</label>
+              <input type="text" class="form-control" formControlName="pquantity" appNumbersonly maxlength="10"
+              (keyup)="calculateTotalCostOfProductAndTotalBalance()" [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pquantity }">
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="consumerLoanErrorMessage.pquantity">{{consumerLoanErrorMessage.pquantity}}</span></div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pcostofproduct" title="Cost of Product">Cost of Product</label>
+              <input type="text" class="form-control text-right" formControlName="pcostofproduct" appNumbersonly maxlength="10"
+                removeZero [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pcostofproduct }" (keyup)="calculateTotalCostOfProductAndTotalBalance()">
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="consumerLoanErrorMessage.pcostofproduct">{{consumerLoanErrorMessage.pcostofproduct}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pinsurancecostoftheproduct" title="Insurance Cost of The Product">Insurance Cost of The
+                Product</label>
+              <input type="text" class="form-control text-right" formControlName="pinsurancecostoftheproduct" appNumbersonly
+                removeZero maxlength="10" (keyup)="calculateTotalCostOfProductAndTotalBalance()"
+                [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pinsurancecostoftheproduct }" >
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="consumerLoanErrorMessage.pinsurancecostoftheproduct">{{consumerLoanErrorMessage.pinsurancecostoftheproduct}}</span>
+              </div>
+            </div>
+          </div>
+          <hr class="light">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pothercost" title="Other Cost">Other Cost</label>
+              <input type="text" class="form-control text-right" formControlName="pothercost" appNumbersonly removeZero maxlength="10"
+                [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pothercost }" (keyup)="calculateTotalCostOfProductAndTotalBalance()">
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="consumerLoanErrorMessage.pothercost">{{consumerLoanErrorMessage.pothercost}}</span></div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="ptotalcostofproduct" title="Total Cost of Product">Total Cost of Product</label>
+              <input type="text" class="form-control text-right" [value]="toatlCostOfProduct" disabled readonly formControlName="ptotalcostofproduct" appNumbersonly
+                removeZero [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.ptotalcostofproduct }">
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="consumerLoanErrorMessage.ptotalcostofproduct">{{consumerLoanErrorMessage.ptotalcostofproduct}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pdownpayment" title="Downpayment">Down payment</label>
+              <input type="text" class="form-control" formControlName="pdownpayment"
+                [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pdownpayment }" (keyup)="calculateTotalCostOfProductAndTotalBalance()">
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="consumerLoanErrorMessage.pdownpayment">{{consumerLoanErrorMessage.pdownpayment}}</span></div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pbalanceamount" title="Balance Amount">Balance Amount</label>
+              <input type="text" class="form-control" [value]="balanceAmount" disabled readonly formControlName="pbalanceamount"
+                [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pbalanceamount }">
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="consumerLoanErrorMessage.pbalanceamount">{{consumerLoanErrorMessage.pbalanceamount}}</span>
+              </div>
+            </div>
+          </div>
+          <hr class="light">
+          <!-- <div class="col-md-6  col-xl-4">
+            <div class="form-check form-check-inline mr-5">
+              <input class="form-check-input" type="radio" name="warranty" id="warranty" value="warranty"
+                (click)="show=!show">
+              <label class="" for="warranty"> Warranty </label>
+            </div>
+            <div *ngIf="show" class="warranty radio-toggle" style="display: block;">
+              <label id="pperiod" title="Period">Period</label>
+              <input type="text" class="form-control" formControlName="pperiod" appNumbersonly
+                [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pperiod }">
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="consumerLoanErrorMessage.pperiod">{{consumerLoanErrorMessage.pperiod}}</span></div>
+            </div>
+          </div> -->
+
+          <div class="col-md-6  col-xl-4">
+
+            <div class="form-group">
+              <div class="form-check radio-btn form-check-inline mr-1  ">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio4"
+                  value="warranty" checked="">
+                <label class="mt-1" for="inlineRadio4" (click)="onSelect('warranty')"> Warranty </label>
+              </div>
+              <div class="form-check radio-btn form-check-inline mr-2">
+                <input class="form-check-input radio-btn" type="radio" name="inlineRadioOptions2" id="inlineRadio5"
+                  value="guarantee">
+                <label class="mt-1" for="inlineRadio5" (click)="onSelect('guarantee')"> Guarantee </label>
+              </div>
+            </div>
+
+            <div class="warranty" *ngIf="warrantyType">
+              <label class="mr-4" id="pperiod" title="Warranty Period">Warranty Period</label>
+              <div class="displayPperiod">
+                <input type="text" class="form-control" formControlName="pperiod" maxlength="3" appNumbersonly
+                [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pperiod }">
+                <div class="input-group-append">
+                  <select class="form-control w-auto btn-lg-icon" formControlName="pperiodtype" [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pperiodtype}">
+                    <option ng-selected="selected">Days</option>
+                    <option>Months</option>
+                    <option>Years</option>
+                  </select>
+                </div>
+              </div>
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="consumerLoanErrorMessage.pperiod && consumerLoanErrorMessage.pperiodtype">{{consumerLoanErrorMessage.pperiod}}</span></div>
+            </div>
+            <div class="guarantee" *ngIf="guaranteeType">
+              <label id="pperiod" title="Guarantee Period">Guarantee Period</label>
+              <div class="displayPperiod">
+              <input type="text" class="form-control" formControlName="pperiod" maxlength="3" appNumbersonly
+                [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pperiod }">
+                <div class="input-group-append">
+                  <select class="form-control w-auto btn-lg-icon" formControlName="pperiodtype" [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pperiodtype}">
+                    <option value="" ng-selected="selected">Days</option>
+                    <option>Months</option>
+                    <option>Years</option>
+                  </select>
+                </div>
+              </div>
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="consumerLoanErrorMessage.pperiod && consumerLoanErrorMessage.pperiodtype">{{consumerLoanErrorMessage.pperiod}}</span></div>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="col-md-12 col-xl-12">
+            <div class="d-flex justify-content-end mt-4"> <a href="#" data-toggle="tab"
+                class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" aria-selected="false"
+                (click)="addDatatoGrid()"><img src="./assets/images/icon-add-white.svg" class="mr-3" width="20px"
+                  height="20px">Add</a> </div>
+          </div>
+          <hr>
+          <!-- Kendo grid data table -->
+          <div class="col-md-12 col-xl-12 mb-3">
+            <kendo-grid [data]="gridData" [reorderable]="true" [resizable]="true" [sortable]="true" 
+              (remove)="removeHandler($event)">
+              <kendo-grid-column field="pproducttype" title="Product Type" width="150">
+              </kendo-grid-column>
+              <kendo-grid-column field="pquantity" title="Quantity" width="100">
+              </kendo-grid-column>
+              <kendo-grid-column field="pmanufacturer" title="Manufacturer" width="100">
+              </kendo-grid-column>
+              <kendo-grid-column field="pproductmodel" width="150" title="Product Model">
+              </kendo-grid-column>
+              <kendo-grid-column field="pcostofproduct" width="130" title="Cost of Product"
+              [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+              </kendo-grid-column>
+              <kendo-grid-column field="pinsurancecostoftheproduct" width="130" title="Insurance Cost"
+              [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+              </kendo-grid-column>
+              <kendo-grid-column field="pothercost" width="100" title="Other Cost"
+              [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+              </kendo-grid-column>
+              <kendo-grid-column field="ptotalcostofproduct" width="200" title="Total Cost of Product"
+              [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+              </kendo-grid-column>
+              <kendo-grid-column field="pdownpayment" title="Down payment" width="150"
+              [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+              </kendo-grid-column>
+              <kendo-grid-column field="pbalanceamount" title="Balance Amount" width="100"
+              [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+              </kendo-grid-column>
+              <kendo-grid-command-column title="" width="220">
+                <ng-template kendoGridCellTemplate>
+                  <!-- <button kendoGridEditCommand>Edit</button> -->
+                  <button kendoGridRemoveCommand>
+                    <div id="icon-delete"></div>
+                  </button>
+                </ng-template>
+              </kendo-grid-command-column>
+
+            </kendo-grid>
+          </div>
+
+          <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label  title="Balance Amount">Loan Amount Requested</label>
+                <input type="text" class="form-control text-right" removeZero appNumbersonly readonly [value]="pAmountrequested">
+               </div>
+            </div>
+          
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pdownpayment" title="Downpayment">Total Down payment</label>
+             
+              <input type="text" class="form-control text-right" removeZero appNumbersonly readonly   [value]="totalDownPayment">
+
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="pbalanceamount" title="Balance Amount">Total Balance Amount</label>
+             
+              <input type="text" class="form-control text-right"  removeZero appNumbersonly  readonly [value]="totalBalance">
+
+            </div>
+          </div>
+          <hr>
+
+          <div class="col-md-6  col-xl-4">
+              <div class="form-group">
+                  <label id="ptotalproductcost" title="Total Product(s) Cost (Including all charges)">Total Product(s) Cost
+                      (Including all charges)</label>   
+                    <input type="text" class="form-control text-right" removeZero appNumbersonly  readonly [value]="totalProducts">
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<!--The Modal For Product Type / Category Model-->
+<div class="modal right slideInRight" id="idProductTypeModel" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="margin-right:0px !important; ">
+    <div class="model-cst modal-content">
+
+      <div class="modal-body">
+
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <form [formGroup]="productTypeModelForm" autocomplete="off">
+          <div class="form-group">
+            <label id="pproducttype" title="Product Type / Category">Product Type / Category</label>
+            <input type="text" class="form-control" formControlName="pproducttype"
+              placeholder="Enter Product Type / Category"
+              [ngClass]="{ 'is-invalid': consumerLoanErrorMessage.pproducttype }" />
+
+            <div class="invalid-feedback">
+              <span
+                *ngIf="consumerLoanErrorMessage.pproducttype">{{consumerLoanErrorMessage.pproducttype}}</span>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end mt-4">
+            <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0">
+              <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear
+            </a>
+            <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot"
+              aria-selected="false" (click)="saveConsumableproductTypes()">
+              <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="container-fluid pdf-Content"> 
+  
+   
+        <div class="row">
+            <div class="col-md-12 col-sm-12 mt-2 text-right justify-content-end">
+            <a class="pr-2">
+              <img class="justify-content-end text-right" src="assets/images/pdf-icon-blue.svg" (click)="pdf.saveAs('Maturity Trend.pdf')" 
+             width="20" heigh="20"></a>
+            <a><img src="assets/images/print-icon-blue.svg " (click)="print()" width="20" heigh="20"></a>
+            </div>
+            </div>
+
+            
+        <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true" margin="0.5cm" [scale]="0.7">
+          <div id="temp-box">
+            <div class="row">
+                <div class="col-md-12">
+                    <app-company-details></app-company-details>
+      
+                    <div class="report-head">
+                        <p class="font-16 text-dark text-center m-0">
+                           Maturity Trend
+                        </p>
+      
+                    </div>
+      
+                </div>
+            </div>
+      <div class="row">
+          <div class="col-md-12 col-xl-12">
+            <kendo-grid [kendoGridBinding]="Detailsdata" [reorderable]="true" [resizable]="true"
+                        [sortable]="true" [group]="groups" [groupable]="false">
+                        <!-- <kendo-grid-column field="pSchemename1" title="Scheme" >
+                          <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                              {{value}}
+                          </ng-template>
+                      </kendo-grid-column> -->
+                      
+                    
+              <kendo-grid-column field="pMonth" width="120" title="Month" class="kendo-left" [hidden]="hiddenmonth">
+                  <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                      {{value}}
+                  </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pSchemename1" width="140" title="Scheme Name" class="kendo-left" [hidden]="hiddenname">
+               
+               
+              </kendo-grid-column>
+              <kendo-grid-column field="pFdAccountNo" width="140" title="Advance Acc No." class="kendo-left">
+              </kendo-grid-column>
+              <kendo-grid-column field="pMaturitydate" width="100" title="Maturity Date" class="kendo-left">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pMaturitydate | date: 'dd-MMM-yyyy'}}
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pTransdate" width="100" title="Transaction Date" class="kendo-left">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pTransdate | date: 'dd-MMM-yyyy'}}
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pMembercode" width="120" title="Member Code" class="kendo-left">
+              </kendo-grid-column>
+              <kendo-grid-column field="pMembername" width="120" title="Member Name" class="kendo-left">
+              </kendo-grid-column>
+              <kendo-grid-column field="pTenor" width="100" title="Tenure" class="kendo-left">
+              </kendo-grid-column>
+              <kendo-grid-column field="pDepositamount" width="100" title="Deposit Amt." class="kendo-center">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pDepositamount | mycurrencypipe}}
+                </ng-template>
+              </kendo-grid-column>
+      
+              <kendo-grid-column field="pInterestrate" width="100" title="Interest Rate/Value Per 100" class="kendo-center">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pInterestrate | mycurrencypipe}}
+                </ng-template>
+                <ng-template let-value="value" kendoGridFooterTemplate>
+                  <p class="bc-2 text-left">Grand Total </p>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pMaturityamount" width="100" title="Maturity Amt." class="kendo-center">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pMaturityamount | mycurrencypipe}}
+                </ng-template>
+                <ng-template kendoGridFooterTemplate>
+                  <p class="bc-2 text-right">{{totalmaturityamount | mycurrencypipe}}</p>
+                </ng-template>
+              </kendo-grid-column>
+      
+      
+      
+            
+      
+      
+            </kendo-grid>
+          </div>
+        </div>
+        </div>
+      </kendo-pdf-export>
+
+
+</div>
+
+
+

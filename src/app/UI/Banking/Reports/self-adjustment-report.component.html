@@ -1,0 +1,213 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6 ">
+        <p class="bc-2">Self / Adjustment</p>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-12 col-xl-12">
+        <div class="section-container">
+            <form [formGroup]="SelfAdjustmentForm" autocomplete="off">
+                <div class="">
+                    <div class="col-md-12 p-0">
+                        <div class="row">
+                            <div class="col-md-4 col-xl-4">
+                                <label id="padjustmenttype" title="Adjustment Type">Type</label>
+                                <select class="form-control" id="padjustmenttype" title="Adjustment Type"
+                                    formControlName="padjustmenttype" (change)="adjustmentTypeChange($event)"
+                                    [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.padjustmenttype }">
+                                    <option value="SELF" ng-selected="selected">SELF</option>
+                                    <option value="ADJUSTMENT" ng-selected="selected">ADJUSTMENT</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <span
+                                        *ngIf="SelfAdjustmentErrors.padjustmenttype">{{SelfAdjustmentErrors?.padjustmenttype}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                   
+                   
+                    <div class="col-md-12 mt-2 p-0" *ngIf="showCompany">
+                        <div class="row">
+                            <div class="col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label id="pcompanyname" title="Company Name">Company Name</label>
+                                    <select class="form-control" formControlName="pcompanyname"
+                                        (change)="GetBranchDetailsIP($event)"
+                                        [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pcompanyname }">
+                                        <option value="All">All</option>
+                                        <option *ngFor="let i of CompanyDetails" [value]="i.pcompanyname">
+                                            {{i.pcompanyname}}</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="SelfAdjustmentErrors.pcompanyname">{{SelfAdjustmentErrors?.pcompanyname}}</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label id="pbranch" title="Branch Name">Branch Name</label>
+                                    <select class="form-control col-md-12" formControlName="pbranch"
+                                        (change)="branchNameChange($event)"
+                                        [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pbranch }">
+                                        <option value="All">All</option>
+                                        <option *ngFor="let i of BranchDetails" [value]="i.pbranch">{{i.pbranch}}
+                                        </option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="SelfAdjustmentErrors.pbranch">{{SelfAdjustmentErrors?.pbranch}}</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-2 p-0">
+                        <div class="row">
+                            <div class="col-md-4  col-xl-4">
+                                <div class="form-group">
+                                    <label id="pFromMonthOf" title="From Month">From Date</label>
+                                    <!-- <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig"
+                                        #dp="bsDatepicker" bsDatepicker formControlName="pFromMonthOf"
+                                        (ngModelChange)="FromDateChange($event)"
+                                        [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pFromMonthOf }"> -->
+                                        <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                           bsDatepicker formControlName="pFromMonthOf" (ngModelChange)="FromDateChange($event)"
+                            [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pFromMonthOf }">
+
+
+                                </div>
+                            </div>
+                            <div class="col-md-4  col-xl-4">
+                                <div class="form-group">
+                                    <label id="pToMonthOf" title="To Month">To Date</label>
+                                    <!-- <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig"
+                                        #dp="bsDatepicker" bsDatepicker formControlName="pToMonthOf"
+                                        (ngModelChange)="ToDateChange($event)"
+                                        [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pToMonthOf }"> -->
+                                        <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+                                        bsDatepicker formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)"
+                                         [ngClass]="{ 'is-invalid': SelfAdjustmentErrors.pToMonthOf }"> 
+                                
+             
+                                    <div *ngIf="validation" class="text-danger">
+                                        please select a valid Date
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="justify-content-end">
+                                <div class="form-group mt-4 pt-2">
+                                    <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0"
+                                        data-toggle="tab" role="tab" (click)="GetSelfAdjustmentDetails()">
+                                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                                        <span *ngIf="!isLoading">
+                                            <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                                width="20px">
+                                        </span> {{savebutton}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+            <div class="d-flex justify-content-end mb-4">
+                <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" (click)="pdf()"
+                    style="cursor: pointer;" />
+            </div>
+            <div class="row mt-1">
+                <div class="col-md-12">
+
+                    <ngx-datatable id="gridData" class="material expandable table" [rows]="gridData" [headerHeight]="60"
+                        [footerHeight]="50" width="60" [scrollbarH]="true" [height]="500" [selected]="" rowHeight="auto"
+                        [columnMode]="'force'"[limit]="commencementgridPage.size" [count]="commencementgridPage.totalElements"
+                        [columnMode]="'force'"[columnMode]="ColumnMode.force"
+                        [offset]="commencementgridPage.pageNumber"
+                        >
+
+                        <!-- [groupRowsBy]="'pmembername'",[groupExpansionDefault]="true" -->
+
+                        <!-- <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+                          <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+                            <div style="padding-left:5px;">
+                              <a [class.datatable-icon-right]="!expanded"
+                                 [class.datatable-icon-down]="expanded"
+                                 title="Expand/Collapse Group"
+                                 (click)="toggleExpandGroup(group)">
+                                <b>{{ group.value[0].pmembername }}   </b>
+                              </a>
+            
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-group-header> -->
+                        <ngx-datatable-column width="130" name="Member" prop="pmembername"
+                            [cellClass]="'cell-left'" [headerClass]="'header-left'">
+
+
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column width="140" name="Advance Account No." prop="pfdaccountno"
+                            [cellClass]="'cell-left'" [headerClass]="'header-left'">
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column width="120" name="Advance Amount" prop="pdepositamount"
+                            [cellClass]="'cell-right'" [headerClass]="'header-right'">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.pdepositamount | mycurrencypipe}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column width="110" name="Scheme Name" prop="pschemename"
+                            [cellClass]="'cell-left'" [headerClass]="'header-left'">
+
+                        </ngx-datatable-column>
+                        <ngx-datatable-column width="100" name="Advance Date" prop="pdepositdate"
+                            [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                            <!-- <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.pdepositdate | date:'dd-MM-yyyy'}}
+                            </ng-template> -->
+                        </ngx-datatable-column>
+                        <ngx-datatable-column width="100" name="Maturity Date" prop="pmaturitydate"
+                            [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                            <!-- <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.pmaturitydate | date:'dd-MM-yyyy'}}
+                            </ng-template> -->
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column width="70" name="Tenure" prop="ptenor" [cellClass]="'cell-center'"
+                            [headerClass]="'header-center'">
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column width="110" name="Maturity Amount" prop="pmaturityamount"
+                            [cellClass]="'cell-right'" [headerClass]="'header-right'">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.pmaturityamount | mycurrencypipe}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column width="150" name="Branch" prop="pbranchname" [cellClass]="'cell-left'"
+                            [headerClass]="'header-left'">
+                        </ngx-datatable-column>
+
+                        <!-- <ngx-datatable-column width="130" name="Paid Amount" prop=""
+                            [cellClass]="'cell-right'" [headerClass]="'header-center'">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row. | mycurrencypipe}}
+                            </ng-template> 
+                        </ngx-datatable-column> -->
+
+                    </ngx-datatable>
+
+
+                </div>
+                <div>
+
+                </div>

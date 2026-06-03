@@ -1,0 +1,98 @@
+<div class="row mt-4">
+    <div class="col d-flex flex-wrap align-items-center">
+        <a routerLink="/UsersRegistration" class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-md-12 col-xl-12">
+        <div class="my-container">
+            <ng-template #customLoadingTemplate>
+                <div class="custom-class">
+
+                </div>
+            </ng-template>
+            <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+        </div>
+        <kendo-grid [kendoGridBinding]="Usersdata" [pageSize]="pageSize" [skip]="gridState.skip" [pageable]="{buttonCount: 2}" [sort]="gridState.sort" [sortable]="true" [resizable]="true">
+            <ng-template kendoGridToolbarTemplate>
+                <div class="row mb-3">
+                    <div class="col-4 pl-0 mt-n1">
+                        <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+                    </div>
+                    <div class="col-7 pr-0 pl-4 ml-4">
+                        <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                            <li class="temp-ico ml-2">
+                                <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                            </li>
+                            <li class="temp-ico ml-2">
+                                <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                            </li>
+                            <!-- <li class="temp-ico ml-2"><a    (click)="print()"><img class="pt-2" src="assets/images/print-icon-blue.svg " title="print" width="20px"></a></li> -->
+                        </ul>
+                    </div>
+                </div>
+
+            </ng-template>
+            <kendo-grid-column-group title="User View" [headerClass]="{'kendo-g-center' : true}">
+            <kendo-grid-column field="pUserID" title="S.No">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    {{rowIndex+1}}
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pUserName" title="User Name"></kendo-grid-column>
+            <kendo-grid-column field="pEmployeeName" title="Name"></kendo-grid-column>
+            <kendo-grid-column field="pPassword" title="Reset Password">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <a (click)="Resetpassword(dataItem)" class="btn btn-b-icon border-0" style="height: 26px !important;"><img src="assets/images/settings.svg" width="20px" height="20px" class="mr-2 "><span class="text-white">Reset</span></a>
+                </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pEmployeeName" title="User rights">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <a>
+                        <div id="icon-edit" title="Edit" (click)="Userrights(dataItem)"></div>
+                    </a>
+                </ng-template>
+            </kendo-grid-column>
+
+
+            <kendo-grid-column field="pActiveorInactive" title="Status" field="ID" class="material-switch">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <input id="status{{rowIndex}}" type="checkbox" [checked]="dataItem.pActiveorInactive" data-toggle="collapse" data-target="#tds" (click)="status(dataItem)">
+                    <label for="status{{rowIndex}}" class="badge-success" data-toggle="collapse" data-target="#tds"></label>
+                </ng-template>
+            </kendo-grid-column>
+
+
+            </kendo-grid-column-group>
+            <kendo-grid-pdf fileName="User View.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+                    <ng-template kendoGridPDFTemplate>
+                            <div class="page-template">
+                               <div class="header bc-2 text-center">
+                                <h5> User View </h5>
+                               </div>
+                             </div>
+                           </ng-template>
+                <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+
+                <kendo-grid-column field="pUserName" title="User Name"></kendo-grid-column>
+                <kendo-grid-column field="pEmployeeName" title="Name"></kendo-grid-column>
+                <kendo-grid-column field="pActiveorInactive" title="Status"></kendo-grid-column>
+            </kendo-grid-pdf>
+
+
+            <kendo-grid-excel fileName="User View.xlsx" [fetchData]="allData">
+                    <kendo-excelexport-column-group title="User View" [headerCellOptions]="headerCells">
+                <kendo-excelexport-column field="pUserName" title="User Name"></kendo-excelexport-column>
+                <kendo-excelexport-column field="pEmployeeName" title="Name"></kendo-excelexport-column>
+                <kendo-excelexport-column field="pActiveorInactive" title="Status"></kendo-excelexport-column>
+                    </kendo-excelexport-column-group>
+            </kendo-grid-excel>
+
+        </kendo-grid>
+
+
+
+    </div>
+</div>

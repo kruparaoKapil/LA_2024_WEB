@@ -1,0 +1,452 @@
+<div class="row" *ngIf="pFunctionUrl != '/FdTransactionView1' ">
+    <div class="col d-flex flex-wrap align-items-center">
+        <a (click)="Newform()" class="btn btn-b-icon border-0" routerLink="/FdTransactionNew1">
+            <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+        </a>
+
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-12 col-xl-12">
+        <div class="section-container">
+            <!-- <table id="example" class="table">
+            <thead>
+              <tr>
+                <th>Member Type</th>
+                <th>Account Type</th>
+                <th>FD Name</th>
+                <th>Member Name</th>
+                <th>Deposit Amount</th>
+                <th>Maturity Amount</th>
+                <th>Deposit Date</th>
+                <th>Maturity Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Normal Member</td>
+                <td>Regural</td>
+                <td>Fixed Deposit</td>
+                <td>k vignesh Kumar</td>
+                <td>50000</td>
+                <td>100000</td>
+                <td>01-JAN-2020</td>
+                <td>01-JAN-2025</td>
+              </tr>
+              <tr>
+                  <td>Normal Member</td>
+                  <td>Regural</td>
+                  <td>Fixed Deposit</td>
+                  <td>k vignesh Kumar</td>
+                  <td>50000</td>
+                  <td>100000</td>
+                  <td>01-JAN-2020</td>
+                  <td>01-JAN-2025</td>
+                </tr>
+              
+            </tbody>
+          </table> -->
+            <kendo-grid [kendoGridBinding]="gridview" [groupable]="true" [selectedKeys]="mySelection" [pageSize]="10"
+                [skip]="skip" [pageable]="{buttonCount: 2}" [reorderable]="true" [resizable]="true"
+                [columnMenu]="{ filter: true }" [sortable]="true" (edit)="editHandler($event)"
+                (remove)="removeHandler($event)">
+                <ng-template kendoGridToolbarTemplate>
+
+                    <div class="row mb-2">
+
+                    </div>
+
+
+                    <div class="row mb-2">
+                        <div class="col-4 pl-0 mt-n1">
+                            <div class="form-group">
+                                <label id="pSearch" title="Search">Search</label>
+
+                                <input placeholder="Search in all columns..." kendoTextBox
+                                    class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-3  ml-5">
+                            <form [formGroup]="advSearchform" autocomplete="off">
+                                <div class="form-group">
+                                    <label id="pSearch" title="Search">Search By Branch</label>
+
+                                    <ng-select [items]="filteresData" [readonly]="notEditable" title="Project Name"
+                                        id="pProjectName" bindLabel="pChitbranchname" (change)="Serachadata($event)"
+                                        formControlName="pSearch" bindValue="pChitbranchname" [multiple]=false
+                                        placeholder="Select" [searchable]=true [clearable]=false
+                                        dropdownPosition="bottom" [clearOnBackspace]=true>
+                                    </ng-select>
+                                </div>
+                            </form>
+                        </div>
+
+
+
+
+
+
+
+
+
+                        <div class="col-3 pr-0 pl-4 ml-4">
+                            <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                                <li class="temp-ico ml-2">
+                                    <a kendoGridPDFCommand>
+                                        <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                                            width="20px">
+                                    </a>
+                                </li>
+                                <li class="temp-ico ml-2">
+                                    <a kendoGridExcelCommand>
+                                        <img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                                            width="20px">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </ng-template>
+                <kendo-grid-command-column title="Actions" width="100" *ngIf="pFunctionUrl != '/FdTransactionView1' ">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+
+                        <button kendoGridEditCommand [disabled]="dataItem.pReceiptStatus">
+                            <div id="icon-edit"></div>
+                        </button>
+                        <button kendoGridRemoveCommand [disabled]="true">
+                            <div id="icon-delete"></div>
+                        </button>
+                    </ng-template>
+                </kendo-grid-command-column>
+                <!-- <kendo-grid-command-column title="" width="50">
+    <ng-template kendoGridCellTemplate let-dataItem>
+
+
+    </ng-template>
+  </kendo-grid-command-column> -->
+                <!-- <kendo-grid-column field="pMemberType" title="Member Type" width="150">
+  </kendo-grid-column> -->
+                <!-- <kendo-grid-column field="pApplicantType" title="Applicant Type" width="150">
+                </kendo-grid-column>
+                <kendo-grid-column field="pFdname" title="LA Name" width="150">
+                </kendo-grid-column> -->
+                <!-- <kendo-grid-column field="pMemberName" title="Member" width="150" class="kendo-left">
+                </kendo-grid-column>
+                <kendo-grid-column field="pChitbranchname" title="Branch Name" width="150"> </kendo-grid-column>
+
+                <kendo-grid-column field="pReferralname" title="Agent Name" width="150"> </kendo-grid-column> -->
+
+                <kendo-grid-column field="pMemberName" title="Member" width="230">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div style="white-space: normal; word-break: break-all;"> {{ dataItem.pMemberName }}
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pChitbranchname" title="Branch Name" width="200">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div style="white-space: normal; word-break: break-all; text-align:left;">{{
+                            dataItem.pChitbranchname }}
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pReferralname" title="Agent Name" width="200">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div style="white-space: normal; word-break: break-all;">{{ dataItem.pReferralname }}
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pFdaccountNo" title="FD No." width="90">
+                </kendo-grid-column>
+                <kendo-grid-column field="pInterestPayout" title="Interest Payout" width="110">
+                </kendo-grid-column>
+                <!-- <kendo-grid-column field="pMemberName" title="Member" width="150" class="kendo-left">
+                </kendo-grid-column> -->
+                <kendo-grid-column field="pDepositAmount" title="LA Amount" width="100" class="kendo-left">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pDepositAmount | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pMaturityAmount" title="Maturity Amount" width="120" class="kendo-left">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pMaturityAmount | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pInterestRate" title="Interest Rate" width="100" class="kendo-left">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pInterestRate | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pDepositDate" title="Receipt Date" width="110">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pDepositDate}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pMaturityDate" title="Maturity Date" width="110">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pMaturityDate }}
+                    </ng-template>
+                </kendo-grid-column>
+                <!-- <kendo-grid-column field="pTransDate" title="Transaction Date" width="150" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pTransDate | date:'dd/MMM/yyyy'}}
+                    </ng-template>
+                </kendo-grid-column> -->
+                <!-- <kendo-grid-column field="pChitbranchname" title="Branch" width="150"></kendo-grid-column> -->
+
+                <kendo-grid-column field="pTenure" title="Tenure" width="90"> </kendo-grid-column>
+
+                <kendo-grid-column field="pReferralcode" title="Referral Code" width="100"> </kendo-grid-column>
+
+
+
+                <!-- <kendo-grid-column field="pReferralname" title="Agent Name" width="150"> </kendo-grid-column> -->
+
+                <!-- <kendo-grid-column field="pCommsssionvalue" title="Commsssion Value" width="150"> </kendo-grid-column> -->
+
+                <kendo-grid-column field="pCommsssionvalue" title="Commsssion Value" width="150" class="kendo-centre">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pCommsssionvalue | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <!-- <kendo-grid-column field="" title="Status" width="90"> </kendo-grid-column>
+
+                <kendo-grid-column field="" title="VocuherNo" width="100"> </kendo-grid-column>
+                 <kendo-grid-column field="" title="Payment Date" width="120"> </kendo-grid-column>
+
+                <kendo-grid-column field="" title="Renwwal Id" width="100"> </kendo-grid-column>
+                <kendo-grid-column field="" title="Renwwal Date" width="120"> </kendo-grid-column> -->
+
+                <kendo-grid-column field="pStatus" title="Status" width="90"> </kendo-grid-column>
+
+                <kendo-grid-column field="pVoucherNo" title="VocuherNo" width="100"> </kendo-grid-column>
+                <kendo-grid-column field="pPaymentDate" title="Payment Date" width="120"> </kendo-grid-column>
+
+                <kendo-grid-column field="pRenewalId" title="Renewal FDNo" width="120"> </kendo-grid-column>
+                <kendo-grid-column field="pRenewalDate" title="Renewal Date" width="120"> </kendo-grid-column>
+
+
+                <!-- <kendo-grid-column  title="Status" width="100">
+  <ng-template let-dataItem  let-rowIndex="rowIndex"  kendoGridCellTemplate>
+   <div class="material-switch">
+      <input data-target="#yes" data-toggle="collapse" type="checkbox"  id="status{{rowIndex}}" [checked]="dataItem.pstatus">
+      <label class="badge-success" data-target="#yes" data-toggle="collapse" for="status{{rowIndex}}" ></label>
+    </div>
+    <span *ngIf="dataItem.pstatus">Active</span>
+    <span *ngIf="!(dataItem.pstatus)">In-active</span>
+  </ng-template>
+  </kendo-grid-column>  -->
+                <kendo-grid-pdf fileName="LA_Transaction.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true"
+                    [landscape]="false" [scale]="0.4">
+                    <ng-template kendoGridPDFTemplate>
+                        <div class="page-template">
+                            <div class="header bc-2 text-center">
+                                <h5>LA Transaction</h5>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+                    <kendo-grid-column field="pMemberName" title="Member" width="230">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <div style="white-space: normal; word-break: break-all;"> {{ dataItem.pMemberName }}
+                            </div>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pChitbranchname" title="Branch Name" width="200">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <div style="white-space: normal; word-break: break-all; text-align:left;">{{
+                                dataItem.pChitbranchname }}
+                            </div>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pReferralname" title="Agent Name" width="200">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <div style="white-space: normal; word-break: break-all;">{{ dataItem.pReferralname }}
+                            </div>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="pFdaccountNo" title="FD No." width="90">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pInterestPayout" title="Interest Payout" width="110">
+                    </kendo-grid-column>
+                    <!-- <kendo-grid-column field="pMemberName" title="Member" width="150" class="kendo-left">
+                </kendo-grid-column> -->
+                    <kendo-grid-column field="pDepositAmount" title="LA Amount" width="100" class="kendo-left">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pDepositAmount | mycurrencypipe}}
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pMaturityAmount" title="Maturity Amount" width="120" class="kendo-left">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pMaturityAmount | mycurrencypipe}}
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pInterestRate" title="Interest Rate" width="100" class="kendo-left">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pInterestRate | mycurrencypipe}}
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pDepositDate" title="Receipt Date" width="110">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pDepositDate}}
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pMaturityDate" title="Maturity Date" width="110">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pMaturityDate }}
+                        </ng-template>
+                    </kendo-grid-column>
+                    <!-- <kendo-grid-column field="pTransDate" title="Transaction Date" width="150" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pTransDate | date:'dd/MMM/yyyy'}}
+                    </ng-template>
+                </kendo-grid-column> -->
+                    <!-- <kendo-grid-column field="pChitbranchname" title="Branch" width="150"></kendo-grid-column> -->
+
+                    <kendo-grid-column field="pTenure" title="Tenure" width="90"> </kendo-grid-column>
+
+                    <kendo-grid-column field="pReferralcode" title="Referral Code" width="100"> </kendo-grid-column>
+
+
+
+                    <!-- <kendo-grid-column field="pReferralname" title="Agent Name" width="150"> </kendo-grid-column> -->
+
+                    <!-- <kendo-grid-column field="pCommsssionvalue" title="Commsssion Value" width="150"> </kendo-grid-column> -->
+
+                    <kendo-grid-column field="pCommsssionvalue" title="Commsssion Value" width="150"
+                        class="kendo-centre">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pCommsssionvalue | mycurrencypipe}}
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <!-- <kendo-grid-column field="" title="Status" width="90"> </kendo-grid-column>
+
+                <kendo-grid-column field="" title="VocuherNo" width="100"> </kendo-grid-column>
+                 <kendo-grid-column field="" title="Payment Date" width="120"> </kendo-grid-column>
+
+                <kendo-grid-column field="" title="Renwwal Id" width="100"> </kendo-grid-column>
+                <kendo-grid-column field="" title="Renwwal Date" width="120"> </kendo-grid-column> -->
+
+                    <kendo-grid-column field="pStatus" title="Status" width="90"> </kendo-grid-column>
+
+                    <kendo-grid-column field="pVoucherNo" title="VocuherNo" width="100"> </kendo-grid-column>
+                    <kendo-grid-column field="pPaymentDate" title="Payment Date" width="120"> </kendo-grid-column>
+
+                    <kendo-grid-column field="pRenewalId" title="Renewal FDNo" width="120"> </kendo-grid-column>
+                    <kendo-grid-column field="pRenewalDate" title="Renewal Date" width="120"> </kendo-grid-column>
+
+
+                </kendo-grid-pdf>
+                <kendo-grid-excel fileName="LA_Transaction.xlsx" [fetchData]="allData">
+                    <kendo-excelexport-column-group title="LA Transaction" [headerCellOptions]="headerCells">
+
+                        <!-- <kendo-excelexport-column field="pFdname" title="LA Name">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pApplicantType" title="Applicant Type">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pFdaccountNo" title="LA Transcation No.">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pInterestPayout" title="Interest Payout">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pMemberName" title="Member Name">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pDepositAmount" title="LA Amount">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pMaturityAmount" title="Maturity Amount">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pInterestRate" title="Interest Rate">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pDepositDate" title="LA Date">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pMaturityDate" title="Maturity Date">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pTenure" title="Tenure">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pTransDate" title="Transaction Date" width="150" class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pTransDate | date:'dd/MMM/yyyy'}}
+                            </ng-template>
+                        </kendo-excelexport-column> -->
+
+                        <!-- <kendo-excelexport-column field="pFdname" title="LA Name">
+                        </kendo-excelexport-column> -->
+
+                        <kendo-excelexport-column field="pMemberName" title="Member" width="150" class="kendo-left">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pChitbranchname" title="Branch Name" width="150">
+                        </kendo-excelexport-column>
+
+                        <kendo-excelexport-column field="pReferralname" title="Agent Name" width="150">
+                        </kendo-excelexport-column>
+
+                        <kendo-excelexport-column field="pFdaccountNo" title="Acc No." width="100">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pInterestPayout" title="Interest Payout" width="150">
+                        </kendo-excelexport-column>
+
+                        <kendo-excelexport-column field="pDepositAmount" title="LA Amount" width="150"
+                            class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pDepositAmount | mycurrencypipe}}
+                            </ng-template>
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pMaturityAmount" title="Maturity Amount" width="150"
+                            class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pMaturityAmount | mycurrencypipe}}
+                            </ng-template>
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pInterestRate" title="Interest Rate" width="100"
+                            class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pInterestRate | mycurrencypipe}}
+                            </ng-template>
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pDepositDate" title="LA Date" width="150">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pDepositDate}}
+                            </ng-template>
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pMaturityDate" title="Maturity Date" width="150">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pMaturityDate }}
+                            </ng-template>
+                        </kendo-excelexport-column>
+
+                        <kendo-excelexport-column field="pTenure" title="Tenure" width="150">
+                        </kendo-excelexport-column>
+
+                        <kendo-excelexport-column field="pReferralcode" title="Referral Code" width="150">
+                        </kendo-excelexport-column>
+
+                        <kendo-excelexport-column field="pCommsssionvalue" title="Commsssion Value" width="100"
+                            class="kendo-right">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pCommsssionvalue | mycurrencypipe}}
+                            </ng-template>
+                        </kendo-excelexport-column>
+
+
+                         <kendo-excelexport-column field="pStatus" title="Status" width="90"> </kendo-excelexport-column>
+
+                    <kendo-excelexport-column field="pVoucherNo" title="VocuherNo" width="100"> </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pPaymentDate" title="Payment Date" width="120"> </kendo-excelexport-column>
+
+                    <kendo-excelexport-column field="pRenewalId" title="Renewal FDNo" width="120"> </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pRenewalDate" title="Renewal Date" width="120"> </kendo-excelexport-column>
+
+
+                    </kendo-excelexport-column-group>
+                </kendo-grid-excel>
+
+            </kendo-grid>
+        </div>
+    </div>
+</div>

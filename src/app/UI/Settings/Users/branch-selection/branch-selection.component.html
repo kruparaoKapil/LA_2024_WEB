@@ -1,0 +1,125 @@
+<div class="container">
+    <!-- ======================================================================= tab nav end ============================================================================== -->
+
+    <div class="row mt-5 ">
+        <div class="col-md-10 offset-1">
+            <div class="row">
+                <div class="col-md-4">
+                <form class="mt-5" [formGroup]="branchSelectionForm">
+
+                    <div class="form-group">
+                        <label>Office / Branch </label>
+                        <ng-select [items]="branchSelectionlist" formControlName="pbranchname"
+                            bindLabel="pbranchlocation" bindValue="pbranchlocation" [multiple]=false placeholder="Select"
+                            [searchable]=true [clearable]=true dropdownPosition="bottom"
+                            [clearOnBackspace]=true (change)="branch_Change($event)">
+                        </ng-select>
+
+                    </div>
+
+
+
+
+
+                 
+                </form>
+
+            </div>
+            </div>
+
+            <div class="section-card" >
+                <div class="row h-250p" *ngIf="subbranchSelectionlist.length !=0">
+                    <div class="col-md-4 mb-2" style="cursor: pointer;" *ngFor="let data of subbranchSelectionlist">
+                        <div class="branch-card"  (click)="clickbranchdata(data)" [ngClass]="{ 'active' : isValue == data.pbranchname }" >
+                            <p class="text-primary font-16 font-weight-bold text-center mb-0"
+                                (click)="clickbranchdata(data)" 
+                               > {{data.pbranchname}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4" *ngIf="subbranchSelectionlist.length !=0">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-end">
+                            <a type="button" class="btn btn-b-icon px-3 p-2 border-0" (click)="goData()">Go <img
+                                    src="assets/images/right-thin-chevron-white.svg" width="15px" height="15px"
+                                    class="ml-3">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+    
+
+            
+            
+           
+        </div>
+    </div>
+
+   
+
+</div>
+
+<style>
+    .h-250p{
+        height: 148px !important;
+        overflow-x: hidden;
+    }
+    .branch-card.active,
+    .branch-card:hover {
+        box-shadow: 0 3px 6px rgba(0, 0, 0, .1607843137254902);
+        border: 1px solid #007bff;
+        background: #f0f1f5;
+    }
+
+    .company-section {
+        border: 1px solid #d1d1d1;
+        border-radius: 6px;
+        background: #fff;
+        padding: 20px;
+        cursor: pointer;
+        margin-bottom: 10px
+    }
+
+    .branch-card {
+        padding: 20px;
+        background: #fbfdff;
+        border-radius: 4px;
+        border: 1px solid #d2dbe4;
+        border-bottom: 2px solid #b3c0cc;
+
+    }
+    .boxmodel {
+   margin-top: 183px;
+  width: 700px;
+  height:350px;
+  padding: 50px;
+  border: 1px solid rgb(14, 13, 13);
+}
+.section-card {
+    padding: 20px;
+    background: #fbfdff;
+    border-radius: 4px;
+    border: 1px solid #d2dbe4;
+    border-bottom: 2px solid #b3c0cc;
+    overflow-y: auto;
+    height: 250px;
+}
+.section-card::-webkit-scrollbar {
+    background: rgba(0, 0, 0, 0.3) !important;
+    width:5px !important;
+    height: 20px !important;
+}
+.custom-search input {
+    font-size: 12px!important;
+    line-height: 15px!important;
+    font-weight: 500!important;
+    color: #333!important;
+    background-image: url(assets/images/icon-search-field.svg)!important;
+    background-repeat: no-repeat!important;
+    background-position: left bottom 10px!important;
+    background-size: 25px 13px!important;
+    padding-left: 26px!important;
+}
+</style>

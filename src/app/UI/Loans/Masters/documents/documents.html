@@ -1,0 +1,191 @@
+<div class="row  ">
+  <div class="col-md-12 col-xl-12">
+    <h2 class="bc-2"> Documents</h2>
+  </div>
+</div>
+
+<div class="section-container mt-3 ">
+
+<form [formGroup]="Documents" (ngSubmit)="onSubmit()">
+  <div class="row pt-1 pb-1">
+    <div class="col-md-4 col-xl-4">
+      <label>Proof Type:</label>
+      <div class="input-group">
+        <select  class="form-control" formControlName="pDocumentGroupId" (change)="selectProofType($event)"  [ngClass]="{ 'is-invalid': submitted && Documents.controls.pDocumentGroupId.errors }" [attr.disabled]="disable ? '' : null">
+          <option value="" disabled>Choose Proof Type</option>
+          <option *ngFor="let obj of prooftype" [value]="obj.pDocumentGroupId">{{obj.pDocumentGroup}}</option>
+        </select>
+
+        <div class="input-group-append">
+          <button type="button" (click)="clickToAddProofType()"class="btn btn-lg-icon px-2 p-0" data-toggle="modal" data-target="#add-detail">
+            <img src="assets/images/icon-add-blue.svg" width="16px" height="16px">
+          </button>
+        </div>
+        <div *ngIf=" submitted && Documents.controls.pDocumentGroupId.errors" class="invalid-feedback">
+          <div *ngIf="Documents.controls.pDocumentGroupId.errors.required">Proof Type is required</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-4 col-xl-4">
+
+      <label>Proof</label><br />
+      <input type="text" class="form-control" maxlength="75" formControlName="pDocumentName"  appAlphanumeric [ngClass]="{'is-invalid': submitted && Documents.controls.pDocumentName.errors }" />
+      <div *ngIf="submitted && Documents.controls.pDocumentName.errors" class="invalid-feedback">
+        <div *ngIf="Documents.controls.pDocumentName.errors.required">Proof is required</div>
+      </div>
+    </div>
+
+
+    <div class="col-md-4 col-xl-4 mt-4">
+      <button type="submit" class="btn btn-b-icon mt-2 border-0" style="text-transform:initial !important;" [disabled]="disablesavebutton1">
+        <!--<i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton1,'fa-check': !disablesavebutton1}"></i>-->
+        <img src="assets/images/icon-check-white.svg" class="mr-2" width="20" height="20">
+        <span *ngIf="!disablesavebutton1">
+        </span>{{buttonname}}</button>
+    </div>
+  </div>
+</form>
+</div>
+
+<div class="">
+
+
+<div class="row mt-3">
+  <div class="col-md-12">
+    <!-- <div class="border rounded height-350" style="height: 350px !important;overflow: auto;">
+      <table class="table w-100" >
+        <thead>
+          <tr >
+            <th  style="width:150px">Proof Type</th>
+            <th  style="width:125px">Proof</th>
+            <th>Status</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let obj of gridData">
+
+          <tr *ngFor="let o of obj.pDocumentsList">
+            <td style="width:150px">{{obj.pDocumentGroup}}</td>
+            <td  style="width:125px">{{o.pDocumentName}}</td>
+            <td>{{o.pStatusname}}</td>
+            <td><a  (click)="editDocuments(obj.pDocumentGroupId,o.pDocumentName,o.pDocumentId,obj.pDocumentGroup,o.pStatusname)">
+              <div *ngIf="o.pStatusname=='Active'"  id="icon-edit"></div></a></td>
+            <td><a (click)="deleteDocuments(o)">
+              <div id="icon-delete"></div>
+            </a></td>
+          </tr>
+      </table>
+    </div> -->
+ 
+    <div class="section-container">
+     
+    <kendo-grid [kendoGridBinding]="gridData" [groupable]="false" [height]="480" [group]="groups"
+            [reorderable]="true"  [sortable]="true" [scale]="0.9" [resizable]="true"  (edit)="editHandler($event)"
+    (remove)="removeHandler($event)">
+    <ng-template kendoGridToolbarTemplate>
+      <!-- <input placeholder="Search in all columns..." kendoTextBox (input)="SearchRecord($event.target.value)" />
+      <button kendoGridExcelCommand type="button" icon="file-excel" style="float:right;">Export to
+        Excel</button>
+      <button kendoGridPDFCommand icon="file-pdf" style="float:right;">Export to PDF</button> -->
+      <div class="row mt-3 mb-3">
+        <div class="col-4 pl-0 mt-n1">
+          <input placeholder="Search in all columns..." formControlName="SearchClear" kendoTextBox class="form-control search-k-cst sb"
+            (input)="SearchRecord($event.target.value)" />
+        </div>
+                <div class="col-7">
+                  <ul class="temp-ul pt-4   pull-right">
+                    <li class="temp-ico">
+                      <a kendoGridPDFCommand><img class="pt-2 pl-5" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                          width="20px"></a></li>
+                    <li class="temp-ico">
+                      <a kendoGridExcelCommand><img class="pt-2 pl-5" src="assets/images/icon-excel.svg " title="excel"
+                          width="20px"></a></li>
+                    <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                  </ul>
+                </div>
+              </div>
+    </ng-template>
+    <kendo-grid-column-group title="Document" [headerClass]="{'kendo-g-center' : true}">
+    <kendo-grid-column field="pDocumentGroup" title="Proof Type"></kendo-grid-column>
+    <kendo-grid-column field="pDocumentName" title="Proof"></kendo-grid-column>
+
+    <kendo-grid-command-column>
+      <ng-template kendoGridCellTemplate width="150">
+        <div id="icon-edit" kendoGridEditCommand [primary]="true"></div>
+        <div id="icon-delete" kendoGridRemoveCommand [primary]="true"></div>
+      </ng-template>
+    </kendo-grid-command-column>
+    </kendo-grid-column-group>
+    <kendo-grid-pdf fileName="document.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [landscape]="true">
+      <ng-template kendoGridPDFTemplate>
+          <div class="page-template">
+             <div class="header bc-2 text-center">
+              <h5> Document </h5>
+             </div>
+           </div>
+         </ng-template>
+    <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+    <kendo-grid-column field="pDocumentGroup" title="Proof Type"></kendo-grid-column>
+    <kendo-grid-column field="pDocumentName" title="Proof"></kendo-grid-column>
+  </kendo-grid-pdf>
+  <kendo-grid-excel fileName="document.xlsx">
+      <kendo-excelexport-column-group title="Document" [headerCellOptions]="headerCells">
+          <kendo-excelexport-column field="pDocumentGroup" title="Proof Type"></kendo-excelexport-column>
+          <kendo-excelexport-column field="pDocumentName" title="Proof"></kendo-excelexport-column>
+            </kendo-excelexport-column-group>
+  </kendo-grid-excel>
+    </kendo-grid>
+  </div>
+</div>
+</div>
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+      <h3>
+        Loading...
+      </h3>
+    
+    </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+</div>
+</div>
+<!-- The Modal -->
+<div class="modal right slideInRight"  id="add-detail" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="margin-right:0px !important; ">
+    <div class="model-cst modal-content">
+      <!-- Modal body -->
+      <div class="modal-body">
+
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <form [formGroup]="DocumentsGroup">
+          <div class="form-group">
+            <label for="">Proof Type</label>
+            <input type="text" class="form-control" formControlName="pDocumentGroup" appCharactersonly appTitlecaseword [ngClass]="{'is-invalid': prooftypevalidation && DocumentsGroup.controls.pDocumentGroup.errors }">
+            <div *ngIf=" prooftypevalidation && DocumentsGroup.controls.pDocumentGroup.errors" class="invalid-feedback">
+              <div *ngIf="DocumentsGroup.controls.pDocumentGroup.errors.required">Proof Type is required</div>
+            </div> 
+          </div>
+         
+
+          <div class="d-flex justify-content-end mt-4">
+            <a class="close" (click)="clearProofType()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a> 
+            <button (click)="addProofType()"   data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" [disabled]="disablesavebutton"> <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i>{{modalbuttonname}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+

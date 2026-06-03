@@ -1,0 +1,78 @@
+<kendo-grid [kendoGridBinding]="gridView" [groupable]="false" 
+[resizable]="true"  [pageable]="false" [sortable]="false"
+>
+
+
+<kendo-grid-column field="ptransactiondate" width="90" title="Trans.Date">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <!-- {{dataItem.ptransactiondate}}-->
+        <div *ngIf="dataItem.ptransactiondate == '01/01/0001'"></div>
+        <div *ngIf="dataItem.ptransactiondate != '01/01/0001'"> {{dataItem.ptransactiondate}}
+        </div>
+
+    </ng-template>
+</kendo-grid-column>
+<kendo-grid-column field="ptransactionno" title="Trans.No." width="100"> 
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <!-- {{dataItem.ptransactionno}} -->
+        <div *ngIf="dataItem.ptransactionno == '0'"></div>
+        <div *ngIf="dataItem.ptransactionno !== '0'">
+   <a  (click)="click(dataItem)"> {{dataItem.ptransactionno}}</a></div>
+    </ng-template>
+</kendo-grid-column>
+<kendo-grid-column field="pparticulars" title="Particulars" width="200" >
+</kendo-grid-column>
+
+<kendo-grid-column field="pdebitamount" title="Debit" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" >
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <!-- {{dataItem.pdebitamount | mycurrencypipe}} -->
+        <div *ngIf="dataItem.pdebitamount == 0"></div>
+        <div *ngIf="dataItem.pdebitamount !== 0"> {{dataItem.pdebitamount | mycurrencypipe}}
+        </div>
+    </ng-template>
+    <!-- <ng-template kendoGridFooterTemplate>
+        {{totaldebitamount | mycurrencypipe}}
+    </ng-template> -->
+</kendo-grid-column>
+<kendo-grid-column field="pcreditamount" title="Credit" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        <!-- {{dataItem.pcreditamount | mycurrencypipe}} -->
+        <div *ngIf="dataItem.pcreditamount == 0"></div>
+        <div *ngIf="dataItem.pcreditamount !== 0">
+            {{dataItem.pcreditamount | mycurrencypipe}}</div>
+    </ng-template>
+    <!-- <ng-template kendoGridFooterTemplate>
+        {{totalcreditamount | mycurrencypipe}}
+    </ng-template> -->
+</kendo-grid-column>
+<kendo-grid-column field="popeningbal" title="Balance" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+        {{dataItem.popeningbal | mycurrencypipe}} {{dataItem.pBalanceType}}
+        <!-- <div *ngIf="dataItem.popeningbal == 0"></div>
+        <div *ngIf="dataItem.popeningbal !== 0"> {{dataItem.popeningbal | mycurrencypipe}}
+            {{dataItem.pBalanceType}}</div> -->
+    </ng-template>
+    <!-- <ng-template kendoGridFooterTemplate>
+        {{totalbalanceamount | mycurrencypipe}}
+    </ng-template> -->
+</kendo-grid-column>
+
+<!-- <kendo-grid-pdf fileName="General_Receipt.pdf" [repeatHeaders]="true"></kendo-grid-pdf> -->
+<!-- <kendo-grid-pdf fileName="General_Receipt.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+[landscape]="true">
+<kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+<ng-template kendoGridPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+<div class="page-template">
+<div class="header">
+<div style="float: right">Page {{ pageNum }} of {{ totalPages }}</div>
+
+</div>
+<div class="footer">
+Page {{ pageNum }} of {{ totalPages }}
+</div>
+</div>
+</ng-template>
+</kendo-grid-pdf> -->
+<!--  <kendo-grid-excel fileName="General_Receipt.xlsx"></kendo-grid-excel> -->
+
+</kendo-grid>

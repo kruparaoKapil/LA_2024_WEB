@@ -1,0 +1,264 @@
+<div class="section-container">
+  <div class="row p-0">
+    <div class="col-xl-12 col-md-12">
+      <div class="section-content ">
+        <form [formGroup]="PfStatementForm">
+
+          <div class="row mt-3">
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label title="Employee Name" id="employee">Employee Name</label>
+                <ng-select title="Employee Name"  [items]="employeeList" [multiple]="false"
+                      formControlName="employee" bindLabel="pEmployeeName" bindValue="pEmployeeName"
+                      placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true 
+                      (change)="employeeChange($event)" >
+                </ng-select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label title="Year" id="year" class="required-field">Year</label>
+                <ng-select  title="Calendar Year" [items]="calendarYearData"
+                  formControlName="year" bindLabel="pPeriodType" bindValue="pCalenderPeriodId" [multiple]="false"
+                  placeholder="Select" [searchable]="true" [clearable]="true" dropdownPosition="bottom"
+                  [clearOnBackspace]="true" (change)="calenderYearChange($event)" [ngClass]="{ 'is-invalid': pfStatementValidation.year }">
+                </ng-select>
+                <div class="invalid-feedback">
+                  <span *ngIf="pfStatementValidation.year">{{pfStatementValidation?.year}}</span>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label title="Month" id="month" class="required-field">Month</label>
+                <ng-select  title="Calendar Month" [items]="calendarMonthData"
+                  formControlName="month" bindLabel="pCalendarMonth" bindValue="pCalenderPeriodDetailsId"
+                  [multiple]="false" placeholder="Select Month" [searchable]="true" [clearable]="true"
+                  dropdownPosition="bottom" [clearOnBackspace]="true" (change)="calenderMonthChange($event)"
+                  [ngClass]="{ 'is-invalid': pfStatementValidation.month }">
+                </ng-select>
+                <div class="invalid-feedback">
+                  <span *ngIf="pfStatementValidation.month">{{pfStatementValidation?.month}}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-2 col-xl-2" >
+              <div class="form-group">
+                  <br>
+                  <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="runPFStatement()">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                    <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                            width="20px"></span> Show
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </form>
+
+
+        <div class="row mt-2">
+          <div class="col-md-12">        
+            <div class="form-group pt-2">
+              <div class="d-flex justify-content-end" *ngIf="PFStateGrid.length!=0" >
+                  <a  class="export-icons" (click)="pdfOrprint('Pdf')">
+                      <img src="assets/images/pdf-icon-blue.svg " title="pdf" width="18px">
+                  </a>
+                 
+                  <a  class="export-icons" (click)="pdfOrprint('Print')"><img
+                          src="assets/images/print-icon-blue.svg " title="Print" width="18px"></a>
+              </div>
+          </div>
+          </div>
+        </div>
+
+
+
+        <kendo-grid [kendoGridBinding]="PFStateGrid" [pageable]="false" [sortable]="false"
+        [groupable]="false" [reorderable]="false" [resizable]="true">
+        <!-- <kendo-grid [kendoGridBinding]="PFStateGrid" [pageSize]="pageSize" [pageable]="{buttonCount: 2}" [reorderable]="true"
+[sortable]="true" [resizable]="true"> -->
+
+
+<ng-template kendoGridToolbarTemplate>
+
+  <div class="row pb-3 p-0">
+    <div class="col-4 pl-0 mt-n1">
+    </div>
+    <div class="col-7 pr-0 pl-4">
+      <ul class="temp-ul mt-n1 mr-n2  pull-right">
+        <li class="temp-ico ml-2">
+          <a kendoGridExcelCommand>
+            <img class="pt-2" src="assets/images/icon-excel.svg "   title="excel" width="20px">
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  </ng-template>
+  
+<kendo-grid-column-group title="PF Statement Report" [headerClass]="{'kendo-g-center' : true}">
+
+<kendo-grid-column field="pEmployeecode" title="Emp ID" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center" width="100">
+</kendo-grid-column>
+
+<kendo-grid-column field="pPfno" title="PF No." width="150"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+<kendo-grid-column field="pUANno" title="UAN No." width="150" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center"></kendo-grid-column>
+
+<kendo-grid-column field="pEmployeeName" title="Employee Name" width="150"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+<kendo-grid-column field="pNoofLOP" width="130" title="Absent Days" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center">
+</kendo-grid-column>
+
+<kendo-grid-column field="pBasicAmount" title="Basic" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center" width="100">
+  <ng-template kendoGridCellTemplate let-dataItem>
+    <span>{{dataItem.pBasicAmount | mycurrencypipe }}</span>
+  </ng-template>
+</kendo-grid-column>
+
+<kendo-grid-column field="pVdaAmt" title="VDA" width="100"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+  <ng-template kendoGridCellTemplate let-dataItem>
+    <span>{{dataItem.pVdaAmt | mycurrencypipe }}</span>
+  </ng-template>
+</kendo-grid-column>
+
+<kendo-grid-column field="pArrearsAmt" title="Arrears" width="100" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center">
+  <ng-template kendoGridCellTemplate let-dataItem>
+    <span>{{dataItem.pArrearsAmt | mycurrencypipe }}</span>
+  </ng-template>
+</kendo-grid-column>
+
+  <!-- <kendo-grid-column field="pBasicProtection" title="Basic Protection" width="140"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+<kendo-grid-column field="pIncrementalProtection" title="Increment Protection" width="140"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column> -->
+
+<kendo-grid-column field="pTotal_Basic_Incremental" width="100" title="Total" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center">
+  <ng-template kendoGridCellTemplate let-dataItem>
+    <span>{{dataItem.pTotal_Basic_Incremental | mycurrencypipe }}</span>
+  </ng-template>
+</kendo-grid-column>
+
+
+<kendo-grid-column field="pEffPFWages" title="Emp PF Wages" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center" width="150">
+  <ng-template kendoGridCellTemplate let-dataItem>
+    <span>{{dataItem.pEffPFWages | mycurrencypipe }}</span>
+  </ng-template>
+</kendo-grid-column>
+
+<kendo-grid-column field="pEmpPFAmt" title="Employee Contribution" width="200"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+  <ng-template kendoGridCellTemplate let-dataItem>
+    <span>{{dataItem.pEmpPFAmt | mycurrencypipe }}</span>
+  </ng-template>
+</kendo-grid-column>
+
+<kendo-grid-column field="pEmployerPFAmt" title="Employer Contribution" width="185" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center">
+  <ng-template kendoGridCellTemplate let-dataItem>
+    <span>{{dataItem.pEmployerPFAmt | mycurrencypipe }}</span>
+  </ng-template>
+</kendo-grid-column>
+
+</kendo-grid-column-group>
+
+<!--   
+<kendo-grid-pdf fileName="Pf_Statement.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+[scale]="0.5" [margin]="0.5" [landscape]="true">
+
+<kendo-grid-pdf-margin top="4.5cm" left="0.5cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+<ng-template kendoGridPDFTemplate>
+  <div class="page-template">
+    <div class="header">
+      <app-company-details></app-company-details>
+      <div class="report-head mt-2">
+        <p class="font-20 text-dark text-center m-0">
+          <span class="text-capitalize"> <b></b>  Salary Statement for the Month of {{MonthName}}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<kendo-grid-column field="pEmployeecode" title="Emp ID" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center" width="90">
+</kendo-grid-column>
+
+<kendo-grid-column field="pPfno" title="PF No." width="140"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+<kendo-grid-column field="pUANno" title="UAN No." width="110" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center"></kendo-grid-column>
+
+<kendo-grid-column field="pEmployeeName" title="Employee Name" width="140"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+<kendo-grid-column field="pNoofLOP" width="60" title="Absent Days" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center">
+</kendo-grid-column>
+
+<kendo-grid-column field="pBasicAmount" title="Basic" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center" width="90">
+</kendo-grid-column>
+
+<kendo-grid-column field="pVdaAmt" title="VDA" width="140"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+<kendo-grid-column field="pArrearsAmt" title="Arrears" width="110" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center"></kendo-grid-column>
+
+  <kendo-grid-column field="pBasicProtection" title="Basic Protection" width="140"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+<kendo-grid-column field="pIncrementalProtection" title="Increment Protection" width="140"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+<kendo-grid-column field="pTotal_Basic_Incremental" width="60" title="Total" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center">
+</kendo-grid-column>
+
+
+<kendo-grid-column field="pEffPFWages" title="Emp PF Wages" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center" width="90">
+</kendo-grid-column>
+
+<kendo-grid-column field="pEmpPFAmt" title="Employee Contribution" width="140"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+<kendo-grid-column field="pEmployerPFAmt" title="Employer Contribution" width="110" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center"></kendo-grid-column>
+
+</kendo-grid-pdf> -->
+
+<!--------------------------------------XL Starts from here--------->
+
+<kendo-grid-excel fileName="PFStatement.xlsx" [fetchData]="allData"></kendo-grid-excel>
+
+</kendo-grid>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>

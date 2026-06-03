@@ -1,0 +1,637 @@
+<div class="section-container">
+    <form [formGroup]="FieldVerificationForm">
+        <div class="row mt-4">
+            <div class="col-md-12 col-xl-12">
+                <div class="d-flex justify-content-end">
+                    <ol class="breadcrumb mt-2">
+                        <li class="breadcrumb-item">
+                            {{ApplicantName}} - <img src="images/smartphone-call.svg" class="mr-0 mt-n1" width="12" height="12">{{MobileNo}}
+                        </li>
+                        <li class="breadcrumb-item">{{LoanType}}</li>
+                        <li class="breadcrumb-item">{{LoanName}} </li>
+                        <li class="breadcrumb-item">{{ApplicationID}} </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row  mt-5 p-0">
+            <div class="col-md-12">
+                <p class="bc-2">Field Investigation - Address Verification Report</p>
+            </div>
+            <div class="col-md-6 col-xl-4" hidden>
+                <div class="form-group">
+                    <div class="material-switch">
+                        <span class="mr-2">Not applicable</span>
+                        <input id="field" name="field" type="checkbox">
+                        <label for="field" class="check-danger"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label>Investigation Executive</label>
+                    <select (change)="EmployeeSelect($event)" formControlName="pInvestigationexecutiveid" class="form-control" [ngClass]="{ 'is-invalid':  submitted && FieldVerificationForm['controls'].pInvestigationexecutiveid.errors }">
+          <option value="" disabled>Select</option>
+          <option *ngFor="let Emp of Employees" [value]="Emp.pEmployeeId"> {{Emp.pEmployeeName}}</option>
+        </select>
+                    <div *ngIf=" submitted &&  FieldVerificationForm['controls'].pInvestigationexecutiveid.errors" class="invalid-feedback">
+                        <div *ngIf="FieldVerificationForm['controls'].pInvestigationexecutiveid.errors.required">
+                            Select Investigation Executive
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label>Field initiation Date and Time</label>
+                    <div class="d-flex mr-5 col-md-12 p-0">
+                        <fieldset [disabled]="!disabletransactiondate">
+                            <input class="form-control mr-2" readonly type="text" [bsConfig]="pDobConfig" bsDatepicker formControlName="pverificationdate" maxlength="10" [ngClass]="{ 'is-invalid':  submitted && FieldVerificationForm['controls'].pverificationdate.errors }">
+                        </fieldset>
+                        <div *ngIf=" submitted &&  FieldVerificationForm['controls'].pverificationdate.errors" class="invalid-feedback">
+                            <div *ngIf="FieldVerificationForm['controls'].pverificationdate.errors.required">
+                                Select Field initiation Date
+                            </div>
+                        </div>
+
+                        <input atp-time-picker formControlName="pverificationtime" class="form-control" readonly value="10:00" placeholder="Time" [ngClass]="{ 'is-invalid':  submitted && FieldVerificationForm['controls'].pverificationtime.errors }">
+
+                        <div *ngIf=" submitted &&  FieldVerificationForm['controls'].pverificationtime.errors" class="invalid-feedback">
+                            <div *ngIf="FieldVerificationForm['controls'].pverificationtime.errors.required">
+                                Select Field initiation Time
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 p-0">
+            <div class="row">
+                <div class="col-md-12 col-xl-12">
+                    <a class="lc-title acc1 text-decoration-none" data-toggle="collapse" href="#addressverification" role="button" aria-expanded="true" aria-controls="family">
+                        <img id="open" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="close" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; Address Verification
+                    </a>
+                </div>
+            </div>
+            <div id="addressverification" class="mt-3 show collapse">
+                <div class="row">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label>Address Type</label>
+
+                            <select formControlName="paddresstype" class="form-control" [ngClass]="{ 'is-invalid':  submitted && FieldVerificationForm['controls'].paddresstype.errors }" (change)="AddressTypeSelect($event)">
+              <option *ngFor="let Emp of Addrestypes" [value]="Emp.pAddresType"> {{Emp.pAddresType}}</option>
+            </select>
+                            <div *ngIf=" submitted &&  FieldVerificationForm['controls'].paddresstype.errors" class="invalid-feedback">
+                                <div *ngIf="FieldVerificationForm['controls'].paddresstype.errors.required">Select Address Type</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div formGroupName="addressconfirmedDTO" class="col-md-6 col-xl-4">
+                        <p class="mb-2 cb-l">Address confirmed</p>
+                        <div class="form-check form-check-inline  radio-btn-secondary mr-5">
+                            <input formControlName="pisaddressconfirmed" [ngClass]="{ 'is-invalid':  submitted && FieldVerificationForm['controls'].addressconfirmedDTO['controls'].pisaddressconfirmed.errors }" (change)="Addressconfirmed('Yes')" class="form-check-input" type="radio"
+                                name="pisaddressconfirmed" id="addressverconfaddressyes" value="true">
+                            <label class="form-check-label ml-2" for="addressverconfaddressyes">Yes</label>
+                        </div>
+                        <div class="form-check form-check-inline radio-btn-secondary">
+                            <input formControlName="pisaddressconfirmed" [ngClass]="{ 'is-invalid':  submitted && FieldVerificationForm['controls'].addressconfirmedDTO['controls'].pisaddressconfirmed.errors }" (change)="Addressconfirmed('No')" class="form-check-input" type="radio"
+                                name="pisaddressconfirmed" id="verconfaddressno" value="false">
+                            <label class="form-check-label ml-2" for="verconfaddressno">No</label>
+                        </div>
+                        <div *ngIf=" submitted &&  FieldVerificationForm['controls'].addressconfirmedDTO['controls'].pisaddressconfirmed.errors" class="invalid-feedback">
+                            <div *ngIf="FieldVerificationForm['controls'].addressconfirmedDTO['controls'].pisaddressconfirmed.errors.required">
+                                Select Address confirmed
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div formGroupName="addressconfirmedDTO" *ngIf="addressconfirmed">
+                    <div class="row">
+
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Upload Location</label>
+                                <div class="input-group">
+                                    <input disabled type="text" class="form-control" placeholder="">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-lg-icon px-2 p-0">
+                    <img src="assets/images/icon-upload-blue.svg" width="18px"
+                         height="18px" title="upload">
+                  </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>No of years at present address</label>
+                                <input appNumbersonly formControlName="pNoofyearsatpresentaddress" class="form-control mr-2" type="text" value="" placeholder="" maxlength="2">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div class="d-flex">
+                                <div class="col-md-6 col-xl-6 pl-0">
+                                    <div class="form-group">
+                                        <label>Longitude</label>
+                                        <input formControlName="plongitude" class="form-control" type="text" value="" placeholder="" maxlength="15">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-xl-6 pr-0">
+                                    <div class="form-group">
+                                        <label>Latitude</label>
+                                        <input formControlName="pLatitude" class="form-control " type="text" value="" placeholder="" maxlength="15">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>House Ownership</label>
+                                <select formControlName="pHouseownership" class="form-control">
+                <option>Owned</option>
+                <option>Self Owned</option>
+                <option>Rented</option>
+                <option>Paying Guest</option>
+                <option>Mortgaged</option>
+                <option>Living with parents</option>
+              </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div class="mapouter">
+                                <div class="gmap_canvas" *ngIf="platitude!=''">
+                                    <iframe [src]="urlSafe" width="300" height="125" frameborder="0" style="border:0"></iframe>
+                                    <!--src="https://maps.google.com/maps?q={platitude},{plongitude}&z=7&output=embed"-->
+                                    <!-- <iframe src="https://maps.google.com/maps?q=15.8283739,80.1944375&z=7&output=embed" width="300" height="125" frameborder="0" style="border:0"></iframe> -->
+
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="light">
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label class="mb-2 cb-l col-md-12 col-xl-12 pl-0">Person Met</label>
+                                <div class="form-check form-check-inline radio-btn-secondary mr-5">
+                                    <input formControlName="pPersonmet" (change)="PersonMetWith('Applicant')" class="form-check-input" type="radio" name="pPersonmet" id="personmetapplicant" value="applicant">
+                                    <label class="form-check-label" for="personmetapplicant">Applicant</label>
+                                </div>
+                                <div class="form-check form-check-inline radio-btn-secondary">
+                                    <input formControlName="pPersonmet" (change)="PersonMetWith('Other')" class="form-check-input" type="radio" name="pPersonmet" id="personmetother" value="personmetother">
+                                    <label class="form-check-label" for="personmetother">Other</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4" *ngIf="personMet">
+                            <div class="form-group">
+                                <label>person name (if other)</label>
+                                <div class="input-group">
+                                    <input appCharactersonly formControlName="pPersonname" type="text" class="form-control" placeholder="" maxlengt="75">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4" *ngIf="personMet">
+                            <div class="form-group">
+                                <label>relationship with applicant</label>
+                                <div class="input-group">
+                                    <input formControlName="pRelationshipwithapplicant" type="text" class="form-control" placeholder="" maxlengt="20">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="light">
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Date of birth and Age</label>
+                                <div class="d-flex mr-5 col-md-12 p-0">
+
+
+                                    <input class="form-control" readonly type="text" [bsConfig]="pDobConfigage" bsDatepicker formControlName="pDateofbirth" maxlength="10" (ngModelChange)="ageCalculation()">
+                                    <input [ngModelOptions]="{standalone: true}" [(ngModel)]="Age" readonly class="form-control ml-2" type="text" value="" placeholder="Age auto populated">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div>
+                                <p class="mb-2 cb-l">Marital Status</p>
+                            </div>
+                            <div class="form-check form-check-inline radio-btn-secondary mr-5">
+                                <input formControlName="pMaritalStatus" (change)="MaritalStatusClick('Married')" class="form-check-input" type="radio" name="pMaritalStatus" id="maritalmarried" value="Married">
+                                <label class="form-check-label" for="maritalmarried">Married</label>
+                            </div>
+                            <div class="form-check form-check-inline radio-btn-secondary">
+                                <input formControlName="pMaritalStatus" (change)="MaritalStatusClick('Single')" class="form-check-input" type="radio" name="pMaritalStatus" id="maritalsingle" value="Single">
+                                <label class="form-check-label" for="maritalsingle">Single</label>
+                            </div>
+                        </div>
+                        <hr class="light">
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Total No of Members in Family</label>
+                                <input appNumbersonly formControlName="pTotalnoofmembersinfamily" class="form-control mr-2" type="text" value="" placeholder="" maxlength="2">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Earning Members</label>
+                                <input appNumbersonly formControlName="pEarningmembers" class="form-control mr-2" type="text" value="" placeholder="" maxlength="2" (keyup)="Earningmembers()">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4" *ngIf="ShowChildren">
+                            <div class="form-group">
+                                <label>Children</label>
+                                <input appNumbersonly formControlName="pChildren" class="form-control mr-2" type="text" value="" placeholder="" maxlength="2">
+                            </div>
+                        </div>
+                        <!--row-end-->
+                        <hr class="light">
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Employment Details</label>
+                                <div class="input-group">
+                                    <input appCharactersonly formControlName="pEmploymentorbusinessdetails" type="text" class="form-control" placeholder="" maxlength="50">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Monthly Income</label>
+                                <input appMycurrencyFormatter appNumbersonly formControlName="pMonthlyincome" type="text" class="form-control" placeholder="" maxlength="12">
+                            </div>
+                        </div>
+                        <hr class="light">
+                        <div formGroupName="lstFielddocumentverificationDTO" class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>KYC documents Verified by Field Executive</label>
+                                <select formControlName="pdocproofname" class="form-control">
+
+                <option *ngFor="let Emp of ProffTypes" [value]="Emp.pProfname"> {{Emp.pProfname}}</option>
+
+              </select>
+                            </div>
+                            <div class="d-flex justify-content-end mt-4">
+                                <a (click)="AddDocuments();" data-toggle="tab" class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" aria-selected="false">
+                                    <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-xl-12 mt-4">
+                            <kendo-grid [data]="gridData" [pageSize]="5" [pageable]="true" [sortable]="true">
+
+                                <kendo-grid-column field="Id" title="S.No">
+                                </kendo-grid-column>
+                                <!--<kendo-grid-column field="pdocproofname" title="Document Type">
+              </kendo-grid-column>-->
+                                <kendo-grid-column field="pdocproofname" title="Documents Verified">
+                                </kendo-grid-column>
+
+
+                            </kendo-grid>
+                        </div>
+
+                    </div>
+                    <!--row-end-->
+                </div>
+            </div>
+        </div>
+        <div formGroupName="fieldVerifiersobservationDTO" class="row" *ngIf="addressconfirmed">
+            <hr>
+            <div class="col-md-6 col-xl-6">
+                <a class="lc-title acc1 mb-2 text-decoration-none" data-toggle="collapse" href="#verobservation" role="button" aria-expanded="true" aria-controls="personaldetails">
+                    <img id="open" src="assets/images/icon-toggle-default.svg" class="display-content" width="12px" height="12px"> <img id="close" src="assets/images/icon-toogle-bottom.svg" class="display-content" width="12px" height="12px"> &nbsp; &nbsp;
+                    Verifiers observation
+                </a>
+            </div>
+            <div class="col-md-6 col-xl-6">
+                <div class="material-switch">
+                    <span class="mr-2">Not applicable</span>
+                    <input id="verifi-observ" name="verifi-observ" (click)="notApplicableForm($event,'Verifiers observation')" type="checkbox">
+                    <label for="verifi-observ" class="check-danger"></label>
+                </div>
+            </div>
+            <div class="col-12 p-0">
+                <div class="mt-3 collapse" id="verobservation" *ngIf="showverobservation">
+                    <div class="row">
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Address Locality Description</label>
+                                <div class="input-group">
+                                    <select formControlName="pAddressLocalityDescription" class="form-control">
+                  <option>Slum Area</option>
+                  <option>Middle Class</option>
+                  <option>Upper Middle Class</option>
+                  <option>Posh</option>
+                  <option>Industrial</option>
+                  <option>Commercial</option>
+                  <option>Lower Middle</option>
+                </select>
+                                    <!--<div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" width="18px" height="18px" title="upload"></button>
+                </div>-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--col-end-->
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Accessability</label>
+                                <div class="input-group">
+                                    <select formControlName="pAccessability" class="form-control">
+                  <option>Easy to Locate</option>
+                  <option>Difficult to Locate</option>
+                  <option>Untraceable</option>
+                </select>
+                                    <!--<div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" width="18px" height="18px" title="upload"></button>
+                </div>-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--col-end-->
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Type of Accomodation</label>
+                                <div class="input-group">
+                                    <select formControlName="pTypeofAccomodation" class="form-control">
+                  <option>Independent House</option>
+                  <option>Part of independent House</option>
+                  <option selected>Flat</option>
+                  <option>Row House</option>
+                  <option>Bunglow</option>
+                  <option>One Room Unit</option>
+                  <option>Tiled</option>
+                  <option>Asbestos</option>
+                  <option>Bachelor Accomodation</option>
+                  <option>Paying Guest</option>
+                  <option>Commercial office</option>
+                  <option>Shop</option>
+                </select>
+                                    <!--<div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" width="18px" height="18px" title="upload"></button>
+                </div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="light">
+                    <!--row-end-->
+                    <div class="row">
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Approx Area</label>
+                                <input formControlName="pApproxArea" type="text" class="form-control" placeholder="" maxlength="6">
+                            </div>
+                        </div>
+                        <!--col-end-->
+                        <div class="col-md-6 col-xl-4">
+                            <div>
+                                <p class="mb-2 cb-l">Visible Political Affiliation:</p>
+                            </div>
+                            <div class="form-check form-check-inline radio-btn-secondary mr-5">
+                                <input (change)="PoliticalAffiliation('Yes')" formControlName="pVisiblePoliticalAffiliation" class="form-check-input" type="radio" name="pVisiblePoliticalAffiliation" id="inlineRadio1" value="true">
+                                <label class="form-check-label" for="inlineRadio1">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline radio-btn-secondary">
+                                <input (change)="PoliticalAffiliation('No')" formControlName="pVisiblePoliticalAffiliation" class="form-check-input" type="radio" name="pVisiblePoliticalAffiliation" id="inlineRadio2" value="false">
+                                <label class="form-check-label" for="inlineRadio2">No</label>
+                            </div>
+                        </div>
+                        <!--col-end-->
+                        <div class="col-md-6 col-xl-4" *ngIf="ShowPoliticalAffiliation">
+                            <div class="form-group">
+                                <label>If yes (Remarks)</label>
+                                <input formControlName="pAffiliationRemarks" type="text" class="form-control" placeholder="" maxlength="150">
+                            </div>
+                        </div>
+                        <!--col-end-->
+                    </div>
+
+                    <hr class="light">
+                    <div class="row">
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Address Furnishing</label>
+                                <div class="input-group">
+                                    <select formControlName="pAddressFurnishing" class="form-control">
+                  <option>Well Furnished</option>
+                  <option>Good</option>
+                  <option>Fair</option>
+                  <option>Poor</option>
+                </select>
+                                    <!--<div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" width="18px" height="18px" title="upload"></button>
+                </div>-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--col-end-->
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Visible Assets</label>
+                                <div class="input-group">
+                                    <select formControlName="pVisibleAssets" class="form-control">
+                  <option>CTV</option>
+                  <option>Music System</option>
+                  <option>Washing Machine</option>
+                  <option>Refrigerator</option>
+                  <option>Computer</option>
+                  <option>AC</option>
+                  <option>Two Wheeler</option>
+                  <option>Car</option>
+                  <option>Microwave Oven</option>
+                </select>
+                                    <!--<div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" width="18px" height="18px" title="upload"></button>
+                </div>-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--col-end-->
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Customer Cooperation</label>
+                                <select formControlName="pCustomerCooperation" class="form-control">
+                <option>Polite</option>
+                <option>Rude</option>
+              </select>
+                            </div>
+                        </div>
+                        <!--col-end-->
+                    </div>
+                    <hr class="light">
+                    <div class="row mt-1">
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Customer Availability</label>
+                                <select formControlName="pCustomerAvailability" class="form-control">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+                            </div>
+                            <!--col-end-->
+                        </div>
+                        <!--row-end-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div formGroupName="fieldVerifyneighbourcheckDTO" class="row" *ngIf="addressconfirmed">
+            <hr>
+            <div class="col-md-6 col-xl-6">
+                <a class="lc-title acc3 mb-2 text-decoration-none" data-toggle="collapse" href="#neighbour" role="button" aria-expanded="true" aria-controls="personaldetails">
+                    <img id="open" src="assets/images/icon-toggle-default.svg" class="display-content" width="12px" height="12px"> <img id="close" src="assets/images/icon-toogle-bottom.svg" class="display-content" width="12px" height="12px"> &nbsp; &nbsp;
+                    Neighbourhood Check
+                </a>
+            </div>
+            <div class="col-md-6 col-xl-6">
+                <div class="material-switch">
+                    <span class="mr-2">Not applicable</span>
+                    <input id="Neighbourhood" name="Neighbourhood" type="checkbox" (click)="notApplicableForm($event,'Neighbourhood Check')">
+                    <label for="Neighbourhood" class="check-danger"></label>
+                </div>
+            </div>
+            <div class="col-12 p-0">
+                <div class="mt-3 collapse" id="neighbour" *ngIf="Showneighbour">
+                    <div class="row">
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Name of the Neighbour</label>
+                                <input appCharactersonly formControlName="pNameoftheNeighbour" type="text" class="form-control" placeholder="" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Address of Neighbour</label>
+                                <input formControlName="pAddressofNeighbour" type="text" class="form-control" placeholder="" maxlength="150">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div>
+                                <p class="mb-2 cb-l">Does Applicant Stay here</p>
+                            </div>
+                            <div class="form-check form-check-inline  mr-5">
+                                <input (change)="ApplicantStayHere('Yes')" formControlName="pisApplicantstayhere" class="form-check-input" type="radio" name="pisApplicantstayhere" id="inlineRadio1" value="true">
+                                <label class="form-check-label" for="inlineRadio1">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input (change)="ApplicantStayHere('No')" formControlName="pisApplicantstayhere" class="form-check-input" type="radio" name="pisApplicantstayhere" id="inlineRadio2" value="false">
+                                <label class="form-check-label" for="inlineRadio2">No</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--row-end-->
+                    <hr class="light">
+                    <div class="row">
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>House Ownership</label>
+                                <select formControlName="pHouseOwnership" class="form-control">
+                <option>Owned</option>
+                <option>Self Owned</option>
+                <option selected>Rented</option>
+                <option>Provided by employer</option>
+                <option>Paying Guest</option>
+                <option>Mortgaged</option>
+                <option>Living with parents</option>
+              </select>
+                            </div>
+                        </div>
+                        <!--col-end-->
+                        <div class="col-md-6 col-xl-4" *ngIf="Applicantstay">
+                            <div class="form-group">
+                                <label>The applicant is staying here since</label>
+                                <div class="d-flex mr-5 col-md-12 p-0">
+                                    <input appNumbersonly formControlName="papplicantisstayingsince" class="form-control mr-2" type="text" value="" placeholder="" maxlength="3">
+                                    <select class="form-control" formControlName="papplicantisstayingMontsOrYears" (change)="ChangeAplicantStayingType($event)">
+                  <option value="Months">Months</option>
+                  <option value="Years">Years</option>
+                </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div class="d-flex justify-content-end mt-4">
+                                <a (click)="AddNeighbourhood()" data-toggle="tab" class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" aria-selected="false">
+                                    <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add
+                                </a>
+                            </div>
+                        </div>
+                        <!--col-end-->
+                    </div>
+                    <!--row-end-->
+
+                    <hr class="light">
+
+                    <div class="row">
+                        <div class="col-md-12 col-xl-12">
+
+
+                            <kendo-grid [data]="NeighbourgridData" [sortable]="true">
+
+                                <kendo-grid-column field="Id" title="S.No">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pNameoftheNeighbour" title="Name of the Neighbour">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pAddressofNeighbour" title="Address of Neighbour">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pHouseOwnership" title="House Ownership">
+                                </kendo-grid-column>
+
+                            </kendo-grid>
+                        </div>
+                        <!--row-end-->
+                    </div>
+                    <!-- row end -->
+                </div>
+            </div>
+            <hr>
+        </div>
+        <!--form-end-->
+        <div class="row mt-4">
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group m-0">
+                    <label>Field Verifiers Comments</label>
+                    <textarea [ngClass]="{ 'is-invalid':  submitted && FieldVerificationForm['controls'].pFieldVerifiersComments.errors }" formControlName="pFieldVerifiersComments" class="form-control" placeholder="" rows="" maxlength="100"></textarea>
+                    <div *ngIf=" submitted &&  FieldVerificationForm['controls'].pFieldVerifiersComments.errors" class="invalid-feedback">
+                        <div *ngIf="FieldVerificationForm['controls'].pFieldVerifiersComments.errors.required">
+                            Enter Field Verifiers Comments
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group m-0">
+                    <label>Field Verifier's Rating</label>
+                </div>
+                <div class="form-group">
+                    <div class="form-check form-check-inline mr-5">
+                        <input formControlName="pFieldVerifiersRating" class="form-check-input" type="radio" name="pFieldVerifiersRating" id="positive" value="Positive" [ngClass]="{ 'is-invalid':  submitted && FieldVerificationForm['controls'].pFieldVerifiersRating.errors }">
+                        <label class="p-0 m-2" for="phisicalverificationpositive">Positive</label>
+                    </div>
+                    <div class="form-check form-check-inline mr-5">
+                        <input formControlName="pFieldVerifiersRating" class="form-check-input" type="radio" name="pFieldVerifiersRating" id="negative" value="Negative" [ngClass]="{ 'is-invalid':  submitted && FieldVerificationForm['controls'].pFieldVerifiersRating.errors }">
+                        <label class="p-0 m-2" for="negative">Negative </label>
+                    </div>
+                    <div *ngIf=" submitted &&  FieldVerificationForm['controls'].pFieldVerifiersRating.errors" class="invalid-feedback">
+                        <div *ngIf="FieldVerificationForm['controls'].pFieldVerifiersRating.errors.required">
+                            Select Field Verifier's Rating
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end mt-4">
+            <a (click)="clearFieldVerification()" class="btn btn-g-icon mr-4 px-3 border-0">
+                <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear
+            </a> <button (click)="SaveFieldVerification()" class="btn btn-b-icon px-3 border-0" [disabled]="isLoading">
+      <i class="fa"
+         [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i> {{button}}
+    </button>
+        </div>
+    </form>
+</div>
+<!--buttons-end-->

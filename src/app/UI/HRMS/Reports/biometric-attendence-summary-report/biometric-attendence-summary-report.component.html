@@ -1,0 +1,277 @@
+<form [formGroup]="BioAttSumaryForm">
+    <div class="section-content">
+        <div class="row">
+            <div class="col-md-4 col-xl-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Select Employee</label>
+                    <!-- <ng-select class="custom-ng-select" [multiple]="false" [items]="employeeList"
+                     placeholder="Search by employee name" formControlName="pEmployeecode" bindLabel="pEmployeeName"
+                      bindValue="pEmployeecode" id="pEmployeeName"  title="Employee"
+                        [searchable]=true [clearable]="true" dropdownPosition="" [clearOnBackspace]=true
+                         (change)="ContactGridRowSelect($event)" (keyup)="filterContactGrid($event)" (focusout)="onFocusOutEvent($event)"
+                          [ngClass]="{ 'is-invalid': formValidationMessages.pEmployeecode }">
+                        <ng-template ng-header-tmp>
+                            <div class="row">
+                                <span class="col-4">Employee Code</span>
+                                <span class="col-4 text-center">Name</span>
+                                <span class="col-4">Designation</span>
+                            </div>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                            <div class="row">
+                                <span class="col-4" title="{{item.pEmployeecode}}">{{item.pEmployeecode}}</span>
+                                <span class="col-4 text-center" title="{{item.pEmployeeName}}">{{item.pEmployeeName}}</span>
+                                <span class="col-4" title="{{item.pDesignation}}">{{item.pDesignation}}</span>
+                            </div>
+                        </ng-template>
+                    </ng-select> -->
+                    <ng-select class="custom-ng-select" [multiple]="false" [items]="employeeList | async" [minTermLength]="dropDownDataSearchLength" typeToSearchText="{{searchplaceholder}}" [typeahead]="contactSearchevent" formControlName="pEmployeecode" bindLabel="pEmployeeName"
+                        bindValue="pEmployeecode" id="pEmployeeName" placeholder="Search by employee name" title="Employee" [searchable]=true [clearable]="true" dropdownPosition="" [clearOnBackspace]=true (change)="ContactGridRowSelect($event)" [ngClass]="{ 'is-invalid': formValidationMessages.pEmployeecode }">
+                        <ng-template ng-header-tmp>
+                            <div class="row">
+                                <span class="col-3" title="Employee Code">Employee Code</span>
+                                <span class="col-3 text-center" title="Employee Name">Name</span>
+                                <span class="col-3 text-center">Mobile No.</span>
+                                <span class="col-3">Email Id</span>
+                                <!-- <span class="col-4" title="Designation">Designation</span> -->
+                            </div>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                            <div class="row">
+                                <span class="col-3" title="{{item.pEmployeecode}}">{{item.pEmployeecode}}</span>
+                                <span class="col-3 text-center" title="{{item.pEmployeeName}}">{{item.pEmployeeName}}</span>
+                                <span class="col-3" title="{{item.pContactNo}}">{{item.pContactNo}}</span>
+                                <span class="col-3 text-center" title="{{item.pEmailid}}">{{item.pEmailid}}</span>
+                                <!-- <span class="col-4" title="{{item.pDesignation}}">{{item.pDesignation}}</span> -->
+                            </div>
+                        </ng-template>
+                    </ng-select>
+                    <app-validation-message [messgae]="formValidationMessages?.pEmployeecode">
+                    </app-validation-message>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-xl-3">
+                <div class="form-group">
+                    <label class="required-field">From Date</label>
+                    <input type="text" formControlName="fromdate" readonly id="fromdate" class="form-control"
+                        title="From Date" bsDatepicker [bsConfig]="dpConfig1" (ngModelChange)="todateChange($event)">
+                </div>
+            </div>
+            <div class="col-md-3 col-xl-3">
+                <div class="form-group">
+                    <label class="required-field">To Date</label>
+                    <input type="text" formControlName="todate" readonly id="todate" class="form-control"
+                        title="To Date" bsDatepicker [bsConfig]="dpConfig2">
+                </div>
+            </div>
+            <div class="col-md-3 col-xl-3">
+                <label class="required-field">Leave Type</label>
+                <ng-select [items]="" bindLabel="" id="leavetype" title="Leave Type" formControlName="leavetype"
+                    [ngClass]="{'is-invalid':formValidationMessages?.leavetype}" bindValue="" [multiple]=false
+                    placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom"
+                    [clearOnBackspace]=true (change)="selectleavetype($event)">
+                    <ng-option *ngFor="let i of leavetypelst" [value]="i.leavetype">
+                        {{i.leavetypee}}</ng-option>
+                </ng-select>
+                <app-validation-message [messgae]="formValidationMessages?.leavetype">
+                </app-validation-message>
+            </div>
+            <div class="col-md-3 col-xl-3">
+                <div class=" d-flex justify-content mt-3 pt-2">
+                    <button class="btn btn-b-icon border-0 mt-1" [disabled]="showbuttonbool" (click)="show()">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': showbuttonbool}"></i>{{showbuttontext}}</button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <div class="row mt-4">
+            <div class="col-md-12 col-xl-12">
+                <div class="d-flex justify-content-end mt-4 mr-3">
+                    <ul class="temp-ul pt-3">
+
+
+                        <!-- <li class="temp-ico ml-2">
+                            <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;"  />
+                        </li> -->
+
+                    <li class="temp-ico ml-2 export-icons">
+  <img src="assets/images/icon-excel.svg"
+       width="18px"
+       class="pt-2"
+       style="cursor: pointer;"
+       title="Excel"
+       kendo-button
+       (click)="pdfOrprint('Excel')" />
+</li>
+
+
+
+                        <li class="temp-ico ml-2">
+                            <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdfOrprint('Pdf')" />
+                        </li>
+                        <li class="temp-ico ml-2">
+                            <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="pdfOrprint('Print')" style="cursor: pointer;" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12 col-xl-12">
+                <ngx-datatable #myTable class='material expandable' [rows]="GridData" [scrollbarH]="true"
+                    [headerHeight]="50" [rowHeight]="60" [columnMode]="'force'" [groupRowsBy]="'employeecode'"
+                    [groupExpansionDefault]="false">
+                    <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+                        <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+                            <div style="padding-left:5px;">
+                                <a [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+                                    title="Expand/Collapse Group" (click)="toggleExpandGroup(group)">
+                                    <b> {{ group.value[0].employeecode }}- {{ group.value[0].employeename }}  </b>
+                                    <!-- <b>total Amount: {{ summaryForProp2(group.value[0].groupcode) }}</b> -->
+                                </a>
+                            </div>
+                            <div>
+                                <table id="example" class="table text-center border" style="table-layout: fixed;">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <span>P: {{ getGroupTotal(group.value, 'P') }}</span>
+                                            </td>
+
+                                            <td>
+                                                <span>CL: {{ getGroupTotal(group.value, 'CL') }}</span>
+                                            </td>
+
+                                            <td>
+                                                <span>SL: {{ getGroupTotal(group.value, 'SL') }}</span>
+                                            </td>
+
+                                            <td>
+                                                <span>LOP: {{ getGroupTotal(group.value, 'LOP') }}</span>
+                                            </td>
+
+                                            <td>
+                                                <span>OD: {{ getGroupTotal(group.value, 'OD') }}</span>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-template>
+
+
+
+                        <!-- <ngx-datatable-row-detail [rowHeight]="75" #myDetailRow>
+                            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                                <div>
+                                    <table id="example" class="table text-center border" style="table-layout: fixed;">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+
+                                                <td style="width: 10px;overflow: hidden;text-align: right;">
+                                                </td>
+                                                <td style="width: 10px;overflow: hidden;text-align: left;">
+                                                    <strong> Total :</strong>
+                                                </td>
+
+                                                <td *ngIf="TotalBasicSalary(row)?.P !== 0"
+                                                    style="width: 10px; overflow: hidden; text-align: right;">
+                                                    <span>P: {{ TotalBasicSalary(row)?.P || 0 }}</span>
+
+                                                </td>
+
+                                                <td *ngIf="TotalBasicSalary(row)?.CL !== 0"
+                                                    style="width: 10px; overflow: hidden; text-align: right;">
+                                                    <span>CL: {{ TotalBasicSalary(row)?.CL || 0 }}</span>
+
+                                                </td>
+
+
+                                                <td *ngIf="TotalBasicSalary(row)?.SL !== 0"
+                                                    style="width: 10px; overflow: hidden; text-align: right;">
+                                                    <span>SL: {{ TotalBasicSalary(row)?.SL || 0 }}</span>
+
+                                                </td>
+
+
+                                                <td *ngIf="TotalBasicSalary(row)?.LOP !== 0"
+                                                    style="width: 10px; overflow: hidden; text-align: right;">
+                                                    <span>LOP: {{ TotalBasicSalary(row)?.LOP || 0 }}</span>
+
+                                                </td>
+
+
+                                                <td *ngIf="TotalBasicSalary(row)?.OD !== 0"
+                                                    style="width: 10px; overflow: hidden; text-align: right;">
+                                                    <span>OD: {{ TotalBasicSalary(row)?.OD || 0 }}</span>
+
+                                                </td>
+
+
+
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </ng-template>
+                        </ngx-datatable-row-detail> -->
+
+                    </ngx-datatable-group-header>
+                    <ngx-datatable-column name="Date" prop="date">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="In Time" prop="intime">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Out Time" prop="outtime">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Total Duration" prop="totalduration">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Status" prop="leavetype">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Remarks" prop="remarks">
+                    </ngx-datatable-column>
+                    <ngx-datatable-footer *ngIf="GridData.length>0">
+                        <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageCriteria.pageSize" let-selectedCount="selectedCount" let-curPage="curPage" let-offset="pageCriteria.offset" let-isVisible="isVisible">
+                            <div style="padding: 5px 10px">
+                                <div>Page {{pageCriteria.CurrentPage}} of {{pageCriteria.TotalPages}} ({{ pageCriteria.totalrows }} items) </div>
+                            </div>
+                            <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageCriteria.pageSize" [count]="rowCount"
+                                (change)="onFooterPageChange($event)" [hidden]="!((rowCount / pageCriteria.pageSize) > 0)">
+                            </datatable-pager>
+                        </ng-template>
+                    </ngx-datatable-footer>
+                </ngx-datatable>
+            </div>
+        </div>
+    </div>
+</form>

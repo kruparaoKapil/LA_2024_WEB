@@ -1,0 +1,103 @@
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+
+    </div>
+  </ng-template>
+  <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+  <div id="template" *ngIf="showreport">
+
+    <div class="d-flex justify-content-end mr-3">
+
+      <ul class="temp-ul">
+        <li class="temp-ico ml-2">
+          <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" kendo-button
+               (click)="pdf.saveAs('PartyLedger('+startDatesReport+'to'+endDatesReport+').pdf')" />
+        </li>
+        <li class="temp-ico ml-2">
+          <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print"
+               (click)="print()" />
+        </li>
+      </ul>
+    </div>
+    <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+      <div id="temp-box">
+
+        <div class="mt-2 border rounded shadow-sm bg-white">
+
+          <div class="row">
+            <div class="col-md-12">
+              <app-company-details></app-company-details>
+
+              <div class="report-head">
+                <p class="font-16 text-dark text-center m-0 ">
+                  Party Ledger - {{PartyName}} ( {{ ContactRefID }} )
+                </p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="temp-box-inner border rounded shadow-sm bg-white p-3"
+             style="overflow:hidden; height:auto !important;">
+          <div class="row">
+            <div class="col-md-6">
+              <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                                font-weight: bold !important;">As On :</span>
+              <label class="print-font"> {{startDatesReport}}</label>
+            </div>
+          </div>
+          <kendo-grid [kendoGridBinding]="gridView" [groupable]="false" [group]="groups" [resizable]="false"
+                      [pageable]="false" [sortable]="false">
+            <kendo-grid-column field="ptransactiondate" title="Transaction Date" [hidden]="hdnTranDate">
+              <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                {{value | date:'dd/MM/yyyy'}}
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="ptransactionno" title="Transaction No." width="100">
+            </kendo-grid-column>
+            <kendo-grid-column field="pparticulars" title="Particulars" width="200">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pdebitamount" title="Debit" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <!-- {{dataItem.pdebitamount | mycurrencypipe}} -->
+                <div *ngIf="dataItem.pdebitamount == 0"></div>
+                <div *ngIf="dataItem.pdebitamount !== 0">
+                  {{dataItem.pdebitamount | mycurrencypipe}}
+                </div>
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                {{totaldebitamount | mycurrencypipe}}
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pcreditamount" title="Credit" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <div *ngIf="dataItem.pcreditamount == 0"></div>
+                <div *ngIf="dataItem.pcreditamount !== 0">
+                  {{dataItem.pcreditamount | mycurrencypipe}}
+                </div>
+                <!-- {{dataItem.pcreditamount | mycurrencypipe}} -->
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                {{totalcreditamount | mycurrencypipe}}
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="popeningbal" title="Balance" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.popeningbal | mycurrencypipe}} {{dataItem.pBalanceType}}
+              </ng-template>
+            
+                      {{totalbalanceamount | mycurrencypipe}}
+              
+            </kendo-grid-column>
+
+          </kendo-grid>
+        </div>
+      </div>
+    </kendo-pdf-export>
+  </div>

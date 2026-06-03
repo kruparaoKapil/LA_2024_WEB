@@ -1,0 +1,232 @@
+<form [formGroup]=goldForm>
+  <div id="Goldloan">
+    <div class="row">
+      <div class="col-12 mt-5">
+        <p class="bc-2">Gold Loan</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="pGoldArticleType" title="Gold Article Type">Gold Article Type</label>
+          <select class="form-control " formControlName="pGoldArticleType" (change)="clearGoldFormData($event)"
+            [ngClass]="{ 'is-invalid': goldConfigErrorMessage.pGoldArticleType}">
+            <option [value]="" ng-selected="selected">select</option>
+            <!-- <option *ngFor="let contact of contacts" [value]="loanType.contact">{{contact.contact}}</option> -->
+            <option>Bangles</option>
+            <option>Chain</option>
+            <option>Necklace</option>
+            <option>Rings</option>
+          </select>
+          <div class="invalid-feedback"><span
+              *ngIf="goldConfigErrorMessage.pGoldArticleType">{{goldConfigErrorMessage.pGoldArticleType}}</span></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="pDetailsofGoldArticle" title="Details of Gold Article">Details of Gold Article</label>
+          <textarea value="" maxlength="75" formControlName="pDetailsofGoldArticle" class="form-control" rows="1" style="height:32px"
+            [ngClass]="{ 'is-invalid': goldConfigErrorMessage.pDetailsofGoldArticle }"></textarea>
+          <div class="invalid-feedback"><span
+              *ngIf="goldConfigErrorMessage.pDetailsofGoldArticle">{{goldConfigErrorMessage.pDetailsofGoldArticle}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="pCarat" title="Carat">Carat</label>
+          <input type="text" class="form-control" formControlName="pCarat"  maxlength="20" [pattern]="'^[a-zA-Z0-9]+$'"
+            [ngClass]="{ 'is-invalid': goldConfigErrorMessage.pCarat }">
+          <div class="invalid-feedback-cst"><span
+              *ngIf="goldConfigErrorMessage.pCarat">{{goldConfigErrorMessage.pCarat}}</span></div>
+        </div>
+      </div>
+      <hr class="light">
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="pGrossweight" title="Gross weight">Gross weight</label>
+          <input type="text" class="form-control" formControlName="pGrossweight" appNumbersonly maxlength="10"
+          (change)="netWeightAndGrossweightValidation()" [ngClass]="{ 'is-invalid': goldConfigErrorMessage.pGrossweight }">
+          <div class="invalid-feedback-cst"><span
+              *ngIf="goldConfigErrorMessage.pGrossweight">{{goldConfigErrorMessage.pGrossweight}}</span></div>
+        </div>
+        <div class="form-group">
+          <label id="pNetWeight" title="Net Weight">Net Weight</label>
+          <input type="text" class="form-control" formControlName="pNetWeight" appNumbersonly maxlength="10"
+            (change)="netWeightAndGrossweightValidation()" [ngClass]="{ 'is-invalid': goldConfigErrorMessage.pNetWeight }">
+          <div class="invalid-feedback-cst"><span
+              *ngIf="goldConfigErrorMessage.pNetWeight">{{goldConfigErrorMessage.pNetWeight}}</span></div>
+        </div>
+        <div class="form-group">
+          <label id="pAppraisedValue" title="Appraised Value of Article">Appraised Value of Article</label>
+          <input type="text" class="form-control text-right" formControlName="pAppraisedValue" removeZero appNumbersonly maxlength="10"
+            [ngClass]="{ 'is-invalid': goldConfigErrorMessage.pAppraisedValue }">
+          <div class="invalid-feedback-cst"><span
+              *ngIf="goldConfigErrorMessage.pAppraisedValue">{{goldConfigErrorMessage.pAppraisedValue}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="pobservations" title="Any other observations in gold article">Any other
+            observations in gold article?</label>
+          <textarea value="" formControlName="pobservations" class="form-control" maxlength="150" rows="1" style="height:32px"
+            [ngClass]="{ 'is-invalid': goldConfigErrorMessage.pobservations }"></textarea>
+          <div class="invalid-feedback"><span
+              *ngIf="goldConfigErrorMessage.pobservations">{{goldConfigErrorMessage.pobservations}}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label id="pGoldArticlePath" title="Gold Article Type: Upload Image of Article">Gold Article Type: Upload
+            Image of Article</label>
+          <div class="input-group">
+            <input type="text" class="form-control" disabled maxlength="200" formControlName="pGoldArticlePath" [value]="goldLoanResponse?.name">
+            <div class="input-group-append">
+              <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()"><img
+                  src="./assets/images/icon-upload-blue.svg" class="" width="18px" height="18px"></button>
+              <!-- to uplaod the image -->
+              <input id="fileGoldLoan" style="display: none" type="file" (change)="upload($event,fileInput.files)" #fileInput>
+            </div>
+          </div>
+          <!-- <span class="text-success">
+            <ng-container *ngIf="uploadSuccess">Uploaded Successfully</ng-container>
+          </span> -->
+          <!-- <div class="invalid-feedback-cst"><span
+              *ngIf="goldConfigErrorMessage.pGoldArticlePath">{{goldConfigErrorMessage.pGoldArticlePath}}</span>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 col-xl-12">
+      <div class="d-flex justify-content-end mt-4"> <a href="#" data-toggle="tab" class="btn btn-b-icon px-3 border-0 "
+          role="tab" aria-controls="hot" aria-selected="false" (click)="submit()"><img
+            src="./assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add</a> </div>
+    </div>
+
+    <!-- <div class="row">
+        <div class="col-md-10 col-xl-10 mt-2">
+          <div style=" width:auto; overflow-y:scroll">
+            <table id="goldLoanDataTable"
+                   class="table"
+                   cellspacing="0" width="100%" style="width:100%">
+              <thead>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+    
+    
+        </div>
+      </div> -->
+
+    <div class="row mt-4">
+      <div class="col-md-12 col-xl-12">
+
+
+        <!-- <p class="bc-2">Credit Score</p>             -->
+        <kendo-grid [data]="ApplicantLoanSpecificDetails?.lstGoldLoanDTO?.lstGoldLoanDetailsDTO" [reorderable]="true" [resizable]="true" [sortable]="true"
+           (remove)="removeHandler($event)">
+          <kendo-grid-column field="pGoldArticleType" title="Gold Article Type" width="150">
+          </kendo-grid-column>
+          <kendo-grid-column field="pDetailsofGoldArticle" title="Details" width="100">
+          </kendo-grid-column>
+          <kendo-grid-column field="pCarat" title="Carat" width="100">
+          </kendo-grid-column>
+          <kendo-grid-column field="pGrossweight" width="150" title="Gross Weight">
+          </kendo-grid-column>
+          <kendo-grid-column field="pNetWeight" width="100" title="Net Weight">
+          </kendo-grid-column>
+          <kendo-grid-column field="pobservations" title="Other Observations" width="150">
+          </kendo-grid-column>
+          <kendo-grid-column field="pUploadfilename" title="Upload File Name" width="100">
+          </kendo-grid-column>
+          <!-- <kendo-grid-column field="pProoffilepath" title="Upload File path" width="100">
+            </kendo-grid-column> -->
+          <kendo-grid-column field="pAppraisedValue" title="Appraised Value	" width="150"
+          [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+          </kendo-grid-column>
+          <kendo-grid-command-column title="" width="220">
+            <ng-template kendoGridCellTemplate>
+              <!-- <button kendoGridEditCommand>Edit</button> -->
+              <button kendoGridRemoveCommand>
+                <div id="icon-delete"></div>
+              </button>
+            </ng-template>
+          </kendo-grid-command-column>
+
+        </kendo-grid>
+      </div>
+    </div>
+
+
+    <!-- <table id="example" class="table text-center w-auto">
+      <thead>
+        <tr>
+          <th>Gold Article Type</th>
+          <th>Details</th>
+          <th>Carat</th>
+          <th>Gross Weight</th>
+          <th>Net Weight</th>
+          <th>Other Observations</th>
+          <th>Image of Article</th>
+          <th>Appraised Value</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let goldData of ApplicantLoanSpecificDetails?.lstGoldLoanDTO?.lstGoldLoanDetailsDTO,let i=index">
+          <td>{{goldData.pGoldArticleType}}</td>
+          <td>{{goldData.pDetailsofGoldArticle}}</td>
+          <td>{{goldData.pCarat}}</td>
+          <td>{{goldData.pGrossweight}}</td>
+          <td>{{goldData.pNetWeight}}</td>
+          <td>{{goldData.pobservations}}</td>
+          <td>{{goldData.pGoldArticlePath}}</td>
+          <td>{{goldData.pAppraisedValue}}</td>
+        
+          <td id="icon-delete" (click)="delete(i)"></td>
+        </tr>
+      </tbody>
+    </table> -->
+    <!-- <div class="d-flex justify-content-end mt-4"> <a href="#" class="btn btn-b-icon px-3 border-0"
+        data-toggle="collapse" data-target="#gold-compute"><img src="./assets/images/icon-check-white.svg" class="mr-3"
+          width="20px" height="20px"(click)="computedTotalAppraisedValue()">Compute</a> </div> -->
+    <hr class="light">
+    <div class="row">
+      <div class="col-md-12 col-xl-12">
+        <h2 class="bc-2"> Appraised Value </h2>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label>Total Appraised Value of Gold articles</label>
+          <label id="pTotalAppraisedValue" class="col-12 bc-2-bold">{{computeTotalAppraisedValue}}</label>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="pAppraisalDate" title="Appraisal Date">Appraisal Date</label>
+          <input type="text" [bsConfig]="pdateofestablishmentConfig" class="form-control" readonly 
+          #dp="bsDatepicker" bsDatepicker  formControlName="pAppraisalDate" 
+          [ngClass]="{ 'is-invalid': goldConfigErrorMessage.pAppraisalDate }">
+          <!-- <input type="date" class="form-control" formControlName="pAppraisalDate"
+            [ngClass]="{ 'is-invalid': goldConfigErrorMessage.pAppraisalDate }"> -->
+          <div class="invalid-feedback-cst"><span
+              *ngIf="goldConfigErrorMessage.pAppraisalDate">{{goldConfigErrorMessage.pAppraisalDate}}</span></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="pAppraisorName" title="Appraisor Name">Appraisor Name</label>
+          <input type="text" class="form-control" formControlName="pAppraisorName" appCharactersonly maxlength="50"
+            [ngClass]="{ 'is-invalid': goldConfigErrorMessage.pAppraisorName }">
+          <div class="invalid-feedback-cst"><span
+              *ngIf="goldConfigErrorMessage.pAppraisorName">{{goldConfigErrorMessage.pAppraisorName}}</span></div>
+        </div>
+      </div>
+    </div>
+    <hr>
+
+  </div>
+</form>

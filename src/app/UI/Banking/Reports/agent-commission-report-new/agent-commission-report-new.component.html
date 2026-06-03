@@ -1,0 +1,270 @@
+
+
+<div class="row mt-5">
+    <div class="col-md-12 col-xl-12 asset-kendo">
+        <kendo-grid [kendoGridBinding]="prematuritylist" class="lendoAlign" [pageSize]="pageSize" [pageSize]="10"
+            [pageable]="{buttonCount: 2}" [sortable]="true" [resizable]="true" [scrollable]="true">
+
+            <ng-template kendoGridToolbarTemplate>
+                <div class="row mb-3" style="text-align:start;">
+
+                    <div class="col-12" style="text-align: end;">
+                        <ul class="temp-ul  pull-right">
+                            <li class="temp-ico ml-2">
+                                <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg "
+                                        title="pdf" width="20px"></a>
+                            </li>
+                            <li class="temp-ico ml-2">
+                                <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg "
+                                        title="excel" width="20px"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </ng-template>
+
+
+            <kendo-grid-column title="S.NO" width="50" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    {{ rowIndex + 1 }}
+                </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pdeponsalebefore30sep" title="Agent Name & ID" width="260"
+                    class="kendo-right"></kendo-grid-column>
+
+            <kendo-grid-column-group title="FD Details">
+                <kendo-grid-column field="pMembername" title="Member Name" width="110">
+                </kendo-grid-column>
+                <kendo-grid-column field="pFdAccountNo" title="FD Account No." width="120"></kendo-grid-column>
+
+                <kendo-grid-column field="pDepositamount" title="FD Amount " class="kendo-center" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pDepositamount |currencypipewithdecimal }}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pDepositdate" title="Application Date" class="kendo-center" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pDepositdate | date: 'dd-MM-yyyy'}}
+                    </ng-template>
+                </kendo-grid-column>
+
+               
+                <kendo-grid-column field="pTenor" title="Tenure" width="100"></kendo-grid-column>
+
+                <kendo-grid-column field="pInterestrate" title="Interest Rate" class="kendo-center" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pInterestrate |currencypipewithdecimal }}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pTenor" title="Mode Of Interest" width="100"></kendo-grid-column>
+            </kendo-grid-column-group>
+
+          
+
+            <kendo-grid-column-group title="Commission details">
+
+                <kendo-grid-column field="pdeponsalebefore30sep" title="Date" width="260"
+                    class="kendo-right"></kendo-grid-column>
+
+                    
+                    <kendo-grid-column field="pdeponsaleafter30sep" title="Transaction No." width="100"
+                    class="kendo-right"></kendo-grid-column>
+
+                <kendo-grid-column field="pdeponsaleafter30sep" title="Commission %" width="100"
+                    class="kendo-right"></kendo-grid-column>                    
+
+                <kendo-grid-column field="ptotaldepfortheyear" title="Released Amount" width="100" class="kendo-right"></kendo-grid-column>
+
+                <kendo-grid-column field="ptotaldepfortheyear" title="TDS Amount" width="100" class="kendo-right"></kendo-grid-column>
+
+                <kendo-grid-column field="ptotaldepfortheyear" title="Net payable Amount" width="100" class="kendo-right"></kendo-grid-column>
+
+                <kendo-grid-column field="ptotaldepfortheyear" title="PV No." width="100" class="kendo-right"></kendo-grid-column>
+
+                <kendo-grid-column field="ptotaldepfortheyear" title="PV Date" width="100" class="kendo-right"></kendo-grid-column>
+
+               
+
+
+            </kendo-grid-column-group>
+
+
+           
+
+
+
+
+
+            <kendo-grid-pdf fileName="Agent Commission Report.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true"
+                [landscape]="true" [scale]="0.4">
+                <kendo-grid-column>
+
+                    <ng-template kendoGridPDFTemplate>
+                        <div class="page-template">
+                            <div class="header  ">
+                                <h5>Income Tax Act Report</h5>
+                            </div>
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-pdf-margin top="0.5cm" left="0.5cm" right="0.5cm" bottom="0.5cm">
+                </kendo-grid-pdf-margin>
+
+                <kendo-grid-column title="S.NO" width="50" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        {{ rowIndex + 1 }}
+                    </ng-template>
+                </kendo-grid-column>
+    
+                <kendo-grid-column field="pdeponsalebefore30sep" title="Agent Name & ID" width="260"
+                        class="kendo-right"></kendo-grid-column>
+    
+                <kendo-grid-column-group title="FD Details">
+                    <kendo-grid-column field="pMembername" title="Member Name" width="110">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pFdAccountNo" title="FD Account No." width="120"></kendo-grid-column>
+    
+                    <kendo-grid-column field="pDepositamount" title="FD Amount " class="kendo-center" width="100">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pDepositamount |currencypipewithdecimal }}
+                        </ng-template>
+                    </kendo-grid-column>
+    
+                    <kendo-grid-column field="pDepositdate" title="Application Date" class="kendo-center" width="100">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pDepositdate | date: 'dd-MM-yyyy'}}
+                        </ng-template>
+                    </kendo-grid-column>
+    
+                   
+                    <kendo-grid-column field="pTenor" title="Tenure" width="100"></kendo-grid-column>
+    
+                    <kendo-grid-column field="pInterestrate" title="Interest Rate" class="kendo-center" width="100">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pInterestrate |currencypipewithdecimal }}
+                        </ng-template>
+                    </kendo-grid-column>
+    
+                    <kendo-grid-column field="pTenor" title="Mode Of Interest" width="100"></kendo-grid-column>
+                </kendo-grid-column-group>
+    
+              
+    
+                <kendo-grid-column-group title="Commission details">
+    
+                    <kendo-grid-column field="pdeponsalebefore30sep" title="Date" width="260"
+                        class="kendo-right"></kendo-grid-column>
+    
+                        
+                        <kendo-grid-column field="pdeponsaleafter30sep" title="Transaction No." width="100"
+                        class="kendo-right"></kendo-grid-column>
+    
+                    <kendo-grid-column field="pdeponsaleafter30sep" title="Commission %" width="100"
+                        class="kendo-right"></kendo-grid-column>                    
+    
+                    <kendo-grid-column field="ptotaldepfortheyear" title="Released Amount" width="100" class="kendo-right"></kendo-grid-column>
+    
+                    <kendo-grid-column field="ptotaldepfortheyear" title="TDS Amount" width="100" class="kendo-right"></kendo-grid-column>
+    
+                    <kendo-grid-column field="ptotaldepfortheyear" title="Net payable Amount" width="100" class="kendo-right"></kendo-grid-column>
+    
+                    <kendo-grid-column field="ptotaldepfortheyear" title="PV No." width="100" class="kendo-right"></kendo-grid-column>
+    
+                    <kendo-grid-column field="ptotaldepfortheyear" title="PV Date" width="100" class="kendo-right"></kendo-grid-column>
+    
+                   
+    
+    
+                </kendo-grid-column-group>
+
+
+
+
+
+
+
+
+
+
+
+            </kendo-grid-pdf>
+
+            <!-- 999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 -->
+
+            <kendo-grid-excel fileName="Agent Commission Report.xlsx" [fetchData]="allData">
+
+                <kendo-excelexport-column title="S.NO" width="50" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        {{ rowIndex + 1 }}
+                    </ng-template>
+                </kendo-excelexport-column>
+    
+                <kendo-excelexport-column field="pdeponsalebefore30sep" title="Agent Name & ID" width="260"
+                        class="kendo-right"></kendo-excelexport-column>
+    
+                <kendo-excelexport-column-group title="FD Details" [headerCellOptions]="{ textAlign: 'center', background:'#28a745', color:'#fff'}">
+                    <kendo-excelexport-column field="pMembername" title="Member Name" width="110">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pFdAccountNo" title="FD Account No." width="120"></kendo-excelexport-column>
+    
+                    <kendo-excelexport-column field="pDepositamount" title="FD Amount " class="kendo-center" width="100">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pDepositamount |currencypipewithdecimal }}
+                        </ng-template>
+                    </kendo-excelexport-column>
+    
+                    <kendo-excelexport-column field="pDepositdate" title="Application Date" class="kendo-center" width="100">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pDepositdate | date: 'dd-MM-yyyy'}}
+                        </ng-template>
+                    </kendo-excelexport-column>
+    
+                   
+                    <kendo-excelexport-column field="pTenor" title="Tenure" width="100"></kendo-excelexport-column>
+    
+                    <kendo-excelexport-column field="pInterestrate" title="Interest Rate" class="kendo-center" width="100">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pInterestrate |currencypipewithdecimal }}
+                        </ng-template>
+                    </kendo-excelexport-column>
+    
+                    <kendo-excelexport-column field="pTenor" title="Mode Of Interest" width="100"></kendo-excelexport-column>
+                </kendo-excelexport-column-group>
+    
+              
+    
+                <kendo-excelexport-column-group title="Commission details" [headerCellOptions]="{ textAlign: 'center', background:'#dc3545', color:'#fff'}">
+    
+                    <kendo-excelexport-column field="pdeponsalebefore30sep" title="Date" width="260"
+                        class="kendo-right"></kendo-excelexport-column>
+    
+                        
+                        <kendo-excelexport-column field="pdeponsaleafter30sep" title="Transaction No." width="100"
+                        class="kendo-right"></kendo-excelexport-column>
+    
+                    <kendo-excelexport-column field="pdeponsaleafter30sep" title="Commission %" width="100"
+                        class="kendo-right"></kendo-excelexport-column>                    
+    
+                    <kendo-excelexport-column field="ptotaldepfortheyear" title="Released Amount" width="100" class="kendo-right"></kendo-excelexport-column>
+    
+                    <kendo-excelexport-column field="ptotaldepfortheyear" title="TDS Amount" width="100" class="kendo-right"></kendo-excelexport-column>
+    
+                    <kendo-excelexport-column field="ptotaldepfortheyear" title="Net payable Amount" width="100" class="kendo-right"></kendo-excelexport-column>
+    
+                    <kendo-excelexport-column field="ptotaldepfortheyear" title="PV No." width="100" class="kendo-right"></kendo-excelexport-column>
+    
+                    <kendo-excelexport-column field="ptotaldepfortheyear" title="PV Date" width="100" class="kendo-right"></kendo-excelexport-column>
+    
+                   
+    
+    
+                </kendo-excelexport-column-group>
+
+
+            </kendo-grid-excel>
+        </kendo-grid>
+    </div>
+</div>

@@ -1,0 +1,374 @@
+<div class="row ">
+    <div class="col-md-6 col-xl-6 ">
+      <p class="bc-2">Transfer</p>
+    </div>
+    <!-- <div class="col-md-6 col-xl-6">
+      <span (click)="back()" class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+          color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img
+          src="assets/images/icon-back-blue.svg" width="25px" height="25px"> View</span>
+    </div> -->
+  </div>
+<form [formGroup]="Transferform">
+  <div class="row mt-3">
+    <div class="col-md-8 col-xl-8">
+      <div class="section-container">
+        <div class="row">
+          <div class="col-md-4  col-xl-4">
+            <div class="form-group">
+              <label class="mt-1" for="" id="pTransferdate" title="Transaction Date">Transaction Date</label>
+              <input readonly type="text" [bsConfig]="dpConfig" #dp="bsDatepicker"
+               formControlName="pTransferdate" bsDatepicker placement="bottom" [ngClass]="{ 'is-invalid': Transferformvalidations.pTransferdate }"
+                class="form-control">
+                <div class="invalid-feedback">
+                  <span *ngIf="Transferformvalidations.pTransferdate">{{Transferformvalidations?.pTransferdate}}</span>
+                </div>
+            </div>
+          </div>
+          <!-- <div class="col-md-4  col-xl-4">
+          <div class="form-group">
+           <label class="mt-1" for="">Type</label>  
+            <ng-select title="Select Scheme Type" id="" [items]=""
+            bindLabel="" bindValue="" [multiple]=false
+            placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom"
+            [clearOnBackspace]=true>
+    
+    </ng-select>   
+          </div>
+        </div> -->
+  
+  
+  
+          <div class="col-md-4  col-xl-4">
+            <div class="form-group">
+              <label class="mt-1" id="pFdname" title="Scheme Name" for="">Scheme Name</label>
+              <ng-select title="Select Scheme Type" id="pFdname" [items]="schemenames" bindLabel="pFdname" bindValue="pFdConfigId" [multiple]=false
+                placeholder="Select" [searchable]=true formControlName="pFdname" 
+                [clearable]=true 
+                 dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': Transferformvalidations.pFdname }">
+  
+              </ng-select>
+              <div class="invalid-feedback">
+                <span *ngIf="Transferformvalidations.pFdname">{{Transferformvalidations?.pFdname}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4  col-xl-4">
+            <div class="form-group">
+              <label class="mt-1" id="pFromAccountId" title="From Advance AccountNo." for="">From Advance AccountNo.</label>
+              <ng-select title="Select Scheme Type" id="pFromAccountId" [items]="fromfddetails" formControlName="pFromAccountId"bindLabel="pFdaccountno" bindValue="pFdaccountid" [multiple]=false
+                placeholder="Select" [searchable]=true [clearable]=true  (change)="FromAccountchanges($event)"
+                 dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': Transferformvalidations.pFromAccountId }">
+  
+              </ng-select>
+              <div class="invalid-feedback">
+                <span *ngIf="Transferformvalidations.pFromAccountId">{{Transferformvalidations?.pFromAccountId}}</span>
+              </div>
+            </div>
+          </div>
+  
+  
+  
+          <div class="col-md-4  col-xl-4">
+            <div class="form-group">
+              <label class="mt-1" for="" id="pChitbranchname" title="Branch">Branch</label>
+              <ng-select title="Select Scheme Type" id="pChitbranchId" [items]="Branchdetails" bindLabel="pBranchname" bindValue="pBranchname" [multiple]=false
+                placeholder="Select" [searchable]=true formControlName="pChitbranchname" [clearable]=true  
+                (change)="BranchChange($event);" dropdownPosition="bottom"
+                [clearOnBackspace]=true [ngClass]="{ 'is-invalid': Transferformvalidations.pChitbranchname }">
+  
+              </ng-select>
+              <div class="invalid-feedback">
+                <span *ngIf="Transferformvalidations.pChitbranchname">{{Transferformvalidations?.pChitbranchname}}</span>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="col-md-4  col-xl-4">
+            <div class="form-group">
+              <label class="mt-1" id="pMemberid" title="Member" for="">Member</label>
+              <ng-select [items]="MemberDetails" 
+              bindLabel="pName" bindValue="pMemberid" formControlName="pMemberid" [multiple]=false placeholder="Select" [searchable]="true"
+              [searchFn]="customSearchFn" (change)="Memberchange($event)" [clearable]=true dropdownPosition="bottom" 
+              [clearOnBackspace]=true [ngClass]="{ 'is-invalid': Transferformvalidations.pMemberid}">
+     <ng-template ng-header-tmp>
+       <label class="col-4 p-0"><strong>Member Name</strong> </label>
+       <label class="col-4 p-0" style="text-align:center"><strong>Member code</strong> </label>
+       <label class="col-4 p-0" style="text-align:center"><strong>Contactno</strong> </label>
+     </ng-template>
+     <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+       <div class="row">
+         <span class="col-4 text-dark">{{item.pName}}</span>
+         <span class="col-4 text-dark">{{item.pMembercode}}</span>
+         <span class="col-4 text-dark" [ngOptionHighlight]="search">{{item.pBusinessentitycontactno}}</span>
+       </div>
+     </ng-template>
+   </ng-select>
+   <div class="invalid-feedback">
+    <span *ngIf="Transferformvalidations.pMemberid">{{Transferformvalidations?.pMemberid}}</span>
+  </div>
+            </div>
+          </div>
+
+
+          
+          <div class="col-md-4  col-xl-4">
+            <div class="form-group">
+              <label class="mt-1" for="" id="pToAccountId" title="To Advance AccountNo.">To Advance AccountNo.</label>
+              <ng-select title="Select Scheme Type" id="pToAccountId" formControlName="pToAccountId" [items]="ToDetails" bindLabel="pFdaccountno" bindValue="pFdaccountid" [multiple]=false
+                placeholder="Select" [searchable]=true 
+                [clearable]=true dropdownPosition="bottom" (change)="ToAccountChanges($event)"
+                 [clearOnBackspace]=true [ngClass]="{ 'is-invalid': Transferformvalidations.pFdaccountid }">
+  
+              </ng-select>
+              <div class="invalid-feedback">
+                <span *ngIf="Transferformvalidations.pToAccountId">{{Transferformvalidations?.pToAccountId}}</span>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-xl-4 pl-0">
+      <div class="section-container h-100">
+        <div class="col-md-12 col-xl-12 p-0">
+          <div class="form-group mt-1 pt-1">
+            <div class="form-check form-check-inline radio-btn" [ngClass]="disabledforButtons ? 'disableTabs':''">
+              <input class="form-check-input" type="radio" name="FDAndTransactionDetails" id="AccountDetails" [checked]="ShowFromdetails"
+                     value="AccountDetails">
+              <label class="mt-1 w-m-100 text-center" (click)="GetFromDetailsCardview()" for="AccountDetails" checked>
+                From AccountDetails              </label>
+            </div>
+            <div class="form-check form-check-inline radio-btn " [ngClass]="disabledforButtons ? 'disableTabs':''">
+              <input class="form-check-input" type="radio" name="FDAndTransactionDetails" id="TransactionDetails" [checked]="ShowTodetails"
+                     value="TransactionDetails">
+              <label class="mt-1 w-m-100 text-center" (click)="GettoDetailsCardview()" for="TransactionDetails">
+                To AccountDetails 
+              </label>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="ShowFromdetails">
+          <div class="col-md-12 col-xl-12  d-flex">
+            <label class="col-md-6 pl-0 pr-0">Account No :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Accountno}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12  d-flex">
+            <label class="col-md-6 pl-0 pr-0">Advance Account No :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{AdvanceAccountno}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Advance Account Id:</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Fdaccountid}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Member Name :</label>
+            <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left"><b>{{Membername}}</b></label>
+          </div>
+          <div class="col-md-12 col-xl-12  d-flex">
+            <label class="col-md-6 pl-0 pr-0">Deposit Amount :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Deposiamount | currencypipewithdecimal}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Maturity Amount :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Maturityamount | currencypipewithdecimal}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Deposit Date</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Deposidate}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Maturity Date</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Maturitydate}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Interest Rate :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Interestrate | currencypipewithdecimal}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Interest Payble :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{InterestPayble | currencypipewithdecimal}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Interest Payout :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{InterestPayout }}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Interest Type :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{InterestType }}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Tenure :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Tenor}} {{Tenortype}}</label>
+          </div>
+        </div>
+
+
+
+        <div *ngIf="ShowTodetails">
+          <div class="col-md-12 col-xl-12  d-flex">
+            <label class="col-md-6 pl-0 pr-0">Account No :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Accountno}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12  d-flex">
+            <label class="col-md-6 pl-0 pr-0">Advance Account No :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{AdvanceAccountno}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Advance Account Id:</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Fdaccountid}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Member Name :</label>
+            <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left"><b>{{Membername}}</b></label>
+          </div>
+          <div class="col-md-12 col-xl-12  d-flex">
+            <label class="col-md-6 pl-0 pr-0">Deposit Amount :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Deposiamount | currencypipewithdecimal}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Maturity Amount :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Maturityamount | currencypipewithdecimal}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Deposit Date</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Deposidate}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Maturity Date</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Maturitydate}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Interest Rate :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Interestrate | currencypipewithdecimal}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Interest Payble :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{InterestPayble | currencypipewithdecimal}}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Interest Payout :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{InterestPayout }}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Interest Type :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{InterestType }}</label>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <label class="col-md-6 pl-0 pr-0">Tenure :</label>
+            <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{Tenor}} {{Tenortype}}</label>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  
+  
+    <!-- <div class="col-md-8 col-xl-8 mt-3">
+      <div class="section-container h-100">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="individual">
+  
+              <div class="form-group">
+                <label class="mt-1" for="" id="pApplicantType" title="Applicant type">Applicant type</label>
+                <div class="form-group">
+                  <ng-select title="Member Type" id="pApplicantType" [items]="ApplicantTypes"
+                    formControlName="pApplicantType" bindLabel="pApplicantType" bindValue="pApplicantType"
+                    [multiple]=false placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom"
+                    [clearOnBackspace]=true (change)="ApplicanttypeChange($event);"
+                    [ngClass]="{ 'is-invalid': FdtranscationErrors.pApplicantType }">
+                  </ng-select>
+                
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="mt-1" for="" id="pFdConfigId" title="Scheme Name">Scheme Name</label>
+              <ng-select title="Fixed Deposit" id="pFdConfigId" [items]="FdSchemes" formControlName="pFdConfigId"
+                bindLabel="pFdname" bindValue="pFdConfigId" [multiple]=false placeholder="Select" [searchable]=true
+                [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                [ngClass]="{ 'is-invalid': FdtranscationErrors.pFdConfigId }" (change)="Fdschemechange($event)">
+              </ng-select>
+          
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="mt-1" for="" id="pInterestPayOut" title="Interest Payout">Interest Payout</label>
+              <div class="d-flex ">
+                <ng-select title="Interest Payout" class="col-md-12 col-xl-12 p-0" id="pInterestPayOut"
+                  [items]="FdSchemeDetails" formControlName="pInterestPayOut" bindLabel="pInterestPayOut"
+                  bindValue="pInterestPayOut" [multiple]=false placeholder="Select" [searchable]=true
+                  (change)="Intrestpayoutchanges($event)" [clearable]=true dropdownPosition="bottom"
+                  [ngClass]="{ 'is-invalid': FdtranscationErrors.pInterestPayOut }" [clearOnBackspace]=true>
+                </ng-select>
+  
+              </div>
+           
+              <a *ngIf="showcalculate" (click)="GetintrestAmount()" class="btn btn-b-icon  pl-2 mt-2 ">
+                <img src="assets/images/icon-add-white.svg" class="mr-3 col-md-3" width="20px" height="20px">Calculate
+              </a>
+  
+  
+            </div>
+  
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label id="pDepositDate" title="Deposit Date" for="">Deposit Date</label>
+              <input class="col-md-12 col-xl-12 form-control" readonly [bsConfig]="depositdateConfig"
+                formControlName="pDepositDate" 
+                (change)="depositdatechanges()" #dp="bsDatepicker" bsDatepicker placement="bottom" />
+             
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label id="pMaturityDate" title="Maturity Date" class="mt-1" for="">Maturity Date</label>
+              <input class="col-md-12 col-xl-12  form-control" readonly [bsConfig]="maturitydateConfig"
+                formControlName="" [attr.disabled]="maturitydate ? '' : null"
+                #dp="bsDatepicker" bsDatepicker
+                placement="bottom" />
+           
+            </div>
+          </div>
+        </div>
+      </div>
+  
+  
+  
+    </div>
+  
+    <div class="col-md-4 col-xl-4 mt-3">
+      <div class="section-container h-100">Test</div>
+  
+    </div>
+   -->
+  </div>
+</form>
+  
+
+  <div class="row mt-2 ml-1">
+    <div class="col-md-12 col-xl-12">
+      <div class="d-flex justify-content-end mt-4"><a (click)="clearform()" class="btn btn-g-icon mr-4 px-3 border-0"><img
+            src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+        <!-- <a href="#" data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" role="tab"
+                          aria-controls="hot" aria-selected="false"><img src="assets/images/icon-chewron-left-whitesolid.svg"
+                              width="20px" height="20px" class="mr-3" />Back</a> -->
+        <a (click)="SaveForm()" data-toggle="tab" class="btn btn-b-icon px-3 border-0 " role="tab"
+          aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg"
+            width="20px" height="20px" class="mr-3" />Save</a>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  

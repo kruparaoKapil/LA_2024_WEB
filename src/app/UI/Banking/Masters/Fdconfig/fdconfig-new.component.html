@@ -1,0 +1,113 @@
+   <!-----------------Top Nav Start --------------------->
+  <div class="row">
+    <div class="col-md-12 col-xl-12">
+      <div class="d-flex justify-content-end">
+        <span (click)="back()" class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+        color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img src="assets/images/icon-back-blue.svg"
+          width="25px" height="25px">View</span>
+              
+      
+                  </div>
+              </div>
+    </div>
+
+  
+
+	
+	
+    <!-- <div class="btn-group quick-links" [ngClass]="forDisableTabs ? 'disableTabs' : 'enableTabs' ">
+      <a class="btn btn-block dropdown-toggle mt-1 sm-dd" data-toggle="dropdown" >{{selectedtype}}<span class="caret"></span></a>
+      <ul class="dropdown-menu" [ngClass]="forDisableTabs ? 'disableTabs' : 'enableTabs' ">
+        <li class="dropdown-item"><a (click)="testlinks('fdNameAndCode','FD Name and Code')"   >FD Name and Code </a></li>
+        <li class="dropdown-item"><a (click)="testlinks('fdConfiguration','FD Configuration')"  >FD Configuration</a></li>
+        <li class="dropdown-item"><a (click)="testlinks('fdLoanFacility','FD Loan Facility and Pre-Maturity')"  >FD Loan Facility and Pre-Maturity</a></li>
+        <li class="dropdown-item"><a (click)="testlinks('fdIdentification','FD Identification Documents')" >FD Identification Documents</a></li>
+         <li class="dropdown-item"><a (click)="testlinks('fdRefferal','FD Referral Commission')"  >FD Referral Commission</a></li> 
+      </ul>
+    </div>  -->
+	
+	   <!-----------------Top Nav ENd --------------------->
+	<div class="row mt-3">
+    <div class="col-md-12">
+      <div class="section-container">
+        <ul class="nav nav-tabs tip-top wiz-tab mt-2" id="myTab" role="tablist">
+          <li [ngClass]="forDisableTabs ? 'disableTabs' : 'enableTabs' " class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="FD Name and Code" >
+            <a class="active disableTabs" (click)="showTitle('FD Name and Code')" data-toggle="tab" href="#fdNameAndCode" role="tab" aria-controls="" aria-selected="true">LA Name</a> 
+          </li>
+          <li [ngClass]="forDisableTabs ? 'disableTabs' : 'enableTabs' " class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="FD Configuration"> 
+            <a class="disableTabs" (click)="showTitle('FD Configuration')" data-toggle="tab" href="#fdConfiguration" role="tab" aria-controls="" aria-selected="false">LA Configuration </a> 
+          </li>
+          <li  [ngClass]="forDisableTabs ? 'disableTabs' : 'enableTabs' " class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="FD Loan Facility and Pre-Maturity"> 
+            <a class="disableTabs" (click)="showTitle('FD Loan Facility and Pre-Maturity')" data-toggle="tab" href="#fdLoanFacility" role="tab" aria-controls="Installmentduedate" aria-selected="false">Pre-Maturity</a> 
+          </li>
+          <li [ngClass]="forDisableTabs ? 'disableTabs' : 'enableTabs' " class="nav-item"  data-toggle="popover" data-placement="top" data-trigger="hover" data-content="FD Identification Documents">
+            <a class="disableTabs" (click)="showTitle('FD Identification Documents')" data-toggle="tab" href="#fdIdentification" role="tab" aria-controls="cold" aria-selected="false">Documents</a>
+           </li>
+          <!-- <li [ngClass]="forDisableTabs ? 'disableTabs' : 'enableTabs' " class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="FD Referral Commission"> <a class=""  (click)="showTitle('FD Referral Commission')" data-toggle="tab" href="#fdRefferal" role="tab" aria-controls="cold" aria-selected="false">5</a> </li> -->
+        </ul>
+	<div class="tab-content" id="myTabContent">
+		
+		<div class="tab-pane fade  active show " id="fdNameAndCode" role="tabpanel" aria-labelledby="fresh-tab">
+  <app-fdnameandcode></app-fdnameandcode>      
+      </div>
+	
+	  <!-- -*----------------------------------------tab content pannnel 1 end -----------------------------------------> 
+	<div class="tab-pane fade" id="fdConfiguration" role="tabpanel" aria-labelledby="hot-tab">
+    <app-fdconfiguration></app-fdconfiguration>
+ </div>
+      
+      <!-- ==================================================================== tab content pannnel 2 end =================================================================== -->
+	<div class="tab-pane fade" id="fdLoanFacility" role="tabpanel" aria-labelledby="hot-tab">
+    <app-fdloanandfacility></app-fdloanandfacility>
+    <!--buttons-end--> 
+  </div>
+	  <!-- ==================================================================== tab content pannnel 3 end =================================================================== -->
+	  <div class="tab-pane fade" id="fdIdentification" role="tabpanel" aria-labelledby="cold-tab">
+       <app-fdidentification ></app-fdidentification>
+      </div>
+	  
+	  <!-- ==================================================================== tab content pannnel 4 end =================================================================== -->
+	  <!-- <div class="tab-pane fade" id="fdRefferal" role="tabpanel" aria-labelledby="cold-tab">
+      <app-fdrefferalcommision></app-fdrefferalcommision>
+     
+  </div> -->
+
+				  
+   
+        
+	  <!-- ==================================================================== tab content pannnel 5 end =================================================================== -->
+	
+  </div>
+  </div>
+  </div>
+  <!-- <div class="col-md-4">
+    <div class="section-container h-100">Test</div>
+  </div> -->
+
+  </div>
+	<!-- Tab content end --> 
+	<div class="row mt-2 ml-1">
+    <div class="col-md-12 col-xl-12">
+<div class="col-md-12 col-xl-12 p-0">
+<div class="d-flex justify-content-end mt-4">
+  <a (click)="forClear()" class="btn btn-g-icon mr-4 px-3 border-0" *ngIf="buttonStatus=='Save'">
+    <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a> 
+       <!-- <a  data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-chewron-left-whitesolid.svg" width="20px" height="20px" class="mr-3" />Back</a>  -->
+       <!-- <a (click)="saveData()"  data-toggle="tab" class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />Save</a> -->
+
+       <button  appButtonDoubleClick (debounceClick)="saveData()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab"
+       aria-controls="hot" aria-selected="false" [disabled]="isLoading">
+       <img src="assets/images/icon-check-white.svg"
+       width="20px" height="20px" class="mr-3" />
+       <span *ngIf="!isLoading">
+       </span>{{buttonName}}</button>
+
+        </div>
+    </div>
+    </div>
+  </div>	
+  <div class="my-container">
+    <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplateForFiView">
+    </ngx-loading>
+  
+  </div>

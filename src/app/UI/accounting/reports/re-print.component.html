@@ -1,0 +1,53 @@
+<div class="col-md-12 col-xl-12 mb-3 p-0">
+    <p class="bc-2">Reprint</p>
+</div>
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<div class="section-container">
+<div class="col-md-12 p-0">
+    <div id="template">
+        <form [formGroup]="RePrintForm" autocomplete="off">
+            <div class="row mb-4 pb-4">
+                <div class="col-xs-3 col-md-3 form-group">
+                    <label title="Sub Ledger">Transaction Type</label>
+                    <select class="form-control" formControlName="Transactiontype" [ngClass]="{ 'is-invalid': f.Transactiontype.errors && submitted }">
+                        <option value="" selected>Select</option>
+                        <option *ngFor="let Transactiontypeof of TransactiontypeData" value="{{Transactiontypeof.precordid}}">{{Transactiontypeof.paccountname}}</option>
+                    </select>
+
+
+                    <div *ngIf="submitted &&f.Transactiontype.errors?.required" class="invalid-feedback">
+                        Select Transaction Type</div>
+                </div>
+                <div class="col-xs-3 col-md-3 form-group">
+                    <label>Transaction No.</label>
+                    <input type="text" onkeyup="this.value=this.value.toUpperCase();" class="form-control" formControlName="TransactionNo" [ngClass]="{ 'is-invalid': f.TransactionNo.errors && submitted }" />
+                    <div *ngIf="submitted &&f.TransactionNo.errors?.required" class="invalid-feedback">
+                        Select Transaction No.</div>
+                </div>
+                <div class="justify-content-end d-flex">
+                <div class="pt-4 mt-2">
+                    <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="getReprintReport()">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                        <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                width="20px"></span> {{savebutton}}
+                    </a>
+                </div>
+                </div>
+            </div>
+        </form>
+        <div *ngIf="generalreceiptreportsshow">
+            <app-general-receipt-reports [generalreceiptID]="receiptnos"></app-general-receipt-reports>
+        </div>
+
+    </div>
+    </div>
+</div>

@@ -1,0 +1,327 @@
+<div class="col-md-12 col-xl-12 pb-2 pl-0">
+  <p class="bc-2">GST Report</p>
+</div>
+<form [formGroup]="gstReportForm" autocomplete="off">
+  <div class="card-box mb-2">
+    <div class="row">
+
+      <div class="col-md-3">
+        <label>Type</label>
+        <div class="mb-3 pr-2">
+          <div class="form-check form-check-inline radio-btn-secondary">
+            <input class="form-check-input" type="radio" name="ChkrbtType" id="net" value="1"
+              formControlName="ChkrbtType" (change)="Isseleted()" [disabled]="isReceiptsDisabled">
+            <label class="mt-1" for="net"> Receipts </label>
+          </div>
+          <div class="form-check form-check-inline radio-btn-secondary">
+            <input class="form-check-input" type="radio" name="ChkrbtType" id="cheque" value="2"
+              formControlName="ChkrbtType" (change)="Isseleted()">
+            <label class=" mt-1" for="cheque"> Payments </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3" *ngIf="paymentsDateHide == true">
+        <div class="form-group">
+          <label class="required-field" id="debitparentid" title="Ledger">Ledger</label>
+
+          <ng-select [items]="ledgeraccountslist" formControlName="debitparentid" groupBy="pAccounttype"
+            bindLabel="paccountname" id="debitparentid" bindValue="paccountid" [multiple]=false placeholder="Select"
+            [searchable]=true [clearable]=false (change)="accountheadChange($event)" dropdownPosition="bottom"
+            [clearOnBackspace]=true [ngClass]="{ 'is-invalid': formValidationMessages.debitparentid }">
+
+
+          </ng-select>
+          <app-validation-message [messgae]="formValidationMessages?.debitparentid"></app-validation-message>
+
+        </div>
+
+
+      </div>
+
+      <div class="col-md-2" *ngIf="paymentsDateHide == true">
+        <div class="form-group">
+          <label class="required-field" id="forthemonth" title="Month">Month</label>
+          <input type="text" class="form-control" readonly placeholder="Date picker here" formControlName="forthemonth"
+            (onShown)="dateChnage($event)" [bsConfig]="dpConfig1" id="forthemonth" #dp="bsDatepicker"
+            [bsValue]="bsValue" bsDatepicker placement="bottom" (ngModelChange)="checkingfrommdate($event)"
+            [ngClass]="{ 'is-invalid': formValidationMessages.forthemonth }" />
+          <app-validation-message [messgae]="formValidationMessages?.forthemonth"></app-validation-message>
+
+        </div>
+
+
+      </div>
+      <div class="col-md-2" *ngIf="paymentsDateHide == false">
+        <div class="form-group">
+          <label class="required-field">From Date</label>
+          <input type="text" class="form-control " formControlName="fromdate" placeholder="Date picker here"
+            [bsConfig]="dpConfig2" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+
+        </div>
+
+
+      </div>
+      <div class="col-md-2" *ngIf="paymentsDateHide == false">
+        <div class="form-group">
+          <label class="required-field">To Date</label>
+          <input type="text" class="form-control " formControlName="todate" placeholder="Date picker here"
+            [bsConfig]="dpConfig2" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+
+        </div>
+
+
+      </div>
+      <div class="pt-4 mt-1">
+
+
+        <button *ngIf="paymentsDateHide" (click)="getGstPrint()" class="btn btn-g-icon mr-4 px-3 border-0">
+
+          <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading1}"></i>
+          <span *ngIf="!isLoading1">
+            <img class="mr-3" height="20px" src="assets/images/reports-white.svg" width="20px">
+          </span> GST Print
+        </button>
+
+        <button *ngIf="paymentsDateHide" (click)="getGstSummary()" data-toggle="tab"
+          class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false">
+          <img src="assets/images/reports-white.svg" width="20px" height="20px" class="mr-3" />
+          GST Summary
+        </button>
+
+        <button *ngIf="!paymentsDateHide" (click)="getPayments()" data-toggle="tab" class="btn btn-b-icon px-3 border-0"
+          role="tab" aria-controls="hot" aria-selected="false">
+          <img src="assets/images/reports-white.svg" width="20px" height="20px" class="mr-3" />
+          Show
+        </button>
+
+
+        <!-- <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="getGstPrint()"  *ngIf="paymentsDateHide">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                    <span *ngIf="!isLoading">
+                      <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                           width="20px">
+                    </span> GST Print
+                  </a> &nbsp;
+
+                  <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="getGstSummary()"  *ngIf="paymentsDateHide">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading1}"></i>
+                    <span *ngIf="!isLoading1">
+                      <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                           width="20px">
+                    </span> GST Summary
+                  </a>
+
+
+                  <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="getPayments()" *ngIf="!paymentsDateHide">
+                    <i class="fa"></i>
+                    <span>
+                      <img class="mr-3" height="20px" src="assets/images/check-box-active.svg" width="18px">
+                    </span>Show
+                  </a> -->
+      </div>
+    </div>
+
+    <div class="col-md-12 col-xl-12 pt-4" *ngIf="gstPrintFlag && summaryGridData.length!=0">
+
+      <kendo-grid [kendoGridBinding]="summaryGridData" [sortable]="true" [selectedKeys]="mySelection"
+        (remove)="removeHandler($event)" [pageSize]="10" [group]="group" [pageable]="true" [skip]="skip" height="500"
+        [selectable]="selectableSetting">
+
+
+
+        <kendo-grid-column field="company" title="Taxable Amount" class="kendo-right"
+          [headerClass]="{'kendo-right': true}" width="100">
+        </kendo-grid-column>
+
+        <kendo-grid-column title="IGST" width="60" field="invoice_amount">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.ptotalreceivedamount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column title="CGST" width="60" field="invoice_amount">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.ptotalreceivedamount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column title="SGST" width="60" field="invoice_amount">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.ptotalreceivedamount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column title="Transaction No." width="100" field="Transaction No."></kendo-grid-column>
+
+        <kendo-grid-column title="Area" width="60" field="Area"></kendo-grid-column>
+
+        <kendo-grid-column title="City" width="60" field="City"></kendo-grid-column>
+
+        <kendo-grid-column title="State" width="60" field="State"></kendo-grid-column>
+
+        <kendo-grid-column title="Transaction Date" width="100" field="Transaction Date"></kendo-grid-column>
+
+
+      </kendo-grid>
+    </div>
+
+    <div class="col-md-12 col-xl-12 pt-4" *ngIf="gstSummaryFlag && summaryGridData.length!=0">
+
+
+      <kendo-grid [kendoGridBinding]="summaryGridData" [sortable]="true" [selectedKeys]="mySelection"
+        (remove)="removeHandler($event)" [pageSize]="10" [group]="group" [pageable]="true" [skip]="skip" height="500"
+        [selectable]="selectableSetting">
+
+
+
+        <kendo-grid-column field="company" title="Company" class="kendo-right" [headerClass]="{'kendo-right': true}"
+          width="60">
+
+        </kendo-grid-column>
+        <kendo-grid-column field="state" title="State" width="60"></kendo-grid-column>
+        <kendo-grid-column field="transtype" title="Trans Type" width="90"></kendo-grid-column>
+        <kendo-grid-column field="fromno" title="From No." width="70"></kendo-grid-column>
+        <kendo-grid-column title="TO No." width="60" field="tono">
+
+        </kendo-grid-column>
+
+        <kendo-grid-column title="Count" width="60" field="count">
+
+        </kendo-grid-column>
+
+
+      </kendo-grid>
+
+
+
+
+
+
+
+    </div>
+
+    <div class="col-md-12 col-xl-12 pt-4" *ngIf="paymentGridFlag && payemntsDataList.length!=0">
+
+      <kendo-grid [kendoGridBinding]="payemntsDataList" [sortable]="true" [selectedKeys]="mySelection"
+        (remove)="removeHandler($event)" [pageSize]="10" [group]="group" [pageable]="true" [skip]="skip" height="500"
+        [selectable]="selectableSetting">
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="mb-3">
+            <div class="col-12 mt-2">
+              <ul class="temp-ul pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                      width="20px"></a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+        <kendo-grid-column field="pgstvoucherno" title="GST Voucher No." width="110">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="invoice_No" title="Invoice No." width="80">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="vendorname" title="Name" width="80"></kendo-grid-column>
+        <!-- class="kendo-center" [headerClass]="{'kendo-center': true}" -->
+
+        <!-- <kendo-grid-column field="gst_Number" title="GST No." width="100">
+        </kendo-grid-column> -->
+
+        <kendo-grid-column field="pstate" title="State" width="100"></kendo-grid-column>
+
+        <kendo-grid-column field="pgstvoucherdate" title="GST Voucher Date" width="120" class="kendo-center"
+        [headerClass]="{'kendo-center': true}">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pgstvoucherdate | date : 'dd-MM-yyyy'}}
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="invoice_amount" title="Taxable Amount" width="120" class="kendo-center"
+          [headerClass]="{'kendo-center': true}">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.ptotalreceivedamount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column title="CGST Amount" width="100" field="cgst_amount" class="kendo-center"
+          [headerClass]="{'kendo-center': true}">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.cgst_amount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column title="SGST Amount" width="100" field="sgst_amount" class="kendo-center"
+          [headerClass]="{'kendo-center': true}">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.sgst_amount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column title="IGST Amount" width="100" field="igst_amount" class="kendo-center"
+          [headerClass]="{'kendo-center': true}">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.igst_amount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column title="Total Amount" width="100" field="invoice_total_amount" class="kendo-center"
+          [headerClass]="{'kendo-center': true}">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.invoice_total_amount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+
+        <!-- <kendo-grid-column title="Last paid Date" width="100" field=""></kendo-grid-column> -->
+
+        <kendo-grid-pdf fileName="GST_Report.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [scale]="0.5"
+          [margin]="0.5" [landscape]="true">
+
+          <kendo-grid-pdf-margin top="4cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+          <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+              <div class="header">
+                <app-company-details></app-company-details>
+
+                <div class="report-head mt-2">
+                  <p class="font-15 text-dark text-center m-0" [ngClass]="{ 'bold-text': isBold }">
+                    <span class="text-capitalize">GST Report</span>
+                  </p>
+
+
+                </div>
+
+              </div>
+
+            </div>
+          </ng-template>
+
+        </kendo-grid-pdf>
+        <kendo-grid-excel fileName="GST_Report.xlsx" [fetchData]="allData"></kendo-grid-excel>
+      </kendo-grid>
+    </div>
+
+  </div>
+
+
+</form>
+
+<!-- <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.ptotalreceivedamount | mycurrencypipe}}
+                </ng-template> -->
+
+
+<style>
+  .bold-text {
+    font-weight: bold;
+  }
+</style>

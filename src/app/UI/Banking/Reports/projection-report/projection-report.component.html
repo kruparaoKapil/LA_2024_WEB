@@ -1,0 +1,166 @@
+<form [formGroup]="centralgstForm">
+  <div class="section-container">
+    <div class="row">
+      <div class="col-md-12 ml-sm-auto col-lg-12">
+
+        <!-- <div class="col-md-4 col-xl-4">
+          <div class="form-group">
+            <label id="pdate" title="Month">Month</label>
+            <input class="form-control col-md-12" type="text" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker
+              placeholder="mmm/YY" [bsValue]="today" formControlName="pdate" (ngModelChange)="DateChange($event)"
+              (onShown)="onOpenCalendar($event)" [ngClass]="{ 'is-invalid': PlotsLayoutsValidationErrors.pdate}">
+            <div class="invalid-feedback">
+              <span *ngIf="PlotsLayoutsValidationErrors?.pdate">{{PlotsLayoutsValidationErrors.pdate}}</span>
+            </div>
+          </div>
+        </div> -->
+        <div class="row g-5 mb-2">
+          <div class="col-auto">
+            <span class="col-form-label">Upload excel file :</span>
+          </div>
+          <div class="col-auto">
+            <span style="margin-left: 50px;">
+              <input class="form-control" style="margin-top: -27px;" type="file" id="pUploadFile"
+                formControlName="pUploadFile" (change)="onFileChange($event)" accept=".xlsx, .xls, .ods" />
+            </span>
+          </div>
+        </div>
+
+        <div class="row mt-1">
+          <div class="col-md-12 col-xl-12">
+
+            <div class="table-wrapper">
+              <table class="table table-bordered">
+                <!-- origibnal<thead>
+                <tr>
+                  <th rowspan="2">Product Name</th>
+                  <th colspan="4">OCT-25</th>
+                  <th colspan="4">NOV-25</th>
+                  <th colspan="4">DEC-25</th>
+                  <th colspan="4">Total</th>
+                </tr>
+                <tr>
+                  <ng-container *ngFor="let m of [1,2,3,4]">
+                    <th>Projections</th>
+                    <th>Achieved</th>
+                    <th>Excess/(Short)</th>
+                    <th>%</th>
+                  </ng-container>
+                </tr>
+              </thead> -->
+                <thead>
+                  <tr>
+                    <th rowspan="2" class="fixed-col">Product Name</th>
+                    <th colspan="4">OCT-25</th>
+                    <th colspan="4">NOV-25</th>
+                    <th colspan="4">DEC-25</th>
+                    <th colspan="4">Total</th>
+                  </tr>
+                  <tr>
+                    <th>Projections</th>
+                    <th>Achieved</th>
+                    <th>Excess/(Short)</th>
+                    <th>%</th>
+
+                    <th>Projections</th>
+                    <th>Achieved</th>
+                    <th>Excess/(Short)</th>
+                    <th>%</th>
+
+                    <th>Projections</th>
+                    <th>Achieved</th>
+                    <th>Excess/(Short)</th>
+                    <th>%</th>
+
+                    <th>Projections</th>
+                    <th>Achieved</th>
+                    <th>Excess/(Short)</th>
+                    <th>%</th>
+                  </tr>
+                </thead>
+
+
+                <tbody>
+                  <tr *ngFor="let row of excelData">
+                    <td>{{row.product}}</td>
+
+                    <td>{{row.oct.proj}}</td>
+                    <td>{{row.oct.ach}}</td>
+                    <td>{{row.oct.short}}</td>
+                    <td>{{row.oct.per}}</td>
+
+                    <td>{{row.nov.proj}}</td>
+                    <td>{{row.nov.ach}}</td>
+                    <td>{{row.nov.short}}</td>
+                    <td>{{row.nov.per}}</td>
+
+                    <td>{{row.dec.proj}}</td>
+                    <td>{{row.dec.ach}}</td>
+                    <td>{{row.dec.short}}</td>
+                    <td>{{row.dec.per}}</td>
+
+                    <td>{{row.total.proj}}</td>
+                    <td>{{row.total.ach}}</td>
+                    <td>{{row.total.short}}</td>
+                    <td>{{row.total.per}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ---save -->
+        <div class="mt-4">
+          <button class="btn btn-primary" style="width: 100px;height: 38px;" [disabled]="SaveStatus"
+            (click)="SaveGstr()">save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+
+<style>
+  .table-wrapper {
+    max-height: 450px;
+    overflow-y: auto;
+    overflow-x: auto;
+    border: 1px solid #ccc;
+    display: block;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+  }
+
+  th,
+  td {
+    padding: 8px;
+    white-space: nowrap;
+  }
+
+  thead th {
+    background-color: #f1f1f1;
+    font-weight: 600;
+    border: 1px solid #ddd;
+  }
+
+  thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  /* Optional: Fix first column (Product Name) */
+  .fixed-col {
+    position: sticky;
+    left: 0;
+    background-color: #fff;
+    z-index: 11;
+  }
+</style>

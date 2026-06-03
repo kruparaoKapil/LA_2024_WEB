@@ -1,0 +1,439 @@
+<div class="row">
+    <div class="col-md-12 col-xl-12">
+        <p class="bc-2">Welcome Letter</p>
+    </div>
+
+    <div class="col-md-12">
+        <ul class="nav filtered-tab nav-tabs border-0 mt-2">
+            <li class="active"><a data-toggle="tab" href="#yto-send" class="active" (click)="Clicknotsend()">Yet To
+                        Send<span class="badge badge-warning ml-2">{{notsend}}</span></a></li>
+            <li (click)="Clicksend()"><a data-toggle="tab" href="#sent">Sent<span
+                            class="badge badge-warning ml-2">{{send}}</span></a></li>
+        </ul>
+
+        <div class="tab-content border rounded shadow-sm bg-white p-3">
+            <div id="yto-send" class="tab-pane show fade in active">
+                <div class="row mt-3">
+                    <div class="col-md-12 col-xl-12">
+                        <div class="">
+                            <div class="my-container">
+                                <ng-template #customLoadingTemplate>
+                                    <div class="custom-class">
+                                    </div>
+                                </ng-template>
+                                <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+                            </div>
+                            <kendo-grid [kendoGridBinding]="DisburementLetterdata" [pageSize]="pageSize" [skip]="gridState.skip" [pageable]="{buttonCount: 2}" [sort]="gridState.sort" [sortable]="true" [resizable]="true" [scale]="0.9">
+                                <ng-template kendoGridToolbarTemplate>
+                                    <div class="row mb-3">
+                                        <div class="col-4 pl-0 mt-n1 mr-3">
+                                            <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+                                        </div>
+                                        <div class="col-7 pr-0 pl-4">
+                                            <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                                                <li class="temp-ico ml-2">
+                                                    <a kendoGridPDFCommand><img class="pt-1 pl-3" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                                </li>
+                                                <li class="temp-ico ml-2">
+                                                    <a kendoGridExcelCommand><img class="pt-1" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                                                </li>
+                                                <!-- <li class="temp-ico ml-2"><a    (click)="print()"><img class="pt-2" src="assets/images/print-icon-blue.svg " title="print" width="20px"></a></li> -->
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <kendo-grid-column-group title="Welcome Letter (Yet To Send)" [headerClass]="{'kendo-g-center' : true}">
+                                    <kendo-grid-column field="pIsprimaryAccount" title="Select" width="80">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                            <input type="radio" name="anotsend" [checked]="dataItem.pIsprimaryAccount" (click)="selectDisbursalletter(dataItem,rowIndex)" />
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pVchapplicationID" title="Loan Application No" width="200"></kendo-grid-column>
+                                    <kendo-grid-column field="pVoucherno" title="Voucher No" width="200">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantname" title="Applicant"></kendo-grid-column>
+                                    <kendo-grid-column field="pApprovedloanamount" title="Approved Loan Amount" class="no-padding" [headerStyle]="{ 'text-align': 'center' }" [style]="{'text-align': 'center'}" width="200">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pApprovedloanamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantMobileNo" title="Mobile No" class="no-padding" [headerStyle]="{ 'text-align': 'right' }" [style]="{'text-align': 'left'}"></kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantEmail" title="Email"></kendo-grid-column>
+
+                                </kendo-grid-column-group>
+                                <kendo-grid-pdf fileName="Yet To Send Welcome Letter.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+                                    <ng-template kendoGridPDFTemplate>
+                                        <div class="page-template">
+                                            <div class="header bc-2 text-center">
+                                                <h5>Welcome Letter (Yet To Send) </h5>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm">
+                                    </kendo-grid-pdf-margin>
+                                    <kendo-grid-column field="pVchapplicationID" title="Loan Application No" width="200"></kendo-grid-column>
+                                    <kendo-grid-column field="pVoucherno" title="Voucher No" width="200">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantname" title="Applicant"></kendo-grid-column>
+                                    <kendo-grid-column field="pApprovedloanamount" title="Approved Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pApprovedloanamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantMobileNo" title="Mobile No"></kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantEmail" title="Email"></kendo-grid-column>
+                                </kendo-grid-pdf>
+                                <kendo-grid-excel fileName="Yet To Send Loan Disbursement  Letter.xlsx" [fetchData]="allData">
+                                    <kendo-excelexport-column-group title="Loan Disbursement  Letter (Yet To Send)" [headerCellOptions]="headerCells">
+                                        <kendo-excelexport-column field="pVchapplicationID" title="Loan Application No" width="200"></kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pVoucherno" title="Voucher No" width="200">
+                                        </kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApplicantname" title="Applicant">
+                                        </kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApprovedloanamount" title="Approved Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                {{dataItem.pApprovedloanamount | mycurrencypipe}}
+                                            </ng-template>
+                                        </kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApplicantMobileNo" title="Mobile No">
+                                        </kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApplicantEmail" title="Email">
+                                        </kendo-excelexport-column>
+                                    </kendo-excelexport-column-group>
+                                </kendo-grid-excel>
+                            </kendo-grid>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sent" class="tab-pane fade">
+                <div class="row mt-2">
+                    <div class="">
+                        <div class="col-md-12 col-xl-12">
+
+                            <div class="my-container">
+                                <ng-template #customLoadingTemplate>
+                                    <div class="custom-class">
+
+                                    </div>
+                                </ng-template>
+                                <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+                            </div>
+                            <kendo-grid [kendoGridBinding]="DisburementLetterdata" [pageSize]="pageSize" [skip]="gridState.skip" [pageable]="{buttonCount: 2}" [sort]="gridState.sort" [sortable]="true" [resizable]="true" [scale]="0.9">
+
+                                <ng-template kendoGridToolbarTemplate>
+                                    <div class="row mb-3">
+                                        <div class="col-4 pl-0 mt-n1">
+                                            <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+                                        </div>
+                                        <div class="col-12">
+                                            <ul class="temp-ul  pull-right">
+                                                <li class="temp-ico ml-2">
+                                                    <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                                </li>
+                                                <li class="temp-ico ml-2">
+                                                    <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                                                </li>
+                                                <!-- <li class="temp-ico ml-2"><a    (click)="print()"><img class="pt-2" src="assets/images/print-icon-blue.svg " title="print" width="20px"></a></li> -->
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <kendo-grid-column-group title="Welcome  Letter (Sent)" [headerClass]="{'kendo-g-center' : true}">
+                                    <kendo-grid-column field="pIsprimaryAccount" title="Select" width="80">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                            <input type="radio" name="sent" [checked]="dataItem.pIsprimaryAccount" (click)="selectDisbursalletter(dataItem,rowIndex)" />
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pVchapplicationID" title="Loan Application No" width="200"></kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantname" title="Applicant"></kendo-grid-column>
+                                    <kendo-grid-column field="pVoucherno" title="Voucher No" width="200">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApprovedloanamount" title="Approved Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pApprovedloanamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantMobileNo" title="Mobile No"></kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantEmail" title="Email"></kendo-grid-column>
+
+                                </kendo-grid-column-group>
+                                <kendo-grid-pdf fileName="Sent Loan Disbursement Letter.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+                                    <ng-template kendoGridPDFTemplate>
+                                        <div class="page-template">
+                                            <div class="header bc-2 text-center">
+                                                <h5> Loan Disbursement Letter (Sent) </h5>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm">
+                                    </kendo-grid-pdf-margin>
+                                    <kendo-grid-column field="pVchapplicationID" title="Loan Application No" width="200"></kendo-grid-column>
+                                    <kendo-grid-column field="pVoucherno" title="Voucher No" width="200">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantname" title="Applicant"></kendo-grid-column>
+                                    <kendo-grid-column field="pApprovedloanamount" title="Approved Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pApprovedloanamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantMobileNo" title="Mobile No"></kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantEmail" title="Email"></kendo-grid-column>
+                                </kendo-grid-pdf>
+
+
+                                <kendo-grid-excel fileName="Sent Loan Disbursement Letter.xlsx" [fetchData]="allData">
+                                    <kendo-excelexport-column-group title="Loan Disbursement  Letter (Sent)" [headerCellOptions]="headerCells">
+                                        <kendo-excelexport-column field="pVchapplicationID" title="Loan Application No" width="200"></kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApplicantname" title="Applicant">
+                                        </kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pVoucherno" title="Voucher No" width="200">
+                                        </kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApprovedloanamount" title="Approved Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                {{dataItem.pApprovedloanamount | mycurrencypipe}}
+                                            </ng-template>
+                                        </kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApplicantMobileNo" title="Mobile No">
+                                        </kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApplicantEmail" title="Email">
+                                        </kendo-excelexport-column>
+                                    </kendo-excelexport-column-group>
+                                </kendo-grid-excel>
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div id="template" class="collapse fade {{DisburementLetter}} mt-4">
+
+            <div class="my-container">
+                <ng-template #customLoadingTemplate>
+                    <div class="custom-class">
+
+                    </div>
+                </ng-template>
+                <ngx-loading [show]="loadingletters" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+            </div>
+
+            <div class="d-flex justify-content-end mr-3">
+                <ul class="temp-ul mt-4">
+                    <!-- <li class="temp-ico ml-2">
+                  <a href=""><img src="assets/images/icon-mail-active.svg "  width="20px" class="pt-2" title="Email" />
+                  </a>
+              </li>
+              <li class="temp-ico ml-2"><a href=""><img src="assets/images/icon-sms-active.svg " width="20px" class="pt-2" title="SMS" /></a></li> -->
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Loan_Disbursal_Letter_'+VchapplicationID+'_'+Voucherno+'-'+today+'.pdf')" />
+                    </li>
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <kendo-pdf-export #pdf paperSize="A4" margin="10mm">
+                <div id="temp-box">
+                    <div class="mt-2 border shadow-sm bg-white">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <app-company-details></app-company-details>
+
+                                <div class="report-head">
+                                    <p class="font-16 text-dark text-center mb-0">
+                                        Welcome Letter
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <p class="font-14 text-left m-0 font-weight-bold">Date : <label class="font-weight-normal">{{Disburementdate}},</label></p>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <p class="font-14 text-left m-0 font-weight-bold">To <label class="font-weight-normal"></label></p>
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <p class="mb-5 pb-5"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="mb-3">Dear {{Applicantname}},<br> Congratulations! We are pleased to inform you that your {{pLoanname}} has been disbursed.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="mb-5">Details of your loan are as follows:</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="mb-3">Loan Account Number:<br> {{VchapplicationID}}(Please use this in your future communications)</p>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <p class="m-0">
+                                        <label class="font-weight-bold col-md-3 pl-0 align-top">Loan Type<span
+                                                class="pull-right">: </span></label>
+                                        <label class="col-md-9 p-0 font-weight-normal">
+                                                {{Loantype}}
+                                        </label>
+                                    </p>
+                                    <p class="m-0">
+                                        <label class="font-weight-bold col-md-3 pl-0 align-top">Loan Product<span
+                                                class="pull-right">: </span></label>
+                                        <label class="col-md-9 p-0 font-weight-normal">
+                                                {{pLoanname}}
+                                        </label>
+                                    </p>
+                                    <p class="m-0">
+                                        <label class="font-weight-bold col-md-3 pl-0 align-top">Sanctioned Loan Amount<span
+                                                class="pull-right">: </span></label>
+                                        <label class="col-md-9 p-0 font-weight-normal">
+                                                {{Approvedloanamount | mycurrencypipe}}
+                                        </label>
+                                    </p>
+                                    <p class="m-0">
+                                        <label class="font-weight-bold col-md-3 pl-0 align-top">Amount Disbursed till date<span
+                                                class="pull-right">: </span></label>
+                                        <label class="col-md-9 p-0 font-weight-normal">
+                                                {{Disbursalamount | mycurrencypipe}}
+                                        </label>
+                                    </p>
+                                    <p class="m-0">
+                                        <label class="font-weight-bold col-md-3 pl-0 align-top">Moratorium Period<span
+                                                class="pull-right">: </span></label>
+                                        <label class="col-md-9 p-0 font-weight-normal">
+                                           
+                                        </label>
+                                    </p>
+                                    <p class="m-0">
+                                        <label class="font-weight-bold col-md-3 pl-0 align-top">Repayment Period<span
+                                                class="pull-right">: </span></label>
+                                        <label class="col-md-9 p-0 font-weight-normal">
+                                           
+                                        </label>
+                                    </p>
+                                    <p class="m-0">
+                                        <label class="font-weight-bold col-md-3 pl-0 align-top">Total Loan Tenure<span
+                                                class="pull-right">: </span></label>
+                                        <label class="col-md-9 p-0 font-weight-normal">
+                                                {{Tenureofloan}}
+                                        </label>
+                                    </p>
+                                    <p class="m-0">
+                                        <label class="font-weight-bold col-md-3 pl-0 align-top">Pre-EMI Payable (if any)<span
+                                                class="pull-right">: </span></label>
+                                        <label class="col-md-9 p-0 font-weight-normal">
+                                            (until ______)
+                                        </label>
+                                    </p>
+                                    <p class="m-0">
+                                        <label class="font-weight-bold col-md-3 pl-0 align-top">Installment payable	<span
+                                                class="pull-right">: </span></label>
+                                        <label class="col-md-9 p-0 font-weight-normal">
+                                                {{Installmentamount | mycurrencypipe}}
+                                        </label>
+                                    </p>
+                                    <p class="m-0">
+                                        <label class="font-weight-bold col-md-3 pl-0 align-top">Installment Frequency<span
+                                                class="pull-right">: </span></label>
+                                        <label class="col-md-9 p-0 font-weight-normal">
+                                                {{Modeofpayment}}
+                                        </label>
+                                    </p>
+                                    <p class="m-0">
+                                        <label class="font-weight-bold col-md-3 pl-0 align-top">Installment Start Date<span
+                                                class="pull-right">: </span></label>
+                                        <label class="col-md-9 p-0 font-weight-normal">
+                                           {{pInstallmentstartdate}}
+                                        </label>
+                                    </p>
+                                    <p class="m-0">
+                                        <label class="font-weight-bold col-md-3 pl-0 align-top">Installment End Date<span
+                                                class="pull-right">: </span></label>
+                                        <label class="col-md-9 p-0 font-weight-normal">
+                                           {{pInstallmentenddate}}
+                                        </label>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p>Please find attached the following documents for your kind reference:
+                                    <br> <label style="padding-left: 50px;">i. Copy of the Loan agreement <br>ii. Repayment Schedule</label></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <p>For any clarification or more information, you may reach out to us at<br><b>customerservice@enormecapital.com or +91-9597895178.</b></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="mb-3">We will be happy to assist you.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="mb-3">Sincerely,<br> Customer Service Department<br> Enorme Capital Private Limited</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="mb-3">Enorme Capital Private Limited at its sole discretion shall be entitled to revoke the sanction of the Facility(ies), inter alia, in any of the following circumstances:</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p>a. There is any material change in the purpose(s) for which the Facility(ies) has/have been sanctioned;<br> b. In the sole judgement of Enorme Capital Private, any material fact has been cancelled and / or become subsequently
+                                    known;
+                                    <br> c. Any statement made by you or on your behalf in your application or otherwise, is incorrect, incomplete or misleading;<br> d. There is a default under or a breach of the terms and conditions of this mail and
+                                    other Transaction Documents, or any other facility offered by Enorme Capital Private Limited to you / any of you;</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </kendo-pdf-export>
+
+            <div class="d-flex justify-content-end" *ngIf="Savebbutton">
+                <a data-toggle="collapse" aria-expanded="true" class="btn btn-b-icon px-3 mt-4 border-0" (click)="save()"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save </a>
+            </div>
+
+        </div>
+    </div>
+
+</div>

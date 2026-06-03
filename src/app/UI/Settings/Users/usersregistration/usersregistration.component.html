@@ -1,0 +1,179 @@
+<div class="main-content">
+  <!--row-end-->
+  <!-- ======================================================================= tab nav end ============================================================================== -->
+  <div class="row mt-5">
+    <div class="col-md-12 col-xl-12">
+      <h2 class="bc-2">User Registration</h2>
+    </div>
+    <form [formGroup]="RegistrationForm">
+      <div class="col-md-12 col-xl-12">
+        <div class=" individual">
+            <div class="">
+              <label class="mt-1" for=""> Contact</label>
+              <div class="form-group">
+                <select (change)="getrole($event)" class="form-control w-100" formControlName="pEmployeeName" [ngClass]="{ 'is-invalid':  submitted && RegistrationForm.controls.pEmployeeName.errors }">
+                  <option value="">Select</option>
+                  <option *ngFor="let User of Users" [value]="User.pEmployeeName">{{User.pEmployeeName}}</option>
+
+                </select>
+                <div *ngIf=" submitted &&  RegistrationForm.controls.pEmployeeName.errors" class="invalid-feedback">
+                  <div *ngIf="RegistrationForm.controls.pEmployeeName.errors.required">Select User</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="mt-1">Designation</label>
+                <select (change)="getroleId($event)" class="form-control w-100" formControlName="pRoleName" [ngClass]="{ 'is-invalid':  submitted && RegistrationForm.controls.pRoleName.errors }">
+                  <option value="">Select</option>
+                  <option *ngFor="let User of Roles" [value]="User.prolename">{{User.prolename}}</option>
+
+                </select>
+
+                <div *ngIf=" submitted &&  RegistrationForm.controls.pRoleName.errors" class="invalid-feedback">
+                  <div *ngIf="RegistrationForm.controls.pRoleName.errors.required">Enetr Designation</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="mt-1">User Name</label>
+                <input type="text" class="form-control" formControlName="pUserName" [ngClass]="{ 'is-invalid':  submitted && RegistrationForm.controls.pUserName.errors }" placeholder="" />
+                <div *ngIf=" submitted &&  RegistrationForm.controls.pUserName.errors" class="invalid-feedback">
+                  <div *ngIf="RegistrationForm.controls.pUserName.errors.required">Enetr User Name</div>
+                </div>
+              </div>
+              <!--<div class="form-group">
+                <label class="mt-1">password</label>
+                <input type="text" class="form-control" formControlName="pPassword" [ngClass]="{ 'is-invalid':  submitted && RegistrationForm.controls.pPassword.errors }" placeholder="" />
+                <div *ngIf=" submitted &&  RegistrationForm.controls.pPassword.errors" class="invalid-feedback">
+                  <div *ngIf="RegistrationForm.controls.pPassword.errors.required">Enter Password</div>
+                </div>
+              </div>-->
+              <div hidden class="form-group">
+                <label class="mt-1" for="">Access Type</label>
+                <div class="form-group ">
+                  <select class="form-control w-100" formControlName="pUserType" [ngClass]="{ 'is-invalid':  submitted && RegistrationForm.controls.pUserType.errors }">
+                    <option selected>Web</option>
+                    <option>Mobile</option>
+                  </select>
+                  <div *ngIf=" submitted &&  RegistrationForm.controls.pUserType.errors" class="invalid-feedback">
+                    <div *ngIf="RegistrationForm.controls.pUserType.errors.required">Select User</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--<div class="col-md-3 col-xl-3">
+              <div class="loans-card mt-4">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="dropdown lc-dd col-auto position-absolute float-right p-0" style="right:0px;">
+                      <button class="btn dropdown-toggle  border-0" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="assets/images/icon-more-dots-blue.svg" width="25px" height="25px">
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1"> <a class="dropdown-item" href="#">View profile</a> <a class="dropdown-item" href="#">History</a> <a class="dropdown-item" href="#">Delete</a> </div>
+                    </div>
+                    <div class="user-pic"> <img src="assets/images/user.svg"> </div>
+                  </div>
+                  <div class="col-12 pt-2">
+                    <p class="lc-title text-center mb-auto">Vignesh Kumar</p>
+                    <div class="mt-3">
+                      <p class="lc-sub-title mb-0 text-center mt-3">98487 99777</p>
+                      <p class="lc-txt mb-0 mt-1 text-center"> Unique ID - 123456 </p>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button class="btn btn-s-icon px-3 mt-4 w-100 btn-lg border-0">
+                      <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />
+                      Select as applicant
+                    </button>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>-->
+
+         
+
+          <div class="d-flex mt-4" (click)="SaveRegistration()">
+            <a data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />Submit</a>
+          </div>
+
+        </div>
+      </div>
+      <!-- ================================================================= Select business entity======================================================================== -->
+      <div class="col-md-12 col-xl-12">
+        <div class="businessentity radio-toggle">
+          <div class="row">
+            <div class="col-md-4 col-xl-4">
+              <label class="mt-1" for=""> Loan Type</label>
+              <div class="form-group">
+                <select class="form-control w-100">
+                  <option>Vehicle Loan</option>
+                  <option>Home Loan</option>
+                  <option>Gold Loan</option>
+                  <option>Loan Against Deposit</option>
+                  <option>Business/Small Business Loan/Working Capital Loan</option>
+                  <option>Education Loan</option>
+                  <option>Loan against property</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Loan Name and Code</label>
+                <select class="form-control">
+                  <option>Vehicle Loan-2wheeler</option>
+                  <option>Vehicle Loan-4wheeler</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="mt-1" for="">Select Business Entity</label>
+                <div class="form-group ">
+                  <select class="form-control w-100">
+                    <option>BVM Energy</option>
+                    <option>Dakshin</option>
+                    <option>CG Alive</option>
+                  </select>
+                </div>
+              </div>
+
+
+
+            </div>
+            <div class="col-md-3 col-xl-3">
+              <div class="loans-card mt-4">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="dropdown lc-dd col-auto position-absolute float-right p-0" style="right:0px;">
+                      <button class="btn dropdown-toggle  border-0" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="assets/images/icon-more-dots-blue.svg" width="25px" height="25px">
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1"> <a class="dropdown-item" href="#">View profile</a> <a class="dropdown-item" href="#">History</a> <a class="dropdown-item" href="#">Delete</a> </div>
+                    </div>
+                    <div class="user-pic"> <img src="assets/images/user.svg"> </div>
+                  </div>
+                  <div class="col-12 pt-2">
+                    <p class="lc-title text-center mb-auto">BVM Energy Pvt. Ltd.</p>
+                    <div class="mt-3">
+                      <p class="lc-sub-title text-center mb-auto">Krishnaiah V.</p>
+                      <p class="lc-txt mb-0 text-center mt-2">98487 99777</p>
+                      <p class="lc-txt mb-0 mt-1 text-center"> Unique ID - 123456 </p>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button class="btn btn-s-icon px-3 mt-4 w-100 btn-lg border-0">
+                      <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />
+                      Select as applicant
+                    </button>
+                  </div>
+                  <!--dropdown-end-->
+                </div>
+                <!--row-end-->
+              </div>
+            </div>
+
+          </div>
+          <div class="d-flex justify-content-end mt-4">  <a href="#loanconfig" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-chewron-right-whitesolid.svg" width="20px" height="20px" class="mr-3" />Next</a> </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>

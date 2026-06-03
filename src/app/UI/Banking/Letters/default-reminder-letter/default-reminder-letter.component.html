@@ -1,0 +1,155 @@
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<style>
+
+</style>
+<div class="col-md-12 mt-5 mb-4">
+    <div id="template">
+        <div class="d-flex justify-content-end mr-3">
+            <ul class="temp-ul">
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Default Reminder Letter.pdf')" />
+                </li>
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="false">
+                        <div id="temp-box">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <app-company-details></app-company-details>
+                                    <div class="report-head">
+                                        <p class="font-18 text-dark text-center m-0">Default Reminder Letter</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <p class="font-14 text-left m-0 font-weight-bold">Date : <label class="font-weight-normal">11-06-2021</label></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <p class="font-14 text-left m-0 font-weight-bold">Mr. Prabhu Siva<br><label class="font-weight-normal">xxxxxxxx<br>Theni.</label></p>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Sub : Request for Clearance of Overdues<br> Ref : Your Loan account No.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-5">Dear Mr. Prabhu Siva,</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>Kindly refer to our earlier communications via telephonic calls and text messages on various dates requesting you to clear the Overdue Amount in your account.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">In spite of repeated reminders, you have not taken note of our request and failed to clear the overdues.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">We would like to draw your kind attention to the fact that by ignoring our requests, you are damaging your credit history and thereby lowering your credit score.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">In addition, you are incurring additional expenses in the form of overdue interest to yourself.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>This letter is a formal notification that you are in default of your obligation to make repayments on your loan. The total amount overdue as on the date of this letter is __________.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Please note, we deeply regret to inform that if we do not hear from you within ten days, we will have no other option but to ask our legal representatives to initiate legal action against you for the recovery of
+                                            the dues.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">We sincerely hope you will take note of this final reminder.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">We request you to ignore this letter if payment is already paid.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Thanking you.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Yours faithfully,</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Sincerely,</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">For Enorme Capital Private Limited</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Authorised Signatory</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Name of the signatory: V P Vishnu Prasad</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Designation: Managing Director<br> Email: vishnuprasad@enormecapital.com</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </kendo-pdf-export>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

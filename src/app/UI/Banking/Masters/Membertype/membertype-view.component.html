@@ -1,0 +1,178 @@
+
+<div class="member-login">
+<div class="row  ">
+    <div class="col d-flex flex-wrap align-items-center">
+        <a routerLink='/MembertypeNew' (click)="NewButtonClick()" class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+    </div>
+</div>
+
+
+<div class="row mt-3">
+    <div class="col-md-12 col-xl-12">
+
+        <kendo-grid [kendoGridBinding]="MemberDetailsList" [groupable]="true" [columnMenu]="{ filter: true }" [group]="groups" [reorderable]="true" [resizable]="true" [pageable]="{ buttonCount: 2 }" [sortable]="true" [pageSize]="10" (edit)="EditMemberDetails($event)"
+            (remove)="datatableclickdelete($event)">
+            <ng-template kendoGridToolbarTemplate>
+                <div class="row p-3">
+                    <div class="col-4 pl-0 mt-n1">
+                        <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+                    </div>
+                    <!-- <div class="col-7 pr-0 pl-4 ml-4">
+                        <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                            <li class="temp-ico ml-2">
+                                <a kendoGridPDFCommand>
+                                    <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px">
+                                </a>
+                            </li>
+                            <li class="temp-ico ml-2">
+                                <a kendoGridExcelCommand>
+                                    <img class="pt-2" src="assets/images/icon-excel.svg " title="excel" width="20px">
+                                </a>
+                            </li>
+                        </ul>
+                    </div> -->
+                </div>
+            </ng-template>
+          
+            <kendo-grid-column-group title="" [headerClass]="{'kendo-g-center' : true}">
+                <kendo-grid-command-column title="" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div id="icon-delete" kendoGridRemoveCommand [primary]="true" disabled></div>
+                    </ng-template>
+                </kendo-grid-command-column>
+                <kendo-grid-column field="pmembertype" title="Member Type" width="150"></kendo-grid-column>
+                <kendo-grid-column field="pmembercode" title="Member Type Code" width="150"></kendo-grid-column>
+                <kendo-grid-column field="pissharesissueapplicable" width="160" title="Are Share Applicable">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div *ngIf="dataItem.pissharesissueapplicable == true">
+                            Yes
+                        </div>
+                        <div *ngIf="dataItem.pissharesissueapplicable == false">
+                            NO
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pisaccounttypecreationapplicable" width="160" title="Are A/c Type Creation Applicable?">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div *ngIf="dataItem.pisaccounttypecreationapplicable == true">
+                            Yes
+                        </div>
+                        <div *ngIf="dataItem.pisaccounttypecreationapplicable == false">
+                            NO
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pismembershipfeeapplicable" width="160" title="Are Membership Fee Applicable">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div *ngIf="dataItem.pismembershipfeeapplicable == true">
+                            Yes
+                        </div>
+                        <div *ngIf="dataItem.pismembershipfeeapplicable == false">
+                            NO
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pmemberfee" width="160" title="Member Fee" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pmemberfee | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+            </kendo-grid-column-group>
+            <kendo-grid-pdf fileName="Member_Type.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+                <ng-template kendoGridPDFTemplate>
+                    <div class="page-template">
+                        <div class="header bc-2 text-center">
+                            <h5>Member Type</h5>
+                        </div>
+                    </div>
+                </ng-template>
+                <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+                <kendo-grid-column field="pmembertype" width="100" title="Member Type">
+                </kendo-grid-column>
+                <kendo-grid-column field="pmembercode" width="100" title="Member Type Code">
+                </kendo-grid-column>
+                <kendo-grid-column field="pissharesissueapplicable" width="100" title="Are Share Applicable">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div *ngIf="dataItem.pissharesissueapplicable == true">
+                            Yes
+                        </div>
+                        <div *ngIf="dataItem.pissharesissueapplicable == false">
+                            NO
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pisaccounttypecreationapplicable" width="100" title="Are A/c Type Creation Applicable?">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div *ngIf="dataItem.pisaccounttypecreationapplicable == true">
+                            Yes
+                        </div>
+                        <div *ngIf="dataItem.pisaccounttypecreationapplicable == false">
+                            NO
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pismembershipfeeapplicable" width="100" title="Are Membership Fee Applicable">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div *ngIf="dataItem.pismembershipfeeapplicable == true">
+                            Yes
+                        </div>
+                        <div *ngIf="dataItem.pismembershipfeeapplicable == false">
+                            NO
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pmemberfee" width="160" title="Member Fee" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pmemberfee | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+            </kendo-grid-pdf>
+            <kendo-grid-excel fileName="Member_Type.xlsx" [fetchData]="allData">
+                <kendo-excelexport-column-group title="Member Type" [headerCellOptions]="headerCells">
+                    <kendo-excelexport-column field="pmembertype" title="Member Type">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pmembercode" title="Member Type Code">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pissharesissueapplicable" title="Are Share Applicable">
+                        <ng-template kendoExcelExportCellTemplate let-dataItem>
+                            <div *ngIf="dataItem.pissharesissueapplicable == true">
+                                Yes
+                            </div>
+                            <div *ngIf="dataItem.pissharesissueapplicable == false">
+                                NO
+                            </div>
+                        </ng-template>
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pisaccounttypecreationapplicable" title="Are A/c Type Creation Applicable?">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <div *ngIf="dataItem.pisaccounttypecreationapplicable == true">
+                                Yes
+                            </div>
+                            <div *ngIf="dataItem.pisaccounttypecreationapplicable == false">
+                                NO
+                            </div>
+                        </ng-template>
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pismembershipfeeapplicable" title="Are Membership Fee Applicable">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <div *ngIf="dataItem.pismembershipfeeapplicable == true">
+                                Yes
+                            </div>
+                            <div *ngIf="dataItem.pismembershipfeeapplicable == false">
+                                NO
+                            </div>
+                        </ng-template>
+                    </kendo-excelexport-column>
+                    <kendo-grid-column field="pmemberfee" width="160" title="Member Fee" class="kendo-right">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pmemberfee | mycurrencypipe}}
+                        </ng-template>
+                    </kendo-grid-column>
+                </kendo-excelexport-column-group>
+            </kendo-grid-excel>
+        </kendo-grid>
+
+
+    </div>
+</div>
+</div>

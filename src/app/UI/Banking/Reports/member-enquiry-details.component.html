@@ -1,0 +1,1528 @@
+<div *ngIf="type=='FD'">
+<div class="container-fluid pdf-Content">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 m-auto">
+
+      <div class="p-2">
+          <div class="row mb-3">
+              <div class="col-md-12 col-sm-12 mt-2 text-right justify-content-end">
+              <a class="pr-2">
+                <img class="justify-content-end text-right" src="assets/images/pdf-icon-blue.svg" (click)="pdf.saveAs('Member Enquiry.pdf')" 
+               width="20" heigh="20"></a>
+              <a><img src="assets/images/print-icon-blue.svg " (click)="print()" width="20" heigh="20"></a>
+              </div>
+              </div>
+
+
+              <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="true">
+                <div id="temp-box">
+        <div class="row ">
+            <div class="col-md-12 col-sm-12">
+                <app-company-details></app-company-details>
+  
+                <div class="report-head mt-3">
+                    <p class="font-16 text-dark text-center m-0">
+                       Member Enquiry
+                    </p>
+  
+                </div>
+  
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class=" mt-3">
+
+          <div class="row mt-3">
+            <div class="col-md-10 col-sm-10">
+              <div class="row">
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Member </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 p-0 text-inner-right" for="">{{membername}} </label><br>
+
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Member Code </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 text-inner-right p-0" for="">{{membercode}} </label><br>
+
+            </div>
+              </div>
+            <div class="row">
+         
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Contact No.  </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 text-inner-right p-0" for="">{{contactno}}</label><br>
+
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for="">Father Name:  </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 p-0 text-inner-right" for=""> {{fathername}}</label><br>
+
+            </div>
+            
+            </div>
+
+            <div class="row">
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Address  </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 text-inner-right p-0" for="">{{address}} </label><br>
+
+            </div>
+          </div>
+            </div>
+            <div class="col-md-2 col-sm-2">
+
+
+                <img [src]="croppedImage" alt="img" class="rounded-circle" width="80px" height="80px"  />
+                
+  
+              </div>
+  
+
+          </div>
+          
+          <div class="row ">
+           
+
+            <div class="col-md-12 col-sm-12 mt-3">
+              
+              <div class="table-responsive border">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Bank Details</div>
+                      </div>
+                <!-- <table id="example" class="table text-center">
+                  <thead>
+                     
+                    <tr >
+                      <th class="font-bold">Appid</th>
+                      <th>Name</th>
+                      <th>Scheme Amount</th>
+                      <th>Receipt No.</th>
+                      <th>Commission</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td> </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                  </tbody>
+                </table> -->
+
+
+
+
+
+
+
+                <kendo-grid [data]="bankdetails"
+                                        
+                                        [sortable]="true">
+
+
+                              <kendo-grid-column field="pBankname" width="150"  title="Bank Name">
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pBranch" width="150" title="Branch">
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pAccountno" width="150" title="Account No.">
+                                <!-- <ng-template kendoGridCellTemplate let-dataItem>
+                      <a (click)="GetAccountDetails(dataItem)">{{dataItem.pFdAccountno }}</a>
+                    </ng-template> -->
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pIfsccode" width="150" title="IFSC Code">
+                              </kendo-grid-column>
+
+
+
+
+                            </kendo-grid>
+              </div>
+            </div>
+
+
+         
+        
+     
+          
+             
+
+          </div> 
+        </div>
+        <div class="col-md-12 col-sm-12 p-0 mb-2">
+          <div class="">
+            <div class="border mt-3 pb-3">
+<div class="">
+  <div class="subb-title report-head px-3">Deposits</div>
+  </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6 col-sm-6">
+        
+                      <label class="col-md-5 col-sm-5 p-0 px-3 " for="">	
+                          Advance Account No. </label><span class="col-md-1">:</span>
+                      <label class="col-md-5 col-sm-5 p-0 text-inner-right" for="">{{fdaccountno}}</label><br>
+        
+                    </div>
+        
+                    <div class="col-md-6 col-sm-6">
+          
+                        <label class="col-md-5 col-sm-5 p-0" for=""> Maturity Amount </label><span class="col-md-1">:</span>
+                        <label class="col-md-5 col-sm-5 p-0 text-inner-right" for="">{{maturityamount|mycurrencypipe}} </label><br>
+          
+                      </div>
+        
+                  </div>
+
+
+
+
+                  <div class="row mt-3">
+                      <div class="col-md-6 col-sm-6">
+          
+                        <label class="col-md-5 col-md-5 p-0 px-3" for=""> Advance Amount </label><span class="col-md-1">:</span>
+                        <label class="col-md-5 col-sm-5 p-0 text-inner-right" for="">{{advanceamount|mycurrencypipe}} </label><br>
+          
+                      </div>
+          
+                      <div class="col-md-6 col-sm-6">
+            
+                          <label class="col-md-5 col-sm-5 p-0" for=""> Maturity Date </label><span class="col-md-1">:</span>
+                          <label class="col-md-5 col-sm-5 p-0 text-inner-right" for=""> {{maturitydate}}</label><br>
+            
+                        </div>
+          
+                    </div>
+
+
+
+
+
+
+
+
+                    <div class="row mt-3">
+                        <div class="col-md-6 col-sm-6">
+            
+                          <label class="col-md-5 col-sm-5 p-0 px-3" for="">Advance Date </label><span class="col-md-1">:</span>
+                          <label class="col-md-5 col-sm-5 p-0 text-inner-right" for="">{{advancedate}} </label><br>
+            
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+              
+                            <label class="col-md-5 col-sm-5 p-0" for=""> Interest Payable </label><span class="col-md-1">:</span>
+                            <label class="col-md-5 col-sm-5 p-0 text-inner-right" for="">{{interestpayable|mycurrencypipe}} </label><br>
+              
+                          </div>
+                        
+            
+                      </div>
+
+
+
+
+
+                      <div class="row mt-3">
+                          <div class="col-md-6 col-sm-6">
+              
+                            <label class="col-md-5 col-sm-5 p-0 px-3" for=""> Interest Rate/Value per 100 </label><span class="col-md-1">:</span>
+                            <label class="col-md-5 col-sm-5 p-0 text-inner-right" for="">{{interestrate}} </label><br>
+              
+                          </div>
+                          <div class="col-md-6 col-sm-6">
+                
+                              <label class="col-md-5 col-sm-5 p-0 " for=""> Tenure </label><span class="col-md-1">:</span>
+                              <label class="col-md-5 col-sm-5 p-0 text-inner-right" for="">{{tenure}} </label><br>
+                
+                            </div>
+                          
+              
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6 col-sm-6">
+                
+                              <label class="col-md-5 col-sm-5 p-0 px-3" for=""> Received Amount</label><span class="col-md-1">:</span>
+                              <label class="col-md-5 col-sm-5 p-0 text-inner-right" for="">{{receivedamount|mycurrencypipe}} </label><br>
+                
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                  
+                                <label class="col-md-5 col-sm-5 p-0" for=""> Interest Payout </label><span class="col-md-1">:</span>
+                                <label class="col-md-5 col-sm-5 p-0 text-inner-right" for="">{{interestpayout}} </label><br>
+                  
+                              </div>
+                            
+                
+                          </div>
+
+
+                          <div class="row mt-3">
+                              <div class="col-md-6 col-sm-6">
+                  
+                                <label class="col-md-5 col-sm-5 p-0 px-3" for=""> Transaction Date </label><span class="col-md-1">:</span>
+                                <label class="col-md-5 col-sm-5 p-0 text-inner-right" for="">{{transcationdate}} </label><br>
+                  
+                              </div>
+                  
+                              <div class="col-md-6 col-sm-6">
+                    
+                                  <label class="col-md-5 col-sm-5 p-0" for=""> Applicant Type </label><span class="col-md-1">:</span>
+                                  <label class="col-md-5 col-sm-5 p-0 text-inner-right" for=""> {{applicanttype}}</label><br>
+                    
+                                </div>
+                  
+                            </div>
+
+
+
+
+
+
+                            <div class="row mt-3">
+                                <div class="col-md-6 col-sm-6">
+                    
+                                  <label class="col-md-5 col-sm-5 p-0 px-3" for=""> Calculation Mode </label><span class="col-md-1">:</span>
+                                  <label class="col-md-5 col-sm-5 p-0 text-inner-right" for="">{{calculationmode}} </label><br>
+                    
+                                </div>
+                    
+                                <div class="col-md-6 col-sm-6">
+                      
+                                    <label class="col-md-5 col-sm-5 p-0" for=""> Interest Type </label><span class="col-md-1">:</span>
+                                    <label class="col-md-5 col-sm-5 p-0 text-inner-right" for="">{{interesttype}} </label><br>
+                      
+                                  </div>
+                    
+                              </div>
+         
+
+
+
+                              <div class="row mt-3">
+                                  <div class="col-md-6 col-sm-6">
+                      
+                                    <label class="col-md-5 col-sm-5 p-0 px-3" for=""> Branch Name </label><span class="col-md-1">:</span>
+                                    <label class="col-md-5 col-sm-5 p-0 text-inner-right" for="">{{branchname}} </label><br>
+                    
+                                  </div>
+                                  <div class="col-md-6 col-sm-6">
+                        
+                                      <label class="col-md-5 col-sm-5 p-0" for=""> Scheme Name </label><span class="col-md-1">:</span>
+                                      <label class="col-md-5 col-sm-5 p-0 text-inner-right" for=""> {{schemename}}</label><br>
+                        
+                                    </div>
+                                  
+                      
+                                </div>
+
+
+
+
+
+                                <div class="row mt-3">
+                                    <div class="col-md-6 col-sm-6">
+                        
+                                      <label class="col-md-5 col-sm-5 p-0 px-3" for=""> Contact Type </label><span class="col-md-1">:</span>
+                                      <label class="col-md-5 col-sm-6 p-0 text-inner-right" for="">{{contacttype}}</label><br>
+                        
+                                    </div>
+                        
+                                   
+                        
+                                  </div>
+           
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Receipts</div>
+                      </div>
+                      <kendo-grid [data]="Receiptdata" [sortable]="true">
+                          <kendo-grid-column field="pReceiptno" width="150" title="Receipt No.">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                  <a (click)="getReceipt(dataItem)">{{dataItem.pReceiptno }}</a>
+                                </ng-template>
+                          </kendo-grid-column>
+                          
+                      
+                         
+                         
+                          <kendo-grid-column field="pFdreceipttdate" width="150" title="Receipt Date">
+                          </kendo-grid-column>
+                         
+                         
+                      
+                          <kendo-grid-column field="pModeofreceipt" width="150" title="Mode of Receipt">
+                  
+                          </kendo-grid-column>
+                  
+                          <kendo-grid-column field="pChequestatus" width="150" title="Cheque Status">
+                          </kendo-grid-column>
+                  
+                  
+                  
+                  
+                  
+                        </kendo-grid>
+              </div>
+
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Nominee Details</div>
+                      </div>
+                      <kendo-grid [data]="Nomineedata" [sortable]="true">
+                          <kendo-grid-column field="pNomineename" width="100" title="Nominee Name">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pRelationship" width="100" title="Relationship">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pReferencenumber" width="150" title="Reference No.">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pProportion" width="100" title="Proportion">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pContactno" width="120" title="Contact No.">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pIdproofname" width="150" title="Id Proof Name">
+                          </kendo-grid-column>
+                  
+                  
+                  
+                  
+                  
+                        </kendo-grid>
+              </div>
+
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Interest Payment</div>
+                      </div>
+                <!-- <table id="example" class="table text-center">
+                  <thead>
+                    <tr>
+                      <th class="font-bold"></th>
+                      <th>Opening Balance</th>
+                      <th></th>
+                      <th>0.00</th>
+                      <th></th>
+                      <th>0.00</th>
+                      <th>0.00</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td> B8/20 </td>
+                      <td>A.SANKARAIAH</td>
+                      <td>300,000.00</td>
+                      <td>16,500.00</td>
+                      <td>R250/19</td>
+                      <td>16,500.00</td>
+                      <td>0.00</td>
+                    </tr>
+                  </tbody>
+            
+                </table> -->
+
+                <kendo-grid [data]="Interestpaymentdata" [sortable]="true">
+                  
+                   
+                    <kendo-grid-column field="pInterestpaidmonth" width="100" title="Interest Paid Month">
+                       
+                    </kendo-grid-column>
+                    
+                    <kendo-grid-column field="pInterestAmount" title="Interest Amount" class="kendo-center kendo-wordwrap">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pInterestAmount | mycurrencypipe}}
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pTotalAmount"  title="Total Amount." class="kendo-center">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pTotalAmount | mycurrencypipe}}
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pTdsAmount"  title="TDS Amount" class="kendo-center">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pTdsAmount | mycurrencypipe}}
+                      </ng-template>
+                    </kendo-grid-column>
+                    
+                   
+            
+                    <kendo-grid-column field="pPaymentdate" title="Voucher Date">
+                    </kendo-grid-column>
+            
+            
+            
+                    <kendo-grid-column field="pPaymentid"  title="Voucher No.">
+                      </kendo-grid-column>
+                   
+                    
+                    <kendo-grid-column field="pPaymentType" title="Payment Type">
+                    </kendo-grid-column>
+                   
+            
+                  </kendo-grid>
+
+
+
+
+              </div>
+
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Promoter Salary Details</div>
+                      </div>
+                      <kendo-grid [data]="promotersalarygrid" [sortable]="true">
+                        
+                         
+                           
+                            <kendo-grid-column field="pTotalAmount" width="100" title="Total Amount" class="kendo-center">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pTotalAmount | mycurrencypipe}}
+                              </ng-template>
+                            </kendo-grid-column>
+                           
+                            <kendo-grid-column field="pCommssionAmount" width="100" title="Commission Amount" class="kendo-center">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pCommssionAmount | mycurrencypipe}}
+                              </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAgentname" width="100" title="Agent Name">
+                            </kendo-grid-column>
+                          
+                            <kendo-grid-column field="pPaymentdate" width="100" title="Voucher Date">
+                              </kendo-grid-column>
+                            <kendo-grid-column field="pPaymentid" width="100" title="Voucher No.">
+                              </kendo-grid-column>
+                          <kendo-grid-column field="pCommissiontransdate" width="100" title="Commission Trans Date">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pCommsssionvalue" width="100" title="Commission Value">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pTenure" width="100" title="Tenure">
+                          </kendo-grid-column>
+                         
+                  
+                  
+                  
+                  
+                  
+                  
+                        </kendo-grid>
+              </div>
+                 <!-- lien entry hidden as per bug no 640 -->
+              <!-- <div class="table-responsive border mt-3" >
+                  <div class="">
+                      <div class="subb-title report-head px-3">Lien Entry Details</div>
+                      </div>
+               
+
+
+
+
+
+
+                <kendo-grid [data]="liendetails" [sortable]="true">
+                   
+                   
+                    <kendo-grid-column field="pLienAmount" width="80" title="Lien Amount" class="kendo-center">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pLienAmount | mycurrencypipe}}
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pInterestpayable" width="80" title="Interest Payable" class="kendo-center">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pInterestpayable | mycurrencypipe}}
+                          </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pLiendate" width="80" title="Lien Date">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pLienstatus" width="80" title="Lien Status">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pDepositdate" width="80" title="Advance Date">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pTenure" width="80" title="Tenure">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pInterestrate" width="80" title="I.R/Value per 100">
+                     
+                    </kendo-grid-column>
+                    
+                   
+                    <kendo-grid-column field="pCompanybranch" width="80" title="Branch">
+                    </kendo-grid-column>
+                   
+            
+                  
+                    <kendo-grid-column field="pLienAdjustTo" width="80" title="Lien Adjust To">
+            
+                    </kendo-grid-column>
+            
+                   
+            
+            
+            
+            
+            
+            
+                  </kendo-grid>
+            
+              </div> -->
+
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Maturity Bond Details</div>
+                      </div>
+                      <kendo-grid [data]="membermaturitybond" [sortable]="true">
+                         
+                       
+                        
+                            <kendo-grid-column field="pAgentCommssionPayable" width="100" title="Agent Commission Payable" class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                  {{dataItem.pAgentCommssionPayable | mycurrencypipe}}
+                                </ng-template>
+                              </kendo-grid-column>
+                  
+                              <kendo-grid-column field="pDamages" width="100" title="Damages" class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pDamages | mycurrencypipe}}
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pInteresPaid" width="100" title="Interest Paid" class="kendo-center">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pInteresPaid | mycurrencypipe}}
+                              </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pNetpayable" width="100" title="Net Payable" class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                  {{dataItem.pNetpayable | mycurrencypipe}}
+                                </ng-template>
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pInterestpayble" width="100" title="Interest Payable" class="kendo-center">
+                                  <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pInterestpayble | mycurrencypipe}}
+                                  </ng-template>
+                                </kendo-grid-column>
+                          <kendo-grid-column field="pMaturitytype" width="100" title="Maturity Type">
+                          </kendo-grid-column>
+                        
+                          <kendo-grid-column field="pTenure" width="100" title="Tenure">
+                          </kendo-grid-column>
+
+                  
+                         
+                          <kendo-grid-column field="pTranstype" width="100" title="Trans Type">
+                  
+                          </kendo-grid-column>
+                        
+                  
+                        
+                  
+                  
+                  
+                  
+                  
+                        </kendo-grid>
+              </div>
+
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Maturity Payment Details</div>
+                      </div>
+                      <kendo-grid [data]="memberpaymentgrid" [sortable]="true">
+                          <kendo-grid-column field="pVoucherid" width="80" title="Voucher No.">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pPaymentdate" width="80" title="Voucher Date">
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pModeofpayment" width="80" title="Mode Of Payment">
+                                </kendo-grid-column>
+
+                        
+                        
+                         
+                  
+                          <kendo-grid-column field="pPaidAmount" width="80" title="Paid Amount" class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pPaidAmount | mycurrencypipe}}
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pTenure" width="100" title="Tenure">
+                          </kendo-grid-column>
+                          
+                          <kendo-grid-column field="pInterestpayout" width="100" title="Interest Payout">
+                  
+                            </kendo-grid-column>
+                        <kendo-grid-column field="pPaymentType" width="100" title="Payment Type">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pMaturitypaymentdate" width="100" title="Maturity Payment Date">
+                        </kendo-grid-column>
+                       
+                       
+                            
+                      
+                
+                
+                
+                
+                
+                      </kendo-grid>
+              </div>
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+</div>
+              </kendo-pdf-export>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+   <!-- share report -->
+<div class="" *ngIf="type=='SHARE'">
+
+<div class="container-fluid pdf-Content">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 m-auto">
+
+      <div class="p-2">
+          <div class="row mb-3">
+              <div class="col-md-12 col-sm-12 mt-2 text-right justify-content-end">
+              <a class="pr-2">
+                <img class="justify-content-end text-right" src="assets/images/pdf-icon-blue.svg" (click)="pdf.saveAs('Member Enquiry.pdf')" 
+               width="20" heigh="20"></a>
+              <a><img src="assets/images/print-icon-blue.svg " (click)="print()" width="20" heigh="20"></a>
+              </div>
+              </div>
+
+
+              <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="true">
+                <div id="temp-box">
+        <div class="row ">
+            <div class="col-md-12 col-sm-12">
+                <app-company-details></app-company-details>
+  
+                <div class="report-head mt-3">
+                    <p class="font-16 text-dark text-center m-0">
+                       Member Enquiry
+                    </p>
+  
+                </div>
+  
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class=" mt-3">
+
+          <div class="row mt-3">
+            <div class="col-md-10 col-sm-10">
+              <div class="row">
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Member </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 p-0 text-inner-right" for="">{{membername}} </label><br>
+
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Member Code </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 text-inner-right p-0" for="">{{membercode}} </label><br>
+
+            </div>
+              </div>
+            <div class="row">
+         
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Contact No.  </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 text-inner-right p-0" for="">{{contactno}}</label><br>
+
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for="">Father Name:  </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 p-0 text-inner-right" for=""> {{fathername}}</label><br>
+
+            </div>
+            
+            </div>
+
+            <div class="row">
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Address  </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 text-inner-right p-0" for="">{{address}} </label><br>
+
+            </div>
+          </div>
+            </div>
+            <div class="col-md-2 col-sm-2">
+
+
+                <img [src]="croppedImage" alt="img" class="rounded-circle" width="80px" height="80px"  />
+                
+  
+              </div>
+  
+      </div>
+          </div>
+          
+          
+        <div class="col-md-12 col-sm-12 p-0 mb-2">
+          <div class="">
+            <div class="border mt-3 pb-3">
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Receipts</div>
+                      </div>
+                      <kendo-grid [data]="Receiptdata" [sortable]="true">
+                          <kendo-grid-column field="pReceiptno" width="150" title="Receipt No.">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                  <a (click)="getReceipt(dataItem)">{{dataItem.pReceiptno }}</a>
+                                </ng-template>
+                          </kendo-grid-column>
+                          
+                        <kendo-grid-column field="pReceivedamount" width="150" title="Received Amount">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pReceivedamount | mycurrencypipe}}
+                      </ng-template>
+                    </kendo-grid-column>
+                         
+                         
+                          <kendo-grid-column field="preceipttdate" width="150" title="Receipt Date">
+                           <ng-template kendoGridCellTemplate let-dataItem>
+                                  {{dataItem.preceipttdate | date: 'dd/MMM/yy' }}
+                                </ng-template>
+                          </kendo-grid-column>
+                         
+                         
+                      
+                          <kendo-grid-column field="pModeofreceipt" width="150" title="Mode of Receipt">
+                  
+                          </kendo-grid-column>
+                  
+                          <kendo-grid-column field="pChequestatus" width="150" title="Cheque Status">
+                          </kendo-grid-column>
+                  
+                  
+                  
+                  
+                  
+                        </kendo-grid>
+              </div>
+
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Nominee Details</div>
+                      </div>
+                      <kendo-grid [data]="Nomineedata" [sortable]="true">
+                          <kendo-grid-column field="pNomineename" width="100" title="Nominee Name">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pRelationship" width="100" title="Relationship">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pReferencenumber" width="150" title="Reference No.">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pProportion" width="100" title="Proportion">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pContactno" width="120" title="Contact No.">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pIdproofname" width="150" title="Id Proof Name">
+                          </kendo-grid-column>
+                  
+                  
+                  
+                  
+                  
+                        </kendo-grid>
+              </div>
+
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Withdrawals</div>
+                      </div>
+              
+
+                <kendo-grid [data]="Withdrawalsdetails" [sortable]="true">
+                  
+                  <kendo-grid-column field="pVoucherno" width="150" title="Voucher No.">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                  <a (click)="getVoucherno(dataItem)">{{dataItem.pVoucherno }}</a>
+                                </ng-template>
+                          </kendo-grid-column>
+                          
+                      
+                         
+                         
+                          <kendo-grid-column field="pPaymentdate" width="150" title="Payment Date">
+                           <ng-template kendoGridCellTemplate let-dataItem>
+                                  {{dataItem.pPaymentdate | date: 'dd/MMM/yy' }}
+                                </ng-template>
+                          </kendo-grid-column>
+                         
+                         pPaidamount
+                      
+                          <kendo-grid-column field="pModeofPayment" width="150" title="Mode of Payment">
+                  
+                          </kendo-grid-column>
+                  
+                          <kendo-grid-column field="pChequestatus" width="150" title="Cheque Status">
+                          </kendo-grid-column>
+                   
+            
+                  </kendo-grid>
+
+
+
+
+              </div>
+
+           
+
+
+
+            </div>
+          </div>
+        </div>
+</div>
+              </kendo-pdf-export>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+
+
+<!-- rd details report -->
+
+<div *ngIf="type=='RD'">
+<div class="container-fluid pdf-Content">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 m-auto">
+
+      <div class="p-2">
+          <div class="row mb-3">
+              <div class="col-md-12 col-sm-12 mt-2 text-right justify-content-end">
+              <a class="pr-2">
+                <img class="justify-content-end text-right" src="assets/images/pdf-icon-blue.svg" (click)="pdf.saveAs('Member Enquiry.pdf')" 
+               width="20" heigh="20"></a>
+              <a><img src="assets/images/print-icon-blue.svg " (click)="print()" width="20" heigh="20"></a>
+              </div>
+              </div>
+
+
+              <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="true">
+                <div id="temp-box">
+        <div class="row ">
+            <div class="col-md-12 col-sm-12">
+                <app-company-details></app-company-details>
+  
+                <div class="report-head mt-3">
+                    <p class="font-16 text-dark text-center m-0">
+                       Member Enquiry
+                    </p>
+  
+                </div>
+  
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class=" mt-3">
+
+          <div class="row mt-3">
+            <div class="col-md-10 col-sm-10">
+              <div class="row">
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Member </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 p-0 text-inner-right" for="">{{membername}} </label><br>
+
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Member Code </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 text-inner-right p-0" for="">{{membercode}} </label><br>
+
+            </div>
+              </div>
+            <div class="row">
+         
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Contact No.  </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 text-inner-right p-0" for="">{{contactno}}</label><br>
+
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for="">Father Name:  </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 p-0 text-inner-right" for=""> {{fathername}}</label><br>
+
+            </div>
+            
+            </div>
+
+            <div class="row">
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Address  </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 text-inner-right p-0" for="">{{address}} </label><br>
+
+            </div>
+          </div>
+            </div>
+            <div class="col-md-2 col-sm-2">
+
+
+                <img [src]="croppedImage" alt="img" class="rounded-circle" width="80px" height="80px"  />
+                
+  
+              </div>
+          </div>    
+        </div>
+        <div class="col-md-12 col-sm-12 p-0 mb-2">
+          <div class="">
+            <div class="border mt-3 pb-3">                       
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Receipts</div>
+                      </div>
+                      <kendo-grid [data]="Receiptdata" [sortable]="true">
+                          <kendo-grid-column field="pReceiptno" width="150" title="Receipt No.">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                  <a (click)="getReceipt(dataItem)">{{dataItem.pReceiptno }}</a>
+                                </ng-template>
+                          </kendo-grid-column>
+                          
+                      
+                          <kendo-grid-column field="pReceivedamount" width="150"  title="Received Amount">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pReceivedamount | mycurrencypipe}}
+                      </ng-template>
+                    </kendo-grid-column>
+                         
+                          <kendo-grid-column field="preceipttdate" width="150" title="Receipt Date">
+                          </kendo-grid-column>
+                         
+                         
+                      
+                          <kendo-grid-column field="pModeofreceipt" width="150" title="Mode of Receipt">
+                  
+                          </kendo-grid-column>
+                  
+                          <kendo-grid-column field="pChequestatus" width="150" title="Cheque Status">
+                          </kendo-grid-column>
+                  
+                  
+                  
+                  
+                  
+                        </kendo-grid>
+              </div>
+
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Nominee Details</div>
+                      </div>
+                      <kendo-grid [data]="Nomineedata" [sortable]="true">
+                          <kendo-grid-column field="pNomineename" width="100" title="Nominee Name">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pRelationship" width="100" title="Relationship">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pReferencenumber" width="150" title="Reference No.">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pProportion" width="100" title="Proportion">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pContactno" width="120" title="Contact No.">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pIdproofname" width="150" title="Id Proof Name">
+                          </kendo-grid-column>
+                  
+                  
+                  
+                  
+                  
+                        </kendo-grid>
+              </div>
+
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Interest Payment</div>
+                      </div>
+              
+
+                <kendo-grid [data]="Interestpaymentdata" [sortable]="true">
+                  
+                   
+                    <kendo-grid-column field="pInterestpaidmonth" width="100" title="Interest Paid Month">
+                       
+                    </kendo-grid-column>
+                    
+                    <kendo-grid-column field="pInterestAmount" title="Interest Amount" class="kendo-center kendo-wordwrap">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pInterestAmount | mycurrencypipe}}
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pTotalAmount"  title="Total Amount." class="kendo-center">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pTotalAmount | mycurrencypipe}}
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pTdsAmount"  title="TDS Amount" class="kendo-center">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pTdsAmount | mycurrencypipe}}
+                      </ng-template>
+                    </kendo-grid-column>
+                    
+                   
+            
+                    <kendo-grid-column field="pPaymentdate" title="Voucher Date">
+                    </kendo-grid-column>
+            
+            
+            
+                    <kendo-grid-column field="pPaymentid"  title="Voucher No.">
+                      </kendo-grid-column>
+                   
+                    
+                    <kendo-grid-column field="pPaymentType" title="Payment Type">
+                    </kendo-grid-column>
+                   
+            
+                  </kendo-grid>
+
+
+
+
+              </div>
+
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Promoter Salary Details</div>
+                      </div>
+                      <kendo-grid [data]="promotersalarygrid" [sortable]="true">
+                        
+                         
+                           
+                            <kendo-grid-column field="pTotalAmount" width="100" title="Total Amount" class="kendo-center">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pTotalAmount | mycurrencypipe}}
+                              </ng-template>
+                            </kendo-grid-column>
+                           
+                            <kendo-grid-column field="pCommssionAmount" width="100" title="Commission Amount" class="kendo-center">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pCommssionAmount | mycurrencypipe}}
+                              </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAgentname" width="100" title="Agent Name">
+                            </kendo-grid-column>
+                          
+                            <kendo-grid-column field="pPaymentdate" width="100" title="Voucher Date">
+                              </kendo-grid-column>
+                            <kendo-grid-column field="pPaymentid" width="100" title="Voucher No.">
+                              </kendo-grid-column>
+                          <kendo-grid-column field="pCommissiontransdate" width="100" title="Commission Trans Date">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pCommsssionvalue" width="100" title="Commission Value">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pTenure" width="100" title="Tenure">
+                          </kendo-grid-column>
+                         
+                  
+                  
+                  
+                  
+                  
+                  
+                        </kendo-grid>
+              </div>
+
+                  <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Maturity Bond Details</div>
+                      </div>
+                      <kendo-grid [data]="membermaturitybond" [sortable]="true">
+                         
+                       
+                        
+                            <kendo-grid-column field="pAgentCommssionPayable" width="100" title="Agent Commission Payable" class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                  {{dataItem.pAgentCommssionPayable | mycurrencypipe}}
+                                </ng-template>
+                              </kendo-grid-column>
+                  
+                              <kendo-grid-column field="pDamages" width="100" title="Damages" class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pDamages | mycurrencypipe}}
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pInteresPaid" width="100" title="Interest Paid" class="kendo-center">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pInteresPaid | mycurrencypipe}}
+                              </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pNetpayable" width="100" title="Net Payable" class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                  {{dataItem.pNetpayable | mycurrencypipe}}
+                                </ng-template>
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pInterestpayble" width="100" title="Interest Payable" class="kendo-center">
+                                  <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pInterestpayble | mycurrencypipe}}
+                                  </ng-template>
+                                </kendo-grid-column>
+                          <kendo-grid-column field="pMaturitytype" width="100" title="Maturity Type">
+                          </kendo-grid-column>
+                        
+                          <kendo-grid-column field="pTenure" width="100" title="Tenure">
+                          </kendo-grid-column>
+
+                  
+                         
+                          <kendo-grid-column field="pTranstype" width="100" title="Trans Type">
+                  
+                          </kendo-grid-column>
+                        
+                  
+                        
+                  
+                  
+                  
+                  
+                  
+                        </kendo-grid>
+              </div>
+
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Maturity Payment Details</div>
+                      </div>
+                      <kendo-grid [data]="memberpaymentgrid" [sortable]="true">
+                          <kendo-grid-column field="pVoucherid" width="80" title="Voucher No.">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pPaymentdate" width="80" title="Voucher Date">
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pModeofpayment" width="80" title="Mode Of Payment">
+                                </kendo-grid-column>
+
+                        
+                        
+                         
+                  
+                          <kendo-grid-column field="pPaidAmount" width="80" title="Paid Amount" class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pPaidAmount | mycurrencypipe}}
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pTenure" width="100" title="Tenure">
+                          </kendo-grid-column>
+                          
+                          <kendo-grid-column field="pInterestpayout" width="100" title="Interest Payout">
+                  
+                            </kendo-grid-column>
+                        <kendo-grid-column field="pPaymentType" width="100" title="Payment Type">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pMaturitypaymentdate" width="100" title="Maturity Payment Date">
+                        </kendo-grid-column>
+                       
+                       
+                            
+                      
+                
+                
+                
+                
+                
+                      </kendo-grid>
+              </div>
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+        </div>
+
+              </kendo-pdf-export>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- SA report -->
+
+
+<div *ngIf="type=='SA'">
+
+<div class="container-fluid pdf-Content">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 m-auto">
+
+      <div class="p-2">
+          <div class="row mb-3">
+              <div class="col-md-12 col-sm-12 mt-2 text-right justify-content-end">
+              <a class="pr-2">
+                <img class="justify-content-end text-right" src="assets/images/pdf-icon-blue.svg" (click)="pdf.saveAs('Member Enquiry.pdf')" 
+               width="20" heigh="20"></a>
+              <a><img src="assets/images/print-icon-blue.svg " (click)="print()" width="20" heigh="20"></a>
+              </div>
+              </div>
+
+
+              <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="true">
+                <div id="temp-box">
+        <div class="row ">
+            <div class="col-md-12 col-sm-12">
+                <app-company-details></app-company-details>
+  
+                <div class="report-head mt-3">
+                    <p class="font-16 text-dark text-center m-0">
+                       Member Enquiry
+                    </p>
+  
+                </div>
+  
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class=" mt-3">
+
+          <div class="row mt-3">
+            <div class="col-md-10 col-sm-10">
+              <div class="row">
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Member </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 p-0 text-inner-right" for="">{{membername}} </label><br>
+
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Member Code </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 text-inner-right p-0" for="">{{membercode}} </label><br>
+
+            </div>
+              </div>
+            <div class="row">
+         
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Contact No.  </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 text-inner-right p-0" for="">{{contactno}}</label><br>
+
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for="">Father Name:  </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 p-0 text-inner-right" for=""> {{fathername}}</label><br>
+
+            </div>
+            
+            </div>
+
+            <div class="row">
+            <div class="col-md-6 col-sm-6">
+
+              <label class="col-md-4 col-sm-4 p-0" for=""> Address  </label><span class="col-md-1">:</span>
+              <label class="col-md-6 col-sm-6 text-inner-right p-0" for="">{{address}} </label><br>
+
+            </div>
+          </div>
+            </div>
+            <div class="col-md-2 col-sm-2">
+
+
+                <img [src]="croppedImage" alt="img" class="rounded-circle" width="80px" height="80px"  />
+                
+  
+              </div>
+  
+      </div>
+          </div>
+          
+          
+        <div class="col-md-12 col-sm-12 p-0 mb-2">
+          <div class="">
+            <div class="border mt-3 pb-3">
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Receipts</div>
+                      </div>
+                      <kendo-grid [data]="Receiptdata" [sortable]="true">
+                          <kendo-grid-column field="pReceiptno" width="150" title="Receipt No.">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                  <a (click)="getReceipt(dataItem)">{{dataItem.pReceiptno }}</a>
+                                </ng-template>
+                          </kendo-grid-column>
+                            <kendo-grid-column field="pReceivedamount"  width="150" title="Received Amount">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pReceivedamount | mycurrencypipe}}
+                      </ng-template>
+                          </kendo-grid-column>
+                      
+                         
+                         
+                          <kendo-grid-column field="preceipttdate" width="150" title="Receipt Date">
+                           <ng-template kendoGridCellTemplate let-dataItem>
+                                  {{dataItem.preceipttdate | date: 'dd/MMM/yy' }}
+                                </ng-template>
+                          </kendo-grid-column>
+                         
+                         
+                      
+                          <kendo-grid-column field="pModeofreceipt" width="150" title="Mode of Receipt">
+                  
+                          </kendo-grid-column>
+                  
+                          <kendo-grid-column field="pChequestatus" width="150" title="Cheque Status">
+                          </kendo-grid-column>
+                  
+                  
+                  
+                  
+                  
+                        </kendo-grid>
+              </div>
+
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Nominee Details</div>
+                      </div>
+                      <kendo-grid [data]="Nomineedata" [sortable]="true">
+                          <kendo-grid-column field="pNomineename" width="100" title="Nominee Name">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pRelationship" width="100" title="Relationship">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pReferencenumber" width="150" title="Reference No.">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pProportion" width="100" title="Proportion">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pContactno" width="120" title="Contact No.">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pIdproofname" width="150" title="Id Proof Name">
+                          </kendo-grid-column>
+                  
+                  
+                  
+                  
+                  
+                        </kendo-grid>
+              </div>
+
+              <div class="table-responsive border mt-3">
+                  <div class="">
+                      <div class="subb-title report-head px-3">Withdrawals</div>
+                      </div>
+              
+
+                <kendo-grid [data]="Withdrawalsdetails" [sortable]="true">
+                  
+                  <kendo-grid-column field="pVoucherno" width="150" title="Voucher No.">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                  <a (click)="getVoucherno(dataItem)">{{dataItem.pVoucherno }}</a>
+                                </ng-template>
+                          </kendo-grid-column>
+                          
+                      
+                         
+                         
+                          <kendo-grid-column field="pPaymentdate" width="150" title="Payment Date">
+                           <ng-template kendoGridCellTemplate let-dataItem>
+                                  {{dataItem.pPaymentdate | date: 'dd/MMM/yy' }}
+                                </ng-template>
+                          </kendo-grid-column>
+                         
+                         pPaidamount
+                      
+                          <kendo-grid-column field="pModeofPayment" width="150" title="Mode of Payment">
+                  
+                          </kendo-grid-column>
+                  
+                          <kendo-grid-column field="pChequestatus" width="150" title="Cheque Status">
+                          </kendo-grid-column>
+                   
+            
+                  </kendo-grid>
+
+
+
+
+              </div>
+
+           
+
+
+
+            </div>
+          </div>
+        </div>
+</div>
+              </kendo-pdf-export>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>

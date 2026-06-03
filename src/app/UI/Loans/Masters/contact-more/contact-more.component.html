@@ -1,0 +1,398 @@
+<div class="section-container">
+
+    <form [formGroup]="contactMoreForm">
+
+        <div class="row">
+            <div class="col-md-8">
+                <ul class="nav filtered-tab">
+                    <!--<li class="nav-item"><a class="active" (click)="tabsClick('subscriber')" data-toggle="tab" href="#subscriber">Subscriber</a></li>-->
+                    <li class="nav-item" [hidden]="tabstatus"><a (click)="tabsClick('employee')" data-toggle="tab" href="#employee">Employee</a></li>
+                    <li class="nav-item"><a data-toggle="tab" (click)="tabsClick('refferral')" href="#refferral">Referral</a></li>
+                  <li class="nav-item"><a data-toggle="tab" (click)="tabsClick('supplier')" href="#supplier">Supplier</a></li>
+                 <!--  <li class="nav-item"><a data-toggle="tab" (click)="tabsClick('advocate')" href="#advocate">Advocate</a></li> -->
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <div class="d-flex justify-content-end">
+                    <label class="bc-2 text-right m-0" style="font-family: 'lato', sans-serif !important;">
+                  {{Name}}|  {{MobileNo}}
+                </label>
+                </div>
+            </div>
+
+            <!-- <div class="col-md-3">
+                <div class="border p-2 rounded">
+                    <div class="form-group m-0">
+                        <label class="bc-2">Contact As</label>
+                    </div>
+                    <div class="form-group m-0">
+                        <div class="form-check form-check-inline check-btn-secondary">
+                            <input class="form-check-input" type="checkbox" formControlName="pIsSupplier" id="Supplier" value="Supplier"
+                            (change)="onFilterChangeSupplier($event)">
+                            <label class="p-0" for="Supplier"> Supplier</label>
+                        </div>
+                        <div class="form-check form-check-inline ml-2 check-btn-secondary">
+                            <input class="form-check-input" type="checkbox" formControlName="pIsAdvocate" id="advocate" value="advocate"
+                            (change)="onFilterChangeAdvocate($event)" >
+                            <label class="p-0" for="advocate"> Advocate</label>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+        </div>
+
+        <div class="tab-content">
+
+            <!--<div class="tab-pane in active show" id="subscriber">
+                <app-subscriber-config [formEntryType]="formEntryType" [selectedContactId]="ID"></app-subscriber-config>
+      
+            </div>-->
+
+
+            <div class="tab-pane in" id="refferral">
+                <!---------------------------New UI-->
+
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <label class="bc-2">Referral</label>
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="section-card">
+                            <div class="form-group m-0">
+                                <label class="bc-2 mr-4">PAN</label>
+                                <label class="bc-2" *ngIf="isshowpanno === true"><i class="done"></i>Available</label>
+                                <label class="bc-2" *ngIf="isshowpanno === false"><i class="notdone"></i>Not Available</label>
+                            </div>
+                            <div class="form-group m-0" *ngIf="isshowUploadDocument === false">
+                                <label class="bc-2">If not Update please <a data-toggle="collapse" href="#pan-update" role="button" aria-expanded="true" aria-controls="pan-update" class="text-warning ml-2"> Update</a></label>
+                            </div>
+                        </div>
+
+                        <div class="section-card mt-2 collapse show" id="pan-update">
+
+                            <div class="form-group" *ngIf="isshowpanno === true">
+                                <label>{{panno}}</label>
+                                <!-- <input id="pPanNumber" title="PAN Card No" class="form-control" formControlName="pPanNumber"   type="text" maxlength="10"
+                      placeholder="Enter PAN Number" pattern="[A-Z,a-z]{5}[0-9]{4}[A-Z,a-z]{1}$" [ngClass]="{ 'is-invalid': contactValidationErrors.pPanNumber }">
+                      <div class="invalid-feedback">
+                          <span *ngIf="contactValidationErrors.pPanNumber">{{contactValidationErrors?.pPanNumber}}</span>
+                        </div> -->
+                            </div>
+
+
+
+                            <div *ngIf="isshowpannocheckbox === false" class="form-check form-check-inline check-btn-secondary">
+                                <input class="form-check-input" type="checkbox" formControlName="check" id="ason" (change)="checkox($event)">
+                                <label class="mt-2" for="ason"> No Pan:</label>
+                            </div>
+
+                            <div class="form-group" *ngIf="isshowpanno === false">
+                                <label title="PAN Card No" id="pPanNumber" class=""> PAN Card No</label>
+                                <input id="pPanNumber" [attr.disabled]="nopan ? '' : null" title="PAN Card No" class="form-control" formControlName="pPanNumber" type="text" maxlength="10" appUppercase appAlphanumeric placeholder="Enter PAN Number" [ngClass]="{ 'is-invalid': contactValidationErrors.pPanNumber }"
+                                    (keyup)="DuplicateK()">
+                                <div class="invalid-feedback">
+                                    <span *ngIf="contactValidationErrors.pPanNumber">{{contactValidationErrors?.pPanNumber}}</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group m-0 d-flex" *ngIf="isshowUploadDocument === false">
+                                <label class="bc-2 mr-4 mt-2 col-4 p-0">Upload Document</label>
+                                <!-- <div class="input-group">
+                          <input type="text" class="form-control" placeholder="">
+                          <div class="input-group-append">
+                                <button class="btn btn-lg-icon"> <img src="assets/images/icon-upload-blue.svg" class="" width="18px" height="18px"></button>
+                          </div>
+                      </div> -->
+                                <div class="input-group">
+                                    <input #input type="text" class="form-control" placeholder="" [value]="imageResponse?.name" disabled formControlName="pDocStorePath">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()">
+                            <img src="assets/images/icon-upload-blue.svg" class="" width="18px" height="18px">
+                          </button>
+                                        <!-- to uplaod the image -->
+                                        <input id="fileInput1" style="display: none" type="file" (change)="uploadAndProgress($event,fileInput.files)" #fileInput>
+                                    </div>
+                                    <span class="text-success">
+                          <ng-container *ngIf="uploadSuccess"></ng-container>
+                        </span>
+                                </div>
+                            </div>
+                            <!-- <div class="form-group d-flex justify-content-end">
+                        <a href="#" class="btn btn-g-icon border-0">Update</a>
+                    </div> -->
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="required-field" title="Introduced By" id="introducedid">Introduced By</label>
+
+                            <ng-select id="introducedid" title="Introduced By" [items]="IntroducerList" formControlName="introducedid" bindLabel="introducedname" bindValue="introducedid" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                [clearOnBackspace]=true (change)="Introducer_Change($event)">
+
+                            </ng-select>
+                            <app-validation-message [messgae]="contactValidationErrors?.introducedid">
+                            </app-validation-message>
+                            <!-- <select class="form-control" id="introducedid" title="Introduced By" formControlName="introducedid">
+                        <option value="" ng-selected="selected">Select</option>
+                        <option *ngFor="let i of IntroducerList" [value]="i.introducedid">
+                          {{i.introducedname}}
+                        </option>
+                      </select> -->
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required-field">TDS Section No</label>
+                            <ng-select id="ptdsSectionName" title="TDS Section No" [items]="TDSsectiondetails" formControlName="ptdsSectionName" bindLabel="pTdsSection" bindValue="pTdsSection" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                [clearOnBackspace]=true [ngClass]="{ 'is-invalid': contactValidationErrors.ptdsSectionName }">
+
+                            </ng-select>
+                            <app-validation-message [messgae]="contactValidationErrors?.ptdsSectionName">
+                            </app-validation-message>
+                            <!-- <select id="ptdsSectionName" title="TDS Section No" class="form-control" formControlName="ptdsSectionName" [ngClass]="{ 'is-invalid': contactValidationErrors?.ptdsSectionName }">
+                        <option value="" ng-selected="selected">Select</option>
+                        <option *ngFor="let tdsdetails of TDSsectiondetails" [value]="tdsdetails.pTdsSection">
+                          {{tdsdetails.pTdsSection}}</option>
+                      </select>
+      
+                            <div class="invalid-feedback">
+                                <span *ngIf="contactValidationErrors.ptdsSectionName">{{contactValidationErrors?.ptdsSectionName}}</span>
+                            </div> -->
+                        </div>
+
+
+                    </div>
+                    <!---------------------------New UI END-->
+
+
+                    <div class="row">
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <!-- <label title="PAN Number" id="pPanNumber">PAN Number</label>
+                      <input  class="form-control" formControlName="pPanNumber" type="text" maxlength="20"
+                        placeholder="Enter PAN Number" value="" > -->
+                                <!-- <div class="invalid-feedback">
+                        <span *ngIf="ReferalMasterForm.pPanNumber">{{ReferalMasterForm?.pPanNumber}}</span>
+                      </div> -->
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-xl-4">
+
+                            <div class="form-group">
+                                <!-- <label title="Introduced By" id="introducedid" >Introduced By</label>
+                      <select class="form-control" id="introducedid" title="Introduced By" formControlName="introducedid" >
+                        <option value="" ng-selected="selected">Select</option>
+                        <option *ngFor="let i of IntroducerList" [value]="i.introducedid">
+                          {{i.introducedname}}
+                        </option>
+      
+                      </select>     -->
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <!-- <label id="ptdsSectionName" title="TDS Section No">TDS Section No</label>
+                      <div class="input-group">
+                        <select id="ptdsSectionName" title="TDS" class="form-control" formControlName="ptdsSectionName"
+                          >
+                          <option value="" ng-selected="selected">Select</option>
+                          <option *ngFor="let tdsdetails of TDSsectiondetails" [value]="tdsdetails.pTdsSection">
+                            {{tdsdetails.pTdsSection}}</option>
+                        </select> -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <app-tdsdetails></app-tdsdetails>    -->
+
+                <div class="d-flex justify-content-end mt-3">
+
+
+                    <!-- <a href="#" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" class="mr-3" width="20px" height="20px">Cancel</a>  -->
+                    <a data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearReferralDeatails()"><img src="assets/images/icon-cancel-white.svg" width="20" height="20" class="mr-3" />Clear</a>
+
+                    <!-- <a href="#" data-toggle="tab" class="btn btn-s-icon px-3  border-0 " role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px">Save </a> -->
+                    <button appButtonDoubleClick [debounceTime]="300" (debounceClick)="saveReferral()" class="btn btn-b-icon px-3  border-0 " [disabled]="disablesavebutton">
+                  <i class="fa"
+                     [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i> {{savebutton}}
+                </button>
+
+
+                </div>
+            </div>
+            <!---------------/.tab pan 1 end --->
+
+            <div class="tab-pane in" id="employee">
+                <!-- <app-employee></app-employee> -->
+                <app-employee-details-new></app-employee-details-new>
+                <div class="d-flex justify-content-end mt-3">
+
+                    <!-- <a href="#" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" class="mr-3" width="20px" height="20px">Cancel</a>  -->
+                    <a href="#loanconfig" data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearEmployeeDeatails()"><img src="assets/images/icon-cancel-white.svg" width="20" height="20" class="mr-3" />Clear</a>
+
+
+                    <!-- <a href="#" data-toggle="tab" class="btn btn-s-icon px-3  border-0 " role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px">Save </a> -->
+                    <button (click)="SavecontactEmployeeForm()" data-toggle="tab" class="btn btn-b-icon px-3  border-0 " role="tab" aria-controls="hot" aria-selected="false" [disabled]="isLoading">
+                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading,'fa-check': !isLoading}"></i>
+                  <span *ngIf="!isLoading">
+                  </span>{{buttonEmployeeName}}
+                </button>
+
+
+
+                </div>
+            </div>
+            <!---------------/.tab pan 2 end --->
+
+            <div class="tab-pane in" id="supplier">
+
+                <div class="row mt-4">
+                    <div class="col-md-6 col-xl-6">
+                        <div class="col-12  p-0">
+                            <p class="bc-2">Supplier</p>
+                        </div>
+                        <div class="mt-3 mb-3 w-75">
+                            <div class="panel section-content-highlight">
+                                <div class="panel-header">
+                                    <h2 class="sec-head">
+                                        Supplier Info
+                                        <a class="btn btn-link  " data-toggle="collapse" data-target="#supplierinfo"> <i class="fa fa-chevron-up" aria-hidden="true"></i> </a>
+                                    </h2>
+                                </div>
+                                <div id="supplierinfo" class="collapse show" aria-labelledby="headingTwo" data-parent="">
+                                    <div class="loans-card  mb-4 ">
+                                        <div class="row">
+                                            <div class="col-12 pt-2">
+
+                                                <div class="user-pic">
+                                                    <!-- <img [src]="croppedImage"> -->
+
+                                                    <img [src]="croppedImage" alt="img" class="rounded-circle" width="120" height="120" title="uplaod Photo here" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 pt-2">
+                                                <p class="lc-title text-center mb-auto">{{Name}}</p>
+                                                <div class="mt-3">
+                                                    <p class="lc-sub-title mb-0 text-center mt-3">
+                                                        {{MobileNo}}
+                                                    </p>
+                                                    <p class="lc-txt mb-0 mt-1 text-center"> Unique ID - {{DisplayCardData?.pContactdId}} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-12 pt-2">
+                            <div class="user-pic"> <img src="assets/images/prof-2.jpg"> </div>
+                        </div>
+                        <div class="col-12 user-sec pt-2">
+                            <p class="lc-title text-center mb-auto">Vignesh Kumar </p>
+                            <p class="lc-sub-title mb-0 text-center mt-1">123456/19</p>
+                            <p class="text-center font-weight-normal"> <a href="tel:+91-9849098490"> +91-9849098490 </a></p>
+                            <p class="lc-txt text-center"><a href="mailto: vignesh@gmail.com"> vignesh@gmail.com </a> </p>
+                        </div> -->
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mt-3">
+
+                    <!-- <a href="#" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" class="mr-3" width="20px" height="20px">Cancel</a>  -->
+                    <!-- <a href="#" data-toggle="tab" class="btn btn-s-icon px-3  border-0 " role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px">Save </a> -->
+
+                    <button appButtonDoubleClick [debounceTime]="300" (debounceClick)="savesupplier()" class="btn btn-b-icon px-3  border-0"  [disabled]="disablesavesupplierbutton">
+                  <i class="fa"
+                     [ngClass]="{'fa-spin fa-spinner': disablesavesupplierbutton, 'fa-check': !disablesavesupplierbutton}"></i> {{savebuttonsupplier}}
+                </button>
+
+                </div>
+            </div>
+            <!---------------/.tab pan 3 end --->
+
+            <div class="tab-pane in" id="advocate">
+                <div class="row mt-4">
+                    <div class="col-md-6 col-xl-6">
+                        <div class="col-12  p-0">
+                            <p class="bc-2">Advocate</p>
+                        </div>
+
+                        <div class="mt-3 mb-3 w-75">
+                            <div class="panel section-content-highlight">
+                                <div class="panel-header">
+                                    <h2 class="sec-head">
+                                        Advocate Info
+                                        <a class="btn btn-link  " data-toggle="collapse" data-target="#Advocateinfo"> <i class="fa fa-chevron-up" aria-hidden="true"></i> </a>
+                                    </h2>
+                                </div>
+                                <div id="Advocateinfo" class="collapse show" aria-labelledby="headingTwo" data-parent="">
+                                    <div class="loans-card  mb-4 ">
+                                        <div class="row">
+                                            <div class="col-12 pt-2">
+
+                                                <div class="user-pic">
+                                                    <img [src]="croppedImage" alt="img" class="rounded-circle" width="120" height="120" title="uplaod Photo here" />
+
+                                                    <!-- <img [src]="croppedImage">  -->
+
+                                                </div>
+                                            </div>
+                                            <div class="col-12 pt-2">
+                                                <p class="lc-title text-center mb-auto">{{Name}}</p>
+                                                <div class="mt-3">
+                                                    <p class="lc-sub-title mb-0 text-center mt-3">
+                                                        {{MobileNo}}
+                                                    </p>
+                                                    <p class="lc-txt mb-0 mt-1 text-center"> Unique ID - {{DisplayCardData?.pContactdId}} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div id="supplierinfo" class="collapse show" aria-labelledby="headingTwo" data-parent="">
+                          <div class="col-12 pt-2">
+                              <div class="user-pic"> <img src="assets/images/prof-2.jpg"> </div>
+                          </div>
+                          <div class="col-12 user-sec pt-2">
+                              <p class="lc-title text-center mb-auto">Vignesh Kumar </p>
+                              <p class="lc-sub-title mb-0 text-center mt-1">123456/19</p>
+                              <p class="text-center font-weight-normal"> <a href="tel:+91-9849098490"> +91-9849098490 </a></p>
+                              <p class="lc-txt text-center"><a href="mailto: vignesh@gmail.com"> vignesh@gmail.com </a> </p>
+                          </div>
+      
+                      </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mt-3">
+                    <!-- <a href="#loanconfig" data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearDeatails()" ><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a> -->
+                    <!-- <a href="#" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" class="mr-3" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearDeatails()" width="20px" height="20px">Cancel</a>  -->
+                    <!-- <a href="#" data-toggle="tab" class="btn btn-s-icon px-3  border-0 " role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px">Save </a> -->
+
+                    <button appButtonDoubleClick [debounceTime]="300" (debounceClick)="saveadvocate()" class="btn btn-c-icon px-3  border-0 " [disabled]="disablesaveadvocatebutton">
+                  <i class="fa"
+                     [ngClass]="{'fa-spin fa-spinner': disablesaveadvocatebutton, 'fa-check': !disablesaveadvocatebutton}"></i> {{btnsaveadvocate}}
+                </button>
+
+                </div>
+            </div>
+            <!---------------/.tab pan 4 end --->
+
+
+        </div>
+
+    </form>
+    <!---------------/.tab content end --->
+    <!-- ==================================================================== tab content pannnel 5 end =================================================================== -->
+</div>

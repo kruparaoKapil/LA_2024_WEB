@@ -1,0 +1,109 @@
+<div class="section-container">
+    <div class="row p-0">
+        <div class="col-xl-12 col-md-12">
+            <div class="section-content ">
+                <form [formGroup]="empSalaryUpdate">
+                <div class="card-box">
+                    <div class="row">
+                        <div class="col-md-4 col-xl-4">
+                            <p class="bc-2-bold">SALARY INCREMENT DETAILS</p>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                              <label class="required-field" id="fromDate" title="From Date">From Date</label>
+                              <input class="form-control" readonly type="text" [bsConfig]="datepickerConfig" bsDatepicker
+                                (ngModelChange)="changeFromDate()" formControlName="fromDate" #dp="bsDatepicker"
+                                placement="bottom">
+                              <div class="invalid-feedback" [ngClass]="{ 'is-invalid': empSalaryValidation.fromDate}">
+                                <span *ngIf="empSalaryValidation.fromDate">{{empSalaryValidation?.fromDate}}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                              <label class="required-field" id="toDate" title="To Date">To Date</label>
+                              <input class="form-control" readonly type="text" [bsConfig]="datepickerConfig1" bsDatepicker
+                                (ngModelChange)="changeToDate()" formControlName="toDate" #dp="bsDatepicker"
+                                placement="bottom">
+                              <div class="invalid-feedback" [ngClass]="{ 'is-invalid': empSalaryValidation.toDate}">
+                                <span *ngIf="empSalaryValidation.toDate">{{empSalaryValidation?.toDate}}</span>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+
+                    <div class="col-md-4 col-xl-4"> 
+                        <a href="" class="export-icons"  data-toggle="tab" (click)="pdfOrprint('Pdf')"><img class="" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                            width="18px" style="margin-top: -82px; margin-left: 635px;"></a>
+                        <a href="" class="export-icons" data-toggle="tab" (click)="pdfOrprint('Print')"><img class="" src="assets/images/print-icon-blue.svg " title="Print"
+                            width="18px" style="margin-top: -123px; margin-left: 672px;"></a>
+
+                            <!-- <a href="" class="export-icons" data-toggle="tab" (click)="pdfOrprint('Print')"><img class="" src="assets/images/print-icon-blue.svg " title="Print"
+                                width="18px" style="    margin: 10px; cursor: pointer; margin-top: 36px;"></a> -->
+                    </div> 
+                </div>
+
+
+                
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section-container mt-4">
+    <div class="row p-0">
+        <div class="col-xl-12 col-md-12">
+            <div class="section-content ">
+                <form [formGroup]="empSalaryUpdate">
+                
+
+
+                <div class="card-box mt-4">
+                    <div class="row">
+                        <div class="col-md-4 col-xl-4">
+                            <p class="bc-2-bold">FUTURE INCREMENT DETAILS
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                              <label class="required-field" id="fromDate" title="From Date">From Date</label>
+                              <input class="form-control" readonly type="text" [bsConfig]="datepickerConfig" bsDatepicker
+                                (ngModelChange)="changeFromDate()" formControlName="fromDate" #dp="bsDatepicker"
+                                placement="bottom">
+                              <div class="invalid-feedback" [ngClass]="{ 'is-invalid': empSalaryValidation.fromDate}">
+                                <span *ngIf="empSalaryValidation.fromDate">{{empSalaryValidation?.fromDate}}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                              <label class="required-field" id="toDate" title="To Date">To Date</label>
+                              <input class="form-control" readonly type="text" [bsConfig]="datepickerConfig1" bsDatepicker
+                                (ngModelChange)="changeToDate()" formControlName="toDate" #dp="bsDatepicker"
+                                placement="bottom">
+                              <div class="invalid-feedback" [ngClass]="{ 'is-invalid': empSalaryValidation.toDate}">
+                                <span *ngIf="empSalaryValidation.toDate">{{empSalaryValidation?.toDate}}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4 col-xl-4"> 
+                            <a href="" class="export-icons"  data-toggle="tab" (click)="FpdfOrprint('Pdf')"><img class="" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                                width="18px" style="margin-top: 37px; margin-left: 13px; cursor: pointer;"></a>
+                            <a href="" class="export-icons" data-toggle="tab" (click)="FpdfOrprint('Print')"><img class="" src="assets/images/print-icon-blue.svg " title="Print"
+                                width="18px" style="    margin: 10px; cursor: pointer; margin-top: 36px;"></a>
+                        </div> 
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>

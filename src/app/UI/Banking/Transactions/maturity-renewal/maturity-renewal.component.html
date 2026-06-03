@@ -1,0 +1,297 @@
+<div class="row">
+  <div class="col-md-6 col-xl-6">
+    <p class="bc-2">Maturity Renewal</p>
+  </div>
+  <div class="col-md-6 col-xl-6">
+    <a (click)="back()" class="btn btn-b-icon border-0"
+      style="background-color: #4b70ff; color: #fff; padding: 5px 10px 3px 0px; cursor: pointer; float: right;">
+      <img src="assets/images/icon-back-blue.svg" width="25px" height="25px"> View
+    </a>
+  </div>
+</div>
+
+<div class="row mt-3">
+  <div class="col-md-12 col-lg-12">
+    <div class="section-container">
+      <form [formGroup]="MaturityRenewalForm" autocomplete="off">
+
+        <div class="row mt-2">
+          <div class="col-md-3 col-xl-3">
+            <div class="form-group">
+              <label>Date</label>
+              <fieldset [disabled]="!disabletransactiondate">
+                <input class="form-control" readonly type="text"
+                  [bsConfig]="pMaturitypaymentdateConfig" bsDatepicker
+                  formControlName="pMaturitypaymentdate"
+                  [ngClass]="{ 'is-invalid': formValidationMessages?.pMaturitypaymentdate }">
+              </fieldset>
+            </div>
+          </div>
+
+          <!-- <div class="col-md-3 col-xl-3">
+            <div class="form-group">
+              <label id="pPaymentType" title="Payment Type">Payment Type</label>
+              <ng-select
+                title="Renewal"
+                [items]="PaymentTypeList"
+                formControlName="pPaymentType"
+                bindLabel="PaymentType"
+                bindValue="PaymentType"
+                [multiple]="false"
+                placeholder="Select"
+                (change)="PaymentTypeChange($event)"
+                [searchable]="true"
+                [clearable]="true"
+                dropdownPosition="bottom"
+                [clearOnBackspace]="true"
+                [ngClass]="{ 'is-invalid': formValidationMessages?.pPaymentType }">
+              </ng-select>
+              <div class="invalid-feedback-cst">
+                <span *ngIf="formValidationMessages.pPaymentType">
+                  {{ formValidationMessages.pPaymentType }}
+                </span>
+              </div>
+            </div>
+          </div> -->
+              <div class="col-md-3 col-xl-3">
+                        <div class="form-group">
+                            <label id="pPaymentType" title="Payment Type">Payment Type</label>
+
+                            <ng-select title="Maturity" [items]="PaymentTypeList" formControlName="pPaymentType" bindLabel="PaymentType" bindValue="PaymentType" [multiple]=false placeholder="Select" (change)="PaymentTypeChange($event,'Payment Type');" [searchable]=true [clearable]=true
+                                dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': formValidationMessages?.pPaymentType }">
+                            </ng-select>
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="formValidationMessages.pPaymentType">{{formValidationMessages.pPaymentType}}</span>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 col-xl-4 members">
+            <div class="form-group">
+              <label id="pMemberid" title="Member">Member</label>
+              <ng-select
+                [items]="MaturityMemberDetails"
+                formControlName="pMemberid"
+                bindLabel="pMembername"
+                bindValue="pMemberid"
+                [multiple]="false"
+                placeholder="Select"
+                [searchable]="true"
+                [searchFn]="customSearchFn"
+                (change)="MemberChange($event)"
+                [clearable]="true"
+                dropdownPosition="bottom"
+                [clearOnBackspace]="true"
+                [ngClass]="{ 'is-invalid': formValidationMessages.pMemberid }">
+                <ng-template ng-header-tmp>
+                  <label class="col-4 p-0"><strong>Member</strong></label>
+                  <label class="col-4 p-0" style="text-align:center"><strong>Member Code</strong></label>
+                  <label class="col-4 p-0" style="text-align:center"><strong>Contact No.</strong></label>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  <div class="row">
+                    <span class="col-4 text-dark word-break text-wrap">{{ item.pMembername }}</span>
+                    <span class="col-4 text-dark">{{ item.pMembercode }}</span>
+                    <span class="col-4 text-dark" [ngOptionHighlight]="search">{{ item.pMobileno }}</span>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <div class="invalid-feedback-cst">
+                <span *ngIf="formValidationMessages.pMemberid">{{ formValidationMessages.pMemberid }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="light">
+
+        <!-- Renewal Grid -->
+        <div class="row" *ngIf="ShowRenewalGrid">
+          <div class="col-md-12 col-xl-12">
+            <ngx-datatable
+              class="material expandable table"
+              [rows]="FdDetailsList"
+              [headerHeight]="40"
+              [footerHeight]="20"
+              [scrollbarH]="true"
+              [columnMode]="force"
+              rowHeight="auto"
+              [limit]="10">
+
+              <!-- Select Checkbox -->
+              <ngx-datatable-column name="Select" prop="" [cellClass]="'cell-left'" [headerClass]="'header-left'" width="30">
+                <ng-template ngx-datatable-header-template>
+                  <input type="checkbox" [checked]="allRowsSelected" (change)="selectAll($event)" />
+                </ng-template>
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value">
+                  <input type="checkbox"
+                    (change)="SelectMaturitybond($event, value, rowIndex)"
+                    [checked]="value.pStatus">
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Advance Account No." prop="pFdaccountno" [cellClass]="'cell-center'" [headerClass]="'header-center'">
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Advance Amount" prop="pDepositamount" [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.pDepositamount | mycurrencypipe }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Interest Payable" prop="pInterestpayble" [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.pInterestpayble | mycurrencypipe }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Late Fee Amount" prop="pLateFeeAmount" [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.pLateFeeAmount | mycurrencypipe }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Outstanding Amount" prop="pNetPayable" [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.pNetPayable | mycurrencypipe }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Paid Amount" prop="pPaid_Amount" [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.pPaid_Amount | mycurrencypipe }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Pending Amount" prop="pPending_Amount" [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.pPending_Amount | mycurrencypipe }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Maturity Type" prop="pMaturityType" [cellClass]="'cell-center'" [headerClass]="'header-center'">
+              </ngx-datatable-column>
+
+              <!-- Renewal Amount Input -->
+              <ngx-datatable-column name="Renewal Amount" prop="" width="170" [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value">
+                  <input
+                    type="text"
+                    class="form-control text-right"
+                    [disabled]="value.Editable"
+                    *ngIf="ShowRenewal"
+                    maxlength="17"
+                    (change)="ValidateRenewalAmount($event, row, rowIndex)"
+                    value="{{ row.pRenewalAmount }}"
+                    (keyup)="checkRenewalAmount($event, rowIndex)"
+                    appNumbersonly
+                    removeZero
+                    [ngClass]="{ 'is-invalid': value.IsRenewal }">
+                  <div class="invalid-feedback-cst">
+                    <span *ngIf="value.IsRenewal">Renewal Amount Required</span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+            </ngx-datatable>
+
+            <!-- Total Renewal Amount -->
+            <div class="d-flex justify-content-end" *ngIf="ShowRenewal">
+              <label id="pTotalpaymentamount" class="text-dark pl-4">Total Renewal Amount : </label>
+              <label><strong class="bc-2 pl-2">{{ totalRenewalAmount | currencypipewithdecimal }}</strong></label>
+            </div>
+
+            <!-- Show Button -->
+            <div class="d-flex justify-content-end" *ngIf="ShowRenewal">
+              <button appButtonDoubleClick [debounceTime]="1000" (debounceClick)="AddRenewal()"
+                class="btn btn-b-icon px-3 border-0">
+                <i class="fa fa-plus"></i> Show
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="ShowRenewalFdTransaction">
+          <div class="col-md-12 col-xl-12">
+            <app-maturity-payment-renewal></app-maturity-payment-renewal>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 col-xl-12">
+            <div class="form-group mt-2">
+              <label id="pnarration" title="Narration">Narration</label>
+              <textarea class="form-control" rows="4" id="pnarration" title="Narration"
+                formControlName="pnarration" maxlength="250"
+                [ngClass]="{ 'is-invalid': formValidationMessages.pnarration }">
+              </textarea>
+              <app-validation-message [messgae]="formValidationMessages?.pnarration"></app-validation-message>
+            </div>
+          </div>
+        </div>
+
+      </form>
+
+      <hr>
+
+      <!-- Action Buttons -->
+      <div class="row mt-1 ml-1 mb-4">
+        <div class="col-md-12 col-xl-12">
+          <div class="d-flex justify-content-end mt-4">
+            <a class="btn btn-g-icon mr-4 px-3 border-0" role="tab"
+              appButtonDoubleClick [debounceTime]="1000" (debounceClick)="ClearDetails()">
+              <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3"> Clear
+            </a>
+            <button appButtonDoubleClick [debounceTime]="1000" (debounceClick)="saveMaturityRenewal()"
+              class="btn btn-b-icon px-3 border-0">
+              <i class="fa"></i> {{ savebutton }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Warning Modal -->
+<div class="custom-modal-overlay" *ngIf="showModal">
+  <div class="custom-modal-content">
+    <h3>Warning</h3>
+    <p>Please Add Nominee, Referral Details.</p>
+    <button (click)="closeModal()">Close</button>
+  </div>
+</div>
+
+<style>
+  .custom-modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  .custom-modal-content {
+    background: #ff4444;
+    padding: 15px 25px;
+    border-radius: 10px;
+    color: white;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+    width: 200px;
+    text-align: center;
+  }
+  .custom-modal-content h3 { margin: 0 0 10px; font-size: 18px; }
+  .custom-modal-content p  { font-size: 14px; }
+  button {
+    padding: 6px 12px;
+    background-color: white;
+    color: #ff4444;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover { background-color: #ff6666; }
+</style>

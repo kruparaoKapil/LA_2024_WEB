@@ -1,0 +1,23 @@
+<kendo-grid [kendoGridBinding]="gridData" [groupable]="false" 
+	[kendoGridSelectBy]="'id'" [reorderable]="false" [scale]="0.9" [resizable]="true" [sortable]="false">								
+<kendo-grid-column field="paccountname" title="Particulars"></kendo-grid-column>
+	<kendo-grid-column field="popeningbal" title="Opening Balance" [hidden]="hidegridcolumn" [headerClass]="{'kendo-right': true}" class="kendo-right"></kendo-grid-column>
+	<kendo-grid-column field="pdebitamount" title="Debit Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+      <ng-template kendoGridCellTemplate let-dataItem>
+			<div *ngIf="dataItem.pdebitamount == 0"></div>
+			<div *ngIf="dataItem.pdebitamount !== 0"> {{dataItem.pdebitamount | mycurrencypipe}}
+			</div>
+		</ng-template>
+	</kendo-grid-column>
+  <kendo-grid-column field="pcreditamount" title="Credit Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+	  	<ng-template kendoGridCellTemplate let-dataItem>
+				<div *ngIf="dataItem.pcreditamount == 0"></div>
+				<div *ngIf="dataItem.pcreditamount !== 0"> {{dataItem.pcreditamount | mycurrencypipe}}
+				</div>
+		</ng-template>
+	</kendo-grid-column>
+ <kendo-grid-column field="pclosingbal" title="Closing Balance" [hidden]="hidegridcolumn" [headerClass]="{'kendo-right': true}" class="kendo-right"></kendo-grid-column>
+ <div *kendoGridDetailTemplate="let dataItem">
+     <app-trialbalance-accountledger [GroupType]=Grouptype [accountledgerdetails]=dataItem [fromdate]=fromdate [todate]=todate [accountid]=id></app-trialbalance-accountledger>
+ </div>
+  </kendo-grid>

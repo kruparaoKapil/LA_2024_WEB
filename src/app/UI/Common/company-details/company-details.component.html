@@ -1,0 +1,29 @@
+<div class="pl-4 pt-2 pr-4  border-bottom-0">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="temp-img float-md-left">
+                <!-- <img class="img-responsive ml-4" width="150" [src]="croppedImage" /> -->
+                <img class="img-responsive ml-4" width="120" src="assets/images/Logonew.png"  />
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="temp-head float-md-center pt-3">
+                <h5 class="font text-center m-0 font-weight-bold"> {{pCompanyName}}</h5>
+                <p class="font-16  text-center m-0"> {{pAddress1}} {{pAddress2}} {{pDistrict}}, {{pcity}}, {{pState}} - {{pPincode}} </p>
+                <p class="font-14  text-center">CIN : {{pCinNo}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row  mb-3">
+        <div class="col-md-6">
+            <div class="">
+                <p class="font-14 text-left m-0  font-weight-bold m-0">Printed On: {{todaydate | date :'dd-MMM-yyyy h:mm:ss a '}}</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="">
+                <p class="font-14 text-right m-0 font-weight-bold m-0">Branch : {{pBranchname | titlecase}}</p>
+            </div>
+        </div>
+    </div>
+</div>

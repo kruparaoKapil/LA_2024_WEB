@@ -1,0 +1,359 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6 ">
+      <p class="bc-2">Cash Flow</p>
+    </div>
+  </div>
+<div class="section-container mt-3">
+
+    <form [formGroup]="CashFlowForm">
+        <div class="row">
+            <div class="col-xl-3 col-md-4 form-group">
+
+                <label id="ptransdate" title="Date" class="mt-1" for="">Date</label>
+                <input type="text" class="form-control" formControlName="ptransdate" [bsConfig]="dpConfig"
+                    (onShown)="onOpenCalendar($event)" [ngClass]="{ 'is-invalid': cashflowvalidations.ptransdate }" (ngModelChange)="DateChange($event)" #dp="bsDatepicker"
+                    bsDatepicker placement="bottom">
+                    <div class="invalid-feedback">
+                            <span
+                                *ngIf="cashflowvalidations.ptransdate">{{cashflowvalidations?.ptransdate}}</span>
+                        </div>
+            </div>
+            <div class="col-xl-3 col-md-4 form-group">
+
+                <label id="month" title="Month" class="mt-1" for="">Months</label>
+                <select class="form-control col-md-12 btn-lg-icon" formControlName="month"
+                    (change)="Monthchanges($event)" [ngClass]="{ 'is-invalid': cashflowvalidations.month }">
+                    <option value="" [disabled]>Select</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                    <option>12</option>
+                </select >
+                <div class="invalid-feedback">
+                        <span
+                            *ngIf="cashflowvalidations.month">{{cashflowvalidations?.month}}</span>
+                    </div>
+            </div>
+            <div class="d-flex col-xl-3 col-md-4 form-group mt-3 pt-3">
+                <label></label>
+                <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon mr-2  border-0"
+                    data-toggle="tab" (click)="showdetails()" role="tab">
+                    Show
+                </button>
+            </div>
+
+
+        </div>
+      
+     </form>
+   
+  
+
+
+  <div class="row">
+    <div class="col-md-6 col-xl-6 pt-1">
+      <p class="bc-2">Cash Flow Summary</p>
+    </div>
+  </div>
+
+  <kendo-grid [kendoGridBinding]="cashflowsummary" [height]="500" [reorderable]="true" [resizable]="true"
+    [columnMenu]="{ filter: true }" [sortable]="true" (remove)="removeHandler($event)">
+
+    <ng-template kendoGridToolbarTemplate>
+      <div class="row mb-3">
+        <div class="col-12 mt-5">
+          <ul class="temp-ul pull-right mr-4 pb-3">
+            <li class="temp-ico">
+              <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                  width="20px"></a>
+            </li>
+            <li class="temp-ico">
+              <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel"
+                  width="20px"></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </ng-template>
+
+    <kendo-grid-column field="pperticulars" title="Particulars" width="150">
+      <ng-template kendoGridCellTemplate let-dataItem>
+          <div *ngIf="dataItem.pStatus">
+              <a (click)="GetMonth(dataItem)">{{dataItem.pperticulars}}</a>
+            </div>
+            <div *ngIf="!dataItem.pStatus">
+              <a >{{dataItem.pperticulars}}  </a>  
+                </div>
+            
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column field="pcashamtsummary" width="150" title="Total Amount" class="kendo-center">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{dataItem.pcashamtsummary | mycurrencypipe}}
+      </ng-template>
+    </kendo-grid-column>
+
+    <!-- <kendo-grid-pdf fileName="CashFlowSummary.pdf" [repeatHeaders]="true" [allPages]="true">
+      <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm">
+      </kendo-grid-pdf-margin>
+    </kendo-grid-pdf> -->
+    <kendo-grid-pdf fileName="cashflow.pdf" [allPages]="true" paperSize="A3" [repeatHeaders]="true"
+    [landscape]="true">
+
+    <kendo-grid-pdf-margin top="8cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+    <ng-template kendoGridPDFTemplate>
+      <div class="page-template">
+        <div class="header">
+          <app-company-details></app-company-details>
+          <div class="row">
+              <div class="col-md-6">
+                  <div class="">
+                     
+                      <label class="font-14 text-left m-4 mr-4 font-weight-bold m-0">Date:{{DatetoShow}}</label>
+                      <label class="font-14 text-left m-4 mr-4 font-weight-bold m-0">Months:{{MonthtoShow}}</label>
+                  </div>
+              </div>
+          </div>
+        </div>
+
+      </div>
+    </ng-template>
+    
+  </kendo-grid-pdf>
+    <kendo-grid-excel fileName="CashFlowSummary.xlsx"></kendo-grid-excel>
+
+  </kendo-grid>
+
+
+
+  <div class="row mt-2">
+
+    <div class="col-md-12 col-xl-12" *ngIf="showcashflow">
+      <div class="row">
+        <div class="col-md-6 col-xl-6 ">
+          <p class="bc-2">Cash Flow Details {{monthname}}</p>
+        </div>
+      </div>
+      <kendo-grid [kendoGridBinding]="cashflowdetails" [selectedKeys]="mySelection" [pageSize]="10" [skip]="skip"
+        [pageable]="{buttonCount: 2}" [reorderable]="true" [resizable]="true" [pageable]="true"
+        (cellClick)="editClick($event)" [columnMenu]="{ filter: true }" [groupable]="false" [group]="groups"
+        [sortable]="true" (remove)="removeHandler($event)">
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="row mb-3">
+            <div class="col-12 mt-2">
+              <ul class="temp-ul pull-right">
+                <li class="temp-ico">
+                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                      width="20px"></a>
+                </li>
+                <li class="temp-ico">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+        <kendo-grid-column field="pDepositDate" title="Advance Date" width="150">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pDepositDate|date: 'dd-MMM-yyyy'}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pSchemename" title="Scheme Name" width="150" hidden="hidden">
+        </kendo-grid-column>
+        <kendo-grid-column field="pChitbranchname" title="Branch" width="150"></kendo-grid-column>
+        <kendo-grid-column field="pMembername" title="Member" width="150" class="kendo-left">
+        </kendo-grid-column>
+
+
+        <kendo-grid-column field="pDepositamount" title="Advance Amount" width="150" class="kendo-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pDepositamount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pMaturityamount" title="Maturity Amount" width="150" class="kendo-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pMaturityamount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pInterestpayable" title="Interest Payable" width="150" class="kendo-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pInterestpayable | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pFdaccountno" title="Advance Transaction No." width="180">
+        </kendo-grid-column>
+        <kendo-grid-column field="pInterestpayout" title="Interest Payout" width="150">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pInterestrate" title="Interest Rate/Value Per 100" width="200" class="kendo-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pInterestrate | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pCaltype" title="Calucation Type" width="150"></kendo-grid-column>
+        <kendo-grid-column field="pMaturityDate" title="Maturity Date" width="150">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pMaturityDate |date: 'dd-MMM-yyyy'}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pTenure" title="Tenure" width="150"></kendo-grid-column>
+        <kendo-grid-column field="pSquareyard" title="Square Yard" width="150">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pSquareyard | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+
+        <!-- <kendo-grid-pdf fileName="CashFlowDetails.pdf" [repeatHeaders]="true" [allPages]="true">
+          <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm">
+          </kendo-grid-pdf-margin>
+        </kendo-grid-pdf> -->
+
+        <kendo-grid-pdf fileName="cashflowdetails.pdf" [allPages]="true" [scale]="0.8" paperSize="A2" [repeatHeaders]="true"
+        [landscape]="true">
+
+        <kendo-grid-pdf-margin top="8cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+        <ng-template kendoGridPDFTemplate>
+           
+
+          <div class="page-template">
+              
+            <div class="header">
+                
+              <app-company-details></app-company-details>
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="">
+                          <label class="font-14 text-left m-4 mr-4 font-weight-bold m-0">Date:{{DatetoShow}}</label>
+                          <label class="font-14 text-left m-4 mr-4 font-weight-bold m-0">Months:{{MonthtoShow}}</label>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+          </div>
+        </ng-template>
+        
+      </kendo-grid-pdf>
+        <kendo-grid-excel fileName="CashFlowDetails.xlsx" [fetchData]="allData"></kendo-grid-excel>
+
+
+      </kendo-grid>
+    </div>
+
+
+
+
+
+
+
+    <div class="col-md-12 col-xl-12" *ngIf="showcashflowparticulars">
+      <div class="row">
+        <div class="col-md-6 col-xl-6 ">
+          <p class="bc-2">{{monthname}}</p>
+        </div>
+      </div>
+      <kendo-grid [kendoGridBinding]="cashflowparticulars" [selectedKeys]="mySelection" [pageSize]="10" [skip]="skip"
+        [pageable]="{buttonCount: 2}" [reorderable]="true" [resizable]="true" [pageable]="true"
+        (cellClick)="editClick($event)" [columnMenu]="{ filter: true }" [groupable]="false" [sortable]="true"
+        (remove)="removeHandler($event)">
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="row mb-3">
+            <div class="col-12 mt-2">
+              <ul class="temp-ul pull-right">
+                <li class="temp-ico">
+                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                      width="20px"></a>
+                </li>
+                <li class="temp-ico">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+        <kendo-grid-column field="pTransdate" title="Trans Date" width="150">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pTransdate|date: 'dd-MMM-yyyy'}}
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pTransactionno" title="Transcation No." width="150"></kendo-grid-column>
+
+
+
+        <kendo-grid-column field="pParentaccountname" title="Parent Account Name" width="150">
+
+        </kendo-grid-column>
+        <kendo-grid-column field="pAccountname" title="Account Name" width="150" class="kendo-left">
+        </kendo-grid-column>
+        <kendo-grid-column field="pDebitamount" title="Debit Amount" width="150" class="kendo-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pDebitamount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pCreditamt" title="Credit Amount Payable" width="150" class="kendo-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pCreditamt | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pPerticulars" title="Particulars" width="180">
+        </kendo-grid-column>
+
+        <!-- <kendo-grid-pdf fileName="CashFlowParticulars.pdf" [repeatHeaders]="true" [allPages]="true">
+      <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm">
+      </kendo-grid-pdf-margin>
+    </kendo-grid-pdf> -->
+        <kendo-grid-pdf fileName="cashflowparticulars.pdf" [allPages]="true" paperSize="A3" [repeatHeaders]="true"
+          [landscape]="true">
+
+          <kendo-grid-pdf-margin top="8cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+          <ng-template kendoGridPDFTemplate>
+             
+
+            <div class="page-template">
+                
+              <div class="header">
+                  
+                <app-company-details></app-company-details>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="font-14 text-left m-4 mr-4 font-weight-bold m-0">Date:{{DatetoShow}}</label>
+                      <label class="font-14 text-left m-4 mr-4 font-weight-bold m-0">Months:{{MonthtoShow}}</label>
+                    </div>
+                </div>
+
+                
+
+            </div>
+            </div>
+          </ng-template>
+          
+        </kendo-grid-pdf>
+
+
+        <kendo-grid-excel fileName="CashFlowParticulars.xlsx"></kendo-grid-excel>
+
+
+      </kendo-grid>
+    </div>
+
+  </div>
+</div>

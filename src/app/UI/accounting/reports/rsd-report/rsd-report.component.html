@@ -1,0 +1,195 @@
+<div class="section-container">
+    <div class="row p-0">
+        <div class="col-xl-12 col-md-12">
+            <div class="section-content ">
+                <form [formGroup]="rsdForm">
+                    <div class="row mt-2">
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label class="required-field" id="schemeName" title="Scheme Name">Scheme Name</label>
+                                <ng-select title="Scheme Name"  [items]="schemeNames" [multiple]="false"
+                                    formControlName="schemeName" bindLabel="" bindValue=""
+                                    placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                                    [ngClass]="{ 'is-invalid': rsdValidationMessages.schemeName }" (change)="schemeNameChange($event)">
+                                </ng-select>
+                                <div class="invalid-feedback">
+                                    <span *ngIf="rsdValidationMessages.schemeName">{{rsdValidationMessages?.schemeName}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label class="required-field"  id="monthOf" title="Month Of" >Month Of</label>
+                                <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpConfig" #dp="bsDatepicker"
+                                bsDatepicker placeholder="mmm/YY" [bsValue]="bsValue" formControlName="monthOf"
+                                 (onShown)="onOpenCalendar($event)" (ngModelChange)="monthOfChange($event)"
+                                [ngClass]="{ 'is-invalid': rsdValidationMessages.monthOf }">
+                              <div class="invalid-feedback">
+                                <span *ngIf="rsdValidationMessages.monthOf">{{rsdValidationMessages?.monthOf}}</span>
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-xl-2">
+                          <div class="form-group">
+                              <br>
+                              <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="mergeContactsByPan()">
+                                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                                  <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                          width="20px"></span> Show
+                              </a>
+                          </div>
+                      </div>
+                    </div>
+
+                    <div class="row mt-2" hidden> 
+                        <div class="col-md-4  col-xl-4">
+                            <div class="form-group">
+                              <label id="monthOf" class="required-field" title="Month Of">Month Of</label>
+                              <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpConfig" #dp="bsDatepicker"
+                                bsDatepicker placeholder="mmm/YY" [bsValue]="bsValue" formControlName="monthOf"
+                                 (onShown)="onOpenCalendar($event)" (ngModelChange)="monthOfChange($event)"
+                                [ngClass]="{ 'is-invalid': rsdValidationMessages.monthOf }">
+                              <div class="invalid-feedback">
+                                <span *ngIf="rsdValidationMessages.monthOf">{{rsdValidationMessages?.monthOf}}</span>
+                              </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </form>
+                <br>
+        
+                    <kendo-grid [kendoGridBinding]="rsdData" [pageSize]="10" [pageable]="{buttonCount: 2}"
+                    [reorderable]="false"  [sortable]="true" [resizable]="true">
+            
+                    <ng-template kendoGridToolbarTemplate>
+                      <div class="row mb-4">
+                          <div class="col-md-4 col-xl-4 pl-0 mt-n1">
+                             <input type="search" placeholder="Search in all columns..." class="form-control search-k-cst sb" (input)="searchbypan($event.target.value)">
+                          </div>
+                      </div>
+                      <div class="col-12 mt-2">
+                        <ul class="temp-ul pull-right">
+                          <li class="temp-ico ml-2">
+                            <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                                width="20px"></a>
+                          </li>
+                         
+                          <li class="temp-ico ml-2">
+                            <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                                width="20px"></a>
+                          </li>
+                        </ul>
+                      </div>
+                    </ng-template>
+        
+            
+                      <!-- <kendo-grid-column field="" title="App ID" width="100" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column> -->
+            
+                      <kendo-grid-column field="contactName" title="Contact Name" width="180" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                      <kendo-grid-column field="mobileNo" title="Mobile No." width="180" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                      <kendo-grid-column field="panNo" title="Pan No." width="180" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                      <kendo-grid-column field="address" title="Address" width="180" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                    
+            
+                      <!-- <kendo-grid-column field="" title="Amount" width="120" class="kendo-right" [headerClass]="{'kendo-right': true}">
+                        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                          {{dataItem | mycurrencypipe}}<span class="ml-5"></span>
+                        </ng-template>
+                      </kendo-grid-column>
+
+                      <kendo-grid-column field="" title="App Date" width="130" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                      <kendo-grid-column field="" title="Maturity Date" width="130" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                      <kendo-grid-column field="" title="Ext.Ret. Rate" width="130" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+            
+                      <kendo-grid-column field="" title="Ext.Ret. Amount" width="120" class="kendo-right" [headerClass]="{'kendo-right': true}">
+                        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        {{dataItem | mycurrencypipe}}<span class="ml-5"></span>
+                        </ng-template>
+                        <ng-template kendoGridFooterTemplate>
+                          </ng-template>
+                      </kendo-grid-column>
+            
+                      <kendo-grid-column field="" title="TDS Amount" width="80" class="kendo-right" [headerClass]="{'kendo-right': true}">
+                        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                         {{dataItem | mycurrencypipe}}<span class="ml-5"></span>
+                        </ng-template>
+                        <ng-template kendoGridFooterTemplate>
+                          </ng-template>
+                      </kendo-grid-column>
+
+                      <kendo-grid-column field="" title="Extra Ret NetPay" width="80" class="kendo-right" [headerClass]="{'kendo-right': true}">
+                        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                         {{dataItem | mycurrencypipe}}<span class="ml-5"></span>
+                        </ng-template>
+                        <ng-template kendoGridFooterTemplate>
+                          </ng-template>
+                      </kendo-grid-column>
+            
+                      <kendo-grid-column field="" title="Bank Name / Branch" width="130" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+            
+                      <kendo-grid-column field="" title="IFSC Code" width="130" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column> -->
+
+
+                    
+                    <kendo-grid-pdf fileName="rsdData.pdf" [allPages]="true" paperSize="A4"
+                      [repeatHeaders]="true" [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+                      <kendo-grid-pdf-margin top="4.5cm" left="0.5cm" right="1cm"
+                        bottom="2cm"></kendo-grid-pdf-margin>
+
+                      <ng-template kendoGridPDFTemplate>
+                        <div class="page-template">
+                          <div class="header">
+                            <app-company-details></app-company-details>
+
+                            <div class="report-head mt-2">
+                              <p class="font-20 text-dark text-center m-0">
+                                  <span class="text-capitalize"> RSD Report</span>
+                              </p>
+
+                          </div>
+
+                            <div class="row">
+                              <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                        font-weight: bold !important;">Scheme Name : {{schemeName}} </span>
+
+                              <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                        font-weight: bold !important; margin-left: 100px !important;">Adjustment Type : {{adjustmenttype}}</span>
+
+<!-- <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                        font-weight: bold !important; margin-left: 100px !important;" *ngIf="paymenttype == 'ADJUSTMENT' ">Company Name : {{companyname}}</span>
+
+<span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                        font-weight: bold !important; margin-left: 100px !important;" *ngIf="paymenttype == 'ADJUSTMENT' ">Branch Name : {{branchname}}</span> -->
+
+
+
+                              <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                        font-weight: bold !important; margin-left: 100px !important;">Month
+                                Of : {{monthof}}</span>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+                      </ng-template>
+
+                    </kendo-grid-pdf>
+
+
+                    <kendo-grid-excel fileName="rsdData.xlsx" [fetchData]="allData"></kendo-grid-excel>
+
+                  </kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>

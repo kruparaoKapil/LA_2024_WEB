@@ -1,0 +1,117 @@
+<div class="row mb-3">
+    <div class="col d-flex flex-wrap align-items-center">
+        <a routerLink='/RdNew' class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-md-12 col-xl-12">
+        <!-- <table id="example" class="table" >
+      <thead>
+        <tr>
+          <th>Recurring  Deposit Name</th>
+          <th>Recurring  Deposit Code</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rdItem of rdItemsList; let i = index;">
+          <td>{{ rdItem.pRdname }}</td>
+          <td>{{ rdItem.pRdnamecode }}</td>
+           <td class="material-switch" colspan="1">
+           <input data-target="#yes" data-toggle="collapse" type="checkbox" id="status0" [checked]="rdItem.pstatus">
+           <label class="badge-success" data-target="#yes" data-toggle="collapse" for="status0"></label>
+          </td>
+          <td><a href="#">
+            <div id="icon-edit"></div>
+            </a></td>
+        </tr>
+      </tbody>
+    </table> -->
+
+        <kendo-grid [kendoGridBinding]="gridView" [groupable]="true" [group]="groups" [selectedKeys]="mySelection" [pageSize]="10" [skip]="skip" [pageable]="{buttonCount: 2}" [reorderable]="true" [resizable]="true" [columnMenu]="{ filter: true }" [pageable]="true"
+            [sortable]="true" (edit)="editHandler($event)" (remove)="removeHandler($event)">
+            <ng-template kendoGridToolbarTemplate>
+                <div class="row  p-3">
+                    <div class="col-4 pl-0 mt-n1">
+                        <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+                    </div>
+                     <!-- <div class="col-7 pr-0 pl-4 ml-4">
+              <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand>
+                    <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                         width="20px">
+                  </a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand>
+                    <img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                         width="20px">
+                  </a>
+                </li>
+              </ul>
+            </div> -->
+                </div>
+            </ng-template>
+            <kendo-grid-command-column title="Actions" width="100">
+                <ng-template kendoGridCellTemplate>
+                 <div id="icon-edit" kendoGridEditCommand [primary]="true"></div>
+                 <div id="icon-delete" kendoGridRemoveCommand disabled></div>
+                </ng-template>
+            </kendo-grid-command-column>
+            <kendo-grid-column field="pRdname" title="Recurring  Deposit Name" width="120">
+            </kendo-grid-column>
+            <kendo-grid-column field="pRdnamecode" title="Recurring  Deposit Code" width="120">
+            </kendo-grid-column>
+            <kendo-grid-column title="Status" width="100">
+                <ng-template let-dataItem let-rowIndex="rowIndex" kendoGridCellTemplate>
+                    <span *ngIf="dataItem.pstatus">Active</span>
+                    <span *ngIf="!(dataItem.pstatus)">In-active</span>
+                </ng-template>
+            </kendo-grid-column>
+               <kendo-grid-pdf fileName="RD_Configuration.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true"
+        [landscape]="true">
+        <ng-template kendoGridPDFTemplate>
+          <div class="page-template">
+             <div class="header bc-2 text-center">
+              <h5>RD Configuration</h5>
+             </div>
+           </div>
+         </ng-template>
+        <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+        <kendo-grid-column field="pRdname" width="100" title="Recurring Deposit Name">
+        </kendo-grid-column>
+        <kendo-grid-column field="pRdnamecode" width="100" title="Recurring Deposit Code">
+        </kendo-grid-column>
+        <kendo-grid-column field="pstatus" width="100" title="Status">
+          <ng-template let-dataItem let-rowIndex="rowIndex" kendoGridCellTemplate>
+                    <span *ngIf="dataItem.pstatus">Active</span>
+                    <span *ngIf="!(dataItem.pstatus)">In-active</span>
+                </ng-template>
+        </kendo-grid-column>
+      </kendo-grid-pdf>
+      <kendo-grid-excel fileName="RD_Configuration.xlsx" [fetchData]="allData">
+          <kendo-excelexport-column-group title="RD Configuration" [headerCellOptions]="headerCells">
+        <kendo-excelexport-column field="pRdname"  title="Recurring Deposit Name">
+        </kendo-excelexport-column>
+        <kendo-excelexport-column field="pRdnamecode"  title="Recurring Deposit Code">
+        </kendo-excelexport-column>
+        <kendo-excelexport-column field="pstatus"  title="Status">
+          <ng-template let-dataItem let-rowIndex="rowIndex" kendoGridCellTemplate>
+                    <span *ngIf="dataItem.pstatus">Active</span>
+                    <span *ngIf="!(dataItem.pstatus)">In-active</span>
+                </ng-template>
+        </kendo-excelexport-column>
+      </kendo-excelexport-column-group>
+      </kendo-grid-excel>
+
+        </kendo-grid>
+    </div>
+</div>
+
+<div class="my-container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplateForFiView">
+    </ngx-loading>
+
+</div>

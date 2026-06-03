@@ -1,0 +1,222 @@
+<div class="row">
+    <div class="col-6 mb-3">
+        <p class="bc-2">Pre-Closure Charges</p>
+    </div>
+    <div class="col-md-6 col-xl-6  mb-3">
+        <a routerLink="/PreclosureView"> <span class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+      color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img
+                src="assets/images/icon-back-blue.svg" width="25px" height="25px">View</span></a>
+    </div>
+</div>
+<!-- <div class="row">
+    <div class="col-md-12 col-xl-12  mb-3">
+        <a routerLink="/PreclosureView"> <span class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+      color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img
+                src="assets/images/icon-back-blue.svg" width="25px" height="25px">View</span></a>
+    </div>
+</div> -->
+<div class="section-container">
+    <form [formGroup]="Preclouserchargesform">
+
+        <div class="row">
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group w-auto">
+                    <label>Loan Type</label>
+                    <!-- <select class="form-control">
+         <option>Applicable to all loan types</option>
+          <option>Vehicle Loan</option>
+          <option>Gold Loan</option>
+          <option>Loan against Property</option>
+          <option>Home Loan</option>
+          <option>Education Loan</option>
+          <option>Term Loan</option>
+        </select>-->
+                    <select class="form-control" placeholder="Loan Type" (change)="getLoanTypeId($event)" formControlName="pLoantypeid" [ngClass]="{ 'is-invalid': submitted &&  Preclouserchargesform.controls.pLoantypeid.errors }" [attr.disabled]="disable ? '' : null">
+          <option value="" disabled>Select</option>
+          <option *ngFor="let loan of loanTypes; trackBy: trackByFn" [value]="loan.pLoantypeid"> {{loan.pLoantype}}</option>
+        </select>
+                    <div *ngIf=" submitted &&  Preclouserchargesform.controls.pLoantypeid.errors" class="invalid-feedback">
+                        <div *ngIf="Preclouserchargesform.controls.pLoantypeid.errors.required">Loan Type is required</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group w-auto">
+                    <label>Loan Name</label>
+                    <select class="form-control" formControlName="pLoanid" [ngClass]="{ 'is-invalid': submitted && Preclouserchargesform.controls.pLoanid.errors }" [attr.disabled]="disable ? '' : null">
+          <option value="" disabled>Select</option>
+          <option *ngFor="let loanname of loanNames; trackBy: trackByFn" [value]="loanname.pLoanid"> {{loanname.pLoanNmae}}</option>
+        </select>
+                    <div *ngIf=" submitted &&  Preclouserchargesform.controls.pLoanid.errors" class="invalid-feedback">
+                        <div *ngIf="Preclouserchargesform.controls.pLoanid.errors.required">Loan Name is required</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--row end -->
+
+        <hr>
+
+        <div class="row">
+            <div class="col-12">
+                <label>Min. Lock-in Period before availing preclosure of loan</label>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                    <div class="input-group w-auto">
+                        <input class="form-control" type="text" value="" formControlName="pLockingperiod" maxlength="2" [ngClass]="{ 'is-invalid':  submitted && Preclouserchargesform.controls.pLockingperiod.errors }" appNumbersonly>
+
+                        <div class="input-group-append">
+                            <select class="form-control w-auto btn-lg-icon" formControlName="pLockingperiodtype" [ngClass]="{ 'is-invalid':  submitted && Preclouserchargesform.controls.pLockingperiodtype.errors }">
+              <option value="" disabled>Select</option>
+              <option>Days</option>
+              <option>Months</option>
+              <option>Years</option>
+            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex"> </div>
+                </div>
+            </div>
+        </div>
+        <!--row end -->
+
+        <div class="row mb-0">
+            <div class="col-md-12 col-xl-12 mb-0">
+
+
+                <div class="form-group mb-0">
+                    <h2 class="sec-head">Charge Type</h2>
+                    <div class="d-flex">
+                        <div class="form-check form-check-inline mr-5 mb-2">
+                            <input class="form-check-input" type="radio" (change)="fixedchargetype()" name="pChargecaltype" id="chargetypefixed1" value="fixed" formControlName="pChargecaltype">
+                            <label class="mt-1" for="chargetypefixed1"> Fixed </label>
+                        </div>
+
+                        <div class="fixedcharge">
+                            <div class="input-group" *ngIf="showchargetype">
+                                <input class="form-control" style="text-align:right;" type="text" value="" appRoundecimal="9@0" appMycurrencyFormatter appNumbersonly formControlName="pChargesvalue" [ngClass]="{ 'is-invalid':  submitted && Preclouserchargesform.controls.pChargesvalue.errors }">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group m-0">
+                    <div class="d-flex">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="pChargecaltype" id="chargetypeper1" (change)="percentagechargetype()" value="percentage" formControlName="pChargecaltype">
+                            <label class="mt-1" for="chargetypeper1"> Percentage </label>
+                        </div>
+                        <div class="percentagecharge">
+                            <div class="form-group m-0">
+                                <div class="input-group" *ngIf="!showchargetype">
+                                    <input class="form-control" type="text" ThreeDigitDecimalNumber value="" formControlName="pChargesvalue" [ngClass]="{ 'is-invalid':  submitted && Preclouserchargesform.controls.pChargesvalue.errors }">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf=" submitted &&  Preclouserchargesform.controls.pChargesvalue.errors" class="invalid-feedback">
+                <div *ngIf="Preclouserchargesform.controls.pChargesvalue.errors.required"></div>
+            </div>
+        </div>
+        <!--row end -->
+
+
+        <div class="row mt-4">
+            <div class="col-md-6 col-xl-6">
+
+                <div class=" p-2 mb-1 mt-1 percentagecharge  border" *ngIf="!showchargetype">
+
+                    <label class="sec-head-bold">Pre-Closure interest is calculated on</label>
+                    <div class="form-group m-0">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="pChargecalonfield" id="preclosureint1" value="Future Principal" formControlName="pChargecalonfield">
+                            <label class="mt-1" for="preclosureint1"> Future Principal </label>
+                        </div>
+                    </div>
+                    <div class="form-group m-0">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="pChargecalonfield" id="preclosureint2" value="Future and Outstanding Principal" formControlName="pChargecalonfield">
+                            <label class="mt-1" for="preclosureint2">Future Principal and Outstanding Principal</label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--row end -->
+        <div class="row mt-4">
+            <div class="col-md-6 col-xl-4">
+                <h2 class="sec-head-bold mt-1"> GST is</h2>
+                <div class="d-flex">
+                    <div class="form-group m-0 p-0">
+                        <div class="form-check form-check-inline mr-5 mb-2 mt-2">
+                            <input class="form-check-input" type="radio" (change)="includedgst()" name="pTaxtype" id="pregstinc" value="Included" formControlName="pTaxtype">
+                            <label class="mt-1 pt-1" for="pregstinc"> Included </label>
+                        </div>
+                    </div>
+                    <div class="form-group mb-2  p-0">
+                        <div class=" included" *ngIf="showinclude">
+                            <div class="d-flex">
+                                <label class="mt-3 mr-2" for="inlineRadio"> GST %</label>
+                                <input class="form-control w-auto" type="text" value="%" ThreeDigitDecimalNumber formControlName="pTaxpercentage" [ngClass]="{ 'is-invalid':  submitted && Preclouserchargesform.controls.pTaxpercentage.errors }">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="form-group m-0 p-0">
+                        <div class="form-check form-check-inline mr-5 mb-2 mt-2">
+                            <input class="form-check-input" type="radio" (change)="excludedgst()" name="pTaxtype" id="pregstexc" value="excluded" formControlName="pTaxtype">
+                            <label class="mt-1 pt-1" for="pregstexc"> Excluded </label>
+                        </div>
+                    </div>
+                    <div class="form-group mb-2  p-0">
+                        <div class=" excluded " *ngIf="showexclude">
+                            <div class="d-flex">
+                                <label class="mt-3 mr-2" for="inlineRadio1"> GST %</label>
+                                <input class="form-control w-auto" type="text" value="%" ThreeDigitDecimalNumber formControlName="pTaxpercentage" [ngClass]="{ 'is-invalid':  submitted && Preclouserchargesform.controls.pTaxpercentage.errors }">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mt-2 p-0">
+                    <div class="form-check form-check-inline mr-5">
+                        <input class="form-check-input" type="radio" (change)="nogst()" name="pTaxtype" id="prenogst" value="nogst" formControlName="pTaxtype">
+                        <label class="mt-1" for="prenogst"> No GST</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--row end -->
+
+        <div class="col-md-12 col-xl-12">
+            <div class="d-flex justify-content-end mt-4">
+                <a (click)="clear()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+                <button (click)="savePreclouserchargesform()" zhref="#penalinterest" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" [disabled]="isLoading">
+        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading,'fa-check': !isLoading}"></i>
+        <span *ngIf="!isLoading">
+        </span>{{buttonname}}
+      </button>
+            </div>
+        </div>
+    </form>
+    <div class="my-container">
+        <ng-template #customLoadingTemplate>
+            <div class="custom-class">
+                <h3>
+                    Loading...
+                </h3>
+
+            </div>
+        </ng-template>
+        <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+    </div>
+</div>

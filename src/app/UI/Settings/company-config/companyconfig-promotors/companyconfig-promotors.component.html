@@ -1,0 +1,40 @@
+<form [formGroup]="companyconfigpromotorsform">
+    <div class="row">
+      <div class="col-12 mt-5">
+        <p class="bc-2">Promotors</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="">Select Contact</label>
+
+      <app-contact-select [SelectType]="SelectType"  (ContactpersondataEventemit)="GetContactPersonDataInFiOther($event)">
+
+      </app-contact-select>
+
+      <div class="col-12 p-0">
+        <button class="btn btn-b-icon" (click)="addDataToTable()"> <img src="assets/images/icon-add-white.svg"
+            width="20px" height="20px" class="mr-3"> Add </button>
+      </div>
+    </div>
+    </div>
+  </form>
+    <kendo-grid [data]="gridData" [groupable]="false"  (remove)="removeHandler($event)"
+    [pageSize]="10"  [reorderable]="true" [resizable]="true" 
+     [pageable]="{ buttonCount: 2 }" [sortable]="true">  
+    <kendo-grid-column field="pContactName" title="Name"></kendo-grid-column>
+    <kendo-grid-column field="pReferenceId" title="Contact Id"></kendo-grid-column>
+    <kendo-grid-column field="pBusinessEntitycontactNo" title="Contact No."></kendo-grid-column>
+    <kendo-grid-command-column title="" width="220">
+      <ng-template kendoGridCellTemplate>
+        <div id="icon-edit" kendoGridEditCommand [primary]="true" hidden></div>
+        <div id="icon-delete" kendoGridRemoveCommand></div>
+      </ng-template>
+    </kendo-grid-command-column>
+  </kendo-grid>
+      
+
+      <!--row-end-->
+   
+    <!--buttons-end--> 
+  

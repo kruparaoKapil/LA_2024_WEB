@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6">
+        <a class="btn btn-b-icon border-0" routerLink="/ChallanaEntryHRMS" style="float: left;" >
+            <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+        </a>
+    </div>
+
+</div>
+<div class="section-container">
+    <div class="row mt-2">
+        <div class="col-md-12">
+            <div class="form-group pt-2">
+                <div class="d-flex justify-content-end" *ngIf="gridData.length!=0">
+                    <a class="export-icons" (click)="pdfOrprint('Pdf')">
+                        <img src="assets/images/pdf-icon-blue.svg " title="pdf" width="18px">
+                    </a>
+
+                    <a class="export-icons" (click)="pdfOrprint('Print')">
+                        <img src="assets/images/print-icon-blue.svg " title="Print" width="18px">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <kendo-grid [kendoGridBinding]="gridData" [pageSize]="pageSize" [pageable]="{buttonCount: 2}" [reorderable]="true"
+        [sortable]="true" [resizable]="true">
+
+        <kendo-grid-column field="pchallantype" title="Challana Type" [headerClass]="{'kendo-g-left': true}"
+            class="kendo-left" width="80">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pchallandate" title="Challana Date" width="80"
+            [headerClass]="{'kendo-g-left': true}" class="kendo-left">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pchallandate | date: 'dd-MM-yyyy'}}
+            </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pchallanno" title="Challana No." width="80" [headerClass]="{'kendo-g-center': true}"
+            class="kendo-center">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pchallanamount" width="Challana Amount" title="Challana Amount"
+            [headerClass]="{'kendo-g-right': true}" class="kendo-right" width="80">            
+            <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                <span> {{dataItem.pchallanamount | mycurrencypipe}}</span>
+            </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pchallanmonth" width="Challana Month" title="Challana Month"
+            [headerClass]="{'kendo-g-center': true}" class="kendo-center" width="80">
+        </kendo-grid-column>
+
+    </kendo-grid>
+</div>

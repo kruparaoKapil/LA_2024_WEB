@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.css';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
+
+.scheme-green-header {
+  background: #cfe5b8;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px;
+  margin-bottom: 6px;
+  font-size: 14px;
+}

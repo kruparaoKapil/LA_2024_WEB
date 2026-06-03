@@ -1,0 +1,367 @@
+<div class="row">
+  <!-- <div class="col-12 p-0">
+    <p class="bc-2 pl-3">Loan Facility</p>
+  </div> -->
+</div>
+
+<form [formGroup]="Rdloanfacilityform">
+  <div class="row mt-5">
+    <div class="col-md-8 col-xl-8">
+      <div class="form-group">
+          <div class="material-switch">
+            <span class="mr-2">Is Loan Facility Available Against Recurring Deposit?</span>
+            <input id="loanfacty" name="pIsloanfacilityapplicable" formControlName="pIsloanfacilityapplicable" type="checkbox"
+              (change)="Loanfacility($event)">
+            <label for="loanfacty" class="badge-success" data-toggle="collapse" data-target="#lf"></label>
+          </div>
+        </div>
+      <!-- <label>Is Loan Facility Available Against Recurring Deposit?</label>
+      <div class="material-switch pull-right">
+        <input id="loanfacty" name="pIsloanfacilityapplicable" formControlName="pIsloanfacilityapplicable"
+          type="checkbox" data-toggle="collapse" data-target="#lf" (change)="Loanfacility($event)">
+        <label for="loanfacty" class="badge-success" data-toggle="collapse" data-target="#lf"></label>
+      </div> -->
+    </div>
+  </div>
+
+
+  <div class="loanyes">
+    <div class="row">
+      <div class="col-md-12 col-xl-6">
+        <div *ngIf="isloanfacilityaplicable">
+          <label id="pEligiblepercentage" title="Percentage">How much Percentage of Recurring Deposit can be availed as loan?</label>
+          <div class="col-md-6 col-xl-6 pl-0">
+            <div class="input-group ">
+              <input appMycurrencyFormatter appRoundecimal="2@2" class="form-control w-25 rounded-left"
+                formControlName="pEligiblepercentage" [ngClass]="{ 'is-invalid': RdLoanfacilityerrors.pEligiblepercentage }" type="text" value="">
+              <div class="input-group-append">
+                <label class=" btn-lg-icon  pt-1 pr-2 pl-2 h-100 pb-0  rounded-right "> % </label>
+              </div>
+            </div>
+             <div class="invalid-feedback">
+            <span
+              *ngIf="RdLoanfacilityerrors.pEligiblepercentage">{{RdLoanfacilityerrors?.pEligiblepercentage}}</span>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-xl-12">
+        <div *ngIf="isloanfacilityaplicable">
+          <!-- <div class="form-group">
+          <div class="material-switch"> -->
+            <!-- <span class="mr-2">Age of Recurring deposit for availing loan</span> -->
+             <!-- <label>Age of Recurring deposit for availing loan</label>
+            <input id="loanageprd" name="pIsloanageperiod" formControlName="pIsloanageperiod" type="checkbox" (change)="Loanageperiod($event)" data-toggle="collapse" data-target="#loanage">
+            <label for="loanageprd" class="badge-success" data-toggle="collapse" data-target="#loanage"></label>
+          </div>
+        </div> -->
+        <!-- <label>Age of Recurring deposit for availing loan</label>
+
+        <div class="material-switch pull-right">
+          <input id="loanageprd" formControlName="pIsloanageperiod" name="pIsloanageperiod" type="checkbox"
+            data-toggle="collapse" data-target="#loanage" (change)="Loanageperiod($event)">
+          <label for="loanageprd" class="badge-success" data-toggle="collapse" data-target="#loanage"></label>
+        </div> -->
+        <div class="col-md-12 col-xl-12 pl-0 mt-3">
+         <label id="pAgeperiod" title="Age Period">Age of Recurring Deposit for Availing Loan</label>
+         <div class="col-md-6 col-xl-6 pl-0">  
+         <div class="input-group ">
+              <input appNumbersWithZeroOnly appNumbersonly maxlength="3" formControlName="pAgeperiod" class="form-control" type="text"
+            value="" [ngClass]="{ 'is-invalid': RdLoanfacilityerrors.pAgeperiod }">
+              <div class="input-group-append"  (change)="Period_Change('Age')">
+               <label id="pAgeperiodtype" title="Age Period Type" hidden></label>
+             <select formControlName="pAgeperiodtype" [ngClass]="{ 'is-invalid': RdLoanfacilityerrors.pAgeperiodtype }" class="form-control w-auto btn-lg-icon"  (change)="Period_Change('Age')">
+             <option ng-selected="selected" value="" disabled>Select</option>
+              <option>Days</option>
+              <option>Months</option>
+              <option>Years</option>
+            </select>
+              </div>
+            </div>
+             <div class="row">
+                 <div class="invalid-feedback col-8">
+               <span *ngIf="RdLoanfacilityerrors.pAgeperiod">{{RdLoanfacilityerrors?.pAgeperiod}}</span>
+               </div>
+                 <div class="invalid-feedback col-4">
+               <span *ngIf="RdLoanfacilityerrors.pAgeperiodtype">{{RdLoanfacilityerrors?.pAgeperiodtype}}</span>
+               </div>
+              </div>
+            </div>
+          </div>
+        <!-- <div class="input-group">
+          <label>Age of Recurring deposit for availing loan</label>
+           <div class="input-group ">
+          <input appMycurrencyFormatter maxlength="17" formControlName="pAgeperiod" class="form-control" type="text"
+            value="">
+          <div class="input-group-append">
+            <select formControlName="pAgeperiodtype" class="form-control w-auto btn-lg-icon">
+              <option>Days</option>
+              <option>Months</option>
+              <option>Years</option>
+            </select>
+          </div>
+        </div>-->
+       </div> 
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <div class="row"> -->
+  <hr class="light">
+  <!-- <div class="col-md-12 col-xl-12"> -->
+  <div class="row mt-2">
+  <div class="col-md-12 col-xl-6">
+    <div class="form-group">
+          <div class="material-switch">
+            <span class="mr-2">Pre-Maturity Conditions</span>
+            <input id="lockin" name="pIsprematuretylockingperiod" formControlName="pIsprematuretylockingperiod" type="checkbox"
+              (change)="Lockinperiod($event)" data-toggle="collapse" data-target="#lockinprd">
+            <label for="lockin" class="badge-success" data-toggle="collapse" data-target="#lockinprd"></label>
+          </div>
+        </div>
+        </div>
+  <!--<div class="form-group">
+      <label class="sec-head-bold">Pre-Maturity Conditions</label>
+    </div>
+    <div class="col-md-1 col-xl-1 ml-5 mt-4">
+      <div class="material-switch pull-right">
+        <input formControlName="pIsprematuretylockingperiod" id="lockin" name="pIsprematuretylockingperiod"
+          type="checkbox" data-toggle="collapse" data-target="#lockinprd" (change)="Lockinperiod($event)">
+        <label for="lockin" class="badge-success" data-toggle="collapse" data-target="#lockinprd"></label>
+      </div>
+    </div> -->
+  </div>
+  <div class="col-md-12 col-xl-6 p-0" *ngIf="islockin">
+    <div class="form-group">
+      <label id="pPrematuretyageperiod" title="Lockin Period">Lockin Period for Pre-Mature Closure of Recurring Deposit</label>
+      <!-- <div class="material-switch pull-right">
+          <input formControlName="pIsprematuretylockingperiod" id="lockin" name="pIsprematuretylockingperiod" type="checkbox" data-toggle="collapse" data-target="#lockinprd" (change)="Lockinperiod($event)">
+          <label for="lockin" class="badge-success" data-toggle="collapse" data-target="#lockinprd"></label>
+        </div>   -->
+      <div class="col-md-6 col-xl-6 pl-0" >
+        <div class="input-group">
+          <input appNumbersonly appNumbersWithZeroOnly maxlength="3" formControlName="pPrematuretyageperiod" class="form-control"
+            type="text" value="" (keyup)="pPrematuretyageperiod_Change($event)" [ngClass]="{ 'is-invalid': RdLoanfacilityerrors.pPrematuretyageperiod }"  (change)="Period_Change('Lockin')">
+          <div class="input-group-append">
+          <label id="pPrematuretyageperiodtype" title="Age Period Type" hidden></label>
+            <select formControlName="pPrematuretyageperiodtype" class="form-control w-auto btn-lg-icon" [ngClass]="{ 'is-invalid': RdLoanfacilityerrors.pPrematuretyageperiodtype }" (change)="Period_Change('Lockin')">
+             <option ng-selected="selected" value="" disabled>Select</option>
+              <option>Days</option>
+              <option>Months</option>
+              <option>Years</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+           <div class="invalid-feedback col-8">
+            <span *ngIf="RdLoanfacilityerrors.pPrematuretyageperiod">
+                {{RdLoanfacilityerrors?.pPrematuretyageperiod}}
+            </span>
+            </div>
+           <div class="invalid-feedback col-4">
+            <span *ngIf="RdLoanfacilityerrors.pPrematuretyageperiodtype">
+                {{RdLoanfacilityerrors?.pPrematuretyageperiodtype}}
+            </span>
+            </div>
+            </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div formGroupName="_RecurringDepositPrematurityInterestPercentages">
+    <div class="row mb-2 pt-3" *ngIf="islockin">
+      <div class="col-md-6 col-xl-6">
+        <label class="">Pre-Mature Percentage</label>
+      </div>
+    </div>
+    <div class="row " *ngIf="islockin">
+      <div class="col-md-3 col-xl-3">
+        <div class="form-group">
+          <label class="mt-1" id="pminprematuritypercentage" title="From">From</label>
+
+          <input class="form-control text-right" maxlength="3" formControlName="pminprematuritypercentage"
+            appNumbersonly type="text" value=""
+            [ngClass]="{ 'is-invalid': RdLoanfacilityerrors.pminprematuritypercentage }"
+            (change)="Frompercentage($event)">
+          <div class="invalid-feedback">
+            <span
+              *ngIf="RdLoanfacilityerrors.pminprematuritypercentage">{{RdLoanfacilityerrors?.pminprematuritypercentage}}</span>
+          </div>
+          <!-- <div class="input-group-append">
+                 <select class="form-control w-auto btn-lg-icon" 
+                 (change)="Tenuremodechanges($event)">          
+                   <option ng-selected="selected">Days</option>
+                   <option>Months</option>
+                   <option>Years</option>
+                 </select>
+               </div> -->
+        </div>
+      </div>
+
+      <div class="col-md-3 col-xl-3">
+        <div class="form-group">
+          <label class="mt-1" id="pmaxprematuritypercentage" title="To">To</label>
+          <div class="input-group">
+            <input class="form-control text-right" type="text" value="" maxlength="3" appNumbersonly appZero formControlName="pmaxprematuritypercentage"
+              [ngClass]="{ 'is-invalid': RdLoanfacilityerrors.pmaxprematuritypercentage }"
+              (change)="Topercentage($event)">
+
+            <div class="input-group-append">
+              <label class="mt-1" id="pprematurityperiodtype" title="Type"></label>
+              <select class="form-control w-auto btn-lg-icon"
+                [ngClass]="{ 'is-invalid': RdLoanfacilityerrors.pprematurityperiodtype}"
+                formControlName="pprematurityperiodtype" (change)="prematuretypeselected($event)">
+                  <option ng-selected="selected" value="" disabled>Select</option>
+                <option>Days</option>
+                <option>Months</option>
+                <option>Years</option>
+              </select>
+
+            </div>
+            <div class="invalid-feedback">
+              <span
+                *ngIf="RdLoanfacilityerrors.pprematurityperiodtype">{{RdLoanfacilityerrors?.pprematurityperiodtype}}</span>
+            </div>
+            <div class="invalid-feedback">
+              <span
+                *ngIf="RdLoanfacilityerrors.pmaxprematuritypercentage">{{RdLoanfacilityerrors?.pmaxprematuritypercentage}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-xl-3">
+        <div class="form-group">
+          <label id="pPercentage" title="Percentage">Percentage</label>
+          <input class="form-control w-auto" appRoundecimal="2@2" formControlName="pPercentage"
+            [ngClass]="{ 'is-invalid': RdLoanfacilityerrors.pPercentage }">
+          <div class="invalid-feedback">
+            <span *ngIf="RdLoanfacilityerrors.pPercentage">{{RdLoanfacilityerrors?.pPercentage}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-xl-12 pb-3">
+        <div class="d-flex justify-content-end mt-4">
+          <!-- <a 
+                   class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg"
+                       width="20px" height="20px" class="mr-3">Clear</a> -->
+          <a (click)="Addtogrid()" class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg"
+              width="20px" height="20px" class="mr-3" />Add</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div *ngIf="islockin">
+    <div class=" mt-4">
+      <div class="col-md-12 col-xl-12 border">
+        <kendo-grid [data]="Griddata" [height]="150" [selectedKeys]="mySelection" [skip]="skip" [reorderable]="true"
+          [resizable]="true" [columnMenu]="{ filter: true }" [sortable]="true" [pageable]="false" [sortable]="true"
+          [resizable]="true" (remove)="removeHandler($event)" width="">
+          <kendo-grid-command-column title="" width="100">
+            <ng-template kendoGridCellTemplate>
+
+              <button kendoGridRemoveCommand>
+                <div id="icon-delete"></div>
+              </button>
+            </ng-template>
+          </kendo-grid-command-column>
+          <kendo-grid-column field="pminprematuritypercentage" title="From"></kendo-grid-column>
+          <kendo-grid-column field="pmaxprematuritypercentage" title="To"></kendo-grid-column>
+          <kendo-grid-column field="pprematurityperiodtype" title="Period"></kendo-grid-column>
+          <kendo-grid-column field="pPercentage" title="Percentage"></kendo-grid-column>
+
+        </kendo-grid>
+      </div>
+    </div>
+  </div>
+  <!-- </div>
+</div> -->
+
+  <hr class="light">
+  <div class="col-md-6 col-xl-6 p-0">
+    <!-- <div class="border-box "> -->
+      <!--col-end-->
+      <div class="col-md-12 col-xl-12 pl-0">
+        <div class="form-group">
+          <div class="material-switch">
+            <span class="mr-2">Late Fee Payable</span>
+            <input id="latefee" name="pIslatefeepayble" formControlName="pIslatefeepayble" type="checkbox" data-toggle="collapse" data-target="#latefeeappl" (change)="Latefeeapplicable()">
+            <label for="latefee" class="badge-success" data-toggle="collapse" data-target="#latefeeappl"></label>
+          </div>
+        </div>
+      </div>
+      <!--col-end-->
+      <div class="col-md-12 col-xl-12">
+      <label id="pLatefeepayblevalue" title="Fixed / Percentage" hidden></label>
+        <div class="form-group m-0" *ngIf="islatefeeapplicable">  
+          <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+            <input formControlName="pLatefeepaybletype" class="form-check-input" type="radio" name="pLatefeepaybletype"
+              id="latefee1" value="comfixed" (change)="latefeePayablechange('fixed')" checked>
+            <label class="mt-2" data-toggle="collapse" for="latefee1"> Fixed </label>
+            <div *ngIf="forFixed" class="ml-5 mt-n2 comfixed" style="display:block;">
+              <input appMycurrencyFormatter  appNumbersonly  maxlength="10" formControlName="pLatefeepayblevalue"
+                class="form-control w-auto text-right" type="text" placeholder="Rs.">
+                 <div class="invalid-feedback">
+            <span *ngIf="RdLoanfacilityerrors.pLatefeepayblevalue">
+                {{RdLoanfacilityerrors?.pLatefeepayblevalue}}
+            </span>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group m-0" *ngIf="islatefeeapplicable">
+          <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+            <input formControlName="pLatefeepaybletype" class="form-check-input" type="radio" name="pLatefeepaybletype"
+              id="latefee2" value="compercentage" (change)="latefeePayablechange('percentage')">
+            <label class="mt-2" data-toggle="collapse" data-target="#Percentage" for="latefee2"> Percentage </label>
+            <div *ngIf="forPercentage" class="ml-2 mt-n2 compercentage ">
+              <input removeZero appRoundecimal="2@2" class="form-control w-25 rounded-left" formControlName="pLatefeepayblevalue"
+                type="text" placeholder="%" [ngClass]="{ 'is-invalid': RdLoanfacilityerrors.pLatefeepayblevalue }">
+                 <div class="invalid-feedback">
+            <span *ngIf="RdLoanfacilityerrors.pLatefeepayblevalue">
+                {{RdLoanfacilityerrors?.pLatefeepayblevalue}}
+            </span>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--col-end-->
+      <div class="col-md-12 col-xl-12 pl-2" *ngIf="islatefeeapplicable">
+        <div class="form-group mt-2">
+          <label id="pLatefeeapplicablefrom" title="Late Fee is applicable from">Late Fee is applicable from</label>
+          <div class="d-flex">
+            <input appNumbersWithZeroOnly appNumbersonly maxlength="3" formControlName="pLatefeeapplicablefrom"
+              class="form-control w-auto" type="text" placeholder="" [ngClass]="{ 'is-invalid': RdLoanfacilityerrors.pLatefeeapplicablefrom }">
+            <!-- <label class="mt-2"> <strong>&nbsp;&nbsp; days</strong> &nbsp; after maturity</label> -->
+            <div class="input-group-append">
+             <label id="pLatefeeapplicabletype" title="applicable Type" hidden>Late Fee is applicable Type</label>
+              <select formControlName="pLatefeeapplicabletype" class="form-control w-auto btn-lg-icon" [ngClass]="{ 'is-invalid': RdLoanfacilityerrors.pLatefeeapplicabletype }">
+              <option ng-selected="selected" value="" disabled>Select </option>
+                <option>Days</option>
+                <option>Months</option>
+                <option>Years</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+           <div class="invalid-feedback col-4">
+            <span *ngIf="RdLoanfacilityerrors.pLatefeeapplicablefrom">
+                {{RdLoanfacilityerrors?.pLatefeeapplicablefrom}}
+            </span>
+            </div>
+           <div class="invalid-feedback col-4">
+            <span *ngIf="RdLoanfacilityerrors.pLatefeeapplicabletype">
+                {{RdLoanfacilityerrors?.pLatefeeapplicabletype}}
+            </span>
+            </div>
+            </div>
+        </div>
+      </div>
+    <!-- </div> -->
+  </div>
+</form>
+<!--row-end-->

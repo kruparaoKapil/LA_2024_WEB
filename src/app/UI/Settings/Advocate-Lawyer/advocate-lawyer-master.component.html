@@ -1,0 +1,86 @@
+<form [formGroup]="ReferalMasterForm">
+  <ul class="nav nav-tabs tip-top wiz-tab mt-5" id="myTab" role="tablist">
+    <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Select Advocate">
+      <a class="active" data-toggle="tab" href="#selectreferral" (click)="ShowTitle('Select Advocate')" role="tab"
+        aria-controls="fresh" aria-selected="true">1</a> </li>
+    <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover"
+      data-content="KYC and KYC Documents"> <a class="" data-toggle="tab" href="#kyc-Documents"
+        (click)="ShowTitle('KYC Documents')" role="tab" aria-controls="warm" aria-selected="false">2</a>
+    </li>
+    <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Bank Details"> <a
+        class="" data-toggle="tab" href="#bankdetails" (click)="ShowTitle('Bank Details')" role="tab"
+        aria-controls="cold" aria-selected="false">3</a> </li>
+    <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Taxes"> <a
+        class="" data-toggle="tab" href="#taxes" (click)="ShowTitle('Taxes')" role="tab" aria-controls="cold"
+        aria-selected="false">4</a> </li>
+  </ul>
+  <div class="btn-group quick-links"> <a class="btn btn-block dropdown-toggle" data-toggle="dropdown"
+     >{{selectedtype}}<span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li class="dropdown-item"><a (click)="testlinks('selectreferral','Select Advocate')">Select Advocate</a></li>
+      <li class="dropdown-item"><a (click)="testlinks('kyc-Documents','KYC Documents')">KYC Documents</a></li>
+      <li class="dropdown-item"><a (click)="testlinks('bankdetails','Bank Details')">Bank Details</a></li>
+      <li class="dropdown-item"><a (click)="testlinks('taxes','Taxes')">Taxes</a></li>
+    </ul>
+  </div>
+  <!-- ======================================================================= tab nav end ============================================================================== -->
+  <div class="tab-content" id="myTabContent">
+    <!------1 selectreferral start------------>
+    <div class="tab-pane fade  active show " id="selectreferral" role="tabpanel" aria-labelledby="fresh-tab">
+      <div class="row">
+        <div class="col-12 mt-5">
+          <p class="bc-2">{{selectedtype}}</p>
+        </div>
+      </div>
+      <!-- <app-contact-select></app-contact-select> -->
+      <label class="mt-1" for="">Advocate</label>
+      <app-contact-select [SelectType]="'Contact'" (ContactpersondataEventemit)="GetContactPersonData($event)"></app-contact-select>
+
+    </div>
+    <!------1 selectreferral end------------>
+
+    <!------2 kyc start ------------>
+    <div class="tab-pane fade" id="kyc-Documents" role="tabpanel" aria-labelledby="warm-tab">
+      <app-kycdocuments></app-kycdocuments>
+    </div>
+    <!------2 kyc end------------>
+
+    <!------3 bankdetails start------------>
+    <div class="tab-pane fade" id="bankdetails" role="tabpanel" aria-labelledby="cold-tab">
+      <app-bankdetails [showBank]="true"></app-bankdetails>
+    </div>
+    <!------3 bankdetails end------------>
+
+    <!------4 taxes start------------>
+    <div class="tab-pane fade" id="taxes" role="tabpanel" aria-labelledby="cold-tab">
+      <app-tdsdetails></app-tdsdetails>
+    </div>
+    <!------4 taxes end------------>
+
+    <div class="row mt-4 ml-1">
+      <div class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end mt-4">
+          <a *ngIf="ClearHideandShow" (click)="clearcomponent()" class="btn btn-g-icon mr-4 px-3 border-0"><img
+              src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+
+          <a *ngIf="BackHideandShow" (click)="backcomponent()" data-toggle="tab"
+            class="btn btn-g-icon px-3 border-0 mr-4" role="tab" aria-controls="hot" aria-selected="false"><img
+              src="assets/images/icon-chewron-left-whitesolid.svg" width="20px" height="20px" class="mr-3" />Back</a>
+
+          <a *ngIf="NextHideandShow" (click)="nextcomponent()" data-toggle="tab"
+            class="btn btn-b-icon px-3 border-0 mr-4" role="tab" aria-controls="hot" aria-selected="false"><img
+              src="assets/images/icon-chewron-right-whitesolid.svg" width="20px" height="20px" class="mr-3" />Next</a>
+
+          <!-- <a *ngIf="SaveHideandShow" (click)="Savereferralagent()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot"
+              aria-selected="false"><img src="assets/images/icon-check-white.svg" class="mr-3" width="20px"
+                height="20px">Save</a> -->
+          <button *ngIf="SaveHideandShow" (click)="Savereferralagent()" class="btn btn-b-icon px-3 border-0"
+            [disabled]="isLoading"><i class="fa"
+              [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i> {{button}}</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</form>
+<!-- ==================================================================== tab content end =================================================================== -->

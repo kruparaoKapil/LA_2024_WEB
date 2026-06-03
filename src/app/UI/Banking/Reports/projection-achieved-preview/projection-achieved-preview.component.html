@@ -1,0 +1,191 @@
+ 
+<div class="d-flex justify-content-end">
+  <ul class="temp-ul">
+    <li class="temp-ico">
+      <img src="assets/images/document-vault-active.svg" width="18px" class="pt-5" title="Uploaded Documents"
+        style="cursor: pointer;" kendo-button (click)="functionA()" />
+    </li>
+
+    <li class="temp-ico">
+      <img src="assets/images/pdf-icon-blue.svg" width="18px" class="pt-5" title="pdf" style="cursor: pointer;"
+        kendo-button (click)="pdf.saveAs('Projection_Report.pdf')" />
+    </li>
+  </ul>
+</div>
+<!-- 
+<kendo-pdf-export #pdf paperSize="A4" [landscape]="true" [allPages]="true" [repeatHeaders]="true" [scale]="0.5">
+  <div id="temp-box">
+
+    <div class="mt-2 border rounded shadow-sm bg-white">
+      <div class="row">
+        <div class="col-md-12">
+          <app-company-details></app-company-details>
+        </div>
+      </div>
+    </div>
+
+    <div class="border shadow-sm bg-white p-3" style="overflow:visible; width:auto; height:auto !important;">
+      
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th rowspan="2">Product Name</th>
+      <th colspan="4">OCT-25</th>
+      <th colspan="4">NOV-25</th>
+      <th colspan="4">DEC-25</th>
+      <th colspan="4">Total</th>
+    </tr>
+    <tr>
+      <ng-container *ngFor="let m of [1,2,3,4]">
+        <th>Projections</th>
+        <th>Achieved</th>
+        <th>Excess/(Short)</th>
+        <th>%</th>
+      </ng-container>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of excelData">
+      <td>{{row.product}}</td>
+
+      <td>{{row.oct.proj}}</td>
+      <td>{{row.oct.ach}}</td>
+      <td>{{row.oct.short}}</td>
+      <td>{{row.oct.per}}</td>
+
+      <td>{{row.nov.proj}}</td>
+      <td>{{row.nov.ach}}</td>
+      <td>{{row.nov.short}}</td>
+      <td>{{row.nov.per}}</td>
+
+      <td>{{row.dec.proj}}</td>
+      <td>{{row.dec.ach}}</td>
+      <td>{{row.dec.short}}</td>
+      <td>{{row.dec.per}}</td>
+
+      <td>{{row.total.proj}}</td>
+      <td>{{row.total.ach}}</td>
+      <td>{{row.total.short}}</td>
+      <td>{{row.total.per}}</td>
+    </tr>
+  </tbody>
+</table>
+ 
+
+    </div>
+
+  </div>
+</kendo-pdf-export> -->
+
+
+ 
+<kendo-pdf-export #pdf paperSize="A4" [landscape]="true" [allPages]="true" [repeatHeaders]="true" [scale]="0.5">
+  <div id="temp-box">
+    <div class="mt-2 border rounded shadow-sm bg-white">
+      <div class="row">
+        <div class="col-md-12">
+          <app-company-details></app-company-details>
+        </div>
+      </div>
+    </div>
+
+    <!--oriii <div class="border shadow-sm bg-white p-3" style="overflow:visible; width:auto; height:auto !important;">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th *ngFor="let col of displayedColumns">{{ col }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of excelData">
+            <td *ngFor="let cell of row">{{ cell }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
+
+    <!--ok for dynamic month <div class="border shadow-sm bg-white p-3" style="overflow:visible; width:auto; height:auto !important;">
+  <table class="table table-bordered table-striped text-center align-middle">
+    <thead>
+      <tr>
+        <th *ngFor="let header of mainHeaders" [attr.colspan]="header.colspan">{{ header.label }}</th>
+      </tr>
+      <tr>
+        <th *ngFor="let sub of subHeaders">{{ sub }}</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let row of excelData.slice(1)">
+        <td *ngFor="let cell of row">{{ cell }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div> -->
+
+<div class="border shadow-sm bg-white p-3" style="overflow:visible; width:auto; height:auto !important;">
+  <table class="table table-bordered table-striped text-center align-middle">
+    <thead>
+      <tr>
+        <th *ngFor="let header of mainHeaders" [attr.colspan]="header.colspan">{{ header.label }}</th>
+      </tr>
+      <tr>
+        <th *ngFor="let sub of subHeaders">{{ sub }}</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let row of excelData.slice(1)">
+        <td *ngFor="let cell of row">{{ cell }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+  </div>
+</kendo-pdf-export>
+
+
+
+<style>
+  .table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #ddd;
+}
+
+/* Allow wrapping only for Product Name column */
+.table td:first-child,
+.table th:first-child {
+  white-space: normal !important;   /* allows wrapping */
+  word-wrap: break-word;
+  max-width: 180px;                 /* adjust as needed */
+}
+
+/* Keep other columns compact */
+.table td:not(:first-child),
+.table th:not(:first-child) {
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Optional: consistent vertical alignment */
+.table th, .table td {
+  vertical-align: middle;
+}
+
+
+</style>

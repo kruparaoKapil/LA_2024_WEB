@@ -1,0 +1,114 @@
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<style>
+
+</style>
+<div class="col-md-12 mt-5 mb-4">
+    <div id="template">
+        <div class="d-flex justify-content-end mr-3">
+            <ul class="temp-ul">
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Default Reminder Letter.pdf')" />
+                </li>
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="false">
+                        <div id="temp-box">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <app-company-details></app-company-details>
+                                    <div class="report-head">
+                                        <p class="font-18 text-dark text-center m-0">Loan Closure Certificate</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                                <div class="row">
+
+
+                                    <div class="col-md-6">
+                                        <p class="font-14 mb-3 text-left m-0">Letter Number: LCC-TNI-3</p>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="font-14 text-left m-0 font-weight-bold">Date : <label class="font-weight-normal">18-Nov-2020</label></p>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">This is to certify that Mr Saravanakumar Shanmuganathan (UCIC: 11) has settled the following loan facility in full and final with the Company:</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Loan Product: Personal Loan<br> Loan Account Number: 5<br> Loan Amount: INR 75000/-
+                                        </p>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">We further confirm that no outstanding payment is due and payable by the customer as of date against the said loan facility in our books.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Please note that this certificate does not constitute any financial undertaking/liability and is being issued without any risk and responsibility on the part of our company or any of its officers.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>Sincerely,</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-5">For Enorme Capital Private Limited</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Authorised Signatory</p>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Name of the signatory: V P Vishnu Prasad<br>Designation: Managing Director<br> Email: vishnuprasad@enormecapital.com</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </kendo-pdf-export>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

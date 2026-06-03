@@ -1,0 +1,495 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6">
+        <p class="bc-2">SA Withdrawal </p>
+    </div>
+
+    <div class="col-md-6 col-xl-6">
+        <a class="btn btn-b-icon border-0" style="float: right;" routerLink="/SaWithdrawalview">
+            <img width="20" height="20" class="mr-2" src="assets/images/icon-back-blue.svg">View
+        </a>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-8 col-xl-8">
+        <div class="section-container">
+            <form [formGroup]="SAwithdrawalForm" autocomplete="off">
+                <div class="row mt-2">
+
+                    <div class="col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label id="ppaymentdate" title="Transaction Date">Transaction Date</label>
+                            <fieldset [disabled]="!disabletransactiondate">
+                                <input type="text" class="form-control" readonly placeholder="Date picker here" formControlName="ppaymentdate" [bsConfig]="dpConfig1" #dp="bsDatepicker" [bsValue]="bsValue" bsDatepicker placement="bottom" [ngClass]="{ 'is-invalid': formValidationMessages.ppaymentdate }"
+                                />
+                            </fieldset>
+                            <app-validation-message [messgae]="formValidationMessages?.ppaymentdate"></app-validation-message>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label id="pSavingAccNameCode" title="Account Type">Account Type</label>
+                            <ng-select title="Account Type" id="pSavingAccNameCode" [items]="AccountType" formControlName="pSavingAccNameCode" bindLabel="pSavingAccname" bindValue="pSavingAccNameCode" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                [clearOnBackspace]=true (change)="AccountType_Change($event);" [ngClass]="{ 'is-invalid': formValidationMessages.pSavingAccNameCode }">
+                            </ng-select>
+                            <app-validation-message [messgae]="formValidationMessages?.pSavingAccNameCode"></app-validation-message>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label id="psavingaccountno" title=" Account No."> Account No.</label>
+
+                            <ng-select title=" Account No." id="psavingaccountno" [items]="SavingAccountNumbers" formControlName="psavingaccountno" bindLabel="psavingaccountno" bindValue="psavingaccountno" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false
+                                dropdownPosition="bottom" [clearOnBackspace]=true (change)="SavingAccountNumber_Change($event);" [ngClass]="{ 'is-invalid': formValidationMessages.psavingaccountno }">
+                                <ng-template ng-header-tmp>
+                                    <label class="col-4 p-0"><strong> Account No.</strong> </label>
+                                    <label class="col-4 p-0" style="text-align:center"><strong>Member Name</strong> </label>
+                                    <label class="col-4 p-0" style="text-align:center"><strong>Contact No.</strong> </label>
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                    <div class="row">
+                                        <span class="col-4 text-dark word-break text-wrap">{{item.psavingaccountno}}</span>
+                                        <span class="col-4 text-dark word-break text-wrap">{{item.pmembername}}</span>
+                                        <span class="col-4 text-dark word-break text-wrap">{{item.pcontactno}}</span>
+                                    </div>
+                                </ng-template>
+                            </ng-select>
+                            <app-validation-message [messgae]="formValidationMessages?.psavingaccountno"></app-validation-message>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <hr class="light">
+                <div class=" mt-1 border rounded p-2 bg-white  mt-2 ">
+
+
+                    <div class="row">
+                        <div class="col-md-6 col-xl-6">
+                            <div class="form-group">
+                                <label id="ptotalpaidamount" title="Withdrawal Amount">Withdrawal Amount</label>
+                                <input type="text" class="form-control" (keyup)="AmountReceived_Change()" formControlName="ptotalpaidamount" style="text-align:right;" appMycurrencyFormatter appNumbersonly maxlength="12" [ngClass]="{ 'is-invalid': formValidationMessages.ptotalpaidamount }">
+                            </div>
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="formValidationMessages.ptotalpaidamount">{{formValidationMessages.ptotalpaidamount}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-6">
+                            <div class="form-group">
+                                <label id="pReceivedamount" title="Balance Amount ">Balance Amount</label>
+                                <input type="text" class="form-control" readonly value="{{balanceamount}}" style="text-align:right;">
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <div>
+                    <div class="col-12 p-0 form-group mt-4">
+                        <label id="pNarration" title="Narration">Narration</label>
+                        <textarea class="form-control" style="height:80px" formControlName="pNarration" maxlength="150" [ngClass]="{ 'is-invalid': formValidationMessages.pNarration }"></textarea>
+                        <div class="invalid-feedback-cst">
+                            <span *ngIf="formValidationMessages.pNarration">{{formValidationMessages.pNarration}}</span>
+                        </div>
+                    </div>
+                </div>
+                <!----------------------------Mode of Payment------------------------------------->
+                <div>
+                    <div class="rounded border p-2 pt-3 pl-3 shadow-sm ">
+                        <p class="bc-2">Mode of Payment</p>
+                        <div class="form-group mt-2  pl-0" id="pmodofpayment" title="Mode of Paymen">
+                            <div class="form-check form-check-inline radio-btn ">
+                                <input class="form-check-input" type="radio" name="pmodofpayment" formControlName="pmodofpayment" id="cash" value="CASH" (change)="modeofPaymentChange()">
+                                <label class="mt-1 w-m-100 text-center" for="cash"> Cash - {{cashBalance}} </label>
+                            </div>
+                            <div class="form-check form-check-inline radio-btn ">
+                                <input class="form-check-input" type="radio" name="pmodofpayment" formControlName="pmodofpayment" id="Instrument" value="BANK" (change)="modeofPaymentChange()">
+                                <label class="mt-1 w-m-100 text-center" for="Instrument"> Bank - {{bankBalance}}</label>
+                            </div>
+                            <!-- <div class="form-check form-check-inline radio-btn ">
+                                <input class="form-check-input" type="radio" name="pmodofpayment" formControlName="pmodofpayment" id="Adjustment" value="ADJUSTMENT" (change)="modeofPaymentChange()">
+                                <label class="mt-1 w-m-100 text-center" for="Adjustment"> Adjustment</label>
+                            </div> -->
+
+                            <!--<div class="form-check form-check-inline radio-btn ">
+                  <input class="form-check-input" type="radio" name="pmodofpayment" formControlName="pmodofpayment" id="wallet" value="WALLET" (change)="modeofPaymentChange()">
+                  <label class="mt-1 w-m-100 text-center" for="wallet"> Wallet - 1,000 Dr</label>
+                </div>-->
+                        </div>
+                        <div class="SavingAccount" *ngIf="SavingAccountShowhide">
+                            <div class="row">
+                                <div class="col-md-4 col-xl-4">
+                                    <div class="form-group">
+                                        <label id="pSavingsMemberAccountid" title="Saving Account No.">Saving Account
+                                            No.</label>
+                                        <div class="form-group" [ngClass]="{'for-disable-radio-btn': notEditable}">
+
+                                            <ng-select [items]="SavingsAccounts" formControlName="pSavingsMemberAccountid" bindLabel="pSavingsMemberAccountno" bindValue="pSavingsMemberAccountid" [multiple]=false placeholder="Select" [searchable]="true" [clearable]=true (change)="SavingsAccountsChanges($event);"
+                                                dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': formValidationMessages.pSavingsMemberAccountid }">
+                                                <ng-template ng-header-tmp>
+                                                    <label class="col-4 p-0"><strong>Account No</strong> </label>
+
+                                                    <label class="col-4 p-0"><strong>Member Name</strong> </label>
+
+                                                </ng-template>
+                                                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                                    <div class="row">
+                                                        <span class="col-4 text-dark">{{item.pSavingsMemberAccountno}}</span>
+                                                        <span class="col-4 text-dark word-break text-wrap">{{item.pSavingsMemberAccountName}}</span>
+
+                                                    </div>
+                                                </ng-template>
+                                            </ng-select>
+                                            <span class=" position-absolute font-italic" style="right:-110px; top:35px;">{{SavingsMemberBalance  | mycurrencypipe}} Cr</span>
+                                            <app-validation-message [messgae]="formValidationMessages?.pSavingsMemberAccountid">
+                                            </app-validation-message>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Instrument" *ngIf="showModeofPayment">
+                            <div class="row">
+                                <div class="ml-3 mb-3 rounded border pl-2 pr-2 badge-light " *ngIf="showtranstype" id="ptranstype" title="Trans Type">
+                                    <div class="form-check form-check-inline radio-btn-secondary">
+                                        <input class="form-check-input" type="radio" name="ptranstype" formControlName="ptranstype" (change)="transofPaymentChange()" id="cheque" value="CHEQUE" checked>
+                                        <label class="mt-1" for="cheque"> Cheque </label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline radio-btn-secondary">
+                                        <input class="form-check-input " type="radio" name="ptranstype" formControlName="ptranstype" (change)="transofPaymentChange()" id="net" value="ONLINE">
+                                        <label class="mt-1" for="net"> Online </label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline radio-btn-secondary">
+                                        <input class="form-check-input " type="radio" name="ptranstype" formControlName="ptranstype" (change)="transofPaymentChange()" id="debit" value="DEBIT CARD">
+                                        <label class="mt-1" for="debit"> Debit Card </label>
+                                    </div>
+                                    <!--<div class="form-check form-check-inline radio-btn-secondary">
+                      <input class="form-check-input " type="radio" name="ptranstype" formControlName="ptranstype" (change)="transofPaymentChange()" id="Credit" value="CREDIT CARD">
+                      <label class="mt-1" for="Credit"> Credit Card </label>
+                    </div>-->
+                                </div>
+
+                                <div class="col-md-12 col-xl-12">
+                                    <div class="cheque ">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group" *ngIf="showbankcard">
+                                                    <label id="pbankid" title="Bank Name">Bank Name</label>
+                                                    <select class="form-control" id="pbankname" title="Bank Name" formControlName="pbankid" (change)="bankName_Change($event)" [ngClass]="{ 'is-invalid': formValidationMessages.pbankid }">
+                              <option value="" ng-selected="selected">Select</option>
+                              <option *ngFor="let bank of banklist;trackBy: trackByFn" [value]="bank.pbankid">{{bank.pbankname}}</option>
+                            </select>
+                                                    <app-validation-message [messgae]="formValidationMessages?.pbankid"></app-validation-message>
+
+                                                </div>
+                                                <div class="form-group" *ngIf="!showbankcard">
+                                                    <label>{{displayCardName}} </label>
+                                                    <select class="form-control" id="pCardNumber" title="{{displayCardName}}" (change)="debitCard_Change($event)" formControlName="pCardNumber" [ngClass]="{ 'is-invalid': formValidationMessages.pCardNumber }">
+                              <option value="" ng-selected="selected">Select</option>
+                              <option *ngFor="let debitcard of debitcardlist;trackBy: trackByFn" [value]="debitcard.pCardNumber">{{debitcard.pCardNumber}}</option>
+                            </select>
+                                                    <app-validation-message [messgae]="formValidationMessages?.pCardNumber"></app-validation-message>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4" *ngIf="showTypeofPayment">
+                                                <div class="form-group">
+                                                    <label>Type of Payment</label>
+                                                    <select class="form-control " id="ptypeofpayment" title="Type of Payment" formControlName="ptypeofpayment" (change)="typeofPaymentChange()" [ngClass]="{ 'is-invalid': formValidationMessages.ptypeofpayment }">
+                              <option value="" ng-selected="selected">Select</option>
+                              <option *ngFor="let typeofpayment of typeofpaymentlist;trackBy: trackByFn" [value]="typeofpayment.ptypeofpayment">{{typeofpayment.ptypeofpayment}}</option>
+
+                            </select>
+                                                    <app-validation-message [messgae]="formValidationMessages?.ptypeofpayment"></app-validation-message>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4" *ngIf="showbranch">
+                                                <div class="form-group">
+                                                    <label>Branch Name</label>
+                                                    <input class="form-control" type="text" readonly placeholder="Branch Name" id="pbranchname" title="Branch Name" formControlName="pbranchname">
+                                                    <app-validation-message [messgae]="formValidationMessages?.pbranchname"></app-validation-message>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4" *ngIf="showfinancial">
+                                                <div class="form-group">
+                                                    <label>Bank / Financial Services</label>
+                                                    <input class="form-control" type="text" readonly id="pbankname" title="Bank / Financial Services" formControlName="pbankname">
+                                                    <app-validation-message [messgae]="formValidationMessages?.pbankname"></app-validation-message>
+                                                </div>
+                                            </div>
+
+                                            <div id="UPI1" class="col-md-4" *ngIf="showupi">
+
+                                                <div class="form-group">
+                                                    <label>UPI</label>
+                                                    <select class="form-control" id="pUpiname" title="UPI" formControlName="pUpiname" [ngClass]="{ 'is-invalid': formValidationMessages.pUpiname }" (change)="upiName_Change($event)">
+                              <option value="" ng-selected="selected">Select</option>
+                              <option *ngFor="let upinames of upinameslist;trackBy: trackByFn" [value]="upinames.pUpiname">{{upinames.pUpiname}}</option>
+                            </select>
+                                                    <app-validation-message [messgae]="formValidationMessages?.pUpiname"></app-validation-message>
+                                                </div>
+                                            </div>
+                                            <div id="UPI2" class="col-md-4" *ngIf="showupi">
+
+                                                <div class="form-group">
+                                                    <label>UPI ID</label>
+                                                    <select class="form-control" id="pUpiid" title="UPI ID" formControlName="pUpiid" [ngClass]="{ 'is-invalid': formValidationMessages.pUpiid }" (change)="upid_change()">
+                              <option value="" ng-selected="selected">Select</option>
+                              <option *ngFor="let upinames1 of upiidlist;trackBy: trackByFn" [value]="upinames1.pUpiid">{{upinames1.pUpiid}}</option>
+                            </select>
+                                                    <app-validation-message [messgae]="formValidationMessages?.pUpiid"></app-validation-message>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 cheque ">
+                                                <div class="form-group">
+                                                    <label id="pChequenumber" title="{{displaychequeno}}">{{displaychequeno}}</label>
+                                                    <select class="form-control" formControlName="pChequenumber" [ngClass]="{ 'is-invalid': formValidationMessages.pChequenumber }" *ngIf="showchequno" (change)="chequenumber_Change()">
+                              <option value="" ng-selected="selected">Select</option>
+                              <option *ngFor="let chequenumbers of chequenumberslist;trackBy: trackByFn" [value]="chequenumbers.pChequenumber">{{chequenumbers.pChequenumber}}</option>
+                            </select>
+                                                    <input class="form-control" type="text" placeholder="{{displaychequeno}}" formControlName="pChequenumber" appZero maxlength="30" [ngClass]="{ 'is-invalid': formValidationMessages.pChequenumber }" *ngIf="!showchequno" appNumbersonly (blur)="chequenumber_Change()">
+                                                    <app-validation-message [messgae]="formValidationMessages?.pChequenumber"></app-validation-message>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-12 col-xl-12 mb-2">
+                                                <div id="sbi-bal">
+                                                    <span class="badge-info badge p-1 font-weight-light ">Bank Book - {{bankbookBalance}} </span>
+                                                    <span class="badge-warning badge p-1 font-weight-light">Pass Book - {{bankpassbookBalance}} </span>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- cheque-radio-toggle -->
+
+                    </div>
+                </div>
+            </form>
+            <div class="col-md-12 col-xl-12 pr-0">
+                <div class="d-flex justify-content-end mt-4">
+                    <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="Cleardetails()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+
+                    <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="SaveSAWithdrawal()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i> {{savebutton}}</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-xl-4 pl-0">
+        <div class="section-container h-100">
+            <div class="col-md-12 col-xl-12 p-0">
+                <div class="form-group mt-1 pt-1">
+                    <!--<div class="d-flex justify-content-right">
+                <a data-toggle="modal" [ngClass]="disabledforButtons ? 'disableTabs':''" (click)="GetFDAndTransactionDetails('AccountDetails');" class="col-md-12 col-xl-12 btn btn-sec mr-2">
+                  Advance Details
+                </a>
+                <a  data-toggle="modal" [ngClass]="disabledforButtons ? 'disableTabs':''" (click)="GetFDAndTransactionDetails('TransactionDetails');" class="col-md-12 col-xl-12 btn btn-sec mr-2">
+                  Transaction History
+                </a>
+              </div>-->
+                    <div class="form-check form-check-inline boxx radio-btn" [ngClass]="disabledforButtons ? 'disableTabs':''">
+                        <input class="form-check-input" type="radio" name="SAandTransDetails" id="AccountDetails" [checked]="ShowSavingAccountDetails" value="AccountDetails">
+                        <label class="mt-1 w-m-100 text-center boxx" (click)="GetSAandTransDetails('AccountDetails')" for="AccountDetails" checked>
+                   A/C Details
+                </label>
+                    </div>
+                    <div class="form-check form-check-inline boxx radio-btn " [ngClass]="disabledforButtons ? 'disableTabs':''">
+                        <input class="form-check-input" type="radio" name="SAandTransDetails" id="TransactionDetails" [checked]="ShowSavingTransDetails" value="TransactionDetails">
+                        <label class="mt-1 w-m-100 text-center boxx" (click)="GetSAandTransDetails('TransactionDetails')" for="TransactionDetails">
+                  Transaction History
+                </label>
+                    </div>
+
+                    <div style="margin-right:0px !important;">
+                        <div class="mt-3" *ngIf="ShowSavingAccountDetails">
+                            <div class="modal-header p-0">
+                                <div class="col-12 mb-2 p-0">
+                                    <h2 class="sec-head-bold">
+                                        SA Withdrawal Details
+                                    </h2>
+                                </div>
+
+                            </div>
+                            <div class="modal-body p-0" style=" height: 100%;">
+                                <div class="col-xl-12 col-md-12 p-0">
+
+                                    <table class="table border member-Content">
+                                        <!---->
+                                        <tbody>
+                                            <tr>
+                                                <td>Member Name</td>
+                                                <td><span class="font-weight-bold text-dark">{{pmembername}}</span></td>
+                                            </tr>
+
+                                            <!-- <tr><td>Member Code</td>
+                                  <td><span class="font-weight-bold text-dark">{{savingaccountDetails.pmembercode}}</span></td>
+                                </tr> -->
+
+                                            <tr>
+                                                <td>Account Name</td>
+                                                <td><span class="font-weight-bold text-dark">{{psavingaccname}}</span></td>
+                                            </tr>
+                                            <!-- <tr><td>Transaction Date</td>
+                                  <td><span class="font-weight-bold text-dark">{{savingaccountDetails.ptransdate}}</span></td>
+                                </tr> -->
+                                            <tr>
+                                                <td>Contact Number</td>
+                                                <td><span class="font-weight-bold text-dark">{{pcontactno}}</span></td>
+                                            </tr>
+                                            <!-- <tr><td>Savings Amount</td>
+                                  <td><span class="font-weight-bold text-dark">{{psavingsamount | mycurrencypipe}}</span></td>
+                                </tr> -->
+                                            <tr>
+                                                <td>Interest Rate p/a</td>
+                                                <td><span class="font-weight-bold text-dark">{{pinterestrate}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Interest Payout</td>
+                                                <td><span class="font-weight-bold text-dark">{{pinterestpayout}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Max Withdrawal Limit</td>
+                                                <td><span class="font-weight-bold text-dark">{{pmaxwithdrawallimit | mycurrencypipe}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td> Min Opening Amount</td>
+                                                <td><span class="font-weight-bold text-dark">{{savingaccountDetails.pminopenamount | mycurrencypipe}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Min Maintainance Balance</td>
+                                                <td><span class="font-weight-bold text-dark">{{pminmaintainbalance | mycurrencypipe}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Savings Min Deposit Amount</td>
+                                                <td><span class="font-weight-bold text-dark">{{psavingmindepositamount | mycurrencypipe}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Savings Max Deposit Amount</td>
+                                                <td><span class="font-weight-bold text-dark">{{psavingmaxdepositamount | mycurrencypipe}}</span></td>
+                                            </tr>
+                                            <!-- <tr><td>Interest on Maturity</td>
+                                  <td><span class="font-weight-bold text-dark">5,350</span></td>
+                                </tr>
+                                <tr><td>After Maturity</td>
+                                  <td><span class="font-weight-bold text-dark">53,350</span></td>
+                                </tr> -->
+
+
+
+
+
+                                        </tbody>
+                                    </table>
+
+
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="mt-3" *ngIf="ShowSavingTransDetails">
+                        <div class="">
+                            <div class="modal-header p-0">
+                                <div class="col-12 p-0">
+                                    <h2 class="sec-head-bold">
+                                        Transaction History
+                                    </h2>
+                                </div>
+
+                            </div>
+                            <div class="modal-body p-0" style="overflow-y: scroll !important; height: 100%;">
+                                <div class="col-xl-12 col-md-12 p-0">
+                                    <table class="table border mb-3">
+                                        <tbody>
+                                            <tr>
+                                                <td>Account holder Name</td>
+                                                <td><span class="font-weight-bold text-dark">{{savingaccountDetails.pmembername}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Account Number</td>
+                                                <td><span class="font-weight-bold text-dark">{{savingaccountDetails.psavingaccountno}}</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table border">
+
+                                        <thead>
+
+                                            <tr>
+                                                <td class="bc-2">Date</td>
+                                                <td class="bc-2">Transaction ID</td>
+                                                <td class="bc-2">Withdrawal Amount</td>
+                                                <td class="bc-2">Mode of Receipt</td>
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody *ngFor="let DetailsData of savingTranshistoryDetails">
+                                            <tr>
+                                                <td>{{DetailsData.ptransdate}}</td>
+                                                <td>{{DetailsData.pVoucherno}}</td>
+                                                <td>{{DetailsData.pWithDrawamount | mycurrencypipe}}</td>
+                                                <td>{{DetailsData.pmodeofPayment}}</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+
+
+
+
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="my-container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplateForFiView">
+    </ngx-loading>
+
+</div>

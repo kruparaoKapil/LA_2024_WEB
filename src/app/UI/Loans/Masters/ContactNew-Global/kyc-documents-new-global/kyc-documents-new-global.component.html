@@ -1,0 +1,299 @@
+<div class="kyc-block">
+    <form [formGroup]="kycDocumentForm" *ngIf="!showKycDocument && !notApplicableForAll">
+        <div class="row">
+            <div class="col-md-12 col-xl-12">
+                <div class="form-group mt-4 mb-4">
+                    <h2 class="sec-head">KYC Documents</h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-xl-4 ">
+                        <div class="form-group">
+                            <label id="pDocumentGroupId" class="required-field" title="Document Proof Type">Document
+                                Proof Type</label>
+
+
+                            <ng-select id="pDocumentGroupId" title="Document Proof Type" [items]="groupDetails"
+                                formControlName="pDocumentGroupId" bindLabel="pDocumentGroup"  [readonly]="true"
+                                bindValue="pDocumentGroupId" [multiple]=false placeholder="Select" [searchable]=true
+                                [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true [disabled]="true"
+                                (change)="idProofType_Change($event)"
+                                [ngClass]="{ 'is-invalid': kYcDocumnetsErrorMessage.pDocumentGroupId }">
+
+                            </ng-select>
+
+                            <!-- <select class="form-control" formControlName="pDocumentGroupId" [ngClass]="{ 'is-invalid': kYcDocumnetsErrorMessage.pDocumentGroupId }" (change)="idProofType_Change($event)">
+                    <option value="" ng-selected="selected">Select</option>
+                    <option *ngFor="let idType of groupDetails ; trackBy: trackByFn" [value]="idType.pDocumentGroupId">
+                      {{idType.pDocumentGroup}}
+                    </option>
+
+                  </select> -->
+                            <!-- <div class="input-group-append">
+                      <button class="btn btn-lg-icon px-2 p-0" data-toggle="modal" tabindex="-1"
+                              data-target="#idProofTypeModel">
+                        <img src="assets/images/icon-add-blue.svg" class="" width="20px"
+                             height="20px">
+                      </button>
+                    </div> -->
+
+                            <div class="invalid-feedback-cst">
+                                <app-validation-message [messgae]="kYcDocumnetsErrorMessage?.pDocumentGroupId">
+                                </app-validation-message>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label id="pDocumentId" class="required-field" title="Document Proof">Document Proof</label>
+
+
+                            <ng-select id="pDocumentId" title="Document Proof" [items]="kycDocumentType"
+                                formControlName="pDocumentId" bindLabel="pDocumentName" bindValue="pDocumentId" [readonly]="true"
+                                [multiple]=false placeholder="Select" [searchable]=true [clearable]=false [disabled]="true"
+                                dropdownPosition="bottom" [clearOnBackspace]=true (change)="pIdProof_Change($event)"
+                                [ngClass]="{ 'is-invalid': kYcDocumnetsErrorMessage.pDocumentId }">
+
+                            </ng-select>
+
+                            <!-- <select class="form-control" formControlName="pDocumentId" [ngClass]="{ 'is-invalid': kYcDocumnetsErrorMessage.pDocumentId}" (change)="pIdProof_Change($event)">
+                    <option value="" ng-selected="selected">Select</option>
+                    <option *ngFor="let documentType of kycDocumentType;trackBy: trackByFn"
+                      [value]="documentType.pDocumentId">
+                      {{documentType.pDocumentName}}
+                    </option>
+
+
+                  </select> -->
+                            <!-- <div class="input-group-append">
+                      <button class="btn btn-lg-icon px-2 p-0" data-toggle="modal" tabindex="-1" data-target="#idProofModel">
+                        <img src="assets/images/icon-add-blue.svg" class="" width="20px" height="20px">
+                      </button>
+                    </div> -->
+
+                            <div class="invalid-feedback-cst">
+                                <app-validation-message [messgae]="kYcDocumnetsErrorMessage?.pDocumentId">
+                                </app-validation-message>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label id="pDocReferenceno" class="required-field" title="Reference Number">Reference
+                                Number</label>
+                            <input class="form-control" formControlName="pDocReferenceno" appUppercase type="text"
+                                placeholder="" maxlength="20"  [readonly]="true"
+                                [ngClass]="{ 'is-invalid': kYcDocumnetsErrorMessage.pDocReferenceno}">
+                            <div class="invalid-feedback-cst">
+                                <span
+                                    *ngIf="kYcDocumnetsErrorMessage.pDocReferenceno">{{kYcDocumnetsErrorMessage.pDocReferenceno}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="light">
+                    <!-- <div class="col-md-3 col-xl-2">
+                        <div class="form-group">
+                            <label id="pDocumentReferenceMonth" title="Month">Month</label>
+
+                            <ng-select  id="pDocumentReferenceMonth" title="Month" [items]="months" formControlName="pDocumentReferenceMonth" bindLabel="name" bindValue="name" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                [clearOnBackspace]=true [ngClass]="{ 'is-invalid': kYcDocumnetsErrorMessage.pDocumentReferenceMonth }">
+
+                            </ng-select>
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="kYcDocumnetsErrorMessage.pDocumentReferenceMonth">{{kYcDocumnetsErrorMessage.pDocumentReferenceMonth}}</span>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- <div class="col-md-3 col-xl-2">
+                        <div class="form-group">
+                            <label id="pDocumentReferenceYear" title="Year">Year</label>
+                            <input type="text" maxlength="4" class="form-control" formControlName="pDocumentReferenceYear" placeholder="YYYY" appNumbersonly [ngClass]="{'is-invalid': kYcDocumnetsErrorMessage.pDocumentReferenceYear}">
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="kYcDocumnetsErrorMessage.pDocumentReferenceYear">{{kYcDocumnetsErrorMessage.pDocumentReferenceYear}}</span>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-md-6 col-xl-4 ">
+                        <div class="form-group">
+                            <label id="pDocStorePath" title="Upload File Name">Upload File Name</label>
+                            <div class="input-group">
+                                <input #input type="text" class="form-control" placeholder=""
+                                    [value]="imageResponse?.name" disabled formControlName="pDocStorePath">
+                                <div class="input-group-append">
+                                    <button [disabled]="true" class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()">
+                                        <img src="assets/images/icon-upload-blue.svg" class="" width="18px"
+                                            height="18px">
+                                    </button>
+                                    <!-- to uplaod the image -->
+                                    <input id="fileInput1" style="display: none" type="file"
+                                        (change)="uploadAndProgress($event,fileInput.files)" #fileInput>
+                                </div>
+                                <span class="text-success">
+                                    <ng-container *ngIf="uploadSuccess"></ng-container>
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="d-flex justify-content-end mt-4 pt-2 mb-4">
+
+                        <!-- <a class="btn btn-b-icon  px-3 border-0" data-toggle=""
+                         data-target="#bankgrid" (click)="addKycDocument()">
+                         <img src="assets/images/icon-add-blue-rounded.svg" class="mr-2"
+                         width="16px" height="16px">Add</a> -->
+
+
+
+                        <a href="" data-toggle="tab"  class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot"
+                            aria-selected="false" appButtonDoubleClick [debounceTime]="500" (click)="addKycDocument()">
+                            <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- ================================================================= page buttons  here======================================================================== -->
+    <div class="row mt-4" *ngIf="!showKycDocument && !notApplicableForAll && gridData.length>0">
+        <div class="col-md-12 col-xl-12">
+            <!-- *ngIf="(kycData.length>0)" -->
+            <!-- <p class="bc-2">KYC documents and Income Proof</p>     -->
+            <p class="bc-2 mt-2 pb-3">KYC Documents and Income Proof</p>
+            <ngx-datatable class="material expandable table" [rows]="gridData" columnMode="force" [headerHeight]="50"
+                [footerHeight]="0" [rowHeight]="50" [scrollbarH]="true" [limit]="10">
+                >
+                <ngx-datatable-column name="" prop="" editable="true" frozenLeft="True">
+                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+                        let-group="group">
+
+                        <label for="delete{{ rowIndex }}">
+                            <div id="icon-delete" (click)="removeHandler($event, row, rowIndex, group)"></div>
+                        </label>
+
+                    </ng-template>
+                </ngx-datatable-column>
+                <!-- <ngx-datatable-column name="Contact Name" prop="pName"> </ngx-datatable-column> -->
+                <ngx-datatable-column name="Document Proof Type" prop="gDocumentProofsType"></ngx-datatable-column>
+                <ngx-datatable-column name="Document Proof" prop="gDocumentProofsType"> </ngx-datatable-column>
+                <!-- <ngx-datatable-column name="Month" prop="pDocumentReferenceMonth"> </ngx-datatable-column>
+                <ngx-datatable-column name="Year" prop="pDocumentReferenceYear"> </ngx-datatable-column> -->
+                <ngx-datatable-column name="Reference Number" prop="gDocumentReferenceNo"> </ngx-datatable-column>
+
+                <ngx-datatable-column name="Upload File Name" prop="gDocumentFileName"> </ngx-datatable-column>
+            </ngx-datatable>
+
+        </div>
+        <!--The Modal For Id Proof Type Model-->
+        <div class="modal right slideInRight" id="idProofTypeModel" tabindex="-1" role="dialog">
+            <div class="modal-dialog" style="margin-right:0px !important; ">
+                <div class="model-cst modal-content">
+
+                    <div class="modal-body">
+
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <form [formGroup]="idProofTypeModelForm" autocomplete="off">
+                            <div class="form-group">
+                                <label id="pDocumentGroupKyc" title="Document Proof Type"
+                                    class="required-field">Document Proof Type</label>
+                                <input type="text" class="form-control" formControlName="pDocumentGroup"
+                                    placeholder="Enter Document Proof Type" />
+
+                                <!-- <div class="invalid-feedback">
+                      <span *ngIf="idProofTypeErrorMessage.pDocumentGroupKyc">{{idProofTypeErrorMessage.pDocumentGroupKyc}}</span>
+                    </div> -->
+                            </div>
+                            <div class="d-flex justify-content-end mt-4">
+                                <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0"
+                                    (click)="clearIdProofType()">
+                                    <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px"
+                                        class="mr-3">Clear
+                                </a>
+                                <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab"
+                                    aria-controls="hot" aria-selected="false" (click)="saveIdProofType()">
+                                    <img src="assets/images/icon-check-white.svg" width="20px" height="20px"
+                                        class="mr-3">Save
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--The Modal For Id Proof Type Model-->
+        <div class="modal right slideInRight" id="idProofTypeModel" tabindex="-1" role="dialog">
+            <div class="modal-dialog" style="margin-right:0px !important; ">
+                <div class="model-cst modal-content">
+
+                    <div class="modal-body">
+
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <form [formGroup]="idProofTypeModelForm" autocomplete="off">
+                            <div class="form-group">
+                                <label id="pDocumentGroupKyc" title="Document Proof Type"
+                                    class="required-field">Document Proof Type</label>
+                                <input type="text" class="form-control" formControlName="pDocumentGroup"
+                                    placeholder="Document Proof Type" />
+
+                                <!-- <div class="invalid-feedback">
+                      <span *ngIf="idProofTypeErrorMessage.pDocumentGroupKyc">{{idProofTypeErrorMessage.pDocumentGroupKyc}}</span>
+                    </div> -->
+                            </div>
+                            <div class="d-flex justify-content-end mt-4">
+                                <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0"
+                                    (click)="clearIdProofType()">
+                                    <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px"
+                                        class="mr-3">Clear
+                                </a>
+                                <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab"
+                                    aria-controls="hot" aria-selected="false" (click)="saveIdProofType()">
+                                    <img src="assets/images/icon-check-white.svg" width="20px" height="20px"
+                                        class="mr-3">Save
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--The Modal For Id Proof Model-->
+        <div class="modal right slideInRight" id="idProofModel" tabindex="-1" role="dialog">
+            <div class="modal-dialog" style="margin-right:0px !important; ">
+                <div class="model-cst modal-content">
+
+                    <div class="modal-body">
+
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <form [formGroup]="idProofModelForm" autocomplete="off">
+                            <div class="form-group">
+                                <label id="pDocumentNameKyc" title="Document Proof Type" class="required-field">Document
+                                    Proof Type</label>
+                                <input type="text" class="form-control" formControlName="pDocumentName"
+                                    placeholder="Enter Document Proof Type" />
+
+                                <!-- <div class="invalid-feedback">
+                      <span *ngIf="idProofTypeErrorMessage.pDocumentNameKyc">{{idProofTypeErrorMessage.pDocumentGroupKyc}}</span>
+                    </div> -->
+                            </div>
+                            <div class="d-flex justify-content-end mt-4">
+                                <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0"
+                                    (click)="clearIdProofType()">
+                                    <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px"
+                                        class="mr-3">Clear
+                                </a>
+                                <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab"
+                                    aria-controls="hot" aria-selected="false" (click)="saveIdProof()">
+                                    <img src="assets/images/icon-check-white.svg" width="20px" height="20px"
+                                        class="mr-3">Save
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

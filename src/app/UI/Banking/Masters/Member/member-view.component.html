@@ -1,0 +1,175 @@
+<!--<div class="row mt-2 py-1">
+  <div class="col d-flex flex-wrap align-items-center">
+    <a routerLink='/MemberNew' class="btn btn-b-icon border-0" (click)="NewButtonClick()" href="fi-member.html" style="background-color: #4b70ff;
+      color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img
+        src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+  </div>
+</div>-->
+<div class="row">
+  <div class="col-md-12 col-xl-12">
+  </div>
+  <div class="col-md-6 col-xl-6">
+    <a class="btn btn-b-icon border-0" (click)="NewButtonClick()" style="float: left;" routerLink="/MemberNew">
+      <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+    </a>
+  </div>
+</div>
+
+<div class="row mt-2">
+
+  <div class="col-md-12 col-xl-12">
+    <div class="section-container">
+      <!-- <table id="example" class="table" >
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>Contact No</th>
+              <th>Email Id</th>
+              <th>Reference Id</th>
+              <th>Contact Type</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Vignesh Kumar</td>
+              <td>9090929288</td>
+              <td>vignesh@gmail.com</td>
+              <td>vid5252</td>
+              <td>Individual</td>
+               <td class="material-switch" colspan="1">
+               <input data-target="#yes" data-toggle="collapse" type="checkbox" id="status0" checked><label class="badge-success" data-target="#yes" data-toggle="collapse" for="status0"></label></td>
+              <td><a href="#">
+                <div id="icon-edit"></div>
+                </a></td>
+            </tr>
+            <tr>
+              <td>Vignesh Kumar</td>
+              <td>9090929288</td>
+              <td>vignesh@gmail.com</td>
+              <td>vid5252</td>
+              <td>Individual</td>
+               <td class="material-switch" colspan="1">
+               <input data-target="#yes" data-toggle="collapse" type="checkbox" id="status0" checked><label class="badge-success" data-target="#yes" data-toggle="collapse" for="status0"></label></td>
+              <td><a href="#">
+                <div id="icon-edit"></div>
+                </a></td>
+            </tr>
+            <tr>
+              <td>Vignesh Kumar</td>
+              <td>9090929288</td>
+              <td>vignesh@gmail.com</td>
+              <td>vid5252</td>
+              <td>Individual</td>
+               <td class="material-switch" colspan="1">
+               <input data-target="#yes" data-toggle="collapse" type="checkbox" id="status0" checked><label class="badge-success" data-target="#yes" data-toggle="collapse" for="status0"></label></td>
+              <td><a href="#">
+                <div id="icon-edit"></div>
+                </a></td>
+            </tr>
+            
+          </tbody>
+        </table> -->
+
+
+      <kendo-grid [kendoGridBinding]="MemberDetailsListAll" [groupable]="true" [columnMenu]="{ filter: true }"
+        [group]="groups" [reorderable]="true" [resizable]="true" [pageable]="{ buttonCount: 2 }" [sortable]="true"
+        [pageSize]="10" (edit)="EditMemberDetails($event)" (remove)="datatableclickdelete($event)">
+        <ng-template kendoGridToolbarTemplate>
+          <div class="row mb-5">
+            <div class="col-4 pl-0 mt-n1">
+              <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+                (input)="onFilter($event.target.value)" />
+            </div>
+            <!-- <div class="col-7 pr-0 pl-4 ml-4">
+            <ul class="temp-ul mt-n1 mr-n2  pull-right">
+              <li class="temp-ico ml-2">
+                <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                    width="20px"></a></li>
+              <li class="temp-ico ml-2">
+                <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                    width="20px"></a></li>
+            </ul>
+          </div> -->
+          </div>
+        </ng-template>
+        <kendo-grid-column-group title="" [headerClass]="{'kendo-g-center' : true}">
+
+          <kendo-grid-command-column field="" title="Actions" width="150" [locked]="true">
+            <!-- <ng-template kendoGridCellTemplate>
+              <button kendoGridEditCommand>
+                <div id="icon-edit"></div>
+              </button>
+              
+
+
+              <button kendoGridRemoveCommand disabled="true">
+                <div id="icon-delete"></div>
+              </button>
+            </ng-template> -->
+            <ng-template kendoGridCellTemplate let-dataItem>
+
+              <button kendoGridEditCommand [disabled]="dataItem.pMemberStatuss"><div id="icon-edit"></div></button>
+              <button kendoGridRemoveCommand [disabled]="true">
+      <div id="icon-delete"></div>
+    </button>
+          </ng-template>
+          </kendo-grid-command-column>
+
+
+          <kendo-grid-column field="pContactName" title="Member Name" width="150"></kendo-grid-column>
+          <kendo-grid-column field="pMemberReferenceId" title="Member ID" width="150"></kendo-grid-column>
+
+          <kendo-grid-column field="pContactNo" title="Contact No." width="150">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div *ngIf="dataItem.pContactNo != 0">{{dataItem.pContactNo}}</div>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pEmailId" title="Email ID" width="150"></kendo-grid-column>
+          <kendo-grid-column field="pContactReferenceId" title="Reference ID" width="150"></kendo-grid-column>
+          <kendo-grid-column field="pContacttype" title="Contact Type" width="150"></kendo-grid-column>
+          <!-- <kendo-grid-column field="pStatus" title="Status" class="material-switch">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <input id="status{{rowIndex}}" type="checkbox" [checked]="dataItem.pStatus==true" data-toggle="collapse"
+              data-target="#tds" (click)="ChangeStatus(dataItem)">
+            <label for="status{{rowIndex}}" class="badge-success" data-toggle="collapse" data-target="#tds"></label>
+          </ng-template>
+        </kendo-grid-column> -->
+
+          <!-- <kendo-grid-command-column>
+          <ng-template kendoGridCellTemplate width="150" let-dataItem>
+            <div *ngIf="dataItem.pStatus==true" id="icon-edit" kendoGridEditCommand [primary]="true" ></div>
+            <div id="icon-delete" kendoGridRemoveCommand [primary]="true"></div>
+          </ng-template>
+        </kendo-grid-command-column> -->
+        </kendo-grid-column-group>
+
+        <!-- <kendo-grid-pdf fileName="Loan.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [landscape]="true">
+          <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+              <div class="header bc-2 text-center">
+                <h5> Loan Configuration </h5>
+              </div>
+            </div>
+          </ng-template>
+          <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+          <kendo-grid-column field="pLoantype" title="Loan Type"></kendo-grid-column>
+          <kendo-grid-column field="pLoanname" title="Loan Name"></kendo-grid-column>
+          <kendo-grid-column field="pLoanidcode" title="Loan ID"></kendo-grid-column>
+          <kendo-grid-column field="pStatusname" title="Status"></kendo-grid-column>
+        </kendo-grid-pdf>
+        <kendo-grid-excel fileName="Loan.xlsx">
+          <kendo-excelexport-column-group title="Loan Configuration" [headerCellOptions]="headerCells">
+            <kendo-excelexport-column field="pLoantype" title="Loan Type"></kendo-excelexport-column>
+            <kendo-excelexport-column field="pLoanname" title="Loan Name"></kendo-excelexport-column>
+            <kendo-excelexport-column field="pLoanidcode" title="Loan ID"></kendo-excelexport-column>
+            <kendo-excelexport-column field="pStatusname" title="Status"></kendo-excelexport-column>
+          </kendo-excelexport-column-group>
+        </kendo-grid-excel> -->
+      </kendo-grid>
+
+
+    </div>
+  </div>
+</div>

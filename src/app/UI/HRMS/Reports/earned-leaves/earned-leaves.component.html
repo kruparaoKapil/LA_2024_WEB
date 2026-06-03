@@ -1,0 +1,137 @@
+<div class="section-container">
+    <div class="row p-0">
+        <div class="col-xl-12 col-md-12">
+            <div class="section-content ">
+  
+                <form [formGroup]="earnedleavesForm">
+  
+                  <div class="row mt-3">
+                    <div class="col-md-4 col-xl-4" >
+                      <div class="form-group">
+                        <label  title="Employee Name" id="employeename">Employee Name</label>
+                        <ng-select title="Employee Name"  [items]="employeenamesList"
+                          formControlName="employeename" bindLabel="pEmployeeName" bindValue="pEmployeeId"
+                          placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                          (change)="employeeNameChange($event)">
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="row mt-3">
+                    <div class="col-md-4 col-xl-4" >
+                      <div class="form-group">
+                        <label  title="Year" id="year" class="required-field">Year</label>
+                        <ng-select title="Year"  [items]="yearsList"
+                          formControlName="year" bindLabel="pPeriodType" bindValue="pCalenderPeriodId"
+                          placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                          (change)="yearChange($event)" [ngClass]="{ 'is-invalid': earnedLeavesValidation.year }">
+                        </ng-select>
+                        <div class="invalid-feedback">
+                          <span *ngIf="earnedLeavesValidation.year">{{earnedLeavesValidation?.year}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-xl-4" >
+                      <div class="form-group">
+                        <label  title="Month" id="month" class="required-field">Month</label>
+                        <ng-select title="Month"  [items]="monthList" id="selectedmonth"
+                          formControlName="month" bindLabel="pCalendarMonth" bindValue="pCalendarMonth"
+                          placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                          [ngClass]="{ 'is-invalid': earnedLeavesValidation.month }" (change)="monthChange($event)">
+                      </ng-select>
+                      <div class="invalid-feedback">
+                        <span *ngIf="earnedLeavesValidation.month">{{earnedLeavesValidation?.month}}</span>
+                      </div>
+                      </div>
+                    </div>
+                    <div class="col-md-2 col-xl-2" >
+                        <div class="form-group">
+                            <br>
+                            <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="showEarnedLeaves()">
+                              <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                              <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                      width="20px"></span> Show
+                          </a>
+                        </div>
+                    </div>
+                  </div>
+  
+                </form>
+
+                
+                <div class="row mt-2">
+                  <div class="col-md-12">        
+                    <div class="form-group pt-2">
+                      <div class="d-flex justify-content-end" *ngIf="earnedLeavesData.length!=0" >
+                          <a  class="export-icons" (click)="pdfOrprint('Pdf')">
+                              <img src="assets/images/pdf-icon-blue.svg " title="pdf" width="18px">
+                          </a>
+                         
+                          <a  class="export-icons" (click)="pdfOrprint('Print')"><img
+                                  src="assets/images/print-icon-blue.svg " title="Print" width="18px"></a>
+                      </div>
+                  </div>
+                  </div>
+                </div>
+
+                
+              <kendo-grid [kendoGridBinding]="earnedLeavesData" [groupable]="false" 
+              [pageable]="false" [scale]="0.9"   [sortable]="false" [resizable]="true">
+
+              <kendo-grid-column-group title="Earned Leaves" [headerClass]="{'kendo-g-center' : true}">
+
+                <kendo-grid-column field="pEmployeecode" title="Emp ID"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center" width="80">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pEmployeeName" title="Employee Name"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center" width="150">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pBasicAmount" title="Basic"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center" width="100">
+                  <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                    <span>  {{dataItem.pBasicAmount | mycurrencypipe}}</span>
+                  </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pVdaAmt" title="V.D.A"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center" width="100">
+                  <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                    <span>  {{dataItem.pVdaAmt | mycurrencypipe}}</span>
+                  </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pEls" title="Earned Leaves"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center" width="100">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pElsAmount" title="E.L Amount"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center" width="100">
+                  <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                    <span>  {{dataItem.pElsAmount | mycurrencypipe}}</span>
+                  </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pDateOfJoining" title="Joining Date"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center" width="100">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pPrevElsClaimDate" title="Last E.L Date"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center" width="100">
+                </kendo-grid-column>
+              </kendo-grid-column-group>
+
+              </kendo-grid>
+
+              <div class="row mt-1 ml-1 mb-4">
+                <div class="col-md-12 col-xl-12">
+                  <div class="d-flex justify-content-end mt-4">
+                    <button appButtonDoubleClick [debounceTime]="500"
+                      (debounceClick)="saveEarnedLeaves()" class="btn btn-s-icon px-3 border-0">
+                      <img src="assets/images/icon-check-white.svg" class="mr-3" width="20px"
+                        height="20px" > Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+

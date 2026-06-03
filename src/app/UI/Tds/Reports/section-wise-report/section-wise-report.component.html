@@ -1,0 +1,221 @@
+<div class="section-container">
+    <div class="row">
+        <div class="col-md-6 col-xl-6 ">
+          <p class="bc-2">Section Wise Report</p>
+        </div>
+      </div>
+      <form [formGroup]="sectionWiseForm" autocomplete="off">
+
+      <div class="row mt-2">
+        <div class="col-md-12 col-xl-12">
+    
+              <div class="row mt-1">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                  <label id="section" title="Select Section">Section</label>
+                 
+                  <ng-select [items]="sectionList" formControlName="section" bindLabel="pSection" bindValue="pSection" [multiple]=false placeholder="Select" [searchable]="true" [searchFn]="customSearchFn" (change)="sectionChange($event);" [clearable]=true
+                  dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': sectionWiseValidationErrors.section}">
+                  
+                 
+              </ng-select>
+              <div class="invalid-feedback">
+                <span
+                    *ngIf="sectionWiseValidationErrors?.section">{{sectionWiseValidationErrors.section}}</span>
+            </div>
+            </div>
+                </div>
+    
+                <div class="col-md-6 col-xl-6">
+                    <div class="form-group">
+      
+                      <label id="pSectionname" title="Document Type">Section Name</label>
+      
+                      <input type="text" formControlName="pSectionname" class="form-control">
+                     
+                      
+                    </div>
+        
+                    </div>
+              </div>
+    
+              
+           
+      
+        
+        </div>
+      </div>
+
+      <div class="row mb-2 pb-4">
+        <div class="col-xl-4 col-md-4 mt-4">
+            <div class="form-check form-check-inline check-btn-secondary">
+                <input class="form-check-input" type="checkbox" id="ason" formControlName="date"
+                    (change)="checkox($event)">
+                <label class="mt-2" for="ason"> Between Payment Date:</label>
+            </div>
+        </div>
+        <div class=" col-xl-2 col-md-2 form-group">
+            <label id="dfromdate" title="FromDate">{{FromDate}}</label>
+            <label  style="color: #fff !important;">bfbnfb</label> 
+            <input type="text" class="form-control" [bsConfig]="dpConfig" readonly bsDatepicker
+                #dp="bsDatepicker" (ngModelChange)="checkfromdate()" formControlName="dfromdate"
+                placeholder="DD/MM/YYYY" />
+        </div>
+            <div *ngIf="showdate" class="col-xl-2 col-md-2">
+                    <div class="form-group">
+                <label id="dtodate" title="To Date">To Date</label>
+                <input type="text" class="form-control" [bsConfig]="dppConfig" readonly bsDatepicker
+                    #dp="bsDatepicker" (ngModelChange)="checktodate()" formControlName="dtodate"
+                    placeholder="DD/MM/YYYY" />
+                <div *ngIf="validation" class="text-danger">
+                    please select valid date
+                </div>
+            </div>
+        </div>
+       
+        <div class="col-md-12 col-xl-12">
+            <div class="d-flex justify-content-end mt-2" >
+    
+              
+    
+                <a data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="getSectionReport()">
+                    <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" >
+                    <i class="fa" ></i> Show
+                </a>
+                
+    
+            </div>
+        </div>
+</div>
+
+</form>
+<div class="d-flex justify-content-end mt-4">
+    <ul class="temp-ul">
+        <li class="temp-ico">
+            <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf"
+                style="cursor: pointer;" (click)="pdf.saveAs('Section_Wise_Report('+fromdate+').pdf')" />
+        </li>
+        <!-- <li class="temp-ico">
+            <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print"
+                style="cursor: pointer;" (click)="print()" />
+        </li> -->
+
+    </ul>
+
+</div>
+
+<kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true" [scale]="0.9">
+    <div id="temp-box">
+        <div class="mt-2 border rounded shadow-sm bg-white">
+            <div class="row">
+                <div class="col-md-12">
+                    <app-company-details></app-company-details>
+
+                    <div class="report-head mt-2">
+                        <p class="font-16 text-dark text-center m-0">
+                            Section Wise
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="border  shadow-sm bg-white p-3"
+            style="overflow:hidden; height:auto !important;">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="">
+                        <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+            font-weight: bold !important;">{{betweendates}} :</span>
+                        <label class="print-font">{{betweenfrom}} {{inbetween}} {{betweento}} </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row pt-2">
+                <div class="col-12">
+
+                    <kendo-grid [kendoGridBinding]="gridData" [groupable]="false" [group]="groups"
+                        [kendoGridSelectBy]="'id'" [reorderable]="true" [sortable]="true" [resizable]="true">
+
+                        <kendo-grid-column field="pdebitamount" title="parent Name"
+                        [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdebitamount" title="Party Name"
+                        [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdebitamount" title="Trans Date"
+                        [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdebitamount" title="Pan"
+                        [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdebitamount" title="Amount"
+                        [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdebitamount" title="Calc Tds"
+                        [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdebitamount" title="Paid Tds"
+                        [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdebitamount" title="Effected JV"
+                        [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        </kendo-grid-column>
+                       
+                      
+                        <!-- <kendo-grid-column field="pdebitamount" title="Debit Amount"
+                            [headerClass]="{'kendo-right': true}" class="kendo-right"
+                            [footerClass]="{'kendo-right': true}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <div *ngIf="dataItem.pdebitamount == 0"></div>
+                                <div *ngIf="dataItem.pdebitamount !== 0">
+                                    {{dataItem.pdebitamount.toFixed(2)  | mycurrencypipe}}
+                                </div>
+                            </ng-template>
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p
+                                    class="text-danger text-right">{{aggregates[field].sum.toFixed(2) | mycurrencypipe}}</p>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pcreditamount" title="Credit Amount"
+                            [headerClass]="{'kendo-right': true}" class="kendo-right"
+                            [footerClass]="{'kendo-right': true}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <div *ngIf="dataItem.pcreditamount == 0"></div>
+                                <div *ngIf="dataItem.pcreditamount !== 0">
+                                    {{dataItem.pcreditamount.toFixed(2) | mycurrencypipe}}
+                                </div>
+                            </ng-template>
+                            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                                <p
+                                    class="text-danger bc-2 text-right">{{aggregates[field].sum.toFixed(2) | mycurrencypipe}}</p>
+                            </ng-template>
+                        </kendo-grid-column> -->
+
+
+
+                      
+                    </kendo-grid>
+                </div>
+            </div>
+          
+
+        </div>
+    </div>
+</kendo-pdf-export>
+      
+    </div>
+    
+    
+    

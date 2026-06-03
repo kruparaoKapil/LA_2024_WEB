@@ -1,0 +1,158 @@
+<div class="col-md-12 col-xl-12 mb-3 pl-0">
+  <p class="bc-2">Cheque Cancel</p>
+</div>
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+
+    </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+<div class="section-container">
+  <form [formGroup]="FrmChequeCancel" autocomplete="off">
+    <div class="row mb-4">
+      <div class="col-xs-4 col-md-4 pl-0">
+        <div class="d-flex">
+          <div class="col-md-6 col-xl-6 ">
+            <div class="form-group">
+              <label>From Date</label>
+
+              <input type="text" class="form-control" placeholder="Date picker here" formControlName="fromdate" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" (ngModelChange)="ToDateChange($event)" readonly>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-6">
+            <div class="form-group">
+              <label>To Date</label>
+              <input type="text" class="form-control" placeholder="Date picker here" formControlName="todate" [bsConfig]="dpConfig1" #dp="bsDatepicker" bsDatepicker placement="bottom" (ngModelChange)="FromDateChange($event)" readonly>
+              <!--<div *ngIf="validation" class="text-danger">
+                please select greater than or equal to from date
+              </div>-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="justify-content-end d-flex mb-2">
+      <div class="form-group mt-4 pt-2">
+       
+
+        <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetChequeCancelDetails()">
+          <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+          <span *ngIf="!isLoading">
+            <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                 width="20px">
+          </span> {{savebutton}}
+        </a>
+      </div>
+      </div>
+    </div>
+  </form>
+
+
+
+
+
+
+  <div class="d-flex justify-content-end">
+    <ul class="temp-ul">
+      <li class="temp-ico">
+        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('ChequeCancel.pdf')" />
+      </li>
+      <li class="temp-ico">
+        <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+      </li>
+    </ul>
+
+  </div>
+  <div id="temp-box">
+    <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true" margin="0.5cm" [scale]="0.9">
+      <div id="temp-box" class="size-a4">
+        <div class="mt-2 border rounded shadow-sm bg-white">
+          <div class="row">
+            <div class="col-md-12">
+              <app-company-details></app-company-details>
+
+              <div class="report-head mt-2">
+                <p class="font-16 text-dark text-center m-0">
+                  Cheque Cancel &nbsp;
+                </p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class=" border shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+          <div class="row">
+            <div class="col-md-6">
+              <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+					font-weight: bold !important;">Between :</span>
+              <label class="print-font">
+                {{StartDate}} and {{EndDate}}
+              </label>
+            </div>
+          </div>
+          <table class="table mt-2" style="width:100%">
+            <thead>
+              <tr>
+                <th class="text-center border-bot" colspan="3">Cheque Details</th>
+                <th class="text-center" colspan="6">Receipt Details</th>
+
+              </tr>
+            </thead>
+          </table>
+
+
+          <div class="">
+            <kendo-grid [kendoGridBinding]="gridData" [pageable]="false" [sortable]="true" [groupable]="false" [reorderable]="true" [resizable]="true" [scale]="0.9">
+
+              <ng-template kendoGridToolbarTemplate>
+  
+                <div class="row pb-3 p-0">
+                  <div class="col-4 pl-0 mt-n1">
+                  </div>
+                  <div class="col-7 pr-0 pl-4">
+                    <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                      <li class="temp-ico ml-2">
+                        <a kendoGridExcelCommand>
+                          <img class="pt-2" src="assets/images/icon-excel.svg "   title="excel" width="20px">
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                </ng-template>
+             
+                <kendo-grid-column title="Cancel Date" field="pdepositeddate" width="60px"></kendo-grid-column>
+               
+                <kendo-grid-column field="preferencenumber" title="Cheque No." width="50px">
+                </kendo-grid-column>
+                <kendo-grid-column field="ptotalreceivedamount" title="Cheque Amt." class="kendo-right" [headerClass]="{'kendo-right': true}" width="80px">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    {{
+dataItem.ptotalreceivedamount | mycurrencypipe
+                    }}
+                  </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pbankname" title="Bank Name" width="60px"></kendo-grid-column>
+
+                <kendo-grid-column field="preceiptid" title="Receipt No." width="60px"></kendo-grid-column>
+
+                <kendo-grid-column title="Receipt Date" field="pchequedate" width="60px">
+
+                </kendo-grid-column>
+                <kendo-grid-column field="pparticulars" title="Particulars" width="150px" [minResizableWidth]="220"></kendo-grid-column>
+
+                <kendo-grid-excel fileName="ChequeCancel.xlsx" [fetchData]="allData"></kendo-grid-excel>
+
+            </kendo-grid>
+          </div>
+        </div>
+      </div>
+
+    </kendo-pdf-export>
+    </div>
+  </div>

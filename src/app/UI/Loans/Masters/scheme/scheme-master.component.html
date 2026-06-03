@@ -1,0 +1,289 @@
+<div class="row mt-4">
+  <div class="col-12">
+    <p class="bc-2">Scheme Master</p>
+  </div>
+</div>
+<div class="my-container">
+
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+
+</div>
+<form [formGroup]="schemeform">
+
+  <div class="row mt-1">
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label>Scheme name</label>
+        <input (change)="checkschemenameduplicates($event)" class="form-control" formControlName="pSchemename"
+               type="text" value="" appTitlecaseword maxlength="75"
+               [ngClass]="{ 'is-invalid':  submitted && schemeform.controls.pSchemename.errors }">
+        <div *ngIf=" submitted &&  schemeform.controls.pSchemename.errors" class="invalid-feedback">
+          <div *ngIf="schemeform.controls.pSchemename.errors.required">Scheme Name is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label>Scheme Code</label>
+        <input class="form-control" style="text-transform: uppercase;" (change)="checkschemecodeduplicates($event)"
+               formControlName="pSchemecode" type="text" value="" appUppercase maxlength="25"
+               [ngClass]="{ 'is-invalid':  submitted && schemeform.controls.pSchemecode.errors }">
+        <div *ngIf=" submitted &&  schemeform.controls.pSchemecode.errors" class="invalid-feedback">
+          <div *ngIf="schemeform.controls.pSchemecode.errors.required">Scheme code is required</div>
+        </div>
+      </div>
+    </div>
+    <hr class="light">
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label>Loan Type</label>
+        <select class="form-control" formControlName="pLoantypeid" (change)="loanidforloanname($event)"
+                [ngClass]="{ 'is-invalid':  submitted && schemeform.controls.pLoantype.errors }"
+                [attr.disabled]="disableloanname ? '' : null">
+          <option value="" [disabled]>select</option>
+          <option *ngFor="let i of loantype" [value]="i.pLoantypeid">
+            {{i.pLoantype}}
+          </option>
+
+        </select>
+        <div *ngIf="submitted &&  schemeform.controls.pLoantype.errors" class="invalid-feedback">
+          <div *ngIf="schemeform.controls.pLoantype.errors.required">loantype is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label>Loan name</label>
+        <select class="form-control" formControlName="pLoanid" (change)="getloanspeific($event)"
+                [ngClass]="{ 'is-invalid':  submitted && schemeform.controls.pLoanid.errors }"
+                [attr.disabled]="disableloanname ? '' : null">
+          <option value="" [disabled]>select</option>
+          <option *ngFor="let j of loanname" [value]="j.pLoanid">
+            {{j.pLoanNmae}}
+          </option>
+        </select>
+        <div *ngIf=" submitted &&  schemeform.controls.pLoanid.errors" class="invalid-feedback">
+          <div *ngIf="schemeform.controls.pLoanid.errors.required">LoanName is required</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="row mt-4">
+    <div class="col-md-12 col-xl-12">
+      <h2 class="w-auto sec-head mt-2">Scheme Interest</h2>
+      <kendo-grid [kendoGridBinding]="SchemeIntrestgrid" [height]=""
+                  [pageable]="false" [sortable]="true" [resizable]="true" [reorderable]="true"
+                  (edit)="editHandler($event)" (remove)="removeHandler($event)" [selectable]="selectableSettings"
+                  width="100%">
+        <kendo-grid-column field="pApplicanttype" title="Applicant Type"></kendo-grid-column>
+        <kendo-grid-column field="pLoanpayin" title="Pay In"></kendo-grid-column>
+        <kendo-grid-column field="pInteresttype" title="Interest Type"></kendo-grid-column>
+        <kendo-grid-column field="pActualrateofinterest" title="Interest Rate"> </kendo-grid-column>
+        <kendo-grid-column field="pIsamountrangeapplicable" title="Amount Range"></kendo-grid-column>
+        <kendo-grid-column field="pIstenurerangeapplicable" title="Tenure Range"></kendo-grid-column>
+        <kendo-grid-column field="pMinloanamount" title="Between Value">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pMinloanamount}}-{{dataItem.pMaxloanamount}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pTenurefrom" title="Between Tenure">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pTenurefrom}}-{{dataItem.pTenureto}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pSchemeinterest" title="Scheme Interest" width="155">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <input type="text" class="form-controls" value="{{dataItem.pSchemeinterest}}" (change)="SchemeInsrstChanged($event,dataItem,rowIndex)" appRoundecimal="2@2" maxlength="5">
+          </ng-template>
+        </kendo-grid-column>
+
+      </kendo-grid>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-12 col-xl-12">
+      <h2 class="w-auto sec-head mt-2">Scheme Charges</h2>
+      <kendo-grid [kendoGridBinding]="Schemechargesgrid" [height]=""
+                  [pageable]="false" [sortable]="true" [resizable]="true" [reorderable]="true"
+                  (edit)="editHandler($event)" (remove)="removeHandler($event)" [selectable]="selectableSettings"
+                  width="100%">
+        <kendo-grid-column field="pChargename" title="Charge Type" width="100"></kendo-grid-column>
+        <kendo-grid-column field="pLoanpayin" title="Loan Payin" width="100"></kendo-grid-column>
+        <kendo-grid-column field="pischargeapplicableonloanrange" width="100" title="Loan Range"></kendo-grid-column>
+        <kendo-grid-column field="pischargerangeapplicableonvalueortenure" width="155" title="Value     or  Tenure"></kendo-grid-column>
+        <kendo-grid-column field="pchargevaluefixedorpercentage" title="Fixed     or  Percentage" width="155">
+          
+       </kendo-grid-column>
+        <kendo-grid-column field="pminloanamountortenure" width="155" title="value/Tenure Between">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pminloanamountortenure}}-{{dataItem.pmaxloanamountortenure}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pminchargesvalue" width="155" title="Min./Max.Charge">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="dataItem.pchargevaluefixedorpercentage=='Fixed'">
+              {{dataItem.pminchargesvalue}}
+            </div>
+            <div *ngIf="dataItem.pchargevaluefixedorpercentage!='Fixed'">
+              {{dataItem.pminchargesvalue}}-{{dataItem.pmaxchargesvalue}}
+            </div>         
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pchargepercentage" width="155" title="Charges %"></kendo-grid-column>
+        <kendo-grid-column field="pschemechargespercentage" width="200" title="Scheme Charges %">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <div *ngIf="dataItem.pchargevaluefixedorpercentage=='Fixed'">
+              <input type="text" class="form-controls" maxlength="5" readonly appRoundecimal="2@2" value="{{dataItem.pschemechargespercentage}}">
+            </div>
+            <div *ngIf="dataItem.pchargevaluefixedorpercentage!='Fixed'">
+              <input type="text" class="form-controls" maxlength="5" appRoundecimal="2@2" (change)="schemechargeschanged($event,dataItem,rowIndex)" value="{{dataItem.pschemechargespercentage}}">
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pSchememinchargesvalue" width="155" title="Scheme Min Charge">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <div *ngIf="(dataItem.pischargeapplicableonloanrange=='N' && dataItem.pchargevaluefixedorpercentage=='Percentage') || (dataItem.pischargeapplicableonloanrange=='Y' && dataItem.pischargerangeapplicableonvalueortenure=='Amount')  ">
+              <input type="text" class="form-controls"  maxlength="8" appNumbersonly  (change)="schemechargesmin($event,dataItem,rowIndex)" value="{{dataItem.pSchememinchargesvalue}}">
+            </div>
+            <!-- <div *ngIf="(dataItem.pischargeapplicableonloanrange!='N' && dataItem.pchargevaluefixedorpercentage!='Percentage') && (dataItem.pischargeapplicableonloanrange!='Y' && dataItem.pischargerangeapplicableonvalueortenure!='Tenure')">
+              <input type="text" class="form-controls" maxlength="8" appNumbersonly value="{{dataItem.pSchememinchargesvalue}}">
+            </div> -->
+            <!-- <div *ngIf="(dataItem.pischargeapplicableonloanrange=='Y' && dataItem.pischargerangeapplicableonvalueortenure=='Amount')">
+              <input type="text" class="form-controls" maxlength="8" (change)="changeschememinvalue($event,dataItem,rowIndex)" appNumbersonly value="{{dataItem.pSchememinchargesvalue}}">
+            </div> -->
+            <div *ngIf="(dataItem.pischargeapplicableonloanrange=='N' && dataItem.pchargevaluefixedorpercentage=='Fixed')">
+              <input type="text" class="form-controls" readonly maxlength="8" (change)="changeschememinvalue($event,dataItem,rowIndex)"  appNumbersonly value="{{dataItem.pSchememinchargesvalue}}">
+            </div> 
+
+          </ng-template>
+        </kendo-grid-column>
+       
+        <kendo-grid-column field="pSchememaxchargesvalue" width="155" title="Scheme Max Charge">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <div *ngIf="(dataItem.pischargeapplicableonloanrange=='N' && dataItem.pchargevaluefixedorpercentage=='Percentage') || (dataItem.pischargeapplicableonloanrange=='Y' && dataItem.pischargerangeapplicableonvalueortenure=='Amount')">
+              <input type="text" class="form-controls" maxlength="8" (change)="schemechargesmax($event,dataItem,rowIndex)" appNumbersonly value="{{dataItem.pSchememaxchargesvalue}}">
+            </div>
+            <div *ngIf="(dataItem.pischargeapplicableonloanrange!='N') && (dataItem.pischargeapplicableonloanrange!='Y' && dataItem.pischargerangeapplicableonvalueortenure!='Tenure')">
+              <input type="text" class="form-controls" maxlength="8" appNumbersonly value="{{dataItem.pSchememaxchargesvalue}}">
+            </div>
+            <div *ngIf="dataItem.pischargeapplicableonloanrange=='N' && dataItem.pchargevaluefixedorpercentage=='Fixed'">
+              <input type="text" class="form-controls" maxlength="8" (change)="changeschememaxvalue($event,dataItem,rowIndex)" appNumbersonly value="{{dataItem.pSchememaxchargesvalue}}">
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+
+
+      </kendo-grid>
+
+    </div>
+  </div>
+
+
+
+
+
+  <hr class="light">
+  <div class="row mt-4">
+    <div class="col-md-6 col-xl-4">
+      <h2 class="w-auto sec-head mt-2">Scheme Referral Commission</h2>
+      <label class="col-md-12 col-xl-12">
+        Is referral commission paid for this loan? - <span class="sec-head-bold">
+          {{Isreferralcomexist}}
+        </span>
+      </label>
+      <label class="col-md-12 col-xl-12">
+        Commission Payout - <span class="sec-head-bold">{{Commissionpayouttype}}</span>
+      </label>
+      <label class="col-md-12 col-xl-12">Amount - <span class="sec-head-bold">{{Commissionpayout}}</span></label>
+    </div>
+
+    <div class="col-md-4">
+      <div *ngIf="hideandshowtype">
+        <h2 class="sec-head mt-2">Scheme Commission Payout</h2>
+        <div class="form-group m-0">
+          <div class="form-check form-check-inline mr-5">
+            <input class="form-check-input" type="radio" (change)="schemecommissionpayouttypeChange()"
+                   [checked]="checkedtype =='Fixed'" name=pSchemecommissionpayouttype id="rdfixed"
+                   formControlName="pSchemecommissionpayouttype" value="Fixed">
+            <label class="mt-1"> Fixed </label>
+            <div id="r1" *ngIf="!showSchemecommissionpayouttypeChange">
+              <input class="form-control w-auto ml-2" type="text" placeholder="Rs."
+                     formControlName="pSchemecommissionpayout" maxlength="8">
+            </div>
+          </div>
+        </div>
+        <div class="form-group m-0">
+          <div class="form-check form-check-inline mr-5">
+            <input class="form-check-input" type="radio" name="pSchemecommissionpayouttype" id="rdpercentage"
+                   formControlName="pSchemecommissionpayouttype" value="Percentage"
+                   (change)="schemecommissionpayouttypeChange()" [checked]="checkedtype =='Percentage'">
+            <label class="mt-1"> Percentage </label>
+            <div id="r2" *ngIf="showSchemecommissionpayouttypeChange">
+              <input class="form-control w-auto ml-2" type="text" placeholder="%"
+                     formControlName="pSchemecommissionpayout" ThreeDigitDecimalNumber>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <hr class="light">
+  <!--col-end-->
+
+  <div class="row mt-3">
+    <div class="col-md-6 col-xl-4">
+      <h2 class="w-100 sec-head-bold">Effective Date</h2>
+      <div class="d-flex">
+        <div class="col-md-6 col-xl-6 pl-0">
+          <div class="form-group">
+            <label>From</label>
+            <input [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker class="form-control" type="text" value=""
+                   readonly formControlName="pEffectfromdate"
+                   [ngClass]="{ 'is-invalid':  submitted && schemeform.controls.pEffectfromdate.errors }">
+            <div *ngIf="submitted &&  schemeform.controls.pEffectfromdate.errors" class="invalid-feedback">
+              <div *ngIf="schemeform.controls.pEffectfromdate.errors.required">Effectfromdate is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-6 pr-0">
+          <div class="form-group">
+            <label>To</label>
+            <input [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker class="form-control" type="text" value=""
+                   readonly formControlName="pEffecttodate"
+                   [ngClass]="{ 'is-invalid':  submitted && schemeform.controls.pEffecttodate.errors }">
+            <div *ngIf="submitted &&  schemeform.controls.pEffecttodate.errors" class="invalid-feedback">
+              <div *ngIf="schemeform.controls.pEffecttodate.errors.required">Effecttodate is required</div>
+            </div>
+            <div *ngIf="todate" class="text-danger">
+              please select valid date
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4 ml-1">
+    <div class="col-md-12 col-xl-12">
+      <div class="d-flex justify-content-end mt-4">
+        <a (click)="clear()" class="btn btn-g-icon mr-4 px-3 border-0">
+          <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear
+        </a>
+        <button (click)="save()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot"
+                aria-selected="false">
+          <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i>
+
+          {{buttonname}}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!--row-end-->
+</form>
+<!--form-end-->

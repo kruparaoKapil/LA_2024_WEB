@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+
+</head>
+
+<body>
+    <div class="">
+        <div class="content-inner-view">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 mt-2 text-right justify-content-end">
+                    <a><img class="justify-content-end text-right mr-2" src="assets/images/pdf-icon-blue.svg" width="20"
+                            heigh="20" (click)="pdf.saveAs('Letter.pdf')"></a>
+                    <!-- <a><img src="assets/images/print-icon-blue.svg" width="20" heigh="20" (click)="Print()"></a> -->
+                </div>
+            </div>
+            <div class="col-md-12  m-auto">
+
+
+
+
+
+                <kendo-pdf-export #pdf paperSize="A4" margin="0.2cm" [allPages]="true" [repeatHeaders]="true"
+                    [landscape]="false" forcePageBreak=".page-break" [scale]="0.6">
+
+                    <div id="SaleAgreement">
+                        <ng-template kendoPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+                            <!-- *ngIf="pageNum !== 23" -->
+
+                            <div class="watermark" *ngIf="saveType != 'saveSaleAgreement' ">DRAFT</div>
+
+                            <kendo-pdft-footer *ngIf="pageNum !== totalPages" hidden>
+                                <div class="footer">
+                                    <div class="row mt-5 ml-5 mr-5">
+                                        <!-- <div class="col-9">For Kausalya Agro Farms And Developers Pvt. Ltd.</div> -->
+                                        <div class="col-9">For <b>{{SaleAgreementPreviewdata[0]?.pcompany_name}}</b>
+                                        </div>
+                                        <div class="col-3">Accepted By Allottee(s)</div>
+                                    </div>
+                                    <div class="row mt-5 ml-5 mr-5">
+                                        <div class="col-4">Executive Director </div>
+                                        <div class="col-4">Authorised
+                                            Signatory:{{SaleAgreementPreviewdata[0]?.authorisedSignature}}</div>
+                                        <div class="col-4 text-center">Signature(s)</div>
+                                    </div>
+                                    <div class="row mt-2 ml-5 mr-5">
+                                        <div class="col-12" style="text-align: end;">
+                                            Page {{ pageNum }} of {{ totalPages }}
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </kendo-pdft-footer>
+
+                        </ng-template>
+
+                        <div id="temp-box" class="">
+                            <div class="temp-box-inner text-justify" style="overflow:hidden; height:auto !important;">
+
+                                <br><br><br>
+                                <h3 style="font-weight: bold; text-align: center;" class="mt-4">Application for refund
+                                    of advance paid for purchase of
+                                    property</h3>
+
+                                <div class="row">
+                                    <div class="col-12 mt-5">
+                                        <p>To,<br>
+                                            The Manager ,<br>
+                                            {{companyDetails.pnameofenterprise}},<br>
+                                            {{companyDetails.paddress1}},<br>
+                                            {{companyDetails.paddress2}}, {{companyDetails.pcity}},
+                                            {{companyDetails.pdistrict | titlecase}}, {{companyDetails.pstate}},
+                                            {{companyDetails.pcountry}} - {{companyDetails.ppincode}}
+                                        </p>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <p>Sir,</p>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <p>Sub : Refund of advance paid for purchase of commercial space – request</p>
+                                        <p>
+                                            I have paid Rs {{pdepositamount | mycurrencypipe}}/- (rupees {{pdepositamount
+                                            |
+                                            numberToWords}} only) for purchase of
+                                            {{psquareyard}} square foot of super built-up office space in the building
+                                            known as
+                                            {{pbuildingname}} vide Unit No : {{accountNo}}
+                                        </p>
+                                        <p>
+                                            I request you to refund the above amount paid by me within 30 days after
+                                            receipt
+                                            of this letter, as per our already agreed terms and conditions.
+                                        </p>
+
+
+
+                                    </div>
+
+
+                                </div>
+                                <br>
+
+
+
+                                <!---------------page6 end---------------->
+
+
+                                <div class="row">
+                                    <div class="col-5">
+                                        <p>Thanking you</p>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-4" hidden>
+                                    <!-- <div class="col-3"> -->
+                                    <!-- <p>Date : {{today | date: 'dd-MM-yyyy'}} -->
+                                    <!-- <p>
+                                    </div> -->
+                                    <!-- <div class="col-4">
+                                        <p class="text-right"> Signature</p>
+                                    </div> -->
+                                    <div class="col-12">
+                                        <p class="text-right"> Signature :</p>
+                                        <p class="text-right"> Name : {{pmembername}}</p>
+
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-end">
+                                    <div class="col-6">
+                                        <p> Signature :</p>
+                                        <p>Name : {{pmembername}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-5" hidden>
+                                    <h3 style="text-align: center; font-weight: bold;">R E C E I P T</h3>
+                                </div>
+
+                                <h3 style="font-weight: bold; text-align: center;" class="mt-4">R E C E I P T</h3>
+                                <p style="text-align: center;">I / we acknowledge receipt of the above amount.</p>
+
+                                 <div class="d-flex justify-content-end">
+                                    <div class="col-2" style="margin-right: 95px;">
+                                        <div style="border: 2px solid #222; width: 150px; height: 150px;">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <p>Date:</p> -->
+
+                                <!---------------page7 end---------------->
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </kendo-pdf-export>
+
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+    .footer {
+        position: absolute;
+        bottom: 15px;
+        right: 20px;
+        left: 20px;
+    }
+
+    .footer1 {
+        position: absolute;
+        bottom: 20px;
+    }
+
+    kendo-pdf-export {
+        font-family: "Times New Roman", "Arial", sans-serif;
+        font-size: 21px !important;
+    }
+
+    kendo-pdft-footer {
+        font-family: "Times New Roman", "Arial", sans-serif;
+        font-size: 18px !important;
+    }
+
+    .watermark {
+        position: absolute;
+        width: 100%;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+        font-size: 100px;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 0.15);
+        /* Adjust opacity */
+        z-index: 0;
+        /* Behind content */
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+</style>
+
+</html>

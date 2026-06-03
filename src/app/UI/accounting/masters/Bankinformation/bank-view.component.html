@@ -1,0 +1,125 @@
+<div class="row mt-4" hidden>
+  <div class="col">
+    <input type="search" class="form-control border-left-0 border-top-0 shadow-none border-right-0 rounded-0 sb"
+      placeholder="Vignesh Kumar">
+  </div>
+  <!--col-end-->
+
+  <div class="col-auto dropdown">
+    <button class="btn btn-sm sm-dd dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false"> Select action </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> <a class="dropdown-item" href="#">Action</a> <a
+        class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a>
+    </div>
+  </div>
+  <!--dropdown-end-->
+</div>
+<!--row-end-->
+<!-- ======================================================================= tab nav end ============================================================================== -->
+
+<div class="row py-1">
+  <div class="col d-flex flex-wrap align-items-center">
+    <a (click)="newschemeform()" routerLink="/BankMaster" class="btn btn-b-icon border-0">
+      <img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />
+      Add New Account
+    </a>
+    <a routerLink="/ChequemanagementMaster" class="btn btn-lg-icon ml-3">
+      <img src="assets/images/icon-settings.svg" width="20px" height="20px" class="mr-2" />Add Cheque & Generate
+    </a>
+  </div>
+</div>
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+      <h3>
+        Loading...
+      </h3>
+
+    </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+
+
+<div class="row mt-3">
+  <div class="col-md-12 col-xl-12">
+
+    <kendo-grid [kendoGridBinding]="gridData" [groupable]="false" [height]="480" 
+      [pageSize]="10"  [reorderable]="true" [resizable]="true" [scale]="0.9" [height]="480"
+      [columnMenu]="{ filter: true }" [pageable]="{ buttonCount: 2 }" [sortable]="true" [sort]="gridState.sort"
+      (cellClick)="editClick($event)" (edit)="editHandler($event)">
+      <ng-template kendoGridToolbarTemplate>
+        <!-- <input placeholder="Search in all columns..."
+          class="form-control border-left-0 border-top-0 shadow-none border-right-0 rounded-0 sb" kendoTextBox
+          (input)="onFilter($event.target.value)" />
+        <button kendoGridExcelCommand type="button" icon="file-excel" style="float:right;">Export to Excel</button>
+        <button kendoGridPDFCommand icon="file-pdf" style="float:right;">Export to PDF</button> -->
+        <div class="row mb-3 pt-4">
+          <div class="col-4 pl-3 mt-n1">
+            <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+              (input)="onFilter($event.target.value)" />
+          </div>
+           <div class="col-12 mt-5">
+             <ul class="temp-ul pull-right mr-4 pb-3">
+             <li class="temp-ico ml-2">
+                <a kendoGridPDFCommand><img class="pt-1" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                    width="20px"></a></li>
+              <li class="temp-ico ml-2">
+                <a kendoGridExcelCommand><img class="pt-1" src="assets/images/icon-excel.svg " title="excel"
+                    width="20px"></a></li>
+              <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+            </ul>
+          </div>
+        </div>
+      </ng-template>
+      <kendo-grid-column-group title="Bank" [headerClass]="{'kendo-g-center' : true}">
+      <kendo-grid-column field="pBankname" title="Bank Name"></kendo-grid-column>
+      <kendo-grid-column field="pAccountnumber" title="Account No."></kendo-grid-column>
+      <kendo-grid-column field="pAccountname" title="Account Holder"></kendo-grid-column>
+      <kendo-grid-column field="pStatusname" title="A/c Status"></kendo-grid-column>
+
+      <!-- <kendo-grid-checkbox-column field="ptoggle"showSelectAll="true" >
+
+    <ng-template kendoGridCellTemplate let-idx="dataItem">
+        <div class="material-switch">
+            <input  name="Employment" type="checkbox" [checked]="allRowsSelected" kendoGridAddCommand [checked]="idx.ptoggle" >
+            <label  class="badge-success"></label>
+          </div>
+
+    </ng-template>
+  </kendo-grid-checkbox-column>   -->
+
+      <kendo-grid-command-column>
+        <ng-template kendoGridCellTemplate>
+          <div id="icon-edit" kendoGridEditCommand [primary]="true"></div>
+        </ng-template>
+      </kendo-grid-command-column>
+      </kendo-grid-column-group>
+      <kendo-grid-pdf fileName="Bank.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [landscape]="true">
+        <ng-template kendoGridPDFTemplate>
+          <div class="page-template">
+             <div class="header bc-2 text-center">
+              <h5> Bank </h5>
+             </div>
+           </div>
+         </ng-template>
+        <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+        <kendo-grid-column field="pBankname" title="Bank Name"></kendo-grid-column>
+        <kendo-grid-column field="pAccountnumber" title="Account No"></kendo-grid-column>
+        <kendo-grid-column field="pAccountname" title="Name of the Account"></kendo-grid-column>
+        <kendo-grid-column field="pStatusname" title="A/c Status"></kendo-grid-column>
+      
+      </kendo-grid-pdf>
+      <kendo-grid-excel fileName="Bank.xlsx">
+          <kendo-excelexport-column-group title="Bank" [headerCellOptions]="headerCells"> 
+        <kendo-excelexport-column field="pBankname" title="Bank Name"></kendo-excelexport-column>
+        <kendo-excelexport-column field="pAccountnumber" title="Account No"></kendo-excelexport-column>
+        <kendo-excelexport-column field="pAccountname" title="Name of the Account"></kendo-excelexport-column>
+        <kendo-excelexport-column field="pStatusname" title="A/c Status"></kendo-excelexport-column>
+          </kendo-excelexport-column-group>
+      </kendo-grid-excel>
+    </kendo-grid>
+  </div>
+</div>

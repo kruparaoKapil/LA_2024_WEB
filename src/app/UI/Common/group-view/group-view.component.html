@@ -1,0 +1,91 @@
+<div class="row">
+    <div class="col-md-12 col-xl-12">
+        <p class="bc-2">Group View</p>
+    </div>
+</div>
+<div class="col d-flex p-0 mt-3 flex-wrap align-items-center">
+    <a routerLink="/GroupCreation" class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg" class="mr-2" width="20px" height="20px">New</a>
+</div>
+<div class="row mt-3">
+    <div class="col-md-12 col-xl-12">
+        <kendo-grid [kendoGridBinding]="GetallGroupDetailsData" [groupable]="true" [columnMenu]="{ filter: true }" [group]="groups" [reorderable]="true" [resizable]="true" [pageable]="{ buttonCount: 2 }" [sortable]="true" [pageSize]="10" (edit)="editHandler($event)"
+            (remove)="removeHandler($event)">
+            <ng-template kendoGridToolbarTemplate>
+                <div class="row p-3">
+                    <div class="col-4 pl-0 mt-n1">
+                        <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)"/>
+                    </div>
+                       <!-- <div class="col-7 pr-0 pl-4 ml-4">
+              <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand>
+                    <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                         width="20px">
+                  </a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand>
+                    <img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                         width="20px">
+                  </a>
+                </li>
+              </ul>
+            </div> -->
+                </div>
+            </ng-template>
+            <kendo-grid-column-group title="" [headerClass]="{'kendo-g-center' : true}">
+                <kendo-grid-command-column title="" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                 <div id="icon-edit" kendoGridEditCommand [primary]="true"></div>
+                 <div id="icon-delete" kendoGridRemoveCommand disabled></div>
+                    </ng-template>
+                </kendo-grid-command-column>
+                <kendo-grid-column field="pGroupname" width="160" title="Group Name">
+                </kendo-grid-column>
+                 <!-- <kendo-grid-column field="pGroupcode" width="160" title="Group Code">
+                </kendo-grid-column> -->
+                <kendo-grid-column field="pGrouptype" title="Group Type" width="150"></kendo-grid-column>
+                <kendo-grid-column field="pMembercount" title="Member Count" width="150"></kendo-grid-column>                
+                <kendo-grid-column field="pCreateddate" width="160" title="Created Date">
+                </kendo-grid-column>
+            </kendo-grid-column-group>
+              <kendo-grid-pdf fileName="Group_Creation.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true"
+        [landscape]="true">
+        <ng-template kendoGridPDFTemplate>
+          <div class="page-template">
+             <div class="header bc-2 text-center">
+              <h5>Group Creation</h5>
+             </div>
+           </div>
+         </ng-template>
+        <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+        <kendo-grid-column field="pGroupname" width="100" title="Group Name">
+        </kendo-grid-column>
+        <kendo-grid-column field="pGroupcode" width="100" title="Group Code">
+        </kendo-grid-column>
+        <kendo-grid-column field="pGrouptype" width="100" title="Group Type">
+        </kendo-grid-column>
+        <kendo-grid-column field="pMembercount" width="100" title="Member Count">
+        </kendo-grid-column>
+        <kendo-grid-column field="pCreateddate" width="100" title="Created Date">
+        </kendo-grid-column>
+      </kendo-grid-pdf>
+      <kendo-grid-excel fileName="Group_Creation.xlsx" [fetchData]="allData">
+          <kendo-excelexport-column-group title="Group Creation" [headerCellOptions]="headerCells">
+        <kendo-excelexport-column field="pGroupname"  title="Group Name">
+        </kendo-excelexport-column>
+        <!-- <kendo-excelexport-column field="pGroupcode"  title="Group Code">
+        </kendo-excelexport-column> -->
+        <kendo-excelexport-column field="pGrouptype"  title="Group Type">
+        </kendo-excelexport-column>
+          <kendo-excelexport-column field="pMembercount"  title="Member Count">
+        </kendo-excelexport-column>
+          <kendo-excelexport-column field="pCreateddate"  title="Created Date">
+        </kendo-excelexport-column>
+      </kendo-excelexport-column-group>
+      </kendo-grid-excel>
+        </kendo-grid>
+
+
+    </div>
+</div>

@@ -1,0 +1,301 @@
+<div class="col-md-12 col-xl-12 mb-3  pl-0">
+    <p class="bc-2">Ageing Report</p>
+</div>
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+
+      </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+
+
+
+<div class="section-container">
+    <div class="row">
+        <div class="col-md-12 col-xl-12">
+            <div class="border-box">
+
+                <form [formGroup]="ageingForm">
+
+                    <div class="row mt-2">
+
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label class="required-field" title="Period" id="period">Period</label>
+                                <ng-select title="Period"  [items]="periodsList"
+                                    formControlName="period" bindLabel="name" bindValue="value" placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true  (change) ="periodChange($event)" >
+                                </ng-select>
+                            </div>
+                        </div>
+                
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label class="required-field" id="account" title="Account Head">Account Head</label>
+                                <ng-select title="Account"  [items]="accountsList"
+                                    formControlName="account" bindLabel="paccountname" bindValue="paccountid" placeholder="Select" [searchable]=true [clearable]=true  (change) ="accHeadChange($event)" dropdownPosition="bottom" [clearOnBackspace]=true >
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                      <div class="col-md-4 col-xl-4">
+                        <div class="form-group">
+                            <label title="Date" id="date" class="required-field">Date</label>
+                            <input  class="form-control" readonly type="text" [bsConfig] ="dateConfig" bsDatepicker formControlName="date">
+                        </div>
+                      </div>
+
+                      <div class="col-md-4 col-xl-4">
+                        <div class="form-group">
+                          <label class="required-field" id="type" title="Type">Type</label>
+                          <ng-select title="Type"  [items]="typeList" 
+                              formControlName="type" bindLabel="name" bindValue="value" placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true >
+                          </ng-select>
+                        </div>
+                      </div>
+
+                      <!-- <div class="col-md-4 col-xl-4">
+                        <div class="form-group mt-2">
+                          <br>
+                          <button class="btn-primary"  (click)="printAgeing()">
+                            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                            <span *ngIf="!isLoading">
+                                <img class="mr-3" height="25px" src="assets/images/reports-white.svg" width="20px">
+                              </span>
+                            Print
+                         </button>
+                        </div>
+                      </div> -->
+
+
+                      <div class="col-2" style="margin-top: -9px;">
+                   
+                        <div class="form-group pt-3">
+                          <br>
+                            <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="printAgeing()">
+                                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                                <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                        width="20px"></span> Print
+                            </a>
+                        </div>
+    
+                      </div>
+
+
+                      <div class="col-2">
+                    
+                        <div class="form-group mt-3 pt-2" *ngIf="ageingData.length!=0">
+                          <div class="d-flex justify-content-end">
+                              <a  class="export-icons" (click)="pdfOrprint('Pdf')">
+                                  <img class="" src="assets/images/pdf-icon-blue.svg " title="pdf" width="18px">
+                              </a>
+                             
+                              <a  class="export-icons" (click)="pdfOrprint('Print')"><img class=""
+                                      src="assets/images/print-icon-blue.svg " title="Print" width="18px"></a>
+
+                                       <a class="export-icons" (click)="export()"><img src="assets/images/icon-excel.svg " class="pt-2" title="Excel" style="margin-top: 3px;" width="18px"></a>
+                          </div>
+                      </div>
+                      </div>
+                      
+                    </div>
+
+
+                    <!-- <div class="justify-content-end d-flex">
+                        <div class=" form-group mt-3 pb-5 pt-3">
+                            
+                         
+                        </div>
+                    </div> -->
+
+
+            
+                </form>
+                
+                <div id="template" *ngIf="isShowPDF">
+
+                  <div class="d-flex justify-content-end" hidden>
+                    <ul class="temp-ul">
+              
+                      <!-- <li class="temp-ico">
+                        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Ages.pdf')" />
+                      </li> -->
+                      <!-- <li class="temp-ico">
+                        <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                      </li> -->
+              
+                    </ul>
+                  </div>
+              
+                  <div id="temp-box">
+                    <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true" [scale]="0.9">
+              
+                      <div class="mt-2 border rounded shadow-sm bg-white">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <app-company-details></app-company-details>
+                            <div class="report-head mt-2">
+                              <p class="font-16 text-dark text-center m-0">
+                                {{title}}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <kendo-grid [kendoGridBinding]="ageingData" [pageable]="false" [sortable]="false" [groupable]="false" [reorderable]="true" [resizable]="true" [group]="groups" [sort]="sort" [scale]="0.9">
+                        
+                        <kendo-grid-column field="pparentaccountname" title="Account Name" width="120"  class="kendo-center" [headerClass]="{'kendo-center': true}">
+                           
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pdatdate" title="Trans. Date" width="100" class="kendo-center" [headerClass]="{'kendo-center': true}"></kendo-grid-column>
+
+                        <kendo-grid-column field="pdays" title="Days" width="60" class="kendo-center" [headerClass]="{'kendo-center': true}"></kendo-grid-column>
+
+                        <kendo-grid-column field="pdays30" title="0-30 Days" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'MONTHLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            {{dataItem.pdays30 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays30" title="0-90 Days" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'QUARTERLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            {{dataItem.pdays30 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays30" title="0-180 Days" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'HALF-YEARLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            {{dataItem.pdays30 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays30" title="0-1 Years" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'YEARLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            {{dataItem.pdays30 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays60" title="31-60 Days" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'MONTHLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            {{dataItem.pdays60 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays60" title="91-180 Days" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'QUARTERLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            {{dataItem.pdays60 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays60" title="181-360 Days" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'HALF-YEARLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            {{dataItem.pdays60 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays60" title="1-2 Years " class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'YEARLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            {{dataItem.pdays60 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays90" title="61-90 Days" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'MONTHLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            {{dataItem.pdays90 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays90" title="181-270 Days" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'QUARTERLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            {{dataItem.pdays90 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays90" title="361-540 Days" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'HALF-YEARLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            {{dataItem.pdays90 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays90" title="2-3 Years" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'YEARLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            {{dataItem.pdays90 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays120" title="91-120 Days" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'MONTHLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                             {{dataItem.pdays120 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays120" title="271-360 Days" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'QUARTERLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                             {{dataItem.pdays120 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays120" title="541-720 Days Days" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'HALF-YEARLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                             {{dataItem.pdays120 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays120" title="3-4 Years" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'YEARLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                             {{dataItem.pdays120 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays150" title="Above 120 Days" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'MONTHLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                           {{dataItem.pdays150 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays150" title="Above 360 Days" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'QUARTERLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                           {{dataItem.pdays150 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays150" title="Above 720 Days" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'HALF-YEARLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                           {{dataItem.pdays150 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pdays150" title="Above 4 Years" class="kendo-right" [headerClass]="{'kendo-right': true}" width="120" *ngIf="period == 'YEARLY' ">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                           {{dataItem.pdays150 | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pamount" title="Amount" class="kendo-right" [headerClass]="{'kendo-right': true}" width="100">
+                          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            {{dataItem.pamount | mycurrencypipe}}<span class="ml-5"></span>
+                          </ng-template>
+                        </kendo-grid-column>
+                        
+                        
+                    </kendo-grid>
+              
+                    </kendo-pdf-export>
+                  </div>
+
+              </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

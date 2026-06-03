@@ -1,0 +1,56 @@
+<div class="border rounded shadow-sm bg-white p-2">
+    <h2 class="font-14">Detail Section : {{ApplicantName}} ({{LoanType}} - {{ApplicantId}})</h2>
+    <kendo-grid [kendoGridBinding]="gridViewDetails" [groupable]="false" [resizable]="true" [resizable]="true" [pageable]="false" [sortable]="false">
+
+
+        <!-- <kendo-grid-column field="pApplicantname" width="90" title="Applicant Name">
+  </kendo-grid-column>
+  <kendo-grid-column field="pLoantype" title="Loan Type" width="100">
+  </kendo-grid-column>
+  <kendo-grid-column field="pVchapplicationid" title="Loan A/c Number" width="100">
+  </kendo-grid-column> -->
+
+        <kendo-grid-column field="pReciptdate" width="90" title="Receipt Date">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pReciptdate}}
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pReciptNo" width="90" title="Receipt Number">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pReciptNo}}
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pModeofpayment" width="90" title="Mode of Payment">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pModeofpayment}}
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pParticulars" title="Particulars" width="100">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pParticulars}}
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pReceiptamount" title="Receipt Amount" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <!-- {{dataItem.pReceiptamount | mycurrencypipe}}-->
+                <div *ngIf="dataItem.pReceiptamount == 0"></div>
+                <div *ngIf="dataItem.pReceiptamount !== 0"> {{dataItem.pReceiptamount.toFixed(2) | mycurrencypipe}}</div>
+            </ng-template>
+            <ng-template kendoGridFooterTemplate>
+                <div *ngIf="totalReceiptamount == 0"></div>
+                <div *ngIf="totalReceiptamount !== 0"> 
+                    <p class="bc-2 text-right">{{totalReceiptamount.toFixed(2) | mycurrencypipe}}</p></div>
+            </ng-template>
+        </kendo-grid-column>
+
+        <!--<kendo-grid-column field="pNarration" title="Narration" width="100">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pNarration}}
+            </ng-template>
+        </kendo-grid-column>-->
+
+
+
+    </kendo-grid>
+
+</div>

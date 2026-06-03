@@ -1,0 +1,250 @@
+<div class="row">
+    <div class="col-md-12 col-xl-12  mb-3">
+        <p class="bc-2">Bank Payout (Cheques issued but not cleared)</p>
+    </div>
+</div>
+<div class="section-container">
+    <form [formGroup]="ChequesIssuedForm">
+        <div class="row  py-1 ">
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input class="form-control w-auto" type="text" title="Date" (ngModelChange)="DateChange($event)" id="ptransactiondate" readonly formControlName="ptransactiondate" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" [ngClass]="{ 'is-invalid': ChequesIssuedValidation.ptransactiondate }">
+                    <app-validation-message [messgae]="ChequesIssuedValidation?.ptransactiondate"></app-validation-message>
+                    <!-- <div class="invalid-feedback">
+      <span *ngIf="ChequesIssuedValidation.ptransactiondate">{{ChequesIssuedValidation?.ptransactiondate}}</span>
+    </div> -->
+                </div>
+
+                <div class="form-group">
+                    <label>Bank</label>
+                    <select class="form-control" (change)="SelectBank($event)" id="bankselection">
+      <option  value="">Select</option>
+      <option *ngFor="let bank of BanksList"   [value]="bank.pdepositbankname">{{bank.pdepositbankname}}</option>
+    </select>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="border rounded  shadow-sm bg-light p-3">
+                    <h2 *ngIf="banknameshowhide" class="sec-head-bold-blue mt-2">{{bankname}}
+                        <hr>
+                    </h2>
+
+                    <div class="form-group">
+                        <label>Balance: </label> <label class="sec-head-bold ml-2">{{bankbalance}}</label>
+                    </div>
+                    <div class="form-group m-0">
+                        <label>BRS Date: </label> <label class="sec-head-bold ml-2">{{brsdate}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ul class="nav filtered-tab nav-tabs">
+            <li class="active"> <a class="active" (click)="All()" data-toggle="tab" href="#all" role="tab" aria-controls="fresh" aria-selected="true">All <span class="badge badge-warning ml-2">{{all}}</span></a></li>
+
+            <li><a data-toggle="tab" href="#all" (click)="ChequesIssued()">Cheques Issued <span
+          class="badge badge-secondary ml-2">{{chequesissued}}</span></a></li>
+            <li><a data-toggle="tab" href="#all" (click)="OnlinePayments()">Online Payments <span
+          class="badge badge-primary ml-2">{{onlinepayments}}</span></a></li>
+            <li><a data-toggle="tab" href="#all" (click)="Cleared()">Cleared <span
+          class="badge badge-success ml-2">{{cleared}}</span></a></li>
+            <li><a data-toggle="tab" href="#all" (click)="Returned()">Returned <span
+          class="badge badge-danger ml-2">{{returned}}</span></a></li>
+            <li><a data-toggle="tab" href="#all" (click)="Cancelled()">Cancelled <span
+          class="badge badge-danger ml-2">{{cancelled}}</span></a></li>
+
+        </ul>
+        <br />
+        <div *ngIf="brsdateshowhidecleared" class="row">
+            <div class="col-md-4 col-xl-4">
+                <div class="form-group">
+                    <label>BRS From Date</label>
+                    <input class="form-control w-auto" type="text" formControlName="pfrombrsdate" readonly placeholder="" [bsConfig]="brsfromConfig" #dp="bsDatepicker" bsDatepicker placement="bottom">
+                </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+                <div class="form-group">
+                    <label>BRS To Date</label>
+                    <input class="form-control w-auto" type="text" formControlName="ptobrsdate" readonly placeholder="" [bsConfig]="brstoConfig" #dp="bsDatepicker" bsDatepicker placement="bottom">
+                    <div *ngIf="validatebrsdateclear" style="color:red">Brs To Date Should Be Greater Than From Date</div>
+                </div>
+            </div>
+            <div class=" justify-content-end mt-4">
+                <a (click)="ShowBrsClear()" data-toggle="tab" class="btn btn-b-icon " role="tab" aria-controls="hot" aria-selected="false">Show</a>
+            </div>
+        </div>
+        <form [formGroup]="BrsReturnForm">
+            <div *ngIf="brsdateshowhidereturned" class="row">
+                <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                        <label>BRS From Date</label>
+                        <input class="form-control w-auto" type="text" formControlName="frombrsdate" readonly placeholder="" [bsConfig]="brsfromConfig" #dp="bsDatepicker" bsDatepicker placement="bottom">
+                    </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                        <label>BRS To Date</label>
+                        <input class="form-control w-auto" type="text" formControlName="tobrsdate" readonly placeholder="" [bsConfig]="brstoConfig" #dp="bsDatepicker" bsDatepicker placement="bottom">
+                        <div *ngIf="validatebrsdatereturn" style="color:red">Brs To Date Should Be Greater Than From Date</div>
+                    </div>
+                </div>
+                <div class=" justify-content-end mt-4">
+                    <a (click)="ShowBrsReturn()" data-toggle="tab" class="btn btn-b-icon " role="tab" aria-controls="hot" aria-selected="false">Show</a>
+                </div>
+            </div>
+        </form>
+        <form [formGroup]="BrsCancelForm">
+            <div *ngIf="brsdateshowhidecancelled" class="row">
+                <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                        <label>BRS From Date</label>
+                        <input class="form-control w-auto" type="text" formControlName="frombrsdate" readonly placeholder="" [bsConfig]="brsfromConfig" #dp="bsDatepicker" bsDatepicker placement="bottom">
+                    </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                        <label>BRS To Date</label>
+                        <input class="form-control w-auto" type="text" formControlName="tobrsdate" readonly placeholder="" [bsConfig]="brstoConfig" #dp="bsDatepicker" bsDatepicker placement="bottom">
+                        <div *ngIf="validatebrsdatecancel" style="color:red">Brs To Date Should Be Greater Than From Date</div>
+                    </div>
+                </div>
+                <div class=" justify-content-end mt-4">
+                    <a (click)="ShowBrsCancel()" data-toggle="tab" class="btn btn-b-icon " role="tab" aria-controls="hot" aria-selected="false">Show</a>
+                </div>
+            </div>
+        </form>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade active show " id="all" role="tabpanel" aria-labelledby="fresh-tab">
+                <div class="">
+                    <div class=" section-container">
+                        <kendo-grid [kendoGridBinding]="gridData" [sortable]="true" [selectedKeys]="mySelection"
+                        [pageSize]="10" [groupable]="true" [height]="480" [group]="groups"  [pageable]="true" [skip]="skip" [scale]="0.9"
+                       [selectable]="selectableSetting">
+                            <ng-template kendoGridToolbarTemplate>
+                                <div class="row mb-3 mt-2">
+                                    <div class="col-4 pl-0 mt-n1">
+                                        <input placeholder="Search in all columns..." formControlName="SearchClear" kendoTextBox class="form-control search-k-cst sb" (input)="SearchRecord($event.target.value)" />
+                                    </div>
+                                    <div class="col-7 pr-0 pl-4 ml-5">
+                                        <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                                            <li class="temp-ico ml-2">
+                                                <a kendoGridPDFCommand><img class="pt-1 pl-3" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                            </li>
+                                            <li class="temp-ico ml-2">
+                                                <a kendoGridExcelCommand><img class="pt-1" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                                            </li>
+                                            <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <kendo-grid-column-group title="Cheques Issued ({{pdfstatus}})" [headerClass]="{'kendo-g-center' : true}">
+                                <kendo-grid-checkbox-column field="pdepositstatus" title="Clear" showSelectAll="true" [hidden]="showhidegridcolumns">
+                                    <ng-template kendoGridCellTemplate let-idx="dataItem" let-row="rowIndex">
+                                        <input type="checkbox" [checked]="idx.pdepositstatus == true" id="{{idx.preceiptid}}{{row}}{{row}}" (change)="checkedClear($event,idx)" />
+                                    </ng-template>
+                                </kendo-grid-checkbox-column>
+                                <kendo-grid-checkbox-column field="preturnstatus" title="Return" showSelectAll="true" [hidden]="showhidegridcolumns">
+                                    <ng-template kendoGridCellTemplate let-idx="dataItem" let-row="rowIndex">
+                                        <input type="checkbox" [checked]="idx.preturnstatus == true" id="{{idx.preceiptid}}{{row}}" (change)="checkedReturn($event,idx)" />
+                                    </ng-template>
+                                </kendo-grid-checkbox-column>
+                                <kendo-grid-checkbox-column field="pcancelstatus" title="Cancel" showSelectAll="true" [hidden]="showhidegridcolumns">
+                                    <ng-template kendoGridCellTemplate let-idx="dataItem">
+                                        <input type="checkbox" [checked]="idx.pcancelstatus == true" id="{{idx.preceiptid}}" (change)="checkedCancel($event,idx)" />
+                                    </ng-template>
+                                </kendo-grid-checkbox-column>
+
+                                  
+                                        <kendo-grid-column field="" title="" [headerClass]="{'kendo-g-center': true}" class="kendo-center" width="175">
+                                            <ng-template kendoGridCellTemplate let-idx="dataItem">
+                                                <div *ngIf="idx.pdepositstatus || idx.pcancelstatus || idx.preturnstatus">
+                                                    <input type="text" [(ngModel)]="idx.pchequestatusnarration" id="txtenterdata_{{idx.preceiptid}}" class="form-control" style="width: 125px;padding: 0px;" [ngModelOptions]="{standalone: true}" (change)="ValidatingNarration(idx)" appUppercase>
+                                                </div>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                    
+
+                                  
+                                 
+                                <kendo-grid-column field="preceiptid" title="Payment Id"></kendo-grid-column>
+                                <kendo-grid-column field="preceiptdate" title="Payment Date">
+                                    <!-- <ng-template kendoGridCellTemplate let-dataItem>
+                          {{dataItem.preceiptdate | date: 'dd/MM/yyyy'}}
+                      </ng-template> -->
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pdepositeddate" title="{{datetitle}}" [hidden]="hiddendate">
+                                    <!-- <ng-template kendoGridCellTemplate let-dataItem>
+                          {{dataItem.pdepositcleardate | date: 'dd/MM/yyyy'}}
+                      </ng-template> -->
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pChequenumber" title="Cheque/Reference No" width="120"></kendo-grid-column>
+                                <kendo-grid-column field="ptypeofpayment" title="Transaction Mode" width="150"></kendo-grid-column>
+                                <kendo-grid-column field="ptotalreceivedamount" title="Amount" class="kendo-center">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.ptotalreceivedamount | mycurrencypipe}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                            </kendo-grid-column-group>
+                            <kendo-grid-pdf fileName="Cheques_Issued.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [landscape]="true">
+                                <ng-template kendoGridPDFTemplate>
+                                    <div class="page-template">
+                                        <div class="header bc-2 text-center">
+                                            <h5> Cheques Issued ({{pdfstatus}}) </h5>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+                                <kendo-grid-column field="preceiptid" width="100" title="Payment Id">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="preceiptdate" width="100" title="Payment Date">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pdepositeddate" width="100" title="{{datetitle}}" [hidden]="hiddendate">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pChequenumber" width="100" title="Cheque/Reference No">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="ptypeofpayment" width="100" title="Transaction Mode">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="ptotalreceivedamount" width="100" title="Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                </kendo-grid-column>
+                            </kendo-grid-pdf>
+                            <kendo-grid-excel fileName="Cheques_Issued.xlsx" [fetchData]="allData"></kendo-grid-excel>
+                        </kendo-grid>
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- <div class="tab-pane fade" id="issued" role="tabpanel" aria-labelledby="fresh-tab">
+          
+         <h2 class="mt-4 lc-sub-title"> Issued grid here </h2>
+        </div>
+      <div class="tab-pane fade" id="online" role="tabpanel" aria-labelledby="fresh-tab">
+          
+         <h2 class="mt-4 lc-sub-title"> online grid here </h2>
+        </div>
+      <div class="tab-pane fade" id="cleared" role="tabpanel" aria-labelledby="fresh-tab">
+          
+         <h2 class="mt-4 lc-sub-title"> cleared grid here </h2>
+        </div>
+      <div class="tab-pane fade" id="returned" role="tabpanel" aria-labelledby="fresh-tab">
+          
+         <h2 class="mt-4 lc-sub-title"> returned grid here </h2>
+        </div> -->
+
+        </div>
+
+        <div class=" d-flex justify-content-end mt-4">
+            <a (click)="Clear()" data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-3" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-cancel-white.svg" class="mr-3" width="20px" height="20px">Clear</a>
+            <div *ngIf="saveshowhide">
+                <button (click)="Save()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" [disabled]="disablesavebutton">
+        <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton,'fa-check': !disablesavebutton}"></i>
+      <span *ngIf="!disablesavebutton">
+      </span>{{buttonname}}</button>
+            </div>
+        </div>
+
+    </form>
+</div>

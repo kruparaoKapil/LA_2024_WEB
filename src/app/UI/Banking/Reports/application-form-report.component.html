@@ -1,0 +1,973 @@
+<div class="container-fluid">
+ 
+   <div class="page">
+        <div class="col-md-12 col-sm-12 m-auto py-3">
+            <div class="row">
+                <div class="col-md-5 col-sm-5 ">
+                    <p class="text-left col-md-12 col-sm-12"
+                        style="font-size:13px;word-break:break-word;font-weight:bold;margin-bottom:5px;padding-left:0"><span
+                            style="line-height:22px">TO</span><br />
+                        <span style="line-height:23px">The Manager</span><br />
+                        <span style="line-height:23px">{{companyname}}</span><br />
+                        <span style="line-height:23px">{{companyaddress}}</span><br />
+                        <span style="line-height:23px">CINU22120TFG1984PTC005178</span></p>
+                    <div class=" h-auto" style="border:solid 1px rgb(153, 89, 89);">
+                        <p class="text-left col-md-12"
+                            style="font-size:14px;font-weight:bold;padding:5px 5px 80px 5px;margin-bottom:10px">Branch:
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3">
+                    <div class=" h-100" style="border:solid 1px #000;">
+                        <p
+                            style="transform: rotate(-30deg);text-align: center;padding-top: 120px;padding-right: 75px;padding-left:0;">
+                            photograph</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 h-100">
+                    <div style="border:solid 1px #000;">
+                        <p style="text-align:left;font-size:15px;font-weight:bold;padding: 5px 5px 5px 5px;
+    margin-bottom: 5px;">Private and Confidential / Not For Circulation</p>
+
+                    </div>
+                    <div class="mt-4 float-right">
+                        <img src="" width="100" height="142">
+
+                    </div>
+                    <div class="mt-4 float-right w-100" style="border:solid 1px #000;margin-top:20px;">
+                        <p style="text-align:left;font-size:16px;font-weight:bold;padding: 5px 5px 0 5px;
+    margin-bottom: 5px;">NO. :</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="pt-3">
+                        Sir,<br />I/we hereby apply for purchase of land (area mentioned below) in the Plot mentioned in
+                        enclosed Schedule III
+                        having read, understood and signed by me/us. I/we shall abide by all the terms and conditions
+                        mentioned overleaf.
+                        I/we further declare that what is stated in this application form is true and correct. I/we
+                        declare
+                        and confirm my/our
+                        Indian Resident Status.</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <p class="col-md-12 pt-0"
+                        style="text-align:center;border-top:solid 1px #000;margin-bottom:5px;border-bottom:solid 1px #000;line-height:25px;float:left;font-size:18px;font-weight:bold">
+                        APPLICANT PERSONAL INFORMATION <span style="font-size:12px;font-weight:400">
+                            (In Block Letters)</span></p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 col-sm-3">
+                    <p style="font-weight:bold;margin-bottom:0">Name of the Applicant</p>
+                </div>
+                <!-- <div clt50554 5ass="col-md-9 col-sm-9"> -->
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <p style="padding-bottom:5px;margin-bottom:0px"><span
+                                style="padding-right:5px;margin-left:15px;">: {{titlename}}
+                                {{membername}}</span></p>
+                    </div>
+
+                </div>
+            </div>
+
+     
+
+            <!-- <div class="row">
+                <div class="col-md-3 col-sm-3">
+
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <p style="padding-bottom:5px;margin-bottom:0px"><span
+                            style="padding-right:5px;;font-weight:bold;"></span><span style="padding-right:5px;"></span>
+                        <span style="font-weight:bold"></span></p>
+
+                </div>
+            </div> -->
+
+
+            <div class="row">
+                <div class="col-md-3 col-sm-3">
+
+                </div>
+                <div class="col-md-9 col-sm-9">
+
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1">
+                            <p style="padding-bottom:5px;margin-bottom:0px;font-weight:bold;"><span
+                                    style="padding-right:5px;">:</span>Age</p>
+                        </div>
+                        <div class="col-md-11 col-sm-11">
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2">
+
+                                    <p style="font-weight:bold;float:left;font-weight:400;"> {{age}} Years<span
+                                            class="pl-3"></span></p>
+                                </div>
+                                <div class="col-md-5 col-sm-5">
+                                    <p style="font-weight:bold;">Date of Birth: <span style="font-weight:400" class="pl-3">{{dateofbirth}}</span>
+                                    </p>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <p style="font-weight:bold;">Male<span class="pl-3"></span>
+                                        <input [checked]="checkmale" [attr.disabled]="male ? '' : null"
+                                            style=" margin-left:7px;margin-top:5px;position:relative;top:4px"
+                                            type="checkbox">
+                                    </p>
+
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+
+                                    <p style="font-weight:bold;">Female<span class="pl-3"></span>
+                                        <input [checked]="checkfemale" [attr.disabled]="female ? '' : null"
+                                            style="margin-left:7px;margin-top:5px;position:relative;top:4px"
+                                            type="checkbox" value="" autocomplete="off">
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-3">
+                <p style="font-weight:bold;margin-bottom:0">Father / Husband Name</p>
+                </div>
+                <div class="col-md-7 col-sm-7">
+                <p style="padding-bottom:5px;margin-bottom:0px"><span style="padding-right:5px;font-weight:bold;">:</span><span style="padding-right:5px;">Mr</span> <span style="font-weight:400;padding-right:10px"></span></p>
+                
+                </div>
+                <div class="col-md-1 col-sm-1">
+                <p style="padding-bottom:5px;margin-bottom:0px;font-weight:bold;">Age</p></div>
+                <div class="col-md-1 col-sm-1">
+                
+                <p style="font-weight:bold;float:right;font-weight:bold;">Years<span class="pl-3"></span></p>
+                </div>
+                </div>
+
+            <div class="row">
+                <div class="col-md-3 col-sm-3">
+                    <p style="font-weight:bold;margin-bottom:0">Present Address</p>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <div class="row">
+
+                        <div class="col-md-12 col-sm-12">
+                            <p style="padding-bottom:5px;margin-bottom:0px"><span
+                                    style="padding-right:0px">:</span><span
+                                    style="padding-left:5px">{{memberaddress}}</span> </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 col-sm-3">
+                    <p style="font-weight:bold;margin-bottom:0"></p>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <div class="row">
+
+                        <div class="col-md-6 col-sm-6 ">
+                            <p style="padding-bottom:5px;font-weight:bold;margin-bottom:0px;padding-left:8px">Phone No.
+                                :<span style="padding-left:5px"></span></p>
+                        </div>
+                        <div class="col-md-6 col-sm-6 ">
+                            <p style="padding-bottom:5px;margin-bottom:0px;font-weight:bold;">Mobile No.
+                                <span style="padding-left:5px;font-weight:400">: {{mobileno}}</span> </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="row">
+                <div class="col-md-3 col-sm-3">
+                    <p style="margin-bottom:0"><b>Permanent Communication Address</b>
+                        (Address to be mentioned in Sale Deed)</p>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <div class="row">
+
+                        <div class="col-md-12 col-sm-12">
+                            <p style="padding-bottom:5px;margin-bottom:0px"><span style="padding-right:5px">: {{memberaddress}}</span></p>
+                            <!-- <p style="padding-bottom:5px;margin-bottom:0px"><span style="padding-right:5px">:</span>
+                            </p>
+                            <p style="padding-bottom:5px;margin-bottom:0px"><span style="padding-right:5px">:</span>
+                            </p> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 col-sm-3">
+                    <p style="font-weight:bold;margin-bottom:0"></p>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <div class="row">
+
+                        <div class="col-md-6 col-sm-6">
+                            <p style="padding-bottom:5px;font-weight:bold;margin-bottom:0px;padding-left:8px">Mobile No. :
+                               <span style="padding-left:5px;font-weight:400">   {{mobileno}}</span></p>
+                        </div>
+                        <div class="col-md-6 col-sm-6 ">
+                            <p style="padding-bottom:5px;margin-bottom:0px;font-weight:bold;">Email ID: <span
+                                    style="padding-left:5px;font-weight:400"> {{mailid}}</span> </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 col-sm-3">
+                    <p style="margin-bottom:0"><b>Nominee Name</b><br />
+                        (Guardian name, if applicant is minor)
+                    </p>
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <p ><span style="padding-right:5px">:
+                                    {{nominees}}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 col-sm-3">
+                    <p style="margin-bottom:0">
+                        Relationship with the Applicant</p>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <div class="row">
+
+                        <div class="col-md-12 col-sm-12">
+                            <p style="font-weight:bold;"><span style="padding-right:10px"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 col-sm-3">
+                    <p style="margin-bottom:0;font-weight:bold">
+                        Occupation</p>
+                </div>
+                <div class="col-md-9 col-sm-9">
+
+                    <div class="row">
+
+                        <div class="col-md-3 col-sm-3">
+                            <div class="row">
+                                <p style="font-weight:bold;"><span style="padding-left:14px">:</span></p>
+                                <input type="checkbox" value="" style="margin-left:7px;margin-top:5px;">
+                                <p style="font-weight:bold;padding-bottom:0;margin-bottom:0;"><span
+                                        style="padding-right:10px"></span>Govt. Service</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <div class="row">
+                                <input type="checkbox" value="" style="margin-left:7px;margin-top:5px;">
+                                <p style="font-weight:bold;padding-bottom:0;margin-bottom:0;"><span
+                                        style="padding-right:10px"></span>Private Sector</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-3">
+                            <div class="row">
+                                <input type="checkbox" value="" style="margin-left:7px;margin-top:5px;">
+                                <p style="font-weight:bold;padding-bottom:0;margin-bottom:0;"><span
+                                        style="padding-right:10px"></span>Business</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <div class="row">
+                                <input type="checkbox" value="" style="margin-left:7px;margin-top:5px;">
+                                <p style="font-weight:bold;padding-bottom:0;margin-bottom:0;"><span
+                                        style="padding-right:10px"></span>Self Employed</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <div class="row">
+                                <p style="font-weight:bold;"><span style="padding-left:18px"></span></p>
+                                <input type="checkbox" value="" style="margin-left:7px;margin-top:5px;">
+                                <p style="font-weight:bold;padding-bottom:0;margin-bottom:0;"><span
+                                        style="padding-right:10px"></span>Agriculture</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <div class="row">
+                                <input type="checkbox" value="" style="margin-left:7px;margin-top:5px;">
+                                <p style="font-weight:bold;padding-bottom:0;margin-bottom:0;"><span
+                                        style="padding-right:10px"></span>House Wife</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <div class="row">
+                                <input type="checkbox" value="" style="margin-left:7px;margin-top:5px;">
+                                <p style="font-weight:bold;padding-bottom:0;margin-bottom:0;"><span
+                                        style="padding-right:10px"></span>Others (Specify)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:20px;margin-bottom:0px">
+                <div class="col-md-6 col-sm-6 ">
+                    <div style="padding-top:5px;border:solid 1px #000;padding:0 0px;margin-bottom:0;font-weight:bold">
+                        <div class="row m-0" style="border-bottom:solid 1px #000;">
+                            <div class="col-md-6 col-sm-6 " style="border-right:solid 1px #000;">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;">Payment Details</p>
+
+                            </div>
+                            <div class="col-md-6 col-sm-6 ">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;"></p>
+
+                            </div>
+                        </div>
+
+                        <div class="row m-0" style="border-bottom:solid 1px #000;">
+                            <div class="col-md-6 col-sm-6 " style="border-right:solid 1px #000;">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;">Area of the Land</p>
+
+                            </div>
+                            <div class="col-md-6 col-sm-6 ">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;"></p>
+
+                            </div>
+                        </div>
+
+                        <div class="row m-0" style="border-bottom:solid 1px #000;">
+                            <div class="col-md-6 col-sm-6 " style="border-right:solid 1px #000;">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;">Plot No. :</p>
+
+                            </div>
+                            <div class="col-md-6 col-sm-6 ">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;"></p>
+
+                            </div>
+                        </div>
+
+                        <div class="row m-0" style="border-bottom:solid 1px #000;">
+                            <div class="col-md-6 col-sm-6 " style="border-right:solid 1px #000;">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;">(A) Cost of Land :</p>
+
+                            </div>
+                            <div class="col-md-6 col-sm-6 ">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;"></p>
+
+                            </div>
+                        </div>
+
+                        <div class="row m-0" style="border-bottom:solid 1px #000;">
+                            <div class="col-md-6 col-sm-6 " style="border-right:solid 1px #000;">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;">(B) Booking Amount :</p>
+
+                            </div>
+                            <div class="col-md-6 col-sm-6 ">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;">Rs. 1,00,000/-</p>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row m-0">
+                            <div class="col-md-6 col-sm-6" style="border-right:solid 1px #000;">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;">Balance Amount (A - B) :
+                                </p>
+
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;">Rs.
+                                    ..........................................</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6">
+                    <div style="padding-top:5px;border:solid 1px #000;padding:0 0px;margin-bottom:0;font-weight:bold">
+                        <div class="row m-0" style="border-bottom:solid 1px #000;">
+                            <div class="col-md-12">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;text-align:center">Payment
+                                    Details</p>
+                            </div>
+                        </div>
+                        <div class="row m-0" style="border-bottom:solid 1px #000;">
+                            <div class="col-md-4 col-sm-4 " style="border-right:solid 1px #000;">
+                                <p style="padding-bottom:5px;padding-top:18px;margin-bottom:0;">Mode of Payment</p>
+                            </div>
+                            <div class="col-md-4 col-sm-4 " style="border-right:solid 1px #000;padding:8px 10px">
+                                <div class="row" style="margin-top:5px;margin-bottom:2px;">
+                                    <input type="checkbox" value=""
+                                        style="margin-left:13px;margin-top:4px;padding-top:10px">
+                                    <p style="font-weight:bold;margin-bottom:0"><span
+                                            style="padding-right:10px"></span>Online Transfer</p>
+                                </div>
+                                <div class="row ">
+                                    <input type="checkbox" value="" style="margin-left:13px;margin-top:4px;">
+                                    <p style="font-weight:bold;margin-bottom:0px"><span
+                                            style="padding-right:10px"></span>Cheque</p>
+
+                                    <input type="checkbox" value="" style="margin-left:8px;margin-top:4px;">
+                                    <p style="font-weight:bold;margin-bottom:0px"><span
+                                            style="padding-right:10px"></span>DD
+                                    </p>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;">No. :
+                                    ...................</p>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="row m-0" style="border-bottom:solid 1px #000;">
+                            <div class="col-md-4 col-sm-4" style="border-right:solid 1px #000;">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;">Name of the Bank</p>
+
+                            </div>
+                            <div class="col-md-8">
+
+
+                            </div>
+                        </div>
+
+                        <div class="row m-0" style="border-bottom:solid 1px #000;">
+                            <div class="col-md-4 col-sm-4" style="border-right:solid 1px #000;">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;">Branch</p>
+
+                            </div>
+                            <div class="col-md-8">
+
+
+                            </div>
+                        </div>
+
+                        <div class="row m-0">
+                            <div class="col-md-2 col-sm-2" style="border-right:solid 1px #000;">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;">Date</p>
+
+                            </div>
+                            <div class="col-md-4 col-sm-4" style="border-right:solid 1px #000;">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;">{{receiptdate}}</p>
+
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <p style="padding-bottom:5px;padding-top:5px;margin-bottom:0;">Receipt No. :
+                                    {{receiptno}}</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+   </div>
+   <div class="page">
+        <div class="col-md-12 col-sm-12 m-auto py-3">
+
+
+
+            <div class=" pt-2">
+                <p style="font-weight:bold;font-size:18px;text-align:center;margin-bottom:0;padding-bottom:0px">Terms
+                    and
+                    Conditions</p>
+
+                <p class="pt-2 text-justify">1. Land is being sold at Rs 18,000 /- per square yard.<br>
+                    2. After receipt of the booking amount, land will be allotted in the non agricultural land or in a
+                    lay-out
+                    approved by the concerned DTCP / Urban
+                    Development Authority / Government agency.<br>
+                    3. Aparticular plot or land in a plot can be booked / reserved in the name of the applicant, only
+                    after
+                    receipt of not less than Rs 1,00,000 /- ( Rupees
+                    one lakh only ) towards booking amount from the applicant.<br>
+                    4. Application can be transferred to another person, only after receipt of the full cost / sale
+                    consideration of plot. In all other cases a transfer fee as
+                    mentioned below shall be charged:<br>
+                    I. 10% of the full cost of a plot applied for transfer to a person other than in item <br>(ii)
+                    ii. Rs 2,500 /- for transferring the name to the spouse of the applicant or a direct descendant or
+                    direct
+                    antecedent of the applicant<br>
+                    iii. No transfer fee is collected for transfer to a nominee on demise of the applicant.<br>
+                    iv. In case an applicant after paying amount for purchase of a plot / land in this venture, wants to
+                    transfer the amount so paid, towards
+                    purchase of a plot in another venture of ‘Kapil Group’the amount so paid by the applicant can be
+                    transferred, subject to payment of a transfer
+                    fee of Rs 20,000 /- plus recovery of promoter incentives paid, if any.<br>
+                    5. The company will be ready to register / transfer the plot / land to the name of the applicant
+                    within 30
+                    days after receipt of entire sale consideration
+                    of plot with interest if any. In case the applicant after payment of the full cost of plot/land does
+                    not
+                    come forward for transferring / registration of
+                    sale deed in his / her name within a maximum period of 90 days after payment of full cost of plot, a
+                    holding
+                    charge at Rs 5/- per square yard, per<br>
+                    month shall be collected by the company for non-compliance of the terms of agreement.
+                    6. Nobody is authorized to collect money on behalf of the company outside the office premises.
+                    Members are
+                    requested to obtain official receipt
+                    from the company’s office without fail. The company cannot take responsibility for payments made
+                    otherwise.
+                    Complaints, if any, will be
+                    entertained by the company, if made within seven days of such purported payment. Please donot pay
+                    installments / amount in cash to anybody.
+                    Payments through cheques or drafts or pay orders or online payments only are preferred.<br>
+                    7. Those who make payment through out-station cheques will have to pay bank collection charges as
+                    applicable. In case cheques issued by the
+                    applicant are dishonored by their bankers, the actual charges collected by the banker plus Rs 500 /-
+                    shall
+                    be payable by the applicant for issuing a
+                    cheque without having sufficient balance in his/her bank account.<br>
+                    8. The company is not responsible for any promises made by any person in any capacity, which is
+                    contrary to
+                    the terms and conditions mentioned
+                    herein.<br>
+                    9. Applicants making full payment can be provided with copies of Legal documents for verification on
+                    written
+                    request. However the applicant can
+                    verify the documents in the office premises of the company within office hours on any working day
+                    from
+                    Monday to Friday.<br>
+                    10. In case the balance cost / sale consideration of the plot is not paid by the applicant within 90
+                    days
+                    after booking the plot, the allotment of the plot
+                    shall be cancelled without any further notice to the applicant and the amount paid will be refunded
+                    after
+                    deducting processing charges equal to
+                    10% of the full cost of a plot, towards damages for breach of contract. The amount to be refunded
+                    will be
+                    paid after receipt of full cost of plot from
+                    an alternate purchaser of plot / land applied for.<br>
+                    11. Lay-out maintenance charges shall have to be paid after an association of owners is formed for
+                    proper
+                    up-keep and maintenance of the lay-out.<br>
+                    12. The company will not be responsible for any loss caused by an act of nature or by any subsequent
+                    act or
+                    policy change of the Government.<br>
+                    13. In case Development charges etc., are levied by the Municipal or other local bodies for the
+                    plot/land
+                    being purchased or if any additional stamp
+                    duty or tax is levied, the same has to be paid by the applicant, in addition to the amount mentioned
+                    above.<br>
+                    14. All disputes and differences which may arise between the parties hereto and which cannot be
+                    settled
+                    amicably or any part thereof in any way
+                    related to or pertaining thereto shall be resolved by having recourse to arbitration in accordance
+                    with the
+                    provisions of Arbitration and Conciliation
+                    Act 1996, by an arbitrator to be appointed by the company. The award made by the sole arbitrator
+                    shall be
+                    final and binding on the parties hereto,
+
+                    and this shall be deemed to be a submission to arbitration within the meaning of the said Act,
+                    including
+                    statutory modification and / or re-
+                    enactments thereof from time to time. All expenses incurred in the course of arbitration proceedings
+                    will be
+                    paid by the applicant.<br>
+
+                    15. All legal matters are subject to the jurisdiction where the venture is located.<br>
+                    16. After registration of the sale deed in favor of the purchaser, the following options can be
+                    exercised by
+                    the purchaser of land, at his/her sole and
+                    absolute discretion :<br>
+                    A. To retain the property for his / her descendants or<br>
+                    B. To construct an independent house on the property being purchased or<br>
+                </p>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6" style="font-weight:bold;">For Company : _____________________ </div>
+                    <div class="col-md-6 col-sm-6">
+                        <p style="font-weight:bold;text-align:right;border-top:solid 1px #000;float:right;margin-top:5">
+                            APPLICANT / GUARDIAN SIGNATURE</p>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+   </div>
+      
+      
+            <div class="page">
+                    <div class="col-md-12 col-sm-12 m-auto py-3">
+            <p class="text-justify">C. To jointly give the property so purchased along with the owners of the abutting property on joint
+                development for construction of a high rise building
+                or villas or<br />
+                D. Sell/transfer the property to a third party or<br />
+                E. Offer to sell the unit of land through ‘Kapil Realty Consultants Pvt Ltd’after four to twelve years
+                from
+                date of purchase ie.,. registration of sale deed
+                for :<br />
+                (i). Exchange of the unit of land for commercial/co-living space in a constructed buildings with
+                occupancy
+                certificate OR<br />
+                (ii). sell the land now being purchased for an amount mentioned in the table in column (4) below.<br />
+                - The option to receive in exchange commercial/co-living space or receive sale consideration on transfer
+                of
+                the unit of land purchased, has to be
+                exercised within a maximum period of 24 months, from the end of the period (years) opted by the
+                purchaser to
+                exchange/sell the unit of land now
+                being purchased.<br />
+                - In case the purchaser opts to exchange the unit of land, for commercial/co-living space, ‘Kapil Realty
+                Consultants Pvt Ltd’ will co-ordinate and
+
+                identify the company willing to purchase the unit of land, in exchange for commercial/co-living space.
+                The
+                company selling the commercial/co-
+                living space offers to take the commercial/co-living space so sold, on lease and pay rent of Rs 112.50
+                per
+                square feet, with an enhancement in
+
+                rent at 05% of the previous rent, every five years, up to 20 years. Rent commences from the date of
+                execution of the lease deed, by the purchaser
+                of commercial/co-living space.<br />
+                - ‘Kapil Realty Consultants Pvt Ltd’ will co-ordinate and identify a buyer for purchase of this unit of
+                land, after receiving a clear written instruction
+                from the purchaser of the land to sell the land, within a maximum period of six months after expiry of
+                the
+                period opted to exercise this option,.</p>
+            <p style="font-weight:bold;font-size:18px;text-align:center;margin-bottom:0;padding-bottom:5px">Table</p>
+            <p style="font-size:14px;text-align:center;margin-bottom:0;padding-bottom:10px">Exchange of one unit of land
+                for
+                commercial / co-living space OR sale<br />
+
+                at the end of the period opted for exchange</p>
+            <div class="table-responsive" style="border:solid 1px #ccc;margin-bottom:10px">
+                <table id="example" class="table text-center">
+                    <thead>
+                        <tr>
+                            <th style="width: 5px;white-space: normal !important;">Exchange of 100 sq yds of
+                                land, for saleable space OR
+                                sale at the end of year, after
+                                purchase of land
+                                (1)</th>
+
+
+                            <th style="width: 5px;white-space: normal !important;">Saleable area of Commercial
+                                / co-living space, to be
+                                allotted in sft. in exchange
+                                for 100 sq. yds of land
+                                (2)</th>
+                            <th style="width: 5px;white-space: normal !important;">Monthly rent, from rent
+                                commencement date, after
+                                execution of the lease deed in
+                                favor of the company
+                                (3)</th>
+                            <th style="width: 5px;white-space: normal !important;">OR Sale consideration payable at
+                                the end of the period opted, for
+                                sale of one unit of land of 100
+                                square yards, purchased for Rs
+                                18,00,000/-
+                                (4)</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>4 year </td>
+                            <td>177 sft</td>
+                            <td> Rs 19,912:50</td>
+                            <td>Rs 26,55,000 /- </td>
+                        </tr>
+                        <tr>
+                            <td>5th year</td>
+                            <td>192 sft</td>
+                            <td>Rs 21,600:00</td>
+                            <td>Rs 28,80,000 /- </td>
+                        </tr>
+                        <tr>
+                            <td>6th year</td>
+                            <td>206 sft</td>
+                            <td>Rs 23,175:00</td>
+                            <td>Rs 30,90,000 /-</td>
+                        </tr>
+                        <tr>
+                            <td>7th year</td>
+                            <td>220 sft</td>
+                            <td>Rs 24,750:00</td>
+                            <td>Rs 33,00,000 /-</td>
+                        </tr>
+                        <tr>
+                            <td>8th year</td>
+                            <td>235 sft</td>
+                            <td>Rs 26,437:50</td>
+                            <td>Rs 35,25,000 /-</td>
+                        </tr>
+                        <tr>
+                            <td>9th year</td>
+                            <td>249 sft</td>
+                            <td>Rs 28,012:50</td>
+                            <td>Rs 37,35,000 /-</td>
+                        </tr>
+                        <tr>
+                            <td>10th year</td>
+                            <td>264 sft</td>
+                            <td>Rs 29,700:00</td>
+                            <td>Rs 39,60,000 /-</td>
+                        </tr>
+                        <tr>
+                            <td>11th year</td>
+                            <td>278 sft</td>
+                            <td>Rs 31,275:00</td>
+                            <td>Rs 41,70,000 /-</td>
+                        </tr>
+                        <tr>
+                            <td>10 year</td>
+                            <td>292 sft</td>
+                            <td>Rs 32,850:00</td>
+                            <td>Rs 43,80,000 /-</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+
+
+            <p style="text-align:justify">F. In any other manner, as deemed fit by the purchaser of land.<br />
+                I have no objection to this company or ‘Kapil Group’ companies, agents / representatives to provide
+                me/us
+                information on various products,
+                offers and services through any mode (including without limitation to telephone / mobile calls, SMS,
+                emails)
+                and I hereby authorize ‘Kapil Group’
+                companies, agents/representatives for the above purpose.<br />
+                I have read, fully understood and accept the above terms and conditions. I have visited the
+                above-mentioned
+                land and satisfied myself fully
+                about its location etc.,.
+            </p>
+            <p style="font-size:14px;margin-bottom:15px;font-weight:bold">Date:</p>
+            <p style="font-size:14px;margin-bottom:15px;font-weight:bold">Place:</p>
+            <div class="row" style="margin-bottom:10px;margin-top:30px;">
+                <div class="col-md-6 col-sm-6" style="font-weight:bold;">For Company : _____________________ </div>
+                <div class="col-md-6 col-sm-6">
+                    <p
+                        style="font-weight:bold;text-align:right;padding-top:5px;border-top:solid 1px #000;float:right;margin-top:5px;">
+                        APPLICANT / GUARDIAN SIGNATURE</p>
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+
+<div class="page">
+        <div class="col-md-12 col-sm-12 m-auto py-3">
+        <p style="text-align:justify"> Sir,<br />
+            I request you to allot me Land in the enclosed schedule III . I hereby declare that I have read and
+            understood /
+            got it read and understood the terms
+            and conditions enlisted overleaf, and shall abide by the same in all respects.</p>
+
+
+        <div class="col-md-8" style="border:solid 1px #000;margin:0 auto;padding-top:10px;padding-bottom:10px;">
+            <p style="text-align:center;font-weight:bold;margin-bottom:5px">IT Assessment Details of the Applicant /
+                Guardian</p>
+            <p style="text-align:center;font-weight:bold;margin-bottom:5px">PAN NUMBER</p>
+            <p style="text-align:center;font-weight:bold;margin-bottom:5px">_____________________</p>
+            <p style="text-align:center;font-weight:bold;margin-bottom:5px">Circle / Ward / District</p>
+            <div style="border:solid 1px #666"></div>
+            <p style="text-align:center;font-weight:bold;margin-bottom:5px;padding-top:10px">Aadhar Number / Aadhar
+                Enrollement Number</p>
+            <p style="text-align:center;font-weight:bold;margin-bottom:5px">_____________________</p>
+            <p style="text-align:center;font-weight:bold;margin-bottom:5px">Please enclose PAN / Aadhar self attested
+                Photocopy</p>
+
+
+        </div>
+
+        <p
+            style="font-weight:bold;font-size:18px;text-align:center;margin-bottom:0;padding-bottom:0px;padding-top:10px">
+            Declaration</p>
+        <p>I affirm that for settling my problems, as a customer, I only have the full right and no other person / body
+            has
+            any right or power to
+            represent me in such matters. I am affixing my signature on this declaration in token of my acceptance of
+            the
+            above conditions.</p>
+
+        <p style="font-size:14px;margin-bottom:15px;font-weight:bold">Date:</p>
+        <p style="font-size:14px;margin-bottom:15px;font-weight:bold">Place:</p>
+        <div class="row" style="margin-bottom:10px;margin-top:10px;">
+
+            <div class="col-md-12">
+                <p style="font-weight:bold;text-align:right;border-bottom:solid 1px #000">Signature of the applicant /
+                    Guardian</p>
+            </div>
+        </div>
+
+        <p
+            style="font-weight:bold;font-size:18px;text-align:center;margin-bottom:0;padding-bottom:0px;padding-top:10px">
+            OFFICE USE ONLY</p>
+        <div class="col-md-12">
+            <div class="row" style="border:solid 1px #000;margin-top:10px;margin-bottom:0px">
+
+                <div class="col-md-6 col-sm-6" style="border-right:solid 1px #000">
+                    <p style="padding-top:5px;padding-bottom:5px;margin-bottom:0;font-weight:bold">Name :<span></span>
+                    </p>
+                    <p style="padding-top:5px;padding-bottom:60px;margin-bottom:0px;font-weight:bold">Designation
+                        :<span></span></p>
+                    <div class="col-md-12">
+                        <p
+                            style="font-weight:bold;text-align:right;float:right;border-top:solid 1px #000;margin-bottom:5px">
+                            Signature </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <p style="padding-top:5px;padding-bottom:5px;margin-bottom:0;font-weight:bold"><span></span></p>
+                    <p style="padding-top:5px;padding-bottom:103px;margin-bottom:0px;font-weight:bold"><span></span></p>
+                    <div class="">
+                        <p style="font-weight:bold;text-align:center;vertical-align:bottom;margin-bottom:5px">Name and
+                            Signature of the Branch Manager</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <p style="padding-top:5px;padding-bottom:5px;margin-bottom:0;font-weight:bold;padding-left:13px">Plot No.
+                (Reserved) :<span>fdgdfg</span></p>
+            <p style="padding-top:5px;padding-bottom:0px;margin-bottom:0px;font-weight:bold;padding-left:13px">Area (sq.
+                yds)<span>dsfsd</span></p>
+
+        </div>
+        <div class="col-md-12">
+            <div class="row" style="border:solid 1px #000;margin-top:10px;margin-bottom:10px">
+                <div class="col-md-12" style="border-bottom:solid 1px #000">
+                    <div style="padding-top:5px;padding-bottom:5px;margin-bottom:0;font-weight:bold;padding-left:12px;">
+                        <span style="width:30%;float:left">Standard Rate </span><span style="width:5%">:</span><span>Rs.
+                            18,000/- per square yard</span></div>
+                    <div
+                        style="padding-top:5px;padding-bottom:0px;margin-bottom:0px;font-weight:bold;padding-left:12px;">
+                        <span style="width:30%;float:left">Registration Fee</span><span
+                            style="width:5%">:</span><span>Rs.</span></div>
+                    <div style="padding-top:5px;padding-bottom:5px;margin-bottom:0;font-weight:bold;padding-left:12px">
+                        <span style="width:30%;float:left">Maintenance Fee</span> <span
+                            style="width:5%">:</span><span>Rs. -
+                            Nill -</span></div>
+                    <div
+                        style="padding-top:5px;padding-bottom:10px;margin-bottom:0px;font-weight:bold;padding-left:12px">
+                        <span style="width:30%;float:left">Net Cost of the Plot</span><span
+                            style="width:5%">:</span><span>Rs.____________________________</span></div>
+                </div>
+                <div class="col-md-12" style="padding-top:50px;padding-bottom:0">
+                    <div class="row" style="margin-bottom:0px;margin-top:30px;padding-bottom:0">
+                        <div class="col-md-6 col-sm-6" style="font-weight:bold;padding-left:40px">Date</div>
+                        <div class="col-md-6 col-sm-6">
+                            <p style="font-weight:bold;text-align:right;padding-right:40px">Accounts Department</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+  
+</div>
+
+<style>
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #FAFAFA;
+            font: 11pt "Tahoma";
+            text-align: justify;
+        }
+    
+        * {
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+    
+        .page {
+            width: 300mm;
+            min-height: 297mm;
+            padding: 10mm 8mm;
+            margin: 10mm auto;
+            border: 1px #D3D3D3 solid;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    
+        .subpage {
+            padding: 1cm;
+    
+            height: 257mm;
+    
+        }
+    
+        .thumbsize {
+            width: 140px;
+            height: 89px;
+            margin-top: 30px;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+        }
+    
+        .passportsize {
+            width: 140px;
+            height: 150px;
+            border: 1px solid #ccc;
+        }
+    
+        @page {
+            size: A4;
+            margin: 0;
+        }
+    
+        @media print {
+    
+            html,
+            body {
+                width: 210mm;
+                height: 297mm;
+            }
+    
+            .page {
+                margin: 0;
+                border: initial;
+                border-radius: initial;
+                width: initial;
+                min-height: initial;
+                box-shadow: initial;
+                background: initial;
+                page-break-after: always;
+            }
+        }
+    </style>
+    

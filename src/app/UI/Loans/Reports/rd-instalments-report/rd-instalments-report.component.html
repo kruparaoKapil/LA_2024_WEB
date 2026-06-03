@@ -1,0 +1,159 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6 ">
+        <p class="bc-2">Rd Instalments</p>
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-md-12 col-xl-12">
+        <div class="section-container">
+            <form [formGroup]="RdinstalmentsForm" autocomplete="off">
+                <div class="row mt-2">
+                    <div class="col-md-4">
+
+                        <div class="form-group">
+                            <label class="mt-1" id="pMembertype" title="Member Type">Member Type</label>
+                            <div class="form-group" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                <ng-select title="Member Type" id="pMembertypeid" [items]="membertypedetails" formControlName="pMembertype" bindLabel="pmembertype" bindValue="pmembertype" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                    [clearOnBackspace]=true (change)="MemberTypeChange($event);" [ngClass]="{ 'is-invalid': formValidationMessages.pMembertype }">
+                                </ng-select>
+                                <div class="invalid-feedback">
+                                    <span *ngIf="formValidationMessages.pMembertype">{{formValidationMessages.pMembertype}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4">
+
+                        <div class="form-group">
+                            <label id="pMembername" title="Search Member">Member</label>
+                            <div class="form-group">
+
+                                <ng-select [items]="memberdetails" formControlName="pMembername" bindLabel="pMembername" bindValue="pMembername" [multiple]=false placeholder="Select" [searchable]="true" (change)="MemberChanges($event);" [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                                    [ngClass]="{ 'is-invalid': formValidationMessages.pMembername }">
+                                    <ng-template ng-header-tmp>
+                                        <label class="col-4 p-0"><strong>Member</strong> </label>
+                                        <label class="col-4 p-0" style="text-align:center"><strong>Member code</strong>
+                                            </label>
+                                        <label class="col-4 p-0" style="text-align:center"><strong>Contact No.</strong>
+                                            </label>
+                                    </ng-template>
+                                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                        <div class="row">
+                                            <span class="col-4 text-dark word-break text-wrap">{{item.pName}}</span>
+                                            <span class="col-4 text-dark">{{item.pMembercode}}</span>
+                                            <span class="col-4 text-dark">{{item.pBusinessentitycontactno}}</span>
+                                        </div>
+                                    </ng-template>
+                                </ng-select>
+
+                                <div class="invalid-feedback">
+                                    <span *ngIf="formValidationMessages.pMembername">{{formValidationMessages.pMembername}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 members">
+
+                        <div class="form-group">
+                            <label id="pAccountno" title="Account No"> Account No.</label>
+                            <div class="form-group" [ngClass]="{'for-disable-radio-btn': notEditable}">
+
+                                <ng-select [items]="AccountDetails" formControlName="pAccountno" bindLabel="paccountno" bindValue="paccountno" [multiple]=false placeholder="Select" [searchable]="true" [clearable]=true (change)="AccountChanges($event);" dropdownPosition="bottom" [clearOnBackspace]=true
+                                    [ngClass]="{ 'is-invalid': formValidationMessages.pAccountno }">
+                                    <ng-template ng-header-tmp>
+                                        <label class="col-4 p-0"><strong>Account No</strong> </label>
+                                        <label class="col-4 p-0"><strong>Member Name</strong> </label>
+
+                                    </ng-template>
+                                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                        <div class="row">
+                                            <span class="col-4 text-dark">{{item.paccountno}}</span>
+                                            <span class="col-4 text-dark word-break text-wrap">{{item.pMembername}}</span>
+
+                                        </div>
+                                    </ng-template>
+                                </ng-select>
+                                <app-validation-message [messgae]="formValidationMessages?.pAccountno">
+                                </app-validation-message>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="justify-content-end mx-3 d-flex">
+                        <div class="form-group mt-4 pt-2">
+                            <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="Showrdinstalmentsdetails()">
+                                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                                <span *ngIf="!isLoading">
+                                  <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                       width="20px">
+                                </span> {{savebutton}}
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+
+            <kendo-grid [kendoGridBinding]="rdinstalmentsdata" [groupable]="false" [resizable]="true">
+
+                <ng-template kendoGridToolbarTemplate>
+                    <div class="mb-3">
+                        <div class="col-12 mt-2">
+                            <ul class="temp-ul pull-right">
+                                <li class="temp-ico ml-2">
+                                    <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                </li>
+                                <li class="temp-ico ml-2">
+                                    <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </ng-template>
+
+                <kendo-grid-column field="pinstalmentno" title="Installment No." width="200">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pinstalmentdate" title="Installment Date" width="90" [headerClass]="{'kendo-left': true}" class="kendo-left">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pinstalmentdate | date:'dd/MM/yyyy'}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pinstalmentamount" title="Installment Amount" class="kendo-center" width="150">
+
+                    <ng-template kendoGridFooterTemplate>
+                        <p class="bc-2 text-center"> {{pinstalmentamount| mycurrencypipe}}</p>
+                    </ng-template>
+                </kendo-grid-column>
+
+
+
+
+                <kendo-grid-pdf fileName="{{fileName}}.pdf" [allPages]="true" paperSize="A2" [repeatHeaders]="true" [landscape]="true">
+
+                    <kendo-grid-pdf-margin top="1cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+                    <ng-template kendoGridPDFTemplate>
+                        <div class="page-template">
+                            <div class="header">
+                                <!-- <app-company-details></app-company-details> -->
+
+                            </div>
+
+                        </div>
+                    </ng-template>
+
+                </kendo-grid-pdf>
+                <kendo-grid-excel fileName="{{fileName}}.xlsx"></kendo-grid-excel>
+            </kendo-grid>
+
+        </div>
+    </div>
+</div>

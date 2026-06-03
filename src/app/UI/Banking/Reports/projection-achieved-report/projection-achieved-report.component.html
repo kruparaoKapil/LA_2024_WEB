@@ -1,0 +1,95 @@
+<div class="row">
+  <div class="col-md-12 mt-3 mb-4">
+    <p class="bc-2">Projection report</p>
+  </div>
+</div>
+
+<!--  for only xl.ods -->
+<div class="row">
+  <div class="col-md-12 col-xl-12">
+    <div class="section-container">
+      <form [formGroup]="projectForm">
+        <div class="row">
+          <div class="col-md-4 col-xl-4">
+            <div class="form-group">
+              <label id="pdate" title="Month">Month</label>
+              <input class="form-control col-md-12" type="text" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker
+                placeholder="mmm/YY" [bsValue]="today" formControlName="pdate" (ngModelChange)="DateChange($event)"
+                (onShown)="onOpenCalendar($event)" [ngClass]="{ 'is-invalid': PlotsLayoutsValidationErrors.pdate}">
+              <div class="invalid-feedback">
+                <span *ngIf="PlotsLayoutsValidationErrors?.pdate">{{PlotsLayoutsValidationErrors.pdate}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+              <label title="Upload">Upload</label>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="" [value]="imageResponse?.name" disabled
+                  formControlName="pupload">
+                <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0" type="button" (click)="fileInput.click()">
+                    <img src="assets/images/icon-upload-blue.svg" width="18px" height="18px">
+                  </button>
+                  <input id="fileKycNomineeDetails" style="display: none" type="file"
+                    (change)="uploadAndProgress($event, fileInput.files)" #fileInput>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row col-md-12 col-xl-12">
+              <a target="_blank" (click)="sampleform()"><u>Sample format</u></a>
+            </div> -->
+          </div>
+
+        </div>
+
+      </form>
+
+
+      <div *ngIf="displayedColumns.length > 0" class="table-responsive-container">
+        <table class="table table-bordered table-striped mt-3">
+          <thead>
+            <tr>
+              <th *ngFor="let col of displayedColumns">{{ col }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of excelData">
+              <td *ngFor="let cell of row">{{ cell }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <div *ngIf="message" class="alert alert-warning mt-3">
+        {{ message }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-end mt-3">
+  <!-- (click)="savefile()" (debounceClick)="saveWithPrint()"-->
+  <button data-toggle="tab" (click)="saveWithPrint()" class="btn btn-b-icon px-3 border-0" role="tab"
+    aria-controls="hot" aria-selected="false">
+    <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />
+    Save & Print
+  </button>
+
+</div>
+
+
+<style>
+  .table-responsive-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table th,
+  .table td {
+    white-space: nowrap;
+  }
+</style>

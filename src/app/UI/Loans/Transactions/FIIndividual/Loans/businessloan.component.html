@@ -1,0 +1,1279 @@
+<div id="Businessloan">
+  <div class="row">
+    <div class="col-12 mt-5">
+      <p class="bc-2">Business Loan </p>
+    </div>
+  </div>
+
+  <hr>
+  <a href="#" class="btn btn-b-icon mb-2" data-toggle="collapse" data-target="#viewpromoter"> View Promoters and Joint
+    applicants Details</a>
+  <div class="collapse mt-4" id="viewpromoter">
+    <div class=" col-md-12 col-xl-12 sec-head-bold">Identification and Income Proof</div>
+    <div class="row mt-4">
+      <div class="col-md-12 col-xl-12">      
+        <kendo-grid [data]="identificationproof" [reorderable]="true" [resizable]="true" [sortable]="true" >
+    
+          <kendo-grid-column field="pName" title="Contact" width="50">
+          </kendo-grid-column>
+          <kendo-grid-column field="pContactType" title="Type" width="100">
+          </kendo-grid-column>
+          <kendo-grid-column field="pDocumentGroup" width="100" title="Proof Type">
+          </kendo-grid-column>
+          <kendo-grid-column field="pDocumentName" title="KYC Document /Income Proof" width="100">
+          </kendo-grid-column>
+          <kendo-grid-column field="pDocReferenceno" title="Reference No." width="100">
+          </kendo-grid-column>
+          <kendo-grid-column field="pFilename" title="Upload File Name" width="100">
+          </kendo-grid-column>
+          <kendo-grid-command-column title="" width="220">
+            <ng-template kendoGridCellTemplate>
+              <!-- <button kendoGridEditCommand>Edit</button> -->
+              <!-- <button kendoGridRemoveCommand><div id="icon-delete"></div></button> -->
+              <!-- <button kendoGridEditCommand><div id="icon-edit"></div></button> -->
+            </ng-template>
+          </kendo-grid-command-column>
+    
+        </kendo-grid>
+      </div>
+  </div>
+
+   
+  </div>
+  <hr>
+  <div class="row">
+    <div class=" col-md-12 col-xl-12 sec-head-bold">Business Activity Details</div>
+    <div class="col-md-6  col-xl-4">
+      <div class="form-group">
+        <label id="" title="Brief Description of the activity">Brief Description of the activity</label>
+        <textarea class="form-control" [(ngModel)]="pdescriptionoftheactivity" maxlength="150"></textarea>
+      
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="col-12" > <a class="lc-title acc10 mb-2 text-decoration-none" (click)="arrowChangeforfinper()" data-toggle="collapse" href="#finance "
+      role="button" aria-expanded="true" aria-controls="family">  <img id="open"
+        src="/assets/images/icon-toggle-default.svg" class="display-content" width="12px" height="12px"
+        [ngClass]="arrowfinper?'arrowright':'down'"> &nbsp; &nbsp;
+      Financial Performance</a>
+    <div class="mt-3 collapse" id="finance">
+      <form [formGroup]="finperform">
+        <div class="row">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="finyear" title="Year">Year</label>
+              <div class="input-group">
+                <select class="form-control" formControlName="finyear"
+                  [ngClass]="{ 'is-invalid': businessLoanErrorMessage.finyear }">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option *ngFor="let data of finperyear">{{data.ytype}}</option>
+
+                </select>
+                <!-- <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0" data-toggle="modal" tabindex="-1" data-target="#finperyear">
+                    <img src="assets/images/icon-add-blue.svg" class="" width="18px" height="18px"></button>
+
+                </div> -->
+              </div>
+              <div class="invalid-feedback-cst">
+                <span *ngIf="businessLoanErrorMessage.finyear">{{businessLoanErrorMessage.finyear}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="d-flex">
+              <div class="col-md-6  col-xl-6">
+                <div class="form-group">
+                  <label id="finturnover" title="Turnover">Turnover</label>
+                  <input type="text" class="form-control text-right" formControlName="finturnover" removeZero appRoundecimal="12@0"  maxlength="13"
+                  (change)="netProfitAndTurnoverValidation()" [ngClass]="{ 'is-invalid': businessLoanErrorMessage.finturnover }">
+                  <div class="invalid-feedback-cst">
+                    <span *ngIf="businessLoanErrorMessage.finturnover">{{businessLoanErrorMessage.finturnover}}</span>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-md-6  col-xl-6">
+                <div class="form-group">
+                  <label id="finnetprofit" title="Net Profit">Net Profit</label>
+                  <input type="text" class="form-control sec-head-bold text-right" formControlName="finnetprofit" removeZero appRoundecimal="12@0"  maxlength="13"
+                  (change)="netProfitAndTurnoverValidation()"  [ngClass]="{ 'is-invalid': businessLoanErrorMessage.finnetprofit }">
+                  <div class="invalid-feedback-cst">
+                    <span
+                      *ngIf="businessLoanErrorMessage.finnetprofit">{{businessLoanErrorMessage.finnetprofit}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="finupbalsheet" >Upload Balance Sheet</label>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder=" " disabled [value]="imageResponse?.name" formControlName="finupbalsheet" maxlength="200"
+                >
+                  <div class="input-group-append">
+                    <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()"><img
+                        src="./assets/images/icon-upload-blue.svg" class="" width="18px" height="18px"></button>
+                   <input id="fileBalanceSheet" style="display: none" type="file" (change)="uploadAndProgress($event,fileInput.files)" #fileInput>
+                  </div>
+              </div>
+              <span class="text-success">
+                <ng-container *ngIf="uploadSuccess">Uploaded Successfully</ng-container>
+              </span>
+              <!-- <div class="invalid-feedback-cst">
+                <span *ngIf="businessLoanErrorMessage.finupbalsheet">{{businessLoanErrorMessage.finupbalsheet}}</span>
+              </div> -->
+            </div>
+
+         
+
+
+
+          </div>
+        </div>
+        <hr>
+        <div class="col-md-6  col-xl-4 pl-0">
+          <div class="form-group">
+            <div class="d-flex justify-content-start mt-4  mb-4"> <a href="" data-toggle="tab"
+                class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" (click)="submitFinperfrom()"><img
+                  src="/assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px"
+                  >Add</a></div>
+          </div>
+        </div>
+      </form>
+
+      <div class="row mt-4">
+        <div class="col-md-12 col-xl-12">        
+          <kendo-grid [data]="gridData" [reorderable]="true" [resizable]="true" [sortable]="true" (edit)="editfinper($event) " (remove)="deletefinper($event)">
+      
+            <kendo-grid-column field="finyear" title="Finance Year" width="50">
+            </kendo-grid-column>
+            <kendo-grid-column field="finturnover" title="Turn Over" width="100"
+            [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            </kendo-grid-column>
+            <kendo-grid-column field="finnetprofit" width="100" title="Profit"
+            [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            </kendo-grid-column>
+            <kendo-grid-column field="pUploadfilename" title="Upload File Name" width="100">
+            </kendo-grid-column>
+            <kendo-grid-command-column title="" width="220">
+              <ng-template kendoGridCellTemplate>
+                <!-- <button kendoGridEditCommand>Edit</button> -->
+                <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+                <!-- <button kendoGridEditCommand><div id="icon-edit"></div></button> -->
+              </ng-template>
+            </kendo-grid-command-column>
+      
+          </kendo-grid>
+        </div>
+    </div>
+ 
+
+      <!-- <table id="example" class="table text-center w-100" *ngIf="finperDetails.length>0">
+        <thead>
+          <tr>
+            <th>Period</th>
+            <th>Turnover/Revenue</th>
+            <th>Total Expenses</th>
+            <th>Net Profit</th>
+            <th>Upload Balance Sheet</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+    
+      <tr *ngFor="let data of finperDetails">
+            <td>{{data.finyear}}</td>
+            <td>{{data.finturnover}}</td>
+            <td>{{data.finnetprofit}}</td>
+            <td>{{data.finnetprofit}}</td>
+            <td>{{fileName}}</td>
+            <td>
+                <div id="icon-edit" (click)="editfinper(data,i)"></div>
+               <a>
+                <div id="icon-delete" (click)="deletefinper(i)"></div>
+              </a></td>
+          </tr>
+
+        </tbody>
+      </table> -->
+    </div>
+  </div>
+  <hr>
+  <div class="col-12"> <a class="lc-title acc9 mb-2 text-decoration-none" data-toggle="collapse" (click)="arrowChangeforpurchase()"
+      href="#credittrendpurchase" role="button" aria-expanded="true" aria-controls="family">  <img id="open"
+        src="/assets/images/icon-toggle-default.svg" class="display-content" width="12px" height="12px"
+        [ngClass]="arrowpurchase?'arrowright':'down'"> &nbsp; &nbsp;
+      Credit Trend for purchases</a>
+    <div class="mt-3 collapse" id="credittrendpurchase">
+      <form [formGroup]="credittrendpurchaseform">
+        <div class="row">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="trendpurchaseperiod" title="Select Period">Select Period</label>
+              <div class="input-group">
+                <select class="form-control" formControlName="trendpurchaseperiod"
+                  [ngClass]="{ 'is-invalid': businessLoanErrorMessage.trendpurchaseperiod }">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option *ngFor="let data of finperyear">{{data.ytype}}</option>
+
+                </select>
+                <!-- <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0" data-toggle="modal" tabindex="-1"
+                    data-target="#finperyear"> <img src="assets/images/icon-add-blue.svg"
+                      class="" width="18px" height="18px"></button>
+
+                </div> -->
+              </div>
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="businessLoanErrorMessage.trendpurchaseperiod">{{businessLoanErrorMessage.trendpurchaseperiod}}</span>
+              </div>
+            </div>
+          </div>
+          <hr class="light">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="trendpurchasemajorsup" title="Name of Major Supplier">Name of Major Supplier</label>
+              <input type="text" class="form-control" formControlName="trendpurchasemajorsup"  maxlength="100"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.trendpurchasemajorsup }">
+              <!--<div class="input-group">
+                         <input type="text" class="form-control" placeholder="upload">
+                          <div class="input-group-append">
+                            <button class="btn btn-lg-icon px-2 p-0"> <img src="/assets/images/icon-upload-blue.svg" class="" width="18px" height="18px"></button>
+                          </div>
+                        </div>-->
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="businessLoanErrorMessage.trendpurchasemajorsup">{{businessLoanErrorMessage.trendpurchasemajorsup}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="trendpurchaseAddress" title="Address">Address</label>
+              <textarea type="text" class="form-control" rows="1" style="height:32px;"  maxlength="200"
+                formControlName="trendpurchaseAddress"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.trendpurchaseAddress }"></textarea>
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="businessLoanErrorMessage.trendpurchaseAddress">{{businessLoanErrorMessage.trendpurchaseAddress}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="trendpurchaseConNo" title="Contact No">Contact No.</label>
+              <textarea type="text" class="form-control" rows="1" style="height:32px;" appNumbersonly  maxlength="12"
+                formControlName="trendpurchaseConNo"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.trendpurchaseConNo }"></textarea>
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="businessLoanErrorMessage.trendpurchaseConNo">{{businessLoanErrorMessage.trendpurchaseConNo}}</span>
+              </div>
+            </div>
+          </div>
+          <hr class="light">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="trendpurchasemaxcreditrec" title="Maximun Credit Received">Maximum Credit Received</label>
+              <input type="text" class="form-control text-right" formControlName="trendpurchasemaxcreditrec" removeZero appRoundecimal="12@0" maxlength="10"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.trendpurchasemaxcreditrec }">
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="businessLoanErrorMessage.trendpurchasemaxcreditrec">{{businessLoanErrorMessage.trendpurchasemaxcreditrec}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="trendpurchasemincreditrec" title="Minimum Creit Received">Minimum Credit Received</label>
+              <input type="text" class="form-control text-right" formControlName="trendpurchasemincreditrec" removeZero appRoundecimal="12@0" maxlength="10"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.trendpurchasemincreditrec }">
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="businessLoanErrorMessage.trendpurchasemincreditrec">{{businessLoanErrorMessage.trendpurchasemincreditrec}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="trendpurtotalrec" title="Average Total Credit Received">Average Total Credit Received</label>
+              <input type="text" class="form-control sec-head-bold text-right" formControlName="trendpurtotalrec" removeZero appRoundecimal="12@0" maxlength="10"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.trendpurtotalrec }">
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="businessLoanErrorMessage.trendpurtotalrec">{{businessLoanErrorMessage.trendpurtotalrec}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end mt-4  mb-4"> <a href="" data-toggle="tab"
+            class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" (click)="submitpurchase()"><img
+              src="/assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px"
+              >Add</a></div>
+      </form>
+      <hr>
+      
+      <div class="row mt-4">
+        <div class="col-md-12 col-xl-12">        
+          <kendo-grid [data]="ceditpurchasedetails" [resizable]="true" (edit)="editcreditpur($event)" (remove)="deletecreditpur($event)">
+      
+            <kendo-grid-column field="trendpurchaseperiod" title="Period" width="50">
+            </kendo-grid-column>
+            <kendo-grid-column field="trendpurchasemajorsup" title="Name of the Supplier" width="100">
+            </kendo-grid-column>
+            <kendo-grid-column field="trendpurchaseConNo" width="100" title="Contact No.">
+            </kendo-grid-column>
+            <kendo-grid-column field="trendpurchasemaxcreditrec" title="Maximum Credit Received	" width="100"
+            [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            </kendo-grid-column>
+            <kendo-grid-column field="trendpurchasemincreditrec" width="100" title="Minimum Credit Received"
+            [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            </kendo-grid-column>
+            <kendo-grid-column field="trendpurtotalrec" width="100" title="Total Credit Purchased"
+            [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            </kendo-grid-column>
+            <kendo-grid-command-column title="" width="220">
+              <ng-template kendoGridCellTemplate>
+                <!-- <button kendoGridEditCommand>Edit</button> -->
+                <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+                <!-- <button kendoGridEditCommand><div id="icon-edit"></div></button> -->
+              </ng-template>
+            </kendo-grid-command-column>
+      
+          </kendo-grid>
+        </div>
+    </div>
+    </div>
+  </div>
+  <hr>
+  <div class="col-12"> <a class="lc-title acc2 mb-2 text-decoration-none" data-toggle="collapse" href="#credittrend"
+    (click)="arrowChangeforslaes()"  role="button" aria-expanded="true" aria-controls="family">  <img id="open"
+        src="/assets/images/icon-toggle-default.svg" class="display-content" width="12px" height="12px"
+        [ngClass]="arrowsales?'arrowright':'down'"> &nbsp; &nbsp;
+      Credit Trend for Sales</a>
+    <div class="mt-3 collapse" id="credittrend">
+      <form [formGroup]="credittrendforsalesform">
+        <div class="row">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="salesperiod" title="Select Period">Select Period</label>
+              <div class="input-group">
+                <select class="form-control" formControlName="salesperiod"
+                  [ngClass]="{ 'is-invalid': businessLoanErrorMessage.salesperiod }">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option *ngFor="let data of finperyear">{{data.ytype}}</option>
+                </select>
+<!-- 
+                <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0" data-toggle="modal" tabindex="-1"
+                    data-target="#finperyear"> <img src="assets/images/icon-add-blue.svg" class=""
+                      width="18px" height="18px"></button>
+
+                </div> -->
+              </div>
+              <div class="invalid-feedback-cst">
+                <span *ngIf="businessLoanErrorMessage.salesperiod">{{businessLoanErrorMessage.salesperiod}}</span>
+              </div>
+            </div>
+          </div>
+          <hr class="light">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="salesnameofmajorcust" title="Name of Major Customer">Name of Major Customer</label>
+              <input type="text" class="form-control" formControlName="salesnameofmajorcust"  maxlength="100"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.salesnameofmajorcust }">
+              <!--<div class="input-group">
+                         <input type="text" class="form-control" placeholder="upload">
+                          <div class="input-group-append">
+                            <button class="btn btn-lg-icon px-2 p-0"> <img src="/assets/images/icon-upload-blue.svg" class="" width="18px" height="18px"></button>
+                          </div>
+                        </div>-->
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="businessLoanErrorMessage.salesnameofmajorcust">{{businessLoanErrorMessage.salesnameofmajorcust}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="dalesaddress" title="Address">Address</label>
+              <textarea type="text" class="form-control" rows="1" style="height:32px;" formControlName="dalesaddress"  maxlength="200"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.dalesaddress }"></textarea>
+              <div class="invalid-feedback-cst">
+                <span *ngIf="businessLoanErrorMessage.dalesaddress">{{businessLoanErrorMessage.dalesaddress}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="salescontactno" title="Contact No">Contact No.</label>
+              <textarea type="text" class="form-control" rows="1" style="height:32px;" appNumbersonly formControlName="salescontactno" maxlength="12"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.salescontactno }"></textarea>
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="businessLoanErrorMessage.salescontactno">{{businessLoanErrorMessage.salescontactno}}</span>
+              </div>
+            </div>
+          </div>
+          <hr class="light">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="salesmaxcredit" title="Maximum Credit Given">Maximum Credit Given</label>
+              <input type="text" class="form-control text-right" formControlName="salesmaxcredit" removeZero appRoundecimal="12@0" maxlength="10"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.salesmaxcredit }">
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="businessLoanErrorMessage.salesmaxcredit">{{businessLoanErrorMessage.salesmaxcredit}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="salesmincredit" title=">Minimum Credit Given">Minimum Credit Given</label>
+              <input type="text" class="form-control text-right" formControlName="salesmincredit" removeZero appRoundecimal="12@0" maxlength="10"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.salesmincredit }">
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="businessLoanErrorMessage.salesmincredit">{{businessLoanErrorMessage.salesmincredit}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="salestotalcredit" title="Total credit Sales">Total Credit Sales</label>
+              <input type="text" class="form-control sec-head-bold text-right" formControlName="salestotalcredit" removeZero appRoundecimal="12@0" maxlength="10"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.salestotalcredit }">
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="businessLoanErrorMessage.salestotalcredit">{{businessLoanErrorMessage.salestotalcredit}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="light">
+        <div class="col-md-6  col-xl-4 pl-0">
+          <div class="form-group">
+            <div class="d-flex justify-content-start mt-4  mb-4"> <a href="" data-toggle="tab"
+                class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" (click)="submitsales()"><img
+                  src="/assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px"
+                  >Add</a></div>
+          </div>
+        </div>
+      </form>
+      
+      <div class="row mt-4">
+        <div class="col-md-12 col-xl-12">        
+          <kendo-grid [data]="ceditsalesdetails" [reorderable]="true" [resizable]="true" [sortable]="true" (edit)="editceditsales($event)" (remove)="deleteceditsales($event)">
+      
+            <kendo-grid-column field="salesperiod" title="Period" width="50">
+            </kendo-grid-column>
+            <kendo-grid-column field="salesnameofmajorcust" title="Name of the Supplier" width="100">
+            </kendo-grid-column>
+            <kendo-grid-column field="salescontactno" width="100" title="Contact No.">
+            </kendo-grid-column>
+            <kendo-grid-column field="salesmaxcredit" title="Maximum Credit Sales	" width="100"
+            [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            </kendo-grid-column>
+            <kendo-grid-column field="salesmincredit" width="100" title="Minimum Credit Given"
+            [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            </kendo-grid-column>
+            <kendo-grid-column field="salestotalcredit" width="100" title="Total Credit Sales"
+            [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            </kendo-grid-column>
+            <kendo-grid-command-column title="" width="220">
+              <ng-template kendoGridCellTemplate>
+                <!-- <button kendoGridEditCommand>Edit</button> -->
+                <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+                <!-- <button kendoGridEditCommand><div id="icon-edit"></div></button> -->
+              </ng-template>
+            </kendo-grid-command-column>
+      
+          </kendo-grid>
+        </div>
+    </div>
+    </div>
+  </div>
+  <hr>
+  <div class="col-12"> <a class="lc-title acc3 mb-2 text-decoration-none" data-toggle="collapse" href="#stockposition"
+      role="button" aria-expanded="true" aria-controls="family" (click)="arrowChangeforstock()"> <img id="open"
+        src="/assets/images/icon-toggle-default.svg" class="display-content" width="12px" height="12px"
+        [ngClass]="arrowstock?'arrowright':'down'"> &nbsp; &nbsp;
+      Stock Position</a>
+    <div class="mt-3 collapse" id="stockposition">
+      <form [formGroup]="stockpositionform">
+        <div class="row">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="stockperiod" title="Select Period">Select Period</label>
+              <div class="input-group">
+                <select class="form-control" formControlName="stockperiod"
+                  [ngClass]="{ 'is-invalid': businessLoanErrorMessage.stockperiod }">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option *ngFor="let data of finperyear">{{data.ytype}}</option>
+
+                </select>
+                <!-- <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0" data-toggle="modal" tabindex="-1"
+                    data-target="#finperyear"> <img src="assets/images/icon-add-blue.svg" class="" width="18px"
+                      height="18px"></button>
+
+                </div> -->
+              </div>
+              <div class="invalid-feedback-cst">
+                <span *ngIf="businessLoanErrorMessage.stockperiod">{{businessLoanErrorMessage.stockperiod}}</span>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="stockmaxcarried" title="Maximum Stock Carried">Maximum Stock Carried</label>
+              <input type="text" class="form-control text-right" formControlName="stockmaxcarried" removeZero appRoundecimal="12@0" maxlength="12"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.stockmaxcarried }">
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="businessLoanErrorMessage.stockmaxcarried">{{businessLoanErrorMessage.stockmaxcarried}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="stockmincarried" title="Minimum Stock Carried">Minimum Stock Carried</label>
+              <input type="text" class="form-control text-right" formControlName="stockmincarried" removeZero appRoundecimal="12@0" maxlength="12"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.stockmincarried }">
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="businessLoanErrorMessage.stockmincarried">{{businessLoanErrorMessage.stockmincarried}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label id="stockavgcarried" title="Average Stock Carried">Average Stock Carried</label>
+              <input type="text" class="form-control text-right" formControlName="stockavgcarried" removeZero appRoundecimal="12@0" maxlength="12"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.stockavgcarried }">
+              <div class="invalid-feedback-cst">
+                <span
+                  *ngIf="businessLoanErrorMessage.stockavgcarried">{{businessLoanErrorMessage.stockavgcarried}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="col-md-6  col-xl-4 pl-0">
+          <div class="form-group">
+            <div class="d-flex justify-content-start mt-4  mb-4"> <a href="" data-toggle="tab" (click)="submitstock()"
+                class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img
+                  src="/assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px"
+                  >Add</a></div>
+          </div>
+        </div>
+      </form>
+    
+      <div class="row mt-4">
+        <div class="col-md-12 col-xl-12">        
+          <kendo-grid [data]="stockposdetails" [reorderable]="true" [resizable]="true" [sortable]="true" (edit)="editstockpos($event)" (remove)="deletestockpos($event)">
+      
+            <kendo-grid-column field="stockperiod" title="Period" width="50">
+            </kendo-grid-column>
+            <kendo-grid-column field="stockavgcarried" title="Average Stock Carried	" width="100"
+            [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            </kendo-grid-column>
+            <kendo-grid-column field="stockmaxcarried" width="100" title="Maximum Stock Carried	"
+            [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            </kendo-grid-column>
+            <kendo-grid-column field="stockmincarried" title="Minimum Stock Carried		" width="100"
+            [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            </kendo-grid-column>
+          
+            <kendo-grid-command-column title="" width="220">
+              <ng-template kendoGridCellTemplate>
+                <!-- <button kendoGridEditCommand>Edit</button> -->
+                <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+                <!-- <button kendoGridEditCommand><div id="icon-edit"></div></button> -->
+              </ng-template>
+            </kendo-grid-command-column>
+      
+          </kendo-grid>
+        </div>
+    </div>
+    </div>
+  </div>
+  <hr>
+  <div class="col-12">
+    <div class="d-flex">
+      <div class="col-md-6 col-xl-4 p-0"> <a class="lc-title acc4 mb-2 text-decoration-none" data-toggle="collapse"
+        (click)="arrowChangeforcostofpro()" href="#costofproject" role="button" aria-expanded="true" aria-controls="family">  <img
+            id="open" src="/assets/images/icon-toggle-default.svg" class="display-content" width="12px" height="12px"
+            [ngClass]="arrowcostofpro?'arrowright':'down'">
+          &nbsp; &nbsp; Cost of Project</a> </div>
+      <div class="col-md-6 col-xl-4 ml-5">
+        <input class="form-check-input mt-1" type="checkbox" name="inlineRadioOptions1" id="inlineRadio2"
+          value="individual" (change)="notApplicableKyc($event)">
+        <label class="" for="inlineRadio2">Not applicable</label>
+      </div>
+    </div>
+    <div class="mt-3 collapse " id="costofproject">
+      <form [formGroup]="costofprojectform">
+        <div class="row">
+          <div class="col-md-12 col-xl-12">
+            <div class="d-flex form-group">
+              <label class="col-4" id="costofland" title="Cost of Land including development">Cost of Land including
+                development</label>
+
+              <input type="text" class="col-4 form-control text-right" (focus)="onFocusValue($event)" (change)="calCostOfPro($event)" formControlName="costofland" removeZero appNumbersonly maxlength="12"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.costofland }">
+<!-- 
+              <div class="col-4 d-flex">
+                <a href="#">
+
+                  <div id="icon-delete"></div>
+                </a>
+               
+              </div> -->
+              <div class="invalid-feedback-cst">
+                  <span *ngIf="businessLoanErrorMessage.costofland">{{businessLoanErrorMessage.costofland}}</span>
+                </div>
+
+            </div>
+
+
+            <div class="d-flex form-group">
+              <label class="col-4" id="bulidingcivilworks" title="Building and other civil works">Building and other
+                civil works</label>
+              <input type="text" class="col-4 form-control text-right" (focus)="onFocusValue($event)" (change)="calCostOfPro($event)" formControlName="bulidingcivilworks" removeZero appNumbersonly maxlength="12"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.bulidingcivilworks }">
+              <!-- <div class="col-4 d-flex"> <a href="#">
+                  <div id="icon-delete"></div>
+                </a>
+              
+              </div> -->
+              <div class="invalid-feedback-cst">
+                  <span
+                    *ngIf="businessLoanErrorMessage.bulidingcivilworks">{{businessLoanErrorMessage.bulidingcivilworks}}</span>
+                </div>
+
+            </div>
+            <div class="d-flex form-group">
+              <label class="col-4" id="plantandmachine" title="Plant and Machinery">Plant and Machinery</label>
+              <input type="text" class="col-4 form-control text-right" (focus)="onFocusValue($event)" (change)="calCostOfPro($event)" formControlName="plantandmachine" removeZero appNumbersonly maxlength="12"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.plantandmachine }">
+              <!-- <div class="col-4 d-flex"> <a href="#">
+                  <div id="icon-delete"></div>
+                </a>
+                
+              </div> -->
+              <div class="invalid-feedback-cst">
+                  <span
+                    *ngIf="businessLoanErrorMessage.plantandmachine">{{businessLoanErrorMessage.plantandmachine}}</span>
+                </div>
+
+            </div>
+            <div class="d-flex form-group">
+              <label class="col-4" id="Equipment" title="Equipment tools, spares and machinery">Equipment tools, spares
+                and machinery</label>
+              <input type="text" class="col-4 form-control text-right" (focus)="onFocusValue($event)" (change)="calCostOfPro($event)" formControlName="Equipment" removeZero appNumbersonly maxlength="12"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.Equipment }">
+              <!-- <div class="col-4 d-flex"> <a href="#">
+                  <div id="icon-delete"></div>
+                </a>
+              
+              </div> -->
+              <div class="invalid-feedback-cst">
+                  <span *ngIf="businessLoanErrorMessage.Equipment">{{businessLoanErrorMessage.Equipment}}</span>
+                </div>
+
+            </div>
+            <div class="d-flex form-group">
+              <label class="col-4" id="Testingequ" title="Testing Equipment">Testing Equipment</label>
+              <input type="text" class="col-4 form-control text-right" (focus)="onFocusValue($event)" (change)="calCostOfPro($event)" formControlName="Testingequ" removeZero appNumbersonly maxlength="12"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.Testingequ }">
+              <!-- <div class="col-4 d-flex"> <a href="#">
+                  <div id="icon-delete"></div>
+                </a>
+               
+              </div> -->
+              <div class="invalid-feedback-cst">
+                  <span *ngIf="businessLoanErrorMessage.Testingequ">{{businessLoanErrorMessage.Testingequ}}</span>
+                </div>
+
+            </div>
+            <div class="d-flex form-group">
+              <label class="col-4" id="misc" title="Misc Fixed Assets">Misc Fixed Assets</label>
+              <input type="text" class="col-4 form-control text-right" (focus)="onFocusValue($event)" (change)="calCostOfPro($event)" formControlName="misc" removeZero appNumbersonly maxlength="12"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.misc }">
+              <!-- <div class="col-4 d-flex"> <a href="#">
+                  <div id="icon-delete"></div>
+                </a>
+                
+              </div> -->
+              <div class="invalid-feedback-cst">
+                  <span *ngIf="businessLoanErrorMessage.misc">{{businessLoanErrorMessage.misc}}</span>
+                </div>
+
+            </div>
+            <div class="d-flex form-group">
+              <label class="col-4" id="Erection" title="Erection/Installation Charges">Erection/Installation
+                Charges</label>
+              <input type="text" class="col-4 form-control text-right" (focus)="onFocusValue($event)" (change)="calCostOfPro($event)" formControlName="Erection" removeZero appNumbersonly maxlength="12"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.Erection }">
+              <!-- <div class="col-4 d-flex"> <a href="#">
+                  <div id="icon-delete"></div>
+                </a>
+            
+              </div> -->
+              <div class="invalid-feedback-cst">
+                  <span *ngIf="businessLoanErrorMessage.Erection">{{businessLoanErrorMessage.Erection}}</span>
+                </div>
+
+            </div>
+            <div class="d-flex form-group">
+              <label class="col-4" id="Preliminary" title="Preliminary/Preoperative expenses">Preliminary/Preoperative
+                expenses</label>
+              <input type="text" class="col-4 form-control text-right" formControlName="Preliminary" (focus)="onFocusValue($event)" (change)="calCostOfPro($event)" appNumbersonly removeZero maxlength="12"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.Preliminary }">
+              <!-- <div class="col-4 d-flex"> <a href="#">
+                  <div id="icon-delete"></div>
+                </a>
+               
+              </div> -->
+              <div class="invalid-feedback-cst">
+                  <span *ngIf="businessLoanErrorMessage.Preliminary">{{businessLoanErrorMessage.Preliminary}}</span>
+                </div>
+
+            </div>
+            <div class="d-flex form-group">
+              <label class="col-4" id="provision" title="Provision for contingencies">Provision for
+                contingencies</label>
+              <input type="text" class="col-4 form-control text-right" formControlName="provision" (focus)="onFocusValue($event)" (change)="calCostOfPro($event)" appNumbersonly removeZero maxlength="12"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.provision }">
+              <!-- <div class="col-4 d-flex"> <a href="#">
+                  <div id="icon-delete"></div>
+                </a>
+               
+              </div> -->
+              <div class="invalid-feedback-cst">
+                  <span *ngIf="businessLoanErrorMessage.provision">{{businessLoanErrorMessage.provision}}</span>
+                </div>
+
+            </div>
+            <div class="d-flex form-group">
+              <label class="col-4" id="marginofworking" title="Margin for working capital">Margin for working
+                capital</label>
+              <input type="text" class="col-4 form-control text-right" formControlName="marginofworking" (focus)="onFocusValue($event)" (change)="calCostOfPro($event)" appNumbersonly removeZero maxlength="12"
+                [ngClass]="{ 'is-invalid': businessLoanErrorMessage.marginofworking }">
+              <!-- <div class="col-4 d-flex"> <a href="#">
+                  <div id="icon-delete"></div>
+                </a> <a href="#">
+                  <div id="icon-add"><img class="ml-3 mb-2" src="/assets/images/icon-add-blue.svg" width="16"
+                      height="16"></div>
+                </a>
+              
+              </div> -->
+              <div class="invalid-feedback-cst">
+                  <span
+                    *ngIf="businessLoanErrorMessage.marginofworking">{{businessLoanErrorMessage.marginofworking}}</span>
+                </div>
+
+            </div>
+            <!-- <div class="col-md-8  col-xl-8 pr-0">
+              <div class="d-flex justify-content-end mt-5"> <a href="#" class="btn btn-b-icon px-3 border-0"
+                  data-toggle="collapse" data-target="#Business-compute"><img src="/assets/images/icon-check-white.svg"
+                    class="mr-3" width="20px" height="20px" (click)="computecostofprojection()">Compute</a> </div>
+            </div> -->
+          </div>
+            <div class="row">
+              <div class="col-md-12 col-xl-12">
+                <label>Total project cost <span class="sec-head-bold">{{totalProjectCost}}</span></label>
+              </div>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <hr>
+
+    <div class="col-12">
+      <div class="mt-3">
+        <div class="row">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label> Is this unit an ancillary unit? </label>
+              <div class="d-flex mb-1">
+                <div class="col-md-6 col-xl-6">
+                  <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                    <input class="form-check-input" type="radio" [(ngModel)]="pisancillaryunit" checked (change)="ancillaryDetailsChange($event)" name="ancillary"
+                      id="ancillaryyes" [value]="true">
+                    <label class="" for="ancillaryyes"> Yes </label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xl-6">
+                  <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                    <input class="form-check-input" type="radio"  [(ngModel)]="pisancillaryunit" (change)="ancillaryDetailsChange($event)" name="ancillary"
+                      id="ancillaryno" [value]="false">
+                    <label class="" for="ancillaryno"> No </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ancillary" *ngIf="associateConcernDetails">
+       <!-- Address component -->
+       <!-- <app-address></app-address> -->
+       <div class="row">
+
+        <div class="col-md-12 col-xl-12" > <a class="lc-title text-decoration-none" >
+                Address of institution </a> </div>
+    </div>
+        <form [formGroup]="businessaddressForm">
+            <div class="row">
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="businesspaddress1" title="Address Line 1">Address Line 1</label>
+                        <input type="text" value="" maxlength="200" formControlName="businesspaddress1" class="form-control" appAddressformat
+                            >
+                            <!-- [ngClass]="{ 'is-invalid': businessLoanErrorMessage.businesspaddress1 }" -->
+                        <!-- <div class="invalid-feedback-cst">
+                            <span *ngIf="businessLoanErrorMessage.businesspaddress1">{{businessLoanErrorMessage.businesspaddress1}}</span>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="businesspaddress2" title="Address Line 2">Address Line 2</label>
+                        <input type="text" value=""  maxlength="200" formControlName="businesspaddress2" class="form-control" appAddressformat
+                            >
+                            <!-- [ngClass]="{ 'is-invalid': businessLoanErrorMessage.businesspaddress2 }" -->
+                        <!-- <div class="invalid-feedback-cst">
+                            <span *ngIf="businessLoanErrorMessage.businesspaddress2">{{businessLoanErrorMessage.businesspaddress2}}</span>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="businesspcity" title="City / Village">City / Village</label>
+                        <input type="text" value="" maxlength="75" class="form-control" formControlName="businesspcity" appAddressformat
+                           >
+                           <!-- [ngClass]="{ 'is-invalid': businessLoanErrorMessage.businesspcity }" -->
+                        <!-- <div class="invalid-feedback-cst">
+                            <span *ngIf="businessLoanErrorMessage.businesspcity">{{businessLoanErrorMessage.businesspcity}}</span>
+                        </div> -->
+                    </div>
+                </div>
+                <hr class="light">
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="businesspCountry" title="Country">Country{{businessLoanErrorMessage.pCountryId}}</label>
+                        <select id="" class="form-control" formControlName="pCountryId"
+                            (change)="pCountry_Change($event)">
+                            <option value="" ng-selected="selected">Select</option>
+                            <option *ngFor="let country of countryDetails" [value]="country.pCountryId">{{country.pCountry}}
+                            </option>
+    
+                        </select>
+                        <!-- [ngClass]="{ 'is-invalid': businessLoanErrorMessage.businesspCountry }" -->
+                        <!-- <div class="invalid-feedback-cst">
+                            <span *ngIf="businessLoanErrorMessage.businesspCountry">{{businessLoanErrorMessage.businesspCountry}}</span>
+                        </div> -->
+    
+    
+    
+    
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="d-flex">
+                        <div class="col-md-6 col-xl-6 pl-0">
+                            <div class="form-group">
+                                <label id="businesspState" title="State">State</label>
+                                <select id="" class="form-control" formControlName="pStateId" 
+                                    
+                                    (change)="pState_Change($event)">
+                                    <option value="" ng-selected="selected">Select</option>
+                                    <option *ngFor="let state of stateDetails" [value]="state?.pStateId">{{state?.pState}}
+                                    </option>
+    
+                                </select>
+                                <!-- [ngClass]="{ 'is-invalid': businessLoanErrorMessage.businesspState }" -->
+                                <!-- <div class="invalid-feedback-cst">
+                                    <span *ngIf="businessLoanErrorMessage.businesspState">{{businessLoanErrorMessage.businesspState}}</span>
+                                </div> -->
+    
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-6 pr-0">
+                            <div class="form-group">
+                                <label id="businesspDistrict" title="District">District</label>
+                                <select id="" class="form-control" formControlName="pDistrictId"
+                                   
+                                    (change)="pDistrict_Change($event)">
+                                    <option value="" ng-selected="selected">Select</option>
+                                    <option *ngFor="let district of districtDetails" [value]="district?.pDistrictId">
+                                        {{district?.pDistrict}}</option>
+    
+                                </select>
+                                <!-- [ngClass]="{ 'is-invalid': businessLoanErrorMessage.businesspDistrict }" -->
+                                <!-- <div class="invalid-feedback-cst">
+                                    <span
+                                        *ngIf="businessLoanErrorMessage.businesspDistrict">{{businessLoanErrorMessage.businesspDistrict}}</span>
+                                </div> -->
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="businessPincode" title="pincode">Pincode</label>
+                        <input type="text" value="" maxlength="6" class="form-control" appNumbersonly formControlName="businessPincode"
+                           >
+                           <!-- [ngClass]="{ 'is-invalid': businessLoanErrorMessage.businessPincode }" -->
+                        <!-- <div class="invalid-feedback-cst">
+                            <span *ngIf="businessLoanErrorMessage.businessPincode">{{businessLoanErrorMessage.businessPincode}}</span>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </form>
+  
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="col-12">
+      <div class="mt-3">
+        <div class="row">
+          <div class="col-md-6  col-xl-4">
+            <div class="form-group">
+              <label> Associate Concerns exist </label>
+              <div class="d-flex mb-1">
+                <div class="col-md-6 col-xl-6">
+                  <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                    <input class="form-check-input" type="radio" [(ngModel)]="passociateconcernsexist" checked
+                     (change)="associateConcernsChange($event)" name="Associate" id="associateyes" [value]="true">
+                    <label class="" for="associateyes"> Yes </label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xl-6">
+                  <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                    <input class="form-check-input" type="radio" [(ngModel)]="passociateconcernsexist" 
+                      ng-selected (change)="associateConcernsChange($event)" name="Associate" id="associateno" [value]="false">
+                    <label class="" for="associateno"> No </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Associate concern details starts -->
+        <div class="associate" *ngIf="associateConcernsExist">
+            <form [formGroup]="unitform">
+
+          <div class="row">
+            <div class="col-md-12  col-xl-12">
+              <h2 class="sec-head w-100">Associate Concern Details</h2>
+            </div>
+            <div class="col-md-6  col-xl-4">
+              <div class="form-group">
+                <label id="associateconcern" title="Name of associate concern">Name of associate concern</label>
+                <input type="text" value="" class="form-control" formControlName="associateconcern" maxlength="75" appCharactersonly
+                  [ngClass]="{ 'is-invalid': businessLoanErrorMessage.associateconcern }">
+                <div class="invalid-feedback-cst">
+                  <span
+                    *ngIf="businessLoanErrorMessage.associateconcern">{{businessLoanErrorMessage.associateconcern}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6  col-xl-4">
+              <div class="form-group">
+                <label id="natureassociation" title="Nature of Association">Nature of Association</label>
+                <input type="text" value="" class="form-control" formControlName="natureassociation"  maxlength="75"
+                  [ngClass]="{ 'is-invalid': businessLoanErrorMessage.natureassociation }">
+                <div class="invalid-feedback-cst">
+                  <span
+                    *ngIf="businessLoanErrorMessage.natureassociation">{{businessLoanErrorMessage.natureassociation}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6  col-xl-4">
+              <div class="form-group">
+                <label id="natureofactivity" title="Nature of Activity">Nature of Activity</label>
+                <input type="text" value="" class="form-control" formControlName="natureofactivity"  maxlength="75"
+                  [ngClass]="{ 'is-invalid': businessLoanErrorMessage.natureofactivity }">
+                <div class="invalid-feedback-cst">
+                  <span
+                    *ngIf="businessLoanErrorMessage.natureofactivity">{{businessLoanErrorMessage.natureofactivity}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6  col-xl-4">
+              <div class="form-group">
+                <label id="itemstraded" title="Items Traded/Manufactured">Items Traded/Manufactured</label>
+                <input type="text" value="" class="form-control" appNumbersonly formControlName="itemstraded" maxlength="75"
+                  [ngClass]="{ 'is-invalid': businessLoanErrorMessage.itemstraded }">
+                <div class="invalid-feedback-cst">
+                  <span *ngIf="businessLoanErrorMessage.itemstraded">{{businessLoanErrorMessage.itemstraded}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6  col-xl-4 pl-0">
+              <div class="form-group">
+                <div class="d-flex justify-content-start mt-4  mb-4"> <a href="" data-toggle="tab"
+                    class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" (click)="submitunitform()"><img
+                      src="/assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px" >Add</a></div>
+              </div>
+            </div>
+         
+      <div class="row mt-4">
+        <div class="col-md-12 col-xl-12">        
+          <kendo-grid [data]="unitDetails" [reorderable]="true" [resizable]="true" [sortable]="true" (edit)="editunit($event)" (remove)="deleteunit($event)">
+      
+            <kendo-grid-column field="associateconcern" title="Name of associate concern	" width="50">
+            </kendo-grid-column>
+            <kendo-grid-column field="natureassociation" title="Nature of Association	" width="100">
+            </kendo-grid-column>
+            <kendo-grid-column field="natureofactivity" width="100" title="Nature of Activity">
+            </kendo-grid-column>
+            <kendo-grid-column field="itemstraded" title="Items Traded/Manufactured	" width="100">
+            </kendo-grid-column>
+           
+            <kendo-grid-command-column title="" width="220">
+              <ng-template kendoGridCellTemplate>
+                <!-- <button kendoGridEditCommand>Edit</button> -->
+                <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+                <!-- <button kendoGridEditCommand><div id="icon-edit"></div></button> -->
+              </ng-template>
+            </kendo-grid-command-column>
+      
+          </kendo-grid>
+        </div>
+    </div>
+          </div>
+          </form>
+          <hr class="light">
+          <div class="col-12"> <a class="lc-title acc1 mb-2 text-decoration-none" data-toggle="collapse"
+            (click)="arrowChangeforturnover()"
+              href="#turnover " role="button" aria-expanded="true" aria-controls="family"> <img
+                id="open"  src="/assets/images/icon-toggle-default.svg" class="display-content" width="12px"
+                height="12px" [ngClass]="arrowturnover?'arrowright':'down'"> &nbsp; &nbsp;
+              Turnover and Profit/loss during preceding years</a>
+            <div class="mt-3 collapse" id="turnover">
+              <form [formGroup]="turnoverform">
+              <div class="row">
+                <div class="col-md-6  col-xl-4">
+                  <div class="form-group">
+                    <label id="turnoveryear" title="Year">Year</label>
+                    <div class="input-group">
+                      <select class="form-control" formControlName="turnoveryear"
+                        [ngClass]="{ 'is-invalid': businessLoanErrorMessage.turnoveryear }">
+                        <option value="" ng-selected="selected">Select</option>
+                        <option *ngFor="let data of finperyear">{{data.ytype}}</option>
+                      </select>
+                      <!-- <div class="input-group-append">
+                        <button class="btn btn-lg-icon px-2 p-0"> <img src="/assets/images/icon-add-blue.svg" class=""
+                            width="18px" height="18px"></button>
+                      </div> -->
+                    </div>
+                    <div class="invalid-feedback-cst">
+                      <span
+                        *ngIf="businessLoanErrorMessage.turnoveryear">{{businessLoanErrorMessage.turnoveryear}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6  col-xl-4">
+                  <div class="form-group">
+                    <label id="turnover" title="Turnover">Turnover</label>
+                    <input type="text" class="form-control text-right" formControlName="turnover" removeZero appRoundecimal="12@0"  maxlength="10"
+                    (change)="turnverprofiTturnoverValidation()" [ngClass]="{ 'is-invalid': businessLoanErrorMessage.turnover }"> 
+                    <div class="invalid-feedback-cst">
+                      <span *ngIf="businessLoanErrorMessage.turnover">{{businessLoanErrorMessage.turnover}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6  col-xl-4">
+                  <div class="form-group">
+                    <label id="turnoverprofit" title="Profit">Profit</label>
+                    <input type="text" class="form-control text-right" formControlName="turnoverprofit" removeZero appRoundecimal="12@0"  maxlength="10"
+                    (change)="turnverprofiTturnoverValidation()" [ngClass]="{ 'is-invalid': businessLoanErrorMessage.turnoverprofit }">
+                    <div class="invalid-feedback-cst">
+                      <span
+                        *ngIf="businessLoanErrorMessage.turnoverprofit">{{businessLoanErrorMessage.turnoverprofit}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <div class="col-md-6  col-xl-4 pl-0">
+                <div class="form-group">
+                  <div class="d-flex justify-content-start mt-4  mb-4"> <a href="" data-toggle="tab"
+                      class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" (click)="submitturnoverform()"><img
+                        src="/assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px" 
+                        >Add</a></div>
+                </div>
+              </div>
+            </form>
+           
+      <div class="row mt-4">
+        <div class="col-md-12 col-xl-12">        
+          <kendo-grid [data]="turnoverDetails" [reorderable]="true" [resizable]="true" [sortable]="true" (edit)="editturnover($event)" (remove)="deleteturnover($event)">
+      
+            <kendo-grid-column field="turnoveryear" title="Year" width="50">
+            </kendo-grid-column>
+            <kendo-grid-column field="turnover" title="Turnover" width="100"
+            [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            </kendo-grid-column>
+            <kendo-grid-column field="turnoverprofit" width="100" title="Profit"
+            [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            </kendo-grid-column>
+            <kendo-grid-command-column title="" width="220">
+              <ng-template kendoGridCellTemplate>
+                <!-- <button kendoGridEditCommand>Edit</button> -->
+                <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+                <!-- <button kendoGridEditCommand><div id="icon-edit"></div></button> -->
+              </ng-template>
+            </kendo-grid-command-column>
+            <!-- <kendo-grid-command-column title="" width="220">
+              <ng-template kendoGridCellTemplate>
+              <button kendoGridEditCommand>Edit</button> -->
+                <!-- <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+                <button kendoGridEditCommand><div id="icon-edit"></div></button>
+              </ng-template>
+            </kendo-grid-command-column> -->
+      
+          </kendo-grid>
+        </div>
+    </div>
+            </div>
+          </div>
+        </div>
+        <!-- Associlate concern details ends -->
+      </div>
+    </div>
+
+</div>
+
+
+<!--Add Field modals -->
+
+
+
+<div class="modal right slideInRight" id="finperyear" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="margin-right:0px !important; ">
+    <div class="model-cst modal-content">
+
+      <div class="modal-body">
+
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <form [formGroup]="addyeartypeform">
+          <div class="form-group">
+            <label id="pAddressTypeMst" title="Address Type">Add Year Type</label>
+            <input type="text" class="form-control"  placeholder="Enter Year Type" formControlName="ytype"/>
+
+
+          </div>
+          <div class="d-flex justify-content-end mt-4">
+            <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0"
+              ><img src="/assets/images/icon-cancel-white.svg" width="20px" height="20px"
+                class="mr-3">Clear</a>
+            <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot"
+              aria-selected="false"><img src="/assets/images/icon-check-white.svg"
+                width="20px" height="20px" class="mr-3" (click)="addYear()">Save</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="modal right slideInRight" id="stockositionyear" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="margin-right:0px !important; ">
+    <div class="model-cst modal-content">
+
+      <div class="modal-body">
+
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <form>
+          <div class="form-group">
+            <label id="pAddressTypeMst" title="Address Type">Add Stock position Year Type</label>
+            <input type="text" class="form-control"  placeholder="Enter Year Type" />
+
+
+          </div>
+          <div class="d-flex justify-content-end mt-4">
+            <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0"
+              (click)="clearAddressType()"><img src="/assets/images/icon-cancel-white.svg" width="20px" height="20px"
+                class="mr-3">Clear</a>
+            <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot"
+              aria-selected="false" (click)="saveAddressType()"><img src="/assets/images/icon-check-white.svg"
+                width="20px" height="20px" class="mr-3">Save</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> -->
+<!-- <div class="modal right slideInRight" id="creisttrendforsalesyear" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="margin-right:0px !important; ">
+    <div class="model-cst modal-content">
+
+      <div class="modal-body">
+
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <form>
+          <div class="form-group">
+            <label id="pAddressTypeMst" title="Address Type">Add credit trend for sales year Type</label>
+            <input type="text" class="form-control" 
+              placeholder="Enter credit trend for sales Year Type" />
+
+
+          </div>
+          <div class="d-flex justify-content-end mt-4">
+            <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0"
+              (click)="clearAddressType()"><img src="/assets/images/icon-cancel-white.svg" width="20px" height="20px"
+                class="mr-3">Clear</a>
+            <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot"
+              aria-selected="false" (click)="saveAddressType()"><img src="/assets/images/icon-check-white.svg"
+                width="20px" height="20px" class="mr-3">Save</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> -->
+<!-- <div class="modal right slideInRight" id="credittrendforpurchaseyearYearType" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="margin-right:0px !important; ">
+    <div class="model-cst modal-content">
+
+      <div class="modal-body">
+
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <form>
+          <div class="form-group">
+            <label id="pAddressTypeMst" title="Address Type">Add credit trend for purchase Year Type</label>
+            <input type="text" class="form-control"
+              placeholder="Enter credit trend for purchase Year" />
+
+
+          </div>
+          <div class="d-flex justify-content-end mt-4">
+            <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0"
+              (click)="clearAddressType()"><img src="/assets/images/icon-cancel-white.svg" width="20px" height="20px"
+                class="mr-3">Clear</a>
+            <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot"
+              aria-selected="false" (click)="saveAddressType()"><img src="/assets/images/icon-check-white.svg"
+                width="20px" height="20px" class="mr-3">Save</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> -->
+<style>
+  .arrowright {
+      transform: rotate(90deg)
+  }
+</style>

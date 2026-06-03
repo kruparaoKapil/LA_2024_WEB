@@ -1,0 +1,106 @@
+<!--<div class="col-md-6 col-xl-6">
+    <h2 class="sec-head-bold">Add Joint Member</h2>
+    <div class="material-switch pull-right">
+      <input id="savingspayinapplicable" name="savingspayinapplicable" (change)="IssavingspayinChange($event)" type="checkbox"><label class="check-success" for="savingspayinapplicable"></label>
+    </div>
+  </div>-->
+<form [formGroup]="JointMemberAndNomineeForm">
+    <div class="border mt-5">
+        <div class="col-md-12 col-xl-12 p-4">
+            <div class="row">
+                <div class="col-md-6 col-xl-6">
+                    <label>Add Joint Member </label>
+                    <div class="material-switch pull-right">
+                        <input id="AddJointMember" name="AddJointMember" [ngClass]="{ 'is-invalid': JointMemberErrorMessages.pIsjointMembersapplicableorNot}" formControlName="pIsjointMembersapplicableorNot" (change)="JointMemberchange($event)" type="checkbox">
+                        <label class="check-success" for="AddJointMember"></label>
+                        <div class="invalid-feedback">
+                            <span *ngIf="JointMemberErrorMessages.pIsjointMembersapplicableorNot">{{JointMemberErrorMessages?.pIsjointMembersapplicableorNot}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class=" row mt-1" *ngIf="ShowJointmembers">
+                <div class="col-md-6 col-xl-6">
+                    <div class="form-group">
+                        <label class="mt-1" id="pMemberId" title="Member">Member</label>
+                        <div class="form-group ">
+                            <ng-select title="Member" id="pMemberId" [items]="MemberDetailsListAll" formControlName="pMemberId" bindLabel="pContactName" bindValue="pMembertypeId" [multiple]=false placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [ngClass]="{ 'is-invalid': JointMemberErrorMessages.pMemberId}"
+                                [clearOnBackspace]=true (change)="MemberChange($event);">
+                            </ng-select>
+                            <div class="invalid-feedback">
+                                <span *ngIf="JointMemberErrorMessages.pMemberId">{{JointMemberErrorMessages?.pMemberId}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                <div class="col-md-4 col-xl-4 mt-2">
+                    <div class="d-flex justify-content-start mt-4">
+                        <a (click)="AddJointMembers()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false">
+                            <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4" *ngIf="ShowJointmemberstable">
+
+                <div class="col-md-12 col-xl-12">
+                    <kendo-grid [data]="fdMembersandContactDetailsList" [height]="150" [pageSize]="gridState.take" [skip]="gridState.skip" [sort]="gridState.sort" [pageable]="false" [sortable]="true" (edit)="datatableclickedit($event)" (remove)="removeHandler($event)" [selectable]="selectableSettings">
+                        <kendo-grid-column field="pMemberName" title="Member" width="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pMemberCode" title="Member Code" width="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pContacttype" title="Contact Type" width="150"></kendo-grid-column>
+                        <!-- <kendo-grid-column field="pContactNo" title="Contact No." width="150"></kendo-grid-column>
+   -->
+                        <kendo-grid-command-column title="" width="100">
+                            <ng-template kendoGridCellTemplate>
+
+                                <div id="icon-remove" kendoGridRemoveCommand></div>
+                            </ng-template>
+                        </kendo-grid-command-column>
+                    </kendo-grid>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="border mt-4">
+        <div class="col-md-12 col-xl-12 p-4">
+            <div class="row">
+                <div class="col-md-6 col-xl-6">
+                    <label>Add Nominee Details </label>
+                    <div class="material-switch pull-right">
+                        <input id="AddNominee" name="AddNominee" formControlName="pIsNomineesApplicableorNot" (change)="Nomineechange($event)" type="checkbox">
+                        <label class="check-success" for="AddNominee"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-12 col-xl-12">
+
+                    <app-nomineedetails [showNominee]="showNominee"></app-nomineedetails>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="row mt-4 ml-1">
+    <div class="col-md-12 col-xl-12" *ngIf="ShowSaveClearbuttons">
+        <div class="d-flex justify-content-end mt-4">
+            <a (click)="clear()" class="btn btn-g-icon mr-4 px-3 border-0">
+                <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear
+            </a>
+            <!-- <a href="#" data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" role="tab" aria-controls="hot"
+          aria-selected="false"><img src="assets/images/icon-chewron-left-whitesolid.svg" width="20px" height="20px"
+            class="mr-3" />Back</a> -->
+            <a data-toggle="tab" (click)="NextTabclick()" class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" aria-selected="false">
+                <img src="assets/images/icon-chewron-right-whitesolid.svg" width="20px" height="20px" class="mr-3" />Save & Continue
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,139 @@
+<div class="row" *ngIf="showBank">
+  <div class="col-12 mt-5">
+    <p class="bc-2">Bank Details</p>
+  </div>
+</div>
+<form [formGroup]="BankForm" *ngIf="showBank">
+  <div class="row">
+    <div class="col-md-6 col-xl-3">
+      <div class="form-group">
+        <label title="Bank Name" id="pBankName">Bank Name</label>
+        <input appCharactersonly   class="form-control" formControlName="pBankName" type="text" maxlength="100"
+          placeholder="Enter Bank Name" value="" [ngClass]="{ 'is-invalid': BankValidationErrors.pBankName }">
+          <div class="invalid-feedback">
+            <span *ngIf="BankValidationErrors.pBankName">{{BankValidationErrors?.pBankName}}</span>
+          </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <div class="form-group">
+        <label title="Account Number" id="pBankAccountNo">Account Number</label>
+        <input appNumbersonly  class="form-control" formControlName="pBankAccountNo" type="text" 
+          maxlength="20" placeholder="Enter Account Number" value=""
+          [ngClass]="{ 'is-invalid': BankValidationErrors.pBankAccountNo }">
+          <div class="invalid-feedback">
+            <span *ngIf="BankValidationErrors.pBankAccountNo">{{BankValidationErrors?.pBankAccountNo}}</span>
+          </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <div class="form-group">
+        <label title="IFSC Code" id="pBankifscCode">IFSC Code</label>
+        <!-- pattern="^[A-Za-z]{4}[0]{1}[0-9]{6}$"  -->
+        <input  appIfsccodevalidator appAlphanumericcharsonly appUppercase   class="form-control" formControlName="pBankifscCode" type="text" maxlength="15"
+          placeholder="Enter IFSC Code" value="" [ngClass]="{ 'is-invalid': BankValidationErrors.pBankifscCode }">
+          <div class="invalid-feedback">
+            <span *ngIf="BankValidationErrors.pBankifscCode">{{BankValidationErrors?.pBankifscCode}}</span>
+          </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <div class="form-group">
+        <label title="Branch" id="pBankBranch">Branch</label>
+        <input appCharactersonly appTitlecaseword class="form-control" maxlength="20" formControlName="pBankBranch" type="text"
+          placeholder="Enter Branch" value="" [ngClass]="{ 'is-invalid': BankValidationErrors.pBankBranch }">
+          <div class="invalid-feedback">
+            <span *ngIf="BankValidationErrors.pBankBranch">{{BankValidationErrors?.pBankBranch}}</span>
+          </div>
+      </div>
+    </div>
+    <div class="col-md-12 col-xl-12">
+      <div class="d-flex justify-content-end mt-1 mb-4">
+        <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" (click)="AddorUpdatedata()" role="tab"
+          aria-controls="hot" aria-selected="false"><img src="assets/images/icon-add-white.svg" class="mr-3"
+            width="20px" height="20px">{{Buttonlabel}}</a>
+      </div>
+    </div>
+
+    <div class="col-md-12 col-xl-12">
+      <!-- <table id="example" class="table text-center w-auto">
+        <thead>
+          <tr>
+            <th>Select Primary Account</th>
+            <th>Bank Name</th>
+            <th>Account Number</th>
+            <th>IFSC Code</th>
+            <th>Branch</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value=""></td>
+            <td>ICICI</td>
+            <td>059801529015</td>
+            <td>ICIC0000598</td>
+            <td>Mindspace</td>
+            <td>
+              <a href="#">
+                <div id="icon-edit"></div>
+              </a> <a href="#">
+                <div id="icon-remove"></div>
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td><input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value=""></td>
+            <td>ICICI</td>
+            <td>059801529015</td>
+            <td>ICIC0000598</td>
+            <td>Mindspace</td>
+            <td>
+              <a href="#">
+                <div id="icon-edit"></div>
+              </a> <a href="#">
+                <div id="icon-remove"></div>
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td><input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value=""></td>
+            <td>ICICI</td>
+            <td>059801529015</td>
+            <td>ICIC0000598</td>
+            <td>Mindspace</td>
+            <td>
+              <a href="#">
+                <div id="icon-edit"></div>
+              </a> <a href="#">
+                <div id="icon-remove"></div>
+              </a>
+            </td>
+          </tr>
+
+        </tbody>
+      </table> -->
+      <kendo-grid [data]="bankdetailslist" [height]="" [pageSize]="gridState.take" [skip]="gridState.skip"
+        [sort]="gridState.sort" [pageable]="false" [sortable]="true" [resizable]="true"
+        (edit)="editHandler($event)" (remove)="removeHandler($event)" 
+        [selectable]="selectableSettings" width="100%" >
+       
+        <kendo-grid-column field="pIsprimaryAccount" title="Select Primary Account" width="200">
+          <ng-template kendoGridCellTemplate let-dataItem  let-rowIndex="rowIndex">
+              <input  type="radio" [checked]="dataItem.pIsprimaryAccount" (click)="Checkboxfn(dataItem,rowIndex)"/>
+          </ng-template>
+      </kendo-grid-column>
+        <kendo-grid-column field="pBankName" title="Bank Name" *ngIf="!isHidden('pBankName')"></kendo-grid-column>
+        <kendo-grid-column field="pBankAccountNo" title="Account Number" *ngIf="!isHidden('pBankAccountNo')"></kendo-grid-column>
+        <kendo-grid-column field="pBankifscCode" title="IFSC Code" *ngIf="!isHidden('pBankifscCode')"></kendo-grid-column>
+        <kendo-grid-column field="pBankBranch" title="Branch" *ngIf="!isHidden('pBankBranch')"></kendo-grid-column>
+        <kendo-grid-command-column title="" width="220">
+          <ng-template kendoGridCellTemplate>
+            <div id="icon-edit" kendoGridEditCommand [primary]="true" hidden></div>
+            <div id="icon-delete"  kendoGridRemoveCommand></div>
+          </ng-template>
+        </kendo-grid-command-column>
+      </kendo-grid>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,145 @@
+<div class="row">
+    <div class="col-12 mb-3">
+      <p class="bc-2">Profit and Loss NEW</p>
+    </div>
+  </div>
+  
+  <div class="my-container">
+    <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+  
+      </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+  
+  </div>
+  
+  <div class="section-container">
+
+    <div class="row d-flex col-md-12 mt-3 ">
+
+
+        <div class="form-group">
+            <div class="form-check radio-btn form-check-inline mr-1  ">
+                <input class="form-check-input " [checked]="Type === 'STB'" type="radio"
+                    name="inlineRadioOptions1" id="inlineRadio2" value="STB"
+                    (click)="scheduleTBClick()">
+                <label class="mt-1" for="inlineRadio2">SCHEDULE TB</label>
+            </div>
+            <div class="form-check radio-btn form-check-inline mr-2">
+                <input class="form-check-input radio-btn" [checked]="Type === 'PAL'" type="radio"
+                    name="inlineRadioOptions1" id="inlineRadio3" value="PAL"
+                    (click)="profitAndLossClick()">
+                <label class="mt-1" for="inlineRadio3">PROFIT AND LOSS</label>
+            </div>
+      
+        </div>
+      
+      </div>
+
+
+
+  <form [formGroup]="scheduleTBandProfitAndLossForm" autocomplete="off" >
+    <div class="row" >
+  
+      <div class="col-xl-2 col-md-2 mt-4">
+        <div class="form-check form-check-inline">
+            <fieldset [disabled]="!disabletransactiondate">
+          <input class="form-check-input" type="checkbox" (change)="checkboxChecked($event)" checked>
+          <label class="mt-2">As On :</label>
+        </fieldset>
+        </div>
+      </div>
+  
+      <div class="col-xl-3 col-md-3 form-group ">
+        <label>{{FromDate}}</label>
+        <input type="text" class="form-control" formControlName="fromDate" placeholder="Date picker here" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+  
+      </div>
+  
+      <div class=" col-xl-3 col-md-3 form-group" *ngIf="hide">
+        <div>
+          <label>To Date</label>
+          <input type="text" class="form-control " formControlName="toDate" placeholder="Date picker here" [bsConfig]="dpConfig1" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+        </div>
+      </div>
+      <div class="justify-content-end d-flex" *ngIf="STBflag">
+      <div class=" form-group mt-3 pb-5 pt-3">
+        <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetScheduleReports()">
+          <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+          <span *ngIf="!isLoading">
+            <img class="mr-3" height="25px" src="assets/images/reports-white.svg"
+                 width="20px">
+          </span> Generate Schedule DB
+        </a>
+      </div>
+      </div>
+
+      <div class="justify-content-end d-flex" *ngIf="pALflag">
+        <div class=" form-group mt-3 pb-5 pt-3">
+          <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetProfitandlossReports()">
+            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+            <span *ngIf="!isLoading">
+              <img class="mr-3" height="25px" src="assets/images/reports-white.svg"
+                   width="20px">
+            </span> Generate Profit And Loss
+          </a>
+        </div>
+        </div>
+      
+    </div>
+  
+    
+    <!-- main content end -->
+  
+
+
+  <!--  -->
+
+    
+  
+    
+    <!-- main content end -->
+  
+  </form>
+  
+  </div>
+
+  <div class="section-container mt-3" *ngIf="pdfSource!=''">
+    <div class="container">
+      <div class="row mt-2">
+          <div class="col-12 ">
+              <div *ngIf="pdfSource!=''" class="d-flex justify-content-end"><button class="btn btn-b-icon mr-1"
+                      (click)="Print_Crystal_Report()">
+                      <img src="assets/images/print-icon-blue.svg" title="pdf" width="18px" class="mr-1">Print</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  <div class="col-md-12 col-xl-12 mt-2" *ngIf="pdfSource!=''">
+      <div style="height: 570px;border: 2px solid cornflowerblue;">
+          <embed [src]="pdfSource" type="application/pdf" width="100%" height="100%">
+  
+      </div>
+  </div>
+  </div>
+
+  <style>
+     span.text-danger {
+      left: 483px  !important;
+    }
+    span.text-primary {
+      left: 466px !important;
+    }
+  
+    span.text-success {
+      left: 450px !important;
+    }
+  
+    span.text-body {
+      left: 435px !important;
+    }
+  </style>
+  

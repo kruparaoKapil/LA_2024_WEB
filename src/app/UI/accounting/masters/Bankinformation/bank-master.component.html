@@ -1,0 +1,317 @@
+<form [formGroup]="bankmasterform">
+    <div class="row">
+      <div class="col-12  mb-3">
+        <p class="bc-2">Bank Setup</p>
+      </div>
+    </div>
+    <div class="my-container">
+
+      <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+    
+    </div>
+    <div class="section-container">
+    <div class="row mt-1">
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label>Date</label>
+          <input class="form-control w-auto" type="text" readonly value="" [bsConfig]="currentdate" bsDatepicker formControlName="pBankdate">
+        </div>
+      </div>
+    </div>
+    <hr class="light">
+    <div class="row mt-1">
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group ">
+          <label>A/C Type</label>
+          <select class="form-control" id="pAcctountype" title="A/C type" formControlName="pAcctountype">
+            <option value="" disabled>Select</option>
+            <option>Saving</option>
+            <option>Current</option>
+          </select>
+          <div class="invalid-feedback">
+              <span *ngIf="bankmastervalidations.pAcctountype">{{bankmastervalidations?.pAcctountype}}</span>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="pAccountnumber" title="Account No">Account No.</label>
+          
+          <input class="form-control"  [attr.disabled]="accountno ? '' : null" type="text"  value=""formControlName="pAccountnumber" maxlength="20" appNumbersonly [ngClass]="{ 'is-invalid':  bankmastervalidations.pAccountnumber }">
+          <div class="invalid-feedback">
+            <span *ngIf="bankmastervalidations.pAccountnumber">{{bankmastervalidations?.pAccountnumber}}</span>
+          </div>
+          <!-- <div *ngIf="accuntnumber" class="text-danger">
+            Account number must be 12 digits
+          </div> -->
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="pAccountname" title="Account Holder" >Account Holder</label>
+          <input class="form-control" type="text" value=""formControlName="pAccountname"  appTitlecaseword maxlength="50" appCharactersonly [ngClass]="{ 'is-invalid':bankmastervalidations.pAccountname }">
+          <div class="invalid-feedback">
+            <span *ngIf="bankmastervalidations.pAccountname">{{bankmastervalidations?.pAccountname}}</span>
+          </div>
+       </div>
+      </div>
+      <hr class="light">
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+              <label id="pBankname" title="Bank" >Bank</label>
+              <input class="form-control" type="text"  [attr.disabled]="disable ? '' : null" title="Bank" value=""formControlName="pBankname" maxlength="75" appCharactersonly    [ngClass]="{ 'is-invalid': bankmastervalidations.pBankname }">
+              <div class="invalid-feedback">
+                <span *ngIf="bankmastervalidations.pBankname">{{bankmastervalidations?.pBankname}}</span>
+              </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+            <label  id="pBankbranch" title="Branch">Branch</label>
+            <input class="form-control" type="text" value=""formControlName="pBankbranch" appCharactersonly maxlength="50" appTitlecaseword [ngClass]="{ 'is-invalid':  bankmastervalidations.pBankbranch  }">
+            <div class="invalid-feedback">
+              <span *ngIf="bankmastervalidations.pBankbranch">{{bankmastervalidations?.pBankbranch}}</span>
+            </div>
+  </div>
+</div>
+
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <div class="d-flex">
+              <div class="col-md-6 col-xl-6 pl-0">
+          <label  id="pIfsccode" title="IFSC Code">IFSC Code</label>
+          <!-- <input  appIfsccodevalidator  pattern="^[A-Za-z]{4}[0]{1}[0-9]{6}$" class="form-control" formControlName="pBankifscCode" type="text" maxlength="11"
+          placeholder="Enter IFSC Code" value="" [ngClass]="{ 'is-invalid': BankValidationErrors.pBankifscCode }"> -->
+          <input class="form-control" type="text"     maxlength="11" value="" formControlName="pIfsccode" appAlphanumeric appUppercase [ngClass]="{ 'is-invalid':  bankmastervalidations.pIfsccode}">
+          <div class="invalid-feedback">
+              <span *ngIf="bankmastervalidations.pIfsccode">{{bankmastervalidations?.pIfsccode}}</span>
+            </div>
+              </div>
+            <div class="col-md-6 col-xl-6 pr-0">
+                <label>Overdraft Limit</label>
+                <input class="form-control" type="text"   style="text-align:right;" id="pOverdraft" title="" value="Overdraft Limit" maxlength="12" formControlName="pOverdraft" appMycurrencyFormatter appNumbersonly [ngClass]="{ 'is-invalid':  bankmastervalidations.pOverdraft}">
+                <div class="invalid-feedback">
+                    <span *ngIf="bankmastervalidations.pOverdraft">{{bankmastervalidations?.pOverdraft}}</span>
+                  </div>
+              </div>
+
+        </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+
+        <!-- <div class="form-group">
+
+          <label title="Opening balance" id="pOpeningBalance"> Opening balance</label>
+           <div class="input-group">
+            <input class="form-control" type="text"  placeholder="0" value="" id="pOpeningBalance" formControlName="pOpeningBalance" maxlength="12" appMycurrencyFormatter appNumbersonly>
+            <div class="invalid-feedback">
+              <span *ngIf="bankmastervalidations.pOpeningBalance">{{bankmastervalidations?.pOpeningBalance}}</span>
+            </div>
+          <div class="input-group-append">
+            <select class="btn-lg-icon form-control rounded-right p-1"  title="Opening balance" id="pOpeningBalanceType"  value="" formControlName="pOpeningBalanceType" [ngClass]="{ 'is-invalid':  bankmastervalidations.pOpeningBalanceType}">
+              <option value="" disabled>Select</option>
+              <option value="D">Debit</option>
+              <option value="C">Credit</option>
+              </select>
+              <div class="invalid-feedback">
+                  <span *ngIf="bankmastervalidations.pOpeningBalanceType">{{bankmastervalidations?.pOpeningBalanceType}}</span>
+                </div>
+               
+          </div>
+          </div>
+        </div> -->
+
+        <div class="form-group">
+          <label title="Opening balance" id="pOpeningBalance"> Opening Balance</label>
+           <div class="input-group">
+          <input class="form-control" type="text"  placeholder="0" value=""  style="text-align:right;" id="pOpeningBalance" formControlName="pOpeningBalance" maxlength="12" appMycurrencyFormatter appNumbersonly>
+              <span class="invalid-feedback" *ngIf="bankmastervalidations.pOpeningBalance">{{bankmastervalidations?.pOpeningBalance}}</span>
+           
+          <div class="input-group-append">
+          <select class="btn-lg-icon form-control rounded-right p-1"  title="Opening balance" id="pOpeningBalanceType"  value="" formControlName="pOpeningBalanceType" [ngClass]="{ 'is-invalid':  bankmastervalidations.pOpeningBalanceType}">
+          <option value="" disabled>Select</option>
+          <option value="D">Debit</option>
+          <option value="C">Credit</option>
+          </select>
+              <span class="invalid-feedback" *ngIf="bankmastervalidations.pOpeningBalanceType">{{bankmastervalidations?.pOpeningBalanceType}}</span>
+           
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+      <!-- Bank/Branch  -->
+      <div class="col-12 mt-1">
+        <div class="row"> 
+          <a class="lc-title acc1 text-decoration-none" data-toggle="collapse" href="#bankaddress" role="button" aria-expanded="true" aria-controls="family">
+             <img id="close" src="assets/images/icon-toggle-default.svg" class="display-content" width="12px" height="12px">
+              <img id="open" src="assets/images/icon-toogle-bottom.svg" class="display-content" width="12px" height="12px"> 
+              &nbsp; &nbsp; Branch Address       
+        </a>
+        </div>
+        
+        <div class="mt-3 collapse" id="bankaddress">
+        <div class="row mt-3">
+          <app-address></app-address>
+           
+          </div>  
+        </div>
+      </div>
+          <!-- Bank/Branch end  -->
+          <hr>
+    <!---------------------Debit card setup-->
+    <div class="row">
+      <div class="col-md-6 col-xl-4">
+          <a class="lc-title acc2 text-decoration-none" data-toggle="collapse" href="#debitcard" role="button" aria-expanded="true" aria-controls="family"> <img id="close" src="assets/images/icon-toggle-default.svg" class="display-content" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" class="display-content" width="12px" height="12px"> &nbsp; &nbsp; Add Debit Card</a>
+          <div class="mt-3 collapse" id="debitcard">
+        <div class="border rounded p-2 h-100">
+          <div class="row">
+            <div class="col-md-6 col-xl-6">
+              <h2 class="lc-title text-left">Debit Card Setup </h2>
+            </div>
+            <div class="col-md-6 col-xl-6">
+            <div class="material-switch"> <span class="mr-2"> Status </span>
+              <input id="Employment" name="Employment" type="checkbox" formControlName="pIsdebitcardapplicable" [ngClass]="{ 'is-invalid': bankmastervalidations.pIsdebitcardapplicable}" (change)="bankdebitcardchecked($event)" data-toggle="collapse" data-target="#tds">
+              <label for="Employment" class="badge-success" data-toggle="collapse" data-target="#tds"></label>
+              <div class="invalid-feedback">
+                <span *ngIf="bankmastervalidations.pIsdebitcardapplicable">{{bankmastervalidations?.pIsdebitcardapplicable}}</span>
+              </div>
+            </div>    
+          </div>
+          </div>
+          <div *ngIf="debitcardhideandshow">
+          <div class="form-group">
+            <label id="pCardNo"  title="Card No">Card No</label>
+            <input class="form-control" type="text" (keyup)="cardchange()" [attr.disabled]="cardno ? '' : null" value=""  maxlength="16" placeholder="XXXX XXXX XXXX 3006" appNumbersonly formControlName="pCardNo" [ngClass]="{ 'is-invalid': bankmastervalidations.pCardNo}">
+            <div class="invalid-feedback">
+              <span *ngIf="bankmastervalidations.pCardNo">{{bankmastervalidations?.pCardNo}}</span>
+            </div>
+          </div>         
+          <div class="form-group d-flex">
+            <div class="col-md-6 pl-0">
+              <label id="pValidfrom" title="Valid From">Valid From</label>
+              <input class="form-control"  readonly type="text" value=""  [bsConfig]="dpConfig" #dp="bsDatepicker"[ngClass]="{ 'is-invalid': bankmastervalidations.pValidfrom }" bsDatepicker placeholder="MM/YY" formControlName="pValidfrom" (onShown)="onOpenCalendar($event)" (ngModelChange)="ValidFrom($event)">
+              <div class="invalid-feedback">
+                <span *ngIf="bankmastervalidations.pValidfrom">{{bankmastervalidations?.pValidfrom}}</span>
+              </div>
+            </div>
+            <div class="col-md-6 pr-0 ">
+              <label  id="pValidto" title="Valid Thru">Valid Thru</label>
+              <input class="form-control" type="text" readonly value="" 
+               [bsConfig]="ddpConfig" #dp="bsDatepicker"(ngModelChange)="ValidTo($event)"
+               [ngClass]="{ 'is-invalid':   bankmastervalidations.pValidto }"bsDatepicker placeholder="MM/YY" formControlName="pValidto"(onShown)="onOpenCalendar($event)"  >
+              <div class="invalid-feedback">
+                <span *ngIf="bankmastervalidations.pValidfrom">{{bankmastervalidations?.pValidto}}</span>
+              </div>
+              <div *ngIf="todate" class="text-danger">
+                please select valid date
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label id="pCardName" title="Name on the Card">Name on the Card</label>
+            <input class="form-control" type="text" value="" appTitlecaseword  placeholder="XYZ" appCharactersonly formControlName="pCardName"  [ngClass]="{ 'is-invalid':   bankmastervalidations.pCardName }" maxlength="50">
+            <div class="invalid-feedback">
+                <span *ngIf="bankmastervalidations.pCardName">{{bankmastervalidations?.pCardName}}</span>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+<!---------------------upi setup-->
+
+      <div class="col-md-6 col-xl-4">
+          <a class="lc-title acc3 text-decoration-none" data-toggle="collapse" href="#UPI" role="button" aria-expanded="true" aria-controls="family"> <img id="close" src="assets/images/icon-toggle-default.svg" class="display-content" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" class="display-content" width="12px" height="12px"> &nbsp; &nbsp; UPI Setup</a>
+          <div class="mt-3 collapse" id="UPI">
+        <div class="border rounded p-2  h-100">
+          <div class="row">
+            <div class="col-md-6 col-xl-6">
+              <h2 class="lc-title text-left">UPI Setup </h2>
+            </div>
+            <div class="col-md-6 col-xl-6">
+              <div class="material-switch"> <span class="mr-2"> Status </span>
+                <input id="upi" name="Employment" type="checkbox" formControlName="pIsupiapplicable" [ngClass]="{ 'is-invalid': bankmastervalidations.pIsupiapplicable}" (change)="bankupichecked($event)" data-toggle="collapse" data-target="#upi-switch">
+                <label for="upi" class="badge-success" data-toggle="collapse" data-target="#upi-switch"></label>
+                <div class="invalid-feedback">
+                  <span *ngIf="bankmastervalidations.pIsupiapplicable">{{bankmastervalidations?.pIsupiapplicable}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="bankupihideandshow">
+          <div class="form-group">         
+            <label id="pUpiid" title="UPI ID">UPI ID</label>
+            <input class="form-control" type="text" (change)="bankupi($event)" value="" appEmailFormat appEmailpattern pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$" maxlength="50" [ngClass]="{ 'is-invalid': submitted &&   bankmastervalidations.pUpiid}"placeholder="xyz@okicici" formControlName="pUpiid">
+            <div class="invalid-feedback">
+              <span *ngIf="bankmastervalidations.pUpiid">{{bankmastervalidations?.pUpiid}}</span>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="col-md-8 col-xl-8 pl-0">
+              <div class="form-group">
+                <label  id="pUpiname" title="UPI Link with" >UPI Link with</label>
+                <div class="input-group">
+                  <select class="form-control" formControlName="pUpiname" (change)="bankupi($event)" maxlength="50" [ngClass]="{ 'is-invalid':   submitted && bankmastervalidations.pUpiname}">
+                      <option value="" disabled>Select</option>
+                    <option *ngFor="let i of upiname" [value]="i.pUpiname">
+                      {{i.pUpiname}}
+                    </option>
+                  </select>                
+                  <div class="invalid-feedback">
+                    <span *ngIf="bankmastervalidations.pUpiname">{{bankmastervalidations?.pUpiname}}</span>
+                  </div>
+                </div>
+              </div>      
+            </div>           
+            <div class="col-md-4 col-xl-4 mt-4 text-right pr-0">
+               <a (click)="addtogrid()" class="btn btn-b-icon border-0"> 
+                <img src="assets/images/icon-add-white.svg" class="mr-2" width="20px" height="20px">
+               Add
+              </a>
+            </div>
+
+
+           
+          </div>
+        </div>
+          <kendo-grid [data]="gridData" [pageSize]="pageSize" [resizable]="true" 
+          [pageable]="true"  [reorderable]="true"  
+          [sortable]="true" 
+          [sort]="gridState.sort"
+          (remove)="removeHandler($event)"
+          >
+              <kendo-grid-column field="pUpiid" title="UPI ID"></kendo-grid-column>
+              <kendo-grid-column field="pUpiname" title="Link with"></kendo-grid-column>
+              <kendo-grid-command-column>
+                  <ng-template kendoGridCellTemplate>                  
+                    <div id="icon-remove"  kendoGridRemoveCommand></div>
+                  </ng-template>
+              </kendo-grid-command-column>
+          </kendo-grid>  
+        </div>
+        </div>
+      </div>
+      </div>
+      <!-------------------row end-------------->
+    <hr>
+    <div class="row mt-4 ml-1">
+      <div class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end mt-4"> 
+          <a (click)="clear()" class="btn btn-g-icon mr-4 px-3 border-0">
+            <img src="assets/images/icon-cancel-white.svg" class="mr-3" width="20px" height="20px">Clear
+          </a> 
+          <a  (click)="save()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false">
+              <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i>
+           {{buttonname}}
+          </a> 
+        </div>
+      </div>
+    </div>
+    <!--row-end-->
+    </div>
+  </form>

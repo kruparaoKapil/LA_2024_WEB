@@ -1,0 +1,572 @@
+<form [formGroup]="form121Group">
+   <div class="col-lg-12 col-md-12">
+      <div class="section-content" *ngIf="EditSection">
+         <div class="row ">
+            <div class="col-md-2 col-xl-2 mt-4">
+               <div class="form-group" class="col-12 d-flex flex-wrap align-items-center">
+                  <a (click)="GetEdit($event)" class="btn btn-b-icon border-0">
+                     <img
+                        [src]="isEdit ? 'assets/images/icon-checked-checkbox.svg' : 'assets/images/icon-add-blue-rounded.svg'"
+                        class="mr-2" width="20px" height="20px"> Edit</a>
+               </div>
+            </div>
+            <div class="col-md-5 col-xl-5">
+               <div class="form-group" *ngIf="isEdit">
+                  <label class="required-field" id="edituid" title="UID Details">UID Details</label>
+                  <ng-select [items]="Form121uiddetails" bindLabel="uanno" bindValue="uid" formControlName="edituid"
+                     readonly placeholder="Select UID" [searchable]="true" [clearable]=false
+                     [ngClass]="{ 'is-invalid': form121ValidationErrors?.edituid }"
+                     (change)="OnUidChangeforEdit($event.uid)">
+                  </ng-select>
+                  <div class="invalid-feedback">
+                     <span *ngIf="form121ValidationErrors.uid">{{ form121ValidationErrors?.uid }}</span>
+                  </div>
+               </div>
+            </div>
+
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group" *ngIf="isEdit">
+                  <!-- formControlName="income_paidamount" -->
+                  <label class="required-field" id="previousExistamount" title="Previous Form121 Amount">Previous
+                     Form121 Amount</label>
+                  <input class="form-control text-right" formControlName="previousExistamount" type="text" readonly
+                     placeholder="" appMycurrencyFormatter appNumbersonly maxlength="12" appBlockCopyPaste
+                     [ngClass]="{ 'is-invalid': form121ValidationErrors?.previousExistamount }">
+                  <div class="invalid-feedback">
+                     <span *ngIf="form121ValidationErrors.previousExistamount">{{
+                        form121ValidationErrors?.previousExistamount
+                        }}</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="section-content">
+         <div class="row">
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label class="required-field" id="companyName" title="Company Name">Company Name</label>
+                  <ng-select [items]="companynames" bindLabel="pCompanyName" bindValue="pCompanyId"
+                     formControlName="companyName" readonly placeholder="Select Company" [searchable]="true"
+                     [clearable]=false [ngClass]="{ 'is-invalid': form121ValidationErrors?.companyName }"
+                     (change)="onCompanyChange($event.pCompanyId)">
+                  </ng-select>
+                  <div class="invalid-feedback">
+                     <span *ngIf="form121ValidationErrors.companyName">{{ form121ValidationErrors?.companyName }}</span>
+                  </div>
+               </div>
+            </div>
+
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label class="required-field" id="tanno" title="Tan No">TAN</label>
+                  <ng-select [items]="tanNoList" bindLabel="ptannumber" bindValue="ptannumber"
+                     (change)="onTanChange($event.tanno)" formControlName="tanno" readonly placeholder="Select TAN"
+                     [ngClass]="{ 'is-invalid': form121ValidationErrors?.tanno }">
+                  </ng-select>
+                  <div class="invalid-feedback">
+                     <span *ngIf="form121ValidationErrors.tanno">{{ form121ValidationErrors?.tanno }}</span>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="fiscalYear" title="Financial Year">Financial Year</label>
+
+                  <input type="text" class="form-control" formControlName="fiscalYear" readonly>
+
+                  <div class="invalid-feedback">
+                     <span *ngIf="form121ValidationErrors?.fiscalYear">
+                        {{ form121ValidationErrors.fiscalYear }}
+                     </span>
+                  </div>
+               </div>
+
+            </div>
+         </div>
+      </div>
+      <div class="section-content">
+         <!-- Row 1 -->
+         <div class="row">
+            <div class="col-md-8 col-xl-8">
+               <div class="form-group" id="contactid" title="Name of the Assessee"
+                  [ngClass]="{'for-disable-radio-btn': disableSubscriberName}">
+                  <label class="required-field" id="contactid" title="Name of the Assessee">Name of the Assessee</label>
+
+                  <ng-select *ngIf="!disableSubscriberName" class="custom-ng-select" [items]="contactsList"
+                     placeholder="Search by phone, name etc." typeToSearchText="{{searchplaceholder}}"
+                     formControlName="contactid" bindLabel="pContactName" bindValue="pContactId" [searchable]="true"
+                     [clearable]="true" [minTermLength]="dropDownDataSearchLength" [typeahead]="contactSearchevent"
+                     (change)="ContactGridRowSelect($event)" appUppercase
+                     [ngClass]="{ 'is-invalid': form121ValidationErrors?.contactid }" [searchable]="true"
+                     [clearable]=false>
+                     <ng-template ng-header-tmp>
+                        <div class="row">
+                           <span class="col-4">Name</span>
+                           <span class="col-4 text-center">Mobile</span>
+                           <span class="col-4">Email</span>
+                        </div>
+                     </ng-template>
+                     <ng-template ng-option-tmp let-item="item">
+                        <div class="row">
+                           <span class="col-4" title="{{item.contactname}}">{{item.pContactName}}</span>
+                           <span class="col-4 text-center"
+                              title="{{item.contactmobilenumber}}">{{item.pBusinessEntitycontactNo}}</span>
+                           <!-- <span class="col-4 text-center"
+                              title="{{item.contactemailid}}">{{item.contactemailid}}</span> -->
+                        </div>
+                     </ng-template>
+                  </ng-select>
+
+                  <input *ngIf="disableSubscriberName" class="form-control" type="text" appAlphanumeric appUppercase
+                     placeholder="Search by phone, name etc.">
+                  <div class="invalid-feedback">
+                     <span *ngIf="form121ValidationErrors.contactid">{{ form121ValidationErrors?.contactid }}</span>
+                     <!-- <span class="col-4" title="{{form121ValidationErrors.contactname}}">{{form121ValidationErrors.contactname}}</span> -->
+
+                  </div>
+               </div>
+            </div>
+            <!-- <div class="col-md-4 col-xl-4">
+                <div class="form-group">
+                   <label id="identificationno" title="Identification no">Unique Identification No</label>
+                   <input class="form-control" formControlName="identificationno" type="text" readonly>
+ 
+                </div>
+             </div> -->
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="dob" title="DOB">DOB</label>
+                  <input readonly class="form-control" type="text" formControlName="dob" maxlength="12" disabled>
+               </div>
+            </div>
+         </div>
+         <!-- Row 2 -->
+         <div class="row">
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="mobile" title="mobile">Mobile</label>
+                  <input class="form-control" type="text" readonly placeholder=" " formControlName="mobile">
+               </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="email" title="email">Email ID</label>
+                  <input class="form-control" type="text" readonly formControlName="email" placeholder="">
+               </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="aadhar" title="aadhar">AADHAR NO.</label>
+                  <input class="form-control" formControlName="aadhar" readonly type="text" placeholder="">
+               </div>
+            </div>
+         </div>
+         <!-- Row 3 -->
+         <div class="row">
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="pan" title="pan">PAN NO.</label>
+                  <input class="form-control" formControlName="pan" readonly type="text" appUppercase placeholder="">
+
+               </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="flat" title="flat">Flat/Door/Block No.</label>
+                  <input class="form-control" formControlName="flat" type="text" readonly appUppercaseplaceholder="">
+               </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="street" title="street">Road/Street</label>
+                  <input class="form-control" formControlName="street" appUppercase type="text" readonly placeholder="">
+               </div>
+            </div>
+         </div>
+         <!-- Row 4 -->
+         <div class="row">
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="locality" title="locality">Area/Locality</label>
+                  <input class="form-control" formControlName="locality" type="text" appUppercase readonly
+                     placeholder="">
+               </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="districtname" title="districtname">District/City</label>
+                  <input class="form-control" appUppercase type="text" placeholder="Enter District Name" readonly
+                     formControlName="districtname">
+               </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="statename" title="statename">State</label>
+                  <input class="form-control" type="text" placeholder="" readonly appUppercase
+                     formControlName="statename">
+               </div>
+            </div>
+         </div>
+         <!-- Row 5 -->
+         <div class="row">
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="pincode" title="Pin Code">PIN Code</label>
+                  <input class="form-control" formControlName="pincode" placeholder="" readonly>
+               </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="taxSection" title="incometaxact">Section Under Which Tax is Deductible</label>
+                  <input class="form-control" formControlName="incometaxact" type="text" placeholder="" readonly>
+               </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="eligibilityamount" title="eligibilityamount">Eligibility Amount</label>
+                  <input class="form-control text-right" formControlName="eligibilityamount" type="text" readonly>
+               </div>
+            </div>
+         </div>
+
+      </div>
+      <div class="section-content">
+         <div class="row">
+
+            <div class="col-md-6 col-xl-6">
+               <div class="form-group-inline">
+                  <!-- formControlName="estimated_income_declartion_amount" -->
+                  <label class="required-field" id="during_the_tax_year"
+                     title="Estimated Income declartion amount">Details of Form No. 121 other than this form filed
+                     during the tax year, if any</label>
+                     <div> 
+
+                      </div>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" id="duringYes" value="yes"
+                        formControlName="during_the_tax_year" (change)="onDuringChange($event)">
+                     <label class="form-check-label" for="duringYes">Yes</label>
+                  </div>
+
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" id="duringNo" value="no"
+                        formControlName="during_the_tax_year" (change)="onDuringChange($event)">
+                     <label class="form-check-label" for="duringNo">No</label>
+                  </div>
+                  <div class="invalid-feedback">
+                     <span *ngIf="form121ValidationErrors.during_the_tax_year">{{
+                        form121ValidationErrors?.during_the_tax_year }}</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label class="required-field" id="estimated_total_income_amount" title="Total Income">Estimated total
+                     income of F.Y.</label>
+                  <!-- <input class="form-control" formControlName="estimated_total_income_amount" readonly> -->
+                  <input class="form-control text-right" formControlName="estimated_total_income_amount" type="text"
+                     maxlength="12" placeholder="ENTER ESTIMATED TOTAL INCOME" appMycurrencyFormatter appNumbersonly
+                     appBlockCopyPaste (input)="EstimatedIncome_change($event)">
+                  <div class="invalid-feedback">
+                     <span *ngIf="form121ValidationErrors.estimated_total_income_amount">{{
+                        form121ValidationErrors?.estimated_total_income_amount }}</span>
+                  </div>
+               </div>
+            </div>
+
+            <div class="col-md-4 col-xl-4" *ngIf="Previousformdetails">
+               <div class="form-group">
+                  <label class="required-field" id="form15_filedcount" title="Form15 Filed count">Total number of Form
+                     No. 121 filed earlier</label>
+                  <input class="form-control text-right" formControlName="form15_filedcount" type="text" maxlength="3"
+                     placeholder="ENTER TOTAL NO. OF FORM 121" appNumbersonly appBlockCopyPaste
+                     [ngClass]="{ 'is-invalid': form121ValidationErrors?.form15_filedcount }">
+                  <div class="invalid-feedback">
+                     <span *ngIf="form121ValidationErrors.form15_filedcount">{{
+                        form121ValidationErrors?.form15_filedcount
+                        }}</span>
+                  </div>
+               </div>
+            </div>
+            <!-- <div class="col-md-4 col-xl-4"  *ngIf="Previousformdetails">
+                <div class="form-group">
+                   <label id="aggregateamount" title="Aggregate amount">Aggregate amount of income under Form
+                      No.121</label>
+                   <input class="form-control text-right" formControlName="aggregateamount" appNumbersonly
+                      appMycurrencyFormatter appBlockCopyPaste type="text" maxlength="12" readonly
+                      placeholder="ENTER AGGREGATE AMOUNT">
+                </div>
+             </div> -->
+            <div class="col-md-4 col-xl-4" *ngIf="Previousformdetails">
+               <div class="form-group">
+                  <label id="aggregateamount" title="Aggregate amount">Aggregate amount of income for which Form No. 121
+                     were filed</label>
+                  <input class="form-control text-right" formControlName="aggregateamount" appNumbersonly
+                     appMycurrencyFormatter appBlockCopyPaste type="text" maxlength="12"
+                     placeholder="ENTER AGGREGATE AMOUNT">
+               </div>
+            </div>
+         </div>
+         <!-- Row 6 -->
+         <div class="row">
+
+
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="declarationDate" title="Declaration Date">Date on Which declaration is received</label>
+                  <input class="form-control" type="text" placeholder="Select Declaration Received Date" bsDatepicker
+                     [bsConfig]="dpConfig" formControlName="declarationDate" maxlength="12" readonly
+                     [ngClass]="{ 'is-invalid': form121ValidationErrors?.declarationDate }">
+               </div>
+            </div>
+            <!-- <div class="col-md-4 col-xl-4">
+                <div class="form-group">
+                  
+                   <label class="required-field" id="income_paidamount" title="Paid Amount">Amount of income paid</label>
+                   <input class="form-control text-right"formControlName="income_paidamount" type="text" readonly
+                      placeholder="ENTER AMOUNT OF INCOME PAID" appMycurrencyFormatter appNumbersonly maxlength="12"
+                      appBlockCopyPaste [ngClass]="{ 'is-invalid': form121ValidationErrors?.income_paidamount }">
+                   <div class="invalid-feedback">
+                      <span *ngIf="form121ValidationErrors.income_paidamount">{{ form121ValidationErrors?.income_paidamount
+                         }}</span>
+                   </div>
+                </div>
+             </div> -->
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <!-- formControlName="income_paidamount" -->
+                  <label class="required-field" id="income_paidamount" title="Paid Amount">Other Amount(If any other
+                     amount Pleae Enter)</label>
+                  <input class="form-control text-right" formControlName="income_paidamount" type="text"
+                     placeholder="ENTER AMOUNT OF INCOME PAID" appMycurrencyFormatter appNumbersonly maxlength="12"
+                     appBlockCopyPaste [ngClass]="{ 'is-invalid': form121ValidationErrors?.income_paidamount }">
+                  <div class="invalid-feedback">
+                     <span *ngIf="form121ValidationErrors.income_paidamount">{{
+                        form121ValidationErrors?.income_paidamount
+                        }}</span>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label class="required-field" id="income_paiddate" title="income_paiddate">Date of Payment
+                     Credited/Paid</label>
+                  <input class="form-control" type="text" placeholder="Select PAYMENT/CREDIT Date" bsDatepicker
+                     [bsConfig]="dpConfig1" formControlName="income_paiddate" maxlength="12" readonly>
+               </div>
+            </div>
+         </div>
+         <!-- Row 7 -->
+         <div class="row">
+
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <!-- formControlName="estimated_income_declartion_amount" -->
+                  <label class="required-field" id="estimated_income_declartion_amount"
+                     title="Estimated Income declartion amount">Estimated income for which declaration is made</label>
+                  <input class="form-control text-right" type="text" maxlength="12" placeholder="ENTER ESTIMATED INCOME"
+                     appMycurrencyFormatter appNumbersonly appBlockCopyPaste
+                     formControlName="estimated_income_declartion_amount" readonly
+                     [ngClass]="{ 'is-invalid': form121ValidationErrors?.estimated_income_declartion_amount }">
+                  <div class="invalid-feedback">
+                     <span *ngIf="form121ValidationErrors.estimated_income_declartion_amount">{{
+                        form121ValidationErrors?.estimated_income_declartion_amount }}</span>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label class="required-field" id="investorreceiptno" title="Investor Receipt No">Identification No. of
+                     relevant investment/account</label>
+                  <input class="form-control" formControlName="investorreceiptno" readonly type="text" placeholder="">
+                  <!-- <input class="form-control" formControlName="investorreceiptno" type="text" appUppercase
+                       appblockCopyPaste placeholder="ENTER IDENTIFICATION NUMBER" maxlength="100"
+                      [ngClass]="{ 'is-invalid': form121ValidationErrors?.investorreceiptno }">
+                   <div class="invalid-feedback">
+                      <span *ngIf="form121ValidationErrors.investorreceiptno">{{ form121ValidationErrors?.investorreceiptno
+                         }}</span>
+                   </div> -->
+               </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label class="required-field" id="incomeNature" title="Income Nature">Nature of income</label>
+                  <input class="form-control" appUppercase appblockCopyPaste formControlName="incomeNature" type="text"
+                     placeholder="Enter Nature of Income" maxlength="75"
+                     [ngClass]="{ 'is-invalid': form121ValidationErrors?.incomeNature }" readonly>
+                  <div class="invalid-feedback">
+                     <span *ngIf="form121ValidationErrors.incomeNature">{{ form121ValidationErrors?.incomeNature
+                        }}</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Row 8 -->
+         <div class="row">
+
+
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label class="required-field" id="nextyear" title="Next Assessment Year">Next Assessment Year</label>
+                  <input class="form-control" type="text" placeholder="Select Date" formControlName="nextyear"
+                     maxlength="12" readonly [ngClass]="{ 'is-invalid': form121ValidationErrors?.nextyear }">
+                  <div class="invalid-feedback">
+                     <span *ngIf="form121ValidationErrors.nextyear">{{ form121ValidationErrors?.nextyear }}</span>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="previousyear" title="previousyear" class="required-field">Previous Assessment Year</label>
+                  <ng-select [items]="getAssessmentYear" bindLabel="pPeriodType" bindValue="pPeriodType"
+                     placeholder="Select" formControlName="previousyear" readonly [clearable]="false"
+                     [ngClass]="{ 'is-invalid': form121ValidationErrors?.previousyear }">
+                  </ng-select> <!-- (change)="PreviousYear_change($event)" -->
+               </div>
+            </div>
+
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="assessmentYear" title="Assessment Year">Assessment Year</label>
+                  <!-- <ng-select [items]="getAssessmentYear"
+                   bindLabel="pPeriodType"
+                   bindValue="pPeriodType"
+                   placeholder="Select"
+                   formControlName="assessmentYear" readonly [clearable]="false"
+                   (change)="CalendarYear_change($event)"
+                   [ngClass]="{ 'is-invalid': form121ValidationErrors?.assessmentYear }">
+                   </ng-select> -->
+                  <input class="form-control" type="text" placeholder="Assessment Year" formControlName="assessmentYear"
+                     readonly>
+                  <div class="invalid-feedback">
+                     <span *ngIf="form121ValidationErrors.assessmentYear">{{ form121ValidationErrors?.assessmentYear
+                        }}</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="section-content">
+         <div class="row">
+
+            <div class="col-md-6 col-xl-6">
+               <div class="form-group-inline">
+
+                  <label class="required-field" id="during_the_tax_year" title="Details of Form121">Details of the ITR
+                     filed for previous two tax years</label>
+                      <div> 
+
+                      </div>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" id="pitrfilestatusYes" value="yes"
+                        formControlName="pitrfilestatus" (change)="onpitrfilestatusChange($event)">
+                     <label class="form-check-label" for="pitrfilestatusYes">Yes</label>
+                  </div>
+
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" id="pitrfilestatusNo" value="no"
+                        formControlName="pitrfilestatus" (change)="onpitrfilestatusChange($event)">
+                     <label class="form-check-label" for="pitrfilestatusNo">No</label>
+                  </div>
+                  <div class="invalid-feedback">
+                     <span *ngIf="form121ValidationErrors.pitrfilestatus">{{
+                        form121ValidationErrors?.pitrfilestatus }}</span>
+                  </div>
+               </div>
+            </div>
+            <div *ngIf="ShowItrdetails" [formGroup]="form121Group">
+               <table class="table table-bordered">
+                  <thead>
+                     <tr>
+                        <th>S.No</th>
+                        <th>Tax Year</th>
+                        <th>Acknowledgement No</th>
+                        <th>Return Income</th>
+                     </tr>
+                  </thead>
+
+                  <tbody formArrayName="itrDetails">
+                     <tr *ngFor="let row of itrDetails?.controls; let i = index" [formGroupName]="i">
+
+                        <td>{{ row?.get('sno')?.value }}</td>
+                        <td>{{ row?.get('taxYear')?.value }}</td>
+
+                        <!-- Ack No -->
+                        <td>
+                           <input type="text" class="form-control" formControlName="ackNo">
+                           <div class="invalid-feedback" *ngIf="row.get('ackNo')?.touched && row.get('ackNo')?.invalid">
+                              Ack No is required
+                           </div>
+                        </td>
+
+                        <!-- Filing Date -->
+                        <td>
+                           <input type="text" class="form-control text-right" formControlName="ReturnIncome"
+                              maxlength="12" appMycurrencyFormatter appNumbersonly appBlockCopyPaste>
+                           <div class="invalid-feedback"
+                              *ngIf="row.get('ReturnIncome')?.touched && row.get('ReturnIncome')?.invalid">
+                              Return Income is required
+                           </div>
+
+                        </td>
+
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+
+
+         </div>
+      </div>
+      <div class="section-content">
+         <div class="row">
+            <div class="col-md-4 col-xl-4">
+               <div class="form-group">
+                  <label id="autorizedcontactid" title="autorizedcontactid" class="required-field"
+                     title="Authorized by">Authorised
+                     by</label>
+                  <ng-select class="custom-ng-select" id="autorizedcontactid" title="Authorized by" [multiple]="false"
+                     [items]="authorizedbylist | async" [minTermLength]="dropDownDataSearchLength"
+                     typeToSearchText="{{searchplaceholder}}" [typeahead]="employeeSearchevent"
+                     placeholder="Select people" formControlName="autorizedcontactid" bindLabel="subintroducedname"
+                     bindValue="subintroducedid" placeholder="Select" [searchable]=true [clearable]="true"
+                     dropdownPosition="" [clearOnBackspace]=true (change)="subIntroducedGridRowSelect($event)"
+                     [ngClass]="{ 'is-invalid': form121ValidationErrors.autorizedcontactid }">
+                     <ng-template ng-header-tmp>
+                        <div class="row">
+                           <span class="col-3">Code</span>
+                           <span class="col-3">Contact Name</span>
+                           <span class="col-3 text-center">Mobile No.</span>
+                           <span class="col-3">Email Id</span>
+                        </div>
+                     </ng-template>
+                     <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                        <div class="row">
+                           <span class="col-3">{{item?.subintroducedcode}}</span>
+                           <span class="col-3">{{item?.subintroducedname}}</span>
+                           <span class="col-3 text-center">{{item?.subintroducedmobilenumber}}</span>
+                           <span class="col-3">{{item?.subintroducedemailid}}</span>
+                        </div>
+                     </ng-template>
+                  </ng-select>
+
+                  <app-validation-message [messgae]="form121ValidationErrors?.autorizedcontactid">
+                  </app-validation-message>
+               </div>
+
+            </div>
+            <div  class="col-md-4 col-xl-4">
+            </div>
+            <!-- Buttons -->
+            <div class="form-group d-flex justify-content-end mt-4">
+               <button (click)="resetForm1()"  class="btn btn-primary px-3 border-0 ml-5">Clear</button>
+               <button (click)="SaveConfirmandSave()" class="btn btn-primary me-2 px-3 border-0 ml-5">Save</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</form>

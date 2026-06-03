@@ -1,0 +1,93 @@
+<div class="row mt-2">
+    <div class="col d-flex flex-wrap align-items-center">
+        <a class="btn btn-b-icon border-0" routerLink="/SavingsTransactionsNew" (click)="NewButtonClick('New')">
+            <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+        </a>
+
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-12 col-xl-12">
+        <kendo-grid [kendoGridBinding]="SavingAccountTransactionList" [groupable]="false" [resizable]="true" [pageSize]="10" [skip]="skip" [reorderable]="true" [height]="480" [columnMenu]="{ filter: true }" [pageable]="{ buttonCount: 2 }" [sortable]="true" (edit)="datatableclickedit($event)"
+            (remove)="removeHandler($event)">
+            <ng-template kendoGridToolbarTemplate>
+                <div class="row mb-3 p-3">
+                    <div class="col-4 pl-0 mt-n1">
+                        <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="SearchRecord($event.target.value)" />
+                    </div>
+                    <div class="col-7 pr-0 pl-4 ml-4">
+                        <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                            <li class="temp-ico ml-2">
+                                <a kendoGridPDFCommand>
+                                    <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px">
+                                </a>
+                            </li>
+                            <li class="temp-ico ml-2">
+                                <a kendoGridExcelCommand>
+                                    <img class="pt-2" src="assets/images/icon-excel.svg " title="excel" width="20px">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </ng-template>
+            <kendo-grid-column-group title="Savings Transaction" [headerClass]="{'kendo-g-center' : true}">
+                <kendo-grid-command-column field="" title="Edit" width="40" [locked]="true">
+                    <ng-template kendoGridCellTemplate>
+                        <button kendoGridEditCommand>
+              <div id="icon-edit"></div>
+            </button>
+                    </ng-template>
+                </kendo-grid-command-column>
+
+                <!-- <kendo-grid-command-column title="Delete" width="40" [locked]="true">
+                    <ng-template kendoGridCellTemplate>
+                        <button kendoGridRemoveCommand>
+              <div id="icon-delete"></div>
+            </button>
+                    </ng-template>
+                </kendo-grid-command-column> 19-03-2021-->
+
+                <kendo-grid-column field="pMembertype" title="Member Type" width="70"></kendo-grid-column>
+                <kendo-grid-column field="pApplicanttype" title="Applicant Type" width="70"></kendo-grid-column>
+                <kendo-grid-column field="pTransdate" title="Opening Date" width="80"> </kendo-grid-column>
+                <kendo-grid-column field="pContacttype" title="Contact Type" width="80"> </kendo-grid-column>
+                <kendo-grid-column field="pMembername" title="Member Name" width="80"> </kendo-grid-column>
+                <!-- <kendo-grid-column field="MinDepositAmount" title="Deposit Amount" width="80"> </kendo-grid-column> -->
+                <kendo-grid-column field="pSavingaccname" title="Saving Account Name" width="80"> </kendo-grid-column>
+            </kendo-grid-column-group>
+            <kendo-grid-pdf fileName="Savings_Transaction.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+                <ng-template kendoGridPDFTemplate>
+                    <div class="page-template">
+                        <div class="header bc-2 text-center">
+                            <h5>Savings Transaction</h5>
+                        </div>
+                    </div>
+                </ng-template>
+                <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+                <kendo-grid-column field="pMembertype" title="Member Type" width="70"></kendo-grid-column>
+                <kendo-grid-column field="pApplicanttype" title="Applicant Type" width="70"></kendo-grid-column>
+                <kendo-grid-column field="pTransdate" title="Opening Date" width="70"> </kendo-grid-column>
+                <kendo-grid-column field="pContacttype" title="Contact Type" width="70"> </kendo-grid-column>
+                <kendo-grid-column field="pMembername" title="Member Name" width="70"> </kendo-grid-column>
+                <kendo-grid-column field="pSavingaccname" title="Saving Account Name" width="70"> </kendo-grid-column>
+            </kendo-grid-pdf>
+            <kendo-grid-excel fileName="Savings_Transaction.xlsx" [fetchData]="allData">
+                <kendo-excelexport-column-group title="Savings Transaction" [headerCellOptions]="headerCells">
+                    <kendo-excelexport-column field="pMembertype" title="Member Type">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pApplicanttype" title="Applicant Type">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pTransdate" title="Opening Date">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pContacttype" title="Contact Type">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pMembername" title="Member Name">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pSavingaccname" title="Saving Account Name">
+                    </kendo-excelexport-column>
+                </kendo-excelexport-column-group>
+            </kendo-grid-excel>
+        </kendo-grid>
+    </div>
+</div>

@@ -1,0 +1,163 @@
+<div class="section-container">
+    <div class="row p-0">
+        <div class="col-xl-12 col-md-12">
+            <div class="section-content ">
+  
+                <form [formGroup]="EmployeeMonthBonusForm">
+  
+                  <div class="row mt-3">
+                    <div class="col-md-4 col-xl-4" >
+                      <div class="form-group">
+                        <label  title="Employee Name" id="employeename">Employee Name</label>
+                        <ng-select title="Employee Name"  [items]="employeenamesList"
+                          formControlName="employeename" bindLabel="pEmployeeName" bindValue="pEmployeeId"
+                          placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                          (change)="employeeNameChange($event)">
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="row mt-3">
+                    <div class="col-md-4 col-xl-4" >
+                      <div class="form-group">
+                        <label  title="Year" id="year" class="required-field">Year</label>
+                        <ng-select title="Year"  [items]="yearsList"
+                          formControlName="year" bindLabel="pPeriodType" bindValue="pCalenderPeriodId"
+                          placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                          (change)="yearChange($event)" [ngClass]="{ 'is-invalid': monthBonusValidation.year }">
+                        </ng-select>
+                        <div class="invalid-feedback">
+                            <span *ngIf="monthBonusValidation.year">{{monthBonusValidation?.year}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-xl-4" >
+                      <div class="form-group">
+                        <label  title="Month" id="month" class="required-field">Month</label>
+                        <ng-select title="Month"  [items]="monthList" id="selectedmonth"
+                          formControlName="month" bindLabel="pCalendarMonth" bindValue="pCalendarMonth"
+                          placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                          (change)="monthChange($event)" [ngClass]="{ 'is-invalid': monthBonusValidation.month }">
+                      </ng-select>
+                      <div class="invalid-feedback">
+                        <span *ngIf="monthBonusValidation.month">{{monthBonusValidation?.month}}</span>
+                      </div>
+                      </div>
+                    </div>
+                    <div class="col-md-2 col-xl-2" >
+                        <div class="form-group">
+                            <br>
+                            <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="showMonthBonus()">
+                                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                                <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                        width="20px"></span> Show
+                            </a>
+                        </div>
+                    </div>
+                  </div>
+  
+                </form>
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                                      
+                      <div class="form-group pt-2">
+                        <div class="d-flex justify-content-end" *ngIf="monthbonusData.length!=0">
+                            <a  class="export-icons" (click)="pdfOrprint('Pdf')">
+                                <img src="assets/images/pdf-icon-blue.svg " title="pdf" width="18px">
+                            </a>
+                           
+                            <a  class="export-icons" (click)="pdfOrprint('Print')"><img
+                                    src="assets/images/print-icon-blue.svg " title="Print" width="18px"></a>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+
+                    <kendo-grid  [kendoGridBinding]="monthbonusData" [sortable]="true"
+                    [pageSize]="10"
+                    [pageable]="true"
+                    height="500"
+                    [group]="group"
+                    [sort]="sort">
+                      
+                
+                        <kendo-grid-column field="pPayrollMonth" title="Month" width="80"
+                         [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+                
+                        <kendo-grid-column field="pEmployeeName" title="Employee Name" [headerClass]="{'kendo-g-center': true}"
+                        class="kendo-center" width="100">
+                        <ng-template kendoGridGroupFooterTemplate let-group let-aggregates>
+                          <p class="bc-2 text-center" style="margin-right: -71px;" >Total</p>
+                        </ng-template>
+                      </kendo-grid-column>
+                
+                        <kendo-grid-column field="pBasicAmount" title="Salary" width="70"
+                        [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            <span>  {{dataItem.pBasicAmount | mycurrencypipe}}</span>
+                          </ng-template>
+                        <ng-template kendoGridGroupFooterTemplate let-group let-aggregates>
+                            <p class="bc-2 text-center" style="margin-right: -71px;" > {{aggregates.pBasicAmount.sum | mycurrencypipe}}</p>
+                          </ng-template>
+                        </kendo-grid-column>
+                
+                        <kendo-grid-column field="pVdaAmt" title="V.D.A" width="70"
+                         [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                         <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            <span>  {{dataItem.pVdaAmt | mycurrencypipe}}</span>
+                          </ng-template>
+                         <ng-template kendoGridGroupFooterTemplate let-group let-aggregates>
+                            <p class="bc-2 text-center" style="margin-right: -71px;"  > {{aggregates.pVdaAmt.sum | mycurrencypipe}}</p>
+                          </ng-template>
+                        </kendo-grid-column>
+                
+                        <kendo-grid-column field="pArrearsAmt" title="Arrears" [headerClass]="{'kendo-g-center': true}"
+                        class="kendo-center" width="70">
+                        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            <span>  {{dataItem.pArrearsAmt | mycurrencypipe}}</span>
+                          </ng-template>
+                        <ng-template kendoGridGroupFooterTemplate let-group let-aggregates>
+                            <p class="bc-2 text-center" style="margin-right: -71px;"  > {{aggregates.pArrearsAmt.sum | mycurrencypipe}}</p>
+                          </ng-template>
+                    </kendo-grid-column>
+                
+                        <kendo-grid-column field="pLossOfPayAmt" title="Absents" width="70"
+                        [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            <span>  {{dataItem.pLossOfPayAmt | mycurrencypipe}}</span>
+                          </ng-template>
+                        <ng-template kendoGridGroupFooterTemplate let-group let-aggregates>
+                            <p class="bc-2 text-center" style="margin-right: -71px;" > {{aggregates.pLossOfPayAmt.sum | mycurrencypipe}}</p>
+                          </ng-template>
+                    </kendo-grid-column>
+                
+                        <kendo-grid-column field="pTotalSalary" title="Total Salary" width="70"
+                         [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                         <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            <span>  {{dataItem.pTotalSalary | mycurrencypipe}}</span>
+                          </ng-template>
+                         <ng-template kendoGridGroupFooterTemplate let-group let-aggregates>
+                            <p class="bc-2 text-center" style="margin-right: -71px;" > {{aggregates.pTotalSalary.sum | mycurrencypipe}}</p>
+                          </ng-template>
+                        </kendo-grid-column>
+                
+                        <kendo-grid-column field="pBonusAmt" title="Bonus Amount" [headerClass]="{'kendo-g-center': true}"
+                        class="kendo-center" width="80">
+                        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                            <span>  {{dataItem.pBonusAmt | mycurrencypipe}}</span>
+                          </ng-template>
+                        <ng-template kendoGridGroupFooterTemplate let-group let-aggregates>
+                            <p class="bc-2 text-center" style="margin-right: -71px;" > {{aggregates.pBonusAmt.sum | mycurrencypipe}}</p>
+                          </ng-template>
+                    </kendo-grid-column>
+
+                
+                    </kendo-grid>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+

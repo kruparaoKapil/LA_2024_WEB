@@ -1,0 +1,118 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 mt-2 text-right justify-content-end">
+      <!-- <a class="pr-2">
+        <img class="justify-content-end text-right" src="assets/images/pdf-icon-blue.svg"  (click)="pdf.saveAs('LienEntry.pdf')" 
+       width="20" heigh="20"></a> -->
+      <a><img src="assets/images/print-icon-blue.svg " (click)="print()" width="20" title="print" heigh="20"></a>
+    </div>
+  </div>
+  <div class="row" id="lienpdf">
+    <div class="col-md-8 m-auto">
+     
+        <div class="p-2">
+         
+          <div class="row">
+            <!-- <div class="col-md-12">
+              <div class=" float-md-center pt-3">
+                <h2 class="font-18 text-dark text-center m-0 font-weight-bold"> NALGONDA REALTORS PRIVATE LIMITED</h2>
+                <p class="font-16 text-dark text-center m-0"> Kapil Towers,Financial District, Nanakramguda,Gachibowli, Rangareddy,Hyderabad, Telangana - 500032 </p>
+                <p class="font-14 text-dark text-center">CIN :  U65929GJ2019PLC107277</p>
+              </div>
+            </div> -->
+            <app-company-details></app-company-details>
+            <!-- <div class="col-md-2 col-sm-2">
+              <div class="temp-img float-md-left">
+                  <img width="150px" src="assets/images/Logonew.png" />
+              </div>
+          </div>
+            <div class="col-md-8 col-sm-8">
+              <div class="float-md-center pt-3">
+                  <h3 class="text-dark text-center m-0 font-weight-bold"> {{pCompanyName}}</h3>
+                  <p class="font-14 text-dark text-center m-0"> {{pAddress1}} {{pAddress2}} {{pDistrict}}, {{pcity}}, {{pState}} - {{pPincode}} </p>
+                  <p class="font-14 text-dark text-center">CIN : {{pCinNo}}</p>
+              </div>
+          </div> -->
+          </div>
+          <!-- <div class="page-title">
+            KAUSALYA MANAGEMENT SERVICES AND STRUCTURES PVT LTD
+          </div> -->
+          <!-- <div class="sub-title">D.NO.45/203, A2-3, 1ST FLOOR, ASHOK NAGAR, KURNOOL - 518005,</div> -->
+
+          <div class=" row pt-2">
+            <hr class="m-0">
+            <div class="col-md-12 text-right mt-2">
+              <p class="text-inner-left">Date : {{date}}</p>
+              <!-- <span>:</span> -->
+            </div>
+          </div>
+          <!-- <div class="col-md-12 p-0">
+            <p>
+            To,
+            </p>
+            <p>{{member}},<p>
+              <p> {{pAddressF}}
+            H.NO:4/14,KONDASUNKESULA,CUDDAPAH-51643            4.
+          </p>
+          </div> -->
+            <div class="col-md-12 p-0">
+                <p>To,</p>
+                <p>{{ member }},</p>
+                <p *ngIf="pAddress1">{{ pAddress1 }}{{ (!pAddress2 && !pcity && !pState && !pPincode) ? '.' : ',' }}</p>
+                <p *ngIf="pAddress2">{{ pAddress2 }}{{ (!pcity && !pState && !pPincode) ? '.' : ',' }}</p>
+                <p *ngIf="pcity">{{ pcity }}{{ (!pState && !pPincode) ? '.' : ',' }}</p>
+                <p *ngIf="pState">{{ pState }}{{ (!pPincode) ? '.' : ',' }}</p>
+                <p *ngIf="pPincode">{{ pPincode }}.</p>
+            </div>
+          <div class="col-md-12">
+            <div class="text-center pt-3"><p><b>Sub : Pledge Notice - Invoke off.</b></p></div>
+          </div>
+          <p class="pt-1">Sir / Madam</p>
+          <p>
+            1. Based on your request for pledge, vide letter dated on .................this company Stood guarantee
+            for payment of future installments to <b>M/S,{{companyName}} </b>,
+           <b> {{pCompanybranch}}</b> branch against  chit no <b>{{adjustto}}</b> . A Notice From <b>M/S,{{companyName}} </b> has since been received to invoke the guarantee.
+          
+           
+          </p>
+          <p class="pt-0">
+            2. If the defaulting amount due to <b>M/S,{{companyName}} </b> Is not
+            cleared with in seven days of receipt of this notice, this company will have No option but to
+            discharge CERTIFICATE No.<b> {{fdaccount}}</b>, for an amount of Rs.<b> {{amount |mycurrencypipe}}/-</b>
+            and Lien amount of <b>{{lienamount |mycurrencypipe}}/- </b>in favor of <b>M/S,{{companyName}} </b>,
+            and Recover the amount from the amount payable to you, in this company.
+          </p>
+          <br>
+          <div class="row mt-5">
+            <div class="col-md-6 col-sm-6">
+              <p class="text-inner-left ">Date : {{date}}</p>
+              <!-- <span>:</span> -->
+            </div>
+            
+            <div class="col-md-6 col-sm-6">
+              <div class="d-flex justify-content-end">
+                <div>
+                  <p class="font-18 text-dark text-center m-0 font-weight-bold"> {{pCompanyName}}</p><br><br><br><br>
+                  <p class="font-bold text-right"><b>ACCOUNTANT / MANAGER</b></p>
+              </div>
+                <!-- <p class="font-bold text-right"></p> -->
+              </div>
+            </div>
+          </div>
+<br><br>
+          <div class=" row">
+            <div class="col-md-12">
+              <div class="pull-left">
+                <p class="font-bold text-left"><b>Copy to :</b></p>
+                <p class="font-bold text-left"><b>M/S,{{companyName}} .  {{pCompanybranch}}</b></p>
+                <p class="font-bold text-left"><b>With reference your letter date ...............</b></p>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+     
+    </div>
+  </div>
+</div>

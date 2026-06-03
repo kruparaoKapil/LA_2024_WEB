@@ -1,0 +1,3172 @@
+<form [formGroup]="FiApprovalForm" autocomplete="off">
+    <div class="row">
+        <div class="col-md-12 col-xl-12">
+            <div class="d-flex justify-content-end">
+                <ol class="breadcrumb mt-2">
+                    <li class="breadcrumb-item">
+                        {{ApplicantName}} - <img src="images/smartphone-call.svg" class="mr-0 mt-n1" width="12" height="12">{{MobileNo}}
+                    </li>
+                    <li class="breadcrumb-item">{{LoanType}}</li>
+                    <li class="breadcrumb-item">{{LoanName}} </li>
+                    <li class="breadcrumb-item">{{ApplicationID}} </li>
+                </ol>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label id="pDateofapplication" title="Date of application">Date of Approved</label>
+                        <fieldset [disabled]="!disabletransactiondate">
+                            <input readonly type="text" class="form-control" formControlName="pApproveddate" [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="dpConfig" #dp="bsDatepicker" [bsValue]="bsValue" bsDatepicker (bsValueChange)="dateChnage($event)" placement="bottom">
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-5">
+
+        <div *ngFor="let LoanDetails of FiDocumentsList?.firstinformationDTO" class="col-12 mt-1">
+            <div class="row">
+                <a class="lc-title text-decoration-none" data-toggle="collapse" href="#specific" role="button" aria-expanded="false" aria-controls="family">
+                    <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; Loan Application Details
+                </a>
+            </div>
+            <div class="collapse show mt-3" id="specific">
+                <div class="loans-card rounded mr-4 mb-4">
+                    <div class="row border-bottom p-2">
+                        <div class="col-md-3 col-xl-3  border-right">
+                            <p class="bc-2 text-left mb-auto">{{LoanDetails.pApplicantname}}</p>
+                            <p class="lc-txt mt-2 text-left mb-auto"> Cust ID -{{LoanDetails.pContactreferenceid}} </p>
+                        </div>
+                        <div class="col-md-3 col-xl-3 border-right ">
+                            <label class="col-12 p-0">{{LoanDetails.pLoanname}}</label>
+                            <label class="font-weight-bolder">{{LoanDetails.pVchapplicationid}}</label>
+                        </div>
+                        <div class="col-md-3 col-xl-3  border-right">
+                            <label class="col-12 p-0">Date of Application</label>
+                            <label class="font-weight-bolder">{{LoanDetails.pDateofapplication}}</label>
+                        </div>
+                        <!--<div class="col-md-3 col-xl-3">
+                  <label class="col-12 p-0">Purpose of Loan</label>
+                  <label class="font-weight-bolder">{{LoanDetails.pPurposeofloan}}</label>
+                </div>-->
+                    </div>
+                    <div class="row border-bottom p-2">
+                        <div class="col-md-3 col-xl-3 border-right">
+                            <label class="col-12 p-0">Amount Requested</label>
+                            <label class="bc-2 font-weight-bold">{{LoanDetails.pAmountrequested |mycurrencypipe}}</label>
+                        </div>
+                        <div class="col-md-3 col-xl-3 border-right">
+                            <label class="col-12 p-0">Tenure of Loan</label>
+                            <label class="font-weight-bolder">{{LoanDetails.pTenureofloan}}</label>
+                        </div>
+                        <div class="col-md-3 col-xl-3  border-right">
+                            <label class="col-12 p-0">Interest Type</label>
+                            <label class="font-weight-bolder">{{LoanDetails.pInteresttype}}</label>
+                        </div>
+                        <div class="col-md-3 col-xl-3 ">
+                            <div class=" p-2">
+                                <label class="col-12 p-0">Rate of Interest</label>
+                                <label class="">
+                                    <span class="bc-1 btn-lg-icon rounded p-2">
+                                        {{LoanDetails.pRateofinterest}} <i class="lc-txt"> % per Annum</i>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row  p-2">
+                        <div class="col-md-3 col-xl-3 border-right">
+                            <label class="col-12 p-0">Loan Payin </label>
+                            <label class="font-weight-bolder">{{LoanDetails.pLoanpayin}}</label>
+                        </div>
+                        <div class="col-md-3 col-xl-3 border-right">
+                            <label class="col-12 p-0">Loan Installment</label>
+                            <label class="bc-2 font-weight-bold">{{LoanDetails.pInstalmentamount |mycurrencypipe}}</label>
+                        </div>
+                        <!-- <div class="col-md-3 col-xl-3  border-right">
+                  <label class="col-12 p-0">Cibil Score</label>
+                  <label class="font-weight-bolder bc-2">820/900</label>
+                </div> -->
+                        <div class="col-md-3 col-xl-3 mt-4 ">
+                            <label class="switch p-0 ml-2 " [ngClass]="LoanDetails.isVerified=='Verified' ? 'disableTabs' : ''">
+                                <input [checked]="LoanDetails.isVerified=='Verified'" type="checkbox">
+                                <span class="slider">
+                                    <span class="notverified">Not Verified</span> <span class="verified">Verified</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <a class="lc-title acc1 text-decoration-none" data-toggle="collapse" href="#creditscore" role="button" aria-expanded="false" aria-controls="family">
+                <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; <span class="pr-5 accor-span-width-fixed  "> Credit Score </span>
+                <div class="btn btn-plain pt-0 pb-0">
+                    <label class="pl-1 lc-txt pb-0 mb-0">Rating </label> |
+                    <label class="pb-0 mb-0 lc-txt  font-weight-bold "> {{FiDocVerifierRating}}</label>
+                </div>
+                <div class="btn btn-plain text-white pt-0 pb-0">
+                    <label class="pl-2 lc-txt pb-0 mb-0">Verifier's Name </label> |
+                    <label class="pb-0 mb-0 lc-txt font-weight-bold">{{FiDocVerifierOfcrName}}</label>
+                </div>
+                <div class="btn btn-plain pt-0 pb-0">
+                    <label class="pl-2 lc-txt pb-0 mb-0">Verification Date </label> |
+                    <label class="pb-0 mb-0 lc-txt font-weight-bold">{{FiDocVerifiedDate}}</label>
+                </div>
+            </a>
+            <div class="collapse mt-3" id="creditscore">
+                <div class="row mt-1">
+                    <div class="col-md-12 col-xl-12">
+
+                        <kendo-grid [kendoGridBinding]="CreditScore" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pCiccompany" title="CIC Company" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pCreditscore" title="Credit score" width="125">
+                            </kendo-grid-column>
+                            <!--<kendo-grid-column field="pnoofboyschild" title="Credit Score%" width="125">
+              </kendo-grid-column>
+              <kendo-grid-column field="pnoofgirlchild" title="Credit Score report" width="125">
+              </kendo-grid-column>-->
+
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''" [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+                        <hr>
+                    </div>
+                    <div class="col-4 mt-1">
+                        <!-- <div class="loans-card rounded mr-4 mb-4">
+              <div class="row  p-2">
+                <label class="col-12 p-0">Remarks</label>
+                <p class="lc-txt"> {{FiDocVerifierComments}} </p>
+              </div>
+            </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="col-12">
+        <div class="row">
+            <a class="lc-title acc2 text-decoration-none" data-toggle="collapse" href="#telverificaiton" role="button" aria-expanded="false" aria-controls="family">
+                <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; <span class="pr-5 accor-span-width-fixed"> Tele Verification Review</span>
+                <div class="btn btn-plain  pt-0 pb-0">
+                    <label class="pl-1 lc-txt pb-0 mb-0"> Rating </label> |
+                    <label class="pb-0 mb-0  lc-txt font-weight-bold">{{Rating}}</label>
+                </div>
+                <div class="btn btn-plain text-white pt-0 pb-0">
+                    <label class="pl-2 lc-txt pb-0 mb-0">Verifier's Name </label> |
+                    <label class="pb-0 mb-0 lc-txt font-weight-bold">{{VerifierOfficer}}</label>
+                </div>
+                <div class="btn btn-plain pt-0 pb-0">
+                    <label class="pl-2 lc-txt pb-0 mb-0">Verification Date </label> |
+                    <label class="pb-0 mb-0 lc-txt font-weight-bold">{{teleVerificationDate}}</label>
+                </div>
+            </a>
+        </div>
+        <div class="collapse mt-3" id="telverificaiton">
+            <div class="row mt-5">
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="col-md-12 col-xl-12 lc-txt pl-0">Availability of the customer</label>
+                        <label class="col-md-12 col-xl-12 pl-0 ">
+                            {{Availability}}<span>{{ContactThrough}}</span> <span
+                                class="font-weight-bold">{{ContactNo}}</span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="mb-2 cb-l col-md-12 col-xl-12 lc-txt pl-0">Name Of The Person Spoken To</label>
+                        <label class="col-md-12 col-xl-12 pl-0 ">{{SpokenTo}} {{SpokenApplicantName}}</label>
+                    </div>
+                </div>
+                <hr class="light">
+                <div class="col-4 mt-1">
+                    <div class="loans-card rounded mr-4 mb-4">
+                        <div class="row  p-2">
+                            <label class="col-12 p-0">Tele Verifiers Comments</label>
+                            <p class="lc-txt"> {{Comments}} </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="col-12">
+        <div class="row">
+            <a class="lc-title acc3 text-decoration-none" data-toggle="collapse" href="#fieldinvestigation" role="button" aria-expanded="false" aria-controls="family">
+                <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; <span class="pr-5 accor-span-width-fixed">Field Verification Review</span>
+                <div class="btn btn-plain  pt-0 pb-0">
+                    <label class="pl-1 lc-txt pb-0 mb-0"> Rating </label> |
+                    <label class="pb-0 mb-0  lc-txt font-weight-bold"> {{FieldVerifierRating}}</label>
+                </div>
+                <div class="btn btn-plain text-white pt-0 pb-0">
+                    <label class="pl-2 lc-txt pb-0 mb-0">Investigator</label> |
+                    <label class="pb-0 mb-0 lc-txt font-weight-bold">{{VerifierName}}</label>
+                </div>
+                <div class="btn btn-plain pt-0 pb-0">
+                    <label class="pl-2 lc-txt pb-0 mb-0">Investigation Date & Time </label> |
+                    <label *ngIf="VerifiedDate != null" class="pb-0 mb-0 lc-txt font-weight-bold">
+                        {{VerifiedDate}} &
+                        {{VerifierTime}}
+                    </label>
+                </div>
+            </a>
+        </div>
+        <div class="collapse mt-5" id="fieldinvestigation">
+            <div class="col-md-4 col-xl-4">
+                <a class="lc-title text-left btn btn-lg-icon w-100 acc4 text-decoration-none" data-toggle="collapse" href="#addressverification" role="button" aria-expanded="false" aria-controls="family">
+                    <img class="mt-2" id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px">
+                    <img class="mt-2" id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp;
+                    <span class="pr-5">Address Verification</span>
+                </a>
+            </div>
+            <div class="collapse  mt-3 " id="addressverification">
+                <div class="row mt-4">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-md-12 col-xl-12 lc-txt ">Address Verified</label>
+                            <label class="col-md-12 col-xl-12  ">{{IsAddVerified}} {{AddressType}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="mb-2 cb-l col-md-12 col-xl-12 lc-txt ">Person met</label>
+                            <label class="col-md-12 col-xl-12  ">{{PersonMet}} {{AppName}}</label>
+                        </div>
+                        <div class="form-group" *ngIf="RelationShipWithApplicant != ''">
+                            <label class="mb-2 cb-l col-md-12 col-xl-12 lc-txt ">Relationship with applicant</label>
+                            <label class="col-md-12 col-xl-12  ">{{RelationShipWithApplicant}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="col-md-12 col-xl-12 lc-txt ">No. of years staying at present address</label>
+                            <label class="col-md-12 col-xl-12  ">{{NoOfYrsStyng}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12 col-xl-12 lc-txt ">House Ownership</label>
+                            <label class="col-md-12 col-xl-12  ">{{HouseWonerShip}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <h2 class="sec-head">Location</h2>
+                        <div class="mapouter">
+                            <div class="gmap_canvas">
+                                <iframe id="gmap_canvas" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10766.797897138282!2d78.33206789710644!3d17.429156451783957!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb938029f427b3%3A0x624a5ac161b80215!2sKapil%20Towers!5e0!3m2!1sen!2sin!4v1573474167663!5m2!1sen!2sin"
+                                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="light">
+                    <div class="col-md-12 col-xl-12">
+                        <h2 class="sec-head">Investigation Points</h2>
+
+                        <kendo-grid [data]="AddressVerificationDetailsTemp" [resizable]="true" [reorderable]="true" [sortable]="true">
+                            <kendo-grid-column field="pDateofbirth" title="D.O.B" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAge" title="Age" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pMaritalStatus" title="Marital Status" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pTotalnoofmembersinfamily" title="No. of Members in Family" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pChildren" title="Children" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pEarningmembers" title="Earning Members" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pEmploymentorbusinessdetails" title="Employment Details" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pdocproofname" title="KYC Documents Verified" width="200">
+                            </kendo-grid-column>
+                        </kendo-grid>
+
+
+                    </div>
+                </div>
+                <hr class="light">
+                <!-- <div class="col-4 mt-1">
+          <div class="loans-card rounded mr-4 mb-4">
+            <div class="row  p-2">
+              <label class="col-12 p-0">Verifiers Comments</label>
+              <p class="lc-txt"> Good Responsive </p>
+            </div>
+          </div>
+        </div> -->
+            </div>
+            <hr class="light">
+            <div class="col-md-4 col-xl-4">
+                <a class=" w-100 lc-title text-left btn btn-lg-icon acc5 text-decoration-none" data-toggle="collapse" href="#verifiers-observations" role="button" aria-expanded="false" aria-controls="family">
+                    <img class="mt-2" id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px">
+                    <img class="mt-2" id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp;
+                    <span class="pr-5">Verifiers Observations</span>
+                </a>
+            </div>
+            <div class="collapse  mt-3 ml-3" id="verifiers-observations">
+                <div class="row mt-4">
+                    <hr class="light">
+                    <div class="col-md-12 col-xl-12">
+                        <h2 class="sec-head">Investigation Points</h2>
+
+
+                        <kendo-grid [data]="VerifiersObservationDetailsTemp" [resizable]="true" [reorderable]="true" [sortable]="true">
+                            <kendo-grid-column field="pAddressLocalityDescription" title="Address Locality Description" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAccessability" title="Accessability" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pTypeofAccomodation" title="Type of Accomodation" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pApproxArea" title="Approx Area" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pVisiblePoliticalAffiliation" title="Visible Political Affiliation" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAffiliationRemarks" title="Political Affiliation" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAddressFurnishing" title="Address Furnishing" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pVisibleAssets" title="Visible Assets" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pCustomerCooperation" title="Customer Cooperation" width="200">
+                            </kendo-grid-column>
+                        </kendo-grid>
+
+
+
+                    </div>
+                </div>
+                <hr class="light">
+                <!-- <div class="col-4 mt-1">
+          <div class="loans-card rounded mr-4 mb-4">
+            <div class="row  p-2">
+              <label class="col-12 p-0">Verifiers Comments</label>
+              <p class="lc-txt"> Good to talk </p>
+            </div>
+          </div>
+        </div> -->
+            </div>
+            <hr class="light">
+            <div class="col-md-4 col-xl-4">
+                <a class=" w-100 text-left lc-title btn btn-lg-icon acc6 text-decoration-none" data-toggle="collapse" href="#neighbourhood" role="button" aria-expanded="false" aria-controls="family">
+                    <img class="mt-2" id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px">
+                    <img id="open" class="mt-2" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp;
+                    <span class="pr-5">Neighbourhood Check</span>
+                </a>
+            </div>
+            <div class="collapse mt-3 ml-3" id="neighbourhood">
+                <div class="row mt-4">
+                    <div class="col-md-12 col-xl-12">
+                        <!-- <table class="table">
+              <thead>
+                <th>Name of the Neighbour</th>
+                <th>Address of Neighbour</th>
+                <th>Does Applicant stay here</th>
+                <th>No. of Members in Family</th>
+                <th>House Ownership</th>
+              </thead>
+              <tr>
+                <td>Meenakshi</td>
+                <td>Villa No 52, Myscape Courtyard, Financial district, Gachibowli</td>
+                <td>Yes</td>
+                <td>Own</td>
+                <td>6 months</td>
+              </tr>
+            </table> -->
+
+                        <kendo-grid [kendoGridBinding]="NeighbourhoodCheckDetails">
+                            <kendo-grid-column field="pNameoftheNeighbour" title="Name of the Neighbour" width="175">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAddressofNeighbour" title="Address of Neighbour" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pisApplicantstayhere" title="Does Applicant stay here">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pHouseOwnership" title="House Ownership">
+                            </kendo-grid-column>
+                        </kendo-grid>
+
+                    </div>
+                    <hr class="light">
+                    <div class="col-4 mt-1">
+                        <div class="loans-card rounded mr-4 mb-4">
+                            <div class="row  p-2">
+                                <label class="col-12 p-0">Verifiers Comments</label>
+                                <p class="lc-txt"> {{FieldVerifierCommnt}} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="col-12">
+        <div class="row">
+            <a class="lc-title acc7 text-decoration-none" data-toggle="collapse" href="#fidocumentation" role="button" aria-expanded="false" aria-controls="family">
+                <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; <span class="pr-5  accor-span-width-fixed "> FI and Physical Application </span>
+                <div class="btn btn-plain  pt-0 pb-0">
+                    <label class="pl-1 lc-txt pb-0 mb-0"> Rating </label> |
+                    <label class="pb-0 mb-0  lc-txt font-weight-bold"> {{FiDocVerifierRating}}</label>
+                </div>
+                <div class="btn btn-plain text-white pt-0 pb-0">
+                    <label class="pl-2 lc-txt pb-0 mb-0">Investigator</label> |
+                    <label class="pb-0 mb-0 lc-txt font-weight-bold">{{FiDocVerifierOfcrName}}</label>
+                </div>
+                <div class="btn btn-plain pt-0 pb-0">
+                    <label class="pl-2 lc-txt pb-0 mb-0">Investigation Date & Time </label> |
+                    <label *ngIf="FiDocVerifiedDate != null" class="pb-0 mb-0 lc-txt font-weight-bold">
+                        {{FiDocVerifiedDate}} &
+                        {{FiDocVerifiedTime}}
+                    </label>
+                </div>
+            </a>
+        </div>
+        <div class="collapse mt-5" id="fidocumentation">
+
+            <!-- <div *ngFor="let LoanDetails of FiDocumentsList?.firstinformationDTO;trackBy: trackByFn" class="col-12 mt-1">
+        <div class="row"> <a class="lc-title text-decoration-none" data-toggle="collapse" href="#specific" role="button"
+            aria-expanded="false" aria-controls="family"> <img id="close" src="assets/images/icon-toggle-default.svg"
+              width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px"
+              height="12px"> &nbsp; &nbsp; Loan Application Details</a> </div>
+
+        <div class="collapse show mt-3" id="specific">
+
+          <div class="loans-card rounded mr-4 mb-4">
+            <div class="row border-bottom p-2">
+              <div class="col-md-3 col-xl-3  border-right">
+                <p class="bc-2 text-left mb-auto">{{LoanDetails.pApplicantname}}</p>
+                <p class="lc-txt mt-2 text-left mb-auto"> Cust ID -{{LoanDetails.pContactreferenceid}} </p>
+              </div>
+              <div class="col-md-3 col-xl-3 border-right ">
+                <label class="col-12 p-0">{{LoanDetails.pLoanname}}</label>
+                <label class="font-weight-bolder">{{LoanDetails.pVchapplicationid}}</label>
+              </div>
+              <div class="col-md-3 col-xl-3  border-right">
+                <label class="col-12 p-0">Date of Application</label>
+                <label class="font-weight-bolder">{{LoanDetails.pDateofapplication}}</label>
+              </div>
+              <div class="col-md-3 col-xl-3">
+              </div>
+
+            </div>
+            <div class="row border-bottom p-2">
+              <div class="col-md-3 col-xl-3 border-right">
+                <label class="col-12 p-0">Amount Requested</label>
+                <label class="bc-2 font-weight-bold">{{LoanDetails.pAmountrequested |mycurrencypipe}}</label>
+              </div>
+              <div class="col-md-3 col-xl-3 border-right">
+                <label class="col-12 p-0">Tenure of Loan</label>
+                <label class="font-weight-bolder">{{LoanDetails.pTenureofloan}}</label>
+              </div>
+              <div class="col-md-3 col-xl-3  border-right">
+                <label class="col-12 p-0">Interest Type</label>
+                <label class="font-weight-bolder">{{LoanDetails.pInteresttype}}</label>
+              </div>
+              <div class="col-md-3 col-xl-3 ">
+                <div class=" p-2">
+                  <label class="col-12 p-0">Rate of Interest</label>
+                  <label class=""><span class="bc-1 btn-lg-icon rounded p-2">{{LoanDetails.pRateofinterest}} <i
+                        class="lc-txt">per Annum</i></span> </label>
+                </div>
+              </div>
+            </div>
+            <div class="row  p-2">
+              <div class="col-md-3 col-xl-3 border-right">
+                <label class="col-12 p-0">Loan Payin </label>
+                <label class="font-weight-bolder">{{LoanDetails.pLoanpayin}}</label>
+              </div>
+              <div class="col-md-3 col-xl-3 border-right">
+                <label class="col-12 p-0">Loan Installment</label>
+                <label class="bc-2 font-weight-bold">{{LoanDetails.pInstalmentamount |mycurrencypipe}}</label>
+              </div>
+              <div class="col-md-3 col-xl-3 mt-4 ">
+                <label class="switch p-2 ml-2 ">
+                  <input [checked]="LoanDetails.isVerified=='Verified'"
+                    (change)="VerifyLoanApplicationDetails($event.target.checked,FiDocumentsList,'LoanDetails','0')"
+                    type="checkbox">
+                  <span class="slider"> <span class="notverified">Not Verified</span> <span
+                      class="verified">Verified</span></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div> -->
+            <!-- Hiding CreditScoreDetails Start -->
+            <!-- <div class="col-12 mt-1">
+        <hr>
+        <div class="row"> <a class="lc-title text-decoration-none" data-toggle="collapse" href="#creditscore"
+            role="button" aria-expanded="false" aria-controls="family"> <img id="close"
+              src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open"
+              src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; Credit Score</a>
+        </div>
+        <div class="collapse mt-3" id="creditscore">
+          <div class="row">
+            <div class="col-md-12 col-xl-12">
+              <kendo-grid [kendoGridBinding]="CreditScore" [pageSize]="5" [sort]="sort" [sortable]="{
+                allowUnsort: allowUnsort,
+                mode: multiple ? 'multiple' : 'single'
+                }" [pageable]="true">
+
+                <kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                </kendo-grid-column>
+                <kendo-grid-column field="pCiccompany" title="CIC Company" width="125">
+                </kendo-grid-column>
+                <kendo-grid-column field="pCreditscore" title="Credit score" width="125">
+                </kendo-grid-column>
+
+
+                <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                  <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                    <label class="switch p-2 ml-2 ">
+                      <input [checked]="dataItem.isVerified=='Verified'"
+                        (change)="VerifyLoanApplicationDetails($event.target.checked,FiDocumentsList,'CreditScore',rowIndex)"
+                        type="checkbox">
+                      <span class="slider"> <span class="notverified">Not Verified</span> <span
+                          class="verified">Verified</span></span>
+                    </label>
+
+                  </ng-template>
+                </kendo-grid-column>
+
+              </kendo-grid>
+            </div>
+          </div>
+
+        </div>
+      </div> -->
+            <!-- Hiding CreditScoreDetails End -->
+            <!--row-end-->
+            <!-- Hiding KYC Details Hideing Start -->
+            <!-- <div class="col-12 mt-1">
+        <hr>
+        <div class="row">
+          <a class="lc-title text-decoration-none" data-toggle="collapse" href="#contactdetails" role="button"
+            aria-expanded="false" aria-controls="family"> <img id="close" src="assets/images/icon-toggle-default.svg"
+              width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px"
+              height="12px"> &nbsp; &nbsp; KYC Identification Details</a>
+        </div>
+        <div class="collapse mt-3" id="contactdetails">
+
+          <div class="col-md-12 col-xl-12">
+            <kendo-grid [kendoGridBinding]="KYCIdentificationDetails" [pageSize]="5" [sort]="sort" [sortable]="{
+                allowUnsort: allowUnsort,
+                mode: multiple ? 'multiple' : 'single'
+                }" [pageable]="true">
+
+              <kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+              </kendo-grid-column>
+              <kendo-grid-column field="pDocumentGroup" title="Document Group" width="200">
+              </kendo-grid-column>
+              <kendo-grid-column field="pDocumentName" title="Document Name" width="125">
+              </kendo-grid-column>
+              <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                  <label class="switch p-2 ml-2 ">
+                    <input [checked]="dataItem.isVerified=='Verified'"
+                      (change)="VerifyLoanApplicationDetails($event.target.checked,FiDocumentsList,'KYCIdentificationDetails',rowIndex)"
+                      type="checkbox">
+                    <span class="slider"> <span class="notverified">Not Verified</span> <span
+                        class="verified">Verified</span></span>
+                  </label>
+
+                </ng-template>
+              </kendo-grid-column>
+
+            </kendo-grid>
+          </div>
+          <div class="col-md-12 col-xl-12">
+            <table id="example" class="table" style="width:100%;">
+              <thead>
+                <tr>
+                  <th>Permanant Address</th>
+                  <th>Applicant- Harita Rao</th>
+                  <th>Co-Applicant - Vikram K</th>
+                  <th>Co-Applicant - Vaibhav</th>
+                  <th>Guarantor - Vaman Rao</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Address</td>
+                  <td>2, Madhupala Enclave, Akbar Road, Secunderabad</td>
+                  <td>2, Madhupala Enclave, Akbar Road, Secunderabad</td>
+                  <td>2, Madhupala Enclave, Akbar Road, Secunderabad</td>
+                  <td>Ekta Highland Park, Financial District, Nanakramguda, Hyderabad</td>
+                </tr>
+                <tr>
+                  <td>Country</td>
+                  <td>India</td>
+                  <td>India</td>
+                  <td>India</td>
+                  <td>India</td>
+                </tr>
+                <tr>
+                  <td>State</td>
+                  <td>Telangana</td>
+                  <td>Telangana</td>
+                  <td>Telangana</td>
+                  <td>Telangana</td>
+                </tr>
+                <tr>
+                  <td>City/Village</td>
+                  <td>Hyderabad</td>
+                  <td>Hyderabad</td>
+                  <td>Hyderabad</td>
+                  <td>Hyderabad</td>
+                </tr>
+                <tr>
+                  <td>Pincode</td>
+                  <td>500032</td>
+                  <td>500032</td>
+                  <td>500032</td>
+                  <td>500032</td>
+                </tr>
+                <tr>
+                  <th>Correspondence Address</th>
+                  <th>Applicant- Harita Rao</th>
+                  <th>Co-Applicant - Vikram K</th>
+                  <th>Co-Applicant - Vaibhav</th>
+                  <th>Guarantor - Vaman Rao</th>
+                </tr>
+                <tr>
+                  <td>Address Line 2</td>
+                  <td>2, Madhupala Enclave, Akbar Road, Secunderabad</td>
+                  <td>2, Madhupala Enclave, Akbar Road, Secunderabad</td>
+                  <td>2, Madhupala Enclave, Akbar Road, Secunderabad</td>
+                  <td>Ekta Highland Park, Financial District, Nanakramguda, Hyderabad</td>
+                </tr>
+                <tr>
+                  <td>Country</td>
+                  <td>India</td>
+                  <td>India</td>
+                  <td>India</td>
+                  <td>India</td>
+                </tr>
+                <tr>
+                  <td>State</td>
+                  <td>Telangana</td>
+                  <td>Telangana</td>
+                  <td>Telangana</td>
+                  <td>Telangana</td>
+                </tr>
+                <tr>
+                  <td>City/Village</td>
+                  <td>Hyderabad</td>
+                  <td>Hyderabad</td>
+                  <td>Hyderabad</td>
+                  <td>Hyderabad</td>
+                </tr>
+                <tr>
+                  <td>Pincode</td>
+                  <td>500032</td>
+                  <td>500032</td>
+                  <td>500032</td>
+                  <td>500032</td>
+                </tr>
+                <tr>
+                  <td>Accepted Address proof (Entry Field/Selection Field)</td>
+                  <td>Voter ID</td>
+                  <td>Voter ID</td>
+                  <td>Aadhar</td>
+                  <td>Driving License</td>
+                </tr>
+                <tr>
+                  <td>All Details have been verified </td>
+                  <td>
+                    <label class="switch p-2 ml-0 ">
+                      <input type="checkbox">
+                      <span class="slider"> <span class="notverified">Not Verified</span> <span
+                          class="verified">Verified</span></span>
+                    </label>
+                  </td>
+                  <td>
+                    <label class="switch p-2 ml-0 ">
+                      <input type="checkbox">
+                      <span class="slider"> <span class="notverified">Not Verified</span> <span
+                          class="verified">Verified</span></span>
+                    </label>
+                  </td>
+                  <td>
+                    <label class="switch p-2 ml-0 ">
+                      <input type="checkbox">
+                      <span class="slider"> <span class="notverified">Not Verified</span> <span
+                          class="verified">Verified</span></span>
+                    </label>
+                  </td>
+                  <td>
+                    <label class="switch p-2 ml-0 ">
+                      <input type="checkbox">
+                      <span class="slider"> <span class="notverified">Not Verified</span> <span
+                          class="verified">Verified</span></span>
+                    </label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div> -->
+            <!-- Hiding KYC Details Hideing End -->
+            <div class="col-12 mt-1">
+                <hr>
+                <div class="row">
+                    <a class="lc-title text-decoration-none" data-toggle="collapse" href="#personaldetails" role="button" aria-expanded="false" aria-controls="family">
+                        <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; Personal Details
+                    </a>
+                </div>
+                <div class="collapse mt-3" id="personaldetails">
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="PersonalDetails" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ptotalnoofmembers" title="Total No of Members in Family" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pnoofearningmembers" title="Earning Members" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pnoofboyschild" title="No of Children - Boys" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pnoofgirlchild" title="No of Children - Girls" width="125">
+                            </kendo-grid-column>
+
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+                    </div>
+                    <div class="col-md-12 col-xl-12  mb-4">
+                        <kendo-grid [kendoGridBinding]="ContactDetails" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <kendo-grid-column field="psubsectionname" title="Full Name" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pDob" title="Date of Birth" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAge" title="Age" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pGender" title="Gender" width="125">
+                            </kendo-grid-column>
+                            <!--<kendo-grid-column field="pnoofgirlchild" title="Occupation" width="125">
+              </kendo-grid-column>-->
+
+                            <kendo-grid-column field="pBusinessEntityContactno" title="Contact No" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pBusinessEntityEmailId" title="Email ID" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pFatherName" title="Father's Name" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pcontactreferenceid" title="Unique ID" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="presidentialstatus" title="Residential Status" width="125">
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="pplaceofbirth" title="Place of Birth" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pcountryofbirth" title="Country of Birth" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pmaritalstatus" title="Marital Status" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pminoritycommunity" title="Minority Community" width="125">
+                            </kendo-grid-column>
+
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+                    </div>
+                    <div class="col-md-12 col-xl-12  mb-4">
+                        <kendo-grid [kendoGridBinding]="ContactAddress" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+                            <kendo-grid-column field="pAddressType" title="Address Type" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAddress1" title="Address1" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAddress2" title="Address2" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pCountry" title="Country" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pState" title="State" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pCity" title="City/Village" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pPinCode" title="Pincode" width="125">
+                            </kendo-grid-column>
+
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+                    </div>
+                    <div class="col-md-12 col-xl-12 mb-4" *ngIf="BusinessDetailsshow">
+                        <kendo-grid [kendoGridBinding]="BusinessDetails" [sortable]="true">
+                            <!--<kendo-grid-column field="sectionName" title="Address Type" width="200">
+              </kendo-grid-column>-->
+                            <kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pbusinessactivity" title="Activity" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pestablishmentdate" title="Date of Establishment" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pcommencementdate" title="Date of Commencement" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pcinnumber" title="CIN No." width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pgstinno" title="GSTIN No." width="125">
+                            </kendo-grid-column>
+
+
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+                    </div>
+                    <div class="col-md-12 col-xl-12 mb-4" *ngIf="BusinessFinancialDetailsshow">
+                        <kendo-grid [kendoGridBinding]="BusinessFinancialDetails" [sortable]="true">
+                            <kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pfinancialyear" title="Period" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pturnoveramount" title="Turnover/Revenue" width="200">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pturnoveramount |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <!--<kendo-grid-column field="pbusinessactivity" title="Total Expenses" width="125">
+              </kendo-grid-column>-->
+                            <kendo-grid-column field="pnetprofitamount" title="Net Profit" width="125">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pnetprofitamount |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <!--<kendo-grid-column field="pcommencementdate" title="Upload Balance Sheet" width="125">
+              </kendo-grid-column>-->
+
+
+
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+                    </div>
+
+                </div>
+                <hr>
+            </div>
+            <div class="col-12 mt-1">
+                <div class="row">
+                    <a class="lc-title text-decoration-none" data-toggle="collapse" href="#bankdetails" role="button" aria-expanded="false" aria-controls="family">
+                        <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; Bank Details
+                    </a>
+                </div>
+                <div class="collapse mt-3" id="bankdetails">
+                    <div class="col-md-12 col-xl-12 mb-4">
+                        <kendo-grid [kendoGridBinding]="BankDetails" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pBankName" title="Bank Name" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pBankAccountNo" title="Account Number	" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pBankifscCode" title="IFSC Code" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pBankBranch" title="Branch" width="125">
+                            </kendo-grid-column>
+
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt-1">
+                <hr>
+
+                <div class="row">
+                    <a class="lc-title text-decoration-none" data-toggle="collapse" href="#employementdetails" role="button" aria-expanded="false" aria-controls="family">
+                        <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; Employment Details
+                    </a>
+                </div>
+
+                <div class="collapse mt-3" id="employementdetails">
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+                        <kendo-grid [kendoGridBinding]="EmployementDetails" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pemploymenttype" title="Employment Type" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pofficeaddress" title="Office Address" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pofficephoneno" title="Office Phone Number" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pnameoftheorganization" title="Name of Organization" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pemployeeexp" title="Employment in current company" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ptotalworkexp" title="Total Work Experience in yrs" width="125">
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt-1">
+                <hr>
+                <div class="row">
+                    <a class="lc-title text-decoration-none" data-toggle="collapse" href="#incomedetails" role="button" aria-expanded="false" aria-controls="family">
+                        <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; Income Details
+                    </a>
+                </div>
+                <div class="collapse mt-3" id="incomedetails">
+                    <div class="col-md-12 col-xl-12 mb-4">
+                        <kendo-grid [kendoGridBinding]="IncomeDetails" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pgrossannualincome" title="Gross Monthly Income" width="125">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pgrossannualincome |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pnetannualincome" title="Net Monthly Income" width="125">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pnetannualincome |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="paverageannualexpenses" title="Average Monthly Expenditure" width="125">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.paverageannualexpenses |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="pMonthlySavings" title="Average Monthly Savings" width="125">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pMonthlySavings |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <!--<kendo-grid-column field="poccupation" title="Estimated Monthly Savings" width="125">
+              </kendo-grid-column>-->
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <div class="col-12 mt-1">
+                <div class="row">
+                    <a class="lc-title text-decoration-none" data-toggle="collapse" href="#educationdetails" role="button" aria-expanded="false" aria-controls="family">
+                        <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; Education Details
+                    </a>
+                </div>
+                <div class="collapse mt-3" id="educationdetails">
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="EducationDetails" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pqualification" title="Qualification" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pnameofthecourseorprofession" title="Course Name" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="poccupation" title="Occupation" width="125">
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <div class="col-12 mt-1">
+                <div class="row">
+                    <a class="lc-title text-decoration-none" data-toggle="collapse" href="#nomineedetails" role="button" aria-expanded="false" aria-controls="family">
+                        <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; Nominee Details
+                    </a>
+                </div>
+                <div class="collapse mt-3" id="nomineedetails">
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+
+                        <kendo-grid [kendoGridBinding]="NomineeDetails" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <kendo-grid-column field="psubsectionname" title="Contact Type" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pnomineename" title="Nominee Name" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="prelationship" title="Relationship" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pdateofbirth" title="Date of Birth" width="200">
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="pcontactno" title="Contact Number" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pidproofname" title="Identification Proof" width="100">
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <!--row-end-->
+            <div class="col-12 mt-1">
+                <div class="row">
+                    <a class="lc-title text-decoration-none" data-toggle="collapse" href="#securityncollaterall" role="button" aria-expanded="false" aria-controls="family">
+                        <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; Security and Collateral
+                    </a>
+                </div>
+
+                <!-- <div class="collapse mt-3" id="securityncollaterall">
+          <div class="col-md-12 col-xl-12">
+            <kendo-grid [kendoGridBinding]="SecurityandCollateralIMmovable" [pageSize]="5" [sort]="sort" [sortable]="{
+                    allowUnsort: allowUnsort,
+                    mode: multiple ? 'multiple' : 'single'
+                    }" [pageable]="true">
+
+              <kendo-grid-column field="psubsectionname" title="Immovable property" width="100">
+              </kendo-grid-column>
+              <kendo-grid-column field="pTitledeed" title="Title Deed" width="100">
+              </kendo-grid-column>
+              <kendo-grid-column field="pDeeddate" title="Deed Date" width="100">
+              </kendo-grid-column>
+              <kendo-grid-column field="pPropertyownername" title="Property is in the name of" width="200">
+              </kendo-grid-column>
+              <kendo-grid-column field="pAddressofproperty" title="Address of Property" width="150">
+              </kendo-grid-column>
+              <kendo-grid-column field="pEstimatedmarketvalue" title="Estimated Market Value" width="100">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pEstimatedmarketvalue |mycurrencypipe }}
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pPropertydocpathname" title="Property Related document" width="100">
+              </kendo-grid-column>
+              <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                  <label class="switch p-2 ml-2 ">
+                    <input [checked]="dataItem.isVerified=='Verified'"
+                      (change)="VerifyLoanApplicationDetails($event.target.checked,FiDocumentsList,'SecurityandCollateralIMmovable',rowIndex)"
+                      type="checkbox">
+                    <span class="slider"> <span class="notverified">Not Verified</span> <span
+                        class="verified">Verified</span></span>
+                  </label>
+
+                </ng-template>
+              </kendo-grid-column>
+
+            </kendo-grid>
+            <kendo-grid [kendoGridBinding]="SecurityandCollateralMovable" [pageSize]="5" [sort]="sort" [sortable]="{
+                    allowUnsort: allowUnsort,
+                    mode: multiple ? 'multiple' : 'single'
+                    }" [pageable]="true">
+
+              <kendo-grid-column field="psubsectionname" title="Movable property" width="100"></kendo-grid-column>
+              <kendo-grid-column field="pVehicleownername" title="OWner Name" width="200">
+              </kendo-grid-column>
+              <kendo-grid-column field="pVehiclemodelandmake" title="Vehicle Model and Make" width="100">
+              </kendo-grid-column>
+              <kendo-grid-column field="pRegistrationno" title="Registration No" width="100">
+              </kendo-grid-column>
+              <kendo-grid-column field="pEstimatedmarketvalue" title="Estimated Market Value" width="100">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pEstimatedmarketvalue |mycurrencypipe }}
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                  <label class="switch p-2 ml-2 ">
+                    <input [checked]="dataItem.isVerified=='Verified'"
+                      (change)="VerifyLoanApplicationDetails($event.target.checked,FiDocumentsList,'SecurityandCollateralMovable',rowIndex)"
+                      type="checkbox">
+                    <span class="slider"> <span class="notverified">Not Verified</span> <span
+                        class="verified">Verified</span></span>
+                  </label>
+
+                </ng-template>
+              </kendo-grid-column>
+
+            </kendo-grid>
+          </div>
+        </div> -->
+                <div class="collapse mt-3" id="securityncollaterall">
+                    <div class="col-md-12 col-xl-12 mb-4">
+                        <kendo-grid class="mb-4" [kendoGridBinding]="SecurityandCollateralIMmovable" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <kendo-grid-column field="psubsectionname" title="Immovable property" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pTitledeed" title="Title Deed" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pDeeddate" title="Deed Date" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pPropertyownername" title="Property is in the name of" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAddressofproperty" title="Address of Property" width="150">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pEstimatedmarketvalue" title="Estimated Market Value" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pEstimatedmarketvalue |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pPropertydocpathname" title="Property Related document" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+                        <kendo-grid class="mb-4" [kendoGridBinding]="SecurityandCollateralMovable" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--kendo-grid-column hidden field="psubsectionname" title="Movable property" width="100"></kendo-grid-column>-->
+                            <kendo-grid-column field="pTypeofvehicle" title="Movable property" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pVehicleownername" title="Owner Name" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pVehiclemodelandmake" title="Vehicle Model and Make" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pRegistrationno" title="Registration No" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pEstimatedmarketvalue" title="Estimated Market Value" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pEstimatedmarketvalue |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <!--row-end-->
+            <div class="col-12 mt-1">
+                <div class="row">
+                    <a class="lc-title text-decoration-none" data-toggle="collapse" href="#existingloan" role="button" aria-expanded="false" aria-controls="family">
+                        <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; Existing Loan
+                    </a>
+                </div>
+
+                <div class="collapse mt-3" id="existingloan">
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+                        <kendo-grid [kendoGridBinding]="ExistingLoan" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <kendo-grid-column field="pLoanname" title="Loan Type" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pTenureofloan" title="Loan Period" width="75">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pRateofinterest" title="ROI" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pLoanpayin" title="Payin" width="75">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pInstalmentamount" title="EMI" width="75">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pInstalmentamount |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ploanamount" title="Loan Amount" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.ploanamount |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <!--<kendo-grid-column field="pRefcontactNo" title="Loan Sanction Date" width="100">
+              </kendo-grid-column>-->
+                            <kendo-grid-column field="pPrincipleoutstanding" title="outstanding as on date" width="150">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pPrincipleoutstanding |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+                    </div>
+                </div>
+
+                <hr>
+            </div>
+            <div class="col-12 mt-1" *ngIf="loantype != 'PERSONAL LOAN' && loantype != 'LOAN AGAINST PROPERTY'">
+                <div class="row">
+                    <a class="lc-title text-decoration-none" data-toggle="collapse" href="#loanspecific" role="button" aria-expanded="false" aria-controls="family"> <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; Loan Specific Fields</a>
+                </div>
+
+                <div class="collapse mt-3" id="loanspecific" *ngIf="loantype == 'BUSINESS LOAN'">
+                    <a class="lc-title">Financial Performance</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificfinacialperformance" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+              </kendo-grid-column>-->
+                            <kendo-grid-column field="pfinacialyear" title="Finance Year" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pturnoveramount" title="Turn Over" width="50">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pturnoveramount |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pnetprofitamount" title="Profit" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pnetprofitamount |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pUploadfilename" title="Upload File Name" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pbalancesheetdocpath" title="Upload File Path" width="100">
+                            </kendo-grid-column>
+
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+                    <a class="lc-title">Credit Trend of Purchases</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificcredittrendpurchase" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+              </kendo-grid-column>-->
+                            <kendo-grid-column field="pfinacialyear" title="Period" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="psuppliername" title="Name of the Supplier" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="paddress" title="Address" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pcontactno" title="Contact No" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pmaxcreditreceived" title="Maximum Credit Received" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pmaxcreditreceived |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pmincreditreceived" title="Minimum Credit Received" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pmincreditreceived |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pavgtotalcreditreceived" title="Total Credit Purchased" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pavgtotalcreditreceived |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+                    <a class="lc-title">Credit Trend of Sales</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificcredittrendsales" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+              </kendo-grid-column>-->
+                            <kendo-grid-column field="pfinacialyear" title="Period" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pcustomername" title="Name of the Supplier" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="paddress" title="Address" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pcontactno" title="Contact No." width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pmaxcreditgiven" title="Maximum Credit Sales" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pmaxcreditgiven |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pmincreditgiven" title="Minimum Credit Given" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pmincreditgiven |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ptotalcreditsales" title="Total Credit Sales" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.ptotalcreditsales |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+                    <a class="lc-title">Stock Position</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificstockposition" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+              </kendo-grid-column>-->
+                            <kendo-grid-column field="pfinacialyear" title="Period" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pmaxstockcarried" title="Average Stock Carried" width="50">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pmaxstockcarried |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pminstockcarried" title="Maximum Stock Carried" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pminstockcarried |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pavgtotalstockcarried" title="Minimum Stock Carried" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pavgtotalstockcarried |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+                    <a class="lc-title">Cost of Project</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificcostofprojection" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+              </kendo-grid-column>-->
+                            <kendo-grid-column field="pcostoflandincludingdevelopment" title="Cost of Land including
+              development" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pcostoflandincludingdevelopment |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pbuildingandothercivilworks" title="Building and other
+              civil works" width="50">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pbuildingandothercivilworks |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pplantandmachinery" title="Plant and Machinery" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pplantandmachinery |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pequipmenttools" title="Equipment tools, spares
+              and machinery" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pequipmenttools |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ptestingequipment" title="Testing Equipment" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.ptestingequipment |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pmiscfixedassets" title="Misc Fixed Assets" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pmiscfixedassets |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="perectionorinstallationcharges" title="Erection/Installation
+              Charges" width="50">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.perectionorinstallationcharges |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ppreliminaryorpreoperativeexpenses" title="Preliminary/Preoperative
+              expenses" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.ppreliminaryorpreoperativeexpenses |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pprovisionforcontingencies" title="Provision for
+              contingencies" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pprovisionforcontingencies |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pmarginforworkingcapital" title="Margin for working
+              capital" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pmarginforworkingcapital |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+                    <a class="lc-title">Business Ancillary Unit Address Details</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="addressforloanspecificbusinessloan" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <kendo-grid-column field="pAddress1" title="First Name" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAddress2" title="Last Name" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pcity" title="Contact No" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pDistrict" title="Alternate Number" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pState" title="Email ID" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pCountry" title="Contact No" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pPincode" title="Alternate Number" width="100">
+                            </kendo-grid-column>
+
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+                    <a class="lc-title">Turnover and ProfitorLoss Details</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificturnoverandprofitorloss" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+              </kendo-grid-column>-->
+                            <kendo-grid-column field="pturnoveryear" title="Year" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pturnoveramount" title="Turnover" width="50">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pturnoveramount |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pturnoverprofit" title="Profit" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pturnoverprofit |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+                    <a class="lc-title">Loan Associate Concern Details</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificassociateconcern" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+              </kendo-grid-column>-->
+                            <kendo-grid-column field="pnameofassociateconcern" title="Name of associate concern" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pnatureofassociation" title="Nature of Association" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pnatureofactivity" title="Nature of Activity" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pitemstradedormanufactured" title="Items Traded/Manufactured" width="100">
+                            </kendo-grid-column>
+
+
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+
+                </div>
+                <div class="collapse mt-3" id="loanspecific" *ngIf="loantype == 'EDUCATION LOAN'">
+                    <a class="lc-title">Educational Institution and Course Details</a>
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificeducationqualificationdetails" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                </kendo-grid-column>-->
+                            <kendo-grid-column field="pNameoftheinstitution" title="Name Of The Institution" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pNameofProposedcourse" title="Name Of Proposed Course Of Study" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pselectionoftheinstitute" title="Reason For Selection Of The Institute" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pRankingofinstitution" title="Ranking Of Institution Or Course" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pDurationofCourse" title="Duration Of Course" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pDateofCommencement" title="Date Of Commencement" width="50">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pDateofCommencement | date: 'dd/MM/yyyy'}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pseatsecured" title="How Was The Seat Secured?" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+                    <a class="lc-title">Address of Institution</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificeducationinstituteaddress" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                </kendo-grid-column>-->
+                            <kendo-grid-column field="pAddress1" title="Address Line1" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAddress2" title="Address Line2" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pCity" title="City" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pDistrict" title="District" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pState" title="State" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pCountry" title="Country" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pPincode" title="Pincode" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+                    <a class="lc-title">Educational Qualification</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificeducationqualification" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                </kendo-grid-column>-->
+                            <kendo-grid-column field="pqualification" title="Qualification" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pinstitute" title="Name of Institute/University" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pyearofpassing" title="Year of Passing" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pnoofattempts" title="Attempts Made" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pmarkspercentage" title="% of Marks" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pgrade" title="Grade/Class" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pscholarshiporprize" title="Scholarship/Prize" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pscholarshipname" title="Name of the Scholarship/Prize" width="100">
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+                    <a class="lc-title">Source of Funds</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificeducationfeedetails" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                </kendo-grid-column>-->
+                            <kendo-grid-column field="ptotalfundrequirement" title="Total Fund Requirement" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.ptotalfundrequirement |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pnonrepayablescholarship" title="Non Repayable Scholarship" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="prepayablescholarship" title="Repayable Scholarship" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pfundsavailablefromfamily" title="Funds Available From Family" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pfundsavailablefromfamily |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+                    <a class="lc-title">Fee Details</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificloanyearwizefee" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <kendo-grid-column field="pRecordid" hidden width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pyear" title="Year" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pqualification" title="Qualification" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pfee" title="Fee" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pfee |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+                </div>
+                <div class="collapse mt-3" id="loanspecific" *ngIf="loantype == 'CONSUMER LOAN'">
+                    <a class="lc-title">Product Details</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificconsumerloandata" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                  </kendo-grid-column>-->
+                            <kendo-grid-column field="pproducttype" title="Product Type" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pproductname" title="Product Name" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pmanufacturer" title="Manufacturer" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pproductmodel" title="Product Model" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pquantity" title="Quantity" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pcostofproduct" title="Country" width="50">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pcostofproduct |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pinsurancecostoftheproduct" title="Insurance Cost Of The Product" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pinsurancecostoftheproduct |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pothercost" title="Other Cost" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pothercost |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ptotalcostofproduct" title="Total Cost Of Product" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.ptotalcostofproduct |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pperiod" title="Period" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pperiodtype" title="Period Type" width="100">
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+
+                </div>
+                <div class="collapse mt-3" id="loanspecific" *ngIf="loantype == 'GOLD LOAN'">
+                    <a class="lc-title">Gold Details</a>
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificgoldloandetails" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                    </kendo-grid-column>-->
+                            <kendo-grid-column field="pTotalAppraisedValue" title="Gold Article Type" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAppraisalDate" title="Details o fGold Article" width="50">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pAppraisalDate | date: 'dd/MM/yyyy'}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAppraisorName" title="Carat" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificgoldloan" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                    </kendo-grid-column>-->
+                            <kendo-grid-column field="pGoldArticleType" title="Gold Article Type" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pDetailsofGoldArticle" title="Details o fGold Article" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pCarat" title="Carat" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pGrossweight" title="Gross Weight" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pNetWeight" title="Net Weight" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAppraisedValue" title="Appraised Value" width="50">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pcostofproduct |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pobservations" title="Obbervations" width="100">>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pUploadfilename" title="Upload File Name" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pGoldArticlePath  " title="Gold Article Path" width="100">
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+
+                </div>
+                <div class="collapse mt-3" id="loanspecific" *ngIf="loantype == 'HOME LOAN'">
+                    <a class="lc-title">Home Loan Details</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecifichomeloan" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                      </kendo-grid-column>-->
+                            <kendo-grid-column field="pinitialpayment" title="Initial Payment" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pinitialpayment |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ppropertylocation" title="Property Location" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ppropertyownershiptype" title="Property Ownership Type" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ppropertytype" title="Property Type" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ppurpose" title="Purpose" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ppropertystatus" title="Property Status" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="paddress1" title="Address Line1" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="paddress2" title="Address Line2" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pcity" title="City" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pstate" title="State" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pdistrict" title="District" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pcountry" title="Country" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ppincode" title="Pincode" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pbuildertieup" title="Builder Tieup" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pprojectname" title="Project Name" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pownername" title="Owner Name" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pselleraddress" title="Seller Address" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pbuildingname" title="Building Name" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pblockname" title="Block Name" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pbuiltupareain" title="Builtupareain" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pplotarea" title="Plot Area" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pundividedshare" title="Undividedshare" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pplintharea" title="Plinth Area" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pbookingdate" title="Booking Date" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pbookingdate | date: 'dd/MM/yyyy'}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pcompletiondate" title="Completion Date" width="50">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pcompletiondate | date: 'dd/MM/yyyy'}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="poccupancycertificatedate" title="Occupancy Certificate Date" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.poccupancycertificatedate | date: 'dd/MM/yyyy'}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pactualcost" title="Actual Cost" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pactualcost |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="psaleagreementvalue" title="Sale Agreement Value" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pstampdutycharges" title="Stamp Duty Charges" width="50">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pstampdutycharges |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="potheramenitiescharges" title="Other Amenities Charges" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.potheramenitiescharges |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="potherincidentalexpenditure" title="Other Incidental Expenditure" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.potherincidentalexpenditure |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ptotalvalueofproperty" title="Total Cost Of Property" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.ptotalvalueofproperty |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pageofbuilding" title="Age Of Building" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="poriginalcostofproperty" title="Original Cost Of Property" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.poriginalcostofproperty |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pestimatedvalueofrepairs" title="Estimated Value of Repairs" width="50">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pestimatedvalueofrepairs |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pamountalreadyspent" title="Amount Already Spent" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pamountalreadyspent |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="potherborrowings" title="Other Borrowings" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.potherborrowings |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ptotalvalue" title="Total Value" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.ptotalvalue |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+
+                </div>
+                <div class="collapse mt-3" id="loanspecific" *ngIf="loantype == 'LOAN AGAINST DEPOSITS'">
+                    <a class="lc-title">Loan against Deposits</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificloanagainstdeposit" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                        </kendo-grid-column>-->
+                            <kendo-grid-column field="pdeposittype" title="Deposit Type" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pbankcreditfacility" title="Bank Credit Facility" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pdepositaccountnumber" title="Deposit Account Number" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pdepositamount" title="Deposit Amount" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pdepositamount |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pdepositinterestpercentage" title="Deposit Interest Percentage" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pdepositdate" title="Deposit Date" width="50">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pdepositdate | date: 'dd/MM/yyyy'}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pdeposittenure" title="Deposit Tenure" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pUploadfilename" title="Upload File Name" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pdepositdocpath" title="Deposit Doc Path" width="100">
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+
+                </div>
+                <div class="collapse mt-3" id="loanspecific" *ngIf="loantype == 'VEHICLE LOAN'">
+                    <a class="lc-title">Vehicle Details</a>
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="loanspecificvehicledata" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!--<kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                          </kendo-grid-column>-->
+                            <kendo-grid-column field="pShowroomName" title="Showroom Name" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pVehicleManufacturer" title="Vehicle Manufacturer" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pVehicleModel" title="Vehicle Model" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pActualcostofVehicle" title="Actual Cost Of Vehicle" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pActualcostofVehicle |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pDownPayment" title="Down Payment" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pDownPayment |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pOnroadprice" title="Onroad Price" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pRequestedLoanAmount" title="Requested Loan Amount" width="100">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pRequestedLoanAmount |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pEngineNo" title="Engine No" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pChassisNo" title="Chassis No" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pRegistrationNo" title="Registration No" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pYearofMake" title="Year Of Make" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pAnyotherRemarks" title="Any Other Remarks" width="100">
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider"> <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span></span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+
+                </div>
+
+                <hr>
+            </div>
+            <div class="col-12 mt-1">
+                <div class="row">
+                    <a class="lc-title text-decoration-none" data-toggle="collapse" href="#reference" role="button" aria-expanded="false" aria-controls="family">
+                        <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; Reference
+                    </a>
+                </div>
+
+                <div class="collapse mt-3" id="reference">
+
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+
+                        <kendo-grid [kendoGridBinding]="Reference" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <!-- <kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+              </kendo-grid-column> -->
+                            <kendo-grid-column field="pRefFirstname" title="First Name" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pRefLastname" title="Last Name" width="50">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pRefcontactNo" title="Contact No" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pRefalternatecontactNo" title="Alternate Number" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pRefEmailID" title="Email ID" width="100">
+                            </kendo-grid-column>
+
+
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row mt-4">
+                <div class="col-md-6 col-xl-4 mt-1">
+                    <div class="loans-card rounded ml-3">
+                        <div class="row  p-2">
+                            <label class="col-12 p-0">Verifiers Comments</label>
+                            <p class="lc-txt"> {{FiDocVerifierComments}} </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-6 col-xl-4">
+          <div class="form-group m-0">
+            <label>Overall Verifier's Rating</label>
+          </div>
+          <span class="btn btn-s-icon ml-1 pt-1 pm-0 "><img src="assets/images/icon-check-white.svg" class="mr-3"
+              width="20px" height="20px"> Positive</span>
+        </div> -->
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="col-12">
+        <div class="row">
+            <a class="lc-title acc7 text-decoration-none" data-toggle="collapse" href="#documentvault" role="button" aria-expanded="false" aria-controls="family">
+                <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; <span class="pr-5  accor-span-width-fixed "> Document Vault</span>
+                <div class="btn btn-plain  pt-0 pb-0">
+                    <label class="pl-1 lc-txt pb-0 mb-0"> Rating </label> |
+                    <label class="pb-0 mb-0  lc-txt font-weight-bold"> {{FiDocVerifierRating}}</label>
+                </div>
+                <div class="btn btn-plain text-white pt-0 pb-0">
+                    <label class="pl-2 lc-txt pb-0 mb-0">Investigator</label> |
+                    <label class="pb-0 mb-0 lc-txt font-weight-bold">{{FiDocVerifierOfcrName}}</label>
+                </div>
+                <div class="btn btn-plain pt-0 pb-0">
+                    <label class="pl-2 lc-txt pb-0 mb-0">Investigation Date & Time </label> |
+                    <label *ngIf="FiDocVerifiedDate != null" class="pb-0 mb-0 lc-txt font-weight-bold">
+                        {{FiDocVerifiedDate}} &
+                        {{FiDocVerifiedTime}}
+                    </label>
+                </div>
+            </a>
+        </div>
+        <div class="collapse mt-5" id="documentvault">
+            <div class="col-md-12 col-xl-12">
+                <div class="row mt-4">
+
+                    <div class="col-md-12 col-xl-12 mb-4">
+                        <kendo-grid [kendoGridBinding]="KYCIdentificationDetails" [reorderable]="true" [sortable]="true" [resizable]="true" [pageable]="false">
+
+                            <kendo-grid-column field="psubsectionname" title="Contact Type" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pDocumentGroup" title="Document Group" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pDocumentName" title="Document Name" width="125">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="isVerified" title="Verification Status" width="250">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <label class="switch p-0 ml-2 " [ngClass]="dataItem.isVerified=='Verified' ? 'disableTabs' : ''">
+                                        <input [checked]="dataItem.isVerified=='Verified'" type="checkbox">
+                                        <span class="slider">
+                                            <span class="notverified">Not Verified</span> <span
+                                                class="verified">Verified</span>
+                                        </span>
+                                    </label>
+
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+                    </div>
+                    <div class="col-md-12 col-xl-12">
+                    </div>
+
+
+                </div>
+
+
+                <hr>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <hr>
+    <div class="col-12">
+        <div class="row">
+            <a class=" lc-title acc9 text-decoration-none" data-toggle="collapse" href="#cashflow" role="button" aria-expanded="false" aria-controls="family">
+                <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px"> &nbsp; &nbsp; <span class="pr-5 accor-span-width-fixed ">Cash Flow Statement</span>
+                <div class="btn btn-plain pt-0 pb-0">
+                    <label class="font-16 lc-sub-title "> Cash Flow | </label>
+
+                    <label *ngIf="CashFlowTotalAmount >= 0" class="font-18 text-success font-weight-bold">
+                        {{CashFlowTotalAmount |mycurrencypipe}} /- (P.A)
+                        <div class="done"></div>
+                    </label>
+
+                    <label *ngIf="CashFlowTotalAmount < 0" class="font-18 text-danger font-weight-bold">
+                        {{CashFlowTotalAmount |mycurrencypipe}} /- (P.A)
+                    </label>
+
+                </div>
+            </a>
+        </div>
+        <div class="collapse show mt-5" id="cashflow">
+            <div class="row mt-1">
+                <div class="col-md-6 col-xl-6">
+                    <table id="" class="table">
+                        <thead>
+                            <tr>
+                                <th>Available funds/Inflow <strong>(P.A)</strong></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let a of SavingDetails;let i=index;trackBy: trackByFn">
+                                <td>Estimated Savings of Applicant - {{a.pName}}</td>
+                                <td> {{a.pSavingsamount |mycurrencypipe}}</td>
+                            </tr>
+                            <!-- <tr>
+                <td>Estimated Savings of CoApplicant - Vikram</td>
+                <td>500,000</td>
+              </tr>
+              <tr>
+                <td>Estimated Savings of Co Applicant - Vaibhav</td>
+                <td>150,000</td>
+              </tr> -->
+                        </tbody>
+                    </table>
+                    <!-- <div class="d-flex justify-content-end mt-4">
+            <a class="btn btn-b-icon px-3 border-0" data-toggle="collapse"
+               data-target="#compute1" aria-expanded="true">
+              <img src="assets/images/icon-check-white.svg" width="20px"
+                   height="20px" class="mr-3">Compute
+            </a>
+          </div> -->
+                    <!-- <div id="compute1" class="collapse mt-4"> -->
+                    <table id="" class="table">
+                        <tbody>
+                            <tr>
+                                <td><label>Total Savings (A)</label></td>
+                                <td><label><strong class="sec-head-bold">{{SavingsTotalAmount|mycurrencypipe}}</strong>
+                                    </label></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- </div> -->
+                    <hr>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col-md-6 col-xl-6">
+                    <table id="" class="table">
+                        <thead>
+                            <tr>
+                                <th> Existing Loan Installments <strong>(P.A)</strong></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let b of ExistingDetails;let j=index;trackBy: trackByFn">
+                                <td>{{b.pLoanname}} </td>
+                                <td>{{b.pInstalmentamount |mycurrencypipe}}</td>
+                            </tr>
+                            <!-- <tr>
+                <td>Education Loan (Existing Loan)</td>
+                <td>200,000</td>
+              </tr>
+              <tr>
+                <td>Loan against Property (This Loan?)</td>
+                <td>500,000</td>
+              </tr> -->
+                        </tbody>
+                    </table>
+                    <!-- <div class="d-flex justify-content-end mt-4">
+            <a class="btn btn-b-icon px-3 border-0" data-toggle="collapse"
+               data-target="#compute2" aria-expanded="true">
+              <img src="assets/images/icon-check-white.svg" width="20px"
+                   height="20px" class="mr-3">Compute
+            </a>
+          </div> -->
+                    <!-- <div id="compute2" class="collapse mt-4"> -->
+                    <table id="" class="table">
+                        <tbody>
+                            <tr>
+                                <td><label>Estimated outflow of funds (B)</label></td>
+                                <td>
+                                    <label><strong
+                                            class="sec-head-bold">{{ExistingsTotalAmount|mycurrencypipe}}</strong>
+                                    </label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- </div> -->
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col-md-6 col-xl-6">
+                    <hr>
+                    <label *ngIf="CashFlowTotalAmount >= 0" class="ml-2">
+                        CASH FLOW (A-B)
+                        <span class="text-success font-weight-bold font-18 ml-4">
+                            {{CashFlowTotalAmount |mycurrencypipe}} /-
+                            <strong>(P.A)</strong> <i class="done"></i> <span class="ml-4 font-14 lc-txt">
+                                Per month :
+                                <span class="text-success font-weight-bold font-18 ml-4">
+                                    {{CashFlowPerMonth|mycurrencypipe}} /-</span>
+                            </span>
+                        </span>
+                    </label>
+
+                    <label *ngIf="CashFlowTotalAmount < 0" class="ml-2">
+                        CASH FLOW (A-B)
+                        <span class="text-danger font-weight-bold font-18 ml-4">
+                            {{CashFlowTotalAmount |mycurrencypipe}} /-
+                            <strong>(P.A)</strong><span class="ml-4 font-14 lc-txt">
+                                Per month :
+                                <span class="text-danger font-weight-bold font-18 ml-4">
+                                    {{CashFlowPerMonth|mycurrencypipe}} /-</span>
+                            </span>
+                        </span>
+                    </label>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <hr class="light">
+    <div class="row">
+        <div class="col-12 mt-2 ">
+            <p class="bc-2">EMI Type</p>
+        </div>
+        <div class="col-12 ">
+            <div class="form-group mt-2">
+                <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                    <input class="form-check-input" type="radio" name="emitype" formControlName="emitype" id="Regular" value="REGULAR">
+                    <label class="mt-1" for="Regular"> Regular </label>
+                </div>
+                <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                    <input class="form-check-input" type="radio" name="emitype" formControlName="emitype" id="Advance" value="ADVANCE" [attr.disabled]="Disablemitype? '' : null">
+                    <label class="mt-1" for="Advance"> Advance </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="light">
+    <div class="row">
+        <div class="col-12 mt-2 ">
+            <p class="bc-2">Loan is Accepted or Rejected?</p>
+        </div>
+        <div class="col-12 ">
+            <div class="form-group mt-2">
+                <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                    <input class="form-check-input" type="radio" name="approval" (change)="LoanAcceptedOrRejected('Accepted')" id="accepted" value="Accepted">
+                    <label class="mt-1" for="accepted"> Accepted </label>
+                </div>
+                <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                    <input class="form-check-input" type="radio" name="approval" (change)="LoanAcceptedOrRejected('Rejected')" id="rejected" value="rejected">
+                    <label class="mt-1" for="rejected"> Rejected </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="Accepted" *ngIf="IfLoanAcceptedData">
+        <div class="row mt-1">
+            <div class="col-12 ">
+                <label class="sec-head-bold" for="">If Loan is Accepted</label>
+            </div>
+            <div class="col-md-6 col-xl-6">
+                <table id="example" class="table mt-2">
+                    <tbody>
+                        <tr>
+                            <td>Applicant Name</td>
+                            <td>{{FiApprovalForm.controls.pApplicantname.value}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Loan Application Date</td>
+                            <td>{{FiApprovalForm.controls.pDateofapplication.value}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Loan Type</td>
+                            <!-- <td>Loan against Property</td> -->
+                            <td>{{FiApprovalForm.controls.pLoantype.value}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Purpose of Loan</td>
+                            <td>{{FiApprovalForm.controls.pPurposeofloan.value}}</td>
+                        </tr>
+                        <tr>
+                            <td>Loan Installment Mode</td>
+                            <td>{{FiApprovalForm.controls.pLoaninstalmentpaymentmode.value}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Loan Payin</td>
+                            <td>{{LaonPayInsLable}}</td>
+                            <!-- <td><input type="text" formControlName="pLoanpayin" class="form-control w-auto"></td> -->
+                            <td>
+                                <select (change)="changeLoanPayIn($event)" class="form-control w-auto" formControlName="pLoanpayin">
+                                    <option value="" disabled>Select</option>
+                                    <option *ngFor="let type of Loanpayins;trackBy: trackByFn"
+                                        [value]="type.pLoanpayin">
+                                        {{type.pLoanpayin}}
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Interest Type</td>
+                            <td>{{IntrestTypeLable}}</td>
+                            <!-- <td><input type="text" formControlName="pInteresttype" class="form-control w-auto"></td> -->
+                            <td>
+                                <select class="form-control w-auto" (change)="onChangeInterestType($event)" formControlName="pInteresttype">
+                                    <option value="" disabled>Select</option>
+                                    <option *ngFor="let type of LoanInterestratetypes;trackBy: trackByFn"
+                                        [value]="type.pInteresttype">
+                                        {{type.pInteresttype}}
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tenure of Loan</td>
+                            <td>{{TenureOfLaonLable}}</td>
+                            <td>
+                                <label id="pTenureofloan" title="Tenure of Loan" hidden>Tenure of Loan</label>
+                                <input appNumbersonly type="text" maxlength="3" formControlName="pTenureofloan" class="form-control w-auto" (blur)="onTensureOfLoanChange($event)" [ngClass]="{ 'is-invalid':  LoanDetailsErrorMessages.pTenureofloan }">
+                                <div class="invalid-feedback">
+                                    <span *ngIf="LoanDetailsErrorMessages.pTenureofloan">{{LoanDetailsErrorMessages?.pTenureofloan}}</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Amount Requested</td>
+                            <td>{{AmountReqLable | mycurrencypipe}}</td>
+                            <!-- <td>{{FiApprovalForm.controls.pApprovedloanamount.value | mycurrencypipe}}</td> -->
+                            <td>
+                                <label id="pApprovedloanamount" title="Amount Requested" hidden>Amount Requested</label>
+                                <input appNumbersonly appMycurrencyFormatter maxlength="12" type="text" formControlName="pApprovedloanamount" (change)="onEnteredAmountValue($event)" class="form-control w-auto" style="text-align: right;" [ngClass]="{ 'is-invalid': LoanDetailsErrorMessages.pApprovedloanamount }">
+                                <div class="invalid-feedback">
+                                    <span *ngIf="LoanDetailsErrorMessages.pApprovedloanamount">
+                                        {{LoanDetailsErrorMessages?.pApprovedloanamount}}
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Interest Rate(P.A)</td>
+                            <td>{{IntrestRateLable}}%</td>
+                            <td>
+                                <!-- <input type="text" maxlength="3" formControlName="pRateofinterest" class="form-control w-auto"
+                  [ngClass]="{ 'is-invalid': f.pRateofinterest.errors && LoanSubmitStatus }">
+                <div *ngIf=" LoanSubmitStatus &&  f.pRateofinterest.errors" class="invalid-feedback">
+                  <div *ngIf="f.pRateofinterest.errors.required">Enter Interest Rate</div>
+                </div> -->
+                                <label id="pRateofinterest" title="Interest Rate" hidden>Interest Rate%</label>
+                                <!-- <input appRoundecimal="2@2" class="form-control" type="text" value=""
+                (change)="onChangeInterestRate($event)" formControlName="pRateofinterest"
+                [ngClass]="{ 'is-invalid':  LoanDetailsErrorMessages.pRateofinterest }"> -->
+
+                                <input appRoundecimal="2@2" class="form-control" type="text" value="" (change)="onChangeInterestRate($event)" formControlName="pRateofinterest" [ngClass]="{ 'is-invalid':  LoanDetailsErrorMessages.pRateofinterest }">
+
+                                <!-- <div class="input-group-append"> <span class=" w-auto btn-lg-icon h-100 pt-2 pl-2 pr-2  rounded-right">
+                P.A </span> </div> -->
+                                <div class="invalid-feedback">
+                                    <span *ngIf="LoanDetailsErrorMessages.pRateofinterest">{{LoanDetailsErrorMessages?.pRateofinterest}}</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Installment Amount</td>
+                            <td></td>
+                            <td>
+                                <input readonly type="text" formControlName="pInstallmentamount" class="form-control w-auto">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <!-- <a (click)="CalculateEMI()" class="btn btn-b-icon px-3 border-0 collapsed" data-toggle="collapse"
+            data-target="#compute4" aria-expanded="false"><img src="assets/images/icon-check-white.svg" width="20px"
+              height="20px" class="mr-3">Calculate EMI</a> -->
+
+
+                    <a (click)="getFiEmiSchesuleview()" class="btn btn-b-icon px-3 border-0 collapsed" data-toggle="modal" data-target="#emiModal" aria-expanded="false">
+                        <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Calculate EMI
+                    </a>
+
+
+                    <!-- <a data-toggle="modal" href="#v-Modal" class="btn btn-b-icon px-3 border-0" data-toggle="modal" tabindex="-1"
+            data-target="#emiModal" (click)="getFiEmiSchesuleview()">
+            <img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-3">calculate EMI</a> -->
+
+                </div>
+                <div id="compute4" class="mt-4 collapse">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Installment Amount</td>
+                                <td>{{installmentAmount | mycurrencypipe}}</td>
+                                <td></td>
+                            </tr>
+                            <!-- <tr>
+                <td>Holiday Period/Moratorium</td>
+                <td>6 months</td>
+                <td></td>
+              </tr> -->
+                            <!-- <tr>
+                <td>Installment Start Date</td>
+                <td>01/Apr/2019</td>
+                <td></td>
+              </tr> -->
+                        </tbody>
+                        < /d </table>
+                            < /d </div>
+                </div>
+            </div>
+            <!-- row end -->
+
+            <div class="row mt-4">
+                <!-- <div class="col-12">
+        <p class="bc-2">Select Charge</p>
+      </div> -->
+                <!-- <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="pChargename" title="Select Charge">Select Charge</label>
+          <select class="form-control" formControlName="pChargename" (change)="ChangeChargeNames()" [ngClass]="{ 'is-invalid': C.pChargename.errors && submitted }">
+            <option value="" disabled>Select</option>
+            <option *ngFor="let charge of ChargesAndFees" [value]="charge.pChargename">{{charge.pChargename}}</option>
+          </select>
+          <div *ngIf=" submitted &&  C.pChargename.errors" class="invalid-feedback">
+            <div *ngIf="C.pChargename.errors.required">Select Charge Name</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="form-group">
+          <label id="pAmount" title="Charges">Charges </label>
+          <input type="text" formControlName="pAmount" class="form-control w-auto" [ngClass]="{ 'is-invalid': C.pAmount.errors && submitted }"></div>
+          <div *ngIf=" submitted &&  C.pAmount.errors" class="invalid-feedback">
+            <div *ngIf="C.pAmount.errors.required">Enter Charge Amount</div>
+          </div>
+      </div>
+      <div class="from-group mt-4 mb-4"> <a (click)="AddToGrid()" class="btn btn-b-icon px-3 border-0"> <img
+            src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-3">Add to grid</a> </div> -->
+
+
+                <div class="col-md-12 col-xl-12 mt-4">
+
+                    <kendo-grid [data]="TempGridDataChargesFees" [reorderable]="false" [sortable]="true" [resizable]="true" [selectable]="true" (edit)="editHandler($event)">
+
+                        <kendo-grid-column field="pChargename" title="Charges and Fees">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="PchargeamountTemp" title="Amount" width="90">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.PchargeamountTemp |mycurrencypipe }}
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-checkbox-column field="pChargewaiveoffamount" title="Waiver">
+                            <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-idx="dataItem">
+                                <input appNumbersonly appMycurrencyFormatter type="input" id="waveamount{{rowIndex}}" class="form-control w-80" kendoGridEditCommand (change)="BindWaveAmountToGrid($event,rowIndex)" />
+                            </ng-template>
+                        </kendo-grid-checkbox-column>
+
+                        <kendo-grid-column field="pTotalgstamountTemp" title="GST Amount" width="120" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pTotalgstamountTemp |mycurrencypipe }}
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pGstcaltype" title="GST Type" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pGstpercentage" title="GST%"></kendo-grid-column>
+
+
+
+
+                        <kendo-grid-checkbox-column field="IsDisbursemenet" title="Adjust in Loan Disbursemenet Amount" showSelectAll="true">
+                            <ng-template kendoGridCellTemplate let-idx="dataItem">
+                                <input type="checkbox" id="my" [checked]="idx.IsDisbursemenet == true" (change)="DisbursementOrBorrowerCheck($event,idx,'disbursement amount')" />
+                            </ng-template>
+                        </kendo-grid-checkbox-column>
+                        <kendo-grid-checkbox-column field="IsBorrower" title="Collect from Borrower" showSelectAll="true">
+                            <ng-template kendoGridCellTemplate let-idx="dataItem">
+                                <input type="checkbox" [checked]="idx.IsBorrower == true" (change)="DisbursementOrBorrowerCheck($event,idx,'borrower amount')" />
+                            </ng-template>
+                        </kendo-grid-checkbox-column>
+
+                    </kendo-grid>
+                </div>
+                <hr>
+                <div class="col-md-6 col-xl-6 mt-4">
+                    <div class="form-group">
+                        <p class="bc-2">Remarks</p>
+                        <textarea class="form-control" placeholder="" formControlName="pRemarks" maxlength="300" rows="4"></textarea>
+                    </div>
+                    <!-- <div class="form-group">
+          <label class="ml-0">Sanctioned Loan amount<strong
+              class="sec-head-bold ml-4">{{Sactionedamount | mycurrencypipe}}</strong></label>
+        </div> -->
+                </div>
+            </div>
+            <!-- row end -->
+
+            <div class="row">
+                <div class="col-12 mt-2">
+                    <p class="bc-2">How is loan to be disbursed?</p>
+                </div>
+                <div class="form-group mt-2 ml-3">
+                    <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                        <input class="form-check-input" type="radio" [checked]="checkedsinglestage == true" name="payment" (change)="PaymentStageSelect('Single Payment')" id="singlepayment" value="singlepayment" [attr.disabled]="DisableSinglePayment? '' : null">
+                        <label class="mt-1" for="singlepayment"> Single Payment </label>
+                    </div>
+                    <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                        <input class="form-check-input" type="radio" [checked]="checkedstagewise == true" name="payment" (change)="PaymentStageSelect('Stage wise payment')" id="stagepayment" value="stagepayment" [attr.disabled]="DisableStagePayment? '' : null">
+                        <label class="mt-1" for="stagepayment"> Stage wise payment</label>
+                    </div>
+                    <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                        <input class="form-check-input" type="radio" [checked]="checkedmultidisbursal == true" name="payment" (change)="PaymentStageSelect('Multiple Disbursement')" id="multipledisbursement" value="multipledisbursement" [attr.disabled]="Disablemultidisbursal? '' : null">
+                        <label class="mt-1" for="multipledisbursement">Multiple Disbursement</label>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="multipledisbursement mt-1" *ngIf="Ifmultidisbursal">
+                <div class="row">
+
+                    <div class="col-md-6 col-xl-6">
+                        <div class="form-group">
+
+                            <div class="form-group d-flex">
+                                <label class="col-md-6 pl-0 pr-0 mt-2" id="emiday" title="EMI Day">EMI
+                                                    Day</label>
+                                <select class="form-control w-auto" formControlName="emiday" [ngClass]="{ 'is-invalid': LoanDetailsErrorMessages.emiday }">
+                                                    <option value="0" disabled>Select</option>
+                                                    <option *ngFor="let type of emidays;" [value]="type">
+                                                        {{type}}
+                                                    </option>
+                                                </select>
+                                <br>
+                                <div class="invalid-feedback">
+                                    <span *ngIf="LoanDetailsErrorMessages.emiday">{{LoanDetailsErrorMessages?.emiday}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- row end -->
+            <div class="stagepayment mt-4" *ngIf="IfStageWisePaymentData">
+                <div class="row">
+
+                    <div class="col-md-6 col-xl-6">
+
+                        <kendo-grid [data]="stagegridData" [sortable]="true">
+
+                            <kendo-grid-column field="pStagename" title="Stage" width="100">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pPaymentreleasepercentage" title="Percentage" width="150">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <input appAutoFocus appNumbersonly (keydown)="onKeydown($event,dataItem,rowIndex)" class="form-control" style="height: 20px !important;width: 100px !important;" maxlength="3" value="" id="percentage{{rowIndex}}" type="text" name="focustext">
+                                    <!-- (change)="CalCulateStageAmzount($event,dataItem,rowIndex)" -->
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pPaymentreleaseamount" title="Amount(Calculate)" width="150">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pPaymentreleaseamount |mycurrencypipe }}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pPaymentreleaseamount" title="">
+                                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+
+                                    <div class="p-0 m-0 " id="icon-add" *ngIf="dataItem.pPaymentreleaseamount==''" (click)="AddNewStage(dataItem,rowIndex)"></div>
+
+                                    <div class="p-0 m-0 " id="icon-remove" *ngIf="dataItem.pPaymentreleaseamount>0" (click)="RemoveStage(dataItem,rowIndex)"></div>
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+
+                        <label class="mt-2">Remaining Percentage {{RemainingPercentage}}</label>
+
+                        <!-- <table class="table" formArrayName="lstStagewisepayments">
+            <thead>
+              <tr>
+                <th>Stage</th>
+                <th>Percentage</th>
+                <th>Amount(Calculate)</th>
+              </tr>
+            </thead>
+            <tbody>
+
+
+
+
+
+              <tr *ngFor="let m of paymentarray;let n=index;trackBy: trackByFn">
+                <td>
+                  <span class="RL15">{{m.pStagename}}</span>
+                </td>
+                <td>
+                  <span class="RL15">{{m.pPaymentreleasepercentage}}</span>
+                </td>
+                <td>
+                  <span class="RL15">{{m.pPaymentreleaseamount | mycurrencypipe}}</span>
+                </td>
+                <td>
+                  <div class="input-group-prepend">
+                    <div (click)="removepayment(m)" style="cursor:pointer;">
+                      <div id="icon-remove"></div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+
+              <tr *ngFor="let unit of getControls(); let i=index;trackBy: trackByFn" [formGroupName]="i">
+                <td *ngIf="paymentshow">
+                  <input class="form-control" type="text" formControlName="pStagename" maxlength="20" readonly>
+                </td>
+                <td *ngIf="paymentshow">
+                  <input appNumbersonly appAutoFocus class="form-control" type="text" (change)="AmountBinding($event)"
+                    formControlName="pPaymentreleasepercentage" [attr.disabled]="DisablePercentageEntry? '' : null" maxlength="2">
+                </td>
+                <td *ngIf="paymentshow">
+                  <div class="input-group">
+                    <input readonly appNumbersonly appMycurrencyFormatter type="text"
+                      class="form-control form-control-cst" maxlength="{{maxlength}}"
+                      formControlName="pPaymentreleaseamount" placeholder="">
+                  </div>
+                </td>
+                <td *ngIf="paymentshow">
+                  <button type="button" class="btn button-sm" (click)="addUnit()"><img
+                      src="assets/images/icon-add-blue.svg" width="20" height="20">
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="RemainingPercentageShowOrHide">
+                <td > Remaining Percentage {{RemainingPercentage}}</td>
+              </tr>
+
+            </tbody>
+          </table> -->
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-xl-6">
+                    <div class="form-group d-flex" *ngIf="InstallmentDueDateHide">
+                        <label class="col-md-6 pl-0 pr-0">Installment Due Date</label>
+                        <label class="col-md-6"><strong
+                                                class="sec-head-bold">27-Aug-2019</strong></label>
+                    </div>
+                    <div class="form-group d-flex" *ngIf="InstallmentDueDateHide">
+                        <label class="col-md-6 pl-0 pr-0">Change Installment Due Date</label>
+                        <input type="text" class="form-control" formControlName="pInstallmentstartdate" placeholder="Date picker here" [bsConfig]="dpConfig" #dp="bsDatepicker" [bsValue]="bsValue" bsDatepicker placement="bottom">
+                    </div>
+                    <div class="form-group d-flex" *ngIf="GracePeriodShowOrHide">
+                        <label class="col-md-6 pl-0 pr-0 mt-2" id="pGraceperiod" title="Grace Period: (No of days)">
+                                            Grace Period: (No
+                                            of
+                                            days)
+                                        </label>
+                        <input appNumbersonly (blur)="CheckGracePeriod($event)" type="text" [ngClass]="{ 'is-invalid': LoanDetailsErrorMessages.pGraceperiod }" class="form-control form-control-cst" maxlength="2" formControlName="pGraceperiod" placeholder="">
+                        <div class="invalid-feedback">
+                            <span *ngIf="LoanDetailsErrorMessages.pGraceperiod">{{LoanDetailsErrorMessages?.pGraceperiod}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group d-flex">
+                        <label class="col-md-6 pl-0 pr-0">Total</label>
+                        <label class="col-md-6"><strong
+                                                class="sec-head-bold">{{Sactionedamount | mycurrencypipe}}</strong></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- toogle2 end -->
+            <div class="d-flex justify-content-end mt-4">
+
+                <!-- <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="LoanApproved()"
+        class="btn btn-b-icon mr-4 px-3 border-0"><img src="assets/images/icon-check-white.svg" width="20px"
+          height="20px" class="mr-3"><i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i>{{button}}</a> -->
+
+                <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="LoanApproved()" class="btn btn-b-icon mr-4 px-3 border-0">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i>{{button}}
+                </a>
+
+                <a hidden class="btn btn-b-icon px-3 border-0">
+                    <img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-3">Calculate EMI Chart
+                </a>
+
+                <a hidden class="btn btn-b-icon ml-4 px-3 border-0">
+                    <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Loan Sanction Letter
+                </a>
+
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4" *ngIf="IfLoanRejectdData">
+
+            <!-- <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="LoanApproved()"
+      class="btn btn-b-icon mr-4 px-3 border-0"><img src="assets/images/icon-check-white.svg" width="20px" height="20px"
+        class="mr-3">Loan Rejected</a> -->
+
+            <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="LoanApproved()" class="btn btn-b-icon mr-4 px-3 border-0">
+                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i> {{RejectButton}}
+            </a>
+
+        </div>
+
+</form>
+
+
+<!-- EMI ChatModel -->
+<div class="modal right 	modal-xl slideInRight" id="emiModal" tabindex="-1" role="dialog">
+    <div class="customModal" style="margin-right:0px !important; ">
+        <div class="model-cst modal-content">
+
+            <div class="modal-body">
+                <p class="bc-2">Installment Chart</p>
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="row mt-4">
+                    <div class="col-md-12 col-xl-12">
+                        <kendo-grid [kendoGridBinding]="gridView" [kendoGridSelectBy]="'id'" [reorderable]="true" [resizable]="true" [height]="480" [pageable]="false" [sortable]="false">
+
+                            <kendo-grid-column field="pInstalmentno" title="S.No." [style]="{'text-align': 'center'}" [footerStyle]="{'text-align': 'center'}" width="60">
+                                <ng-template style="text-align: center;" kendoGridFooterTemplate>
+                                    {{total}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pInstalmentprinciple" title="Principle" [style]="{'text-align': 'center'}" [footerStyle]="{'text-align': 'center','padding-left':'20px'}" width="100">
+                                <ng-template kendoGridFooterTemplate>
+                                    {{emiAggregates.pInstalmentprinciple | mycurrencypipe}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pInstalmentinterest" title="Interest" [style]="{'text-align': 'center'}" [footerStyle]="{'text-align': 'center','padding-left':'20px'}" width="100">
+                                <ng-template kendoGridFooterTemplate>
+                                    {{emiAggregates.pInstalmentinterest | mycurrencypipe}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pInstalmentamount" title="Installment" [style]="{'text-align': 'center'}" [footerStyle]="{'text-align': 'center','padding-left':'30px'}" width="160">
+                                <ng-template kendoGridFooterTemplate>
+                                    {{emiAggregates.pInstalmentamount | mycurrencypipe}}
+                                </ng-template>
+                            </kendo-grid-column>
+                        </kendo-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

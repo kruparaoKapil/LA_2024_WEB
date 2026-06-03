@@ -1,0 +1,54 @@
+<div class="section-container">
+  <div class="row">
+    <div class="col-md-6 col-xl-6">
+      <p class="bc-2">Comparison Trial Balance New</p>
+    </div>
+  </div>
+
+  <form [formGroup]="ComparisionTBForm">
+    <div class="row mt-4">
+
+      <div class="col-xl-3 col-md-3 form-group">
+        <label>From Date</label>
+        <input type="text"
+               class="form-control"
+               formControlName="fromdate"
+               [bsConfig]="dpConfig"
+               bsDatepicker
+               readonly>
+      </div>
+
+      <div class="col-xl-3 col-md-3 form-group">
+        <label>To Date</label>
+        <input type="text"
+               class="form-control"
+               formControlName="todate"
+               [bsConfig]="dpConfig1"
+               bsDatepicker
+               readonly>
+      </div>
+
+      <div class="col-xl-3 col-md-4 d-flex form-group mt-3 pt-3 pl-0">
+        <button class="btn btn-s-icon px-3 border-0"
+                (click)="show()"
+                >
+          <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton}"></i>
+          Generate Report
+        </button>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+<!-- PDF VIEW -->
+<div class="section-container mt-3" *ngIf="pdfSource">
+  <div class="d-flex justify-content-end mb-2">
+    <button class="btn btn-s-icon mr-1" (click)="Print_Crystal_Report()">Print</button>
+    <button class="btn btn-s-icon" (click)="pdf()">PDF</button>
+  </div>
+
+  <div style="height:570px;border:2px solid cornflowerblue;">
+    <embed [src]="pdfSource" type="application/pdf" width="100%" height="100%">
+  </div>
+</div>

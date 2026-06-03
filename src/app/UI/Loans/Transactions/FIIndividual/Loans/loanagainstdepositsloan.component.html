@@ -1,0 +1,183 @@
+<div id="loanagainstdeposit">
+  <div class="row">
+    <div class="col-12 mt-5">
+      <p class="bc-2">Loan against Deposit</p>
+    </div>
+  </div>
+
+  <form [formGroup]=loanagainstdepositsForm>
+    <div class="row">
+      <div class="col-md-6 col-xl-4">
+
+        <div class="form-group">
+          <label id="deposittype" title="Deposit Type">Deposit Type</label>
+          <select class="form-control " formControlName="deposittype"
+            [ngClass]="{ 'is-invalid': loanagainstdepositErrorMessage.deposittype }">
+            <!-- <option value="" ng-selected="selected">Contact list</option> -->
+            <!-- <option *ngFor="let contact of contacts" [value]="loanType.contact">{{contact.contact}}</option> -->
+            <option>Fixed Deposit</option>
+            <option>Recurring Deposit</option>
+          </select>
+          <div class="invalid-feedback"><span
+              *ngIf="loanagainstdepositErrorMessage.deposittype">{{loanagainstdepositErrorMessage.deposittype}}</span>
+          </div>
+        </div>
+
+      </div>
+      <hr class="light">
+      <div class="col-md-6 col-xl-4">
+
+        <div class="form-group">
+          <label id="bankcreditfacility" title="Bank/Credit Facility">Bank/Credit Facility</label>
+          <input type="text" class="form-control" formControlName="bankcreditfacility" appCharactersonly maxlength="30"
+            [ngClass]="{ 'is-invalid': loanagainstdepositErrorMessage.bankcreditfacility }">
+          <div class="invalid-feedback-cst"><span
+              *ngIf="loanagainstdepositErrorMessage.bankcreditfacility">{{loanagainstdepositErrorMessage.bankcreditfacility}}</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="depositacnumber" title="Deposit a/c Number">Deposit a/c Number</label>
+          <input type="text" class="form-control" formControlName="depositacnumber" appNumbersonly maxlength="20"
+            [ngClass]="{ 'is-invalid': loanagainstdepositErrorMessage.depositacnumber}">
+          <div class="invalid-feedback-cst"><span
+              *ngIf="loanagainstdepositErrorMessage.depositacnumber">{{loanagainstdepositErrorMessage.depositacnumber}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="amountindepositac" title="Amount in Deposit a/c">Amount in Deposit a/c</label>
+          <input type="text" class="form-control text-right" formControlName="amountindepositac"  removeZero appNumbersonly maxlength="12"
+            [ngClass]="{ 'is-invalid': loanagainstdepositErrorMessage.amountindepositac}">
+          <div class="invalid-feedback-cst"><span
+              *ngIf="loanagainstdepositErrorMessage.amountindepositac">{{loanagainstdepositErrorMessage.amountindepositac}}</span>
+          </div>
+        </div>
+      </div>
+      <hr class="light">
+      <div class="col-md-6 col-xl-4">
+        <div class="form-group">
+          <label id="depositinterest" title="Deposit Interest %">Deposit Interest %</label>
+          <div class="input-group">
+            <input type="text" class="form-control" appRoundecimal="2@2" formControlName="depositinterest"  
+              [ngClass]="{ 'is-invalid': loanagainstdepositErrorMessage.depositinterest}">
+            <div class="input-group-append">
+              <label class="btn btn-lg-icon h-100 pb-0 pt-1">PA</label>
+            </div>
+          </div>
+          <div class="invalid-feedback-cst"><span
+              *ngIf="loanagainstdepositErrorMessage.depositinterest">{{loanagainstdepositErrorMessage.depositinterest}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="d-flex">
+          <div class="col-md-6 col-xl-6 pl-0">
+            <div class="form-group">
+              <label id="depositdate" title="Deposit Date">Deposit Date</label>
+              <input type="text" [bsConfig]="pdateofestablishmentConfig" class="form-control" readonly 
+               #dp="bsDatepicker" bsDatepicker  class="form-control" readonly formControlName="depositdate"
+                [ngClass]="{ 'is-invalid': loanagainstdepositErrorMessage.depositdate}">
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="loanagainstdepositErrorMessage.depositdate">{{loanagainstdepositErrorMessage.depositdate}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-6 pr-0">
+            <div class="form-group">
+              <label id="deposittenure" title="Deposit Tenure">Deposit Tenure</label>
+              <input type="text" class="form-control" formControlName="deposittenure" appNumbersonly maxlength="3"
+                [ngClass]="{ 'is-invalid': loanagainstdepositErrorMessage.deposittenure}">
+              <div class="invalid-feedback-cst"><span
+                  *ngIf="loanagainstdepositErrorMessage.deposittenure">{{loanagainstdepositErrorMessage.deposittenure}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <!-- <div class="form-group">
+          <label>Upload Document</label>
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="">
+            <div class="input-group-append">
+              <button class="btn btn-lg-icon px-2 p-0"> <img src="./assets/images/icon-upload-blue.svg" class="" width="18px" height="18px"></button>
+            </div> -->
+        <!-- to uplaod the doc file -->
+        <!-- <input style="display: none" type="file" (change)="upload($event.target.files)" #fileInput>
+          </div>
+        </div> -->
+
+        <div class="form-group">
+          <label id="uploaddocument" title="Upload Document">Upload Document</label>
+          <div class="input-group">
+            <input type="text" class="form-control" disabled formControlName="uploaddocument" [value]="loanAgainstDepositResponse?.name"   maxlength="200"
+              [ngClass]="{ 'is-invalid': loanagainstdepositErrorMessage.uploaddocument }">
+            <div class="input-group-append">
+              <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()"><img
+                  src="./assets/images/icon-upload-blue.svg" class="" width="18px" height="18px"></button>
+              <!-- to uplaod the image -->
+              <input id="fileLoanAgainstDeposit" style="display: none" type="file" (change)="upload($event,fileInput.files)" #fileInput>
+            </div>
+          </div>
+          
+          <div class="invalid-feedback-cst"><span
+              *ngIf="loanagainstdepositErrorMessage.goldarticletypeimage">{{loanagainstdepositErrorMessage.uploaddocument}}</span>
+          </div>
+        </div>
+
+      </div>
+      <hr>
+    </div>
+  </form>
+  <div class="col-md-12 col-xl-12">
+    <div class="d-flex justify-content-end mt-4"> <a href="#" data-toggle="tab" class="btn btn-b-icon px-3 border-0 "
+        role="tab" aria-controls="hot" aria-selected="false"><img src="./assets/images/icon-add-white.svg" class="mr-3"
+          width="20px" height="20px" (click)="submit()">Add</a> </div>
+  </div>
+  <div>
+    <kendo-grid [data]="loanAgainstDeposits" [reorderable]="true" [resizable]="true" [sortable]="true"  (remove)="removeHandler($event)">
+      <kendo-grid-column field="pdeposittype" title="Deposit type" width="100">
+     </kendo-grid-column>
+     <kendo-grid-column field="pbankcreditfacility" title="Bank/Credit Facility" width="150">
+       </kendo-grid-column>
+       <kendo-grid-column field="pdepositaccountnumber" title="Deposit A/C Number" width="130">
+         </kendo-grid-column>
+     <kendo-grid-column field="pdepositamount" title="Amount In Deposit A/C" width="140">
+       </kendo-grid-column>
+     <kendo-grid-column field="pdepositinterestpercentage" title="Deposit Interest %" width="100">
+      </kendo-grid-column>  
+     <kendo-grid-column field="pdepositdate" width="100" title="Deposit Date">
+         <ng-template kendoGridCellTemplate let-dataItem>
+             {{dataItem.pdepositdate | date: 'dd/MM/yyyy'}}
+         </ng-template>
+     </kendo-grid-column>                
+     <kendo-grid-column field="pdeposittenure" width="100" title="Deposit Tenure">
+       </kendo-grid-column>  
+       <kendo-grid-column field="pUploadfilename" title="Upload Document" width="120">
+         </kendo-grid-column>                      
+ <kendo-grid-command-column title="" width="220">
+   <ng-template kendoGridCellTemplate>
+     <!-- <button kendoGridEditCommand>Edit</button> -->
+     <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+   </ng-template>
+ </kendo-grid-command-column>
+
+</kendo-grid>
+  </div>
+  <!-- <div class="d-flex justify-content-end mt-4"> <a href="#" class="btn btn-b-icon px-3 border-0 collapsed"
+      data-toggle="collapse" data-target="#deposit-compute" aria-expanded="false"><img
+        src="./assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px">Compute</a> </div> -->
+  <hr>
+  <div >
+    <div class="row">
+      <div class="col-md-12 col-xl-12">
+        <label>Total Deposit Value <span class="bc-2-bold">- {{totalDepositValue}} </span></label>
+      </div>
+    </div>
+    <hr>
+  </div>
+</div>

@@ -1,0 +1,499 @@
+<div class="section-content mt-2">
+    <form [formGroup]="contactEmployeeForm">
+
+
+        <div class="row mt-4">
+            <div class="col-md-6 col-xl-6">
+                <div class="col-12  p-0">
+                    <p class="bc-2">Salary Info</p>
+                </div>
+                <div class="form-group">
+                    <label class="required-field">Basic Salary</label>
+
+                    <input class="form-control text-right" id="pEmploymentBasicSalary" title="Basic Salary" maxlength="11" type="text" value="" placeholder=0 formControlName="pEmploymentBasicSalary" (keyup)="ctcCalculation()" appMycurrencyFormatter appNumbersonly [ngClass]="{ 'is-invalid': EmployeeDetailsValidation.pEmploymentBasicSalary }">
+                    <div class="invalid-feedback">
+                        <span *ngIf="EmployeeDetailsValidation.pEmploymentBasicSalary">{{EmployeeDetailsValidation?.pEmploymentBasicSalary}}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="required-field">Allowance / Variable Pay</label>
+                    <input class="form-control text-right" id="pEmploymentAllowanceORvda" maxlength="11" title="Allowance / Variable Pay" appMycurrencyFormatter type="text" value="" placeholder=0 (keyup)="ctcCalculation()" formControlName="pEmploymentAllowanceORvda" appNumbersonly
+                        [ngClass]="{ 'is-invalid': EmployeeDetailsValidation.pEmploymentAllowanceORvda }">
+
+                    <div class="invalid-feedback">
+                        <span *ngIf="EmployeeDetailsValidation.pEmploymentAllowanceORvda">{{EmployeeDetailsValidation?.pEmploymentAllowanceORvda}}</span>
+                    </div>
+
+
+                </div>
+                <div class="form-group">
+                    <label class="col-md-12 col-xl-12 pl-0">Total Cost to Company (CTC)</label>
+                    <span class="col-md-12 col-xl-12 bc-2-bold font-weight-bolder pl-0" style="font-family: 'lato', sans-serif !important;"> {{ctc| mycurrencypipe}} </span>
+                </div>
+                <div class="form-group">
+                    <!-- <label>Designation</label>
+             <input class="form-control" id="pEmploymentDesignation" maxlength="50" title="Designation" type="text" value="" formControlName="pEmploymentDesignation" appCharactersonly appTitlecaseword>
+            -->
+
+                    <label id="mdesignationname" class="required-field">Designation</label>
+
+                    <ng-select id="mdesignationname" title="Designation" [items]="lstDesignation" formControlName="mdesignationid" bindLabel="designationname" bindValue="designationid" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                        [clearOnBackspace]=true (change)="designationname_Change($event)" [ngClass]="{ 'is-invalid': EmployeeDetailsValidation.mdesignationname }">
+
+                    </ng-select>
+
+                    <app-validation-message [messgae]="EmployeeDetailsValidation?.mdesignationname">
+                    </app-validation-message>
+
+                    <!-- <select id="" class="form-control" formControlName="mdesignationid" (change)="designationname_Change($event)" [ngClass]="{ 'is-invalid': EmployeeDetailsValidation.mdesignationname }">
+                <option value="" ng-selected="selected">Select</option>
+                <option *ngFor="let adddesig of lstDesignation" [value]="adddesig.designationid">
+                    {{adddesig.designationname}}</option>
+            </select>
+  
+            <div class="invalid-feedback">
+                <span *ngIf="EmployeeDetailsValidation.mdesignationname">{{EmployeeDetailsValidation?.mdesignationname}}</span>
+            </div> -->
+                </div>
+                <div class="form-group">
+                    <label id="pEmploymentRoleId" class="required-field">Role</label>
+
+                    <ng-select id="pEmploymentRoleId" title="Role" [items]="rolesList" formControlName="pEmploymentRoleId" bindLabel="pemploymentrole" bindValue="pemploymentroleid" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                        [clearOnBackspace]=true (change)="role_Change($event)" [ngClass]="{ 'is-invalid': EmployeeDetailsValidation.pEmploymentRoleId }">
+
+                    </ng-select>
+
+                    <app-validation-message [messgae]="EmployeeDetailsValidation?.pEmploymentRoleId">
+                    </app-validation-message>
+
+                    <!-- <div class="input-group">
+                <select class="form-control" id="pEmploymentRoleId" title="Role" formControlName="pEmploymentRoleId" (change)="role_Change($event)" [ngClass]="{ 'is-invalid': EmployeeDetailsValidation.pEmploymentRoleId }">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let role of rolesList"  [value]="role.pEmploymentRoleId"> {{role.pEmploymentRoleName}}</option>
+                </select>
+                <div class="invalid-feedback">
+                    <span *ngIf="EmployeeDetailsValidation.pEmploymentRoleId">{{EmployeeDetailsValidation?.pEmploymentRoleId}}</span>
+                </div>
+  
+  
+            </div> -->
+                </div>
+                <div class="form-group">
+                    <!-- <label class="required-field">Date of Joining</label> -->
+
+                    <label class="required-field" id="pEmploymentJoiningDate">Date of Joining</label>
+
+                    <input class="form-control" readonly type="text" title="Date of Joining" bsDatepicker [bsConfig]="pDobConfig" formControlName="pEmploymentJoiningDate" maxlength="10" [ngClass]="{ 'is-invalid': EmployeeDetailsValidation.pEmploymentJoiningDate }">
+
+                    <!-- <input class="form-control" type="date"   id="pEmploymentJoiningDate"  title="Date of Joining" placeholder="Date picker here"
+            placement="top" formControlName="pEmploymentJoiningDate" [ngClass]="{ 'is-invalid': EmployeeDetailsValidation.pEmploymentJoiningDate }"> -->
+
+                    <div class="invalid-feedback">
+                        <span *ngIf="EmployeeDetailsValidation.pEmploymentJoiningDate">{{EmployeeDetailsValidation?.pEmploymentJoiningDate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <hr class="light">
+
+                <p class="bc-2">Personal Details</p>
+            </div>
+
+            <div class="col-md-6 col-xl-4">
+                <div class="border rounded p-2 h-100">
+                    <div class="form-group">
+                        <label class="sec-head required-field">Residential Status</label>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="presidentialstatus" title="Residential Status" id="presidentialstatus" value="Resident" formControlName="presidentialstatus" [(ngModel)]="checked">
+                            <label class="mt-1" for="inlineRadio2"> Resident </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="presidentialstatus" title="Residential Status" id="presidentialstatus" value="Non-Resident" formControlName="presidentialstatus">
+                            <label class="mt-1" for="inlineRadio2"> Non-Resident </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="presidentialstatus" title="Residential Status" id="presidentialstatus" value="Foreign National" formControlName="presidentialstatus">
+                            <label class="mt-1" for="inlineRadio2"> Foreign National </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="presidentialstatus" title="Residential Status" id="presidentialstatus" value="Person of Indian Origin" formControlName="presidentialstatus">
+                            <label class="mt-1" for="inlineRadio2"> Person of Indian Origin </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="border rounded p-2">
+                    <label class="sec-head">Birth &amp; Nationality</label>
+                    <div class="form-group mb-1">
+                        <label>Place of Birth</label>
+                        <input class="form-control" type="text" value="" title="Place of Birth" maxlength="50" id="pplaceofbirth" formControlName="pplaceofbirth" appTitlecaseword appCharactersonly placeholder="Enter Place of Birth">
+                        <!-- <div class="invalid-feedback">
+                <span *ngIf="PersonalDetailsValidations.pplaceofbirth">{{PersonalDetailsValidations?.pplaceofbirth}}</span>
+              </div> -->
+                    </div>
+                    <div class="form-group mb-1">
+                        <!-- <label>Country of Birth</label> -->
+
+
+
+
+                        <!--<select id="" class="form-control" formControlName="pCountryId" (change)="pCountry_Change($event)">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option *ngFor="let country of countryDetails" [value]="country.pCountryId">
+                    {{pCountry}}
+                  </option>
+              </select>-->
+                        <!--<ng-select id="pCountry" title="Country of Birth" [items]="countryDetails" formControlName="pCountryId" bindLabel="pCountry" bindValue="pCountryId" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                         [clearOnBackspace]=true (change)="pCountry_Change($event)" [ngClass]="{ 'is-invalid': EmployeeDetailsValidation.pCountryId }">
+  
+              </ng-select>-->
+                        <label id="pCountryId" class="required-field" title="Country">Country of Birth</label>
+                        <select id="" class="form-control" formControlName="pCountryId" (change)="pCountry_Change($event)">
+                <option value="" ng-selected="selected" disabled>Select</option>
+                <option *ngFor="let country of countryDetails" [value]="country.pCountryId">
+                  {{country.pCountry}}
+                </option>
+              </select>
+                        <!-- <input class="form-control" type="text"  title="Country of Birth"  id="pcountryofbirth" value="" formControlName="pcountryofbirth" appTitlecaseword appCharactersonly
+              [ngClass]="{ 'is-invalid': PersonalDetailsValidations.pcountryofbirth }"> -->
+                        <!-- <div class="invalid-feedback">
+                <span *ngIf="PersonalDetailsValidations.pcountryofbirth">{{PersonalDetailsValidations?.pcountryofbirth}}</span>
+              </div> -->
+                    </div>
+                    <div class="form-group mb-1">
+                        <label>Nationality/Citizen of</label>
+                        <input class="form-control" type="text" title="Nationality/Citizen of" maxlength="20" id="pnationality" value="" formControlName="pnationality" appTitlecaseword appCharactersonly placeholder="Enter Nationality/Citizen of">
+                        <!-- <div class="invalid-feedback">
+                <span *ngIf="PersonalDetailsValidations.pnationality">{{PersonalDetailsValidations?.pnationality}}</span>
+              </div> -->
+                    </div>
+                    <div class="form-group mb-1">
+                        <label>Community Details</label>
+                        <select id="pminoritycommunity" class="form-control" title="Community Details" formControlName="pminoritycommunity">
+                <option value="" disabled>Select</option>
+                <option class="" value="Buddhist">Buddhist</option>
+                <option class="" value="Christian">Christian</option>
+                <option class="" value="Hindu">Hindu</option>
+                <option class="" value="Jain">Jain</option>
+                <option class="" value="Muslim">Muslim</option>
+                <option class="" value="Sikh">Sikh</option>
+                <option class="" value="Zorostrian">Zorostrian</option>
+                <option class="" value="None of these">None of these</option>
+              </select>
+                        <!-- <div class="invalid-feedback">
+                <span *ngIf="PersonalDetailsValidations.pminoritycommunity">{{PersonalDetailsValidations?.pminoritycommunity}}</span>
+              </div> -->
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="border rounded p-2" style="min-height:318px;">
+                    <div class="form-group">
+                        <label class="sec-head required-field" title="Marital Status">Marital Status</label>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check form-check-inline radio-btn-secondary mr-5">
+                            <input class="form-check-input" formControlName="pmaritalstatus" type="radio" name="pmaritalstatus" id="Married" value="Married">
+                            <label class="mt-1" for="Married"> Married </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check form-check-inline radio-btn-secondary mr-5">
+                            <input class="form-check-input" type="radio" formControlName="pmaritalstatus" name="pmaritalstatus" id="Single" value="Single">
+                            <label class="mt-1" for="Single"> Single </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check form-check-inline  radio-btn-secondary mr-5">
+                            <input class="form-check-input" type="radio" formControlName="pmaritalstatus" name="pmaritalstatus" id="Separated" value="Separated">
+                            <label class="mt-1" for="Separated"> Separated </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check form-check-inline radio-btn-secondary mr-5">
+                            <input class="form-check-input" type="radio" formControlName="pmaritalstatus" name="pmaritalstatus" id="Widowed" value="Widowed">
+                            <label class="mt-1" for="Widowed"> Widowed </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!------------------Employee Details-->
+        <div class="row mt-4">
+            <div class="col-12">
+                <!-- <ul class="nav filtered-tab m-0">
+              <li><a class="active" data-toggle="tab" href="#gen-info">General Information</a></li>
+              <li><a data-toggle="tab" href="#family-details">Family Details</a></li>
+              <li><a data-toggle="tab" href="#education">Education</a></li>
+              <li><a data-toggle="tab" href="#exp-details">Previous Experience Details</a></li>
+              <li><a data-toggle="tab" href="#kapil-career">Kapil Career</a></li>
+              <li><a data-toggle="tab" href="#dot">Department Training</a></li>
+          </ul> -->
+                <ul class="nav filtered-tab">
+                    <!--<li class=""><a class="active" data-toggle="tab" href="#gen-info" (click)="tabsClick('gen-info')">General Information</a></li>-->
+                    <li class="nav-item"><a data-toggle="tab" href="#family-details" (click)="tabsClick('family-details')">Family Details</a></li>
+                    <!--<li><a data-toggle="tab" href="#education" (click)="tabsClick('education')">Education</a></li>
+            <li><a data-toggle="tab" href="#exp-details" (click)="tabsClick('exp-details')">Previous Experience Details</a></li>
+            <li><a data-toggle="tab" href="#kapil-career" (click)="tabsClick('kapil-career')">Kapil Career</a></li>
+            <li><a data-toggle="tab" href="#dot" (click)="tabsClick('dot')">Department Training</a></li>-->
+
+                </ul>
+                <div class="tab-content mt-4">
+
+
+                    <div class="tab-pane fade" id="family-details">
+
+
+                        <div class="row" formGroupName="FamilyControls">
+                            <div class="col-12">
+                                <p class="bc-2">Family details</p>
+                            </div>
+
+                            <div class="col-md-6 col-xl-4">
+                                <div class="form-group">
+
+                                    <label id="relationshipid" class="required-field">Relationship</label>
+
+
+                                    <ng-select id="relationshipid" title="Relationship" [items]="relationshipList" formControlName="relationshipid" bindLabel="relationshipname" bindValue="relationshipid" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                        [clearOnBackspace]=true (change)="relationship_Change($event)" [ngClass]="{ 'is-invalid': EmployeeDetailsValidation.relationshipid }">
+
+                                    </ng-select>
+
+                                    <app-validation-message [messgae]="EmployeeDetailsValidation?.relationshipid">
+                                    </app-validation-message>
+
+                                    <!-- <select id="" title="Relationship" class="form-control" formControlName="relationshipid" (change)="relationship_Change($event)" [ngClass]="{ 'is-invalid': EmployeeDetailsValidation.relationshipname }">
+                        <option value="" ng-selected="selected">Select</option>
+                        <option *ngFor="let ralation of relationshipList" [value]="ralation.relationshipid">
+                            {{ralation.relationshipname}}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        <span *ngIf="EmployeeDetailsValidation.relationshipname">{{EmployeeDetailsValidation?.relationshipname}}</span>
+                    </div> -->
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="form-group">
+                                    <label class="required-field">Name</label>
+                                    <input class="form-control" id="pname" type="text" title="Name" value="" formControlName="pname" appCharactersonly maxlength="100" [ngClass]="{ 'is-invalid': EmployeeDetailsValidation.pname }">
+                                    <div class="invalid-feedback">
+                                        <span *ngIf="EmployeeDetailsValidation.pname">{{EmployeeDetailsValidation?.pname}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="form-group">
+
+                                    <label class="required-field" id="pdateofbirth">Date of Birth</label>
+
+                                    <input class="form-control" readonly type="text" readonly bsDatepicker [bsConfig]="pDobConfig" formControlName="pdateofbirth" title="Date of birth" maxlength="10" (ngModelChange)="ageCalculation($event)" [ngClass]="{ 'is-invalid': EmployeeDetailsValidation.pdateofbirth }">
+                                    <!-- <label class="required-field">Date of birth</label>
+                    <input class="form-control" id="pdateofbirth" type="date" title="Date of birth" value=""
+                        formControlName="pdateofbirth" [ngClass]="{ 'is-invalid': EmployeeDetailsValidation.pdateofbirth }"> -->
+                                    <div class="invalid-feedback">
+                                        <span *ngIf="EmployeeDetailsValidation.pdateofbirth">{{EmployeeDetailsValidation?.pdateofbirth}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="light">
+                            <div class="col-md-6 col-xl-4">
+                                <div class="form-group">
+                                    <label>Age</label>
+                                    <input class="form-control" type="text" title="Age" readonly value="" formControlName="page">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <label class="required-field" title="Gender">Gender</label>
+                                <div class="w-100">
+                                    <div class="form-check form-check-inline radio-btn-secondary">
+
+                                        <input class="form-check-input" type="radio" name="pgender" id="male1" value="Male" formControlName="pgender">
+                                        <label class="" for="male1"> Male &nbsp; &nbsp; </label>
+                                    </div>
+                                    <div class="form-check form-check-inline radio-btn-secondary ">
+                                        <input class="form-check-input" type="radio" name="pgender" id="female" value="Female" formControlName="pgender">
+                                        <label class="" for="female"> Female &nbsp; &nbsp;</label>
+                                    </div>
+                                    <div class="form-check form-check-inline radio-btn-secondary  ">
+                                        <input class="form-check-input" type="radio" name="pgender" id="thirdgender" value="Third Gender" formControlName="pgender">
+                                        <label class="" for="thirdgender"> Third Gender </label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 col-xl-4">
+                                <label class="required-field" title="Marital Status">Marital Status</label>
+                                <div class="w-100">
+                                    <div class="form-check form-check-inline radio-btn-secondary">
+
+                                        <input class="form-check-input" type="radio" name="pmaritialstatus" id="married" value="Married" formControlName="pmaritialstatus">
+                                        <label class="" for="married"> Married</label>
+                                    </div>
+                                    <div class="form-check form-check-inline radio-btn-secondary ">
+                                        <input class="form-check-input" type="radio" name="pmaritialstatus" id="unmarried" value="Un-Married" formControlName="pmaritialstatus">
+                                        <label class="" for="unmarried"> Un-Married</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <hr class="light">
+                            <div class="col-md-6 col-xl-4">
+                                <div class="form-group">
+                                    <label>Education</label>
+
+                                    <ng-select id="qualificationid" title="Education" [items]="qualificationlist" formControlName="qualificationid" bindLabel="qualificationname" bindValue="qualificationid" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                        [clearOnBackspace]=true (change)="Qualification_Change($event)">
+
+                                    </ng-select>
+
+                                    <!-- <app-validation-message [messgae]="EmployeeDetailsValidation?.relationshipname">
+                    </app-validation-message>
+  
+  
+                        <select id="" class="form-control" title="Education" formControlName="qualificationid" (change)="Qualification_Change($event)">
+                            <option value="" ng-selected="selected">Select</option>
+                            <option *ngFor="let quali of qualificationlist" [value]="quali.qualificationid">
+                                {{quali.qualificationname}}</option>
+                        </select> -->
+                                    <!-- <div class="invalid-feedback" >
+                        <span
+                            *ngIf="EmployeeDetailsValidation.pcourse">{{EmployeeDetailsValidation?.pcourse}}</span>
+                    </div> -->
+                                    <!-- <label>Education</label>
+                    <input class="form-control" type="text" title="Education" value=""
+                        formControlName="peducation"> -->
+                                </div>
+                                <!-- <div class="invalid-feedback" >
+                          <span
+                              *ngIf="EmployeeDetailsValidation.qualificationname">{{EmployeeDetailsValidation?.qualificationname}}</span>
+                      </div> -->
+                            </div>
+
+                            <div class="col-md-6 col-xl-4">
+                                <div class="form-group">
+                                    <label>Occupation</label>
+                                    <input id="poccupation" class="form-control" type="text" title="Occupation" value="" formControlName="poccupation" appCharactersonly maxlength="100">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-xl-4">
+                                <div class="form-group">
+                                    <label id="pphoneno">Phone No</label>
+                                    <input class="form-control" id="pphoneno" type="text" title="Phone No" value="" formControlName="pphoneno" appNumbersonly maxlength="12">
+                                    <div class="invalid-feedback">
+                                        <span *ngIf="EmployeeDetailsValidation.pphoneno">{{EmployeeDetailsValidation?.pphoneno}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="light">
+
+                            <div class="col-md-12 col-xl-12">
+                                <div class="d-flex justify-content-end  mt-4 ml-3 mb-4">
+                                    <a href="" data-toggle="tab" class="btn  btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="addFamilyDetails()"><img src="assets/images/icon-add-white.svg" class="mr-3" width="20" height="20">{{familydetailsTransType}} </a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+
+                        <div class="row">
+                            <div class="col-md-12 col-xl-12">
+                                <table id="example" class="table text-center border" style="table-layout: fixed;">
+                                    <thead>
+                                        <tr>
+
+                                            <th>Relation</th>
+                                            <th>Name</th>
+                                            <th>DOB</th>
+                                            <th>Age</th>
+                                            <th>Gender</th>
+                                            <th>Marital Status</th>
+                                            <th>Education</th>
+                                            <th>Occupation</th>
+                                            <th>Phone No</th>
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let employess of lstemployess; let i = index">
+
+                                            <td style="width: 10px;overflow: hidden;">{{employess.relationshipname}}</td>
+                                            <td style="width: 10px;overflow: hidden;">{{employess.pname}}</td>
+                                            <td style="width: 10px;overflow: hidden;">{{employess.pdob }}</td>
+                                            <td style="width: 10px;overflow: hidden;">{{employess.page}}</td>
+                                            <td style="width: 10px;overflow: hidden;">{{employess.pgender}}</td>
+                                            <td style="width: 10px;overflow: hidden;">{{employess.pmaritialstatus}}</td>
+                                            <td style="width: 10px;overflow: hidden;">{{employess.qualificationname}}</td>
+                                            <td style="width: 10px;overflow: hidden;">{{employess.poccupation}}</td>
+                                            <td style="width: 10px;overflow: hidden;">{{employess.pphoneno}}</td>
+                                            <td style="width: 10px;overflow: hidden;">
+                                                <a (click)="editemployeeDeatails(i)">
+                                                    <div id="icon-edit"></div>
+                                                </a>
+                                                <a (click)="deleteemployeeDeatails(i)">
+                                                    <div id="icon-delete"></div>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <!-- family detail end -->
+
+
+
+
+
+
+                </div>
+                <!-- Tab content end -->
+
+            </div>
+
+        </div>
+        <!------------------Employee Details-->
+        <div class="d-flex justify-content-end mt-3">
+            <a href="#" class="btn btn-g-icon mr-4 px-3 border-0" [hidden]="true"><img src="assets/images/icon-cancel-white.svg" class="mr-3" width="20" height="20">Cancel</a>
+
+            <!-- <a href="#" data-toggle="tab" class="btn btn-s-icon px-3  border-0 " role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px">Save </a> -->
+            <button (click)="SaveEmployeeForm()" data-toggle="tab" class="btn btn-g-icon px-3  border-0 " role="tab" aria-controls="hot" aria-selected="false" [disabled]="isLoading" [hidden]="true">
+          <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading,'fa-check': !isLoading}"></i>
+          <span *ngIf="!isLoading">
+          </span>{{buttonName}}
+        </button>
+
+
+
+        </div>
+    </form>
+</div>

@@ -1,0 +1,63 @@
+
+<form [formGroup]="businessActivityForm" *ngIf="showBusinessActivity">
+<div class="row">
+  <div class="col-md-6 col-xl-4">
+    <div class="form-group">
+      <label id="pbusinessactivity" title="Brief Description of the activity"> Brief Description of the activity </label>
+      <textarea class="form-control" style="height:112px !important;" maxlength="200" formControlName="pbusinessactivity" [ngClass]="{ 'is-invalid': businessActivityErrorMessage.pbusinessactivity }"></textarea>
+      <div class="invalid-feedback-cst">
+        <span
+            *ngIf="businessActivityErrorMessage.pbusinessactivity">{{businessActivityErrorMessage.pbusinessactivity}}</span>
+    </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xl-8">
+    <div class="row">
+      <div class="col-md-6 col-xl-6">
+        <div class="form-group">
+          <label id="pestablishmentdate" title="Date of Establishment"> Date of Establishment </label>
+          <input type="text" class="form-control" [bsConfig]="pdateofestablishmentConfig" readonly 
+          #dp="bsDatepicker" bsDatepicker (ngModelChange)="onValueChange($event)" formControlName="pestablishmentdate" [ngClass]="{ 'is-invalid': businessActivityErrorMessage.pestablishmentdate }">
+          <div class="invalid-feedback-cst">
+            <span
+                *ngIf="businessActivityErrorMessage.pestablishmentdate">{{businessActivityErrorMessage.pestablishmentdate}}</span>
+        </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-6">
+        <div class="form-group">
+          <label id="pcommencementdate" title=" Date of Commencement"> Date of Commencement </label>
+          <input type="text" class="form-control" [bsConfig]="pdateofcommencementConfig" readonly [minDate]="this.businessActivityForm.value.pestablishmentdate" 
+                                            #dp="bsDatepicker" bsDatepicker  formControlName="pcommencementdate" [ngClass]="{ 'is-invalid': businessActivityErrorMessage.pcommencementdate }">
+          <div class="invalid-feedback-cst">
+            <span
+                *ngIf="businessActivityErrorMessage.pcommencementdate">{{businessActivityErrorMessage.pcommencementdate}}</span>
+        </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-6">
+        <div class="form-group">
+          <label id="pcinnumber" title="CIN Number ">CIN Number </label>
+          <input class="form-control" type="text" value="" appUppercase appAlphanumeric  formControlName="pcinnumber"
+          maxlength="20" [ngClass]="{ 'is-invalid': businessActivityErrorMessage.pcinnumber }">
+          <div class="invalid-feedback-cst">
+            <span
+                *ngIf="businessActivityErrorMessage.pcinnumber">{{businessActivityErrorMessage.pcinnumber}}</span>
+        </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-6">
+        <div class="form-group">
+          <label id="pgstinno" title="GSTIN"> GSTIN </label>
+          <input class="form-control" type="text" value="" appUppercase appAlphanumeric  formControlName="pgstinno" 
+          [pattern]="'^[a-zA-Z0-9]+$'" maxlength="20" [ngClass]="{ 'is-invalid': businessActivityErrorMessage.pgstinno }">
+          <div class="invalid-feedback-cst">
+            <span
+                *ngIf="businessActivityErrorMessage.pgstinno">{{businessActivityErrorMessage.pgstinno}}</span>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>

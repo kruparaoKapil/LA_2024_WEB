@@ -1,0 +1,121 @@
+<!-- <div class="row">
+    <div class="col-12 mt-5">
+        <p class="bc-2 pl-5">Referral commission</p>
+    </div>
+</div> -->
+<form [formGroup]="Sharereferalcommisionform">
+  <div class="row mt-5">
+    <div class="col-md-6 col-xl-4">
+
+      <div class="form-group">
+        <div class="material-switch">
+          <span class="mr-2">Referral Commission</span>
+          <input id="Employment" name="Employment" formControlName="pisreferralcommissionapplicable" type="checkbox"
+            (change)="Referralexists($event)">
+          <label for="Employment" class="badge-success"></label>
+        </div>
+      </div>
+      <!-- <p class="mb-2 cb-l">Referral Commission</p>
+
+        
+          <div class="material-switch">
+            <span class="mr-2"></span>
+            <input id="Employment" name="Employment" formControlName="pisreferralcommissionapplicable" type="checkbox"
+              (change)="Referralexists($event)">
+            <label for="Employment" class="badge-success"></label>
+          </div> -->
+
+
+      <!-- <div class="form-check form-check-inline radio-btn-secondary">
+            <input class="form-check-input" type="radio" name="pisreferralapplicable" (change)="Referralnotexits()" formControlName="pisreferralapplicable" id="inlineRadio6" value="option2">
+            <label class="form-check-label" for="inlineRadio6"> No</label>
+        </div> -->
+    </div>
+  </div> <!-- row end -->
+
+  <div class="row mt-2" *ngIf="showcommisionpayout">
+    <div class="col-md-6 col-xl-4">
+      <div>
+        <p class="mb-2 cb-l">Commission Payout</p>
+      </div>
+      <div class="form-group mb-0">
+        <div class="d-flex">
+          <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+            <input class="form-check-input" type="radio" (change)="onCommissionChange($event)"
+              name="preferralcommissiontype" id="Fixed" value="Fixed" formControlName="preferralcommissiontype">
+            <label class="mt-1" for="Fixed"> Fixed </label>
+          </div>
+          <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+            <input class="form-check-input" type="radio" name="preferralcommissiontype" id="Percentage"
+              value="Percentage" formControlName="preferralcommissiontype" (change)="onCommissionChange($event)">
+            <label class="mt-1" for="Percentage"> Percentage </label>
+          </div>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-xl-4">
+          <div class="form-group">
+
+            <input *ngIf="forFixed" appMycurrencyFormatter maxlength="5" appNumbersonly removeZero class="form-control text-right"
+              [ngClass]="{ 'is-invalid': (CommissionValueFlag == true) }" formControlName="pcommissionValue"
+              name="pcommissionfixedValue" type="text" (keyup)="CommissionValue_change($event)">
+            <input *ngIf="forPercentage" appRoundecimal="2@2" removeZero class="form-control"
+              formControlName="pcommissionValue" [ngClass]="{ 'is-invalid': (CommissionValueFlag == true) }"
+              name="pcommissionpercentageValue" type="text" (keyup)="CommissionValue_change($event)">
+            <div class="invalid-feedback" *ngIf="CommissionValueFlag">
+              Commission Payout Required
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4" *ngIf="showcommisionpayout">
+      <div class="form-group">
+        <div class="material-switch">
+          <span class="mr-2">TDS</span>
+          <input id="tds" name="tds" formControlName="pistdsapplicable" type="checkbox" (change)="tdsCheck($event)">
+          <label for="tds" class="badge-success"></label>
+        </div>
+      </div>
+      <div class="col-md-12 col-xl-12 p-0">
+      <div class="form-group mb-0" *ngIf="tdsshow">
+        <label id="ptdssection" title="TDS Section No">TDS Section No.</label>
+        <!-- <div class="input-group"> -->
+          <!-- <select id="ptdssection" title="TDS" class="form-control" formControlName="ptdssection" >
+              <option value="" ng-selected="selected">Select</option>
+              <option *ngFor="let tdsdetails of TDSsectiondetails" [value]="tdsdetails.pTdsSection">
+                {{tdsdetails.pTdsSection}}</option>
+            </select> -->
+          <ng-select title="TDS" id="ptdssection" [items]="TDSsectiondetails" formControlName="ptdssection"
+            bindLabel="pTdsSection" bindValue="pTdsSection" [multiple]=false placeholder="Select" [searchable]=true
+            [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true>
+          </ng-select>
+          <!-- <div class="invalid-feedback">
+            <span *ngIf="SavingTranscationErrorMessages.ptdssection">{{SavingTranscationErrorMessages.ptdssection}}</span>
+        </div> -->
+        <!-- </div> -->
+
+      </div>
+    </div>
+  </div>
+
+  </div> <!-- row end -->
+
+</form>
+<div class="d-flex justify-content-end mt-4">
+  <a class="btn btn-g-icon mr-4 px-3 border-0" appButtonDoubleClick [debounceTime]="500" (debounceClick)="clear()">
+    <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />
+    Clear
+  </a>
+  <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="saveshareReferralform()" data-toggle="tab"
+    class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false">
+    <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i>
+    {{Savebutton}}
+  </a>
+</div>
+
+
+
+
+<!--row-end-->

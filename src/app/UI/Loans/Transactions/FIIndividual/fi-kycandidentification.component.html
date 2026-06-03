@@ -1,0 +1,319 @@
+<div class="tab-pane fade active show" id="kyc-Documents" role="tabpanel" aria-labelledby="warm-tab">
+
+    <ng-container *ngIf="showKYCandIdentificationDocumentsForm">
+
+        <div class="row mt-5">
+            <div class="col-md-6 col-xl-4 ">
+                <p class="bc-2">KYC and Identification Documents</p>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                    <div class="material-switch pull-right" *ngIf="forHideButton"> <span class="mr-2">Not
+                        applicable</span>
+                        <input id="kyc-notapplicable" name="kyc-notapplicable" type="checkbox" [(ngModel)]="notApplicableForAll" (change)="notApplicableAll($event)">
+                        <label for="kyc-notapplicable" class="check-danger"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form [formGroup]="kYCIdentificationForm">
+            <div class="row" *ngIf="CreditAndContactDetailsShowOrHideForMember">
+                <div class="col-md-12 col-xl-12">
+                    <label class="">Select Contact type</label>
+                    <div class="col-md-6 col-xl-12">
+                        <table id="example" class="table text-center w-auto">
+                            <thead>
+                                <tr>
+                                    <th>Select</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Reference Id</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let applicants of lstApplicantsandothers; let i = index">
+                                    <td>
+                                        <!-- <input class="form-check-input" type="radio"
+                       name="personaldetails" id="perapplicant" 
+                       value="{{applicants?.pContactreferenceid}}"
+                        (change)="onChangeKycApplicant(i)"> -->
+
+                                        <!-- Mahesh M -->
+                                        <input *ngIf="applicants.papplicanttype == 'Applicant'" class="form-check-input" checked type="radio" name="personaldetails" id="perapplicant" value="{{applicants.pcontactreferenceid}}" (change)="onChangeKycApplicant(i)">
+
+                                        <input *ngIf="applicants.papplicanttype == 'Member'" class="form-check-input" checked type="radio" name="personaldetails" id="perapplicant" value="{{applicants.pcontactreferenceid}}" (change)="onChangeKycApplicant(i)">
+
+                                        <!-- Mahesh M -->
+
+                                        <input *ngIf="applicants.papplicanttype != 'Applicant' && applicants.papplicanttype != 'Member'" class="form-check-input" type="radio" name="personaldetails" id="perapplicant" value="{{applicants.pcontactreferenceid}}" (change)="onChangeKycApplicant(i)">
+
+
+                                        <label for="perapplicant"></label>
+                                    </td>
+                                    <td>{{applicants?.papplicantname}}</td>
+                                    <td>{{applicants?.papplicanttype}}</td>
+                                    <td>{{applicants?.pcontactreferenceid}}</td>
+                                    <td *ngIf="applicants?.status == true">
+                                        <div class="done"></div>
+                                    </td>
+                                    <td *ngIf="applicants?.status == false">
+                                        <div class="notdone"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+    <ng-container *ngIf="showCreditScoreForm">
+        <hr *ngIf="CreditAndContactDetailsShowOrHideForMember">
+
+        <div class="row" *ngIf="CreditAndContactDetailsShowOrHideForMember">
+            <div class="col-md-6 col-xl-4">
+                <a class="lc-title acc1 text-decoration-none collapsed" data-toggle="collapse" href="#personaldetails" role="button" aria-expanded="false" aria-controls="personaldetails"> <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" class=""> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" class=""> &nbsp; &nbsp; Credit Score</a>
+
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="material-switch pull-right"> <span class="mr-2">Not applicable</span>
+                    <input id="credit-notapplicable" name="credit-notapplicable" [(ngModel)]="showCreditScore" (change)="notApplicableForm($event, 'creditScore')" type="checkbox">
+                    <label for="credit-notapplicable" class="check-danger"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3 collapse" *ngIf="!showCreditScore" id="personaldetails">
+            <form [formGroup]="CreditScoreForm">
+                <div class="row">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label id="pCiccompany" title="Select CIC Company">Select CIC Company</label>
+                            <div class="input-group">
+                                <select class="form-control" formControlName="pCiccompany" (change)="companyChange($event)" [ngClass]="{ 'is-invalid': kycDocumentConfigErrorMessage.pCiccompany}">
+                                    <option value="" ng-selected="selected">Select</option>
+                                    <option>CIBIL</option>
+                                    <option>Equifax</option>
+                                    <option>Experion PLC</option>
+                                    <option>Hi-Mark CRIF</option>
+                                </select>
+                                <!-- <div class="input-group-append">
+                <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" width="20px"
+                    height="20px" class=""></button>
+              </div> -->
+                            </div>
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="kycDocumentConfigErrorMessage.pCiccompany">{{kycDocumentConfigErrorMessage.pCiccompany}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label id="pMaxcreditscore" title="Max Credit Score">Max Credit Score</label>
+                            <div class="input-group">
+                                <select class="form-control" formControlName="pMaxcreditscore" (change)="onChangeMaxCreditScore($event)" [ngClass]="{ 'is-invalid': kycDocumentConfigErrorMessage.pMaxcreditscore}">
+                                    <option value="" ng-selected="selected">Select</option>
+                                    <option>900</option>
+                                    <!-- <option>None</option> -->
+                                </select>
+                                <!-- <div class="input-group-append">
+                <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" width="18px"
+                    height="18px" class=""></button>
+              </div> -->
+                            </div>
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="kycDocumentConfigErrorMessage.pMaxcreditscore">{{kycDocumentConfigErrorMessage.pMaxcreditscore}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="light">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label id="pCreditscore" title="Credit Score">Credit Score</label>
+                            <input class="form-control " type="text" placeholder="" formControlName="pCreditscore" maxlength="3" appNumbersonly (change)="enteredCreditScore($event)" [ngClass]="{ 'is-invalid': kycDocumentConfigErrorMessage.pCreditscore}">
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="kycDocumentConfigErrorMessage.pCreditscore">{{kycDocumentConfigErrorMessage.pCreditscore}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <!-- [value]="imageResponse.name" -->
+                            <label id="pCreditscorefilepath" title="Upload Credit Score Report">Upload Credit Score
+                                Report</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" disabled [value]="imageResponse?.name" maxlength="300" placeholder="" formControlName="pCreditscorefilepath">
+                                <div class="input-group-append">
+                                    <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()"> <img
+                                            src="assets/images/icon-upload-blue.svg" width="18px" height="18px"
+                                            class=""></button>
+                                    <input style="display: none" type="file" id="fileCreditScore" (change)="uploadAndProgress($event,fileInput.files)" #fileInput>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end mt-3 pt-3">
+                        <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" (click)="addCreditScore()"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-3">Add</a>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row mt-4">
+                <div class="col-md-12 col-xl-12">
+
+                    <p class="bc-2">Credit Score</p>
+                    <kendo-grid [data]="gridData" [reorderable]="true" [resizable]="true" [sortable]="true" (remove)="removeHandler($event)">
+                        <kendo-grid-column field="pApplicantname" title="Contact" width="100">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pApplicanttype" title="Type" width="100">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pContactreferenceid" title="Reference Id" width="100">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pCiccompany" width="100" title="CIC Company">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pCreditscore" width="100" title="Credit Score">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pMaxcreditscore" title="Credit Score %" width="50">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pMaxcreditscore}} %
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pFilename" title="Upload File Name" width="100">
+                        </kendo-grid-column>
+                        <!-- <kendo-grid-column field="pProoffilepath" title="Upload File path" width="100">
+              </kendo-grid-column> -->
+                        <kendo-grid-command-column title="" width="50">
+                            <ng-template kendoGridCellTemplate>
+                                <!-- <button kendoGridEditCommand>Edit</button> -->
+                                <button kendoGridRemoveCommand>
+                                    <div id="icon-delete"></div>
+                                </button>
+                            </ng-template>
+                        </kendo-grid-command-column>
+
+                    </kendo-grid>
+                </div>
+            </div>
+
+        </div>
+        <hr>
+    </ng-container>
+    <!-- <div class="row">
+    <div class="col-md-6 col-xl-4">
+      <a class="lc-title acc2 text-decoration-none collapsed" data-toggle="collapse" href="#KYC-Documents" role="button"
+        aria-expanded="false" aria-controls="personaldetails" [ngClass]="isAllAplicable ? 'disableOne':'activeOne'">
+        <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" class=""> <img id="open"
+          src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" class=""> &nbsp; &nbsp; KYC
+        Documents</a>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="material-switch pull-right"> <span class="mr-2">Not applicable</span>
+        <input id="kyc-section-notapplicable" name="kyc-section-notapplicable" type="checkbox"
+          [(ngModel)]="showKycDocument" (change)="notApplicableForm($event, 'kycDocument')">
+        <label for="kyc-section-notapplicable" class="check-success"></label>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-3 collapse" id="KYC-Documents">
+     <label class="">Select Contact</label>  
+
+
+    <app-kycdocuments [creditCount]="creditCount" (emitListUsers)="emitListUsers($event)"
+      [lstApplicantsandothers]="lstApplicantsandothers" [showKycDocument]="showKycDocument"
+      [notApplicableForAll]="notApplicableForAll" [selectedApplicantData]="selectedApplicantData"></app-kycdocuments>
+
+
+  </div> -->
+
+    <ng-container *ngIf="showKYCDocumentsForm">
+        <div class="row">
+            <div class="col-md-6 col-xl-4">
+                <a class="lc-title acc2 text-decoration-none">
+                    <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" class="">
+                    <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" class=""> &nbsp; &nbsp; KYC Documents
+                </a>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="material-switch pull-right"> <span class="mr-2">Not applicable</span>
+                    <input id="kyc-section-notapplicable" name="kyc-section-notapplicable" type="checkbox" [(ngModel)]="showKycDocument" (change)="notApplicableForm($event, 'kycDocument')">
+                    <label for="kyc-section-notapplicable" class="check-success"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <!-- <label class="">Select Contact</label> -->
+
+
+            <app-kycdocuments [creditCount]="creditCount" (emitListUsers)="emitListUsers($event)" [lstApplicantsandothers]="lstApplicantsandothers" [showKycDocument]="showKycDocument" [notApplicableForAll]="notApplicableForAll" [selectedApplicantData]="selectedApplicantData">
+            </app-kycdocuments>
+
+
+        </div>
+    </ng-container>
+    <!-- ================================================================= page buttons  here======================================================================== -->
+    <div class="row mt-4">
+
+
+        <div class="col-md-12 col-xl-12">
+            <hr>
+            <div class="d-flex justify-content-end mt-4">
+                <a *ngIf="forClearButton" (click)="clearForm()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+                <a (click)="moveToPreviousTab()" data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-chewron-left-whitesolid.svg" width="20px" height="20px" class="mr-3">Back</a>
+                <!-- <a  data-toggle="tab" class="btn btn-b-icon px-3 border-0 "
+          role="tab" aria-controls="hot" aria-selected="false" (click)="nextTabClick()"><img
+            src="assets/images/icon-chewron-right-whitesolid.svg" width="20px" height="20px"
+             class="mr-3">Save & Continue</a> -->
+
+                <button (click)="nextTabClick()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" [disabled]="isLoading">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading,'fa-check': !isLoading}"></i>
+                    <span *ngIf="!isLoading">
+                    </span>{{buttonName}}</button>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content for-confirmation-pop-up">
+
+            <!-- Modal Header -->
+            <!-- <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div> -->
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Are you sure want to update your Credit score?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="confirmForCreditScoeUpdate()">Yes</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancel()">No</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="my-container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplateForFiView">
+    </ngx-loading>
+
+</div>

@@ -1,0 +1,98 @@
+<form [formGroup]="BiometricAttendanceReportForm">
+  <div class="section-content">
+    <div class="row">
+      <div class="col-md-3 col-xl-3">
+        <div class="form-group">
+          <label class="required-field">From Date</label>
+          <input type="text" formControlName="fromdate" readonly id="fromdate" class="form-control" title="From Date"
+            bsDatepicker [bsConfig]="dpConfig1" (ngModelChange)="todateChange($event)">
+        </div>
+      </div>
+      <div class="col-md-3 col-xl-3">
+        <div class="form-group">
+          <label class="required-field">To Date</label>
+          <input type="text" formControlName="todate" readonly id="todate" class="form-control" title="To Date"
+            bsDatepicker [bsConfig]="dpConfig2">
+        </div>
+      </div>
+      <div class="col-md-3 col-xl-3">
+        <label class="required-field">Leave Type</label>
+        <ng-select [items]="" bindLabel="" id="leavetype" title="Leave Type" formControlName="leavetype"
+          [ngClass]="{'is-invalid':BiometricAttendanceReportFormValidation?.leavetype}" bindValue="" [multiple]=false
+          placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+          (change)="selectleavetype($event)">
+          <ng-option *ngFor="let i of leavetypelst" [value]="i.leavetype">
+            {{i.leavetypee}}</ng-option>
+        </ng-select>
+        <app-validation-message [messgae]="BiometricAttendanceReportFormValidation?.leavetype">
+        </app-validation-message>
+      </div>
+      <div class="col-md-3 col-xl-3">
+        <div class=" d-flex justify-content mt-3 pt-2">
+          <button class="btn btn-b-icon border-0 mt-1" [disabled]="showbuttonbool" (click)="show()">
+            <i class="fa" [ngClass]="{'fa-spin fa-spinner': showbuttonbool}"></i>{{showbuttontext}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-content mt-2">
+    <div class="row">
+      <div class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end mt-4 mr-3">
+          <ul class="temp-ul pt-3">
+            <li class="temp-ico ml-2">
+              <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;"
+                kendo-button (click)="pdfOrprint('Pdf')" />
+            </li>
+            <li class="temp-ico ml-2">
+              <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print"
+                (click)="pdfOrprint('Print')" style="cursor: pointer;" />
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-12 col-xl-12 mt-2">
+        <ngx-datatable [rows]="ngxgridData" [scrollbarH]="true" class="material expandable" [columnMode]="'force'"
+          [offset]="pageCriteria.offset" [limit]="pageCriteria.pageSize" [headerHeight]="pageCriteria.headerHeight"
+          [rowHeight]="pageCriteria.rowHeight" [footerHeight]="pageCriteria.footerPageHeight">
+          <ngx-datatable-column name="Branch Name" prop="branchname"></ngx-datatable-column>
+          <ngx-datatable-column name="Employee Name" prop="employeename"></ngx-datatable-column>
+          <ngx-datatable-column name="Employee code" prop="employeecode"></ngx-datatable-column>
+          <ngx-datatable-column name="Date" prop="date">
+            <!-- <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div *ngIf="row.date == ''"></div>
+                            <div *ngIf="row.date !== ''">{{row.date | dateformat}}</div>
+                        </ng-template> -->
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <div *ngIf="row.date == ''"></div>
+              <div *ngIf="row.date !== ''">{{row.date | date:'dd/MM/yyyy'}}</div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Leave Type" prop="leavetype"></ngx-datatable-column>
+          <ngx-datatable-column name="Remarks" prop="remarks">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <div *ngIf="row.remarks == ''"></div>
+              <div *ngIf="row.remarks !== ''">{{row.remarks}}</div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-footer *ngIf="ngxgridData">
+            <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageCriteria.pageSize"
+              let-selectedCount="selectedCount" let-curPage="curPage" let-offset="pageCriteria.offset"
+              let-isVisible="isVisible">
+              <div style="padding: 5px 10px" *ngIf="ngxgridData.length>0">
+                <div>Page {{pageCriteria.CurrentPage}} of {{pageCriteria.TotalPages}} ({{ pageCriteria.totalrows }}
+                  items) </div>
+              </div>
+              <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageCriteria.pageSize"
+                [count]="rowCount" (change)="onFooterPageChange($event)"
+                [hidden]="!((rowCount / pageCriteria.pageSize) > 0)">
+              </datatable-pager>
+            </ng-template>
+          </ngx-datatable-footer>
+        </ngx-datatable>
+      </div>
+    </div>
+  </div>
+</form>

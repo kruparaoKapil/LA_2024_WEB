@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-md-12 col-xl-12">
+        <form [formGroup]="ShareWithdrawalViewForm">
+            <div class="row mb-3">
+                <div class="col-md-8 col-xl-8  d-flex">
+                    <div class=" mt-2">
+                        <div class="form-check form-check-inline check-btn-secondary">
+                            <input class="form-check-input" id="asdate" type="checkbox" (change)="checkox($event)">
+                            <label class="mt-2" for="asdate"> Advance Search</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-4 col-xl-4 mt-2">
+                    <a class="btn btn-b-icon border-0" style="float: right;" routerLink="/ShareWithdrawal">
+                        <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+                    </a>
+                </div>
+
+
+            </div>
+            <div class="section-container pt-2">
+                <div class="row">
+                    <div class="col-md-12 col-xl-12">
+                        <kendo-grid [kendoGridBinding]="ShareWithdrawaldata" [groupable]="false" [resizable]="true" [pageSize]="10" [skip]="skip" [reorderable]="true" [columnMenu]="{ filter: true }" [pageable]="{ buttonCount: 2 }" [sortable]="true">
+                            <ng-template kendoGridToolbarTemplate>
+
+                                <div class="row mb-2 pt-3 pb-2">
+
+                                    <div class="col-md-4 col-xl-4 pl-0 mt-n1" *ngIf="ShowSearch">
+                                        <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="SearchRecord($event.target.value)" />
+                                    </div>
+
+
+                                    <div class="col-md-3 col-xl-3 pl-0 mb-3 mt-2 mt-n1 input-group" *ngIf="ShowDates">
+                                        <label class="mr-2 mt-2">From Date:</label>
+                                        <input type="text" class="form-control" id="fromdate" readonly [bsConfig]="dpConfig" formControlName="pFromDate" (ngModelChange)="checkingfrommdate()" bsDatepicker #dp="bsDatepicker">
+                                    </div>
+                                    <div class="col-3 pl-0 mt-n1 input-group" *ngIf="ShowDates">
+                                        <label class="mr-2 mt-2">To Date:</label>
+                                        <input type="text" class="form-control" id="todate" readonly [bsConfig]="dppConfig" formControlName="pTodate" (ngModelChange)="checkdatevalidation()" bsDatepicker #dp="bsDatepicker">
+                                    </div>
+                                    <div class="col-3 pl-0 mt-n1" *ngIf="ShowDates">
+                                        <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon  border-0" data-toggle="tab" (click)="getShareWithdrawaldata()" role="tab" style="box-sizing:border-box !important">
+                                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                                <span *ngIf="!isLoading">
+                                  <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                       width="20px">
+                                </span> {{savebutton}}
+                              </button>
+
+                                    </div>
+                                </div>
+
+                            </ng-template>
+                            <kendo-grid-column-group title="Share Withdrawal" [headerClass]="{'kendo-g-center': true}">
+                                <kendo-grid-column field="pvoucherno" title="Voucher No." width="150"></kendo-grid-column>
+                                <kendo-grid-column field="pMembername" title="Member Name" width="150"> </kendo-grid-column>
+                                <!-- <kendo-grid-column field="pMembercode" title="Member Code" width="150"></kendo-grid-column> -->
+                                <kendo-grid-column field="paccountno" title="Account No." width="150"></kendo-grid-column>
+                                <kendo-grid-column field="pPaymentdate" title="Payment Date" width="150"></kendo-grid-column>
+                                <kendo-grid-column field="ppaidamount" title="Paid Amount" width="150" class="kendo-center">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.ppaidamount | currencypipewithdecimal }}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pModeOfpayment" title="Mode Of Payment" width="150"></kendo-grid-column>
+
+                            </kendo-grid-column-group>
+
+                        </kendo-grid>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

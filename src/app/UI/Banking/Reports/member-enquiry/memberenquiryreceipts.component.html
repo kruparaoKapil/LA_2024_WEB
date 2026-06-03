@@ -1,0 +1,514 @@
+<div class="accordion border mt-3" id="memberreceipt" style="width:765px">
+  <div class="card">
+    <div class="card-header" id="receipt">
+      <h2 class="mb-0">
+        <button class="btn btn-link position-relative text-none col-md-12 d-flex" type="button" data-toggle="collapse"
+          data-target="#enquiry" aria-expanded="true" aria-controls="enquiry" (click)="GetMemberReceiptDetails()">
+          Receipts<i class="fa era1 fa-plus"></i>
+        </button>
+      </h2>
+    </div>
+    <div id="enquiry" class="collapse" aria-labelledby="receipt" data-parent="#memberreceipt">
+
+      <kendo-grid [data]="Receiptdata" [sortable]="true">
+        <kendo-grid-column field="pReceiptno" width="150" title="Receipt No.">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="getReceipt(dataItem)">{{dataItem.pReceiptno }}</a>
+              </ng-template>
+        </kendo-grid-column>
+        
+        <kendo-grid-column field="pFdaccountno" width="200" title=" Advance Account No.">
+        </kendo-grid-column>
+        <kendo-grid-column field="pMembername" width="150" title="Member">
+        </kendo-grid-column>
+        <kendo-grid-column field="pMembercode" width="150" title="Member Code">
+        </kendo-grid-column>
+        <kendo-grid-column field="pFdreceipttdate" width="150" title="Receipt Date">
+        </kendo-grid-column>
+       
+        <kendo-grid-column field="pAdvanceamount" width="150" title="Advance Amount" class="kendo-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pAdvanceamount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pReceivedamount" width="150" title="Received Amount" class="kendo-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pReceivedamount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pModeofreceipt" width="150" title="Mode of Receipt">
+
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pChequestatus" width="150" title="Cheque Status">
+        </kendo-grid-column>
+
+
+
+
+
+      </kendo-grid>
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+
+
+</div>
+<div class="accordion border mt-3" id="nomineedetails" style="width:765px">
+  <div class="card">
+    <div class="card-header" id="nomineedata">
+      <h2 class="mb-0">
+        <button class="btn btn-link position-relative text-none col-md-12 d-flex" type="button" data-toggle="collapse"
+          data-target="#nominee" aria-expanded="true" aria-controls="nominee" (click)="GetMemberNomineeDetails()">
+          Nominee Details<i class="fa era1 fa-plus"></i>
+        </button>
+      </h2>
+    </div>
+    <div id="nominee" class="collapse" aria-labelledby="nomineedata" data-parent="#nomineedetails">
+
+      <kendo-grid [data]="Nomineedata" [sortable]="true">
+        <kendo-grid-column field="pNomineename" width="150" title="Nominee Name">
+        </kendo-grid-column>
+        <kendo-grid-column field="pRelationship" width="150" title="Relationship">
+        </kendo-grid-column>
+        <kendo-grid-column field="pReferencenumber" width="150" title="Reference No.">
+        </kendo-grid-column>
+        <kendo-grid-column field="pProportion" width="150" title="Proportion">
+        </kendo-grid-column>
+        <kendo-grid-column field="pContactno" width="150" title="Contact No.">
+        </kendo-grid-column>
+        <kendo-grid-column field="pIdproofname" width="150" title="Id Proof Name">
+        </kendo-grid-column>
+
+
+
+
+
+      </kendo-grid>
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="accordion border mt-3" id="interestpaymentdetails" style="width:765px">
+  <div class="card">
+    <div class="card-header" id="interestpayment">
+      <h2 class="mb-0">
+        <button class="btn btn-link position-relative text-none col-md-12 d-flex" type="button" data-toggle="collapse"
+          data-target="#ip" aria-expanded="true" aria-controls="ip" (click)="GetMemberInterestPaymentDetails()">
+          Interest Payment<i class="fa era1 fa-plus"></i>
+        </button>
+      </h2>
+    </div>
+    <div id="ip" class="collapse" aria-labelledby="interestpayment" data-parent="#interestpaymentdetails">
+
+      <kendo-grid [data]="Interestpaymentdata" [sortable]="true">
+        <kendo-grid-column field="pFdaccountno" width="200" title=" Advance Account No.">
+        </kendo-grid-column>
+        <kendo-grid-column field="pSchemeName" width="150" title="Scheme Name">
+        </kendo-grid-column>
+        <kendo-grid-column field="pInterestpaidmonth" width="150" title="Interest Paid Month">
+        </kendo-grid-column>
+        <kendo-grid-column field="pDepositamount" width="150" title="Advance Amount" class="kendo-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pDepositamount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pInterestAmount" width="150" title="Interest Amount" class="kendo-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pInterestAmount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pTotalAmount" width="150" title="Total Amount" class="kendo-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pTotalAmount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pTdsAmount" width="150" title="TDS Amount" class="kendo-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pTdsAmount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+        
+       
+
+        <kendo-grid-column field="pPaymentdate" width="150" title="Voucher Date">
+        </kendo-grid-column>
+
+
+
+        <kendo-grid-column field="pPaymentid" width="150" title="Voucher No.">
+          </kendo-grid-column>
+       
+        
+        <kendo-grid-column field="pPaymentType" width="150" title="Payment Type">
+        </kendo-grid-column>
+       
+
+      </kendo-grid>
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="accordion border mt-3" id="promotersalarydetails" style="width:765px">
+  <div class="card">
+    <div class="card-header" id="promotersalary">
+      <h2 class="mb-0">
+        <button class="btn btn-link position-relative text-none col-md-12 d-flex" type="button" data-toggle="collapse"
+          data-target="#promoter" aria-expanded="true" aria-controls="promoter"
+          (click)="GetMemberPromoterSalaryDetails()">
+          Promoter Salary Details<i class="fa era1 fa-plus"></i>
+        </button>
+      </h2>
+    </div>
+    <div id="promoter" class="collapse" aria-labelledby="promotersalary" data-parent="#promotersalarydetails">
+
+      <kendo-grid [data]="promotersalarygrid" [sortable]="true">
+        <kendo-grid-column field="pFdaccountno" width="200" title=" Advance Account No.">
+        </kendo-grid-column>
+        <kendo-grid-column field="pMembername" width="150" title="Member">
+        </kendo-grid-column>
+       
+          <kendo-grid-column field="pDepositamount" width="150" title="Advance Amount" class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pDepositamount | mycurrencypipe}}
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pTotalAmount" width="150" title="Total Amount" class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pTotalAmount | mycurrencypipe}}
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pTdsAmount" width="150" title="TDS Amount" class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pTdsAmount | mycurrencypipe}}
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pCommssionAmount" width="150" title="Commission Amount" class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pCommssionAmount | mycurrencypipe}}
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pAgentname" width="150" title="Agent Name">
+          </kendo-grid-column>
+          <kendo-grid-column field="pTransdate" width="150" title="Transaction Date">
+          </kendo-grid-column>
+          <kendo-grid-column field="pPaymentdate" width="150" title="Voucher Date">
+            </kendo-grid-column>
+          <kendo-grid-column field="pPaymentid" width="150" title="Voucher No.">
+            </kendo-grid-column>
+        <kendo-grid-column field="pCommissiontransdate" width="150" title="Commission Trans Date">
+        </kendo-grid-column>
+        <kendo-grid-column field="pCommsssionvalue" width="150" title="Commission Value">
+        </kendo-grid-column>
+        <kendo-grid-column field="pTenure" width="150" title="Tenure">
+        </kendo-grid-column>
+       
+
+
+
+
+
+
+      </kendo-grid>
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+
+
+</div>
+
+
+<!-- Lien entry hidden as per bug no 640 -->
+
+<div class="accordion border mt-3" id="liendetails" style="width:765px" hidden>
+  <div class="card">
+    <div class="card-header" id="liendata">
+      <h2 class="mb-0">
+        <button class="btn btn-link position-relative text-none col-md-12 d-flex" type="button" data-toggle="collapse"
+          data-target="#lien" aria-expanded="true" aria-controls="lien" (click)="GetMemberLiensDetails()">
+          Lien Entry Details<i class="fa era1 fa-plus"></i>
+        </button>
+      </h2>
+    </div>
+    <div id="lien" class="collapse" aria-labelledby="liendata" data-parent="#liendetails">
+
+      <kendo-grid [data]="liengrid" [sortable]="true">
+        <kendo-grid-column field="pFdaccountno" width="150" title=" Advance Account No.">
+        </kendo-grid-column>
+        <kendo-grid-column field="pMembername" width="150" title="Member">
+        </kendo-grid-column>
+        <kendo-grid-column field="pDepositAmount" width="150" title="Advance Amount" class="kendo-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pDepositAmount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pLienAmount" width="150" title="Lien Amount" class="kendo-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pLienAmount | mycurrencypipe}}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pInterestpayable" width="150" title="Interest Payable" class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pInterestpayable | mycurrencypipe}}
+              </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pLiendate" width="150" title="Lien Date">
+        </kendo-grid-column>
+        <kendo-grid-column field="pLienstatus" width="150" title="Lien Status">
+        </kendo-grid-column>
+        <kendo-grid-column field="pDepositdate" width="150" title="Advance Date">
+        </kendo-grid-column>
+        <kendo-grid-column field="pTenure" width="150" title="Tenure">
+        </kendo-grid-column>
+        <kendo-grid-column field="pInterestrate" width="200" title="Interest Rate/Value per 100">
+        </kendo-grid-column>
+        
+       
+        <kendo-grid-column field="pCompanybranch" width="150" title="Branch">
+        </kendo-grid-column>
+       
+
+      
+        <kendo-grid-column field="pLienAdjustTo" width="150" title="Lien Adjust To">
+
+        </kendo-grid-column>
+
+       
+
+
+
+
+
+
+      </kendo-grid>
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+
+
+</div>
+
+
+
+
+
+
+<div class="accordion border mt-3" id="maturitybond" style="width:765px">
+    <div class="card">
+      <div class="card-header" id="maturity">
+        <h2 class="mb-0">
+          <button class="btn btn-link position-relative text-none col-md-12 d-flex" type="button" data-toggle="collapse"
+            data-target="#mbond" aria-expanded="true" aria-controls="mbond" (click)="GetMemberMaturityBondsDetails()">
+            Maturity Bond Details<i class="fa era1 fa-plus"></i>
+          </button>
+        </h2>
+      </div>
+      <div id="mbond" class="collapse" aria-labelledby="maturity" data-parent="#maturitybond">
+  
+        <kendo-grid [data]="membermaturitybond" [sortable]="true">
+          <kendo-grid-column field="pFdaccountno" width="150" title=" Advance Account No.">
+          </kendo-grid-column>
+          <kendo-grid-column field="pMembername" width="150" title="Member">
+          </kendo-grid-column>
+          <kendo-grid-column field="pDepositamount" width="150" title="Advance Amount" class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pDepositamount | mycurrencypipe}}
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pMatureamount" width="150" title="Maturity Amount" class="kendo-center">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pMatureamount | mycurrencypipe}}
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pAgentCommssionPayable" width="200" title="Agent Commission Payable" class="kendo-center">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pAgentCommssionPayable | mycurrencypipe}}
+                </ng-template>
+              </kendo-grid-column>
+  
+              <kendo-grid-column field="pDamages" width="150" title="Damages" class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pDamages | mycurrencypipe}}
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pInteresPaid" width="150" title="Interest Paid" class="kendo-center">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pInteresPaid | mycurrencypipe}}
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pNetpayable" width="150" title="Net Payable" class="kendo-center">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pNetpayable | mycurrencypipe}}
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pInterestpayble" width="150" title="Interest Payable" class="kendo-center">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.pInterestpayble | mycurrencypipe}}
+                  </ng-template>
+                </kendo-grid-column>
+          <kendo-grid-column field="pMaturitytype" width="150" title="Maturity Type">
+          </kendo-grid-column>
+          <kendo-grid-column field="pTransdate" width="150" title="Transaction Date">
+          </kendo-grid-column>
+          <kendo-grid-column field="pTenure" width="150" title="Tenure">
+          </kendo-grid-column>
+          <kendo-grid-column field="pSchemeName" width="150" title="Scheme Name">
+          </kendo-grid-column>
+  
+         
+          <kendo-grid-column field="pTranstype" width="150" title="Trans Type">
+  
+          </kendo-grid-column>
+        
+  
+        
+  
+  
+  
+  
+  
+        </kendo-grid>
+  
+  
+  
+  
+  
+  
+  
+  
+      </div>
+    </div>
+  
+  
+  </div>
+
+
+
+
+
+
+  <div class="accordion border mt-3" id="maturitypaymentdata" style="width:765px">
+      <div class="card">
+        <div class="card-header" id="maturitypayment">
+          <h2 class="mb-0">
+            <button class="btn btn-link position-relative text-none col-md-12 d-flex" type="button" data-toggle="collapse"
+              data-target="#mpayment" aria-expanded="true" aria-controls="mpayment" (click)=" GetMemberMaturityPaymentsDetails()">
+              Maturity Payment Details<i class="fa era1 fa-plus"></i>
+            </button>
+          </h2>
+        </div>
+        <div id="mpayment" class="collapse" aria-labelledby="maturitypayment" data-parent="#maturitypaymentdata">
+
+          <kendo-grid [data]="memberpaymentgrid" [sortable]="true">
+              <kendo-grid-column field="pVoucherid" width="150" title="Voucher No.">
+                </kendo-grid-column>
+                <kendo-grid-column field="pPaymentdate" width="150" title="Voucher Date">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pModeofpayment" width="150" title="Mode Of Payment">
+                    </kendo-grid-column>
+            <kendo-grid-column field="pFdaccountno" width="150" title=" Advance Account No.">
+            </kendo-grid-column>
+            <kendo-grid-column field="pMembername" width="150" title="Member">
+            </kendo-grid-column>
+            <kendo-grid-column field="pMembercode" width="150" title="Member Code">
+              </kendo-grid-column>
+              <kendo-grid-column field="pDepositdate" width="150" title="Advance Date">
+    
+              </kendo-grid-column>
+              <kendo-grid-column field="pDepositamount" width="150" title="Advance Amount" class="kendo-center">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pDepositamount | mycurrencypipe}}
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pMaturityamount" width="150" title="Maturity Amount" class="kendo-center">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.pMaturityamount | mycurrencypipe}}
+                  </ng-template>
+                </kendo-grid-column>
+             
+      
+              <kendo-grid-column field="pPaidAmount" width="150" title="Paid Amount" class="kendo-center">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pPaidAmount | mycurrencypipe}}
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pTenure" width="150" title="Tenure">
+              </kendo-grid-column>
+              
+              <kendo-grid-column field="pInterestpayout" width="150" title="Interest Payout">
+      
+                </kendo-grid-column>
+            <kendo-grid-column field="pPaymentType" width="150" title="Payment Type">
+            </kendo-grid-column>
+            <kendo-grid-column field="pMaturitypaymentdate" width="150" title="Maturity Payment Date">
+            </kendo-grid-column>
+           
+           
+                
+          
+    
+    
+    
+    
+    
+          </kendo-grid>
+    
+    
+    
+    
+    
+    
+    
+    
+        </div>
+      </div>
+    
+    
+    </div>

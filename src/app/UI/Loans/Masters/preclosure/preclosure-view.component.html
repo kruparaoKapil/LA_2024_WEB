@@ -1,0 +1,121 @@
+<div class="row">
+  <div class="col-6">
+    <p class="bc-2">Pre-Closure View</p>
+  </div>
+  <div class="col-md-6 col-xl-6"> <a routerLink="/PreclosureMaster" (click)="onClickStatus()"
+    class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg" width="20px" height="20px"
+      class="mr-3" />New</a> </div>
+</div>
+
+<!-- <div class="row">
+  <div class="col-md-6 col-xl-4 mt-3 mb-2"> <a routerLink="/PreclosureMaster" (click)="onClickStatus()"
+      class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg" width="20px" height="20px"
+        class="mr-3" />New</a> </div>
+
+</div> -->
+
+
+<!--col-end-->
+<div class="d-flex justify-content-end">
+  <ul class="temp-ul mt-3">
+    <!-- <li class="temp-ico ml-2"><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></li>
+    <li class="temp-ico ml-2"><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel" width="20px"></li> -->
+  </ul>
+</div>
+
+
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+      <h3>
+        Loading...
+      </h3>
+
+    </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+<div class="section-container">
+ <div class="row">
+  <div class="col-md-12 col-xl-12">
+    <kendo-grid [kendoGridBinding]="GridData" [groupable]="true" [columnMenu]="{ filter: true }" [group]="groups"
+      [reorderable]="true" [resizable]="true" [height]="480" [sort]="gridState.sort" [pageable]="{ buttonCount: 2 }"
+      [sortable]="true"  [pageSize]="10"  (edit)="editHandler($event)"
+      (remove)="removeHandler($event)">
+      <ng-template kendoGridToolbarTemplate>
+        <!-- <input placeholder="Search in all columns..."
+      class="form-control border-left-0 border-top-0 shadow-none border-right-0 rounded-0 sb" kendoTextBox
+      (input)="onFilter($event.target.value)" />
+    <button kendoGridExcelCommand type="button" icon="file-excel" style="float:right;">Export to Excel</button>
+    <button kendoGridPDFCommand icon="file-pdf" style="float:right;">Export to PDF</button> -->
+        <div class="row mt-2 mb-3">
+          <div class="col-4 p-0 mt-n1">
+            <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+              (input)="onFilter($event.target.value)" />
+          </div>
+          <div class="col-7 pr-0 pl-4 ml-4">
+            <ul class="temp-ul mt-n1 mr-n2  pull-right">
+              <li class="temp-ico ml-2">
+                <a kendoGridPDFCommand><img class="pt-1 pl-4" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                    width="20px"></a></li>
+              <li class="temp-ico">
+                <a kendoGridExcelCommand><img class="pt-1 pl-4" src="assets/images/icon-excel.svg " title="excel"
+                    width="20px"></a></li>
+              <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+            </ul>
+          </div>
+        </div>
+      </ng-template>
+      <kendo-grid-column-group title="PreClosure" [headerClass]="{'kendo-g-center' : true}">
+      <kendo-grid-column field="pLoantype" title="Loan Type"></kendo-grid-column>
+      <kendo-grid-column field="pLoanname" title="Loan Name"></kendo-grid-column>
+      <kendo-grid-column field="pLockingperiod" title="Min. Lock in Period">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{dataItem.pLockingperiod}} {{dataItem.pLockingperiodtype}}
+
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="pChargecaltype" title="Charge Type"></kendo-grid-column>
+      <kendo-grid-column field="pChargecalonfield" title="Interest Calculated on"></kendo-grid-column>
+
+      <kendo-grid-command-column>
+        <ng-template kendoGridCellTemplate width="150">
+          <div id="icon-edit" kendoGridEditCommand [primary]="true"></div>
+          <div id="icon-delete" kendoGridRemoveCommand [primary]="true"></div>
+        </ng-template>
+      </kendo-grid-command-column>
+      </kendo-grid-column-group>
+      <kendo-grid-pdf fileName="PreclosureMaster.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+        [landscape]="true">
+        <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+               <div class="header bc-2 text-center">
+                <h5> PreClosure </h5>
+               </div>
+             </div>
+           </ng-template>
+        <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+        <kendo-grid-column field="pLoantype" title="Loan Type"></kendo-grid-column>
+        <kendo-grid-column field="pLoanname" title="Loan Name"></kendo-grid-column>
+        <kendo-grid-column field="pLockingperiod" title="Min. Lock in Period"></kendo-grid-column>
+        <kendo-grid-column field="pChargecaltype" title="Charge Type"></kendo-grid-column>
+        <kendo-grid-column field="pChargecalonfield" title="Interest Calculated on"></kendo-grid-column>
+
+      </kendo-grid-pdf>
+      <kendo-grid-excel fileName="PreclosureMaster.xlsx">
+          <kendo-excelexport-column-group title="PreClosure" [headerCellOptions]="headerCells">
+        <kendo-excelexport-column field="pLoantype" title="Loan Type"></kendo-excelexport-column>
+        <kendo-excelexport-column field="pLoanname" title="Loan Name"></kendo-excelexport-column>
+        <kendo-excelexport-column field="pLockingperiod" title=" Min. Lock in Period"></kendo-excelexport-column>
+        <kendo-excelexport-column field="pChargecaltype" title="Charge Type"></kendo-excelexport-column>
+        <kendo-excelexport-column field="pChargecalonfield" title="Interest Calculated on"></kendo-excelexport-column>
+          </kendo-excelexport-column-group>
+      </kendo-grid-excel>
+    </kendo-grid>
+
+
+  </div>
+</div> 
+</div>

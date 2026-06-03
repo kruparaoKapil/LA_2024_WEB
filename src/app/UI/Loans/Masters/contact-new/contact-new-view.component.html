@@ -1,0 +1,476 @@
+<div class="shadow-bg-view">
+  <div class="section-container">
+    <form [formGroup]="contactViewForm" autocomplete="off">
+
+      <div class="row mt-2">
+        <div class="col-md-6 col-xl-6 pr-0">
+          <!-- [routerLink]="['/configuration', 'contact']" -->
+          <a (click)="NavigateNew()" class="btn btn-b-icon border-0">
+            <img src="assets/images/icon-add-white.svg" class="mr-2" width="20px" height="20px"> New
+          </a>
+        </div>
+        <div class="col-md-6 col-xl-6  mt-3">
+          <div class="d-flex justify-content-end ">
+            <div class="slide-page ">
+              <div class="d-flex justify-content-end ">
+                <a class="left p-1 " (click)="Previous() ">
+                  <img src="assets/images/icon-chevron-left-blue.svg " width="15 " height="15 " title="prev "><span
+                    class="ml-1 ">Prev</span>
+                </a>
+                <a class="page-show ">
+                  Page {{pageno}} of {{TotalPages}} ({{ showContactsitems }} items)
+                </a>
+                <a class="right p-1 " (click)="Next() ">
+                  <span class="mr-1 ">Next</span>
+                  <img src="assets/images/right-thin-chevron.svg " width="15 " height="15 " title="Next ">
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="d-flex justify-content-end">
+        <ul class="temp-ul mt-2">
+          <!-- <li class="temp-ico ml-2"><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></li>
+              <li class="temp-ico ml-2"><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel" width="20px"></li> -->
+        </ul>
+      </div>
+      <!--col-end-->
+      <!--<div class="col-auto dropdown">
+          <button class="btn btn-sm sm-dd dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Select action
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </div>-->
+      <!--dropdown-end-->
+      <!--row-end-->
+      <!-- ======================================================================= tab nav end ============================================================================== -->
+      <!-- <div class="row mt-4 py-1">
+        <div class="col d-flex flex-wrap align-items-center">
+          <a routerLink="/ContactForm" class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+        </div>
+      </div> -->
+      <!-- <table id="datatable" class="table" cellspacing="0" width="100%" style="width:100%">
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+          </table> -->
+
+      <div class="row mt-2">
+        <div class="col-lg-12 col-md-12">
+          <div class="section-content mt-2">
+            <div class="row ">
+              <div class="d-flex col-md-12 col-xl-12">
+                <!-- <div class="row mb-4"> -->
+                <div class="col-md-6 col-xl-6 pl-0">
+                  <div class="form-group mr-0 custom-search">
+                    <!-- <input type="text" class="form-control" (input)="onSearch($event.target.value)"> -->
+
+                    <input kendoTextBox class="form-control" (input)="onFilter($event.target.value)" />
+
+                  </div>
+                  <!-- <div class="input-group">
+                     <input type="text" class="form-control" value="Name / Mobile no" (input)="onSearch($event.target.value)">
+                     <div class="input-group-append ">
+                       <button class="btn btn-lg-icon rounded-right pt-2"> <i class="fa fa-search mt-1" aria-hidden="true"></i></button>
+                     </div>
+                </div> -->
+                  <!-- </div> -->
+
+                </div>
+              </div>
+
+
+
+
+
+
+              <kendo-grid [kendoGridBinding]="ContactListData">
+                <ng-template kendoGridToolbarTemplate>
+                 <div class="mb-3">
+                    <div class="col-12 mt-5">
+                      <ul class="temp-ul pull-right mr-4 pb-3">
+                        <li class="temp-ico ml-2">
+                          <a kendoGridPDFCommand>
+                            <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px">
+                          </a>
+                        </li>
+
+                        <li class="temp-ico ml-2">
+                          <a kendoGridExcelCommand>
+                            <img class="pt-2" src="assets/images/icon-excel.svg " title="excel" width="20px">
+                          </a>
+                        </li>
+
+                      </ul>
+                    </div>
+
+                  </div>
+                </ng-template>
+
+
+
+
+
+
+
+
+                <kendo-grid-pdf fileName="ContactData.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true"
+                  [landscape]="false" [scale]="0.8">
+
+                  <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+
+                  <kendo-grid-column field="pContactName" title="Contact Name">
+                  </kendo-grid-column>
+
+
+                  <kendo-grid-column field="pContactdId" title="Contact Id">
+                  </kendo-grid-column>
+
+
+
+
+                  <kendo-grid-column field="pPan" title="Pan Card No.">
+                  </kendo-grid-column>
+
+
+
+
+
+
+                </kendo-grid-pdf>
+
+
+
+                <kendo-grid-excel fileName="ContactData.xlsx" [fetchData]="allData">
+                  <kendo-excelexport-column-group title="Contact Data" [headerCellOptions]="headerCells">
+                    <kendo-excelexport-column field="pContactName" title="Contact Name">
+                    </kendo-excelexport-column>
+
+                    <kendo-excelexport-column field="pContactdId" title="Contact Id">
+                    </kendo-excelexport-column>
+
+                    <kendo-excelexport-column field="pPan" title="Pan Card No."></kendo-excelexport-column>
+
+
+                  </kendo-excelexport-column-group>
+                </kendo-grid-excel>
+
+
+              </kendo-grid>
+
+
+
+
+              <!-- <div class="col-md-12 col-xl-12" style="height: 400;">
+
+
+              <ngx-datatable [rows]="GridData"  class="material expandable"
+                [columnMode]="'force'" [headerHeight]="50"
+                [count]="count"
+                [footerHeight]="pageCriteria.footerPageHeight" [rowHeight]="50" [limit]="pageCriteria.pageSize" [offset]="pageCriteria.offset" >
+                <ngx-datatable-column name="Actions" prop="" editable="true" frozenLeft="True">
+                  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+                    let-group="group">
+                    <label for="delete{{ rowIndex }}">
+                      <div id="icon-edit" (click)="editDetails($event, row, rowIndex, group)"></div>
+                    </label>
+
+
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column  name="Full Name" prop="pName"></ngx-datatable-column>
+                <ngx-datatable-column name="Contact No" prop="pBusinessEntityContactno"></ngx-datatable-column>
+                <ngx-datatable-column name="Email ID" prop="pBusinessEntityEmailid"></ngx-datatable-column>
+                <ngx-datatable-column name="Contact ID" prop="pContactId"></ngx-datatable-column>
+                <ngx-datatable-column name="Reference ID" prop="pReferenceId"></ngx-datatable-column>
+                <ngx-datatable-column name="Contact Type" prop="pContactType"></ngx-datatable-column>
+                  <ngx-datatable-column prop="pStatusname" name="Status"  editable="true">
+                    <ng-template ngx-datatable-cell-template  let-rowIndex="rowIndex" let-value="value"  let-row="row"
+                    let-group="group" >
+                    <div class="material-switch">
+                            <input  id="status{{rowIndex}}" type="checkbox" [checked]="value==true" data-toggle="collapse" data-target="#tds" (click)="status(row)">
+                            <label for="status{{rowIndex}}" class="badge-success" data-toggle="collapse" data-target="#tds"></label>
+                    </div>
+                   </ng-template>
+             </ngx-datatable-column>
+
+
+
+                <ngx-datatable-footer *ngIf="GridData">
+                  <ng-template
+                    ngx-datatable-footer-template
+                    let-rowCount="rowCount"
+                    let-pageSize="pageCriteria.pageSize"
+                    let-selectedCount="selectedCount"
+                    let-curPage="curPage"
+                    let-offset="pageCriteria.offset" let-isVisible="isVisible"
+                  >
+                    <div style="padding: 5px 10px"  *ngIf="GridData.length>0">
+                      <div>{{ pageCriteria.currentPageRows }} {{pageCriteria.footerMessagetext1}}  {{ pageCriteria.totalrows }}  {{pageCriteria.footerMessagetext2}}</div>
+                    </div>
+                    <datatable-pager
+                    [pagerLeftArrowIcon]="'datatable-icon-left'"
+                    [pagerRightArrowIcon]="'datatable-icon-right'"
+                    [pagerPreviousIcon]="'datatable-icon-prev'"
+                    [pagerNextIcon]="'datatable-icon-skip'"
+                    [page]="curPage"
+                    [size]="pageCriteria.pageSize"
+                    [count]="rowCount"
+                    (change)="onFooterPageChange($event)">
+                </datatable-pager>
+                  </ng-template>
+                </ngx-datatable-footer>
+              </ngx-datatable>
+
+            </div> -->
+
+            </div>
+
+            <!-- <div class="row mt-4">
+            <div class="col-md-6">
+              <div class="contact-list-view">
+                      <div class="profile-tumb">
+                       <img src="assets/images/prof-1.jpg">
+                      </div>
+                      <div class="contact-info">
+                    <label class="font-weight-bold sec-head-bold">G Harish  <span class="lc-txt ml-3"> - UID : 12345</span> </label>
+                          <label class="info-txt"><span> S/o Sadanandam </span> <span> +91 - 99488 22005</span> <span>harish.gaj@gmail.com</span></label>
+                    <label class="info-txt">#Kapil Towers, 14th Floor, Financial District, Hyderabad -32</label>
+
+                     </div>
+
+
+                     <a [routerLink]="['/configuration', 'contact']"  class="btn position-absolute"><img src="assets/images/icon-edit.svg" class="mt-n1 ml-n3" width="15px" height="15px"> <small>Edit</small></a>
+
+                     <a [routerLink]="['/configuration', 'ContactListView']" >
+                         <img src="assets/images/right-arrow.svg" width="20" height="20" class="mt-4" title="detailed view">
+                           </a>
+                  </div>
+              </div>
+              <div class="col-md-6">
+              <div class="contact-list-view">
+                      <div class="profile-tumb">
+                       <img src="assets/images/prof-2.jpg">
+                      </div>
+                      <div class="contact-info">
+                    <label class="font-weight-bold sec-head-bold"> Vignesh Kumar K   <span class="lc-txt ml-3"> - UID : 12345</span> </label>
+                          <label class="info-txt"><span> S/o Shiva </span> <span> +91 - 99488 22005</span> <span>vigneshk@gmail.com</span></label>
+                    <label class="info-txt">#Kapil Towers, 14th Floor, Financial District, Hyderabad -32</label>
+
+                     </div>
+                          <a [routerLink]="['/configuration', 'contact']"  class="btn position-absolute"><img src="assets/images/icon-edit.svg" class="mt-n1 ml-n3" width="15px" height="15px"> <small>Edit</small></a>
+
+                   <a [routerLink]="['/configuration', 'ContactListView']" >
+                       <img src="assets/images/right-arrow.svg" width="20" height="20" class="mt-4" title="detailed view">
+                         </a>
+                  </div>
+              </div>
+            </div> -->
+
+            <div class="row ">
+              <div class="col-md-6 col-xl-6 mt-3"
+                *ngFor="let data of ContactListData | slice:0; let i=index;trackBy: trackByFn">
+
+                <div class="contact-list-view">
+
+                  <div class="profile-tumbb mt-3">
+                    <img [src]="data?.pImage">
+                  </div>
+                  <div class="contact-info">
+                    <p class="font-weight-bold sec-head-bold pt-2 " *ngIf="data?.pPan !='' "> {{data?.pContactName}}
+                      ({{data?.pPan}}) </p>
+                    <p class="font-weight-bold sec-head-bold pt-2 " *ngIf="data?.pPan =='' "> {{data?.pContactName}}
+                      ({{nopan}}) </p>
+                    <span class="lc-txt ml-3 mb-2 pull-right"> - UID : {{data?.pContactdId}}</span>
+
+                    <p class="info-txt">
+                      <span *ngIf="data?.pContactType =='Individual'">
+                        {{data?.pFatherName}} </span>
+                    </p>
+
+                    <p class="info-txt"> <span> {{data?.pContactNumber}}</span> <span
+                        class="ml-3">{{data?.pContactEmail}}</span></p>
+
+                    <p class="lc-txt">Address: {{data?.pAddresDetails}}</p>
+
+                  </div>
+                  <!-- <div class="contact-info">
+                  <label class="font-weight-bold sec-head-bold">
+                    {{data?.pContactName}}
+                  </label>
+                  <p class="m-0">
+                    <span class="lc-txt">
+                      Unique ID : {{data?.pContactdId}}
+                    </span>
+                  </p>
+                  <label class="info-txt">
+                    <span>{{data?.pFatherName}} </span>
+
+                    <span>
+                      {{data?.pContactNumber}}
+                    </span>
+                    <span>{{data?.pContactEmail}}</span>
+                  </label>
+                  <label class="info-txt">
+                    <span>{{data?.pAddresDetails}}</span></label>
+                </div> -->
+                  <!-- <a href="#" class="position-absolute ml-n5 mt-n1 ">
+                <img src="assets/images/edit-icon-grey.svg" width="30" height="30" class="mt-4  " title="Edit Contact">
+                  </a> -->
+                  <!-- REMOVED EDIT ON 26-03-2025 (Input From Priyanka N) -->
+                  <!-- <a *ngIf="data?.pMemberStatus == false" (click)="NavigateContactListDetailView(data.pRefNo,data.pContactType)" class="btn position-absolute"><img src="assets/images/icon-edit.svg" class="mt-n1 ml-n3" width="15px" height="15px"> <small>Edit</small></a>
+                                    <a *ngIf="data?.pMemberStatus == false" (click)="NavigateContactListDetaillist(data.pRefNo)">
+                                        <img src="assets/images/right-arrow.svg" width="20" height="20" class="mt-4 mb-3" title="detailed view">
+                                    </a> -->
+
+                  <!-- REMOVED EDIT ON 26-03-2025 -->
+
+                  <a  [hidden]="true" (click)="NavigateContactListDetailView(data.pRefNo,data.pContactType)"
+                    class="btn position-absolute"><img src="assets/images/icon-edit.svg" class="mt-n1 ml-n3"
+                      width="15px" height="15px"> <small>Edit</small></a>
+                  <a (click)="NavigateContactListDetaillist(data.pRefNo)">
+                    <img src="assets/images/right-arrow.svg" width="20" height="20" class="mt-4 mb-3"
+                      title="detailed view">
+                  </a>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+    </form>
+
+
+
+
+
+
+    <div class="my-container">
+      <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+          <h3>
+            Loading...
+          </h3>
+
+        </div>
+      </ng-template>
+      <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+      </ngx-loading>
+
+    </div>
+
+
+
+
+    <!-- <div class="section-content ">
+    <div class="row">
+           <div class="col-6">
+             <div class="input-group">
+                         <input type="text" class="form-control" value="Name / Mobile no">
+                         <div class="input-group-append ">
+                           <button class="btn btn-lg-icon rounded-right pt-2"> <i class="fa fa-search mt-1" aria-hidden="true"></i></button>
+                         </div>
+                    </div>
+            </div>
+            </div>
+
+   <div class="row mt-4">
+   <div class="col-md-6">
+     <div class="contact-list-view">
+             <div class="profile-tumb">
+              <img src="assets/images/prof-1.jpg">
+             </div>
+             <div class="contact-info">
+           <label class="font-weight-bold sec-head-bold">G Harish  <span class="lc-txt ml-3"> - UID : 12345</span> </label>
+                 <label class="info-txt"><span> S/o Sadanandam </span> <span> +91 - 99488 22005</span> <span>harish.gaj@gmail.com</span></label>
+           <label class="info-txt">#Kapil Towers, 14th Floor, Financial District, Hyderabad -32</label>
+
+            </div>
+
+
+            <a [routerLink]="['/configuration', 'contact']"  class="btn position-absolute"><img src="assets/images/icon-edit.svg" class="mt-n1 ml-n3" width="15px" height="15px"> <small>Edit</small></a>
+
+            <a [routerLink]="['/configuration', 'ContactListView']" >
+                <img src="assets/images/right-arrow.svg" width="20" height="20" class="mt-4" title="detailed view">
+                  </a>
+         </div>
+     </div>
+     <div class="col-md-6">
+     <div class="contact-list-view">
+             <div class="profile-tumb">
+              <img src="assets/images/prof-2.jpg">
+             </div>
+             <div class="contact-info">
+           <label class="font-weight-bold sec-head-bold"> Vignesh Kumar K   <span class="lc-txt ml-3"> - UID : 12345</span> </label>
+                 <label class="info-txt"><span> S/o Shiva </span> <span> +91 - 99488 22005</span> <span>vigneshk@gmail.com</span></label>
+           <label class="info-txt">#Kapil Towers, 14th Floor, Financial District, Hyderabad -32</label>
+
+            </div>
+                 <a [routerLink]="['/configuration', 'contact']"  class="btn position-absolute"><img src="assets/images/icon-edit.svg" class="mt-n1 ml-n3" width="15px" height="15px"> <small>Edit</small></a>
+
+          <a [routerLink]="['/configuration', 'ContactListView']" >
+              <img src="assets/images/right-arrow.svg" width="20" height="20" class="mt-4" title="detailed view">
+                </a>
+         </div>
+     </div>
+   </div>
+
+   </div> -->
+
+
+
+
+    <div class="row">
+      <div class="col-md-6 col-xl-6 mt-2">
+        <!-- <a (click)="ContactsBinding('Individual')" class="lc-txt mr-3 active">Individual</a>
+      <a (click)="ContactsBinding('Business Entity')" class="lc-txt ">Business Entity</a> -->
+        <!-- <a href="#" class="ml-2"><img src="assets/images/icon-filter-b.svg" width="15" height="15"></a> -->
+      </div>
+      <!-- <div class="col-md-6 col-xl-6  mt-3">
+      <label class="lc-txt pull-right">
+        Shows {{showContacts}} of {{ContactListData?.length}} <a>
+          <img src="assets/images/icon-chevron-left-blue.svg" width="15" height="15"
+               class="fa-rotate-180 ml-2">
+        </a>
+      </label>
+    </div> -->
+    </div>
+
+
+    <!-- <div class="row">
+            <div class="col-md-12 col-xl-12">
+                <div class="d-flex justify-content-center mt-4  position-sticky fixed-bottom">
+                    <a *ngIf="showContacts < ContactListData?.length" (click)="LoadMore()" class="btn btn-b-icon px-3 border-0">
+                        <img class="mr-3 " height="20px" src="assets/images/icon-add-white.svg" width="20px">More
+                    </a>
+                    <a *ngIf="showContacts > displayContacts " (click)="LoadLess()" class="btn btn-b-icon px-3 border-0 ml-2">
+                        <img class="mr-3" height="20px" src="assets/images/icon-add-white.svg" width="20px">Less
+                    </a>
+                </div>
+            </div>
+        </div> -->
+  </div>
+</div>
+<script>
+  $(document).ready(function () {
+    var table = $('#datatable').DataTable({
+      searching: false,
+    });
+
+  });
+</script>

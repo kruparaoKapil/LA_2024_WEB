@@ -1,0 +1,166 @@
+
+  <div class="row mb-3">
+    <div class="col d-flex flex-wrap align-items-center">
+      <a class="btn btn-b-icon border-0" routerLink="/GeneralreceiptNew"><img width="20" height="20" class="mr-2"
+          src="assets/images/icon-add-white.svg">New</a>
+
+    </div>
+  </div>
+  <div class="">
+  <div class="">
+
+    <!-- <div class="row example-config">
+      <div *ngFor="let column of columns" class="col-xs-12 col-md-3 example-col">
+        <input type="checkbox" id="{{column}}" class="k-checkbox" [disabled]="isDisabled(column)"
+          [checked]="!isHidden(column)" (change)="hideColumn(column)" />
+        <label class="k-checkbox-label" for="{{column}}">{{column}}</label>
+      </div>
+    </div> -->
+    <kendo-grid [kendoGridBinding]="gridView" [kendoGridSelectBy]="'id'" [groupable]="true"
+      [group]="groups" [selectedKeys]="mySelection" [resizable]="true" [pageSize]="10"  
+      [reorderable]="true"  [columnMenu]="{ filter: true }" [pageable]="{
+        buttonCount: 2
+      }" [sortable]="true" (remove)="removeHandler($event)">
+
+
+      <ng-template kendoGridToolbarTemplate>
+        <!-- <input placeholder="Search in all columns..." kendoTextBox (input)="onFilter($event.target.value)" />
+        <button kendoGridExcelCommand type="button" icon="file-excel" style="float:right;">Export to Excel</button>
+        <button kendoGridPDFCommand icon="file-pdf" style="float:right;">Export to PDF</button> -->
+        <div class="row mb-3 pl-3 pt-4">
+          <div class="col-4 pl-0 mt-n1">
+            <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+              (input)="onFilter($event.target.value)" />
+          </div>
+          <div class="col-12 mt-5">
+                <ul class="temp-ul pull-right mr-4 pb-3">                  
+                  <li class="temp-ico ml-2">
+                <a kendoGridPDFCommand><img class="pt-1 pl-3" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                    width="20px"></a></li>
+              <li class="temp-ico ml-2">
+                <a kendoGridExcelCommand><img class="pt-1" src="assets/images/icon-excel.svg " title="excel"
+                    width="20px"></a></li>
+              <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+            </ul>
+          </div>
+        </div>
+      </ng-template>
+      <kendo-grid-column-group title="General Receipt" [headerClass]="{'kendo-g-center' : true}">
+      <kendo-grid-column field="preceiptdate" width="90" title="Date">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{dataItem.preceiptdate}}
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="preceiptid" title="Receipt No." width="100">
+      </kendo-grid-column>
+      <kendo-grid-column field="pmodofreceipt" title="Mode of Payment" width="100">
+      </kendo-grid-column>
+
+      <kendo-grid-column field="pbankname" title="Bank Name" width="100">
+      </kendo-grid-column>
+      <kendo-grid-column field="pChequenumber" title="Cheque No." width="100">
+      </kendo-grid-column>
+      <kendo-grid-column field="ptotalreceivedamount" title="Received Amount" width="100"  class="kendo-center">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{dataItem.ptotalreceivedamount | mycurrencypipe}}
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="pnarration" title="Narration" width="100">
+      </kendo-grid-column>
+      <kendo-grid-command-column title="" width="100">
+        <ng-template kendoGridCellTemplate>
+          <div id="icon-view" kendoGridRemoveCommand></div>
+        </ng-template>
+      </kendo-grid-command-column>
+      </kendo-grid-column-group>
+      <!-- <kendo-grid-pdf fileName="General_Receipt.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+        [landscape]="true">
+        <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+        <ng-template kendoGridPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+          <div class="page-template">
+            <div class="header">
+              <div style="float: right">Page {{ pageNum }} of {{ totalPages }}</div>
+             
+            </div>
+            <div class="footer">
+              Page {{ pageNum }} of {{ totalPages }}
+            </div>
+          </div>
+        </ng-template>
+      </kendo-grid-pdf>
+      <kendo-grid-excel fileName="General_Receipt.xlsx"></kendo-grid-excel> -->
+      <kendo-grid-pdf fileName="General_Receipt.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true" [scale]="0.9"
+        [landscape]="true">
+        <ng-template kendoGridPDFTemplate>
+          <div class="page-template">
+             <div class="header bc-2 text-center">
+              <h5> General Receipt</h5>
+             </div>
+           </div>
+         </ng-template>
+        <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+        <kendo-grid-column field="preceiptdate" width="100" title="Date">
+        </kendo-grid-column>
+        <kendo-grid-column field="preceiptid" width="100" title="Receipt No.">
+        </kendo-grid-column>
+        <kendo-grid-column field="pmodofreceipt" width="100" title="Mode of Payment">
+        </kendo-grid-column>
+        <kendo-grid-column field="pbankname" width="100" title="Bank Name">
+        </kendo-grid-column>
+        <kendo-grid-column field="pChequenumber" width="100" title="Cheque No.">
+        </kendo-grid-column>
+        <kendo-grid-column field="ptotalreceivedamount" width="100" title="Received Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        </kendo-grid-column>
+        <kendo-grid-column field="pnarration" width="100" title="Narration">
+        </kendo-grid-column>
+      </kendo-grid-pdf>
+      <kendo-grid-excel fileName="General_Receipt.xlsx" [fetchData]="allData">
+          <kendo-excelexport-column-group title="General Receipt" [headerCellOptions]="headerCells">
+        <kendo-excelexport-column field="preceiptdate"  title="Date">
+        </kendo-excelexport-column>
+        <kendo-excelexport-column field="preceiptid"  title="Receipt No.">
+        </kendo-excelexport-column>
+        <kendo-excelexport-column field="pmodofreceipt"  title="Mode of Payment">
+        </kendo-excelexport-column>
+        <kendo-excelexport-column field="pbankname"  title="Bank Name">
+        </kendo-excelexport-column>
+        <kendo-excelexport-column field="pChequenumber"  title="Cheque No.">
+        </kendo-excelexport-column>
+        <kendo-excelexport-column field="ptotalreceivedamount" width="100" title="Received Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+        </kendo-excelexport-column>
+        <kendo-excelexport-column field="pnarration"  title="Narration">
+        </kendo-excelexport-column>
+      </kendo-excelexport-column-group>
+      </kendo-grid-excel>
+    </kendo-grid>
+  </div>
+</div>
+
+<!-- 
+pBankId: 0
+pCardNumber: null                         ---  
+pChequenumber: ""                         ---  R
+pFileformat: null                         ---
+pFilename: null                           ---  R
+pFilepath: null                           ---
+pTdsPercentage: 5                         ---  R
+pTdsSection: "192"                        ---  R
+pbankid: 0
+pbankname: ""                             ---  R
+pbranchname: null                         ---  R
+pchequedate: null                         ---  R
+pdepositbankname: null                    ---  R
+pistdsapplicable: true  
+pmodofreceipt: "CASH"                     ---  R
+pnarration: "asdef"                       ---  R
+ppartyname: "RAJAN VERMA"                 ---  R
+ppartypannumber: ""                       ---
+ppartyreferenceid: "CON1900003"           ---
+ppartyreftype: null                       ---
+preceiptdate: "11/6/2019 12:00:00 AM"     ---  R
+preceiptid: "CR1"                         ---  R
+ptdsamount: 0                             ---  R
+ptdscalculationtype: "INCLUDE"            ---  R
+ptotalreceivedamount: 1000                ---  R
+ptypeofpayment: ""                        ---  R
+-->

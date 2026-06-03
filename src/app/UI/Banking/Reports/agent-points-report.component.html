@@ -1,0 +1,304 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6 ">
+      <p class="bc-2">Agent Points</p>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-12 col-xl-12">
+        <div class="section-container">
+          <form [formGroup]="AgentPointForm" autocomplete="off">
+            <div class=""> 
+                <div class="col-md-12 p-0">                
+                     <div class="row">
+                        <div class="col-md-6 col-xl-6">
+                           <div class="">                               
+                                 <div class="row">
+                                    <div class="col-md-6 col-xl-6 pt-2 ">
+                                       <p class="bc-2">Receipt Date</p>
+                                     </div>
+                                 </div> 
+                                 <div class="">
+                                   <div class="row">
+                                      <div class="col-md-6  col-xl-6">
+                                           <div class="form-group">  
+                                             <label id="pFromMonthOf" title="From Month">From</label>
+                                             <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                                               bsDatepicker  formControlName="pFromMonthOf" (ngModelChange)="RFromDateChange($event)"
+                                              [ngClass]="{ 'is-invalid': AgentpointErrors.pFromMonthOf }">
+                                             </div>
+                                         </div>                          
+                                         <div class="col-md-6  col-xl-6">
+                                             <div class="form-group">
+                                                 <label id="pToMonthOf" title="To Month">To </label> 
+                                                 <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+                                                          bsDatepicker  formControlName="pToMonthOf" (ngModelChange)="RToDateChange($event)"
+                                                           [ngClass]="{ 'is-invalid': AgentpointErrors.pToMonthOf }">          
+                                                  <div *ngIf="Rvalidation" class="text-danger">
+                                                     please select a valid Date
+                                                 </div>  
+                                             </div>   
+                                         </div>                        
+                                     </div>
+                                 </div>
+                                 </div> 
+                             </div>
+                          
+                      
+                         
+                             <div class="col-md-6 col-xl-6">
+                                 <div class="">
+                                                                            
+                                     <div class="row">
+                                         <div class="col-md-6 col-xl-6 pt-2" >
+                                             <p class="bc-2">Cheque Clear Date</p>
+                                         </div>
+                                      </div> 
+                                      <div class="">
+                                    <div class="row">
+                                        <div class="col-md-6  col-xl-6">
+                                            <div class="form-group">  
+                                                 <label id="pChequFromMonthOf" title="From">From </label>
+                                                 <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                                                 bsDatepicker  formControlName="pChequFromMonthOf" (ngModelChange)="CFromDateChange($event)"
+                                                [ngClass]="{ 'is-invalid': AgentpointErrors.pChequFromMonthOf }" readonly disabled="true">
+                                                <!-- <div *ngIf="Cvalidation" class="text-danger">
+                                                 please select a valid Date
+                                             </div>  -->
+                                             </div>
+                                         </div> 
+                                         <div class="col-md-6  col-xl-6">
+                                            <div class="form-group">
+                                             <label id="pchequeToMonthOf" title="To">To </label> 
+                                             <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+                                                      bsDatepicker  formControlName="pchequeToMonthOf"  (ngModelChange)="CToDateChange($event)"
+                                                       [ngClass]="{ 'is-invalid': AgentpointErrors.pchequeToMonthOf }" readonly disabled="true">          
+                                              <!-- <div *ngIf="Cvalidation" class="text-danger">
+                                                 please select a valid Date
+                                             </div>  -->
+                                             </div>   
+                                         </div>                       
+                                     </div>
+                                      </div>
+                                 </div>
+                                     <div class="justify-content-end row pull-right  mt-1">
+                                             <div class="col-md-12  col-xl-12 d-flex">
+                                                <div class="form-group mt-1 pt-1">
+                                                     <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetAgentdetails()">
+                                                         <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                                                             <span *ngIf="!isLoading">
+                                                               <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                                                      width="20px">
+                                                             </span> {{savebutton}}
+                                                     </a>
+                                                 </div>
+                                              </div>  
+                                     </div>  
+                                 </div>
+                             </div>
+                         </div>   
+
+                     </div>
+                 </form> 
+                
+                  <div class="">
+                    <div class="col-md-12 p-0 ">
+
+                   
+                    <div class="row">
+                      <div class="col-md-6 col-xl-6 ">
+                          <p class="bc-2">Agent Points Summary</p>
+                      </div>
+                  </div>
+                   <kendo-grid [kendoGridBinding]="gridData" [reorderable]="true" [resizable]="true"
+                              [sortable]="true" [pageSize]="10"  [columnMenu]="{ filter: true }" [pageable]="{buttonCount: 2}" >
+                                      <ng-template kendoGridToolbarTemplate>
+                                          <div class="row  p-0">
+                                             <div class="col-12 mt-5">
+                                              <ul class="temp-ul pull-right mr-4 pb-3">
+                                                   <li class="temp-ico">
+                                                      <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                                   </li>
+                                                      <li class="temp-ico">
+                                                          <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel" width="20px"></a>
+                                                       </li>                                                  
+                                              </ul>
+                                           </div>
+                                         </div>
+                                      </ng-template>                  
+                                <kendo-grid-column field="pAgentnamesummary" title="Agent Name" [headerClass]="{'kendo-left': true}" class="kendo-left trend-inner">
+                                  <ng-template kendoGridCellTemplate let-dataItem>
+                                    <a (click)="GetAgentDetails(dataItem)">{{dataItem.pAgentnamesummary}}</a>
+                                  </ng-template>
+                                     </kendo-grid-column>
+                                   <kendo-grid-column field="pPointsummary" title="Points" [headerClass]="{'kendo-center': true}" class="kendo-left">              
+                                   </kendo-grid-column>                                    
+                            
+                                   <kendo-grid-pdf fileName="AgentPoints_Summary.pdf" [allPages]="true" paperSize="A2" [repeatHeaders]="true"
+                                   [landscape]="true">          
+                                   <kendo-grid-pdf-margin top="8cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>          
+                                   <ng-template kendoGridPDFTemplate>              
+                                     <div class="page-template">
+                                       <div class="header">
+                                         <div class="col-md-12">
+                                           <div class="temp-head float-md-center pt-3">
+                                               <h2 class="font-18 text-dark text-center m-0 font-weight-bold"> {{pCompanyName}}</h2>
+                                               <p class="font-16 text-dark text-center m-0"> {{pAddress1}} {{pAddress2}} {{pDistrict}}, {{pcity}}, {{pState}} - {{pPincode}} </p>
+                                               <p class="font-14 text-dark text-center">CIN : {{pCinNo}}</p>
+                                           </div>
+                                       </div>
+                                       <div class="row">                         
+                                         <div class="col-md-6">
+                                           <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                                                font-weight: bold !important;">Receipt From  Date :</span>
+                                           <label class="print-font"> {{Rfrommonthof|date:'dd-MMM-yyyy'}}</label>
+                                          </div>
+                 
+                                          
+                                     <div class="col-md-6">
+                                       <span class="font-14 text-right m-0 mr-4" style="font-size: 14px !important;
+                                            font-weight: bold !important;">Cheque Clear From Date :</span>
+                                       <label class="print-font"> {{Cfrommonthof|date:'dd-MMM-yyyy'}} </label>
+                                   </div>
+                                 </div>
+                                 <div class="row">
+                                         <div class="col-md-6">
+                                         <span class="font-14 text-right m-0 mr-4" style="font-size: 14px !important;
+                                              font-weight: bold !important;">Receipt To  Date :</span>
+                                         <label class="print-font">{{Rtomonthof|date:'dd-MMM-yyyy'}}</label>
+                                       </div>       
+                 
+                 
+                                     <div class="col-md-6 justify-content-end">
+                                       <span class="font-14 text-right m-0 mr-4" style="font-size: 14px !important;
+                                            font-weight: bold !important;">Cheque Clear To Date :</span>
+                                       <label class="print-font"> {{Ctomonthof|date:'dd-MMM-yyyy'}} </label>
+                                   </div>
+                 
+                                   </div>
+                                       </div>
+                                     </div>
+                                   </ng-template>
+                                 </kendo-grid-pdf>
+                    <kendo-grid-excel fileName="AgentPoints_Reports.xlsx"></kendo-grid-excel> 
+                    </kendo-grid>  
+                    </div>
+
+                    <!-- </div> -->
+                  </div>
+
+            <div class="row  mt-4">
+              <div class="col-md-12">    
+                        <div class="row">
+                          <div class="col-md-12 col-xl-12">
+                            <div class="row">
+                              <div class="col-md-6 col-xl-6 ">
+                                <p class="bc-2">Agent Points Details - {{Agentname1}}</p>
+                              </div>
+                          </div>
+                            <kendo-grid [kendoGridBinding]="Detailsdata"
+                                        [reorderable]="true" [resizable]="true"
+                                        [pageSize]="10"  [columnMenu]="{ filter: true }" [pageable]="{buttonCount: 2}"
+                                        [sortable]="true" [groupable]="false" [group]="groups">
+                              <ng-template kendoGridToolbarTemplate>
+                                <div class="row mb-4">
+                                  <div class="col-12 mt-1">
+                                    <ul class="temp-ul pull-right">
+                                      <li class="temp-ico">
+                                        <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                      </li>
+                                      <li class="temp-ico">
+                                        <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel" width="20px"></a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </ng-template>
+                              <kendo-grid-column field="pAgentname" width="120" title="Agent Name" class="kendo-left">               </kendo-grid-column>
+                              <kendo-grid-column field="pContactid" width="100" title="Contact Id" class="kendo-left" hidden="hidden">
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pAccountname" width="120" title="Account Name" class="kendo-left">               </kendo-grid-column>
+                              <kendo-grid-column field="pFdaccountno" width="100" title="Account No." class="kendo-left">
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pReceiptamount" width="140" title="Bond Amount" class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                  {{dataItem.pReceiptamount | mycurrencypipe}}
+                                </ng-template>
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pBranch" width="100" title="Branch" class="kendo-left">
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pReceipttype" width="100" title="Receipt Type" class="kendo-left" hidden="hidden">
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pReceiptDate" width="120" title="Receipt Date" class="kendo-left">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                  {{dataItem.pReceiptDate|date: 'dd-MMM-yyyy'}}
+                                </ng-template>
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pClearDate" width="100" title="Cheque Clear Date" class="kendo-left">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                  {{dataItem.pClearDate|date: 'dd-MMM-yyyy'}}
+                                </ng-template>
+                              </kendo-grid-column>
+
+                              <kendo-grid-pdf fileName="AgentPointDetails_Reports.pdf" [allPages]="true" paperSize="A2" [repeatHeaders]="true"
+                              [landscape]="true">          
+                              <kendo-grid-pdf-margin top="8cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>          
+                              <ng-template kendoGridPDFTemplate>              
+                                <div class="page-template">
+                                  <div class="header">
+                                    <div class="col-md-12">
+                                      <div class="temp-head float-md-center pt-3">
+                                          <h2 class="font-18 text-dark text-center m-0 font-weight-bold"> {{pCompanyName}}</h2>
+                                          <p class="font-16 text-dark text-center m-0"> {{pAddress1}} {{pAddress2}} {{pDistrict}}, {{pcity}}, {{pState}} - {{pPincode}} </p>
+                                          <p class="font-14 text-dark text-center">CIN : {{pCinNo}}</p>
+                                      </div>
+                                  </div>
+                                  <div class="row">                         
+                                    <div class="col-md-6">
+                                      <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                                           font-weight: bold !important;">Receipt From  Date :</span>
+                                      <label class="print-font"> {{Rfrommonthof|date:'dd-MMM-yyyy'}}</label>
+                                     </div>
+            
+                                     
+                                <div class="col-md-6">
+                                  <span class="font-14 text-right m-0 mr-4" style="font-size: 14px !important;
+                                       font-weight: bold !important;">Cheque Clear From Date :</span>
+                                  <label class="print-font"> {{Cfrommonthof|date:'dd-MMM-yyyy'}} </label>
+                              </div>
+                            </div>
+                            <div class="row">
+                                    <div class="col-md-6">
+                                    <span class="font-14 text-right m-0 mr-4" style="font-size: 14px !important;
+                                         font-weight: bold !important;">Receipt To  Date :</span>
+                                    <label class="print-font">{{Rtomonthof|date:'dd-MMM-yyyy'}}</label>
+                                  </div>       
+            
+            
+                                <div class="col-md-6 justify-content-end">
+                                  <span class="font-14 text-right m-0 mr-4" style="font-size: 14px !important;
+                                       font-weight: bold !important;">Cheque Clear To Date :</span>
+                                  <label class="print-font"> {{Ctomonthof|date:'dd-MMM-yyyy'}} </label>
+                              </div>
+            
+                              </div>
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </kendo-grid-pdf>
+                              <kendo-grid-excel fileName="AgentPointDetails_Reports.xlsx"></kendo-grid-excel>
+
+                            </kendo-grid>
+                          </div>
+                        </div>
+                </div>
+            </div>
+    
+                    
+
+        </div>
+    </div>
+</div>
+
+                     
+           
+      

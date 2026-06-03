@@ -1,0 +1,185 @@
+<div class="row">
+    <div class="col d-flex flex-wrap align-items-center">
+        <a (click)="Newform()" class="btn btn-b-icon border-0" routerLink="/RdTransactionNew">
+            <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+        </a>
+
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-12 col-xl-12">
+        <div class="section-container">
+
+            <kendo-grid [kendoGridBinding]="gridview" [groupable]="true" [selectedKeys]="mySelection" [pageSize]="10" [skip]="skip" [pageable]="{buttonCount: 2}" [reorderable]="true" [resizable]="true" [columnMenu]="{ filter: true }" [sortable]="true" (edit)="editHandler($event)"
+                (remove)="removeHandler($event)">
+                <ng-template kendoGridToolbarTemplate>
+                    <div class="row mb-2">
+                        <div class="col-4 pl-0 mt-n1">
+                            <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+                        </div>
+                        <div class="col-7 pr-0 pl-4 ml-4">
+                            <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                                <li class="temp-ico ml-2">
+                                    <a kendoGridPDFCommand>
+                                        <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px">
+                                    </a>
+                                </li>
+                                <li class="temp-ico ml-2">
+                                    <a kendoGridExcelCommand>
+                                        <img class="pt-2" src="assets/images/icon-excel.svg " title="excel" width="20px">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </ng-template>
+                <!-- <kendo-grid-command-column title="Actions" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <button kendoGridEditCommand>
+              <div id="icon-edit"></div>
+            </button>
+                         <button kendoGridRemoveCommand [disabled]="dataItem.pRdAccountId">
+              <div id="icon-delete"></div>
+                        </button> 
+                    </ng-template>
+                </kendo-grid-command-column> -->
+                <kendo-grid-command-column title="Actions" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+
+                        <button kendoGridEditCommand [disabled]="dataItem.pReceiptStatus"><div id="icon-edit"></div></button>
+                        <button kendoGridRemoveCommand [disabled]="true">
+                            <div id="icon-delete"></div>
+                          </button>
+                    </ng-template>
+                </kendo-grid-command-column>
+                <kendo-grid-column field="pApplicantType" title="Applicant Type" width="150">
+                </kendo-grid-column>
+                <kendo-grid-column field="pRdname" title="RD Name" width="150">
+                </kendo-grid-column>
+                <kendo-grid-column field="pRdaccountNo" title="RD Transcation No." width="180">
+                </kendo-grid-column>
+                <!-- <kendo-grid-column field="pInterestPayout" title="Interest Payout" width="150">
+                </kendo-grid-column> -->
+                <kendo-grid-column field="pMemberName" title="Member" width="150" class="kendo-left">
+                </kendo-grid-column>
+                <kendo-grid-column field="pMemberType" title="Member Type" width="150" class="kendo-left">
+                </kendo-grid-column>
+
+
+
+                <kendo-grid-column field="pInstallmentAmount" title="RD Amount" width="150" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pInstallmentAmount | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pMaturityAmount" title="Maturity Amount" width="150" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pMaturityAmount | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+                <!-- <kendo-grid-column field="pInterestRateFrom: 1
+                pInterestRateTo: 15" title="RD Date" width="150" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pDepositDate}}
+                    </ng-template>
+                </kendo-grid-column> -->
+                <kendo-grid-column field="pInterestRate" title="Interest Rate" width="100" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pInterestRate | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pMaturityDate" title="Maturity Date" width="150" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pMaturityDate }}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pTransDate" title="Transaction Date" width="150" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pTransDate | date:'dd/MMM/yyyy'}}
+                    </ng-template>
+                </kendo-grid-column>
+                <!-- <kendo-grid-column field="pChitbranchname" title="Branch" width="150"></kendo-grid-column> -->
+
+                <kendo-grid-column field="pTenure" title="Tenure" width="150"> </kendo-grid-column>
+                <kendo-grid-pdf fileName="RD_Transaction.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+                    <ng-template kendoGridPDFTemplate>
+                        <div class="page-template">
+                            <div class="header bc-2 text-center">
+                                <h5>RD Transaction</h5>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+                    <kendo-grid-column field="pApplicantType" title="Applicant Type" width="100">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pRdname" title="RD Name" width="100">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pRdaccountNo" title="RD Transcation No." width="100">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pMemberName" title="Member" width="100" class="kendo-left">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pMemberType" title="Member Type" width="100" class="kendo-left">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pInstallmentAmount" title="RD Amount" width="100" class="kendo-right">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pInstallmentAmount | mycurrencypipe}}
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pMaturityAmount" title="Maturity Amount" width="100" class="kendo-right">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pMaturityAmount | mycurrencypipe}}
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pInterestRate" title="Interest Rate" width="100" class="kendo-right">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pInterestRate | mycurrencypipe}}
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pDepositDate" title="RD Date" width="100" class="kendo-center">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pDepositDate}}
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pMaturityDate" title="Maturity Date" width="100" class="kendo-center">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pMaturityDate }}
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pTransDate" title="Transaction Date" width="150" class="kendo-center">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pTransDate }}
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pTenure" title="Tenure" width="100"> </kendo-grid-column>
+                </kendo-grid-pdf>
+                <kendo-grid-excel fileName="RD_Transaction.xlsx" [fetchData]="allData">
+                    <kendo-excelexport-column-group title="RD Transaction" [headerCellOptions]="headerCells">
+                        <kendo-excelexport-column field="pApplicantType" title="Applicant Type">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pRdname" title="RD Name">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pRdaccountNo" title="RD Transcation No.">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pMemberName" title="Member">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pMemberType" title="Member Type">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pInstallmentAmount" title="RD Amount">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pInterestRate" title="Interest Rate">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pMaturityAmount" title="Maturity Amount">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pDepositDate" title="RD Date">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pMaturityDate" title="Maturity Date">
+                        </kendo-excelexport-column>
+                        <kendo-excelexport-column field="pTenure" title="Tenure">
+                        </kendo-excelexport-column>
+                    </kendo-excelexport-column-group>
+                </kendo-grid-excel>
+            </kendo-grid>
+        </div>
+    </div>
+</div>

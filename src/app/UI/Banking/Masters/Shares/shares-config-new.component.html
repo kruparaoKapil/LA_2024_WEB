@@ -1,0 +1,93 @@
+<!-----------------Top Nav Start --------------------->
+<div class="row">
+
+    <div class="col-md-12 col-xl-12  mb-3">
+        <span (click)="back()" class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+        color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img src="assets/images/icon-back-blue.svg"
+		  width="25px" height="25px">View</span>
+    </div>
+</div>
+<div class="section-container">
+    <ul class="nav nav-tabs tip-top wiz-tab mt-2" id="myTab" role="tablist">
+        <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="
+				Share Capital Name and Code" data-original-title="" title=""> <a class="active disableTabs" data-toggle="tab" href="#share-capital-name" role="tab" aria-controls="Share Capital Name and Code" (click)="ShowTitle('Share Capital Name and Code')" aria-selected="true">Share Capital Name and Code</a>
+        </li>
+        <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Share Configuration" data-original-title="" title=""> <a class="disableTabs" data-toggle="tab" href="#share-config" role="tab" aria-controls="Share Configuration" (click)="ShowTitle('Share Configuration')" aria-selected="false">Share Configuration</a> </li>
+        <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="
+				Referral Commission" data-original-title="" title=""> <a class="disableTabs" data-toggle="tab" (click)="ShowTitle('Referral Commission')" href="#referral-commission" role="tab" aria-controls="Referral Commission" aria-selected="false">Referral Commission</a> </li>
+    </ul>
+
+    <!-- <div class="btn-group quick-links">
+	<a class="btn btn-block dropdown-toggle mt-1 sm-dd" data-toggle="dropdown" href="#">{{selectedtype}}<span
+			class="caret"></span></a>
+	<ul class="dropdown-menu w-100">
+		<li class="dropdown-item"><a (click)="NavigateLinks('share-capital-name','Share Capital Name and Code')">Share Capital Name and Code</a></li>
+		<li class="dropdown-item"><a (click)="NavigateLinks('share-config','Share Configuration')" href="#share-config">Share Configuration</a></li>
+		<li class="dropdown-item"><a (click)="NavigateLinks('referral-commission','Referral Commission')" href="#referral-commission">Referral Commission</a></li>
+	</ul>
+    <a data-toggle="modal" href="#l-Modal"
+    class="float-right pl-1 pr-1 pt-1 btn-link"><img
+			src="assets/images/icon-more-dots-blue.svg" width="20" height="20"></a>
+</div> -->
+    <!-- <div *ngIf="ShowDetailsOnTab" class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end">
+            <ol class="breadcrumb mt-2 position-absolute mb-4" style="top:-41px; left: 10px;">
+
+                <li class="breadcrumb-item">{{sharename}}</li>
+                <li class="breadcrumb-item">{{sharecode}}</li>
+                <li class="breadcrumb-item">{{sharenameandcode}}</li>
+
+            </ol>
+        </div>
+    </div> -->
+    <!-- ======================================================================= tab nav end ============================================================================== -->
+    <!-- <div *ngIf="ShowDetailsOnTab" class="col-md-12 col-xl-12">
+	<div class="d-flex justify-content-end">
+	  <ol class="breadcrumb mt-2 position-absolute mb-4" style="top:-41px; left: 10px;">
+	  
+		<li class="breadcrumb-item">{{sharename}}</li>
+		<li class="breadcrumb-item">{{AccountCode}}</li>
+		<li class="breadcrumb-item">{{AccNameandCode}}</li>
+  
+	  </ol>
+	</div>
+  </div> -->
+    <div class="tab-content" id="myTabContent">
+
+
+        <div class="tab-pane fade active show " id="share-capital-name" role="tabpanel" aria-labelledby="fresh-tab">
+            <app-companyname-companycode [sharenameedit]="sharenameedit"></app-companyname-companycode>
+        </div>
+
+        <!-- ==================================================================== tab content pannnel 1 end =================================================================== -->
+        <div class="tab-pane fade" id="share-config" role="tabpanel" aria-labelledby="hot-tab">
+            <app-share-capital [sharenameedit]="sharenameedit"></app-share-capital>
+        </div>
+
+        <!-- ==================================================================== tab content pannnel 2 end =================================================================== -->
+
+        <div class="tab-pane fade" id="referral-commission" role="tabpanel" aria-labelledby="warm-tab">
+
+            <app-share-referral-commission [sharenameedit]="sharenameedit"></app-share-referral-commission>
+        </div>
+
+        <!-- ==================================================================== tab content pannnel 3 end =================================================================== -->
+        <div class="row mt-4 ml-1">
+            <div class="col-md-12 col-xl-12">
+                <div class="d-flex justify-content-end mt-4">
+                    <a *ngIf="ClearHideandShow" (click)="clearcomponent()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+
+                    <!-- <a *ngIf="BackHideandShow" (click)="backcomponent()" data-toggle="tab"
+					class="btn btn-g-icon px-3 border-0 mr-4" role="tab" aria-controls="hot" aria-selected="false"><img
+						src="assets/images/icon-chewron-left-whitesolid.svg" width="20px" height="20px"
+						class="mr-3" />Back</a> -->
+
+
+                    <button *ngIf="NextHideandShow" appButtonDoubleClick [debounceTime]="500" (debounceClick)="SaveShareConfig()" class="btn btn-b-icon px-3 border-0" [disabled]="isLoading"><i class="fa"
+						[ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i> Save & Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Tab content end -->

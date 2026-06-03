@@ -1,0 +1,384 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8 col-sm-8 m-auto">
+
+
+      <div class="row">
+        
+      </div>
+      <div class="page-title">
+
+      </div>
+      <div class="col-md-12 col-sm-12">
+        <div class=" row  border">
+          <div class="col-md-3 col-sm-3 border-right pt-2 pl-2">
+            <div class="text-inner-left"><span style="    color: #5840b7;">CHALLAN NO./ ITNS - <span
+                  class="font-weight-bold">281</span>
+              </span></div>
+          </div>
+          <div class="col-md-6 col-sm-6  pl-2 border-right pt-2 ">
+            <div class="text-inner-left w-100 text-left sub-title"><b>Tax Applicable </b>(Tick One)*</div>
+            <div class="sub-title text-left p-0">TAX DEDUCTED /COLLECTED AT SOURCE FROM</div>
+            <label class="text-inner-left">
+              <div class="row">
+                <div class="col-md-5" style="    color: #5840b7;font-weight:bold">(0020) COMPANY DEDUCTORS
+                </div>
+                <div class="col-md-2" *ngIf="showcompany"> 
+                    <input type="checkbox" disabled checked value="" >
+                 
+                </div>
+                <div style="    color: #5840b7;font-weight:bold" class="col-md-5"> (0021) NON-COMPANY
+                  DEDUCTORS</div>
+                <div class="col-md-2" *ngIf="shownoncompany" > 
+                    <input type="checkbox" disabled checked value="" >
+                 
+                </div>
+                <!-- <div class="text-inner-left font-weight-bold">
+                    <input type="checkbox"  checked value="" [ngClass]="{'for-disable-radio-btn': true}"></div>
+                </div> -->
+              </div>
+            </label>
+          </div>
+          <div class="col-md-3 col-sm-3 pt-2 pl-2  ">
+            <div class="text-inner-left w-100 font-weight-bold mb-2">Assessment Year</div>
+            <label class="text-inner-left" style="    color: #5840b7;font-weight:bold"><span
+                style="    color: #5840b7;font-weight:bold" class="border p-2 mr-1">{{cy1}}</span><span
+                style="    color: #5840b7;font-weight:bold" class="border p-2 mr-1">{{cy2}}</span><span
+                style="    color: #5840b7;font-weight:bold" class="border p-2 mr-1">{{cy3}}</span><span
+                style="    color: #5840b7;font-weight:bold" class="border p-2 mr-1">{{cy4}}</span> - <span
+                style="    color: #5840b7;font-weight:bold" class="border p-2 mr-1">{{ny1}}</span><span
+                style="    color: #5840b7;font-weight:bold" class="border p-2">{{ny2}}</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 col-sm-12 border">
+        <div class=" row pt-3">
+          <div class="col-md-12 px-2">
+            <label class="text-inner-left w-100 ">Tax Deduction Account Number (TAN)</label>
+            <div class="text-inner-left w-100 font-weight-bold "><b>{{Tanno}}</b></div>
+          </div>
+        </div>
+
+        <div class=" row">
+          <div class="col-md-12 px-2 pt-2">
+            <label class="text-inner-left w-100 ">Full Name</label>
+            <input type="text" class="text-inner-left  w-100 font-weight-bold border p-1" readonly
+              value={{companyname}}>
+          </div>
+        </div>
+
+        <div class=" row pt-2">
+          <div class="col-md-12 px-2">
+            <label class="text-inner-left w-100 ">Complete Address with city & state</label>
+            <input type="text" class="text-inner-left w-100 font-weight-bold border p-1" value={{companyaddress}}>
+          </div>
+        </div>
+        <div class=" row pt-2">
+          <div class="col-md-8  col-sm-8 border-right pl-4 pr-4">
+            <div class="row">
+              <div class="col-md-8 p-0">
+                <div class="text-inner-left font-weight-bold ">Type of Payment (Tick One)</div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="text-inner-left font-weight-bold">Code</div>
+              </div>
+              <div class="col-md-2">
+                <div class="text-inner-left font-weight-bold">{{section}}</div>
+              </div>
+            </div>
+
+            <div class="row pt-2">
+              <div class="col-md-8 p-0">
+                <div class="text-inner-left ">TDS/ TCS Payable by Taxpayer</div>
+              </div>
+
+              <div class="col-md-2">
+                <div class=" font-weight-bold text-primary">(200)</div>
+              </div>
+              <div class="col-md-2">
+                <div class="text-inner-left font-weight-bold">
+                  <input type="checkbox"  checked value="" [ngClass]="{'for-disable-radio-btn': true}"></div>
+              </div>
+            </div>
+            <div class="row pt-2">
+              <div class="col-md-8 p-0">
+                <div class="text-inner-left ">TDS /TCS Regular Assessment ( Raised by I.T. Dept)</div>
+              </div>
+
+              <div class="col-md-2">
+                <div class=" font-weight-bold text-primary">(400)</div>
+              </div>
+              <div class="col-md-2">
+                <div class="text-inner-left font-weight-bold"><input type="checkbox" [ngClass]="{'for-disable-radio-btn': true}" value=""></div>
+              </div>
+            </div>
+
+
+            <div class="row pt-2">
+              <label class="text-inner-left font-weight-bold ">DETAILS OF PAYMENTS</label>
+            </div>
+
+            <div class="row">
+              <div class="col-md-3 col-sm-3 p-0">
+                <label class="text-inner-left font-weight-bold ">Income Tax</label>
+              </div>
+              <div class="col-md-9 col-sm-9">
+                <input type="text" class="text-inner-left  font-weight-bold border p-1" readonly value={{amount|mycurrencypipe}}>
+              </div>
+
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-md-3 col-sm-3 p-0">
+                <label class="text-inner-left font-weight-bold ">Surcharge</label>
+              </div>
+              <div class="col-md-9 col-sm-9">
+                <input type="text" class="text-inner-left  font-weight-bold border p-1" value="">
+              </div>
+
+            </div>
+
+            <div class="row  mt-2">
+              <div class="col-md-3 col-sm-3 p-0">
+                <label class="text-inner-left font-weight-bold ">Education Cess</label>
+              </div>
+              <div class="col-md-9 col-sm-9">
+                <input type="text" class="text-inner-left  font-weight-bold border p-1" value="">
+              </div>
+            </div>
+
+
+            <div class="row  mt-2">
+              <div class="col-md-3 col-sm-3 p-0">
+                <label class="text-inner-left font-weight-bold ">Interest</label>
+              </div>
+              <div class="col-md-9 col-sm-9">
+                <input type="text" class="text-inner-left  font-weight-bold border p-1" value="">
+              </div>
+
+            </div>
+            <div class="row  mt-2">
+              <div class="col-md-3 col-sm-3 p-0">
+                <label class="text-inner-left font-weight-bold ">Penalty</label>
+              </div>
+              <div class="col-md-9 col-sm-9">
+                <input type="text" class="text-inner-left  font-weight-bold border p-1" value="">
+              </div>
+
+            </div>
+
+            <div class="row  mt-2">
+              <div class="col-md-3 col-sm-3 p-0">
+                <label class="text-inner-left font-weight-bold ">Total</label>
+              </div>
+              <div class="col-md-9 col-sm-9">
+                <input type="text" class="text-inner-left  font-weight-bold border p-1" readonly value={{amount|mycurrencypipe}}>
+              </div>
+            </div>
+            <div class="row mt-2 mb-2">
+              <div class="col-md-3 col-sm-3 p-0">
+                <label class="text-inner-left font-weight-bold ">Total (in words)</label>
+              </div>
+              <div class="col-md-9 col-sm-9">
+                <div class="text-inner-left  font-weight-bold  p-1 " value="">{{amount|numberToWords | titlecase}}
+                  </div>
+              </div>
+
+            </div>
+
+            <div class="row pr-1 pt-2">
+              <div class="table-responsive border">
+                <table id="example" class="table text-center">
+                  <thead>
+                    <tr>
+                      <th>CRORES</th>
+                      <th>LACS</th>
+                      <th>THOUSANDS</th>
+                      <th>HUNDREDS</th>
+                      <th>TENS</th>
+                      <th>UNITS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td> </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="row pt-3">
+              <div class=" p-0">
+                <label class="text-inner-left font-weight-bold ">Paid inCash/Debit to A/c/ Cheque No.)</label>
+                <input type="text" class="text-inner-left text-right font-weight-bold border" style="width:100px"
+                  value="">
+              </div>
+              <div class="">
+                <label class="text-inner-left font-weight-bold pl-2 ">Dated</label>
+                <input type="text" class="text-inner-left text-right font-weight-bold border" style="width:100px"
+                  value="">
+              </div>
+            </div>
+            <div class="row pt-2">
+              <label class="text-inner-left font-weight-bold ">Drawn on</label>
+              <input type="text" class="text-inner-left text-right font-weight-bold border p-2 w-100">
+
+            </div>
+            <div class="row pt-2">
+              <label class="text-inner-left font-weight-bold  text-center">(Name of the Bank and Branch )</label>
+
+
+            </div>
+            <div class="row mb-4">
+              <div class="col-md-4 p-0">
+                <div class="text-inner-left font-weight-bold ">Date:</div>
+                <div class="text-inner-left font-weight-bold "></div>
+              </div>
+              <div class="col-md-8">
+                <div class="text-inner-left text-right font-weight-bold w-100 ">Signature of person making payment</div>
+                <div class="text-inner-left text-right font-weight-bold w-100"></div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-4 col-sm-4 px-2">
+            <div class="sub-ttile font-weight-bold">FOR USE IN RECEIVING BANK</div>
+            <div class="row">
+              <div class="col-md-12">
+                <label class="text-inner-left w-100 ">Debit to A/c /Cheque Credited on</label>
+                <input type="text" readonly class="w-100 border" placeholder="">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 my-2">
+                <div class="border pt-2 pb-5 h-100">
+                  <div class="text-primary font-weight-bold text-center">SPACE FOR BANK SEAL</div>
+                  <div class="py-5"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+        </div>
+        <div class="row border-top">
+          <div class="col-md-8 col-sm-8  border-right  pr-4">
+            <div class="row">
+              <div class="col-md-12 px-2">
+                <div class="text-inner-left font-weight-bold pt-3 ">Taxpayers counterfoil (To be filled up by tax Payer)
+                </div>
+
+              </div>
+            </div>
+            <div class=" row pt-2">
+              <div class="col-md-12 px-2">
+                <label class="text-inner-left w-100 ">TAN</label>
+                <div class="text-inner-left w-100 font-weight-bold">{{Tanno}}</div>
+              </div>
+            </div>
+
+            <div class=" row pt-2">
+              <div class="col-md-12 px-2">
+                <label class="text-inner-left w-100 ">Received From:</label>
+                <textarea readonly class="text-inner-left w-100 font-weight-bold border p-1 word-break text-wrap">{{companyaddress}}</textarea>
+                <!--<textarea readonly class="text-inner-left w-100 font-weight-bold border p-1 word-break text-wrap" value={{companyaddress}}>-->
+              </div>
+            </div>
+            <div class="row pt-3">
+            <div class=" p-0">
+              <label class="text-inner-left font-weight-bold ">Cash/Debit to A/c/ Cheque No.)</label>
+              <input type="text" readonly class="text-inner-left text-right font-weight-bold border" style="width:100px"
+                value="">
+            </div>
+            <div class="">
+              <label class="text-inner-left font-weight-bold pl-2 ">For Rs.</label>
+              <input type="text" readonly class="text-inner-left text-right font-weight-bold border" style="width:100px"
+                value="{{amount|mycurrencypipe}}">
+            </div>
+          </div>
+            <div class=" row">
+              <div class="col-md-12 px-2 pt-2">
+                <label class="text-inner-left w-100 ">Rs.(in words)</label>
+                <input type="text" readonly class="text-inner-left w-100 font-weight-bold border p-1"
+                  value={{amount|numberToWords|titlecase}}>
+              </div>
+            </div>
+            <div class=" row">
+              <div class="col-md-12 px-2 pt-2">
+                <label class="text-inner-left w-100 ">Drawn on</label>
+                <input type="text" class="text-inner-left w-100 font-weight-bold border p-1" value="">
+              </div>
+            </div>
+            <div class="row pt-2  px-2">
+              <label class="text-inner-left font-weight-bold  text-center">(Name of the Bank and Branch )</label>
+
+
+            </div>
+            <div class=" row">
+              <div class="col-md-12 px-2">
+
+                <input type="text" class="text-inner-left  font-weight-bold border p-2" value="Company">
+                <input type="text" class="text-inner-left font-weight-bold border p-2" value="Non-Company">
+                <input type="checkbox" checked [ngClass]="{'for-disable-radio-btn': true}"  class="text-inner-left  font-weight-bold border p-2 mt-1"
+                  value="Deductees"> <span class="font-weight-bold">Deductees</span>
+              </div>
+            </div>
+
+
+            <div class="row pt-2 px-1 ">
+              <div class="sub-title font-weight-bold  text-center pl-0">On account of Tax Deducted at Source(TDS)/Tax
+                Collected at source (TCS) from {{section}}</div>
+
+            </div>
+            <div class=" row mb-4">
+              <div class="col-md-12 px-2">
+                <label class="text-inner-left w-100 ">For the Assessment Year</label>
+                <label class="text-inner-left" style="    color: #5840b7;font-weight:bold"><span
+                    style="    color: #5840b7;font-weight:bold" class="border p-2 mr-1">{{cy1}}</span><span
+                    style="    color: #5840b7;font-weight:bold" class="border p-2 mr-1">{{cy2}}</span><span
+                    style="    color: #5840b7;font-weight:bold" class="border p-2 mr-1">{{cy3}}</span><span
+                    style="    color: #5840b7;font-weight:bold" class="border p-2 mr-1">{{cy4}}</span> - <span
+                    style="    color: #5840b7;font-weight:bold" class="border p-2 mr-1">{{ny1}}</span><span
+                    style="    color: #5840b7;font-weight:bold" class="border p-2">{{ny2}}</span></label>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-md-4 col-sm-4 pt-3 px-2">
+            <div class="sub-ttile font-weight-bold">FOR USE IN RECEIVING BANK</div>
+
+            <div class="row">
+              <div class="col-md-12 my-2">
+                <div class="border pt-2 pb-5 h-100">
+                  <div class="text-primary font-weight-bold text-center">SPACE FOR BANK SEAL</div>
+                  <div class="py-5"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+
+
+
+    </div>
+  </div>
+</div>

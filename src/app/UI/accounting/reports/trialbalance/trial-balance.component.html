@@ -1,0 +1,270 @@
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+
+      </div>
+  </ng-template>
+  <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+<div class="row">
+  <div class="col-12 mb-3">
+    <p class="bc-2">Trial Balance</p>
+  </div>
+</div>
+<div class="section-container">
+<form [formGroup]="TrialBalanceForm">
+  <!--<div class="row mb-4 pb-4">
+    <div class="col-xl-1 col-md-1 mt-4">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" (change)="checkboxChecked($event)">
+        <label class="mt-2">As On :</label>
+      </div>
+    </div>
+    <div class="col-xl-2 col-md-2 form-group ">
+      <label>{{FromDate}}</label>
+      <input type="text" class="form-control" formControlName="fromdate" readonly [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom"
+             (ngModelChange)="DateChange($event)">
+
+    </div>
+
+    <div *ngIf="hide" class="form-group col-xs-3 col-md-3">
+      <div class="form-check form-check-inline ">
+        <label>To:</label>&nbsp;
+        <input type="text" class="form-control" formControlName="todate" readonly [bsConfig]="dpConfig1" #dp="bsDatepicker" bsDatepicker placement="bottom"
+               (ngModelChange)="DateChange($event)">
+      </div>
+    </div>
+
+    <div class="col-xl-2 col-md-2">
+      <a (click)="Report()" aria-controls="hot" aria-selected="false" class="btn btn-b-icon  border-0" data-toggle="tab" href="#" role="tab">
+        <img class="mr-3" height="20px"
+             src="assets/images/reports-white.svg" width="20px">Generate Report
+      </a>
+    </div>
+
+  </div>-->
+
+
+  <div class="row mb-4 pb-4">
+    <div class="col-xl-2 col-md-2 mt-4">
+      <div class="form-check form-check-inline check-btn-secondary">
+        <input class="form-check-input" type="checkbox" id="ason" (change)="checkboxChecked($event)">
+        <label class="mt-2" for="ason"> As On :</label>
+      </div>
+    </div>
+    <div class="col-xl-2 col-md-2 form-group ">
+      <label>{{FromDate}}</label>
+      <input type="text" class="form-control" id="fromdate" readonly [bsConfig]="dpConfig"
+             formControlName="fromdate"  bsDatepicker  (ngModelChange)="DateChange($event)"
+             #dp="bsDatepicker">
+
+    </div>
+
+    <div class=" col-xl-2 col-md-2 form-group" *ngIf="hide">
+      <div>
+        <label>To Date</label>
+        <input type="text" class="form-control" formControlName="todate" readonly [bsConfig]="dpConfig1" #dp="bsDatepicker" bsDatepicker placement="bottom">
+      </div>
+    </div>
+
+    <!--<div class="col-xl-4 col-md-4 form-group mt-3 pt-3">
+      <label></label>
+      <a (click)="Report()" aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" href="#" role="tab">
+        <img class="mr-3" height="20px"
+             src="assets/images/reports-white.svg" width="20px">Generate Report
+      </a>
+    </div>-->
+    <div class="justify-content-end d-flex">
+    <div class=" form-group mt-3 pt-3">
+      <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="Report()" [disabled]="isLoading">
+        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+        <span *ngIf="!isLoading">
+          <img class="mr-3" height="25px" src="assets/images/reports-white.svg"
+               width="20px">
+        </span>{{buttonName}}
+      </button>
+</div>
+      <!-- <button (click)="cashBookData()" class="btn btn-b-icon px-3 border-0" [disabled]="isLoading"><i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i> {{savebutton}}</button> -->
+
+    </div>
+  </div>
+
+
+
+
+
+
+  <div id="template">
+
+    <!-- <div class="d-flex justify-content-end">
+      <ul class="temp-ul">
+        <li class="temp-ico ml-2">
+          <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf"
+               style="cursor: pointer;" kendo-button
+               (click)="pdf.saveAs('TrialBalanceForm('+startDatesReport+'to'+endDatesReport+').pdf')" />
+        </li>
+        
+        <li   class="temp-ico"  *ngIf="pdfandprint">
+          <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print"
+               (click)="print()" style="cursor: pointer;" />
+        </li>
+      
+      </ul>
+
+    </div> -->
+
+
+
+    <div id="temp-box">
+      <!-- <kendo-pdf-export #pdf paperSize="A3" [allPages]="true" [repeatHeaders]="false" [landscape]="true"> -->
+
+        <div class="mt-2 border rounded shadow-sm bg-white">
+          <div class="row">
+            <div class="col-md-12">
+              <app-company-details></app-company-details>
+              <div class="report-head mt-2">
+                <p class="font-16 text-dark text-center m-0">
+                  Trial Balance
+                </p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class=" border shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+          <div class="row">
+            <div class="col-md-6">
+              <div *ngIf="ShowAsOn">
+                <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                    font-weight: bold !important;">As On:</span>
+                <label class="print-font">{{asondate}}</label>
+              </div>
+              <div *ngIf="ShowBetween">
+                <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                      font-weight: bold !important;">Between:</span>
+                <label class="print-font">&nbsp;&nbsp;&nbsp;{{from}}&nbsp;and&nbsp;{{to}}</label>
+              </div>
+            </div>
+            <!-- <div class="col-md-6">
+                    <p class="font-14 text-right m-0" style="font-size: 14px !important;
+                    font-weight: bold !important;" >CENTRAL REVOLVING FUND</p>
+            </div> -->
+          </div>
+          <kendo-grid [kendoGridBinding]="gridData"
+                      [groupable]="false" [group]="groups"
+                      [resizable]="true" [pageable]="false" [sortable]="false">
+
+                      <ng-template kendoGridToolbarTemplate>
+                        <div class="mb-3">
+                          <div class="col-12 mt-5">
+                            <ul class="temp-ul pull-right mr-4 pb-3">
+                              <li class="temp-ico ml-2">
+                                <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                                    width="20px"></a>
+                              </li>
+                            
+                              <li class="temp-ico ml-2">
+                                <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                                    width="20px"></a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </ng-template>
+
+                      <kendo-grid-column-group  [headerClass]="{'kendo-g-center' : true}" title="Trial Balance">
+
+            <!-- <kendo-grid-column field="pparentname" title="Type of Account" width="300" [hidden]="hidetypeofaccount"></kendo-grid-column> -->
+            <kendo-grid-column field="pparentname" title="Type of Account" [hidden]="hidetypeofaccount">
+                <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                    {{value}}
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="paccountname" title="Particulars" width="450" >
+              <ng-template kendoGridFooterTemplate>
+                <p class="bc-2 col-md-5">Grand Total</p>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pdebitamount" title="Debit" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <div *ngIf="dataItem.pdebitamount == 0"></div>
+                <div *ngIf="dataItem.pdebitamount !== 0">
+                  {{dataItem.pdebitamount | mycurrencypipe}}
+                </div>
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <p class="bc-2 text-right">{{debittotal | mycurrencypipe}}</p>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pcreditamount" title="Credit" [headerClass]="{'kendo-right': true}" class="kendo-center" [footerClass]="{'kendo-right': true}">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <div *ngIf="dataItem.pcreditamount == 0"></div>
+                <div *ngIf="dataItem.pcreditamount !== 0">
+                  <p class="text-right">{{dataItem.pcreditamount | mycurrencypipe}}</p>
+                </div>
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <p class="bc-2 text-right"> {{credittotal| mycurrencypipe}}</p>
+              </ng-template>
+            </kendo-grid-column>
+            <div *kendoGridDetailTemplate="let dataItem">
+              <app-trialbalance-ledgersummery [Grouptype]=grouptype [ledgersummarydetails]=dataItem [fromdate]=startDatesReport [todate]=endDatesReport></app-trialbalance-ledgersummery>
+            </div>
+
+
+            <kendo-grid-pdf fileName="TrialBalance.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [scale]="0.5" [margin]="0.2"
+            [landscape]="false">
+
+            <kendo-grid-pdf-margin top="4cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+            <ng-template kendoGridPDFTemplate>
+              <div class="page-template">
+                <div class="header">
+                  <app-company-details></app-company-details>
+
+                  <div class="report-head mt-2">
+                    <p class="font-15 text-dark text-center m-0" [ngClass]="{ 'bold-text': isBold }" *ngIf="ShowAsOn">
+                        <span class="text-capitalize">TRIAL BALANCE FOR THE PERIOD : {{asondate}}</span>
+                    </p>
+
+                    <p class="font-15 text-dark text-center m-0" [ngClass]="{ 'bold-text': isBold }" *ngIf="ShowBetween">
+                      <span class="text-capitalize">TRIAL BALANCE FOR THE PERIOD : {{from}} To {{to}}</span>
+                  </p>
+                </div>
+
+                </div>
+
+              </div>
+            </ng-template>
+
+          </kendo-grid-pdf>
+          <kendo-grid-excel fileName="TrialBalance.xlsx" [fetchData]="allData"></kendo-grid-excel>
+          </kendo-grid-column-group>
+          </kendo-grid>
+
+          <!-- <div *ngIf="ShowGrandTotal" class="row">
+            <hr />
+            <p class="col-md-1"></p>
+            <p class="bc-2 col-md-5">Grand Total</p>
+            <h6 class="col-md-3 text-right">{{debittotal | mycurrencypipe}}</h6>
+            <h6 class="col-md-3 text-right">{{credittotal | mycurrencypipe}}</h6>
+            <hr />
+          </div> -->
+          <div *ngIf="TrialBalanceDifference" class="text-center" style="color:red">Trial Balance Difference = {{difference | mycurrencypipe}}</div>
+        </div>
+      <!-- </kendo-pdf-export> -->
+    </div>
+  </div>
+
+
+</form>
+</div>
+
+<style>
+  .bold-text {
+    font-weight: bold;
+}
+</style>

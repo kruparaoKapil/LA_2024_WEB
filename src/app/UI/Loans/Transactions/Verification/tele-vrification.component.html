@@ -1,0 +1,210 @@
+<div class="section-container">
+    <form [formGroup]="TeleVerification">
+        <div class="row mt-4">
+            <div class="col-md-12 col-xl-12">
+                <div class="d-flex justify-content-end">
+                    <ol class="breadcrumb mt-2">
+                        <li class="breadcrumb-item">{{ApplicantName}} - <img src="images/smartphone-call.svg" class="mr-0 mt-n1" width="12" height="12">{{MobileNo}} </li>
+                        <li class="breadcrumb-item">{{LoanType}}</li>
+                        <li class="breadcrumb-item">{{LoanName}} </li>
+                        <li class="breadcrumb-item">{{ApplicationID}} </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="row  mt-5 p-0">
+            <div class="col-md-6 col-xl-4">
+                <p class="bc-2">Tele-Verification Report</p>
+            </div>
+            <div class="col-md-6 col-xl-4" hidden>
+                <div class="form-group">
+                    <div class="material-switch">
+                        <span class="mr-2">Not applicable</span>
+                        <input id="Tele-Verification" name="Tele-Verification" type="checkbox">
+                        <label for="Tele-Verification" class="badge-success"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label>Investigation Executive</label>
+                    <select (change)="EmployeeSelect($event)" formControlName="pinvestigationexecutivename" class="form-control" [ngClass]="{ 'is-invalid':  submitted && TeleVerification.controls.pinvestigationexecutivename.errors }">
+          <option value="" disabled>Select</option>
+          <option *ngFor="let Emp of Employees" [value]="Emp.pEmployeeId"> {{Emp.pEmployeeName}}</option>
+        </select>
+                    <div *ngIf=" submitted &&  TeleVerification.controls.pinvestigationexecutivename.errors" class="invalid-feedback">
+                        <div *ngIf="TeleVerification.controls.pinvestigationexecutivename.errors.required">Select Investigation Executive</div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="col-md-6 col-xl-4">
+
+
+                <div class="form-group">
+                    <label>Tele-Verification Date and Time</label>
+                    <div class="d-flex mr-5 col-md-12 p-0">
+                        <fieldset [disabled]="!disabletransactiondate">
+                            <input class="form-control" readonly type="text" [bsConfig]="pDobConfig" bsDatepicker formControlName="pverificationdate" maxlength="10" [ngClass]="{ 'is-invalid':  submitted && TeleVerification.controls.pverificationdate.errors }">
+                        </fieldset>
+                        <div *ngIf=" submitted &&  TeleVerification.controls.pverificationdate.errors" class="invalid-feedback">
+                            <div *ngIf="TeleVerification.controls.pverificationdate.errors.required">
+                                Select Tele-Verification initiation Date
+                            </div>
+                        </div>
+
+                        <input atp-time-picker formControlName="pverificationtime" class="form-control ml-3" readonly value="10:00" placeholder="Time" [ngClass]="{ 'is-invalid':  submitted && TeleVerification.controls.pverificationtime.errors }">
+
+                        <div *ngIf=" submitted &&  TeleVerification.controls.pverificationtime.errors" class="invalid-feedback">
+                            <div *ngIf="TeleVerification.controls.pverificationtime.errors.required">
+                                Select Tele-Verification initiation Time
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row mt-1" formGroupName="customerAvailabilityDTO">
+            <hr class="light">
+            <div class="col-12">
+                <label>Availability of the customer</label>
+            </div>
+            <div class="col-md-12 col-xl-12">
+                <div class="form-check form-check-inline mr-5">
+                    <input (change)="AvailabilityofthecustomerCheck('Yes')" formControlName="pcustomeravailability" class="form-check-input" type="radio" name="pcustomeravailability" id="acstatusyes" [value]="true">
+                    <label class="p-0 m-2" for="acstatusyes">Yes </label>
+                </div>
+
+                <div class="form-check form-check-inline mr-5">
+                    <input (change)="AvailabilityofthecustomerCheck('No')" formControlName="pcustomeravailability" class="form-check-input" type="radio" name="pcustomeravailability" id="acstatusno" value="false">
+                    <label class="p-0 m-2" for="acstatusno">No</label>
+                </div>
+
+            </div>
+            <hr class="light" />
+            <div *ngIf="showContact">
+                <div class="col-md-6 col-xl-4">
+                    <div class="border p-2 rounded">
+                        <div class="form-group m-0">
+                            <label class="sec-head">Contact number</label>
+                        </div>
+                        <div class="form-check col-md-12 col-xl-12 form-check-inline mr-5">
+                            <input formControlName="pcontacttype" value="MobileNo" class="form-check-input" type="radio" name="pcontacttype" id="mobile">
+                            <label class="p-0 m-2" for="mobile">Mobile No</label>
+                        </div>
+                        <div class="form-check col-md-12 col-xl-12 form-check-inline mr-5">
+                            <input formControlName="pcontacttype" class="form-check-input" type="radio" value="AlternateNo" name="pcontacttype" id="altno">
+                            <label class="p-0 m-2" for="altno">Alternate No</label>
+                        </div>
+                        <div class="form-check  col-md-12 col-xl-12 form-check-inline mr-5">
+                            <input formControlName="pcontacttype" class="form-check-input" type="radio" value="OfficeNumber" name="pcontacttype" id="officeno">
+                            <label class="p-0 m-2" for="officeno">Office Number</label>
+                        </div>
+                        <div class="form-check col-md-12 col-xl-12 form-check-inline mr-5">
+                            <input formControlName="pcontacttype" class="form-check-input" type="radio" value="ResidenceNumber" name="pcontacttype" id="resno">
+                            <label class="p-0 m-2" for="resno">Residence Number</label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div *ngIf="showResponce">
+                <div class="col-md-12 col-xl-12">
+                    <div class="form-group">
+                        <select formControlName="pcontacttype" class="form-control" [ngClass]="{ 'is-invalid':  submitted && TeleVerification['controls'].customerAvailabilityDTO['controls'].pcontacttype.errors }">
+            <option value="">Select</option>
+            <option value="Constantlyengaged">Constantly engaged</option>
+            <option value="NoResponse">No Response</option>
+            <option value="Contactedbutdidnotrespond">Contacted but did not respond</option>
+          </select>
+                        <div *ngIf=" submitted &&  TeleVerification['controls'].customerAvailabilityDTO['controls'].pcontacttype.errors" class="invalid-feedback">
+                            <div *ngIf="TeleVerification['controls'].customerAvailabilityDTO['controls'].pcontacttype.errors.required">Select Responce</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div formGroupName="spoketoDTO">
+            <div class="col-md-6 col-xl-4 p-0">
+                <div class="form-group">
+                    <label class="mb-2 cb-l col-md-12 col-xl-12 p-0">Name of the person spoken to</label>
+                    <div class="form-check form-check-inline mr-5" *ngIf="showContact">
+                        <input (change)="Nameofthepersonspokento('Applicant')" formControlName="pspoketo" class="form-check-input" type="radio" name="pspoketo" id="personmetapplicant" value="Applicant">
+                        <label class="p-0 m-2" for="personmetapplicant">Applicant</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input (change)="Nameofthepersonspokento('Other')" formControlName="pspoketo" class="form-check-input" type="radio" name="pspoketo" id="personmetother" value="Other">
+                        <label class="p-0 m-2" for="personmetother">Other</label>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="Other" formGroupName="spoketoOtherDTO">
+                <div class="col-md-6 col-xl-4 p-0">
+                    <div class="form-group">
+                        <label>Person Name(if Other)</label>
+                        <div class="input-group">
+                            <input appCharactersonly formControlName="pnameoftheperson" maxlength="50" type="text" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4 p-0">
+                    <div class="form-group">
+                        <label>Relationship with applicant</label>
+                        <div class="input-group">
+                            <input appCharactersonly formControlName="prelationshipwithapplicant" maxlength="20" type="text" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="light">
+
+        <!-- ac-no end -->
+        <div class="row mt-4">
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group m-0">
+                    <label>Tele Verifiers Comments</label>
+                    <textarea [ngClass]="{ 'is-invalid':  submitted && TeleVerification.controls.pteleverifierscomments.errors }" formControlName="pteleverifierscomments" class="form-control" placeholder="" rows="" maxlength="300"></textarea>
+                    <div *ngIf=" submitted &&  TeleVerification.controls.pteleverifierscomments.errors" class="invalid-feedback">
+                        <div *ngIf="TeleVerification.controls.pteleverifierscomments.errors.required">Enter Tele Verifiers Comments</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group m-0">
+                    <label>Tele Verifier's Rating</label>
+                </div>
+                <div class="form-group">
+                    <div class="form-check form-check-inline mr-5">
+                        <input formControlName="pteleverifiersrating" class="form-check-input" type="radio" name="pteleverifiersrating" id="telepositive" value="Positive">
+                        <label class="p-0 m-2" for="telepositive">Positive</label>
+                    </div>
+                    <div class="form-check form-check-inline mr-5">
+                        <input formControlName="pteleverifiersrating" class="form-check-input" type="radio" name="pteleverifiersrating" id="telenegative1" value="Negative">
+                        <label class="p-0 m-2" for="telenegative">Negative </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--row-end-->
+        <div class="col-md-12 col-xl-12">
+            <div class="d-flex justify-content-end mt-4">
+                <a (click)="ClearTeleverification()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+                <button (click)="SaveTeliverification()" class="btn btn-b-icon px-3 border-0" [disabled]="isLoading"><i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i> {{button}}</button>
+
+            </div>
+
+        </div>
+
+    </form>
+</div>
+<!--buttons-end-->

@@ -1,0 +1,128 @@
+<div class="row" hidden>
+
+    <div class="col">
+        <!-- <input type="search" class="form-control border-left-0 border-top-0 shadow-none border-right-0 rounded-0 sb"
+            placeholder="Vignesh Kumar 1- 54-896543"> -->
+            <input appCharactersonly class="form-control" type="text" class="form-control border-left-0 border-top-0 shadow-none border-right-0 rounded-0 sb"
+            placeholder="" value="" (blur)=searchgrid($event)>
+    </div>
+    <!--col-end-->
+
+    <div class="col-auto dropdown" >
+        <button class="btn btn-sm sm-dd dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Select action
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" >Action</a>
+            <a class="dropdown-item" >Another action</a>
+            <a class="dropdown-item" >Something else here</a>
+        </div>
+    </div>
+    <!--dropdown-end-->
+</div>
+<!--row-end-->
+
+<!-- ======================================================================= tab nav end ============================================================================== -->
+
+<div class="row mt-4">
+    <div class="col d-flex flex-wrap align-items-center">
+        <a (click)="AddNew()" class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg"
+                width="20px" height="20px" class="mr-2" />New</a>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12 col-xl-12">
+        
+      <kendo-grid [kendoGridBinding]="Referralview" [pageSize]="pageSize" [resizable]="true" [reorderable]="true"
+                  [skip]="gridState.skip" [pageable]="{buttonCount: 2}"
+                  [sort]="gridState.sort" [sortable]="true"
+                  (edit)="editHandler($event)" (remove)="removeHandler($event)" >
+                  <ng-template kendoGridToolbarTemplate>
+                    <div class="row mb-5">
+                      <div class="col-4 pl-0 mt-n1">
+                        <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+                          (input)="onFilter($event.target.value)" />
+                      </div>
+                      <div class="col-7 pr-0 pl-4 ml-4">
+                        <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                          <li class="temp-ico ml-2">
+                            <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                                width="20px"></a></li>
+                          <li class="temp-ico ml-2">
+                            <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                                width="20px"></a></li>
+                          <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                        </ul>
+                      </div>
+                    </div>
+                    <!-- <button kendoGridExcelCommand type="button" icon="file-excel">Export to Excel</button>
+                      <button kendoGridPDFCommand icon="file-pdf">Export to PDF</button> -->
+                  </ng-template>
+        <!-- <kendo-grid-column field="" title="S.No"></kendo-grid-column> -->
+        <kendo-grid-column-group title="Advocate" [headerClass]="{'kendo-g-center' : true}">
+        <kendo-grid-column field="pAdvocateName" title="Advocate / Agent Full Name"></kendo-grid-column>
+        <kendo-grid-column field="pBusinessEntitycontactNo" title="Contact No"></kendo-grid-column>
+        <kendo-grid-column field="pBusinessEntityEmailId" title="Email ID"></kendo-grid-column>
+        <kendo-grid-command-column title="" width="220">
+          <ng-template kendoGridCellTemplate>
+            <div id="icon-edit" kendoGridEditCommand [primary]="true"></div>
+            <div id="icon-delete" kendoGridRemoveCommand></div>
+          </ng-template>
+        </kendo-grid-command-column>
+        </kendo-grid-column-group>
+        <kendo-grid-pdf fileName="Advocate.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+                        [landscape]="true">
+                        <ng-template kendoGridPDFTemplate>
+                            <div class="page-template">
+                               <div class="header bc-2 text-center">
+                                <h5> Advocate </h5>
+                               </div>
+                             </div>
+                           </ng-template>
+          <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+          
+          <!-- <ng-template kendoGridPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+            <div class="page-template">
+              <div class="header">
+                <div style="float: right">Page {{ pageNum }} of {{ totalPages }}</div>
+
+              </div>
+              <div class="footer">
+                Page {{ pageNum }} of {{ totalPages }}
+              </div>
+            </div>
+          </ng-template> -->
+          <kendo-grid-column field="pAdvocateName" width="100" title="Advocate / Agent Full Name">
+          </kendo-grid-column>
+          <kendo-grid-column field="pBusinessEntitycontactNo" width="100" title="Contact No">
+          </kendo-grid-column>
+          <kendo-grid-column field="pBusinessEntityEmailId" width="100" title="Email ID">
+          </kendo-grid-column>
+        </kendo-grid-pdf>
+
+        <kendo-grid-excel fileName="Advocate.xlsx">
+            <kendo-excelexport-column-group title="Advocate" [headerCellOptions]="headerCells">
+
+            <kendo-excelexport-column field="pAdvocateName" title="Advocate / Agent Full Name"></kendo-excelexport-column>
+        <kendo-excelexport-column field="pBusinessEntitycontactNo" title="Contact No"></kendo-excelexport-column>
+        <kendo-excelexport-column field="pBusinessEntityEmailId" title="Email ID"></kendo-excelexport-column>
+            </kendo-excelexport-column-group>
+        </kendo-grid-excel>
+      </kendo-grid>
+          <!-- <kendo-grid [data]="Referralview"></kendo-grid> -->
+    </div>
+</div>
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+        <h3>
+          Loading...
+        </h3>
+      
+      </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+  
+  </div>

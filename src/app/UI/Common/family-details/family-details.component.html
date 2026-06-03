@@ -1,0 +1,84 @@
+<form [formGroup]="FamilyDetailsForm" >
+
+  <div class="row">    
+        <h2 class="col-md-12 col-xl-12 sec-head-bold mb-2"> Family Details </h2>
+        <div class="col-md-6 col-xl-4">
+          <div class="form-group">
+            <label>Total number of members in your family</label>
+            <input class="form-control" type="text" id="pTotalnoofmembers" title="Total number of members in your family" value="" maxlength="2" formControlName="pTotalnoofmembers" appNumbersonly
+            [ngClass]="{ 'is-invalid': FamilyDetailsValidation.pTotalnoofmembers }">
+            <div class="invalid-feedback">
+              <span *ngIf="FamilyDetailsValidation.pTotalnoofmembers">{{FamilyDetailsValidation?.pTotalnoofmembers}}</span>
+            </div>
+          </div>
+        </div>
+        <hr class="light">
+        <div class="col-md-6 col-xl-4">
+          <div class="form-group">
+            <label>Contact Person</label>
+            <input class="form-control" type="text" maxlength="50" id="pContactpersonname" title="Contact Person" value="" formControlName="pContactpersonname" appTitlecaseword appCharactersonly
+            [ngClass]="{ 'is-invalid': FamilyDetailsValidation.pContactpersonname }">
+            <div class="invalid-feedback">
+              <span *ngIf="FamilyDetailsValidation.pContactpersonname">{{FamilyDetailsValidation?.pContactpersonname}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <div class="form-group">
+            <label>Relationship</label>
+            <div class="input-group">
+              <select id="pRelationwithemployee" title="Relationship" class="form-control" formControlName="pRelationwithemployee" [ngClass]="{ 'is-invalid': FamilyDetailsValidation.pRelationwithemployee }">
+                <option value="" disabled>Select</option>
+                <option class="" value="Father">Father</option>
+                <option class="" value="Mother">Mother</option>
+                <option class="" value="Spouse">Spouse</option>
+                <option class="" value="Daughter">Daughter</option>
+                <option class="" value="Son">Son</option>
+                <option class="" value="Friend">Friend</option>
+                <option class="" value="Neighbour">Neighbour</option>
+                <option class="" value="Other">Other</option>
+              </select>
+              <div class="invalid-feedback">
+                <span *ngIf="FamilyDetailsValidation.pRelationwithemployee">{{FamilyDetailsValidation?.pRelationwithemployee}}</span>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <div class="form-group">
+            <label>Contact Number</label>
+            <input class="form-control" id="pContactnumber" title="Contact Number" type="text" value="" minlength="10" maxlength="12" formControlName="pContactnumber" appNumbersonly
+            [ngClass]="{ 'is-invalid': FamilyDetailsValidation.pContactnumber }">
+            <div class="invalid-feedback">
+              <span *ngIf="FamilyDetailsValidation.pContactnumber">{{FamilyDetailsValidation?.pContactnumber}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <div  class="d-flex justify-content-end mt-2"><a (click)="addDataToGrid()" aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" href="" role="tab"><img class="mr-3" height="20px" src="assets/images/icon-add-white.svg" width="20px">{{buttonname}}</a></div>
+        </div>
+     
+      </div>
+    </form>
+    <div class="row">
+        <div class="col-md-12 col-xl-12">
+
+<br/>
+            <kendo-grid [kendoGridBinding]="gridData" [reorderable]="true" [resizable]="true" [sortable]="true"
+            (edit)="editHandler($event)"
+            (remove)="removeHandler($event)">
+              <kendo-grid-column field="pContactpersonname" title="Contact Person"></kendo-grid-column>
+              <kendo-grid-column field="pRelationwithemployee" title="Relationship"></kendo-grid-column>
+              <kendo-grid-column field="pContactnumber" title="Contact Number"></kendo-grid-column>
+              <kendo-grid-command-column title="" width="100">
+                <ng-template kendoGridCellTemplate>
+                  <div id="icon-edit" kendoGridEditCommand [primary]="true"></div>
+                  <div id="icon-delete"  kendoGridRemoveCommand></div>
+                </ng-template>
+              </kendo-grid-command-column>
+            
+            </kendo-grid>
+          </div>
+        
+        </div>

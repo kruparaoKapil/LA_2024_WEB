@@ -1,0 +1,64 @@
+<div class="section-container">
+<form [formGroup]="TrendsReport">
+<div class="row">
+
+    <div class="col-md-4 col-xl-4">
+      <label>Trend Reports</label>
+      <div class="input-group">
+        <select  class="form-control" formControlName="reportType" title="Selection" id="reportType" (change)="SelectTrendReport($event)"
+        [ngClass]="{ 'is-invalid': TrendReportValidation.reportType }">
+            <option value="">Select</option>
+          <option value="Loans Disbursed">Loans Disbursed</option>
+          <option value="Collection and Dues">Collection and Due</option>
+        </select>
+        <div *ngIf="ShowReportErrorMsg" style="color:red">Required</div>
+      </div>
+
+    </div>
+    <div class="col-xs-4 col-md-4 form-group">
+        <div class="d-flex">
+            <div class="col-md-8 col-xl-8 pl-0">
+                <label>As on Month</label>
+                <input type="text" title="Date" id="monthname" class="form-control w-auto"  formControlName="monthname" placeholder="MM/YY" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly (onShown)="onOpenCalendar($event)">
+            </div>
+        </div>
+    </div>
+</div>
+<div  class="row" *ngIf="showloantypeapplicant">
+<div class="col-md-4 col-lg-4 col-xl-4 mt-4">
+    <div class="form-group">
+        <div class="form-group">
+            <div class="form-check radio-btn form-check-inline mr-1  ">
+                <input class="form-check-input " checked type="radio" name="inlineRadioOptions1" id="inlineRadio2" value="Loan Type">
+                <label class="mt-1" for="inlineRadio2" (click)="LoantypeSelect('LOAN TYPE')">Loan Type</label>
+            </div>
+            <div class="form-check radio-btn form-check-inline mr-2">
+                <input class="form-check-input radio-btn" type="radio" name="inlineRadioOptions1" id="inlineRadio3" value="Applicant Type">
+                <label class="mt-1" for="inlineRadio3" (click)="ApplicantTypeSelect('APPLICANT TYPE')">Applicant
+                    Type</label>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+  
+   <div class="row">
+    <div class="col-xs-6 col-md-6 form-group pull-right">
+        <br>
+        <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GenerateReport()">
+            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+            <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                    width="20px"></span> Generate Report
+        </a>
+    </div>
+</div> 
+</form>
+<br/>
+<div *ngIf="showtrenddisbursement">
+    <app-trend-disbursement-report  [data]="date"></app-trend-disbursement-report>
+</div>
+<div *ngIf="showcollectionandscope">
+    <app-trend-collection-report [month]="date" [type]="type"></app-trend-collection-report>
+</div>
+</div>

@@ -1,0 +1,531 @@
+<!-----------------Top Nav Start --------------------->
+<div class="row">
+	
+	<div class="col-md-12 col-xl-12   mb-3">
+	  <span (click)="back()" class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+    color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img src="assets/images/icon-back-blue.svg"
+		  width="25px" height="25px">View</span>
+	</div>
+  </div>
+  <div class="section-container">
+<ul class="nav nav-tabs tip-top wiz-tab mt-2" id="myTab" role="tablist">
+  <li [ngClass]="forDisableTabs ? 'disableTabs' : 'enableTabs' " class="nav-item" data-toggle="popover"
+    data-placement="top" data-trigger="hover" data-content="
+				Insurance Name and Code" data-original-title="" title=""> <a class="active" data-toggle="tab"
+      href="#insurance-name" role="tab" aria-controls="Insurance Name and Code" aria-selected="true">1</a> </li>
+  <li [ngClass]="forDisableTabs ? 'disableTabs' : 'enableTabs' " class="nav-item" data-toggle="popover"
+    data-placement="top" data-trigger="hover" data-content="Insurance Configuration" data-original-title="" title=""> <a
+      class="" data-toggle="tab" href="#insurance-config" role="tab" aria-controls="Insurance Configuration"
+      aria-selected="false">2</a> </li>
+  <li [ngClass]="forDisableTabs ? 'disableTabs' : 'enableTabs' " class="nav-item" data-toggle="popover"
+    data-placement="top" data-trigger="hover" data-content="
+				Referral Commission" data-original-title="" title=""> <a class="" data-toggle="tab" href="#referral-commission"
+      role="tab" aria-controls="Referral Commission" aria-selected="false">3</a> </li>
+</ul>
+
+
+<!-- <div class="btn-group quick-links">
+  <a class="btn btn-block dropdown-toggle mt-1 sm-dd" data-toggle="dropdown" href="#">Insurance Name and Code<span
+      class="caret"></span></a>
+  <ul class="dropdown-menu w-100">
+    <li class="dropdown-item"><a href="#">Insurance Name and Code</a></li>
+    <li class="dropdown-item"><a href="#">Insurance Configuration</a></li>
+    <li class="dropdown-item"><a href="#">Referral Commission</a></li>
+  </ul>
+</div> -->
+
+<!-- ======================================================================= tab nav end ============================================================================== -->
+
+<div class="tab-content" id="myTabContent">
+
+  <div class="tab-pane fade active show" id="insurance-name" role="tabpanel" aria-labelledby="fresh-tab">
+
+    <div class="row">
+      <div class="col-12 mt-5 p-0">
+        <p class="bc-2 pl-3">Insurance Name and Code</p>
+      </div>
+    </div>
+    <form [formGroup]=insuranceConfigForm>
+      <div class="row mt-1">
+        <div class="col-md-6 col-xl-4">
+          <div class="form-group">
+            <label id="pInsurencename" title="Insurance Scheme Name">Insurance Scheme Name</label>
+            <input type="text" [readonly]="notEditable" maxlength="75" class="form-control"
+              formControlName="pInsurencename" appUppercase appCharactersonly maxlength="30"
+              [ngClass]="{ 'is-invalid': insuranceConfigMessage.pInsurencename }"
+              (change)="generateInsuranceSchemeCode()">
+            <div class="invalid-feedback-cst"><span
+                *ngIf="insuranceConfigMessage.pInsurencename">{{insuranceConfigMessage.pInsurencename}}</span></div>
+          </div>
+        </div>
+        <!--col-end-->
+        <div class="col-md-6 col-xl-4">
+          <div class="form-group">
+            <label id="pInsurencecode" title="Insurance Scheme Code">Insurance Scheme Code</label>
+            <input type="text" class="form-control" maxlength="10" formControlName="pInsurencecode" maxlength="30"
+              [readonly]="notEditable" appUppercase appCharactersonly (change)="onChangepInsurencecode($event)"
+              [ngClass]="{ 'is-invalid': insuranceConfigMessage.pInsurencecode }">
+            <div class="invalid-feedback-cst">
+              <span *ngIf="insuranceConfigMessage.pInsurencecode">{{insuranceConfigMessage.pInsurencecode}}</span>
+            </div>
+          </div>
+        </div>
+        <!--col-end-->
+        <hr class="light">
+        <!--col-end-->
+        <div class="col-md-6 col-xl-4">
+          <div class="row">
+            <div class="col-md-6 col-xl-6 m-0">
+              <div class="form-group m-0">
+                <label>Company Code</label>
+              </div>
+              <div class="form-group m-0">
+                <label class="font-weight-bold text-grey">{{companyCode}}</label>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-6 m-0">
+              <div class="form-group m-0">
+                <label>Branch Code</label>
+              </div>
+              <div class="form-group m-0">
+                <label class="font-weight-bold border-0 text-grey">{{branchCode}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--col-end-->
+        <div class="col-md-6 col-xl-4">
+          <div class="form-group">
+            <label id="pSeries" title="Series">Series</label>
+            <input type="text" [readonly]="notEditable" class="form-control" formControlName="pSeries" maxlength="5"
+              (change)="onChangepInsurencecode($event)" appNumbersonly
+              [ngClass]="{ 'is-invalid': insuranceConfigMessage.pSeries }">
+            <div class="invalid-feedback-cst">
+              <span *ngIf="insuranceConfigMessage.pSeries">{{insuranceConfigMessage.pSeries}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <div class="form-group m-0">
+            <label>Insurance Scheme Name and code</label>
+          </div>
+          <div class="form-group ">
+            <label class="font-weight-bold text-grey">{{insuranceSchemeNameAndCode}}</label>
+          </div>
+        </div>
+        <hr class="light">
+      </div>
+      <!--row-end-->
+
+      <!--row-end-->
+    </form>
+    <!--form-end-->
+    <!--form-end-->
+
+    <!--row-end-->
+    <div class="d-flex justify-content-end mt-4"> <a *ngIf="!hideClearButton" class="btn btn-g-icon mr-4 px-3 border-0"
+        (click)="clearData()"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px"
+          class="mr-3" />Clear</a>
+      <!-- <a href="#loanconfig" data-toggle="tab" class="btn btn-b-icon px-3 border-0"
+        role="tab" aria-controls="hot" aria-selected="false" (click)="saveInsuranceConfig()"><img
+          src="assets/images/icon-chewron-right-whitesolid.svg" width="20px" height="20px" class="mr-3" />Next</a> -->
+
+      <button (click)="saveInsuranceConfig()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab"
+        aria-controls="hot" aria-selected="false" [disabled]="isLoading">
+        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading,'fa-check': !isLoading}"></i>
+        <span *ngIf="!isLoading">
+        </span>{{buttonName}}</button>
+    </div>
+    <!--buttons-end-->
+
+  </div>
+  <!-- ==================================================================== tab content pannnel 1 end =================================================================== -->
+  <div class="tab-pane fade" id="insurance-config" role="tabpanel" aria-labelledby="hot-tab">
+    <div class="row">
+      <div class="col-12 mt-5 p-0">
+        <p class="bc-2 pl-3">Insurance Scheme Configuration</p>
+      </div>
+    </div>
+
+    <div>
+      <form [formGroup]="insuranceSchemeConfigurationForm">
+        <div class="row mt-1">
+          <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+              <label id="pMembertype" title="Member Type">Member Type</label>
+              <!-- <select class="form-control" formControlName="pMembertype" (change)="memberTypeChange($event)"[ngClass]="{ 'is-invalid': insuranceConfigMessage.pMembertype}">
+                <option value="" disabled>Select</option>
+                <option value="0">All</option>
+                <option *ngFor="let type of memberTypeDetails;trackBy: trackByFn;" [value]="type.pmembertype">
+                  {{type.pmembertype}}</option>
+              </select> -->
+              <ng-select title="Member Type" id="pMembertype" [items]="memberTypeDetails" formControlName="pMembertype"
+                bindLabel="pmembertype" bindValue="pmembertype" [multiple]=true placeholder="Select" [searchable]=true
+                [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                [ngClass]="{ 'is-invalid': insuranceConfigMessage.pMembertype }" (change)="memberTypeChange($event);">
+              </ng-select>
+              <div class="invalid-feedback-cst">
+                <span *ngIf="insuranceConfigMessage.pMembertype">{{insuranceConfigMessage.pMembertype}}</span>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+              <label id="pApplicanttype" title="Applicant Type">Applicant Type</label>
+              <!-- <select class="form-control" formControlName="pApplicanttype" (change)="applicantTypeChange($event)" [ngClass]="{ 'is-invalid': insuranceConfigMessage.pApplicanttype}">
+                <option value="" disabled>Select</option>
+                <option value="All">All</option>
+                <option *ngFor="let type of applicantTypes;trackBy: trackByFn;" [value]="type.pApplicanttype">
+                  {{type.pApplicanttype}}</option>
+              </select> -->
+              <ng-select title="Member Type" id="pApplicanttype" [items]="applicantTypes"
+                formControlName="pApplicanttype" bindLabel="pApplicanttype" bindValue="pApplicanttype" [multiple]=true
+                placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom"
+                [clearOnBackspace]=true [ngClass]="{ 'is-invalid': insuranceConfigMessage.pApplicanttype }"
+                (change)="applicantTypeChange($event);">
+              </ng-select>
+              <div class="invalid-feedback-cst">
+                <span *ngIf="insuranceConfigMessage.pApplicanttype">{{insuranceConfigMessage.pApplicanttype}}</span>
+              </div>
+
+            </div>
+          </div>
+          <hr class="light">
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-8 col-xl-8">
+            <div class="border-box h-100 ">
+              <div class="form-group">
+                <label class="font-weight-bold">Age</label>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="d-flex">
+                    <div class="form-group">
+                      <label id="pAgefrom" title="From">From</label>
+                      <input type="text" class="form-control" formControlName="pAgefrom"
+                        (change)="validateFromAgeToAge()" maxlength="2" appNumbersonly
+                        [ngClass]="{ 'is-invalid': insuranceConfigMessage.pAgefrom }">
+                      <div class="invalid-feedback-cst">
+                        <span *ngIf="insuranceConfigMessage.pAgefrom">{{insuranceConfigMessage.pAgefrom}}</span>
+                      </div>
+                    </div>
+                    <div class="form-group ml-2">
+                      <label id="pAgeto" title="To">To</label>
+                      <input type="text" class="form-control" formControlName="pAgeto" (change)="validateFromAgeToAge()"
+                        maxlength="2" appNumbersonly [ngClass]="{ 'is-invalid': insuranceConfigMessage.pAgeto }">
+                      <div class="invalid-feedback-cst">
+                        <span *ngIf="insuranceConfigMessage.pAgeto">{{insuranceConfigMessage.pAgeto}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <!-- <label>Insurance Duration</label> -->
+                    <label id="pInsuranceduration">Insurance Duration</label>
+                    <select class="form-control" formControlName="pInsuranceduration">
+                      <option value="" disabled>Select</option>
+                      <option *ngFor="let type of interestPayOuts;trackBy: trackByFn;" [value]="type.pLoanpayin">
+                        {{type.pLoanpayin}}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label id="pPremiumamountpayable" title="Premium amount payable">Premium amount payable</label>
+                    <input type="text" class="form-control" formControlName="pPremiumamountpayable"
+                      appMycurrencyFormatter maxlength="17" appNumbersonly removeZero
+                      [ngClass]="{ 'is-invalid': insuranceConfigMessage.pPremiumamountpayable }">
+                    <div class="invalid-feedback-cst">
+                      <span
+                        *ngIf="insuranceConfigMessage.pPremiumamountpayable">{{insuranceConfigMessage.pPremiumamountpayable}}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label id="pPremiumpayin" title="pPremiumpayin">Premium Pay-in</label>
+                    <select class="form-control" formControlName="pPremiumpayin">
+                      <option>One Time</option>
+                      <option>Monthly</option>
+                      <option>Quarterly</option>
+                      <option>Half yearly</option>
+                      <option>Yearly</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label id="pInsuranceclaimpayoutevent" title="pInsuranceclaimpayoutevent">Insurance Claim Payout
+                      Event</label>
+                    <select class="form-control" formControlName="pInsuranceclaimpayoutevent">
+                      <option>Death</option>
+                      <option>Permanant Disability</option>
+                      <option>Partial Disability</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label id="pInsuranceclaimamount" title="pInsuranceclaimamount">Insurance Claim Amount payable on
+                      event</label>
+                    <input type="text" class="form-control" formControlName="pInsuranceclaimamount"
+                      appMycurrencyFormatter maxlength="17" appNumbersonly removeZero
+                      [ngClass]="{ 'is-invalid': insuranceConfigMessage.pInsuranceclaimamount }">
+                    <div class="invalid-feedback-cst">
+                      <span
+                        *ngIf="insuranceConfigMessage.pInsuranceclaimamount">{{insuranceConfigMessage.pInsuranceclaimamount}}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-xl-6">
+                  <label>Premium Refund</label>
+                  <div class="material-switch pull-right">
+                    <input id="premium" name="premium" type="checkbox" (change)="premiumChecked($event)"
+                      data-toggle="collapse" data-target="#tds">
+                    <label for="premium" class="badge-success" data-toggle="collapse" data-target="#tds"></label>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div> <!-- row end -->
+      </form>
+    </div>
+
+
+
+    <div class="row mt-2">
+      <div class="col-md-8 col-xl-8">
+        <div class="d-flex mt-2 justify-content-end"><a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0"
+            role="tab" aria-controls="hot" aria-selected="false" (click)="addToGrid()"><img
+              src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-3">Add</a> </div>
+      </div>
+    </div> <!-- row end -->
+
+    <div class="row mt-2">
+      <div class="col-md-12 col-xl-12 mt-4">
+        <div class="table-responsive">
+          <kendo-grid [data]="insuranceConfigFormDataGrid" [reorderable]="true" [resizable]="true" [sortable]="true"
+            (remove)="removeHandlerConfig($event)">
+            <kendo-grid-column field="pMembertype" [style]="{'text-align': 'center'}" width="50" title="S.No">
+              <ng-template let-dataItem let-rowIndex="rowIndex" kendoGridCellTemplate>
+                <p>{{rowIndex+1}}</p>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pMembertype" [style]="{'text-align': 'center'}" title="Member Type" width="150">
+            </kendo-grid-column>
+            <kendo-grid-column field="pApplicanttype" [style]="{'text-align': 'center'}" title="Applicant Type"
+              width="150">
+            </kendo-grid-column>
+            <kendo-grid-column field="age" title="Age" [style]="{'text-align': 'center'}" width="100">
+            </kendo-grid-column>
+            <kendo-grid-column field="pPremiumamountpayable" [style]="{'text-align': 'center'}" title="Premium"
+              width="120">
+            </kendo-grid-column>
+            <kendo-grid-column field="pPremiumpayin" width="150" [style]="{'text-align': 'center'}"
+              title="Premium Pay-in">
+            </kendo-grid-column>
+            <kendo-grid-column field="pInsuranceclaimpayoutevent" [style]="{'text-align': 'center'}" width="130"
+              title="Claim Payout Event">
+            </kendo-grid-column>
+            <kendo-grid-column field="pInsuranceclaimamount" [style]="{'text-align': 'center'}"
+              title="Claim Amount Payable" width="150">
+            </kendo-grid-column>
+            <kendo-grid-command-column title="" width="220">
+              <ng-template kendoGridCellTemplate>
+                <button kendoGridRemoveCommand>
+                  <div id="icon-delete"></div>
+                </button>
+              </ng-template>
+            </kendo-grid-command-column>
+
+          </kendo-grid>
+        </div>
+      </div>
+    </div> <!-- row end -->
+
+    <div class="row">
+      <div class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end mt-4"> <a href="#" class="btn btn-g-icon mr-4 px-3 border-0"><img
+              src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+
+          <!-- <a href="#loanconfig" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot"
+            aria-selected="false" (click)="saveInsuranceConfigGridData()"><img
+              src="assets/images/icon-chewron-right-whitesolid.svg" width="20px" height="20px" class="mr-3" />Next</a> -->
+
+          <button (click)="saveInsuranceConfigGridData()" data-toggle="tab" class="btn btn-b-icon px-3 border-0"
+            role="tab" aria-controls="hot" aria-selected="false" [disabled]="isLoading">
+            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading,'fa-check': !isLoading}"></i>
+            <span *ngIf="!isLoading">
+            </span>{{buttonName}}</button>
+        </div>
+      </div>
+    </div><!-- row end -->
+
+  </div>
+
+  <!-- ==================================================================== tab content pannnel 2 end =================================================================== -->
+
+  <div class="tab-pane fade" id="referral-commission" role="tabpanel" aria-labelledby="cold-tab">
+    <div class="row mt-5 mb-3">
+      <div class="col-md-6 col-xl-4">
+        <a class="bc-2 mb-2 text-decoration-none"> Referral</a></div>
+      <div class="col-md-6 col-xl-4 pr-5">
+        <div class="material-switch pull-right">
+          <span class="mr-2">Not applicable</span>
+          <input id="Referral" type="checkbox" [(ngModel)]="notApplicableForInsuranceRefFlag"
+            (change)="notApplicableForInsuranceRef($event)">
+          <label class="check-danger" for="Referral"></label>
+        </div>
+      </div>
+    </div>
+    <form [formGroup]="refferalInsuranceConfigForm">
+      <div *ngIf="!notApplicableForInsuranceRefFlag">
+        <!-- <div class="row">
+          <div class="col-md-6 col-xl-4">
+            <h2 class="sec-head">Is referral commission paid for this loan?</h2>
+            <div class="form-group">
+              <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                <input class="form-check-input" name="pIsreferralcommissionapplicable"
+                  formControlName="pIsreferralcommissionapplicable" type="radio" id="inlineRadio5" value="fixedcharge"
+                  (change)="referralCommissionApplicable('YES')">
+                <label class="mt-1" for="inlineRadio5"> Yes </label>
+              </div>
+
+              <div class="form-check form-check-inline mr-0 radio-btn-secondary">
+                <input class="form-check-input" name="pIsreferralcommissionapplicable"
+                  formControlName="pIsreferralcommissionapplicable" type="radio" id="inlineRadio6" value="fixedcharge"
+                  (change)="referralCommissionApplicable('No')">
+                <label class="mt-1" for="inlineRadio6"> No </label>
+              </div>
+            </div>
+          </div>
+
+        </div> -->
+        <div class="row">
+          <div class="col-md-6 col-xl-4">
+            <h2 class="sec-head">
+              Commission Payout:</h2>
+
+            <div class="form-group">
+              <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                <input class="form-check-input" formControlName="pReferralcommissiontype" type="radio"
+                  name="pReferralcommissiontype" id="fixed-amt" value="fixed" (change)="onCommissionChange($event)">
+                <label class="mt-1" for="fixed-amt"> Fixed Amount</label>
+              </div>
+
+              <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                <input class="form-check-input" formControlName="pReferralcommissiontype" type="radio"
+                  name="pReferralcommissiontype" id="fixed-per" value="percentage"
+                  (change)="onCommissionChange($event)">
+                <label class="mt-1" for="fixed-per"> Percentage </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+              <label class="mt-1" for="inlineRadio2">Fixed Amount/Percentage</label>
+              <input *ngIf="forFixed" appMycurrencyFormatter maxlength="17" appNumbersonly removeZero
+                class="form-control" formControlName="pCommissionValue" name="pCommissionValue" type="text">
+              <input *ngIf="forPercentage" appRoundecimal="2@2" removeZero class="form-control"
+                formControlName="pCommissionValue" name="pCommissionValue" type="text">
+            </div>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-md-6 col-xl-4">
+            <h2 class="sec-head">
+              Is TDS Applicatbale on referral commission?</h2>
+    
+            <div class="form-group">
+              <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="Residential-yes"
+                  value="fixedcharge" checked>
+                <label class="mt-1" for="Residential-yes"> Yes</label>
+              </div>
+    
+              <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="Residential-no"
+                  value="fixedcharge">
+                <label class="mt-1" for="Residential-no"> No</label>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div class="row mt-4">
+          <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+              <div class="material-switch">
+                <span class="mr-2">TDS</span>
+                <input id="Employment" name="pIstdsapplicable" formControlName="pIstdsapplicable" type="checkbox"
+                  (change)="tdsCheck($event)">
+                <label for="Employment" class="badge-success"></label>
+              </div>
+            </div>
+
+            <div class="form-group" *ngIf="tdsShow">
+              <label id="ptdsSectionName" title="TDS Section No">Select TDS Section No</label>
+              <div class="input-group">
+                <select id="ptdssection" title="TDS" class="form-control" name="pTdssection"
+                  formControlName="pTdssection">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option *ngFor="let tdsdetails of tdsSectionDetails" [value]="tdsdetails.pTdsSection">
+                    {{tdsdetails.pTdsSection}}</option>
+                </select>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </form>
+
+
+    <div class="row mt-3 mb-3">
+      <div class="col-md-12 col-xl-12">
+        <div class="col-md-12 col-xl-12 p-0">
+          <div class="d-flex justify-content-end mt-4"><a *ngIf="!hideClearButton"
+              class="btn btn-g-icon mr-4 px-3 border-0" (click)="clearRefData()"><img
+                src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+            <!-- <a href="#" data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" role="tab" aria-controls="hot"
+              aria-selected="false"><img src="assets/images/icon-chewron-left-whitesolid.svg" width="20px" height="20px"
+                class="mr-3" />Back</a> -->
+            <!-- <a href="#mandatorykyc" data-toggle="tab" class="btn btn-b-icon px-3 border-0 " role="tab"
+              aria-controls="hot" aria-selected="false" (click)="saveReferralData()"><img
+                src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />Save</a> -->
+            <button (click)="saveReferralData()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab"
+              aria-controls="hot" aria-selected="false" [disabled]="isLoading">
+              <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading,'fa-check': !isLoading}"></i>
+              <span *ngIf="!isLoading">
+              </span>{{buttonName}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+  </div>
+
+</div>
+
+<div class="my-container">
+  <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px' }"
+    [template]="customLoadingTemplateForFiView">
+  </ngx-loading>
+
+</div>
+
+<!-- Tab content end -->

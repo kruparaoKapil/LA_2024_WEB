@@ -1,0 +1,440 @@
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<style>
+
+</style>
+<div class="col-md-12 mt-5 mb-4">
+    <div id="template">
+        <div class="d-flex justify-content-end mr-3">
+            <ul class="temp-ul">
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('LOAN AGREEMENT.pdf')" />
+                </li>
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="false">
+                        <div id="temp-box">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <app-company-details></app-company-details>
+                                    <div class="report-head">
+                                        <p class="font-18 text-dark text-center m-0">LOAN AGREEMENT</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">This <b>LOAN AGREEMENT</b> (“Agreement”) is made at the place and on date as mentioned in Schedule I hereto</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="text-center">BY AND BETWEEN</p>
+                                        <p>The <b>Borrower(s)</b> as mentioned in Schedule I hereto (hereinafter collectively referred to as the "Borrower", which term shall, unless repugnant to the context be deemed to include the Co-Borrower(s), if any,
+                                            in case of an individual, his/her heirs, executors and administrators; in case of a sole propriety firm, the person whose name appears as sole proprietor and shall include his/her heirs, executors, administrators
+                                            and legal representatives and permitted assigns; in case of a partnership firm, the partners or the partners for the time being of the said partnership firm, the survivor of them and the heirs, executors and
+                                            administrators of the partners; in case of the Karta of a Hindu Undivided Family, the members for the time being of the said Hindu Undivided Family and their respective heirs, executors and administrators and
+                                            assigns; in case of a company, its successors and assigns; in case of an unincorporated body, all the members of such body and their respective successors; in case of a Society, the governing body and the respective
+                                            successors of the members of the Governing body and any new members elected, appointed or co-opted; in case of a Trust, the Trustees and the successors of the Trust and in case of a Limited Liability Partnership,
+                                            the partners or the partners for the time being of the said limited liability partnership and the heirs, executors and administrators of the partners and the successors and assigns of the firm) of the <b>ONE PART</b></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="text-center"><b>AND</b></p>
+                                        <p>The Persons mentioned as <b>Guarantor(s)</b> in Schedule I (hereinafter referred to as “Guarantor(s)” which expression shall unless it be repugnant to the context or meaning thereof, be deemed to mean and include
+                                            his/her heirs, executors and administrators or its successors and permitted assigns) of the <b>SECOND PART;</b></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="text-center"><b>AND</b></p>
+                                        <p><b>Enorme Capital Private Limited</b>, a company registered under the Companies Act, 2013 having its registered office at 422, Second Floor, Periyakulam Road, Theni - 625 531, Tamil Nadu, and inter alia a Branch
+                                            Office at the address stated in the Schedule I appended hereto (and hereinafter referred to as the “<b>Lender</b>” which expression, unless repugnant to the context, shall be deemed to include its successors
+                                            and assigns) of the <b>OTHER PART</b>.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p><b>WHEREAS</b></p>
+                                        <p>a. The Lender is a company incorporated under the Companies Act 2013 and is, inter alia, engaged in the business of providing loan against property, business loans and personal loans.</p>
+                                        <p>b. The Borrower is desirous of availing of a loan facility for the Purpose (as hereinafter defined). Pursuant to the request of the Borrower, the Lender had agreed to extend the Loan (as hereinafter defined) to
+                                            the Borrower and has issued the Sanction Letter (as hereinafter defined), in this regard containing the key terms of the Loan, which Sanction Letter has been accepted by the Borrower; </p>
+                                        <p>c. Accordingly, the Lender has called upon the Borrower to execute an agreement being these presents with a view to record the various terms, conditions and stipulations applicable in respect of the Loan as well
+                                            as the respective obligations of the Parties in respect thereof including without limitation the terms and conditions of the repayment of the Loan and creation of Security (as hereinafter defined), and the Borrower
+                                            has agreed to do so in the manner hereinafter appearing.</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3"><b>THIS AGREEMENT WITNESSETH AND IT IS HEREBY MUTUALLY AGREED AND DECLARED BY AND BETWEEN THE PARTIES HERETO AS UNDER</b></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>1. DEFINITIONS AND INTERPRETATION </p>
+                                        <p>1.1. In these presents, unless there is anything in the subject or context inconsistent therewith, the capitalised terms listed below shall have the following meanings. "Applicable Law" shall mean and include all
+                                            applicable statutes, enactments or acts of any legislative body in India, laws, ordinances, rules, bye-laws, regulations, notifications, guidelines, policies, directions, directives and orders of any Governmental
+                                            Authority and any modifications or re-enactments thereof; <br> “Application Form" shall mean, the form submitted by the Borrower to the Lender for applying and availing of this Loan for the Purpose; "Arbitrator"
+                                            shall have the meaning assigned to such term in Clause 24.1 (Dispute Resolution) below; <br> "Availability Period" shall mean the period within which the Borrower shall be required to drawdown the Loan Amount,
+                                            which period may be modified and varied by the Lender, in its sole discretion. The Availability Period for the Loan, as on the date of this Agreement, is more particularly provided for in Schedule I hereto;
+                                            <br> "Business Day" shall mean any day of the week (excluding Saturdays, Sundays and any day which is a public holiday for the purpose of Section 25 of the Negotiable Instruments Act, 1881 (26 of 1881) on which
+                                            banks are open for general banking business in Theni and "Business Days" shall be construed accordingly; <br> "Charges" shall mean the fees, costs, penalties and fines which may be charged by the Lender in relation
+                                            to the Loan, as more particularly provided for in Clause 4 (Payments, Interests, Fees and Other Charges) below; <br> "Claim" shall have the meaning assigned to such term in Clause 24 (Dispute Resolution) below;
+                                            <br> "Combined Interest Rate" shall mean the interest rate which is to be computed at the fixed percentage rate per annum specified in Schedule I hereto for the period specified in Schedule I hereto and to be
+                                            computed as the aggregate of the Floating Reference Rate and the spread specified by the Lender from time to time, for the balance tenure of the Loan (in case the Interest Rate for the Loan is a Combined Interest
+                                            Rate); <br>
+                                            <b>"Condition Precedent" </b>shall have the meaning assigned to such term in Clause 3.1 (Conditions Precedent and Conditions Subsequent) below; <br> "
+                                            <b>Credit Information Company</b>" shall mean a company formed and registered under the Companies Act, 1956/2013 and which has been granted a certificate of registration under sub- section (2) of Section 5 of
+                                            the Credit Information Companies (Regulation) Act, 2005; <br> "
+                                            <b>Date of Disbursement</b>" shall mean any day during the Availability Period, on which pursuant to the request of the Borrower, the Loan Amount or any part thereof is disbursed by the Lender; <br> “
+                                            <b>Default Interest</b>" shall have the meaning assigned to such term in Clause 4.7 (Payments, lnterests, Fees and Other Charges) below; <br> "
+                                            <b>Due Date</b>" shall mean the date on which any Installment Amounts, PEMI, Interest, Charges or any other amount payable under this Agreement, is due for payment, as more specifically provided for in the Repayment
+                                            Schedule; <br> "
+                                            <b>ECS</b>” or “<b>ACH</b>" shall mean the debit clearing scheme, notified by the RBI, being a mode of electronic funds transfer from one bank account to another bank account using the services of a clearing
+                                            house; <br> "
+                                            <b>Encumbrance</b>" shall mean the creation of any charge, lien, security, quasi security, non disposal arrangement, claim, option, negative lien, power of sale in favour of a third party, retention of title,
+                                            right of pre-emption, right of first refusal, lock-in of any nature including as may be stipulated by the Securities and Exchange Board of India, or other third party right or security interest or an agreement,
+                                            arrangement or obligation to create any of the foregoing, whether presently or in the future. The term "Encumber" or "<b>Encumbered</b>" shall be construed accordingly;<br> “
+                                            <b>Events of Default</b>" shall have the meaning assigned to such term in Clause 11 (Event of Default) below; <br> "
+                                            <b>Fixed Interest Rate</b>" shall mean the fixed percentage rate per annum specified in Schedule I hereto which shall remain fixed for the entire tenure of the Loan (in case the Interest Rate for the Loan is
+                                            a Fixed Interest Rate); <br> "
+                                            <b>Floating Interest Rate</b>" shall mean the percentage rate per annum calculated by aggregating the Floating Reference Rate and the spread specified by the Lender, from time to time, (in case the Interest
+                                            Rate for the Loan is a Floating Interest Rate); <br> “
+                                            <b>Floating Reference Rate</b>" or "<b>FRR</b>" shall mean the percentage rate per annum decided by the Lender from time to time and announced / notified by the Lender as its FRR; <br> "
+                                            <b>Foreclosure Statement</b>" shall mean the statement which shall be sent by the Lender to the Borrower, upon a receipt of written communication, as provided for in Clause 5.1 (Prepayment and Foreclosure),
+                                            which statement shall contain the terms and conditions of the prepayment of the Outstanding Balances, or any part thereof by the Borrower; <br> "
+                                            <b>Governmental Authority</b>" shall include the President of India, the Government of India, the Governor and the Government of any State in India, any Ministry or Department of the same, any municipal or local
+                                            government authority in India, any authority or private body exercising powers conferred by Applicable Law in India and any court, tribunal or other judicial or quasi judicial body in India, and shall include,
+                                            without limitation, a stock exchange and any regulatory body in India; <br> "
+                                            <b>Government Approvals</b>" shall mean any consent, approval, authorisation, waiver, permit, grant, franchise, concession, agreement, license, certificate, exemption, order, registration, declaration, filing,
+                                            report or notice of, with or to any Governmental Authority;<br> "
+                                            <b>Installment Amount</b>" shall mean the periodic payment obligations of the Borrower to repay the Loan Amount and Interest accrued on the Outstanding Balance to the Lender, which shall be payable by the Borrower
+                                            to the Lender, at the intervals specified in the Repayment Schedule; <br> "
+                                            <b>Interest</b>" shall mean the interest which shall be payable by the Borrower to the Lender on the Outstanding Balance, compounded on a monthly basis, which Interest may be charged at a Fixed Interest Rate,
+                                            Floating Interest Rate or Combined Interest Rate, as more specifically provided for in Schedule I hereto ; <br> "
+                                            <b>Interest Rate</b>" shall mean the percentage rate per annum on the basis of which the Interest is payable by the Borrower on the Outstanding Balances, the details of which are more particularly provided for
+                                            in Schedule I hereto; <br> "
+                                            <b>Loan</b>" shall mean the term loan facility which has been granted by the Lender to the Borrower, in the manner and upon the terms and conditions specified in this Agreement; <br> "
+                                            <b>Loan Amount</b>" shall mean the principal amount of the Loan disbursed to the Borrower; <br> "
+                                            <b>Enorme Group</b>" shall mean Enorme Capital Private Limited and its subsidiaries (under the Companies Act, 2013); <br> "
+                                            <b>Enorme Group Entities</b>" shall have the meaning assigned to such term in Clause 7.5 (e) (Security);<br> "
+                                            <b>Maturity Date</b>" shall mean the maturity date set out in Schedule I hereto being the last day of the Term; <br> "
+                                            <b>Nominee Director</b>" shall have the meaning assigned to such term in Clause 11.2 (Event of Default) below; <br> "
+                                            <b>Outstanding Balance</b>" shall mean the aggregate of the Loan Amount outstanding, Interest, Default Interest and other Charges which are payable by the Borrower as provided for in this Agreement; <br> "
+                                            <b>Payment Instruments</b>" shall have the meaning assigned to such term in Clause 6.2 (Mode of Payment, Time, Place) below; <br> "
+                                            <b>Post-Dated Cheques (PDCs)</b>" shall mean the post-dated cheque(s) drawn by the Borrower in favor of the Lender, towards discharge of the Installment Amounts, in the manner and upon the terms and conditions
+                                            specified in Clause 6 (Mode of Payment, Time, Place) below; "
+                                            <b>Prepayment</b>" shall mean repayment of the Outstanding Balance, or any part thereof by the Borrower, prior to the Maturity Date as more particularly provided for in Clause 5 (Prepayment and Foreclosure)
+                                            below; <br> "
+                                            <b>Prepayment Notice</b>" shall have the meaning assigned to such term in Clause 5.1 (Prepayment and Foreclosure) below; <br> "
+                                            <b>Pre-Equated Monthly Installments (PEMIs)</b>" shall mean any amount which is payable by the Borrower before the commencement of payment of Installment Amounts, as more particularly provided for in Clause
+                                            2.6 (Amount of the Loan) below; <br> "
+                                            <b>Property</b>" shall mean the property over which first and exclusive mortgage has been created to secure the payment of the Outstanding Balance, in the manner and upon the terms and conditions specified by
+                                            the Lender, the description of which is contained in Schedule II hereto;<br> "
+                                            <b>Purpose</b>" shall mean the purpose set out in Schedule II hereto for which the Loan Amount is to be utilized by the Borrower; <br> "
+                                            <b>Related Party</b>" shall have the meaning assigned to such term in Clause 15.2 (Disclosure of lnformation) below; <br> "
+                                            <b>Repayment</b>" shall mean the repayment of the entire Outstanding Balance by the Borrower in respect of the Loan, as more particularly provided for in Clause 6 (Mode of Payment, Time, Place) below; <br> "
+                                            <b>Repayment Schedule</b>" shall mean the dates on which repayment of the Outstanding Balance is to be made by the Borrower. The Repayment Schedule in relation to the Loan shall be provided by the Lender to
+                                            the Borrower prior to first Due Date, which Repayment Schedule may be amended and modified by the Lender, in its sole discretion, from time to time.<br> "
+                                            <b>RBI</b>" shall mean the Reserve Bank of India; <br> "
+                                            <b>Sanction Letter</b>" shall mean the letter issued by the Lender to the Borrower, sanctioning the Loan, a copy of which is annexed hereto and marked as Annexure I; <br> "
+                                            <b>Secured Assets</b>" shall mean the property(ies) and asset(s) over which Security is created by the Borrower as more particularly provided for in Clause 7.1 (Security) below;<br> "
+                                            <b>Security</b>" shall have the meaning assigned to such term in Clause 7.1 (Security) below;<br> "
+                                            <b>Standing Instruction</b>" or "<b>SI</b>", shall mean the irrevocable instructions, in writing, which shall be issued by the Borrower to any scheduled commercial bank, with which it has an account and a long
+                                            standing relationship for payment of an amount equal to the Installment Amounts for payment to the Lender for repayment of the Loan on the Due Date(s); <br> "
+                                            <b>Term</b>" or "<b>Tenure</b>" shall mean the tenure of the Loan set out in Schedule I hereto which period may be extended by the Lender, in its sole discretion, from time to time; <br> "
+                                            <b>UDCs</b>" shall mean Undated Cheques. <br>
+
+                                        </p>
+                                        <p>
+                                            1.2. In this Agreement, unless the context otherwise requires: <br> a. the singular includes the plural and vice versa and in particular (but without limiting the generality of the foregoing) any word or expression
+                                            defined in the singular has the corresponding meaning used in the plural and vice versa; <br> b. reference to persons includes natural persons, corporations, companies, partnership firms, limited liability partnerships
+                                            and other entities (whether incorporated or not); <br> c. reference to any gender includes the other gender; <br> d. reference to an Article, Schedule, Annexure or Recital is a reference to an Article, Schedule,
+                                            Annexure or Recital of this Agreement; <br> e. reference to any agreement is a reference to that agreement and all exhibits, schedules, appendices incorporated therein, as the same is amended, modified, supplemented,
+                                            varied, substituted, replaced, renewed or extended from time to time; <br> f. reference to statutes shall be construed as including all statutory provisions consolidating, amending, modifying, supplementing
+                                            or replacing the statute referred to, <br> g. the terms "include" and "including" shall be deemed to include the words without limitation"<br> h. The Sanction Letter which is annexed hereto as Annexure I shall
+                                            be deemed to constitute an integral part of this Agreement. However, it is hereby clarified that in the case of any inconsistency between the provisions of this Agreement and the provisions of the Sanction Letter,
+                                            the provisions of this Agreement shall prevail, to the extent of such inconsistency; <br> i. Words and expressions used herein but not defined herein shall have the same meaning assigned to such terms in the
+                                            Companies Act, 2013, in so far as the context so admits. In the event that such terms are not defined in the Companies Act, 2013, such terms shall have the meaning assigned to them in the General Clauses Act,
+                                            1 897, in so far as the context so admits.<br>
+                                        </p>
+                                        <p><b>2. AMOUNT OF THE LOAN:</b> <br>2.1. At the request of the Borrower, the Lender hereby agrees to provide to the Borrower, the Loan, upon the terms and subject to the conditions hereof.<br> 2.2. The Loan Amount
+                                            shall be disbursed upon the receipt of the drawdown request from the Borrower within the Availability Period or in such other manner as the Lender, in its sole discretion, may deem fit.<br> 2.3. It is hereby
+                                            clarified that the Lender shall not be required to disburse any part of the Loan Amount to the Borrower, unless the Borrower and the Guarantor have complied with each of the Conditions Precedent (to the extent
+                                            not expressly waived in writing by the Lender) and the Lender has received all of the documents and other evidences in relation to the fulfillment of the Conditions Precedent listed in Clause 3 (Conditions Precedent
+                                            and Conditions Subsequent) below. <br> 2.4. In the event that the Borrower, has failed to avail of the entire Loan sanctioned by the Lender to the Borrower, within the Availability Period, the Borrower shall
+                                            not be entitled to draw down or receive any part of the outstanding Loan, except with the prior written consent of the Lender. <br> 2.5. In the event that the Borrower, after providing a drawdown request does
+                                            not draw down the Loan Amount, or any part thereof, the Borrower and the Guarantor, shall be required to make payment of the cancellation charges, in relation to the Loan Amount, at the rates specified in Schedule
+                                            I hereto.
+                                            <br> 2.6. The Borrower and the Guarantor hereby agree that it shall be required to service the Interest accrued on the Outstanding Balance, at all times from the first Date of Disbursement of the Loan Amount
+                                            up to the date of commencement of payment of Installment Amounts, by making payment of the accrued Interest on the amounts disbursed on a monthly basis as per the Interest Rate mentioned in Schedule I, on the
+                                            dates specified in the Repayment Schedule or at such time interval and upon such terms and in such manner, as may be directed by the Lender, from time to time ("Pre-EMIs or PEMIs).<br> 2.7. The Loan shall be
+                                            utilised only for the Purpose. Without limiting the generality of the foregoing, the Borrower and the Guarantor hereby agree and undertake that under no circumstances, shall the Loan Amount, disbursed by the
+                                            Lender be used by the Borrower, for any illegal or unlawful purpose.<br>
+                                        </p>
+                                        <p>
+                                            <b>3. CONDITIONS PRECEDENT AND CONDITION SUBSEQUENT </b><br> 3.1. The Loan Amount will be disbursed by the Lender to the Borrower, in one or more tranches as provided for in Clause 2.2 (Amount of the Loan) above,
+                                            upon fulfillment of the conditions precedent set out in Clause 3.2 (Conditions Precedent and Conditions Subsequent) below and such additional conditions precedent set out in Schedule I hereto (which may even
+                                            include conditions precedent to drawdown of different portions of the Loan) ("Conditions Precedent"), which conditions must be complied with by the Borrower and the Guarantor, prior to the first Date of Disbursement.
+                                            The Lender may at its sole discretion waive or modify any or all of the Conditions Precedent, provided in ClauseZ03 1 ?:LKJHGFD,;LKJHG;L,KMNB V I-NF / 3.2 (Conditions Precedent and Conditions Subsequent) below
+                                            or the additional conditions precedents specified in Schedule I hereto. <br> 3.2. The Conditions Precedent required to be fulfilled by the Borrower and the Guarantor are as follows: <br>
+                                            <span class="pl-5 float-left">a. (In case the Borrower/Guarantor
+                                            is an artificial person) the Borrower shall submit the following to the Lender: <br></span>
+                                            <span class="pl-5 ml-5 float-left"> i. certified true copies of its constitutional documents;</span><br>
+                                            <span class="pl-5 ml-5 float-left">ii. certified true copies of all resolutions and other corporate actions
+                                            required to authorise the availing of the Loan, the creation of the Security and execution of this Agreement and all other documents to be executed pursuant hereto including without limitation the documents
+                                            executed for the creation and/or perfection of the Security;</span>
+                                            <br>
+                                            <span class="pl-5 ml-5 float-left">iii. (in case the Borrower or Guarantor is a company) A certificate issued by the auditor or director or company secretary of the Borrower or Guarantor,
+                                            as the case may be or an independent chartered accountant of the Borrower or Guarantor, as the case may be (as the Lender may direct) and in case the Borrower or Guarantor is not a company a certificate issued
+                                            by the principal officer or member of the governing body of the Borrower or Guarantor, as the case may, be confirming that the availing of the Loan by the Borrower will not cause any borrowing limits imposed
+                                            upon it, whether under the Companies Act, 2013 or otherwise, to be exceeded; </span><br>
+                                            <span class="pl-5 ml-5 float-left">iv. Such additional certificates and written confirmations to be provided by such officers of the Borrower and the Guarantor as the
+                                            Lender may direct confirming that the Borrower and the Guarantor is authorised to enter into this Agreement and to perform the obligations assumed by it hereunder.</span>
+                                            <br><span class="pl-5 float-left"> b. The Borrower and the Guarantor shall do all such acts, deeds and things as may be required by the Lender for creation, perfection and delivery of the Security to the satisfaction of the Lender, including
+                                            without limitation execution of a power of attorney in favour of the Lender upon the terms and conditions and in the manner and format specified by the Lender; <br> c. The Borrower and the Guarantor shall have
+                                            executed and delivered to the Lender the Payment Instruments as more specifically provided for in Clause 6.2 (Mode of Payment, Time, Place) below, as required by the Lender; <br> d. The Borrower and the Guarantor
+                                            shall be required to provide a written undertaking to the Lender that no Event of Default has occurred and that there is presently no event or circumstance which would (with the giving of notice, expiry of a
+                                            cure period, or any combination of any of the foregoing) be an Event of Default; and<br> e. The Borrower and the Guarantor shall be required to provide a written undertaking to the Lender that all the representations
+                                            and warranties given by the Borrower under this Agreement are true and correct.<br> f. The Borrower and the Guarantor shall make payment of the processing fee set out in Schedule I hereto. <br> g. The Borrower
+                                            and the Guarantor shall deliver to the Lender a demand promissory note executed by the Borrower and the Guarantor, in favour of the Lender, for an amount equivalent to the Loan Amount together with a letter
+                                            of continuity in the format specified by the Lender.<br>
+                                            </span> 3.3. In the event that the Conditions Precedents are not fulfilled by the Borrower or the Guarantor, prior to the expiry of the Availability Period, and no extension or waiver in relation to the same
+                                            is given by the Lender, the Borrower, shall not be entitled to drawdown the Loan Amount, and shall be liable to pay all processing fees, cancellation charges payable to the Lender, as more specifically provided
+                                            for in Clause 4 (Payments, Interests, Fees and Other Charges) below. <br> 3.4. As a condition subsequent to the disbursement of the Loan, the Borrower shall be required to provide an end use statement, within
+                                            15 (Fifteen) calendar days of each Disbursement Date.
+                                        </p>
+                                        <p><b>4. PAYMENTS, INTEREST, FEES AND OTHER CHARGES</b><br> 4.1. The Borrower and the Guarantor agree, undertake and covenant that until the date of the repayment of the entire Outstanding Balance, the Borrower shall
+                                            pay Interest on the Loan Amount, at the Interest Rate specified in Schedule I hereto, , which shall comprise part of the Installment Amounts or PEMIs, as the case may be, which Interest shall be compounded on
+                                            a monthly basis.<br> 4.2. (In the event that the Interest Rate for the Loan is a Floating Interest Rate or Combined Interest Rate) In the event of any revision in the applicable Interest Rate (which revision
+                                            shall be effective prospectively), the Borrower and the Guarantor shall thereafter be required to pay Interest on the Loan at such new applicable rate. The Lender will apply the applicable rate on first day
+                                            of the subsequent month following the month in which FRR is changed, subject to the following terms and conditions:
+                                            <br>
+                                            <span class="pl-5 float-left">
+                                a. Without prejudice to the general right available to the Lender to vary or amend the Repayment Schedule, from time to time and its rights under Clause 4.4 (Payments, Interests, Fees and Other Charges) below, the Lender shall consequent to any increase in the Floating Interest Rate, be entitled in its sole discretion to increase the Installment Amount suitably including without limitation in the following cases:<br><br>
+                                <span class="pl-5 ml-5 float-left">i. the Instlallment Amount is not adequate to cover interest payments in full, or <br>
+                                        ii. (in case that the Borrower or the Guarantor is an individual) the revision in the Interest Rate results in extension of tenure of the Loan Facility beyond the earlier of the retirement age of the Borrower/the Guarantor or  the Borrower/the Guarantor turning 65 years old, as the case may be; <br></span>                                            <br> b. In the event of any increase in the Floating Interest Rate, and consequential increase in the Installment Amounts/ PEMIs which are required to be paid by the Borrower, as provided for in Clause 4.2(a)
+                                            (Payments, Interests, Fees and other Charges), the Borrower and the Guarantor shall be required to pay such increased Installment Amount/ PEMI amount and/or the resultant differential amount as determined by
+                                            the Lender in its sole discretion and informed to the Borrower.<br><br> c. The Borrower and the Guarantor shall adhere to the procedure which the Lender in its sole discretion may prescribe, and to do all such
+                                            acts, deeds or things as the Lender may require in order to make payment of such increased Installment Amount or collection of the differential amount.<br> <br> d. Consequent to any downward revision in the
+                                            Floating Interest Rate, the Lender may, in its sole discretion, either reduce the Installment Amount, or the Tenure, and in such event, the Borrower and the Guarantor shall adhere to the procedure prescribed
+                                            by the Lender in its sole discretion and to do all such acts or deeds as the Lender may require in order to give effect to such reduced Installment Amount and/or Tenure, as the case may be.<br><br> e. The Borrower
+                                            and the Guarantor will repay the Loan as stipulated herein, subject to any other changes in the amortization schedule as communicated by the Lender in writing to the Borrower.<br><br> f. The Lender may vary
+                                            the FRR from time to time in such manner as the Lender may deem fit in its sole discretion.<br>
+                                            </span>
+                                            4.3. (in the event that the Interest Rate for the Loan is a Floating Interest Rate or Combined Interest Rate) The Lender hereby confirms that any change in the Interest Rate payable by the Borrower and the Guarantor shall be duly informed to the Borrower
+                                            in writing in advance and the Borrower and the Guarantor agree that the Borrower or the Guarantor shall have no objection to any such revision in Interest Rate. The revised Interest Rate shall apply prospectively
+                                            only.
+                                            <br><br> 4.4. Without prejudice to the general right available to the Lender to vary or amend the Repayment Schedule, from time to time, the Lender shall, on any change occurring in the Interest Rate applicable
+                                            to the Loan as per the provisions set out above, be entitled to amend the Repayment Schedule (including without limitation varying the amount of each PEMI or Installment Amount) to reflect the change in the
+                                            Interest Rate. <br><br> 4.5. The Borrower and the Guarantor shall be required to make payment of the Loan Amount on the dates mentioned in the Repayment Schedule, applicable from time to time. The Loan Amount
+                                            shall be paid by the Borrower and the Guarantor, together with Interest accrued thereon, as provided for in Clause 4.1 (Payments, Interests, Fees and other Charges) above and Default Interest, if any, accrued
+                                            thereon, which shall comprise of part of the Installment Amounts and all additional Charges, which may be required to be paid by the Borrower, as provided for in elsewhere in this Clause 4 (Payments, Interests,
+                                            Fees and Other Charges). <br><br> 4.6. The Borrower and Guarantor agree and acknowledge that all taxes and charges that may be levied in connection with the Loan on the Lender shall be payable by the Borrower
+                                            and the Lender shall be entitled to increase the Installment Amounts, PEMIs or any other payment which is required to be made by the Borrower and the Guarantor, under this Agreement, by any incremental taxes,
+                                            whether by way of goods and services tax or any other taxes, hereafter levied on this transaction with retrospective or prospective effect. <br><br> 4.7. The Borrower and the Guarantor agree to pay to the Lender
+                                            interest on any overdue amounts i.e. any amounts, in relation to which payment has not been made on the relevant Due Date, at the rate of 3 (Three) percent per month compounded monthly ("Default Interest").
+                                            Provided that nothing contained in this Clause 4.7 (Payments, Interests, Fees and Other Charges), shall affect or prejudice the right of the Lender to declare an Event of Default and exercise the rights vested
+                                            in it under Clause 11.2 (Cancellation and Event of Default) of this Agreement.<br><br> 4.8. In the event that:<br>
+                                            <span class="pl-5 ml-5 float-left">
+        a. Any of the PDCs or UDCs which are issued by the Borrower or the Guarantor, in favour of the Lender as provided for under the terms of this Agreement are dishonoured;<br>
+        b. Any payment which is to be made by the designated banker of the Borrower or the Guarantor under the Standing Instructions, is not made on the relevant Due Date for any reason; or<br> 
+        c. Any payment which is required to be made under the ECS/ACH Mandate is not made, on the relevant Due Date for any reason. 
+        the Borrower and the Guarantor shall be required to pay to the Lender, additional penalty as set out in Schedule I hereto in addition to the Outstanding Balance.<br>
+        Provided that nothing contained in this Clause 4.8 (Payment, Interests, Fees and Other Charges), shall affect or prejudice the right of the Lender under Clause 11.2 (Event of Default) of this agreement, or under Applicable Law, including without limitation, any rights which may vest in the Lender, under the Negotiable Instruments Act, 1881. 
+</span>
+                                            <br><br> 4.9. The Borrower and the Guarantor hereby agree and acknowledge that, the Borrower shall not be entitled to any set off, withholding or deduction of any amount from the payment due to the Lender under
+                                            this Agreement.
+                                            <br><br> 4.10. The Borrower and the Guarantor acknowledge and agree that, in the event the Borrower wishes to swap/interchange the PDCs or UDCs, as the case may be, from one bank to another, the Borrower or
+                                            the Guarantor shall be entitled to do so only after paying the swap charges, which may be levied by the Lender for such swap of cheques.
+                                            <br><br> 4.11. The Borrower and the Guarantor also agree to pay the amount specified in Schedule I hereto as non- refundable processing and the same shall be due from the Borrower, as a Condition Precedent.
+                                            It is clarified that, even if the Borrower chooses not to avail the Loan then the Borrower and the Guarantor shall remain liable to pay to the Lender the processing fee, in addition to the charges levied under
+                                            Clause 2.5 (Amount of the Loan) above, if any.<br><br> 4.12. The Borrower and the Guarantor agree to pay to the Lender all such other and further charges that may become payable by the Borrower to the Lender
+                                            as a consequence of the Loan being availed by the Borrower under this Agreement. <br><br> 4.13. Any dispute being raised about the computation of any Installment Amount and/or PEMI, will not entitle the Borrower
+                                            or the Guarantor to withhold payment of any Installment Amounts and/or PEMI or any portion thereof. It is agreed and understood by the Borrower and the Guarantor that the obligation of the Borrower to pay the
+                                            Installment Amounts and/or PEMI is absolute and unconditional. <br><br> 4.14. Without prejudice to any of the Lender's rights under Applicable Law or under the terms of this Agreement, Interest as aforesaid
+                                            and the other amounts payable by the Borrower shall be charged / debited to the Borrower's Loan account on the respective Due Date thereof and shall be deemed to form part of the Outstanding Balance. Such amounts
+                                            debited/ charged to the Borrower's Loan account shall, accordingly attract Default Interest at the same rate as applicable to the Loan in terms of this Agreement from the relevant Due Date until payment thereof.
+                                            <br><br> 4.15. Notwithstanding anything contained in this Agreement or any other document which is provided by the Lender to the Borrower, including without limitation the Sanction Letter, the Parties agree
+                                            that the Lender shall be entitled to revise, amend and modify any of the Charges payable by the Borrower, at any time during the tenure of the Loan. Upon any revision of the Charges payable by the Borrower,
+                                            the Lender shall inform the Borrower of the revision, and the Borrower and the Guarantor shall be required to make payment on the basis of the revised Charges, from the immediately succeeding Due Date, in relation
+                                            to the Loan.
+                                        </p>
+                                        <p><b>5. PREPAYMENT AND FORECLOSURE</b><br> 5.1. The Borrower, shall be entitled to prepay the Loan Amount or any part thereof, to the Lender upon the fulfillment of the following conditions:<br>
+                                            <span class="pl-5 ml-5 float-left">
+                        a. The Borrower shall be required to inform the Lender, in writing of its intent to prepay the Outstanding Balances or any part thereof, at least 7 Business Days prior to the date of the proposed prepayment of the Loan, and request the Lender to provide a Foreclosure Statement, in relation to the same;<br>
+                        b. Upon receipt of the communication as provided for in Clause 5.1 (a) (Prepayment and Foreclosure), the Lender shall provide to the Borrower, the Foreclosure Statement, containing the rights and duties of the Borrower, in relation to the proposed prepayment;
+                        <br>
+                        c. The minimum amount of Loan which shall be required to be prepaid by the Borrower, shall be equivalent to an amount corresponding to 3 (Three) Installment Amounts of the Borrower and the Borrower shall not be entitled to make more than one prepayment in a calendar month;<br>
+                        d. Subject to Clause 5.1 (e) (Prepayment and Foreclosure) below, the Borrower shall be required to pay prepayment charges as per the prepayment charges applicable at the time of such prepayment. The Lender in its sole discretion may revise applicable prepayment charges in accordance with the extant regulatory requirements. The current applicable prepayment charges (as on date) are specified in the Schedule I.<br>
+                        e. The prepayment amount which shall be required to be paid by the Borrower on the concerned Due Date, shall be the amount specified by the Lender in the Foreclosure Statement, which shall be the aggregate of the Loan Amount, being prepaid, Accrued Interest thereon, Default Interest (if any), if any and all other applicable Charges which are payable by the Borrower in respect of the Loan Amount being prepaid. 
+                </span><br> 5.2. In the event that a Prepayment is effected by the Borrower in respect of the entire Outstanding Balance due in respect of the Loan, in the manner and upon the terms and conditions
+                                            provided for in this Clause 5 (Prepayment and Foreclosure), the Borrower, shall be entitled to request the Lender to release the charge created over the Property and any other assets, properties comprising part
+                                            of the Security which may have been issued by the Borrower, under the terms of the Agreement. The Lender shall, except in cases where the Lender has the right to retain security as provided for in Clause 7.5
+                                            (Security) and Clause 12 (Lien on Security) below, release the charge created over the Secured Assets, on a receipt of such request.
+                                        </p>
+                                        <p><b>6. MODE OF PAYMENT, TIME, PLACE</b><br> 6.1. The Borrower and the Guarantor shall pay promptly, in full, the PEMIs (if applicable), Installment Amounts and all other amounts payable under this Agreement without
+                                            any demur, protest or default and without claiming any set-off or counter claim, on the respective Due Dates on which the same are due. <br><br> 6.2. The Borrower and the Guarantor shall, prior to the first
+                                            Date of Disbursement provide to the Lender, such of the following payment instruments as directed by the Lender ("Payment Instruments"):<br>
+                                            <span class="pl-5 ml-5 float-left">
+                        a. PDCs and UDCs issued by the Borrower and the Guarantor, which may be deposited by the Lender with a view to receiving payments on the Due Dates, as provided for in the Repayment Schedule; <br>
+                        b. A certified copy of the Standing Instructions issued by the Borrower, to its designated bank, authorising the designated bank of the Borrower to transfer to the Lender on the Due Dates, the amounts which are required to be paid by the Borrower, as specified in the Repayment Schedule; or <br>
+                        c. A certified copy of the written ECS/ACH mandate by the Borrower to its designated bank requiring the designated bank to make payment to the Lender on the Due Dates, as specified in the Repayment Schedule through the ECS/ACH Scheme. 
+                </span> 6.3. The Borrower and the Guarantor hereby irrevocably and unconditionally undertake that the Borrower or the Guarantor shall not issue instructions for the Lender not to encash any of
+                                            the Payment Instruments and shall not issue any instruction to stop payment in respect of such Payment Instruments to the relevant bank or institution. If the Borrower or the Guarantor do issue any such instructions,
+                                            the same shall be considered null and void and such act shall be construed as breach of this Agreement. In the event of any dishonor of a Payment Instrument, without prejudice to the other rights of the Lender,
+                                            the Borrower and the Guarantor shall be liable to pay to the Lender penalty at the rate mentioned in this Agreement or such other amount as may be stipulated by the Lender from time to in accordance with its
+                                            policy and guidelines.<br> 6.4. The Borrower and the Guarantor acknowledge that the Payment Instruments submitted in terms of Clause 6.2 (Mode of Payment, Time, Place etc,) above, shall be delivered to the Lender
+                                            for the discharge of the Outstanding Balance (or part thereof). It is however clarified, that the mere hand over of the Payment Instruments will not discharge the Borrower or the Guarantor from their primary
+                                            obligation of ensuring that the amounts due to the Lender on a particular Due Date are paid to the Lender on such Due Date. The Borrower and the Guarantor shall also be entitled to make payments of the amount
+                                            due to the Lender on the respective Due Dates in the form of cash or pay orders / demand drafts, provided that payments in cash may be made subject to compliance with the requirements (including without limitation
+                                            the submission of any forms and documents), if any, imposed by the Lender in this regard.<br> 6.5. In the event that the Borrower or the Guarantor is required by the Lender to deposit PDCs and UDCs for fulfilling
+                                            the Borrower's payment obligations in relation to the Loan, any PDCs and UDCs so deposited, shall be compliant with applicable regulatory requirements under Applicable Law.<br> 6.6. The Borrower and the Guarantor
+                                            hereby agree and undertake that the obligation of the Borrower, to make payment of the Installment Amounts and the PEMIs is unconditional and absolute, and shall not be affected or prejudiced by any reason including
+                                            without limitation as a result of any non-payment or short payment resulting on encashing any of the Payment Instruments.<br> 6.7. Upon repayment of the Outstanding Balances in full, the Lender shall not deposit
+                                            any PDCs and/or UDCs which remain in its possession.<br> 6.8. On any of the respective Due Dates, the Lender shall be entitled to encash or require the transfer of the amounts due to the Lender under this Agreement,
+                                            by utilizing any of the Payment Instruments which are deposited by the Borrower or the Guarantor, as mentioned in Clause 6.2 (Mode of Payment, Time, Place) above, without any requirement of informing or sending
+                                            a notice to the Borrower or the Guarantor of its encashing of the relevant Payment Instrument. The Borrower and the Guarantor hereby agree and undertake that the Borrower and the Guarantor shall ensure that
+                                            adequate sums are present in the bank account(s) of the Borrower and the Guarantor 6.8. which are linked to the Payment Instruments provided by the Borrower to the Lender to enable the Lender to encash the Payment
+                                            Instruments for receipt of the payments due from the Borrower on each of the Due Dates.<br> 6.9. Only on realisation of the amounts due by any mode as above, the Lender shall credit the loan account of the Borrower.<br>                                            6.10. If any payment under this Agreement is required to be made on a day which is not a Business Day or within a period which ends on a day which is not a Business Day then the Borrower and the Guarantor shall
+                                            be required to make the payment on the immediately preceding Business Day. <br>
+                                        </p>
+                                        <p><b>7. SECURITY</b><br> 7.1. The Borrower and/or the Guarantor shall secure the Outstanding Balances in relation to the Loan by creating the following security in favour of the Lender ("Security"): <br>
+                                            <span class="pl-5 ml-5 float-left">a. Creation of a first and exclusive mortgage over the Property, in the manner and upon the terms and conditions specified by the Lender; <br>
+            b. Creation of such other security as may be specified in Schedule II hereto. </span>
+                                            <br><br> 7.2. The Borrower and the Guarantor hereby agree and confirm that, for the purposes of stamp duty, the principal instrument shall be such instrument (whether this Agreement or any instrument executed
+                                            for creation of or in relation to the Security) as may be determined by the Lender.
+                                            <br><br> 7.3. The Borrower and the Guarantor shall ensure that the value of the Secured Assets, shall at all times during the tenure of the Loan be sufficient to comply with the margin requirements notified
+                                            by the Lender, from time to time. <br><br> 7.4. The Borrower and the Guarantor agree and undertake that in the event that the value of the Secured Assets is not sufficient to maintain the margin requirements,
+                                            the Borrower or the Guarantor shall be required to create additional security in favour of the Lender, over such other properties or assets as may be acceptable to the Lender such that on creation of such additional
+                                            security the margin requirements are met with, to the satisfaction of the Lender. In the event that the Borrower or the Guarantor fails to create the additional security, as provided for hereinabove, the same
+                                            shall constitute an Event of Default, and the provisions of Clause 11 (Events of Default) shall become applicable. In order to ascertain whether the margin requirements are being met, the Lender shall be entitled
+                                            to obtain a valuation of the Secured Assets from a valuer appointed by it. The Lender shall also be entitled to cause the Borrower and the Guarantor to obtain such valuation from such valuer as it may deem fit.
+                                            The charges, costs and expenses incurred in relation to any such valuation shall be borne by the Borrower and the Guarantor.
+                                            <br><br> 7.5. Continuing Security: All Security furnished / to be furnished or procured or to be procured by the Borrower and the Guarantor in connection with the Loan shall remain a continuing Security to the
+                                            Lender and be binding upon the Borrower and the Guarantor, and:
+                                            <span class="pl-5 ml-5 float-left">
+                                                    a. shall not be discharged by intermediate payment by the Borrower or the Guarantor any settlement of accounts by the Borrower or Guarantor so far as any part of the Outstanding Balance remains outstanding;<br>
+                                                    b. shall not be affected by a waiver or reservation of exercise of any rights which are vested in the Lender;<br>
+                                                    c. shall be in addition to and not in derogation of any other Security which the Lender may at any time hold in respect of the dues of Borrower and Guarantor; and<br>
+                                                    d. shall be available to the Lender until the Secured Assets are required to be released by the Lender under the terms of this Agreement<br>
+                                                    e. the Lender and other entities within the Enorme Group ("Enorme Group Entities") shall have the paramount right of set-off and lien, irrespective of any other lien or charge on any assets, documents and properties, of the Borrower or the Guarantor whether held in its name or jointly with any other person, held by/ under the control of the Lender and/or the Enorme Group Entities (whether by way of security or otherwise pursuant to any contract entered/ to be entered into by the Borrower or the Guarantor  in any capacity) to the extent of all outstanding dues, whatsoever, due by the Borrower or the Guarantor to the Lender and/or the Enorme Group Entities. The Lender and/or the Enorme Group Entities are entitled without any notice to the Borrower e. or the Guarantor to settle any indebtedness whatsoever owed by the Borrower or the Guarantor to the Lender and/or the Enorme Group Entities, (whether actual or contingent, or whether primary or collateral, or whether joint and/or several) hereunder or under any other document/ agreement. The Lender and/or the Enorme Group Entities shall be entitled to utilise and enforce the security provided in respect of financial indebtedness extended by any of them to liquidate and repay the financial indebtedness extended by any other member of the Enorme Group. The Lender's and the Enorme Group Entities rights hereunder shall not be affected by the Borrower/s' or the Guarantor/s' bankruptcy, insolvency, death or winding-up. This provision shall survive the expiry or termination of this Agreement.<br>
+                                                    f. In addition to the above mentioned right or any other right which the Lender and the Enorme Group Entities may at any time be entitled whether by operation of law, contract or otherwise, the Borrower and the Guarantor authorise the Lender: (a) to combine or consolidate at any time all or any of the liabilities of the Borrower and the Guarantor incurred towards the Lender with the liabilities of the Borrower and the Guarantor towards the Enorme Group Entities or any of them; (b) to sell any of the Borrower/s' or the Guarantor/s' securities or properties held by the Lender by way of public or private sale without having to institute any judicial proceeding whatsoever and retain/appropriate from the proceeds derived from the total amounts outstanding to the Lender and the Enorme Group Entities (or any of them) from the Borrower, including costs and expenses in connection with such sale. <br>
+                                            </span> 7.6. The Borrower and the Guarantor agree and undertake that the Borrower and the Guarantor shall cooperate and comply with any directions and requests, which
+                                            may be given by the Lender to the Borrower, and do all such acts, deeds and things which may be so required, to perfect the Security created pursuant to this Clause 7 (Security), including without limitation
+                                            all regulatory filings, registrations, communications/information to be made/given, with/to any Governmental Authority, including without limitation under the provisions of the Registration Act, 1908 as applicable
+                                            to the relevant state in India where the Property is situated and/or the Security is being created.<br><br>
+
+                                        </p>
+                                        <p><b>8. REPRESENTATIONS AND WARRANTIES OF THE BORROWER AND THE GUARANTOR:</b><br> The representations and warranties set out in this Clause 8 (Representation and Warranties), shall be made on the date of this Agreement
+                                            and shall be deemed to have repeated by the Borrower and the Guarantor on every day from the date of this Agreement until the Outstanding Balance is paid to the Lender in full: <br><br> 8.1. Status:<br> The
+                                            Borrower and the Guarantor represent and warrant that:
+                                            <span class="pl-5 ml-5 float-left">
+        a. (in the event that the Borrower or the Guarantor is a natural person) the Borrower and the Guarantor are major and are of sound mind;<br>
+        b. (in the event that the Borrower or the Guarantor is an artificial person) the Borrower and the Guarantor are duly incorporated and validly existing under Applicable Law;<br>
+        c. (In the event that the Borrower or the Guarantor is a partnership firm), the Borrower and the Guarantor, are a partnership under the Indian Partnership Act, 1932.<br>
+        and are competent to contract and enter into and perform his/her/its /their obligations under this Agreement. <br>
+</span> 8.2. Power and Authority<br> The Borrower and the Guarantor represents and warrants that the person(s) executing this Agreement and all documents on behalf of the Borrower and the Guarantor is/are entitled
+                                            to do so and has/have been duly authorised to sign this Agreement and all documents and writings. All consents required by the Borrower and the Guarantor for the execution and performance of this Agreement have
+                                            been duly obtained. <br><br> 8.3. Binding obligations:<br> The Borrower and the Guarantor represent and warrant that the obligations expressed to be assumed by the Borrower in relation to each of the agreements
+                                            to which they are a Party are their binding obligations.<br><br> 8.4. Litigation: <br> The Borrower and the Guarantor represent and warrant that there is no action, or proceedings against the Borrower or the
+                                            Guarantor and/or the Secured Assets pending before any Governmental Authority, which might affect the Borrower or the Guarantor's ability to perform its obligation hereunder and no suit, action or other proceeding
+                                            is pending in respect of the Secured Assets and no adverse, claims have been made and no notice for acquisition or requisition has been issued or received by the Borrower or any other person in respect of the
+                                            Secured Assets. <br><br> 8.5. Income Tax Proceedings:<br> The Borrower and the Guarantor represents and warrants that (i) no proceedings have been initiated or are pending against the Borrower and the Guarantor
+                                            under the Income Tax Act, 1961; (ii) no notice or demand whether under rule 2 of the second schedule of the Income Tax Act, 1961 or otherwise has been received by the Borrower or the Guarantor under the Income
+                                            Tax Act, 1961, and (iii) there are no arrears of tax or other sum outstanding from the Borrower or the Guarantor under the Income Tax Act, 1961. <br><br> 8.6. Compliance with Applicable Law:<br> The Borrower
+                                            and the Guarantor represents and warrants that the Borrower and the Guarantor have complied with Applicable Law, including without limitation, in relation to creating the Security under this Agreement. <br><br>                                            8.7. Good Title:<br>
+                                            <span class="pl-5 ml-5 float-left">a. The Borrower or the Guarantor is the legal and beneficial owner of, and has good and marketable title to the Secured Assets (including without limitation the Property) free and clear of any Encumbrance, except for the security created/ to be created in respect of the obligations of the Borrower under this Agreement. <br>
+        b. The Property and any other Secured Assets (being immovable property) is not included in or affected by any of the schemes of Central/State Government or of the improvement trust or any other public body or local authority or by any alignment widening or construction of road under any scheme of the Central/State Government or of any Corporation, Municipal Committee, Gram Panchayat or any other Governmental Authority.</span>
+                                            <br><br> 8.8. Event of Default:<br> The Borrower and the Guarantor represent and warrant that no Event of Default or any event or circumstance which would (with the giving of notice, expiry of a cure period,
+                                            or any combination of any of the foregoing) be an Event of Default has occurred or is likely to occur;<br><br> 8.9. No misleading information: <br> The Borrower and the Guarantor represent and warrant that the
+                                            information furnished by the Borrower and the Guarantor for availing of the Loan is, and shall be, true, complete and correct and shall not be misleading;<br><br> 8.10. Non Conflict with other obligations:<br>                                            The Borrower and the Guarantor represent and warrant that the entry into, delivery and performance by the Borrower and the Guarantor of this Agreement and the transactions contemplated by this Agreement do not
+                                            and will not conflict (a) with, any Applicable Law; (b) with the constitutional documents, if any, of the Borrower or the Guarantor; or (c) with any document which is binding upon the Borrower or the Guarantor
+                                            or on any of the Borrower's assets. <br><br> 8.11. Material Adverse Change:<br> The Borrower and the Guarantor, represent and warrant that there has been no material adverse change in the financial condition
+                                            of the Borrower/Guarantor nor has any event taken place which is prejudicial to the interest of the Lender, since the date of the last audited balance sheet of the Borrower or the Guarantor is likely to materially
+                                            and/ or adversely affect the construction of the Property or the ability of the Borrower or the Guarantor to perform all or any of its obligations under this Agreement.<br><br> 8.12. Right to appoint Nominee
+                                            Director: <br> (in the event the Borrower is a company) The Borrower and the Guarantor represents and warrants that the constitutional documents of the Borrower do not contain any provisions which affect in
+                                            an adverse manner the rights available to the Lender under Clause 11.2(e) (Event of Default) below. <br><br> 8.13. Security: <br> The Borrower and the Guarantor represent and warrant that
+                                            <span class="pl-5 ml-5 float-left">a. all the necessary approvals including inter alia Government Approvals for availing the Loan and creating the Security have been obtained.   <br>
+        b. the Borrower is entitled and empowered to borrow, create the Security and execute this Agreement and all other documents to be executed in connection with the Loan including the documents to be executed in relation to the creation or perfection of the Security and upon execution of such documents, the same will constitute legal and binding obligations of the Borrower and the Guarantor enforceable against the Borrower and the Guarantor. 
+    </span>
+                                            <br> 8.14. The Borrower declares and represents that all amounts paid by the Borrower, for the acquisition of the Property or the assets on which Security is created under the provisions of this Agreement for
+                                            the Loan, have been paid through legitimate sources and such payments do not constitute an offence under The Prevention of Money Laundering Act, 2002 or any regulations, rules and guidelines framed thereunder.
+                                            <br> <br> 8.15. The Guarantor(s) acknowledge that the liability of the Guarantor(s) under this Agreement is co-extensive with that of the Borrower for all amount due and payable including Installment Amounts,
+                                            PEMI, Interest, Additional Interest, charges, fees, costs and any other dues whatsoever payable by the Borrower to the Lender under this Agreement<br><br> 8.16. The Guarantor(s) represent that any communication
+                                            with the Borrower and acknowledgement of the same is binding on the Guarantor(s). Similarly, acknowledge of Liability by the Borrower is binding on the Guarantor(s) till such time the liability is discharged
+                                            to the satisfaction of the Lender.<br><br> 8.17. The Guarantor(s) hereby agrees and undertakes to make all the amount due and payable under this Agreement when demanded by the Lender notwithstanding that a dispute
+                                            is pending between the Lender and the Borrower in respect of any provision of this Agreement or any other related documents<br><br> 8.18. The Borrower and the Guarantor acknowledge that dishonor of any of the
+                                            Payment Instruments on any of the Due Dates shall attract the appropriate penal provisions under Applicable Law, including under Section 138 of the Negotiable Instruments Act, 1881 .
+
+                                        </p>
+
+                                        <p><b>9. COVENANTS:</b><br> 9.1. Affirmative Covenants:<br>
+                                            <span class="pl-5 ml-5 float-left">
+                a. The Borrower and the Guarantor hereby expressly covenant that the terms and conditions mentioned in the Lender's Sanction Letter shall be binding obligations of the Borrower and the Guarantor; and the Borrower and the Guarantor specifically agree and covenant to abide by the said terms and conditions and all/any other terms and conditions that may be stipulated by the Lender from time to time and notified to the Borrower.<br>
+                b. The Borrower and the Guarantor hereby warrant the correctness of each and every statement and particulars contained in the Loan Application.<br>
+                c. The Borrower and the Guarantor covenant that the Borrower and the Guarantor shall maintain proper and adequate books and records to correctly and completely reflect the Borrower’s and the Guarantor's financial position and scope of operations and should not change their accounting system without notice to the Lender and shall permit any officer / authorised representative of the Lender and/or, concurrent / statutory auditors / RBI officials to inspect the Borrower's/Guarantor’s books of account and to enter into the Borrower's/Guarantor's offices or other places where such books of account are kept for the purposes of such inspection.<br>
+                d. The Borrower and the Guarantor shall, at all times during the currency of the Loan, at their own cost fully insure the Secured Assets against all insurable risks and for such amounts and for such period and forms as the Lender may require, and ensure that the Lender is mentioned as the loss payee or assignee of such policy, with such reputable insurance company or companies approved by the Lender in writing and shall deposit the insurance policies and all cover notes and premium receipts with the Lender. If the Borrower or the Guarantor fails to insure or keep insured all/any of the Secured Assets, then the Lender shall without prejudice to or affecting its rights hereunder including inter alia the rights granted under Clause 11 (Event of Default) hereof, be at liberty (but not bound) to insure and keep the same insured and the Borrower and the Guarantor shall on demand repay to the Lender all amounts spent or incurred by the Lender in doing so, together with Default Interest. The Borrower and the Guarantor shall pay the premium amounts promptly and regularly so as to keep the policy/policies alive at all times until repayment by the Borrower of the Outstanding Balance, in full.<br>
+                e. The Borrower and the Guarantor shall allow any officer / authorised representative of the Lender and/or, concurrent / statutory auditors / RBI to visit and inspect from time to time the properties comprising the Secured Assets.<br>
+                f. The Borrower and the Guarantor covenant and agree that all statements and documents provided by the Lender in relation to the Loan account of the Borrower and the computation of the Loan Amount, the Interest, Default Interest, Charges and any other payments due under this Agreement shall be final and binding on the Borrower and the Guarantor; and the Borrower or the Guarantor shall not be entitled to contest or dispute any statement so provided by the Lender under the terms of this Agreement which shall form conclusive evidence of the same as between the Borrower, Guarantor and the Lender. <br>
+                g. The Borrower and the Guarantor shall maintain the Property in good order and condition and will make all necessary additions and improvements thereto as may be required or as may be directed by the Lender, during the pendency of the Loan.<br>
+                h. That Borrower and the Guarantor will, on the Lender's request, do, perform and execute such acts, deeds, matters and things as the Lender may consider necessary either to perfect the Security provided for or to carry out the intent of this Agreement.<br>
+i. If the Borrower is a company, it must register the charge created in favour of the Lender in proper form, with the Registrar of Companies within a period of 30 days from the date of creation of charge;<br>
+j. The Borrower and the Guarantor hereby agree and consent to receive telephone calls, text messages, emails, letters or all other forms of communications from the Lender and/or its officers, agents or sub-contractors, informing the Borrower or the Guarantor about the prevailing Interest Rate, Due Dates and Outstanding Balance under the Agreement and upcoming Installment Amount payments. It is hereby clarified that the Lender is not obliged to provide any communication under this Sub-Clause and the Lender may provide or chose not to provide the same in its sole discretion. Additionally, the obligation of the Borrower and the Guarantor, to make payments of the amounts due on every Due Date, is independent and unconditional and shall not affected by the provision or non-provision of any communication by the Lender pursuant to this Clause 9 (Covenants). 
+        </span> 9.2. Negative Covenants: The Borrower and the Guarantor covenant and agree that, save with the prior written consent of the Lender,
+                                            <span class="pl-5 ml-5 float-left">a. (in the event that the Borrower or the Guarantor is a company) The Borrower or the Guarantor shall not enter into any scheme of merger, amalgamation, compromise or reconstruction. <br>
+        b. The Borrower or the Guarantor shall not let out of otherwise howsoever part with the possession of the Secured Assets, or any part thereof. <br>
+        c. (in the event that the Borrower or the Guarantor is an artificial entity) The Borrower and the Guarantor shall not change its capital structure in any manner. <br>
+        d. (in the event that the Borrower or the Guarantor is an artificial entity) The Borrower and the Guarantor shall not permit any change in the ownership or control of themselves whereby the effective beneficial ownership or control of the Borrower or the Guarantor shall change. <br>
+        e. (in the event that the Borrower or the Guarantor is an artificial entity) The Borrower and the Guarantor shall not affect any material change in the management of the business of the Borrower or the Guarantor.<br>
+        f. (in the event that the Borrower or the Guarantor is a company) The Borrower and the Guarantor shall not make any amendments to their Memorandum of Association or Articles of Association.<br>
+        g. The Borrower or the Guarantor shall not create, assume or incur any further indebtedness of a long term nature, whether in respect of money borrowed or otherwise.<br>
+        h. (in the event that the Borrower or the Guarantor is a company) The Borrower or the Guarantor shall not declare any dividend during the Term.<br>
+        i. The Borrower or the Guarantor shall not sell, lease, surrender or otherwise Encumber the Secured Assets or any part thereof or permit to exist any charge, Encumbrance or lien of any kind whatsoever over the Property.<br>
+        j. (in the event that the Borrower is an artificial entity) the Borrower shall not invest by way of share capital in or lend or advance funds to or place deposits with any other concern (including group companies); save the making of normal trade credit or security deposits in the ordinary course of business or advances to employees in the regular course. <br>
+        k. The Borrower or the Guarantor shall not undertake any guarantee obligation on behalf of any other person.<br>
+        l. (in the event that the Borrower is a company) The Borrower shall not repay unsecured loans and refund share application money (pending allotment), till the Loan is fully repaid.<br>
+        m. (in the event that the Borrower or the Guarantor is a Resident Indian) The Borrower or the Guarantor shall not without obtaining the prior written consent of the Lender leave India for employment or business or for long term stay outside India without fully repaying the Outstanding Balance except that the Borrower or the Guarantor may leave India for the purpose of short visits/trips m. not exceeding a period of 60 (Sixty) days at any given point of time, provided that such trip/ visit does not result in a change in the residential or citizenship status of the Borrower or the Guarantor under Applicable Law.<br>
+        n. (in the event that the Borrower is a Non-Resident Indian/ Person of Indian Origin) the Borrower hereby agrees and undertakes to abide by the provisions of Foreign Exchange Management Act, 1999 and all rules and regulations made thereunder (as amended from time to time) and all other Applicable Law with respect to purchasing, retaining, using and selling immovable property in India and repatriating the proceeds thereof outside India. The Borrower and the Guarantor hereby agrees to indemnify and keep indemnified the Lender of, from and against any losses, damages, costs, expenses or penalties which the Lender may incur or suffer as a result of the Borrower's failure to comply with the provisions of this Clause 9.2 (n) (Covenants).<br>
+        o. (If the Borrower or the Guarantor is a partnership firm) The Borrower or the Guarantor shall not initiate any proceedings for dissolution of the firm or admit any new partners to the partnership.<br>
+        p. The Borrower and the Guarantor shall not (i) default in payment of any sum to any person; (ii) breach any agreement with any person who has provided any loan, deposit, advance, guarantee or other financial facility to the Borrower/Guarantor or at the Borrower's/Guarantor's instance.</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+
+                        </div>
+                    </kendo-pdf-export>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

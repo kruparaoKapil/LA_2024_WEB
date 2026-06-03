@@ -1,0 +1,131 @@
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<style>
+
+</style>
+<div class="col-md-12 mt-5 mb-4">
+    <div id="template">
+        <div class="d-flex justify-content-end mr-3">
+            <ul class="temp-ul">
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Default Reminder Letter.pdf')" />
+                </li>
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <kendo-pdf-export #pdf class="page"  paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="false">
+                        <div id="temp-box">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <app-company-details></app-company-details>
+                                    <div class="report-head">
+                                        <p class="font-18 text-dark text-center m-0">Loan Closing Covering Letter</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                                <div class="row">
+
+
+                                    <div class="col-md-6">
+                                        <p class="font-14 mb-3 text-left m-0">18-Nov-2020</p>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="font-14 text-left m-0 mb-5">To<br> Mr.Saravana Kumar Shanmuganathan,<br> No:13/6/242,
+                                            <br> W-13,
+                                            <br> Bodi Thevaram Road,<br> B.Renganathapuram,
+                                            <br> Melachokkanathapuram,
+                                            <br> Bodi-625582.
+                                        </p>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Dear Customer,</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Subject: Closure of Loan- reg.</p>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Please find enclosed the Loan Closure Certificate for Loan Account Number: 5</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Title deeds and other documents related to the property/ies hitherto mortgaged in favour of the Company shall be returned only to the Borrower / Co-Borrower on production of this letter at the branch at which the
+                                            loan was availed.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">The post-dated security cheques bearing numbers 000031, 000032 and 000033 shall be returned by the Company to the Customer or their authorised representative with a duly signed authorisation letter of the customer
+                                            on production of this letter at the branch at which the loan was availed.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Please note that above mentioned PDCs will be destroyed by the company after 90 days from the date of closure of loan without any further notice to the customer.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>Sincerely,</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-5">For Enorme Capital Private Limited</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Authorised Signatory</p>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Name of the signatory: V P Vishnu Prasad<br>Designation: Managing Director<br> Email: vishnuprasad@enormecapital.com</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </kendo-pdf-export>
+                  
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

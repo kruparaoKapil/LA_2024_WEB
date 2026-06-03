@@ -1,0 +1,174 @@
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+
+      </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+
+
+<div class="section-container">
+  <div class="row p-0">
+      <div class="col-xl-12 col-md-12">
+          <div class="section-content ">
+
+              <form [formGroup]="sscAgendaForm">
+
+                <div class="row mt-3">
+                  <div class="col-md-4 col-xl-4" >
+                    <div class="form-group">
+                      <input type="radio" value="C" (change)="grouptype_change('Conformation')"  formControlName="pAgendaType">&nbsp;Confirmation
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-3">
+                  <div class="col-md-4 col-xl-4" >
+                    <div class="form-group">
+                      <label class="required-field" id="pEmployeeName" title="Employee">Employee</label>
+                      <ng-select title="Employee Names"  [items]="employeenamesList" [multiple]="false"
+                        formControlName="pEmployeeName" bindLabel="pEmployeeName" bindValue="pEmployeeName"
+                        placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true (change)="bindSelectedEmployee($event)" [ngClass]="{ 'is-invalid': sscAgendaValidation.pEmployeeName }">
+                      </ng-select>
+                      <div class="invalid-feedback">
+                        <span *ngIf="sscAgendaValidation.pEmployeeName">{{sscAgendaValidation?.pEmployeeName}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border-box">
+
+                  <div class="row mt-4">
+                    <div class="col-md-3 col-xl-3" >
+                      <div class="form-group">
+                        <span class="font-weight-bold">Employee Name   </span>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-xl-3" >
+                      <div class="form-group">
+                        <span class="text-primary font-weight-bold">{{selectedEmployeeDetails.pEmployeeName}}</span>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-xl-3" >
+                      <div class="form-group">
+                        <span class="font-weight-bold">EPF No.   </span>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-xl-3" >
+                      <div class="form-group">
+                        <span class="text-primary font-weight-bold">{{selectedEmployeeDetails.pPfno}}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-4">
+                    <div class="col-md-3 col-xl-3" >
+                      <div class="form-group">
+                        <span class="font-weight-bold">Designation   </span>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-xl-3" >
+                      <div class="form-group">
+                        <span class="text-primary font-weight-bold">{{selectedEmployeeDetails.pDesignation}}</span>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-xl-3" >
+                      <div class="form-group">
+                        <span class="font-weight-bold">Hire Date  </span>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-xl-3" >
+                      <div class="form-group">
+                        <span class="text-primary font-weight-bold">{{selectedEmployeeDetails.pDateOfJoining}}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <div class="font-weight-bold text-primary">
+                  Update Confirmation
+                </div>
+
+                <div class="row mt-3">
+
+                  <div class="col-md-4 col-xl-4" >
+                    <div class="form-group">
+                      <label class="required-field" id="designation" title="Designation">Designation</label>
+                      <ng-select title="Select Designation"  [items]="designationsList"
+                        formControlName="designation" bindLabel="designationname" bindValue="designationname" [multiple]="false"
+                        placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': sscAgendaValidation.designation }">
+                      </ng-select>
+                      <div class="invalid-feedback">
+                        <span *ngIf="sscAgendaValidation.designation">{{sscAgendaValidation?.designation}}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-xl-4" >
+                    <div class="form-group">
+                      <label  title="Date of Confirmation" id="dateofconfirmation">Date of Confirmation</label>
+                      <input  class="form-control" readonly type="text" [bsConfig]="datepickerConfig" bsDatepicker
+                      formControlName="dateofconfirmation">
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-xl-4" >
+                    <div class="form-group">
+                      <label title="Remarks" id="remarks">Remarks</label>
+                      <input type="text" class="form-control" formControlName="remarks">
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row mt-3">
+
+                  <div class="col-md-4 col-xl-4" >
+                    <div class="form-group">
+                      <label title="Ref No." id="refno">Ref No.</label>
+                      <input type="text" class="form-control" formControlName="refno">
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-xl-4" >
+                    <div class="form-group">
+                      <label id="minutesdate" title="Minutes Date">Minutes Date</label>
+                      <input  class="form-control" readonly type="text" [bsConfig]="datepickerConfig1" bsDatepicker
+                      formControlName="minutesdate">
+                    </div>
+                  </div>
+
+                </div>
+
+                <hr>
+
+              </form>
+
+
+              <div class="row mt-1 ml-1 mb-4">
+                <div class="col-md-12 col-xl-12">
+                  <div class="d-flex justify-content-end mt-4">
+
+                    <a data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearDetails()"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+
+
+                    <button appButtonDoubleClick [debounceTime]="500"
+                      (debounceClick)="saveSscAgenda()" class="btn btn-s-icon px-3 border-0">
+                      <img src="assets/images/icon-check-white.svg" class="mr-3" width="20px"
+                        height="20px" > Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+          </div>
+      </div>
+  </div>
+</div>
+

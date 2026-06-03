@@ -1,0 +1,143 @@
+<div class="row mt-5">
+  <div class="col-12">
+    <p class="bc-2">Taxes</p>
+  </div>
+</div>
+<form [formGroup]="TDSdetailsForm">
+  <div class="row">
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <div class="material-switch">
+          <span class="mr-2">TDS</span>
+          <input id="Employment" name="Employment" formControlName="pIstdsApplicable" type="checkbox"
+            (change)="tdsCheck($event)">
+          <label for="Employment" class="badge-success"></label>
+        </div>
+      </div>
+
+      <div class="form-group" *ngIf="tdsshow">
+        <label id="ptdsSectionName" title="TDS Section No">TDS Section No</label>
+        <div class="input-group">
+          <select id="ptdsSectionName" title="TDS" class="form-control" formControlName="ptdsSectionName"
+            [ngClass]="{ 'is-invalid': tdsValidationErrors.ptdsSectionName }">
+            <option value="" ng-selected="selected">Select</option>
+            <option *ngFor="let tdsdetails of TDSsectiondetails" [value]="tdsdetails.pTdsSection">
+              {{tdsdetails.pTdsSection}}</option>
+          </select>
+          <div class="input-group-append" hidden>
+            <button class="btn btn-lg-icon px-2 p-0" (click)="OpenModel('TDS')"> <img
+                src="assets/images/icon-add-blue.svg" class="" width="20px" height="20px"></button>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="tdsValidationErrors.ptdsSectionName">{{tdsValidationErrors?.ptdsSectionName}}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="light">
+
+    <div class="col-md-6 col-xl-4">
+      <!-- <div class="form-group">
+        <label class="sec-head">GST</label>
+      </div> -->
+      <div class="form-group" >
+        <div class="material-switch">
+          <span class="mr-2 mt-2">GST</span>
+          <input id="Employment1" name="Employment1" type="checkbox" formControlName="pIsgstApplicable"
+            (change)="gstCheck($event)">
+          <label for="Employment1" class="badge-success"></label>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="gstshow">
+        <label id="pStateName" title="State">State</label>
+        <div class="input-group">
+          <select id="" class="form-control" formControlName="pStateName"
+            [ngClass]="{ 'is-invalid': tdsValidationErrors.pStateName }">
+            <option value="" ng-selected="selected">Select</option>
+            <option *ngFor="let state of stateDetails" [value]="state.pState">{{state.pState}}</option>
+          </select>
+          <div class="input-group-append" hidden>
+            <button class="btn btn-lg-icon px-2 p-0" (click)="OpenModel('State')"> <img
+                src="assets/images/icon-add-blue.svg" class="" width="20px" height="20px"></button>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="tdsValidationErrors.pStateName">{{tdsValidationErrors?.pStateName}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="gstshow">
+        <label id="pGstType" title="GST type">GST type</label>
+        <div class="input-group">
+          <select class="form-control" formControlName="pGstType"
+            [ngClass]="{ 'is-invalid': tdsValidationErrors.pGstType }">
+            <option value="" ng-selected="selected">Select</option>
+            <option *ngFor="let gstdetails of GSTdetails" [value]="gstdetails.pGstType">{{gstdetails.pGstType}}</option>
+          </select>
+          <div class="input-group-append" hidden>
+            <button class="btn btn-lg-icon px-2 p-0" (click)="OpenModel('GST')"> <img
+                src="assets/images/icon-add-blue.svg" class="" width="20px" height="20px"></button>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="tdsValidationErrors.pGstType">{{tdsValidationErrors?.pGstType}}</span>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="form-group">
+        <label>GST No.</label>
+        <input type="text" class="form-control">
+      </div> -->
+      <div class="form-group" *ngIf="gstshow">
+        <label id="pGstNo" title="GST No.">GST No.</label>
+        <input type="text" appUppercase value="" maxlength="15" class="form-control" placeholder="Enter GST No."
+          formControlName="pGstNo" [ngClass]="{ 'is-invalid':tdsValidationErrors.pGstNo  }">
+        <div class="invalid-feedback">
+          <span *ngIf="tdsValidationErrors.pGstNo">{{tdsValidationErrors?.pGstNo}}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</form>
+
+
+<!-- modal -->
+<div class="modal right animated slideInRight" id="add-detail">
+  <div class="modal-dialog">
+    <div class="model-cst modal-content">
+      <!-- Modal body -->
+      <div class="modal-body">
+
+        <button type="button" class="close" (click)="CloseModel()">&times;</button>
+        <form [formGroup]="MasterForm">
+
+          <div class="form-group" *ngIf="ShowTds">
+            <label id="pTdsSection" title="TDS" for="">New TDS Name</label>
+            <input appIfsccodevalidator type="text" class="form-control" formControlName="pTdsSection"
+              [ngClass]="{ 'is-invalid':ModelValidationErrors.pTdsSection  }">
+            <div class="invalid-feedback">
+              <span *ngIf="ModelValidationErrors.pTdsSection">{{ModelValidationErrors?.pTdsSection}}</span>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="ShowGst">
+            <label id="pGstType" title="GST" for="">New GST Name</label>
+            <input appIfsccodevalidator type="text" class="form-control" formControlName="pGstType"
+              [ngClass]="{ 'is-invalid':ModelValidationErrors.pGstType  }">
+            <div class="invalid-feedback">
+              <span *ngIf="ModelValidationErrors.pGstType">{{ModelValidationErrors?.pGstType}}</span>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end mt-4">
+            <a class="btn close btn-g-icon mr-4 px-3 border-0" (click)="Clearmodel()"><img
+                src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear </a>
+            <a *ngIf="savebuttonshow" (click)="savemodel()" data-toggle="tab" class="btn btn-b-icon px-3 border-0"
+              role="tab" aria-controls="hot" aria-selected="false">
+              <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

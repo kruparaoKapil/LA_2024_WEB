@@ -1,0 +1,100 @@
+<form [formGroup]="CompanyNameCodeForm">
+    <!-- <div class="row">
+        <div class="col-12 mt-5 p-0">
+            <p class="bc-2 pl-3">Share Capital Name and Code</p>
+        </div>
+    </div> -->
+    <div class="row mt-5">
+        <div class="col-md-4 col-xl-4">
+            <!-- <div class="form-group">
+                <label>Share Capital Name</label>
+                <input type="text" class="form-control" value="">
+            </div> -->
+            <div class="form-group">
+                <label title="Share Capital Name" id="psharename">Share Capital Name</label>
+                <input appCharactersonly appUppercase class="form-control" formControlName="psharename"
+                [attr.disabled]="ShareNameDisable? '' : null"    (blur)="GenerateShareCode($event)" type="text" maxlength="50"
+                    placeholder="Enter Share Capital Name" value=""
+                    [ngClass]="{ 'is-invalid': NameandCodeValidationErrors.psharename }">
+                <div class="invalid-feedback">
+                    <span
+                        *ngIf="NameandCodeValidationErrors.psharename">{{NameandCodeValidationErrors?.psharename}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xl-4">
+            <!-- <div class="form-group">
+                <label>Share Capital Code</label>
+                <input type="text" class="form-control" value="">
+            </div> -->
+            <div class="form-group">
+                <label title="Share Capital Code" id="psharecode">Share Capital Code</label>
+                <input   appUppercase class="form-control" (blur)="ChangeCode($event)" formControlName="psharecode" type="text"
+                    maxlength="15" [attr.disabled]="ShareCodeDisable? '' : null"  placeholder="Enter Share Capital Code" value=""
+                    [ngClass]="{ 'is-invalid': NameandCodeValidationErrors.psharecode }">
+                <div class="invalid-feedback">
+                    <span
+                        *ngIf="NameandCodeValidationErrors.psharecode">{{NameandCodeValidationErrors?.psharecode}}</span>
+                </div>
+            </div>
+        </div>
+        <hr class="light">
+        <div class="col-md-4 col-xl-4">
+            <div class="row">
+                <div class="col-md-4 col-xl-4 m-0">
+                    <div class="form-group m-0">
+                        <label>Company Code</label>
+                    </div>
+                    <div class="form-group m-0">
+                        <label class="font-weight-bold text-grey">{{CompanyCode}}</label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xl-4 m-0">
+                    <div class="form-group m-0">
+                        <label>Branch Code</label>
+                    </div>
+                    <div class="form-group m-0">
+                        <label class="font-weight-bold text-grey">{{BranchCode}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xl-4">
+            <!-- <div class="form-group m-0">
+                <label>Series</label>
+            </div>
+            <div class="form-group m-0">
+                <input class="form-control" value="001">
+            </div> -->
+            <div class="form-group">
+                <label title="Series" id="pseries">Series</label>
+                <input appNumbersonly class="form-control" formControlName="pseries" (blur)="ChangeCode($event)" type="text" maxlength="5"
+                    placeholder="Enter Series" [attr.disabled]="seriesDisable? '' : null" value=""
+                    [ngClass]="{ 'is-invalid': NameandCodeValidationErrors.pseries }">
+                <div class="invalid-feedback">
+                    <span *ngIf="NameandCodeValidationErrors.pseries">{{NameandCodeValidationErrors?.pseries}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xl-4">
+            <div class="form-group m-0">
+                <label>Share Capital Name and Code</label>
+            </div>
+            <div class="form-group ">
+                <label class="font-weight-bold text-grey">{{ShareNameCode}}</label>
+            </div>
+        </div>
+        <hr class="light">
+    </div>
+</form>
+
+
+<!-- <div class="row">
+    <div class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end mt-4"> <a href="#" class="btn btn-g-icon mr-4 px-3 border-0"><img
+                    src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a> <a
+                href="#loanconfig" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot"
+                aria-selected="false"><img src="assets/images/icon-chewron-right-whitesolid.svg" width="20px"
+                    height="20px" class="mr-3" />Next</a> </div>
+    </div>
+</div> -->

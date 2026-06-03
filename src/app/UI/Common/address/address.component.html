@@ -1,0 +1,114 @@
+
+    <form [formGroup]="addressForm">
+        <div class="row">
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label id="paddress1" title="Address Line 1">Address Line 1</label>
+                    <input type="text" value="" formControlName="paddress1" class="form-control" maxlength="100"  appAddressformat
+                        [ngClass]="{ 'is-invalid': addressformErrorMessage.paddress1 }"
+                        >
+                    <div class="invalid-feedback-cst">
+                        <span *ngIf="addressformErrorMessage.paddress1">{{addressformErrorMessage.paddress1}}</span>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label id="paddress2" title="Address Line 2">Address Line 2</label>
+                    <input type="text" value="" formControlName="paddress2" class="form-control"  maxlength="100" appAddressformat
+                        [ngClass]="{ 'is-invalid': addressformErrorMessage.paddress2 }">
+                    <div class="invalid-feedback-cst">
+                        <span *ngIf="addressformErrorMessage.paddress2">{{addressformErrorMessage.paddress2}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label id="pcity" title="City / Village">City / Village</label>
+                    <input type="text" value="" class="form-control" formControlName="pcity"maxlength="75" appAddressformat 
+                        [ngClass]="{ 'is-invalid': addressformErrorMessage.pcity }">
+                    <div class="invalid-feedback-cst">
+                        <span *ngIf="addressformErrorMessage.pcity">{{addressformErrorMessage.pcity}}</span>
+                    </div>
+                </div>
+            </div>
+            <hr class="light">
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label id="pCountry" title="Country">Country</label>
+                    <select id="" class="form-control" formControlName="pCountryId" 
+                        [ngClass]="{ 'is-invalid': addressformErrorMessage.pCountry }"
+                        (change)="pCountry_Change($event)">
+                        <option value="" ng-selected="selected">Select</option>
+                        <option *ngFor="let country of countryDetails" [value]="country.pCountryId">{{country.pCountry}}
+                        </option>
+
+                    </select>
+                    <div class="invalid-feedback-cst">
+                        <span *ngIf="addressformErrorMessage.pCountry">{{addressformErrorMessage.pCountry}}</span>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="d-flex">
+                    <div class="col-md-6 col-xl-6 pl-0">
+                        <div class="form-group">
+                            <label id="pState" title="State">State</label>
+                            <select id="" class="form-control" formControlName="pStateId" 
+                                [ngClass]="{ 'is-invalid': addressformErrorMessage.pState }"
+                                (change)="pState_Change($event)">
+                                <option value="" ng-selected="selected">Select</option>
+                                <option *ngFor="let state of stateDetails" [value]="state?.pStateId">{{state?.pState}}
+                                </option>
+
+                            </select>
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="addressformErrorMessage.pState">{{addressformErrorMessage.pState}}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-6 pr-0">
+                        <div class="form-group">
+                            <label id="pDistrict" title="District">District</label>
+                            <select id="" class="form-control" formControlName="pDistrictId"
+                                [ngClass]="{ 'is-invalid': addressformErrorMessage.pDistrict }"
+                                (change)="pDistrict_Change($event)">
+                                <option value="" ng-selected="selected">Select</option>
+                                <option *ngFor="let district of districtDetails" [value]="district?.pDistrictId">
+                                    {{district?.pDistrict}}</option>
+
+                            </select>
+                            <div class="invalid-feedback-cst">
+                                <span
+                                    *ngIf="addressformErrorMessage.pDistrict">{{addressformErrorMessage.pDistrict}}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label id="Pincode" title="pincode">Pincode</label>
+                    <input type="text" value="" class="form-control" formControlName="Pincode" appNumbersonly maxlength="6"
+                        [ngClass]="{ 'is-invalid': addressformErrorMessage.Pincode }">
+                    <div class="invalid-feedback-cst">
+                        <span *ngIf="addressformErrorMessage.Pincode">{{addressformErrorMessage.Pincode}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+<style>
+
+    .right{
+        transform: rotate(90deg)
+    }
+   
+</style>

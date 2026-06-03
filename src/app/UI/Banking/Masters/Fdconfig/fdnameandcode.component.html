@@ -1,0 +1,84 @@
+<div class="">
+    <!-- <div class="col-12 mt-5 p-0">
+        <p class="bc-2">FD Name and Code</p>
+    </div> -->
+</div>
+<form [formGroup]="fdNameAndCodeform">
+    <div class="row mt-5">
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group" [ngClass]="forDisableFirstTab ? 'disableTabs' : ''">
+              <label for="" id="pFdname" title="LA Name">LA Name</label>
+                <input appUppercase  maxlength="50" class="form-control" type="text"
+                formControlName="pFdname" value=""  (change)="GenerateRdname($event)"
+                [ngClass]="{ 'is-invalid': formValidationMessages.pFdname }">
+                <app-validation-message [messgae]="formValidationMessages.pFdname"></app-validation-message>
+            </div>
+        </div>
+        <!--col-end-->
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group" [ngClass]="forDisableFirstTab ? 'disableTabs' : ''">
+              <label for="" id="pFdcode" title="LA Code">LA Code</label>
+                <input  maxlength="10" class="form-control" 
+                appUppercase appAlphanumericcharsonly (change)="changeRdcode($event)"
+                type="text" value="" 
+                [ngClass]="{ 'is-invalid': formValidationMessages.pFdcode }" formControlName="pFdcode">
+                <small class="form-text clr-orange"></small> 
+                <app-validation-message [messgae]="formValidationMessages.pFdcode"></app-validation-message>
+            </div>
+        </div>
+        <!--col-end-->
+        <hr class="light">
+        <!--col-end-->
+        <div class="col-md-6 col-xl-4">
+            <div class="row">
+                <div class="col-md-6 col-xl-6 m-0">
+                    <div class="form-group m-0" >
+                        <label>Company Code</label>
+                    </div>
+                    <div class="form-group m-0">
+                        <label class="font-weight-bold text-grey">{{cCode}}</label>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-6 m-0">
+                    <div class="form-group m-0">
+                        <label>Branch Code</label>
+                    </div>
+                    <div class="form-group m-0">
+                        <label class="font-weight-bold border-0 text-grey">{{bCode}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--col-end-->
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group" [ngClass]="forDisableFirstTab ? 'disableTabs' : ''">
+                <label id="pSeries" title="Series">Series</label>
+                <input maxlength="5" class="form-control" type="text"
+                formControlName="pSeries" (change)="GenerateSeries($event)" value="">
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group m-0">
+              <label>LA Name Code</label>
+            </div>
+            <div class="form-group ">
+                <label class="font-weight-bold text-grey">{{fdNameAndCode}}</label>
+            </div>
+        </div>
+        <hr class="light">
+        <!--col-end-->
+    </div>
+    <!--row-end-->
+
+    <!--row-end-->
+</form>
+<!--form-end-->
+<!--form-end-->
+
+<!--row-end-->
+<!-- <div class="d-flex justify-content-end mt-4"> <a href="#" class="btn btn-g-icon mr-4 px-3 border-0"><img
+            src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a> <a
+        href="#loanconfig" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot"
+        aria-selected="false"><img src="assets/images/icon-chewron-right-whitesolid.svg" width="20px" height="20px"
+            class="mr-3" />Next</a> </div> -->
+<!--buttons-end-->

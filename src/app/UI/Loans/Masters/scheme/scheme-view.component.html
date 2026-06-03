@@ -1,0 +1,121 @@
+<div class="row mt-4">
+  <div class="col-12">
+    <p class="bc-2">Scheme View</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 col-xl-4 mt-4"><a (click)="newschemeform()" routerLink="/SchemeMaster"
+      class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg" width="20px" height="20px"
+        class="mr-3" />New</a> </div>
+</div>
+
+
+<!--col-end-->
+<div class="d-flex justify-content-end">
+  <ul class="temp-ul mt-2">
+    <!-- <li class="temp-ico ml-2"><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></li>
+    <li class="temp-ico ml-2"><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel" width="20px"></li> -->
+  </ul>
+</div>
+
+
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+      <h3>
+        Loading...
+      </h3>
+
+    </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+<!--form-end-->
+<!--form-end-->
+<div class="row mt-5">
+  <div class="col-md-12 col-xl-12">
+    
+      
+    <kendo-grid [kendoGridBinding]="GridData"  [kendoGridSelectBy]="'id'" [groupable]="true" [columnMenu]="{ filter: true }" [group]="groups"
+      [reorderable]="true" [resizable]="true" [height]="480" [sort]="gridState.sort" [pageable]="{ buttonCount: 2 }"
+      [sortable]="true" [selectedKeys]="mySelection" [pageSize]="10" (edit)="editHandler($event)"
+      (remove)="removeHandler($event)">
+      <ng-template kendoGridToolbarTemplate>
+       
+        <div class="row mb-5">
+          <div class="col-4 pl-0 mt-n1">
+            <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+              (input)="onFilter($event.target.value)" />
+          </div>
+          <div class="col-7 pr-0 pl-4 ml-4">
+            <ul class="temp-ul mt-n1 mr-n2  pull-right">
+              <li class="temp-ico ml-2">
+                <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                    width="20px"></a></li>
+              <li class="temp-ico ml-2">
+                <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                    width="20px"></a></li>
+              <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+            </ul>
+          </div>
+        </div>
+      </ng-template>
+      <kendo-grid-command-column field="" title="Edit" width="100" >
+        <ng-template kendoGridCellTemplate>
+          <button kendoGridEditCommand>
+            <div id="icon-edit"></div>
+          </button>
+        </ng-template>
+      </kendo-grid-command-column>
+
+      <kendo-grid-command-column field="" title="Delete" width="100" >
+        <ng-template kendoGridCellTemplate>
+          <button kendoGridRemoveCommand>
+            <div id="icon-delete"></div>
+          </button>
+        </ng-template>
+      </kendo-grid-command-column>
+      <kendo-grid-column-group title="Scheme" [headerClass]="{'kendo-g-center' : true}">
+      <kendo-grid-column field="pSchemename" title="Scheme Name"></kendo-grid-column>
+      <kendo-grid-column field="pSchemecode" title="Scheme Code"></kendo-grid-column>
+      <kendo-grid-column field="pLoantype" title="Loan Type"></kendo-grid-column>
+      <kendo-grid-column field="pLoanname" title="Loan Name"></kendo-grid-column>
+      <kendo-grid-column field="pEffectfromdate" title="Effective from"></kendo-grid-column>
+      <kendo-grid-column field="pEffecttodate" title="Effective To"></kendo-grid-column>
+      <kendo-grid-column field="pStatusname" title="Status"></kendo-grid-column>
+     
+      </kendo-grid-column-group>
+      <kendo-grid-pdf fileName="Scheme.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [landscape]="true">
+          <ng-template kendoGridPDFTemplate>
+              <div class="page-template">
+                 <div class="header bc-2 text-center">
+                  <h5> Scheme </h5>
+                 </div>
+               </div>
+             </ng-template>
+        <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+        <kendo-grid-column field="pSchemename" title="Scheme Name"></kendo-grid-column>
+        <kendo-grid-column field="pSchemecode" title="Scheme Code"></kendo-grid-column>
+        <kendo-grid-column field="pLoantype" title="Loan Type"></kendo-grid-column>
+        <kendo-grid-column field="pLoanname" title="Loan Name"></kendo-grid-column>
+        <kendo-grid-column field="pEffectfromdate" title="Effective from"></kendo-grid-column>
+        <kendo-grid-column field="pEffecttodate" title="Effective To"></kendo-grid-column>
+        <kendo-grid-column field="pStatusname" title="Status"></kendo-grid-column>
+      </kendo-grid-pdf>
+      <kendo-grid-excel fileName="Scheme.xlsx">
+          <kendo-excelexport-column-group title="Scheme" [headerCellOptions]="headerCells">
+        <kendo-excelexport-column field="pSchemename" title="Scheme Name"></kendo-excelexport-column>
+        <kendo-excelexport-column field="pSchemecode" title="Scheme Code"></kendo-excelexport-column>
+        <kendo-excelexport-column field="pLoantype" title="Loan Type"></kendo-excelexport-column>
+        <kendo-excelexport-column field="pLoanname" title="Loan Name"></kendo-excelexport-column>
+        <kendo-excelexport-column field="pEffectfromdate" title="Effective from"></kendo-excelexport-column>
+        <kendo-excelexport-column field="pEffecttodate" title="Effective To"></kendo-excelexport-column>
+        <kendo-excelexport-column field="pStatusname" title="Status"></kendo-excelexport-column>
+          </kendo-excelexport-column-group>
+      </kendo-grid-excel>
+    </kendo-grid>
+  </div>
+</div>

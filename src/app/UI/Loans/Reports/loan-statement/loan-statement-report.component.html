@@ -1,0 +1,258 @@
+
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+      <h3>
+      </h3>
+
+    </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+<div *ngIf="LoanAccountStatementView">
+  <div class="d-flex justify-content-end mr-3">
+    <ul class="temp-ul">
+
+      <li class="temp-ico ml-2">
+        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Loan_Statement.pdf')" />
+      </li>
+      <li class="temp-ico ml-2">
+        <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+      </li>
+    </ul>
+
+  </div>
+  <kendo-pdf-export #pdf [allPages]="true" [repeatHeaders]="true" [landscape]="false">
+    <div id="temp-box">
+      <div class="mt-2 border rounded shadow-sm bg-white">
+        <app-company-details></app-company-details>
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="report-head">
+              <p class="font-16 text-dark text-center">
+                Loan Statement ({{pVchapplicationid}})
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+        <div class="row">
+          <!-- <div class="col-md-6">
+                            <div class="">
+                                <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+          font-weight: bold !important;">Printed on :</span>
+                                <label class="print-font">{{todaydate | date :'dd-MMM-yy h:mm:ss a '}}</label>
+                            </div>
+                        </div> -->
+          <!-- <div class="col-md-6">
+                        <div class="">
+                            <p class="font-14 text-right m-0" style="font-size: 14px !important;
+          font-weight: bold !important;">Date : <label class="print-font">DD/MM/YYYY</label></p>
+                        </div>
+                    </div> -->
+        </div>
+        <hr class="light">
+
+        <div class="row border rounded pb-4 mt-3">
+          <div class="col-12 p-0 mb-4">
+            <div class="p-2" style="background:#f4f4f4 !important;">
+              <p class="bc-2 m-0">Contact Details</p>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Name</label>
+              <label class="print-font">: {{pTitlename}} {{pName}}</label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Father Name</label>
+              <label class="print-font">: {{pFathername}}</label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Address</label>
+              <label class="print-font">: {{pAddress}}</label>
+            </p>
+          </div>
+          <div class="col-md-4">
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Mobile No</label>
+              <label class="print-font">: {{pMobileno}}</label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Email Id</label>
+              <label class="print-font">: {{pEmailid}}</label>
+            </p>
+            <!--<p class="m-0">
+              <label class="font-weight-bold w-50">Adhar No</label>
+              <label class="print-font">: {{pAadharno}}</label>
+            </p>-->
+            <!--<p class="m-0">
+              <label class="font-weight-bold w-50">Pan No</label>
+              <label class="print-font">: {{pPanNo}}</label>
+            </p>-->
+          </div>
+          <div class="col-md-3">
+            <div class="text-right">
+              <img [src]="pContactImagePath" alt="img" class="rounded-circle" width="120px" height="120px">
+            </div>
+          </div>
+        </div>
+
+        <hr class="light">
+
+        <div class="row border rounded pb-4 mt-3">
+          <div class="col-12 p-0 mb-4">
+            <div class="p-2" style="background:#f4f4f4 !important;">
+              <p class="bc-2 m-0">Loan Details</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Loan No</label>
+              <label class="print-font">: {{pVchapplicationid}}</label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Loan Amount</label>
+              <label class="print-font">: {{pLoanamount | mycurrencypipe}}</label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Loan Name</label>
+              <label class="print-font">: {{pLoanname}}</label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Tenure</label>
+              <label class="print-font">: {{pTenure}}</label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Interest Rate%</label>
+              <label class="print-font">: {{pInterest}}(P.A)</label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Disburse Date</label>
+              <label class="print-font">: {{pDisbursedDate}}</label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Loan Installment Mode</label>
+              <label class="print-font">: {{ploaninstalmentpaymentmode}}</label>
+            </p>
+          </div>
+          <div class="col-md-4">
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Instalment Amount</label>
+              <label class="print-font">: {{pInstalmentamount | mycurrencypipe}}</label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">First Instalment Date</label>
+              <label class="print-font">: {{pFirstinstalmentdate}}</label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Last Instalment Date</label>
+              <label class="print-font">: {{pLastinstalmentdate}}</label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Loan Payin</label>
+              <label class="print-font">: {{pLoanpayin}}</label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Current Status</label>
+              <label class="print-font">: {{pCurrentStatus}}</label>
+            </p>
+
+            <p class="m-0" *ngIf="pLoanclosedDate!=null">
+              <label class="font-weight-bold w-50">Loan Closed Date</label>
+              <label class="print-font">: {{pLoanclosedDate}}</label>
+            </p>
+          </div>
+
+        </div>
+        <div class="row border rounded pb-4 mt-3">
+          <div class="col-12 p-0 mb-4">
+            <div class="p-2" style="background:#f4f4f4 !important;">
+              <p class="bc-2 m-0">Documents</p>
+            </div>
+          </div>
+          <div class="col-12">
+            <kendo-grid [kendoGridBinding]="papplicantdocuments" [pageable]="false" [sortable]="false" [groupable]="false" [reorderable]="true" [resizable]="true">
+
+              <kendo-grid-column field="pDocumentGroup" title="Document Group" [headerClass]="{'kendo-left': true}" class="kendo-left"></kendo-grid-column>
+              <kendo-grid-column field="pDocumentName" title="Document Name"></kendo-grid-column>
+              <kendo-grid-column field="pDocReferenceno" title="Reference No.">
+
+                <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+                  <span *ngIf="dataItem.pDocReferenceno!=''">xxxxxxxxxxxx</span>
+                  <!--{{dataItem.pDocReferenceno | mycurrencypipe}}-->
+                </ng-template>
+
+              </kendo-grid-column>
+
+            </kendo-grid>
+          </div>
+        </div>
+
+        <div class="row border rounded pb-4 mt-3">
+          <div class="col-12 p-0 mb-4">
+            <div class="p-2" style="background:#f4f4f4 !important;">
+              <p class="bc-2 m-0">Transaction Details</p>
+            </div>
+          </div>
+          <div class="col-12">
+            <kendo-grid [kendoGridBinding]="pTransactionListDetails" [pageable]="false" [sortable]="false" [groupable]="false" [reorderable]="true" [resizable]="true">
+              <!--
+              <ng-template kendoGridToolbarTemplate>
+                  <div class="row mt-4 mb-3">
+                      <div class="col-4 pl-0 mt-n1">
+                      </div>
+                      <div class="col-12">
+                          <ul class="temp-ul  pull-right">
+                              <li class="temp-ico ml-2">
+                                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                              </li>
+                              <li class="temp-ico ml-2">
+                                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel" width="20px"></a>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+
+              </ng-template> -->
+              <kendo-grid-column field="pTransDate" title="Transaction Date"></kendo-grid-column>
+              <kendo-grid-column field="pTransno" title="Transaction No."></kendo-grid-column>
+              <kendo-grid-column field="pParticulars" title="Particulars"></kendo-grid-column>
+
+              <kendo-grid-column title="Debit" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  <div *ngIf="dataItem.pDebitamount == 0"></div>
+                  <div *ngIf="dataItem.pDebitamount !== 0">
+                    {{dataItem.pDebitamount | mycurrencypipe}}
+                  </div>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column title="Credit" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  <div *ngIf="dataItem.pCreditamount == 0"></div>
+                  <div *ngIf="dataItem.pCreditamount !== 0">
+                    {{dataItem.pCreditamount | mycurrencypipe}}
+                  </div>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column title="Balance" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  <div *ngIf="dataItem.pDisbursedamount == 0"></div>
+                  <div *ngIf="dataItem.pDisbursedamount !== 0">
+                    {{dataItem.pBalance | mycurrencypipe}} {{dataItem.pBalanceCreditorDebit}}
+                  </div>
+                </ng-template>
+              </kendo-grid-column>
+
+            </kendo-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </kendo-pdf-export>
+</div>

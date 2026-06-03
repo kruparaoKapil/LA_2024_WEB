@@ -1,0 +1,539 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6 ">
+        <p class="bc-2">Promoter Salary</p>
+    </div>
+    <div class="col-md-6 col-xl-6 ">
+        <span (click)="back()" class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+      color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;">
+      <img src="assets/images/icon-back-blue.svg" width="25px" height="25px">View
+    </span>
+    </div>
+</div>
+
+
+<div class="row mt-3">
+    <div class="col-md-8 col-xl-8">
+        <div class="section-container">
+            <form [formGroup]="CommissionPaymentForm" autocomplete="off">
+                <div class="row mt-1">
+                    <div class="col-md-4 col-xl-4">
+                        <label id="pCommissionpaymentDate" title="AsOn date" class="mt-1" for="">As On date</label>
+                        <div class="form-group">
+                            <fieldset [disabled]="!disabletransactiondate">
+                                <input class="col-md-12 col-xl-12 form-control" value="" readonly [bsConfig]="dpConfig" formControlName="pCommissionpaymentDate" #dp="bsDatepicker" [bsValue]="bsValue" bsDatepicker placement="bottom" (ngModelChange)="Datechange($event)" />
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-6">
+
+                        <label id="pagentid" title="Referral Name">Referral Name</label>
+                        <div class="form-group">
+                            <ng-select [items]="ShowAgentnames" formControlName="pagentid" bindLabel="pagentname" bindValue="pagentid" [multiple]=false placeholder="Select" [searchable]="true" [clearable]=true (change)="agentnamechange($event);" dropdownPosition="bottom" [clearOnBackspace]=true
+                                [ngClass]="{ 'is-invalid': CommisionPaymentErrors.pagentid }">
+                                <ng-template ng-header-tmp>
+                                    <label class="col-4 p-0"><strong>Referral Name</strong> </label>
+
+                                    <label class="col-4 p-0"><strong>Code</strong> </label>
+
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                    <div class="row">
+                                        <span class="col-4 text-dark">{{item.pagentname}}</span>
+                                        <span class="col-4 text-dark word-break text-wrap">{{item.preferralcode}}</span>
+
+                                    </div>
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                        <!-- <select class="form-control" formControlName="pagentid" (change)="agentnamechange($event)"
+              [ngClass]="{ 'is-invalid': CommisionPaymentErrors.pagentid }">
+              <option ng-selected="selected" value="">Select</option>
+              <option *ngFor="let i of ShowAgentnames" [value]="i.pagentid">{{i.pagentname}}</option>
+            </select> -->
+                        <div class="invalid-feedback">
+                            <span *ngIf="CommisionPaymentErrors.pagentid">{{CommisionPaymentErrors?.pagentid}}</span>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-4 col-xl-4 pull-right">
+                        <div class="form-group mt-4 pt-1">
+                            <div class="d-flex justify-content-end">
+                                <a href="#" data-toggle="modal" data-target="#member-details" (click)="ShowPromoterSalaryDetails()" class="btn btn-b-icon px-3 border-0 collapsed" aria-expanded="false">
+                                    <img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-3">Show
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+                <!------------------Start-Grid----------------------------------------->
+                <div class="row" formGroupName="pcommissionpaymentlist">
+
+                    <div class="col-md-12 col-xl-12 mt-2">
+                        <div>
+                            <!-- [pageSize]="5" [skip]="skip" [pageable]="{buttonCount: 2}" -->
+                            <kendo-grid [kendoGridBinding]="commissionpaymentlist" [resizable]="true" [sortable]="true" [selectedKeys]="mySelection" (remove)="removeHandler($event)"  [selectable]="selectableSettings">
+                                <kendo-grid-column title="Select All" field="add" class="pl-2" width="40">
+                                    <ng-template kendoGridHeaderTemplate let-dataItem let-rowIndex="rowIndex">
+                                        <input type="checkbox" name="selectAll" (change)="selectAllStudentsChange($event,dataItem,rowIndex)" [checked]="allStudentsSelected" />
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                        <input type="checkbox" (change)="clickselectforpayments($event,dataItem,rowIndex)" [checked]="dataItem.add" />
+                                    </ng-template>
+                                </kendo-grid-column>
+
+
+                                <!--<kendo-grid-column title="Select" width="60" [locked]="true">
+    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+      <input type="checkbox" (change)="clickselectforpayments($event,dataItem,rowIndex)"/>
+    </ng-template>
+  </kendo-grid-column>-->
+
+
+                                <kendo-grid-column field="pdebitaccountid" hidden="hidden" title="DebitaccountId">
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="pbankingtranstype" width="130" class="kendo-left" title="Trans Type">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pMembername" title="Member Name" width="130" [locked]="false">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pSchemeAccountno" width="150" title="Account No.">
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="pDepositamount" title="Amount" width="130" class="kendo-center">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.pDepositamount |currencypipewithdecimal }}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pMaturityamount" title="Maturity Amount" width="130" class="kendo-center">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.pMaturityamount |currencypipewithdecimal }}
+                                    </ng-template>
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="pCommissionamount" title="Commission Amount" width="150" class="kendo-center">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.pCommissionamount |currencypipewithdecimal }}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pTdsamount" title="TDS Amount" width="130" class="kendo-center">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.pTdsamount |currencypipewithdecimal }}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="ptotalamount" title="Paid Amount" width="130" class="kendo-center">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.ptotalamount |currencypipewithdecimal }}
+                                    </ng-template>
+                                </kendo-grid-column>
+
+
+                            </kendo-grid>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-----------------End-Grid ----------------------------------------------------->
+                <div class="row mt-3 justify-content-end">
+                    <div class="col-md-8 col-xl-8 text-right">
+                        <label class="text-dark pl-4">Total Payment Amount : </label>
+                        <label> {{total | currencypipewithdecimal}} </label>
+
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-12 col-xl-12">
+                        <div class="form-group mt-2">
+                            <label id="pnarration" title="Narration">Narration</label>
+                            <textarea class="form-control" maxlength="250" formControlName="pnarration" [ngClass]="{ 'is-invalid': CommisionPaymentErrors.pnarration}" rows="4"></textarea>
+                            <div class="invalid-feedback">
+                                <span *ngIf="CommisionPaymentErrors.pnarration">{{CommisionPaymentErrors?.pnarration}}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <!----------------------------Mode of Payment------------------------------------->
+                <div class="row mt-2">
+                    <div class="mt-1 mb-4 col-12 ">
+                        <div class="rounded border p-2 pt-3 pl-3 shadow-sm">
+                            <p class="bc-2">Mode of Payment</p>
+                            <div class="form-group mt-2  pl-0">
+                                <div class="form-check form-check-inline radio-btn">
+                                    <input class="form-check-input" type="radio" name="pModeofreceipt" formControlName="pModeofreceipt" id="CASH" value="CASH" (change)="Paymenttype()">
+                                    <label class="mt-1 w-m-100 text-center" for="CASH">Cash -{{cashBalance}}
+                  </label>
+                                </div>
+                                <div class="form-check form-check-inline radio-btn ">
+                                    <input class="form-check-input" type="radio" name="pModeofreceipt" formControlName="pModeofreceipt" id="BANK" value="BANK" (change)="Paymenttype()">
+                                    <label class="mt-1 w-m-100 text-center" for="BANK">
+                    Bank - {{bankBalance}}
+                  </label>
+                                </div>
+                                <div class="form-check form-check-inline radio-btn " hidden>
+                                    <input class="form-check-input" type="radio" name="pModeofreceipt" formControlName="pModeofreceipt" id="ADJUSTMENT" value="ADJUSTMENT" (change)="Paymenttype()">
+                                    <label class="mt-1 w-m-100 text-center" for="ADJUSTMENT">
+                    Adjustment
+                  </label>
+                                </div>
+
+
+                            </div>
+
+
+                            <!----------------------------------------------->
+                            <div class="Instrument" *ngIf="showModeofPayment">
+                                <div class="row">
+                                    <div class="ml-3 mb-3 rounded border pl-2 pr-2 badge-light " *ngIf="showtranstype" id="pmodofPayment" title="Trans Type">
+                                        <div class="form-check form-check-inline radio-btn-secondary">
+                                            <input class="form-check-input" type="radio" name="ptranstype" formControlName="ptranstype" (change)="transofPaymentChange('CHEQUE')" id="cheque" value="CHEQUE" checked>
+                                            <label class="mt-1" for="cheque"> Cheque </label>
+                                        </div>
+
+
+                                        <div class="form-check form-check-inline radio-btn-secondary">
+                                            <input class="form-check-input " type="radio" name="ptranstype" formControlName="ptranstype" (change)="transofPaymentChange('ONLINE')" id="net" value="ONLINE">
+                                            <label class="mt-1" for="net"> Online </label>
+                                        </div>
+
+                                        <div class="form-check form-check-inline radio-btn-secondary">
+                                            <input class="form-check-input " type="radio" name="ptranstype" formControlName="ptranstype" (change)="transofPaymentChange('DEBIT CARD')" id="debit" value="DEBIT CARD">
+                                            <label class="mt-1" for="debit"> Debit Card </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12" *ngIf="showCheque">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label id="pbankid" title="Bank Name">Bank Name</label>
+                                                <select class="form-control" id="pbankname" title="Bank Name" formControlName="pbankid" (change)="bankName_Change($event)" [ngClass]="{ 'is-invalid': CommisionPaymentErrors.pbankid }">
+                          <option [value]="" ng-selected="selected">Select</option>
+                          <option *ngFor="let bank of banklist;trackBy: trackByFn" [value]="bank.pbankid">
+                            {{bank.pbankname}}</option>
+                        </select>
+                                                <div class="invalid-feedback">
+                                                    <span *ngIf="CommisionPaymentErrors.pbankid">{{CommisionPaymentErrors?.pbankid}}</span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label id="pbranchname" title="Branch Name">Branch Name</label>
+                                                <input class="form-control" type="text" id="pbranchname" title="Branch Name" formControlName="pbranchname" [ngClass]="{ 'is-invalid': CommisionPaymentErrors.pbranchname }">
+                                                <div class="invalid-feedback">
+                                                    <span *ngIf="CommisionPaymentErrors.pbranchname">{{CommisionPaymentErrors?.pbranchname}}</span>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label id="pchequeno" title="Cheque No.">Cheque No.</label>
+                                                <select class="form-control" id="pchequeno" title="Cheque No" formControlName="pchequeno" (change)="chequenumber_Change()" [ngClass]="{ 'is-invalid': CommisionPaymentErrors.pchequeno }">
+                          <option [value]="" ng-selected="selected">Select</option>
+                          <option *ngFor="let chequenumbers of chequenumberslist;trackBy: trackByFn"
+                            [value]="chequenumbers.pChequenumber">{{chequenumbers.pChequenumber}}</option>
+                        </select>
+                                                <div class="invalid-feedback">
+                                                    <span *ngIf="CommisionPaymentErrors.pchequeno">{{CommisionPaymentErrors?.pchequeno}}</span>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="showOnline">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="pbankid" title="Bank Name">Bank Name</label>
+                                            <select class="form-control" id="pbanknameonline" title="Bank Name" formControlName="pbankid" [ngClass]="{ 'is-invalid': CommisionPaymentErrors.pbankid }" (change)="bankName_Change($event)">
+                        <option value="" ng-selected="selected">Select</option>
+                        <option *ngFor="let bank of banklist1;trackBy: trackByFn" [value]="bank.pbankid">
+                          {{bank.pbankname}}</option>
+                      </select>
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="CommisionPaymentErrors.pbankid">{{CommisionPaymentErrors?.pbankid}}</span>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="ptypeofpayment" title="Type of Payment">Type of Payment</label>
+                                            <select class="form-control " id="ptypeofpayment" title="Type of Payment" formControlName="ptypeofpayment" (change)="typeofPaymentChange ()" [ngClass]="{ 'is-invalid': CommisionPaymentErrors.ptypeofpayment }">
+                        <option value="" ng-selected="selected">Select</option>
+                        <option *ngFor="let typeofpayment of typeofpaymentlist;trackBy: trackByFn"
+                          [value]="typeofpayment.ptypeofpayment">{{typeofpayment.ptypeofpayment}}</option>
+                      </select>
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="CommisionPaymentErrors.ptypeofpayment">{{CommisionPaymentErrors?.ptypeofpayment}}</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+                                            <label id="preferencenoonline" title="Reference No">Reference No.</label>
+                                            <input class="form-control" type="text" placeholder="Reference No" id="preferencenoonline" title="Reference No" formControlName="preferencenoonline" [ngClass]="{ 'is-invalid': CommisionPaymentErrors.preferencenoonline }">
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="CommisionPaymentErrors.preferencenoonline">{{CommisionPaymentErrors?.preferencenoonline}}</span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div id="UPI1" *ngIf="showupi">
+
+                                            <div class="form-group">
+                                                <label id="pUpiname" title="UPI">UPI</label>
+                                                <select class="form-control" id="pUpiname" title="UPI" formControlName="pUpiname" (change)="upiName_Change($event)" [ngClass]="{ 'is-invalid': CommisionPaymentErrors.pUpiname }">
+                          <option value="" ng-selected="selected">Select</option>
+                          <option *ngFor="let upinames of upinameslist;trackBy: trackByFn" [value]="upinames.pUpiname">
+                            {{upinames.pUpiname}}</option>
+                        </select>
+                                                <div class="invalid-feedback">
+                                                    <span *ngIf="CommisionPaymentErrors.pUpiname">{{CommisionPaymentErrors?.pUpiname}}</span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div id="UPI2" *ngIf="showupi">
+
+                                            <div class="form-group">
+                                                <label id="pUpiid" title="UPI ID">UPI ID</label>
+                                                <select class="form-control" id="pUpiid" title="UPI ID" formControlName="pUpiid" (change)="upid_change()" [ngClass]="{ 'is-invalid': CommisionPaymentErrors.pUpiid }">
+                          <option value="" ng-selected="selected">Select</option>
+                          <option *ngFor="let upinames1 of upiidlist;trackBy: trackByFn" [value]="upinames1.pUpiid">
+                            {{upinames1.pUpiid}}</option>
+                        </select>
+                                                <div class="invalid-feedback">
+                                                    <span *ngIf="CommisionPaymentErrors.pUpiid">{{CommisionPaymentErrors?.pUpiid}}</span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="showdebitcard">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="pdebitcard" title="Debit Card">Debit Card</label>
+                                            <select class="form-control" id="pdebitcard" title="Debit Card" formControlName="pdebitcard" [ngClass]="{ 'is-invalid': CommisionPaymentErrors.pdebitcard }" (change)="debitCard_Change($event)">
+                        <option value="" ng-selected="selected">Select</option>
+                        <option *ngFor="let debitcard of debitcardlist;trackBy: trackByFn"
+                          [value]="debitcard.pCardNumber">
+                          {{debitcard.pCardNumber}}</option>
+                      </select>
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="CommisionPaymentErrors.pdebitcard">{{CommisionPaymentErrors?.pdebitcard}}</span>
+                                            </div>
+
+
+                                            <!--<div class="invalid-feedback">
+                      <span *ngIf="InterestPaymentErrors.pdebitcard">{{InterestPaymentErrors?.pbankid}}</span>
+                    </div>-->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="pfinancialservice" title="Bank / Financial Services">Bank / Financial Services</label>
+                                            <input class="form-control" type="text" id="pfinancialservice" title="Bank / Financial Services" formControlName="pfinancialservice" [ngClass]="{ 'is-invalid': CommisionPaymentErrors.pfinancialservice }">
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="CommisionPaymentErrors.pfinancialservice">{{CommisionPaymentErrors?.pfinancialservice}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label id="preferencenodcard" title="Reference No">Reference No.</label>
+                                            <input class="form-control" type="text" placeholder="Reference No" id="preferencenodcard" title="Reference No" formControlName="preferencenodcard" [ngClass]="{ 'is-invalid': CommisionPaymentErrors.preferencenodcard }">
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="CommisionPaymentErrors.preferencenodcard">{{CommisionPaymentErrors?.preferencenodcard}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!------------------------------------------------->
+                            </div>
+                            <div class="SavingAccount" *ngIf="SavingAccountShowhide">
+                                <div class="row">
+                                    <div class="col-md-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label id="pSavingsMemberAccountid" title="Saving Account No.">Saving Account
+                        No.</label>
+                                            <!-- 
+                            <div class="input-group">
+                                <select class="form-control ">
+                                  <option data-toggle="collapse" data-target="">BJS010011111_Aadi Y</option>
+                
+                                </select>
+                            </div> -->
+                                            <div class="form-group" [ngClass]="{'for-disable-radio-btn': notEditable}">
+
+                                                <ng-select [items]="SavingsAccounts" formControlName="pSavingsMemberAccountid" bindLabel="pSavingsMemberAccountno" bindValue="pSavingsMemberAccountid" [multiple]=false placeholder="Select" [searchable]="true" [clearable]=true (change)="SavingsAccountsChanges($event);"
+                                                    dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': CommisionPaymentErrors.pSavingsMemberAccountid }">
+                                                    <ng-template ng-header-tmp>
+                                                        <label class="col-4 p-0"><strong>Account No</strong> </label>
+
+                                                        <label class="col-4 p-0"><strong>Member Name</strong> </label>
+
+                                                    </ng-template>
+                                                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                                        <div class="row">
+                                                            <span class="col-4 text-dark">{{item.pSavingsMemberAccountno}}</span>
+                                                            <span class="col-4 text-dark word-break text-wrap">{{item.pSavingsMemberAccountName}}</span>
+
+                                                        </div>
+                                                    </ng-template>
+                                                </ng-select>
+                                                <span class=" position-absolute font-italic" style="right:-110px; top:35px;">{{SavingsMemberBalance | mycurrencypipe}} Cr</span>
+                                                <app-validation-message [messgae]="CommisionPaymentErrors?.pSavingsMemberAccountid">
+                                                </app-validation-message>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label id="" title="">Balance</label>
+                            <span class="col-4 text-dark word-break text-wrap">{{SavingsMemberBalance}} cr</span>
+                        </div>
+                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!------------- save Buttons ------------>
+
+            <div class="row mt-2 ml-1 mb-4">
+                <div class="col-md-12 col-xl-12">
+                    <div class="d-flex justify-content-end" [ngClass]="{'for-disable-radio-btn': disablesavebutton}">
+
+
+
+                        <a data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearCommisionPayment()"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+
+                        <a data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="saveCommisionPayment()">
+                            <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" *ngIf="!disablesavebutton">
+                            <i class="fa" *ngIf="disablesavebutton" [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i> {{savebutton}}
+                        </a>
+
+
+
+                    </div>
+                </div>
+            </div>
+            <!------------- save Buttons ------------>
+
+
+
+        </div>
+    </div>
+    <div class="col-md-4 col-xl-4 pl-0">
+        <div class="section-container p-3">
+            <div class="sec-head pb-2">Referral Name : {{pagentname}}</div>
+
+            <kendo-grid [data]="agentcontactlist" [sortable]="true" [resizable]="true" height="500" width="100">
+
+                <kendo-grid-column field="pfdaccountno" title="Account No." width="120" class="kendo-left">
+
+                </kendo-grid-column>
+                <kendo-grid-column field="pmembername" title="Member" width="150" class="kendo-left">
+
+                </kendo-grid-column>
+                <!-- <kendo-grid-column field="pAgentName" title="Agent" width="150">
+         
+        </kendo-grid-column>  -->
+                <!-- <kendo-grid-column field="pBankName" title="Bank" width="150">
+         
+        </kendo-grid-column> 
+        <kendo-grid-column field="pBankAccountNo" title="Account No." width="150">
+         
+        </kendo-grid-column> 
+        <kendo-grid-column field="pBankIfsccode" title="Ifsc Code" width="150">
+         
+        </kendo-grid-column>
+        <kendo-grid-column field="pBankBranch" title="Branch" width="150">
+         
+        </kendo-grid-column>    
+
+        <kendo-grid-column field="ptenor" title="Tenure" width="100">
+         
+        </kendo-grid-column>         -->
+
+                <kendo-grid-column field="pinterestrate" title="Interest Rate" width="100" class="kendo-left">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pinterestrate}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pdepositamount" title="Deposit Amt." width="150" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pdepositamount |mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pmaturityamount" title="Maturity Amt." width="150" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pmaturityamount |mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pinterestpayable" title="Interest Payable" width="120" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pinterestpayable|mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pdepositdate" title="Deposit Date" width="120" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pdepositdate | date: 'dd/MM/yyyy'}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pmaturitydate" title="Maturity Date" width="150" [headerClass]="{'kendo-center': true}" class="kendo-left">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pmaturitydate | date: 'dd/MM/yyyy'}}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pcommsssionvalue" title="Commission Percentage" width="130" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pcommsssionvalue |mycurrencypipe}}
+
+                    </ng-template>
+
+                </kendo-grid-column>
+
+
+
+            </kendo-grid>
+
+        </div>
+
+
+    </div>
+
+</div>

@@ -1,0 +1,424 @@
+<div class="section-container" *ngIf="preMaturityType == 'Pre-Maturity' ">
+<div class="col-md-12 mt-5 mb-4">
+    <div id="template">
+        <div class="d-flex justify-content-end mr-3">
+            <ul class="temp-ul">
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf"
+                        style="cursor: pointer;" kendo-button (click)="pdf.saveAs(preMaturityType+'.pdf')" />
+                </li>
+                <!-- <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print"
+                        (click)="print()" style="cursor: pointer;" />
+                </li> -->
+            </ul>
+
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true"
+                        [landscape]="false" [scale]="0.7">
+                        <div id="temp-box">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <app-company-details></app-company-details>
+
+                                    <div class="report-head">
+                                        <p class="font-18 text-dark text-center m-0">
+                                            PRE MATURITY DETAILS
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="temp-box-inner border rounded shadow-sm bg-white p-3"
+                                style="overflow:hidden; height:auto !important;">
+                                <div class="row">
+                                    <!-- <div class="col-md-12">
+                                        <p class="font-18 text-dark text-center m-0">
+                                            <span class="font-16">(Num Id : 985 )</span>
+                                        </p>
+                                    </div> -->
+                                    <div class="col-md-6">
+                                        <div class="border p-2 h-200">
+                                            <div class="row">
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Branch Name  </label>
+                                                    <!-- <label class="font-weight-normal">: {{DNREDDYNAGAR}}</label> -->
+                                                    <label class="font-weight-normal">: {{pBranchName}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Date </label>
+                                                    <label class="font-weight-normal">: {{pDepositDate}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Mature Date  </label>
+                                                    <label class="font-weight-normal">: {{pMaturitydate}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Premature Date 
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pPre_Maturitydate}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Period </label>
+                                                    <label class="font-weight-normal">: {{pTenor}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Premature Period In Days 
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pPeriodin_days}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Mode
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pInterestpayoutPre}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Extra Return Rate
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pPre_interest_rate}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Premature Int Rate
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pInterestrate}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Extra Return Amount
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pInterestpayable |mycurrencypipe}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">TDS Amount
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pTdsamount |mycurrencypipe}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="border p-2 h-200">
+                                            <div class="row">
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Member Name
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pMembername}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Amount</label>
+                                                    <label class="font-weight-normal">: {{pDepositamount | mycurrencypipe}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Actual Extra Return Paid </label>
+                                                    <label class="font-weight-normal">: {{pInterest_paid |mycurrencypipe}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Breach Of Contrast 5%
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pDamages | mycurrencypipe}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Promoter Salary
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pAgent_commssion_payable | mycurrencypipe}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Total
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pTotal}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Calculate Extra Return
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pCalculate_extra_return | mycurrencypipe}}</label>
+                                                </div>
+                                                <div class="col-md-12 mt-3">
+                                                    <label class="bc-1 font-14 text-left  w-50">Net Payable
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pNetpayable | mycurrencypipe}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            
+
+
+                               
+                            </div>
+
+                        </div>
+                    </kendo-pdf-export>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+
+<div class="section-container" *ngIf="preMaturityType == 'Maturity' ">
+    <div class="col-md-12 mt-5 mb-4">
+        <div id="template">
+            <div class="d-flex justify-content-end mr-3">
+                <ul class="temp-ul">
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf"
+                            style="cursor: pointer;" kendo-button (click)="pdf.saveAs(preMaturityType+'.pdf')" />
+                    </li>
+                    <!-- <li class="temp-ico ml-2">
+                        <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print"
+                            (click)="print()" style="cursor: pointer;" />
+                    </li> -->
+                </ul>
+    
+            </div>
+    
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+    
+                        <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true"
+                            [landscape]="false" [scale]="0.6">
+                            <div id="temp-box">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <app-company-details></app-company-details>
+    
+                                        <div class="report-head">
+                                            <p class="font-18 text-dark text-center m-0">
+                                                Maturity Details
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="temp-box-inner border rounded shadow-sm bg-white p-3"
+                                style="overflow:hidden; height:auto !important;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="font-18 text-dark text-center m-0">
+                                            <span class="font-16">(Num Id : {{preMaturityDataId}} )</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="border p-2 h-200">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Branch Name  </label>
+                                                    <label class="font-weight-normal">: {{pBranchName}}</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-4 w-50">App Date</label>
+                                                    <label class="font-weight-normal">: {{pDepositDate}}</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Mode Of Extra
+                                                        Return </label>
+                                                    <label class="font-weight-normal">: {{pInterestpayoutMA}}</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Scheme Amount
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pDepositamount |mycurrencypipe}}</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Extra Return
+                                                        Amount </label>
+                                                    <label class="font-weight-normal">: {{pInterestpayable | mycurrencypipe}}</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-4 w-50">TDS Amount
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pTdsamount |mycurrencypipe}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="border p-2 h-200">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Member Name 
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pMembername}}</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Maturity
+                                                        Date</label>
+                                                    <label class="font-weight-normal">: {{pMaturitydate}}</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Period </label>
+                                                    <label class="font-weight-normal">: {{pTenor}}</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Net Payble
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pNetpayable | mycurrencypipe}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" *ngIf="showGrid">
+                                    <div class="col-md-12">
+                                        <label>Lien release details of</label>
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <td>S.No</td>
+                                                <td>Kapil Branch Name</td>
+                                                <td>Group Code Ticket No</td>
+                                                <td>Lien Amount</td>
+                                                <td>Released By</td>
+                                                <td>Release Date</td>
+                                            </tr>
+                                            <tr *ngFor="let lienList of lienReleaseList let i = index">
+                                                <td>{{i+1}}</td>
+                                                <td>{{lienList.pKapilbranchaname}}</td>
+                                                <td>{{lienList.pGroupcode}}</td>
+                                                <td>{{lienList.pLienamount | mycurrencypipe}}</td>
+                                                <td>{{lienList.pReleasedby}}</td>
+                                                <td>{{lienList.pReleaseddate | date}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="row">
+    <div class="col-md-6">
+        <div class="form-check mt-2">
+            <input type="checkbox" class="form-check-input" id="originalCertificate" (change)="clickOriginalCertificate($event)">
+            <label class="form-check-label" for="originalCertificate">Original Certificate  :{{originalCertificate}} </label>
+          </div>
+            <div class="form-check mt-2">
+                <input type="checkbox" class="form-check-input" id="panCard">
+                <label class="form-check-label" for="panCard">PAN Card: </label>
+            </div>
+            <div class="form-check mt-2">
+                <input type="checkbox" class="form-check-input" id="signatureVerified">
+                <label class="form-check-label" for="signatureVerified">Signature Verified :</label>
+            </div>
+            </div>
+    <div class="col-md-6">
+        <div class="form-check mt-2">
+            <input type="checkbox" class="form-check-input" id="originalApplication">
+            <label class="form-check-label" for="originalApplication">Original Application: </label>
+          </div>
+            <div class="form-check mt-2">
+                <input type="checkbox" class="form-check-input" id="lienStatement">
+                <label class="form-check-label" for="lienStatement">Lien Statement: </label>
+            </div>
+            <div class="form-check mt-2">
+                <input type="checkbox" class="form-check-input" id="certficateHolderLetter">
+                <label class="form-check-label" for="certficateHolderLetter">Certficate Holder Letter:</label>
+            </div>
+            </div>
+</div> -->
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-check mt-2">
+                                            <input type="checkbox" class="form-check-input"
+                                                id="originalCertificateCheck"
+                                                (change)="clickOriginalCertificate($event)">
+                                            <label class="form-check-label" for="originalCertificateCheck">Original
+                                                Certificate: {{originalCertificate}}</label>
+                                        </div>
+                                        <div class="form-check mt-2">
+                                            <input type="checkbox" class="form-check-input" id="panCardCheck" (change)="panCard($event)">
+                                            <label class="form-check-label" for="panCardCheck">PAN Card: {{paCard}}</label>
+                                        </div>
+                                        <div class="form-check mt-2">
+                                            <input type="checkbox" class="form-check-input" id="signatureVerifiedCheck">
+                                            <label class="form-check-label" for="signatureVerifiedCheck">Signature
+                                                Verified:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mt-2">
+                                            <input type="checkbox" class="form-check-input"
+                                                id="originalApplicationCheck">
+                                            <label class="form-check-label" for="originalApplicationCheck">Original
+                                                Application:</label>
+                                        </div>
+                                        <div class="form-check mt-2">
+                                            <input type="checkbox" class="form-check-input" id="lienStatementCheck">
+                                            <label class="form-check-label" for="lienStatementCheck">Lien
+                                                Statement:</label>
+                                        </div>
+                                        <div class="form-check mt-2">
+                                            <input type="checkbox" class="form-check-input"
+                                                id="certificateHolderLetterCheck">
+                                            <label class="form-check-label"
+                                                for="certificateHolderLetterCheck">Certificate Holder Letter:</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row mt-5">
+                                    <div class="col-md-3 col-sm-3" style="bottom:0px;">
+                                        <div class="temp-sign-box text-center">
+                                            <!-- <label class="font-14 m-0">Manager Name</label> -->
+                                            <p class="font-14 font-weight-bold text-dark mb-4">
+                                                (Manager)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3" style="bottom:0px;">
+                                        <div class="temp-sign-box text-center">
+                                            <!-- <label class="font-14 m-0">Incharge Name</label> -->
+                                            <p class="font-14 font-weight-bold text-dark mb-4">
+                                                (Incharge)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+                                        <div class="temp-sign-box text-center">
+                                            <!-- <label class="font-14 m-0">Verified</label> -->
+                                            <p class="font-14 font-weight-bold text-dark mb-4">
+                                                (Verified By)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+                                        <div class="temp-sign-box text-center">
+                                            <!-- <label class="font-14 m-0">Surendra</label> -->
+                                            <p class="font-14 font-weight-bold text-dark mb-4">
+                                                (Account Officer)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            </div>
+                        </kendo-pdf-export>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+</div>
+
+
+<!-- <div class="col-md-12 col-xl-12 mt-5 text-center">
+    <p class="bc-2">{{receiptName}}</p>
+</div> -->
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>

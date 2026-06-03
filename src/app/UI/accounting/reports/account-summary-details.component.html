@@ -1,0 +1,313 @@
+<div class="col-md-12 col-xl-12 mb-3 p-0">
+	<img class="position-fixed" src="assets/images/cross.svg" width="20" height="20" style="right:6px; top:90px;"
+		title="close this screen">
+	<p class="bc-2">Account summary</p>
+</div>
+<div class="section-container">
+	<div class="my-container">
+		<ng-template #customLoadingTemplate>
+			<div class="custom-class">
+
+			</div>
+		</ng-template>
+		<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+		</ngx-loading>
+
+	</div>
+	<div class="col-md-12 p-0">
+		<div id="template">
+			<form [formGroup]="Accontsummaryform">
+				<div class="row mb-2 pb-4">
+					<div class="col-xl-2 col-md-2 mt-4">
+						<div class="form-check form-check-inline check-btn-secondary">
+							<input class="form-check-input" type="checkbox" id="ason" formControlName="date"
+								(change)="checkox($event)">
+							<label class="mt-2" for="ason"> As On:</label>
+						</div>
+					</div>
+					<div class=" col-xl-2 col-md-2 form-group">
+						<label id="dfromdate" title="FromDate">{{FromDate}}</label>
+						<label style="color: #fff !important;">bfbnfb</label>
+						<input type="text" class="form-control" [bsConfig]="dpConfig" readonly bsDatepicker
+							#dp="bsDatepicker" (ngModelChange)="checkfromdate()" formControlName="dfromdate"
+							placeholder="DD/MM/YYYY" />
+					</div>
+					<div *ngIf="showdate" class="col-xl-2 col-md-2">
+						<div class="form-group">
+							<label id="dtodate" title="To Date">To Date</label>
+							<input type="text" class="form-control" [bsConfig]="dppConfig" readonly bsDatepicker
+								#dp="bsDatepicker" (ngModelChange)="checktodate()" formControlName="dtodate"
+								placeholder="DD/MM/YYYY" />
+							<div *ngIf="validation" class="text-danger">
+								please select valid date
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-6 col-md-6 form-group">
+						<label title="Ledger" id="pledgerid">Ledger</label>
+						<!-- <select multiple class="form-control" id="MultiSelctdropdown" formControlName="pledgerid">
+							</select> -->
+						<ng-select title="Ledger" id="pledgerid" [items]="ledgeraccountslist"
+							formControlName="pledgerid" groupBy="pAccounttype" bindLabel="pledgername"
+							bindValue="pledgerid" [multiple]=true placeholder="Select" [searchable]=true
+							[clearable]=true dropdownPosition="bottom" (change)="ledgerChange($event)"
+							[clearOnBackspace]=true [ngClass]="{ 'is-invalid': accountsummaryvalidations.pledgerid }">
+						</ng-select>
+						<div class="invalid-feedback">
+							<span
+								*ngIf="accountsummaryvalidations.pledgerid">{{accountsummaryvalidations?.pledgerid}}</span>
+						</div>
+						<!-- <div *ngIf="validationforledger" class="text-danger">
+						select the ledger
+					</div> -->
+					</div>
+					<!-- <div class="justify-content-end d-flex col-md-4">
+						<div class="form-group ">
+							<label style="color: #fff !important;" class="w-100">bfbnfb</label>
+							<button aria-controls="hot" aria-selected="false" class="btn btn-b-icon  border-0"
+								data-toggle="tab" role="tab" (click)="generateaccountsummary()">
+								<i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+								<span *ngIf="!isLoading"><img class="mr-3" height="20px"
+										src="assets/images/reports-white.svg" width="20px"></span> {{savebutton}}
+							</button>
+						</div>
+					</div> -->
+				</div>
+				<div class="row mb-2 pb-4">
+					<div class="justify-content-end d-flex col-md-12">
+						<div class="form-group ">
+							<button aria-controls="hot" aria-selected="false" class="btn btn-b-icon  border-0"
+								data-toggle="tab" role="tab" (click)="generateaccountsummary()">
+								<i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+								<span *ngIf="!isLoading"><img class="mr-3" height="20px"
+										src="assets/images/reports-white.svg" width="20px"></span> {{savebutton}}
+							</button>
+						</div>
+					</div>
+				</div>
+			</form>
+			<!-- <div class="d-flex justify-content-end">
+			<ul class="temp-ul">
+				<li class="temp-ico">
+					<img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf"
+						style="cursor: pointer;" (click)="pdf.saveAs('AccountSummaryDetails('+fromdate+').pdf')" />
+				</li>
+				<li class="temp-ico">
+					<img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print"
+						style="cursor: pointer;" (click)="print()" />
+				</li>
+
+			</ul>
+
+		</div> -->
+			<!-- <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="false" [scale]="0.9"> -->
+			<div id="temp-box">
+				<div class="mt-2 border rounded shadow-sm bg-white">
+					<div class="row">
+						<div class="col-md-12">
+							<app-company-details></app-company-details>
+
+							<div class="report-head mt-2">
+								<p class="font-16 text-dark text-center m-0">
+									Account Summary - {{ledgerNameDisplay}}
+								</p>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="border  shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="">
+								<span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+					font-weight: bold !important;">{{betweendates}} :</span>
+								<label class="print-font">{{betweenfrom}} {{inbetween}} {{betweento}} </label>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="row pt-2">
+						<div class="col-12">
+
+							<!-- <kendo-grid [kendoGridBinding]="gridData" [groupable]="false" [group]="groups"
+								[kendoGridSelectBy]="'id'" [reorderable]="true" [sortable]="true" [resizable]="true"> -->
+
+
+							<kendo-grid [kendoGridBinding]="gridData" [sortable]="true" [selectedKeys]="mySelection"
+								[kendoGridSelectBy]="'id'" [pageSize]="10" [group]="groups" [pageable]="true"
+								[skip]="skip" height="500" [selectable]="selectableSetting">
+								<ng-template kendoGridToolbarTemplate>
+									<div class="mb-3">
+										<div class="col-12 mt-5">
+											<ul class="temp-ul pull-right mr-4 pb-3">
+												<li class="temp-ico ml-2">
+													<a kendoGridPDFCommand><img class="pt-2"
+															src="assets/images/pdf-icon-blue.svg " title="pdf"
+															width="20px"></a>
+												</li>
+												<!-- <li class="temp-ico">
+											<img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+										</li> -->
+												<li class="temp-ico ml-2">
+													<a kendoGridExcelCommand><img class="pt-2"
+															src="assets/images/icon-excel.svg " title="excel"
+															width="20px"></a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</ng-template>
+
+								<kendo-grid-column field="paccountname" title="Particulars"></kendo-grid-column>
+								<kendo-grid-column [hidden]="ledger" field="pparentname" title="Ledger">
+								</kendo-grid-column>
+								<kendo-grid-column field="popeningbal" title="Opening Balance"
+									[hidden]="hidegridcolumn"></kendo-grid-column>
+								<kendo-grid-column field="pdebitamount" title="Debit Amount"
+									[headerClass]="{'kendo-right': true}" class="kendo-right"
+									[footerClass]="{'kendo-right': true}">
+									<ng-template kendoGridCellTemplate let-dataItem>
+										<div *ngIf="dataItem.pdebitamount == 0"></div>
+										<div *ngIf="dataItem.pdebitamount !== 0">
+											{{dataItem.pdebitamount.toFixed(2) | mycurrencypipe}}
+										</div>
+									</ng-template>
+									<ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+										<p class="text-danger text-right">{{aggregates[field].sum.toFixed(2) |
+											mycurrencypipe}}</p>
+									</ng-template>
+								</kendo-grid-column>
+
+								<kendo-grid-column field="pcreditamount" title="Credit Amount" class="text-center">
+									<ng-template kendoGridCellTemplate let-dataItem>
+										<div *ngIf="dataItem.pcreditamount == 0"></div>
+										<div *ngIf="dataItem.pcreditamount !== 0">
+											<span> {{dataItem.pcreditamount.toFixed(2) | mycurrencypipe}}</span>
+										</div>
+									</ng-template>
+									<ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+												<div class="row">
+											<div class="col-md-12 col-xl-12">
+												<p class="text-center">{{aggregates[field].sum.toFixed(2) | mycurrencypipe}}</p>
+<div class="d-flex">
+										<p id="pTotalpaymentamount" class="text-dark pl-4">Total : </p>
+										<p><strong class="bc-2 pl-2">
+												{{totalPayment | currencypipewithdecimal}}</strong></p>
+</div>
+									</div>
+</div>
+
+
+									
+
+
+									</ng-template>
+									<ng-template kendoGridGroupFooterTemplate let-aggregates>
+												<div class="d-flex justify-content-center">
+											<div class="col-md-12 col-xl-12">
+												<div class="">
+														<p class="text-center">{{aggregates[field].sum.toFixed(2) | mycurrencypipe}}</p>
+												</div>
+												<div class="d-flex">
+												<p id="pTotalpaymentamount" class="text-dark pl-4">Total : </p>
+												<p><strong class="bc-2 pl-2">
+												{{totalPayment | currencypipewithdecimal}}</strong></p>
+												</div>
+
+										
+
+
+										
+</div>
+									</div>
+									</ng-template>
+
+								</kendo-grid-column>
+
+
+
+								<kendo-grid-column field="pclosingbal" [headerClass]="{'kendo-right': true}"
+									title="Closing Balance" [hidden]="hidegridcolumn" class="kendo-right">
+								</kendo-grid-column>
+
+								<kendo-grid-pdf fileName="AccountSummaryDetails {{fromdate}}.pdf" [allPages]="true"
+									paperSize="A4" [repeatHeaders]="true" [scale]="0.5" [margin]="0.5"
+									[landscape]="false">
+
+									<kendo-grid-pdf-margin top="5cm" left="0.5cm" right="0.5cm"
+										bottom="2cm"></kendo-grid-pdf-margin>
+
+										
+									<ng-template kendoGridPDFTemplate>
+										<div class="page-template">
+											<div class="header">
+												<app-company-details></app-company-details>
+												<!-- <div class="row">
+										<span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+							font-weight: bold !important;">{{betweendates}} :</span>
+										<label class="print-font" style="font-weight: bold !important;">{{betweenfrom}} {{inbetween}} {{betweento}} </label>
+									</div> -->
+
+												<div class="report-head mt-2">
+													<p class="font-15 text-dark text-center m-0"
+														[ngClass]="{ 'bold-text': isBold }">
+														<span class="text-capitalize">Account Summary -
+															{{ledgerNameDisplay}}</span>
+													</p>
+
+
+												</div>
+												<div class="row mt-3">
+													<div class="col-md-6">
+														<div class="">
+															<span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+									font-weight: bold !important;">{{betweendates}} :</span>
+															<label class="print-font">{{betweenfrom}} {{inbetween}}
+																{{betweento}} </label>
+														</div>
+													</div>
+
+												</div>
+											</div>
+
+										</div>
+
+									</ng-template>
+
+
+								
+
+								</kendo-grid-pdf>
+								<kendo-grid-excel fileName="AccountSummaryDetails.xlsx"
+									[fetchData]="allData"></kendo-grid-excel>
+								
+
+							</kendo-grid>
+
+							
+
+
+
+
+
+						</div>
+					</div>
+					<!-- <div class="row">
+						<div class="col-md-6 text-right text-danger">
+							Total:{{caldebitamount  | mycurrencypipe}}
+						</div>
+						<div class="col-md-6 text-center text-danger">
+							Total:{{calcreditamount  | mycurrencypipe}}
+						</div>
+					</div> -->
+
+				</div>
+			</div>
+			<!-- </kendo-pdf-export> -->
+
+		</div>
+	</div>
+</div>

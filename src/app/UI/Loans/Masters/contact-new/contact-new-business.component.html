@@ -1,0 +1,568 @@
+<div *ngIf="showPage">
+    <form [formGroup]="contactForm" autocomplete="off">
+
+        <div class="row">
+            <div class="col-12 ">
+                <h2 class="bc-2">Business Details</h2>
+            </div>
+
+            <div class="col-md-4 col-xl-4">
+                <div class="form-group">
+                    <fieldset [disabled]="disablecontactname">
+                        <label id="pName" class="required-field" title="Name of the Enterprise">Name of the Enterprise</label>
+                        <input class="form-control" maxlength="75" type="text" appEnterpriseNameFormat appTitlecaseword formControlName="pName" placeholder="Enter Name of the Enterprise" [ngClass]="{ 'is-invalid': contactValidationErrors.pName }" (blur)="filter($event)" onkeydown="return (event.keyCode!=13);">
+                        <app-validation-message [messgae]="contactValidationErrors?.pName">
+                        </app-validation-message>
+
+                        <!-- <div class="invalid-feedback">
+                                <span *ngIf="contactValidationErrors.pName">{{contactValidationErrors?.pName}}</span>
+                            </div> -->
+                    </fieldset>
+                </div>
+                <div class="form-group">
+                    <label id="pBusinessEntityContactno" class="required-field" title="Enterprise Contact No.">Enterprise Contact No.</label>
+                    <input class="form-control" maxlength="12" type="text" appNumbersonly formControlName="pBusinessEntityContactno" placeholder="Enter Enterprise Contact No." [ngClass]="{ 'is-invalid': contactValidationErrors.pBusinessEntityContactno }">
+
+                    <app-validation-message [messgae]="contactValidationErrors?.pBusinessEntityContactno">
+                    </app-validation-message>
+
+                    <!-- <div class="invalid-feedback">
+                            <span *ngIf="contactValidationErrors.pBusinessEntityContactno">{{contactValidationErrors?.pBusinessEntityContactno}}</span>
+                        </div> -->
+                </div>
+                <div class="form-group">
+                    <label id="pBusinessEntityEmailid" title="Enterprise Email ID">Enterprise Email ID</label>
+                    <input class="form-control" maxlength="75" type="text" appEmailpattern formControlName="pBusinessEntityEmailid" placeholder="Enter Enterprise Email ID" [ngClass]="{ 'is-invalid': contactValidationErrors.pBusinessEntityEmailid }" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$"
+                        onkeydown="return (event.keyCode!=13);">
+                    <div class="invalid-feedback">
+                        <span *ngIf="contactValidationErrors.pBusinessEntityEmailid">{{contactValidationErrors?.pBusinessEntityEmailid}}</span>
+                    </div>
+                </div>
+
+                <!-- <div class="form-group">
+                        <label>Upload Photo</label>
+                        <div class="input-group">
+                            <input type="file" #fileInput class="form-control" (change)="uploadAndProgress($event,fileInput.files)"> -->
+
+                <!-- <div class="input-group-append">
+                    
+                            <button class="btn btn-b-icon px-2 p-0" tabindex="-1" onclick="document.getElementById('upload').click();">
+                            <img class="mr-2" src="assets/images/icon-upload-blue.svg" width="16px" height="16px"> Upload</button>
+                            </div> -->
+                <!-- </div>
+                    </div> -->
+
+            </div>
+            <!-- 
+                <div class="col-md-4 col-xl-4">
+    
+                               
+                </div> -->
+
+
+            <div class="col-md-4 col-xl-4 mt-5 ml-5">
+                <!-- <a>
+                        <p class="text-center"> -->
+                <a href="" class="RL13" onclick="document.getElementById('upload').click(); return false">
+                    <img [src]="croppedImage" alt="img" class="rounded-circle" width="140px" height="140px" title="uplaod Photo here" /></a>
+                <input id="upload" type="file" #fileInput class="form-control mt-2" (change)="uploadAndProgress($event,fileInput.files)" value="text">
+                <!-- </p>
+                    </a> -->
+            </div>
+
+            <hr class="light">
+
+            <div class="col-md-12 col-xl-8">
+                <label id="pEnterpriseType" title="Type of Enterprise" class="sec-head">Type of Enterprise</label>
+
+                <div *ngFor="let enterprise of typeofEnterpriseDetails; let i = index">
+                    <div class="form-group m-0">
+                        <div class="form-check form-check-inline mr-5">
+                            <input class="form-check-input" type="radio" name="pEnterpriseType" formControlName="pEnterpriseType" id="enterprise_{{i}}" value="{{enterprise.pEnterpriseType}}" [ngClass]="{ 'is-invalid': contactValidationErrors.pEnterpriseType }" (change)="enterpriseChange()">
+                            <label class="mt-1" for="enterprise_{{i}}">{{enterprise.pEnterpriseType}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-0 ">
+                    <div class="form-check form-check-inline mr-5">
+                        <input class="form-check-input" type="radio" name="pEnterpriseType" id="Other" formControlName="pEnterpriseType" value="Other" (change)="enterpriseChange()">
+                        <label title="Other Type of Enterprise" id="pTypeofEnterpriseMst" class="mt-1" for="Other"> Other</label>
+                        <div *ngIf="showEnterprise">
+                            <input type="text" formControlName="pTypeofEnterpriseMst" maxlength="30" appCharactersonly appTitlecaseword placeholder="Enter Other Type of Enterprise" class="form-control w-auto ml-3" [ngClass]="{ 'is-invalid': contactValidationErrors.pTypeofEnterpriseMst }"
+                                (blur)="GetContactValidationByControl('pTypeofEnterpriseMst', true)">
+                            <div class="invalid-feedback">
+                                <span *ngIf="contactValidationErrors.pTypeofEnterpriseMst">{{contactValidationErrors?.pTypeofEnterpriseMst}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="invalid-feedback-cst">
+                    <span *ngIf="contactValidationErrors.pEnterpriseType">{{contactValidationErrors?.pEnterpriseType}}</span>
+                </div>
+            </div>
+            <div class="col-md-12 col-xl-4 mt-1">
+                <label id="pBusinesstype" title="Nature of Business" class="sec-head">Nature of Business</label>
+                <div *ngFor="let nature of natureofBussinessDetails; let i = index">
+                    <div class="form-group m-0">
+                        <div class="form-check form-check-inline mr-5">
+                            <input class="form-check-input" type="radio" name="pBusinesstype" formControlName="pBusinesstype" id="nature_{{i}}" value="{{nature.pBusinesstype}}" [ngClass]="{ 'is-invalid': contactValidationErrors.pEnterpriseType }" (change)="businessNatureChange()">
+                            <label class="mt-1" for="nature_{{i}}">{{nature.pBusinesstype}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-0 ">
+                    <div class="form-check form-check-inline mr-5">
+                        <input class="form-check-input" type="radio" name="pBusinesstype" formControlName="pBusinesstype" id="natureOther" value="Other" (change)="businessNatureChange()">
+                        <label class="mt-1" id="pNatureofBussinessMst" title="Other Nature of Business" for="natureOther"> Other</label>
+                        <div *ngIf="showBusinessNature">
+                            <input type="text" formControlName="pNatureofBussinessMst" maxlength="15" appCharactersonly appTitlecaseword placeholder="Enter Other Nature of Business" class="form-control w-auto ml-3" [ngClass]="{ 'is-invalid': contactValidationErrors.pNatureofBussinessMst }"
+                                (blur)="GetContactValidationByControl('pNatureofBussinessMst', true)">
+                            <div class="invalid-feedback">
+                                <span *ngIf="contactValidationErrors.pNatureofBussinessMst">{{contactValidationErrors?.pNatureofBussinessMst}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="invalid-feedback-cst">
+                    <span *ngIf="contactValidationErrors.pBusinesstype">{{contactValidationErrors?.pBusinesstype}}</span>
+                </div>
+            </div>
+        </div>
+
+        <hr class="light">
+
+
+        <div>
+            <div class="row" formGroupName="businesspersoncontrols">
+
+                <div class="col-md-12 col-xl-12">
+                    <h2 class="sec-head"> Contact Information </h2>
+                </div>
+
+                <div class="col-md-4 col-xl-4">
+                    <app-selectsubscriber [formName]="formName" [controlName]="controlName"></app-selectsubscriber>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="designationid" class="required-field" title="Designation">Designation</label>
+
+                        <ng-select id="designationid" title="Designation" [items]="lstDesignation" formControlName="designationid" bindLabel="designationname" bindValue="designationid" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                            [clearOnBackspace]=true (change)="designationname_Change($event)" [ngClass]="{ 'is-invalid': contactValidationErrors.designationid }">
+
+                        </ng-select>
+                        <app-validation-message [messgae]="contactValidationErrors?.designationid">
+                        </app-validation-message>
+                        <!-- <select id="" class="form-control" title="Designation" formControlName="designationid" [ngClass]="{ 'is-invalid': contactpersons.designationid }" (change)="designationname_Change($event)">
+                <option value="" ng-selected="selected">Select</option>
+                <option *ngFor="let adddesig of lstDesignation" [value]="adddesig.designationid">{{adddesig.designationname}}</option>
+              </select>
+                            <div class="invalid-feedback">
+                                <span *ngIf="contactpersons.designationid">{{contactpersons?.designationid}}</span>
+                            </div> -->
+                    </div>
+
+                </div>
+
+                <div class="col-md-4 col-xl-4">
+                    <div class="d-flex justify-content-end  mt-4 ml-3 mb-4">
+                        <!-- <a href="" data-toggle="tab" class="btn  btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"
+                             appButtonDoubleClick [debounceTime]="1000"
+                              (debounceClick)="addcontactdetails()">
+                              <img src="assets/images/icon-add-blue-rounded.svg" class="mr-3" 
+                              width="20px" height="20px">{{BusinessPersonTransType}} </a> -->
+
+
+
+                        <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="500" (debounceClick)="addcontactdetails()">
+                            <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">{{BusinessPersonTransType}}
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <!-- <div class="col-md-4">
+     <div class="d-flex justify-content-end mt-4 mb-4"> <a href="#" class="btn btn-b-icon border-0 "><img src="assets/images/icon-add-blue-rounded.svg" class="mr-2" width="16px" height="16px">Add</a> </div>
+     </div>
+         -->
+            <div class="row">
+                <div class="col-md-12 col-xl-12">
+                    <table id="example" class="table text-center border" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Select Primary Contact</th>
+                                <th>Contact</th>
+                                <th>Designation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let businessperson of lstbusinessperson; let i = index">
+                                <td>
+                                    <input class="form-check-input mt-n2" type="radio" name="pBusinessTypeChk" formControlName="pBusinessTypeChk" id="businessperson_{{i}}" value="{{businessperson.pContactName}}" (change)="changeBusinessPerson(i)">
+
+                                    <!-- <input class="form-check-input" type="radio" name="pAddressPriority" formControlName="pAddressPriority" id="address_{{i}}" value="pAddressPriority" (change)="changeAddressPriority(i)"> -->
+                                </td>
+                                <td>{{businessperson.pContactName}}</td>
+                                <td>{{businessperson.designationname}}</td>
+                                <td>
+                                    <!-- <a (click)="editContactDeatails(i)"><div id="icon-edit"></div></a> -->
+                                    <a (click)="deleteContactDeatails(businessperson,i)">
+                                        <div id="icon-delete"></div>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+            <hr>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-xl-12">
+                <ul class="nav filtered-tab">
+                    <li class="nav-item"><a class="active" data-toggle="tab" href="#address" (click)="tabsClick('address')">Address Details</a></li>
+                    <li class="nav-item"><a data-toggle="tab" href="#kyc" (click)="tabsClick('kyc')">KYC Documents</a></li>
+                    <li class="nav-item"> <a data-toggle="tab" href="#bank" (click)="tabsClick('bank')">Bank Details</a></li>
+
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade in active show" id="address">
+                        <div formGroupName="pAddressControls">
+                            <div class="row">
+                                <div class="col-md-12 col-xl-12">
+                                    <div class="form-group mt-4 mb-4">
+                                        <h2 class="sec-head">Address Details</h2>
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-xl-4">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <label id="pAddressType" class="required-field" title="Address Type">Address Type</label>
+                                            <div class="input-group">
+                                                <select class="form-control" formControlName="pAddressType" [ngClass]="{ 'is-invalid': contactValidationErrors?.pAddressType }" (change)="pAddressType_Change($event)">
+                                      <option value="" ng-selected="selected">Select</option>
+                                      <option *ngFor="let addtype of addressTypeDetails" [value]="addtype.pAddressType">{{addtype.pAddressType}}</option>
+                                    </select>
+                                                <!--<ng-select class="form-control" title="Address Type" [items]="addressTypeDetails" formControlName="pAddressType" bindLabel="pAddressType" bindValue="pAddressType" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                                        [clearOnBackspace]=true (change)="pAddressType_Change($event)" [ngClass]="{ 'is-invalid': contactValidationErrors.pAddressType }">
+    
+                                                    </ng-select>-->
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-lg-icon px-2 p-0" data-toggle="modal" tabindex="-1" data-target="#addresstype" (click)="addressTypemodal()"> <img src="assets/images/icon-add-blue.svg" class="" width="18px" height="18px"></button>
+
+                                                </div>
+
+                                            </div>
+                                            <app-validation-message [messgae]="contactValidationErrors?.pAddressType">
+                                            </app-validation-message>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <hr class="light">
+                                <div class="col-md-6  col-xl-4">
+                                    <div class="form-group">
+                                        <label id="pAddress1" class="required-field" title="Address">Address</label>
+                                        <textarea class="form-control" maxlength="150" appAddressformat formControlName="pAddress1" [ngClass]="{ 'is-invalid': contactValidationErrors.pAddress1 }" rows="3"></textarea>
+                                        <app-validation-message [messgae]="contactValidationErrors?.pAddress1">
+                                        </app-validation-message>
+
+                                        <!-- <div class="invalid-feedback">
+                                                <span *ngIf="contactValidationErrors.pAddress1">{{contactValidationErrors?.pAddress1}}</span>
+                                            </div> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-xl-4">
+                                    <div class="form-group">
+                                        <label id="pAddress2" class="required-field" title="Area">Area</label>
+                                        <input type="text" value="" maxlength="50" placeholder="Enter Area" class="form-control" appAlphanumeric formControlName="pAddress2" [ngClass]="{ 'is-invalid': contactValidationErrors.pAddress2 }">
+                                        <app-validation-message [messgae]="contactValidationErrors?.pAddress2">
+                                        </app-validation-message>
+
+
+                                        <!-- <div class="invalid-feedback">
+                                                <span *ngIf="contactValidationErrors.pAddress2">{{contactValidationErrors?.pAddress2}}</span>
+                                            </div> -->
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6  col-xl-4">
+                                    <div class="form-group">
+                                        <label id="pCity" class="required-field" title="City/Village">City/Village</label>
+                                        <input type="text" value="" maxlength="50" placeholder="Enter City/Village" class="form-control" appAlphanumeric appAddressformat formControlName="pCity" [ngClass]="{ 'is-invalid': contactValidationErrors.pCity }">
+                                        <app-validation-message [messgae]="contactValidationErrors?.pCity">
+                                        </app-validation-message>
+
+                                        <!-- <div class="invalid-feedback">
+                                                <span *ngIf="contactValidationErrors.pCity">{{contactValidationErrors?.pCity}}</span>
+                                            </div> -->
+                                    </div>
+                                </div>
+                                <hr class="light">
+
+
+                                <div class="col-md-6 col-xl-4">
+                                    <div class="form-group">
+                                        <label id="pCountry" class="required-field" title="Country">Country</label>
+
+                                        <ng-select id="pCountry" title="Country" [items]="countryDetails" formControlName="pCountryId" bindLabel="pCountry" bindValue="pCountryId" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true
+                                            (change)="pCountry_Change($event)" [ngClass]="{ 'is-invalid': contactValidationErrors.pCountry }">
+
+                                        </ng-select>
+                                        <app-validation-message [messgae]="contactValidationErrors?.pCountry">
+                                        </app-validation-message>
+                                        <!-- <select id="" class="form-control" formControlName="pCountryId" [ngClass]="{ 'is-invalid': contactValidationErrors.pCountry }" (change)="pCountry_Change($event)">
+                                  <option value="" ng-selected="selected">Select</option>
+                                  <option *ngFor="let country of countryDetails" [value]="country.tbl_mst_country_id">{{country.country_name}}</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                  <span *ngIf="contactValidationErrors.pCountry">{{contactValidationErrors?.pCountry}}</span>
+                                </div> -->
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-6  col-xl-4">
+                                    <div class="d-flex">
+                                        <div class="col-md-6 col-xl-6 pl-0">
+                                            <div class="form-group">
+                                                <label id="pState" class="required-field" title="State">State</label>
+
+                                                <ng-select id="pState" title="State" [items]="stateDetails" formControlName="pStateId" bindLabel="pState" bindValue="pStateId" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true
+                                                    (change)="pState_Change($event)" [ngClass]="{ 'is-invalid': contactValidationErrors.pState }">
+
+                                                </ng-select>
+                                                <app-validation-message [messgae]="contactValidationErrors?.pState">
+                                                </app-validation-message>
+                                                <!-- <select id="" class="form-control" formControlName="pStateId" [ngClass]="{ 'is-invalid': contactValidationErrors.pState }" (change)="pState_Change($event)">
+                                        <option value="" ng-selected="selected">Select</option>
+                                        <option *ngFor="let state of stateDetails" [value]="state.tbl_mst_state_id">{{state.state_name}}</option>
+                                      </select>
+                                      <div class="invalid-feedback">
+                                        <span *ngIf="contactValidationErrors.pState">{{contactValidationErrors?.pState}}</span>
+                                      </div> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-xl-6 pr-0">
+                                            <div class="form-group">
+                                                <label id="pDistrict" class="required-field" title="District">District</label>
+                                                <ng-select id="pDistrict" title="District" [items]="districtDetails" formControlName="pDistrictId" bindLabel="pDistrict" bindValue="pDistrictId" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true
+                                                    (change)="pDistrict_Change($event)" [ngClass]="{ 'is-invalid': contactValidationErrors.pDistrict }">
+
+                                                </ng-select>
+                                                <app-validation-message [messgae]="contactValidationErrors?.pDistrict">
+                                                </app-validation-message>
+                                                <!-- <select id="" class="form-control" formControlName="pDistrictId" [ngClass]="{ 'is-invalid': contactValidationErrors.pDistrict }" (change)="pDistrict_Change($event)">
+                                        <option value="" ng-selected="selected">Select</option>
+                                        <option *ngFor="let district of districtDetails" [value]="district.tbl_mst_district_id">{{district.district_name}}</option>
+                                      </select>
+                                      <div class="invalid-feedback">
+                                        <span *ngIf="contactValidationErrors.pDistrict">{{contactValidationErrors?.pDistrict}}</span>
+                                      </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6  col-xl-4">
+
+                                    <div class="form-group">
+                                        <label id="pPinCode" class="required-field" title="Pincode">Pincode</label>
+                                        <input type="text" value="" maxlength="6" class="form-control" placeholder="Enter Pincode" appNumbersonly (keyup)="Pincode()" formControlName="pPinCode" [ngClass]="{ 'is-invalid':contactValidationErrors.pPinCode  }">
+                                        <div class="invalid-feedback">
+                                            <span *ngIf="contactValidationErrors.pPinCode">{{contactValidationErrors?.pPinCode}}</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <hr class="light">
+
+                                <div class="col-md-4 col-xl-4">
+                                    <div class="form-group">
+                                        <label id="plongitude" title="longitude">Longitude</label>
+
+                                        <!-- <label>longitude</label> -->
+                                        <input type="text" value="" class="form-control" maxlength="30" placeholder="Enter longitude" appAlphanumeric formControlName="plongitude">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-xl-4">
+                                    <div class="form-group">
+                                        <label id="platitude" title="latitude">Latitude</label>
+
+                                        <!-- <label>latitude</label> -->
+                                        <input type="text" value="" class="form-control" maxlength="30" placeholder="Enter latitude" appAlphanumeric formControlName="platitude">
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-xl-4">
+                                    <div class="d-flex justify-content-end  mt-4 ml-3 mb-4">
+                                        <!-- <a href="" data-toggle="tab" class="btn  btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="addAddressDeatails()">
+                                                <img src="assets/images/icon-add-blue-rounded.svg" 
+                                                class="mr-3" width="20px" height="20px">{{addressTransType}} </a> -->
+
+
+                                        <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="500" (debounceClick)="addAddressDeatails()">
+                                            <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">{{addressTransType}}
+                                        </a>
+                                    </div>
+
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-12 col-xl-12 mt-3">
+                                <ngx-datatable #table class="material expandable table" [rows]="lstaddressdetails" [headerHeight]="50" [footerHeight]="50" [rowHeight]="auto" [selected]="selected" [limit]="4" style="overflow-y:visible">
+                                    <ngx-datatable-column width="200" name="Select Primary Address" [cellClass]="'cell-center'" [headerClass]="'header-center'" frozenLeft="True">
+                                        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                            <input type="radio" id="{{rowIndex}}" value="row.pAddressType" name="fixed" (change)="changeAddressPriority(rowIndex)" [checked]="row.pAddressPriority==='PRIMARY'">
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column width="250" name="Address Type" prop="pAddressType" [cellClass]="'cell-left'" [headerClass]="'header-left'">
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column width="300" name="Address Details" prop="pAddressDetails" [cellClass]="'cell-left'" [headerClass]="'header-left'">
+
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column width="200" name="" [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                                            <div class="position-absolute ml-5" id="icon-edit" (click)="editAddressDeatails(rowIndex)" class="text-left justify-content-left pull-left"></div>
+                                            <div class="position-absolute" id="icon-delete" (click)='deleteAddressDeatails(row,rowIndex)' class="text-left justify-content-left pull-left"></div>
+
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                </ngx-datatable>
+
+                                <!-- <table id="example" class="table text-center border" style="table-layout: fixed;">
+                                        <thead>
+                                            <tr>
+    
+                                                <th>Select Primary Address</th>
+                                                <th>Address Type</th>
+                                                <th>Address Details</th>
+                                                <th></th>
+    
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let address of lstaddressdetails; let i = index">
+                                                <td style="width: 20px;overflow: hidden;">
+                                                   
+    
+                                                    <input class="form-check-input mt-n2" type="radio" name="pAddressTypeChk" formControlName="pAddressTypeChk" id="address_{{i}}" value="{{address.pAddressType}}" (change)="changeAddressPriority(i)">
+    
+    
+                                                </td>
+                                                <td style="width: 20px;overflow: hidden;">{{address.pAddressType}}</td>
+                                                <td style="width: 50px;overflow: hidden;">{{address.pAddressDetails}}</td>
+                                                <td style="width: 10px;overflow: hidden;">
+                                                    <a (click)="editAddressDeatails(i)">
+                                                        <div id="icon-edit"></div>
+                                                    </a>
+                                                    <a (click)="deleteAddressDeatails(address,i)">
+                                                        <div id="icon-delete"></div>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table> -->
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade in" id="kyc">
+                        <app-new-kycdocuments></app-new-kycdocuments>
+                    </div>
+                    <div class="tab-pane fade in" id="bank">
+                        <app-bankdetailsnew></app-bankdetailsnew>
+                        <!-- <app-bankdetails></app-bankdetails> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="d-flex justify-content-end mt-4">
+            <a href="#loanconfig" data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearContactFormDeatails()" hidden="true"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+            <!--<a href="#loanconfig" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="saveContactDetails()"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />Submit</a>-->
+            <button appButtonDoubleClick [debounceTime]="1000" (debounceClick)="saveContactDetails()" class="btn btn-s-icon px-3 ml-3 border-0" [disabled]="disablesavebutton" hidden="true">
+            <i class="fa mr-2"
+               [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i> {{savebutton}}
+          </button>
+        </div>
+    </form>
+
+
+
+    <div class="modal fade pl-0" id="photo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog" style="margin-right:0px !important; ">
+            <div class="model-cst modal-content">
+                <app-photoupload (uploadPhoto)="loadImages($event)"></app-photoupload>
+            </div>
+        </div>
+    </div>
+
+    <!--The Modal For Address Type-->
+    <div class="modal right slideInRight" id="addresstype">
+        <div class="modal-dialog" style="margin-right:0px !important; ">
+            <div class="model-cst modal-content">
+
+                <div class="modal-body">
+
+                    <a type="" class="close" appButtonDoubleClick [debounceTime]="300" (debounceClick)="closeAddressType()">&times;</a>
+                    <form [formGroup]="addresstypeForm" autocomplete="off">
+                        <div class="form-group">
+                            <label id="pAddressTypeMst" title="Address Type">Address Type</label>
+                            <input type="text" class="form-control" maxlength="50" appCharactersonly appTitlecaseword formControlName="pAddressType" placeholder="Enter Address Type" [ngClass]="{ 'is-invalid': addressTypeErrorMessage.pAddressTypeMst }" />
+
+                            <div class="invalid-feedback">
+                                <span *ngIf="addressTypeErrorMessage.pAddressTypeMst">{{addressTypeErrorMessage.pAddressTypeMst}}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <a class="close" class="btn btn-g-icon mr-4 px-3 border-0" appButtonDoubleClick [debounceTime]="300" (debounceClick)="clearAddressType()"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+                            <!--<a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="saveAddressType()"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save</a>-->
+
+                            <button (click)="saveAddressType()" class="btn btn-s-icon px-3 border-0" [disabled]="disableaddresstypesavebutton">
+                    <i class="fa"
+                       [ngClass]="{'fa-spin fa-spinner': disableaddresstypesavebutton, 'fa-check': !disableaddresstypesavebutton}"></i> {{saveaddresstypebutton}}
+                  </button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+            <h3>
+                Loading...
+            </h3>
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="load" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+</div>

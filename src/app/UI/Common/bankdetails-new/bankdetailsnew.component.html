@@ -1,0 +1,168 @@
+<div class="row" *ngIf="showBank">
+    <!-- <div class="col-12 mt-5" *ngIf="showBankTitle"> -->
+    <div class="col-12">
+        <div class="form-group mt-4 mb-4">
+            <h2 class="sec-head">Bank Details</h2>
+        </div>
+    </div>
+</div>
+<form [formGroup]="BankForm" *ngIf="showBank">
+    <div class="row" formGroupName="bankcontrols">
+        <div class="col-md-3 col-xl-3">
+            <div class="form-group">
+                <label title="Bank Name" id="pBankId" class="required-field">Bank Name</label>
+
+
+
+                <!--<ng-select id="pBankName" title="Bank Name" [items]="globalBanksList" formControlName="pBankName" bindLabel="pBankName" bindValue="pBankId" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true
+      (change)="bankName_Change($event)" [ngClass]="{ 'is-invalid': BankValidationErrors.pBankName }">
+
+  </ng-select>-->
+                <ng-select [items]="globalBanksList" title="Bank Name" id="pBankId" formControlName="pBankId" bindLabel="pBankname" bindValue="pRecordid" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true
+                    (change)="bankName_Change($event)" [ngClass]="{ 'is-invalid': BankValidationErrors.pBankId }">
+                </ng-select>
+                <div class="invalid-feedback-cst">
+                    <span *ngIf="BankValidationErrors.pBankId">{{BankValidationErrors.pBankId}}</span>
+                </div>
+                <!--<div class="invalid-feedback">
+              <span *ngIf="BankValidationErrors.pBankId">{{BankValidationErrors?.pBankId}}</span>
+            </div>-->
+                <!--<app-validation-message [messgae]="BankValidationErrors?.pBankId">
+  </app-validation-message>-->
+                <!-- <select class="form-control" id="pBankName" title="Bank Name" formControlName="pBankId" [ngClass]="{ 'is-invalid': BankValidationErrors.pBankName }" (change)="bankName_Change($event)">
+    <option value="" ng-selected="selected" [disabled]>Select</option>
+    <option *ngFor="let bank of globalBanksList;trackBy: trackByFn" [value]="bank.pBankId">{{bank.pBankName}}</option>
+  </select>
+          <div class="invalid-feedback">
+              <span *ngIf="BankValidationErrors.pBankName">{{BankValidationErrors?.pBankName}}</span>
+          </div> -->
+            </div>
+        </div>
+        <div class="col-md-3 col-xl-3">
+            <div class="form-group">
+                <label title="Account Number" class="required-field" id="pBankAccountNo">Account Number</label>
+                <input appNumbersonly class="form-control" formControlName="pBankAccountNo" type="text" maxlength="50" placeholder="Enter Account Number" value="" [ngClass]="{ 'is-invalid': BankValidationErrors.pBankAccountNo }">
+                <div class="invalid-feedback">
+                    <span *ngIf="BankValidationErrors.pBankAccountNo">{{BankValidationErrors?.pBankAccountNo}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-xl-3">
+            <div class="form-group">
+                <label title="IFSC Code" id="pBankifscCode">IFSC Code</label>
+                <!-- pattern="^[A-Za-z]{4}[0]{1}[0-9]{6}$"  -->
+                <input appIfsccodevalidator appAlphanumericcharsonly appUppercase class="form-control" formControlName="pBankifscCode" type="text" maxlength="12" placeholder="Enter IFSC Code" value="" [ngClass]="{ 'is-invalid': BankValidationErrors.pBankifscCode }">
+                <div class="invalid-feedback">
+                    <span *ngIf="BankValidationErrors.pBankifscCode">{{BankValidationErrors?.pBankifscCode}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-xl-3">
+            <div class="form-group">
+                <label title="Branch" id="pBankBranch">Branch</label>
+                <input appCharactersonly appTitlecaseword class="form-control" maxlength="20" formControlName="pBankBranch" type="text" placeholder="Enter Branch" value="" [ngClass]="{ 'is-invalid': BankValidationErrors.pBankBranch }">
+                <div class="invalid-feedback">
+                    <span *ngIf="BankValidationErrors.pBankBranch">{{BankValidationErrors?.pBankBranch}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-xl-12">
+            <div class="d-flex justify-content-end mt-1 mb-4">
+
+                <!-- <a class="btn btn-b-icon px-3 border-0" data-toggle="tab"  (click)="AddorUpdatedata()"><img src="assets/images/icon-add-white.svg"
+                     class="mr-2" width="16px" height="16px">{{buttontext}}</a> -->
+
+
+
+
+
+                <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="500" (click)="AddorUpdatedata()">
+                    <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">{{buttontext}}</a>
+            </div>
+        </div>
+
+        <!-- <div class="col-md-12 col-xl-12" *ngIf="bankdetailslist.length>0">
+      <ngx-datatable class="material expandable table" [rows]="bankdetailslist" columnMode="force" [headerHeight]="50"
+        [footerHeight]="0" [rowHeight]="50" [scrollbarV]="true" [scrollbarH]="true" [limit]="10" >
+        
+      
+        <ngx-datatable-column name="Primary"    prop="pIsprimaryAccount">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+          let-group="group">
+
+          <label for="delete{{ rowIndex }}">
+            <input type="radio" name="primary"   value="{{rowIndex}}" checked="{{row.pIsprimaryAccount}}" (change)="changePriority($event, row, rowIndex, group)" >
+
+          </label>
+
+        </ng-template>
+        
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Bank Name" prop="pBankName"></ngx-datatable-column>
+        <ngx-datatable-column name="Account Number" prop="pBankAccountNo"> </ngx-datatable-column>
+        <ngx-datatable-column name="IFSC Code" prop="pBankifscCode"> </ngx-datatable-column>
+        <ngx-datatable-column name="Branch" prop="pBankBranch"> </ngx-datatable-column>
+        <ngx-datatable-column name="Actions" prop="" editable="true" frozenLeft="True">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+            let-group="group">
+
+            <label for="delete{{ rowIndex }}">
+              <div id="icon-delete" (click)="removeHandler($event, row, rowIndex, group)"></div>
+            </label>
+
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+
+    </div> -->
+
+
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-xl-12">
+            <table id="example" class="table text-center border" style="table-layout: fixed;">
+                <thead>
+                    <tr>
+
+                        <th>Select Primary Account</th>
+                        <th>Bank Name</th>
+                        <th>Account Number</th>
+                        <th>IFSC Code</th>
+                        <th>Branch</th>
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let bankdetails of bankdetailslist; let i = index">
+                        <td style="width: 10px;overflow: hidden;">
+                            <!-- <input class="form-check-input" type="radio" name="pAddressPriority" formControlName="pAddressPriority" id="address_{{i}}" value="{{address.pAddressType}}" (change)="changeAddressPriority(i)" > -->
+
+                            <input class="form-check-input mt-n2" type="radio" name="pbanktypeTypeChk" formControlName="pbanktypeTypeChk" id="bankdetails_{{i}}" value="{{bankdetails.pBankAccountNo}}" (change)="changeBankPriority(i)">
+
+                            <!-- <input class="form-check-input" type="radio" name="pAddressType" formControlName="pAddressTypeChk" id="address_{{i}}" value="{{address.pAddressType}}" (change)="changeAddressPriority(i)"> -->
+
+
+                        </td>
+                        <td style="width: 20px;overflow: hidden;">{{bankdetails.pBankName}}</td>
+                        <td style="width: 10px;overflow: hidden;">{{bankdetails.pBankAccountNo}}</td>
+                        <td style="width: 20px;overflow: hidden;">{{bankdetails.pBankifscCode}}</td>
+                        <td style="width: 20px;overflow: hidden;">{{bankdetails.pBankBranch}}</td>
+                        <td style="width: 10px;overflow: hidden;">
+                            <a (click)="editBankDeatails(i)">
+                                <div id="icon-edit"></div>
+                            </a>
+                            <a (click)="deleteBankDeatails(bankdetails,i)">
+                                <div id="icon-delete"></div>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>

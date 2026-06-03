@@ -1,0 +1,589 @@
+<div class="row">
+<div class="col-md-12 col-xl-12">
+
+<div class="section-container pre-kendo">
+
+    <form [formGroup]="maturityDetailsReportForm" autocomplete="off">
+
+
+
+        <div class="row mb-2 pb-4">
+            <div class="col-xl-2 col-md-2 mt-4">
+                <div class="form-check form-check-inline check-btn-secondary">
+                    <input class="form-check-input" type="checkbox" id="ason" formControlName="date"
+                        (change)="checkox($event)">
+                    <label class="mt-2" for="ason"> As On:</label>
+                </div>
+            </div>
+            <div class=" col-xl-2 col-md-2 form-group">
+                <label id="dfromdate" title="FromDate">{{FromDate}}</label>
+                <label style="color: #fff !important;">bfbnfb</label>
+                <input type="text" class="form-control" [bsConfig]="dpConfig" readonly bsDatepicker
+                    #dp="bsDatepicker" (ngModelChange)="checkfromdate()" formControlName="dfromdate"
+                    placeholder="DD/MM/YYYY" />
+            </div>
+            <div *ngIf="showdate" class="col-xl-2 col-md-2">
+                <div class="form-group">
+                    <label id="dtodate" title="To Date">To Date</label>
+                    <input type="text" class="form-control" [bsConfig]="dppConfig" readonly bsDatepicker
+                        #dp="bsDatepicker" (ngModelChange)="checktodate()" formControlName="dtodate"
+                        placeholder="DD/MM/YYYY" />
+                    <div *ngIf="validation" class="text-danger">
+                        please select valid date
+                    </div>
+                </div>
+            </div>
+            <div class="justify-content-end d-flex">
+                <div class=" pt-4 mt-2">
+                    <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0"
+                        data-toggle="tab" role="tab" (click)="getMaturityDetails()">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                        <span *ngIf="!isLoading"><img class="mr-3" height="20px"
+                                src="assets/images/reports-white.svg" width="20px"></span> Show
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    
+
+
+
+    <kendo-grid [kendoGridBinding]="maturityDetailsList" class="lendoAlign" [sortable]="true" [selectedKeys]="mySelection"
+    (remove)="removeHandler($event)" [pageSize]="10" [pageable]="true" [skip]="skip" height="500"
+    [selectable]="selectableSetting" *ngIf="maturityDetailsList.length != 0">
+
+        <ng-template kendoGridToolbarTemplate>
+            <!-- <div class="row mb-3" style="text-align:start;"> -->
+                <!-- <div class="col-4 pl-0 mt-n1 mr-3">
+                <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+            </div> -->
+             <div class="mb-3">
+              <div class="col-12 mt-5">
+                <ul class="temp-ul pull-right mr-4 pb-3">
+                  
+                  <li class="temp-ico ml-2">
+                            <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                                    width="20px"></a>
+                        </li>
+                        <li class="temp-ico ml-2">
+                            <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                                    width="20px"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </ng-template>
+
+        
+        <kendo-grid-column-group [headerClass]="{'kendo-g-center int-head' : true}" title="Interest Report"  >
+            <kendo-grid-column title="S.NO" width="85px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    {{ rowIndex + 1 }}
+                </ng-template>
+            </kendo-grid-column>
+
+
+
+
+            <!-- <kendo-grid-column-group title="Gross Block"> -->
+
+
+
+            <kendo-grid-column-group title="Certificate Details"  [headerClass]="'details-header'">
+
+                <kendo-grid-column field="pMembername" title="Member Name" width="200px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pFdaccountno" title="Certificate Acc. No.
+        " width="100px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                </kendo-grid-column>
+
+
+                <kendo-grid-column field="pDepositamount" title="Certificate Amount
+        " width="125px" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pDepositamount | mycurrencypipe}}<span class="ml-5"></span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pTransdate" title="Applicant Date" width="100px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pTransdate | date: 'dd-MM-yyyy'}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pmaturitydate" title="Mature Date" width="100px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pmaturitydate | date: 'dd-MM-yyyy'}}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pTenure" title="Tenure" width="100px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pinterestRate" title="Interest Rate" width="100px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                </kendo-grid-column>
+                <kendo-grid-column field="pinterestType" title="Mode Of Interest" width="100px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                </kendo-grid-column>
+
+
+            </kendo-grid-column-group>
+
+            <kendo-grid-column-group title="Premature Details"  [headerClass]="'details-header'">
+
+                <kendo-grid-column field="pprematurity_date" title="Premature Date" width="100px" >
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pprematurity_date | date: 'dd-MM-yyyy'}}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="diffInDays" title="Premature period in days" width="100px" [headerClass]="{'kendo-center': true}" class="kendo-center"></kendo-grid-column>
+
+                <kendo-grid-column field="prematurtiyinterate" title="Premature Interest Rate" width="100px" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <span class="mr-2">
+                            {{ (dataItem.prematurtiyinterate || 0) | mycurrencypipe }}
+                        </span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pprematurityinterestamount" title="Premature Interest Amount" width="100px" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <span class="mr-2">
+                            {{ (dataItem.pprematurityinterestamount || 0) | mycurrencypipe }}
+                        </span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                
+
+
+
+            </kendo-grid-column-group>
+
+            <kendo-grid-column-group title="Commision Details" [headerClass]="'details-header'">
+
+                <kendo-grid-column title="Agent Name & ID" field="preferralname" width="150px"
+                [headerClass]="{'kendo-center': true}" class="kendo-center">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.preferralname}}-{{dataItem.preferralid}}<span class="ml-5"></span>
+                </ng-template>
+            </kendo-grid-column>
+                <kendo-grid-column field="commissionrate" title="Commission %" width="100px">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <span class="mr-2">
+                            {{ (dataItem.commissionrate || 0) | mycurrencypipe }}
+                        </span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pcommissionPayable" title="Released Amount" width="100px"
+                    [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <span class="mr-2">
+                            {{ (dataItem.pcommissionPayable || 0) | mycurrencypipe }}
+                        </span>
+                    </ng-template>                
+                </kendo-grid-column>
+
+
+            </kendo-grid-column-group>
+
+            <kendo-grid-column-group title="Recoveries" [headerClass]="'details-header'">
+
+                <kendo-grid-column field="pInterestpayble" title="Collected Interest" width="100px" [headerClass]="{'kendo-right': true}" class="kendo-right" >
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <span class="mr-2">
+                            {{ (dataItem.pInterestpayble || 0) | mycurrencypipe }}
+                        </span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pcommssionAmount" title="Commission" width="100px" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <span class="mr-2">
+                            {{ (dataItem.pcommssionAmount || 0) | mycurrencypipe }}
+                        </span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <!-- <kendo-grid-column field="Net_payable_Amount" title="Breach of Contact" width="100px"></kendo-grid-column> -->
+
+            </kendo-grid-column-group>
+
+            <kendo-grid-column field="pNetpayable" title="Net payable Amount" width="100px"
+            [headerClass]="{'kendo-right': true}" class="kendo-right">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <span class="mr-2">
+                    {{ (dataItem.pNetpayable || 0) | mycurrencypipe }}
+                </span>
+            </ng-template>
+        </kendo-grid-column>
+
+        <!-- //bhargavi strat -->
+        
+<kendo-grid-column field="pchitbranchname" title="Branch" width="100px"
+            [headerClass]="{'kendo-right': true}" class="kendo-right">
+             
+        </kendo-grid-column>
+
+            <!-- <kendo-grid-column field="pjvNumber" title="PV No." width="100px" [headerClass]="{'kendo-right': true}"
+                class="kendo-right"></kendo-grid-column>
+
+            <kendo-grid-column field="ppaymentdate" title="PV Date" width="100px"></kendo-grid-column> -->
+
+
+
+
+        </kendo-grid-column-group>
+
+
+        <kendo-grid-pdf #abc
+            fileName="PreMaturity_Report.pdf"
+            paperSize="A3" [allPages]="true" [repeatHeaders]="true" [landscape]="true" [scale]="0.55" margin="0.2cm">
+
+            <kendo-grid-pdf-margin top="4.5cm" left="0.5cm" right="1cm"
+                          bottom="2cm"></kendo-grid-pdf-margin>
+  
+                        <ng-template kendoGridPDFTemplate>
+                          <div class="page-template">
+                            <div class="header">
+                              <app-company-details></app-company-details>
+  
+                              <div class="report-head mt-2">
+                                <p class="font-20 text-dark text-center m-0">
+                                    <span class="text-capitalize"> PreMaturity Report</span>
+                                </p>
+  
+                            </div>
+  
+                              
+  
+                            </div>
+  
+                          </div>
+                        </ng-template>
+            
+            
+                <kendo-grid-column title="S.NO" width="85px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        {{ rowIndex + 1 }}
+                    </ng-template>
+                </kendo-grid-column>
+    
+    
+    
+    
+                <!-- <kendo-grid-column-group title="Gross Block"> -->
+    
+    
+    
+                <kendo-grid-column-group title="Certificate Details" [headerClass]="'details-header'">
+    
+                    <kendo-grid-column field="pMembername" title="Member Name" width="200px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                    </kendo-grid-column>
+    
+                    <kendo-grid-column field="pFdaccountno" title="Certificate Acc. No.
+            " width="100px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                    </kendo-grid-column>
+    
+    
+                    <kendo-grid-column field="pDepositamount" title="Certificate Amount
+            " width="125px" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pDepositamount | mycurrencypipe}}<span class="ml-5"></span>
+                        </ng-template>
+                    </kendo-grid-column>
+    
+                    <kendo-grid-column field="pTransdate" title="Applicant Date" width="100px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pTransdate | date: 'dd-MM-yyyy'}}
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pmaturitydate" title="Mature Date" width="100px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pmaturitydate | date: 'dd-MM-yyyy'}}
+                        </ng-template>
+                    </kendo-grid-column>
+    
+                    <kendo-grid-column field="pTenure" title="Tenure" width="100px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                    </kendo-grid-column>
+    
+                    <kendo-grid-column field="pinterestRate" title="Interest Rate" width="100px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pinterestType" title="Mode Of Interest" width="100px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                    </kendo-grid-column>
+    
+    
+                </kendo-grid-column-group>
+    
+                <kendo-grid-column-group title="Premature Details" [headerClass]="'details-header'">
+    
+                    <kendo-grid-column field="pprematurity_date" title="Premature Date" width="100px" >
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pprematurity_date | date: 'dd-MM-yyyy'}}
+                        </ng-template>
+                    </kendo-grid-column>
+    
+                    <kendo-grid-column field="diffInDays" title="Premature period in days" width="100px" [headerClass]="{'kendo-center': true}" class="kendo-center"></kendo-grid-column>
+    
+                    <kendo-grid-column field="prematurtiyinterate" title="Premature Interest Rate" width="100px" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <span class="mr-2">
+                                {{ (dataItem.prematurtiyinterate || 0) | mycurrencypipe }}
+                            </span>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="pprematurityinterestamount" title="Premature Interest Amount" width="100px" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <span class="mr-2">
+                                {{ (dataItem.pprematurityinterestamount || 0) | mycurrencypipe }}
+                            </span>
+                        </ng-template>
+                    </kendo-grid-column>
+    
+    
+    
+                </kendo-grid-column-group>
+    
+                <kendo-grid-column-group title="Commision Details" [headerClass]="'details-header'">
+    
+                    <kendo-grid-column title="Agent Name & ID" field="preferralname" width="150px"
+                    [headerClass]="{'kendo-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.preferralname}}-{{dataItem.preferralid}}<span class="ml-5"></span>
+                    </ng-template>
+                </kendo-grid-column>    
+                    <kendo-grid-column field="commissionrate" title="Commission %" width="100px">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <span class="mr-2">
+                                {{ (dataItem.commissionrate || 0) | mycurrencypipe }}
+                            </span>
+                        </ng-template>
+                    </kendo-grid-column>
+    
+                    <kendo-grid-column field="pcommissionPayable" title="Released Amount" width="100px"
+                        [headerClass]="{'kendo-right': true}" class="kendo-right">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <span class="mr-2">
+                                {{ (dataItem.pcommissionPayable || 0) | mycurrencypipe }}
+                            </span>
+                        </ng-template> 
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pInterestpayble" title="Collected Interest" width="100px" [headerClass]="{'kendo-right': true}" class="kendo-right" >
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <span class="mr-2">
+                                {{ (dataItem.pInterestpayble || 0) | mycurrencypipe }}
+                            </span>
+                        </ng-template>
+                    </kendo-grid-column>
+
+    
+    
+                </kendo-grid-column-group>
+    
+                <kendo-grid-column-group title="Recoveries" [headerClass]="'details-header'">
+    
+    
+                    <kendo-grid-column field="pcommssionAmount" title="Commission" width="100px" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <span class="mr-2">
+                                {{ (dataItem.pcommssionAmount || 0) | mycurrencypipe }}
+                            </span>
+                        </ng-template>
+                    </kendo-grid-column>
+    
+                    <!-- <kendo-grid-column field="Net_payable_Amount" title="Breach of Contact" width="100px"></kendo-grid-column> -->
+    
+                </kendo-grid-column-group>
+    
+                <kendo-grid-column field="pNetpayable" title="Net payable Amount" width="100px"
+                    [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <span class="mr-2">
+                            {{ (dataItem.pNetpayable || 0) | mycurrencypipe }}
+                        </span>
+                    </ng-template>
+                </kendo-grid-column>
+    <kendo-grid-column field="pchitbranchname" title="Branch" width="100px"
+            [headerClass]="{'kendo-right': true}" class="kendo-right">
+             
+        </kendo-grid-column>
+                <!-- <kendo-grid-column field="pjvNumber" title="PV No." width="100px" [headerClass]="{'kendo-right': true}"
+                    class="kendo-right"></kendo-grid-column>
+    
+                <kendo-grid-column field="ppaymentdate" title="PV Date" width="100px"></kendo-grid-column> -->
+    
+    
+    
+    
+
+            
+            </kendo-grid-pdf>
+
+        <!-- 999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 -->
+
+        <kendo-grid-excel
+            fileName="Prematurity_Report.xlsx"
+            [fetchData]="allData">
+            
+                <kendo-excelexport-column title="S.NO" width="80">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        {{ rowIndex + 1 }}
+                    </ng-template>
+                </kendo-excelexport-column>
+
+                <kendo-excelexport-column-group title="Certificate Details"
+                    [headerCellOptions]="{ textAlign: 'center', background:'#28a745', color:'#fff'}">
+
+                    <kendo-excelexport-column field="pMembername" title="Member Name"
+                        width="200"></kendo-excelexport-column>
+                    <kendo-excelexport-column field="pFdaccountno" title="Certificate Account No." width="200">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pDepositamount" title="Certificate Amount" width="200">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pTransdate" title="Applicant Date" width="200">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pmaturitydate" title="Mature Date" width="200">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pTenure" title="Tenure" width="200">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pinterestRate" title="Interest Rate" width="200">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pinterestType" title="Mode Of Interest" width="200">
+                    </kendo-excelexport-column>
+
+                </kendo-excelexport-column-group>
+
+                <kendo-excelexport-column-group title="Premature details"
+                    [headerCellOptions]="{ textAlign: 'center', background:'#28a745', color:'#fff'}">
+
+                    <kendo-excelexport-column field="pprematurity_date" title="Premature Date"
+                        width="200"></kendo-excelexport-column>
+                    <kendo-excelexport-column field="diffInDays" title="Premature period in days" width="200"></kendo-excelexport-column>
+                    <kendo-excelexport-column field="prematurtiyinterate" title="Premature Interest Rate" width="200"></kendo-excelexport-column>
+                    <kendo-excelexport-column field="pprematurityinterestamount" title="Premature Interest Amount" width="200"></kendo-excelexport-column>
+
+                </kendo-excelexport-column-group>
+
+                <kendo-excelexport-column-group title="Commission details"
+                    [headerCellOptions]="{ textAlign: 'center', background:'#28a745', color:'#fff'}">
+
+
+                    <kendo-excelexport-column field="preferralname" title="Agent Name & ID" width="200"></kendo-excelexport-column>
+                    <kendo-excelexport-column field="commissionrate" title="Commission %" width="200"></kendo-excelexport-column>
+                    <kendo-excelexport-column field="pcommissionPayable" title="Released Amount" width="200"></kendo-excelexport-column>
+                    <kendo-excelexport-column field="pInterestpayble" title="Collected Interest " width="200"></kendo-excelexport-column>
+
+                </kendo-excelexport-column-group>
+
+
+
+
+
+
+                <kendo-excelexport-column-group title="Recoveries"
+                [headerCellOptions]="{ textAlign: 'center', background:'#28a745', color:'#fff'}">
+
+                    <kendo-excelexport-column field="pcommssionAmount"
+                        title="Commission" width="200"></kendo-excelexport-column>
+
+                    <!-- <kendo-excelexport-column field="Net_payable_Amount"
+                        title="Breach of Contact" width="200"></kendo-excelexport-column> -->
+                </kendo-excelexport-column-group>
+
+                <kendo-excelexport-column field="pNetpayable" title="Net payable Amount" width="200"></kendo-excelexport-column>
+                <!-- <kendo-excelexport-column field="pjvNumber" title="PV No." width="200"></kendo-excelexport-column>
+                <kendo-excelexport-column field="ppaymentdate" title="PV Date" width="200"></kendo-excelexport-column> -->
+                <kendo-excelexport-column field="pchitbranchname" title="Branch" width="200"></kendo-excelexport-column>
+
+<!-- //bhargavi end -->
+        </kendo-grid-excel>
+    </kendo-grid>
+
+
+</div>
+</div>
+</div>
+<br>
+
+
+<div class="row mt-1 ml-1 mb-4" hidden>
+    <div class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end mt-4">
+
+            <button appButtonDoubleClick (debounceClick)="pdfExport.saveAs()"
+                class="btn btn-g-icon px-3 mr-4 border-0">Download PDF
+            </button>
+            <a class="btn btn-s-icon  px-3 border-0" (click)="exportToExcel()"> &nbsp;Download Excel</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+<style>
+    #pdftable,
+    #pdftable tr td,
+    #pdftable tr th {
+        border: 1px solid #222;
+    }
+
+    kendo-pdf-export #export th {
+        border: 1px solid black;
+        padding: 10px;
+        text-align: center;
+        white-space: nowrap;
+        overflow: auto;
+        /* text-overflow:ellipsis; */
+        max-width: 300px;
+        font-size: 30px;
+    }
+
+    .scrollable {
+        overflow-x: auto;
+        overflow-y: auto;
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    th {
+        white-space: normal;
+        word-wrap: break-word;
+        /* text-overflow:ellipsis; */
+        min-width: 200px !important;
+        width: fit-content;
+
+    }
+
+    td {
+        font-weight: 500;
+    }
+
+    .headcolor {
+        background-color: #25408e;
+        color: rgb(252, 245, 245);
+        /* font-family:'Times New Roman', Times, serif; */
+        font-size: 15px;
+        max-width: fit-content;
+        /* text-overflow:ellipsis; */
+
+    }
+
+    #font {
+        font-family: monospace;
+        color: rgb(3, 3, 3);
+        width: 500px;
+        height: 30px;
+        text-overflow: clip;
+    }
+
+    .pre-table {
+        height: 500px;
+        overflow-y: auto;
+    }
+</style>

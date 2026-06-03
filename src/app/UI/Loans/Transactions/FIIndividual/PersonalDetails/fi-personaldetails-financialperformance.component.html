@@ -1,0 +1,120 @@
+<!-- <h2 class="sec-head">Financial Performance</h2> -->
+<form [formGroup]="businessfinacialperformnaceForm" *ngIf="showBusinessFinacial">
+<div class="row">
+  <div class="col-md-6  col-xl-4">
+    <div class="form-group">
+      <label id="pfinancialyear" title="Year">Year</label>
+      <div class="input-group">
+        <select class="form-control"  formControlName="pfinancialyear" [ngClass]="{ 'is-invalid': businessFincialperErrorMessage.pfinancialyear }">
+           <option value="" ng-selected="selected">Select</option>
+          <option *ngFor="let data of finperyear">{{data.ytype}}</option>
+        </select>
+      
+      </div>
+      <div class="invalid-feedback-cst">
+        <span
+            *ngIf="businessFincialperErrorMessage.pfinancialyear">{{businessFincialperErrorMessage.pfinancialyear}}</span>
+    </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xl-4">
+    <div class="d-flex">
+      <div class="col-md-6 col-xl-6 pl-0">
+        <div class="form-group">
+          <label id="pturnoveramount" title="Turnover">Turnover</label>
+          <input type="text" class="form-control text-right"  formControlName="pturnoveramount" removeZero appNumbersonly 
+          (change)="netProfitAndTurnoverValidation()" maxlength="13" [ngClass]="{ 'is-invalid': businessFincialperErrorMessage.pturnoveramount }">
+          <div class="invalid-feedback-cst">
+            <span
+                *ngIf="businessFincialperErrorMessage.pturnoveramount">{{businessFincialperErrorMessage.pturnoveramount}}</span>
+        </div>
+        </div>
+      </div>
+
+      <div class="col-md-6  col-xl-6 pr-0">
+        <div class="form-group">
+          <label id="pnetprofitamount" title="Net Profit">Net Profit</label>
+          <input type="text" class="form-control text-right"  formControlName="pnetprofitamount" removeZero appNumbersonly 
+          (change)="netProfitAndTurnoverValidation()" maxlength="13" [ngClass]="{ 'is-invalid': businessFincialperErrorMessage.pnetprofitamount }">
+          <div class="invalid-feedback-cst">
+            <span
+                *ngIf="businessFincialperErrorMessage.pnetprofitamount">{{businessFincialperErrorMessage.pnetprofitamount}}</span>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6  col-xl-4">
+    <!-- <div class="form-group">
+      <label id="pdocbalancesheetpath" title="Upload Balance Sheet">Upload Balance Sheet</label>
+      <div class="input-group">
+        <input type="text" class="form-control" formControlName="pdocbalancesheetpath" [ngClass]="{ 'is-invalid': businessFincialperErrorMessage.pdocbalancesheetpath }">
+        <div class="input-group-append">
+          <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-upload-blue.svg" class="" width="18px" height="18px"></button>
+        </div>
+      </div>
+      <div class="invalid-feedback-cst">
+        <span
+            *ngIf="businessFincialperErrorMessage.pdocbalancesheetpath">{{businessFincialperErrorMessage.pdocbalancesheetpath}}</span>
+    </div>
+    </div> -->
+    <div class="form-group">
+      <label id="pdocbalancesheetpath" title="Upload Balance Sheet">Upload Balance Sheet</label>
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder=""
+         [value]="imageResponse?.name" disabled     formControlName="pdocbalancesheetpath">
+        <div class="input-group-append">
+          <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()">
+            <img src="assets/images/icon-upload-blue.svg" class="" width="18px" height="18px">
+          </button>
+          <!-- to uplaod the image -->
+          <input id="filePdocBalanceSheetPath" style="display: none" type="file" (change)="uploadAndProgress($event,fileInput.files)" #fileInput>
+        </div>
+        <!-- <span class="text-success">
+          <ng-container *ngIf="uploadSuccess"></ng-container>
+        </span> -->
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="col-md-12  col-xl-12 p-0">
+  <div class="form-group">
+    <div class="d-flex justify-content-end mt-4  mb-4">
+      <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" (click)="savebusinessfinacilperData()" aria-selected="false"><img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add</a>
+    </div>
+    
+  </div>
+</div>
+</form>
+
+<div class="row mt-4" *ngIf="showBusinessFinacial">
+  <div class="col-md-12 col-xl-12">        
+    <kendo-grid [data]="businessFincialGriddata" [reorderable]="true" [resizable]="true" [sortable]="true"  (remove)="removeHandler($event)">
+
+      <kendo-grid-column field="pfinancialyear" title="Period" width="50">
+      </kendo-grid-column>
+      <kendo-grid-column field="pturnoveramount" title="Turnover/Revenue	" width="100"
+      [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+      </kendo-grid-column>
+   
+      <kendo-grid-column field="pnetprofitamount" title="Net Profit" width="100"
+      [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+      </kendo-grid-column>
+      <kendo-grid-column field="pdocbalancesheetpath" title="Upload Balance Sheet" width="100">
+      </kendo-grid-column>
+     
+      <kendo-grid-command-column title="" width="220">
+        <ng-template kendoGridCellTemplate>
+          <!-- <button kendoGridEditCommand>Edit</button> -->
+          <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+          <!-- <button kendoGridEditCommand><div id="icon-edit"></div></button> -->
+        </ng-template>
+      </kendo-grid-command-column>
+
+    </kendo-grid>
+  </div>
+</div>

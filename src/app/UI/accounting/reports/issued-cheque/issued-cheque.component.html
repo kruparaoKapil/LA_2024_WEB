@@ -1,0 +1,253 @@
+<style>
+   .k-pdf-export colgroup > col {
+        width: 50px !important;        
+      }
+</style>
+
+<div class="col-md-12 col-xl-12 mb-3  pl-0">
+  <p class="bc-2">Issued Cheque</p>
+</div>
+<!--<div class="my-container">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+
+    </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>-->
+<div class="section-container">
+<div class="issued-cheque">
+  <form [formGroup]="FrmIssuedCheque" autocomplete="off">
+    <div class="row">
+      <div class="col-xs-4 col-md-4  form-group">
+        <label>Bank Name</label>
+        <!--<select class="form-control" id="pbankname" title="Bank Name" formControlName="pbankname" [ngClass]="{ 'is-invalid': IssuedChequeValidation.pbankname }" (change)="BankName_Cahange($event)">
+          <option value="" ng-selected="selected">Select</option>
+          <option *ngFor="let bankBookDetails of BankData;" [value]="bankBookDetails.pbankaccountid">
+            {{bankBookDetails.pbankname}}
+          </option>
+        </select>-->
+        <ng-select id="pbankname" title="Bank Name" [items]="BankData" formControlName="pbankname" bindLabel="pbankname"
+                   bindValue="pbankaccountid" [multiple]=false placeholder="Select" [searchable]=true [clearable]=true
+                   dropdownPosition="bottom" [clearOnBackspace]=true (change)="BankName_Cahange($event)"
+                   [ngClass]="{ 'is-invalid': IssuedChequeValidation.pbankname }">
+        </ng-select>
+        <div class="invalid-feedback">
+          <span *ngIf="IssuedChequeValidation.pbankname">{{IssuedChequeValidation?.pbankname}}</span>
+        </div>
+      </div>
+      <div class="col-xs-4 col-md-4 form-group">
+        <label>Cheque No.</label>
+        <!--<select class="form-control" id="pchqfromto" title="Cheque No." formControlName="pchqfromto" [ngClass]="{ 'is-invalid': IssuedChequeValidation.pchqfromto }" (change)="GetIssuedBankDetails($event)">
+          <option value="" ng-selected="selected">Select</option>
+          <option *ngFor="let bankChequeDetails of lstBankChequeDetails;" [value]="bankChequeDetails.pchkBookId">
+            {{bankChequeDetails.pchqfromto}}
+          </option>
+        </select>-->
+        <ng-select id="pchqfromto" title="Sub Ledger" [items]="lstBankChequeDetails" formControlName="pchqfromto" bindLabel="pchqfromto"
+                   bindValue="pchkBookId" [multiple]=false placeholder="Select" [searchable]=true [clearable]=true
+                   dropdownPosition="bottom" [clearOnBackspace]=true (change)="GetIssuedBankDetails($event)"
+                   [ngClass]="{ 'is-invalid': IssuedChequeValidation.pchqfromto }" >
+        </ng-select>
+        <div class="invalid-feedback">
+          <span *ngIf="IssuedChequeValidation.pchqfromto">{{IssuedChequeValidation?.pchqfromto}}</span>
+        </div>
+
+      </div>
+
+    </div>
+  </form>
+
+  <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true" [scale]="0.9">
+    <div id="template">
+
+
+      <div id="temp-box">
+        <div class="mt-2 border rounded shadow-sm bg-white">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="report-head mt-2">
+                <p class="font-16 text-dark text-center m-0">
+                  UnUsed-Cheques &nbsp;
+                </p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class=" border  shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+
+          <div class="">
+
+            <kendo-grid #grid1 [kendoGridBinding]="gridData" [groupable]="false"
+                        [reorderable]="true" [sortable]="true" [resizable]="true" [group]="groups" [scale]="0.9">
+
+
+              <kendo-grid-column field="pchequestatus" title="Status" [hidden]="true">
+                <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                  {{value}}
+                </ng-template>
+              </kendo-grid-column>
+
+              <kendo-grid-column field="pchequestatus" title="Cancel" showSelectAll="true">
+                <ng-template kendoGridCellTemplate let-idx="dataItem" let-rowIndex="rowIndex">
+                  <input type="checkbox" id="chk_{{rowIndex}}" (change)="checkedCancel($event,idx)" />
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column title="Cheque No." field="pchequenumber"></kendo-grid-column>
+
+
+              <kendo-grid-column field="pbankname" title="Bank Name"></kendo-grid-column>
+
+              <kendo-grid-column field="pchkBookId" title="Cheque BookId"></kendo-grid-column>
+
+            </kendo-grid>
+
+
+          </div>
+
+        </div>
+        <!-- row end -->
+
+
+      </div>
+    </div>
+  </kendo-pdf-export>
+
+
+  <div class="col-12 p-0 pt-4 mt-1">
+    <div class="d-flex justify-content-end">
+      <a class="btn btn-b-icon px-3 border-0" (click)="UnusedChequeCancel()">
+        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+        <span *ngIf="!isLoading">
+          <img class="mr-3" height="20px"
+               src="assets/images/reports-white.svg" width="20px">
+        </span> {{savebutton}}
+      </a>
+
+    </div>
+  </div>
+
+
+  <!--<div class="row mt-4 ml-1 mb-4">
+    <div class="col-md-12 col-xl-12">
+      <div class="d-flex justify-content-end mt-4">
+
+
+        <button appButtonDoubleClick [debounceTime]="1000" (debounceClick)="UnusedChequeCancel()" class="btn btn-b-icon px-3 border-0"
+                [disabled]="disablesavebutton">
+          <i class="fa"
+             [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i> {{savebutton}}
+        </button>
+
+      </div>
+    </div>
+  </div>-->
+  <!------------- save Buttons ------------>
+
+  <div class="d-flex justify-content-end mt-4 pt-4">
+    <ul class="temp-ul">
+      <li class="temp-ico ml-2">
+        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('IssuedChequeDetails.pdf')" />
+      </li>
+      <li class="temp-ico">
+        <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" style="cursor: pointer;" />
+      </li>
+    </ul>
+
+  </div>
+  <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true" margin="0.5cm" [scale]="0.8">
+    <!--<kendo-grid-pdf-margin top="0.5cm" left="0.5cm" right="0.5cm" bottom="0.5cm"></kendo-grid-pdf-margin>-->
+    <div id="temp-box">
+      <div class="mt-2 border rounded shadow-sm bg-white">
+        <div class="row">
+          <div class="col-md-12">
+            <app-company-details></app-company-details>
+
+            <div class="report-head mt-2">
+              <p class="font-16 text-dark text-center m-0">
+                Issued Cheque Details &nbsp;
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class=" border  shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+
+        <div class="">
+
+          <kendo-grid #grid [kendoGridBinding]="gridDataDetails" [pageable]="false" [sortable]="true" [groupable]="true" [reorderable]="true" [resizable]="true" [group]="groups" [scrollable]="true" >
+            <ng-template kendoGridToolbarTemplate>
+  
+              <div class="row pb-3 p-0">
+                <div class="col-4 pl-0 mt-n1">
+                </div>
+                <div class="col-7 pr-0 pl-4">
+                  <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                    <li class="temp-ico ml-2">
+                      <a kendoGridExcelCommand>
+                        <img class="pt-2" src="assets/images/icon-excel.svg "   title="excel" width="20px">
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              </ng-template>
+
+            <kendo-grid-column field="pchequestatus" title="Status" [hidden]="true">
+              <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                {{value}}
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column title="Cheque No." field="pchequenumber" width="60px"></kendo-grid-column>
+            <kendo-grid-column field="ppaymentid" title="Payment Id" width="60px">
+            </kendo-grid-column>
+            <kendo-grid-column field="pparticulars" title="Particulars" width="120px"></kendo-grid-column>
+            <kendo-grid-column title="Payment Date" field="ppaymentdate" width="70px">
+
+            </kendo-grid-column>
+            <kendo-grid-column title="Cheque Status Date" field="pcleardate" width="70px">
+            </kendo-grid-column>
+
+            <!--<wj-flex-grid-column binding="pcleardate" [width]="70" [wordWrap]="true">
+              <ng-template wjFlexGridCellTemplate cellType="ColumnHeader">
+                <span style="word-wrap: break-word;">Cheque Status Date</span>
+              </ng-template>
+            </wj-flex-grid-column>-->
+
+            <kendo-grid-column field="ppaidamount" title="Paid Amt." class="kendo-center" [headerClass]="{'kendo-right': true}" width="70px">
+
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <div *ngIf="dataItem.ppaidamount == 0"></div>
+                <div *ngIf="dataItem.ppaidamount !== 0">
+                  {{dataItem.ppaidamount | mycurrencypipe}}
+                </div>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pbankname" title="Bank Name" width="60px"></kendo-grid-column>
+
+            <kendo-grid-column field="pchkBookId" title="Cheque BookId" width="60px"></kendo-grid-column>
+            <kendo-grid-column field="pstatus" title="Cheque Status" width="70px"></kendo-grid-column>
+
+
+            <kendo-grid-excel fileName="IssuedChequeDetails.xlsx" [fetchData]="allData"></kendo-grid-excel>
+          </kendo-grid>
+        </div>
+
+      </div>
+      <!-- row end -->
+
+
+    </div>
+
+  </kendo-pdf-export>
+
+</div>
+</div>
+
+
+

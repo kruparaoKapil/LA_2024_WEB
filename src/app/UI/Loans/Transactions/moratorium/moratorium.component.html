@@ -1,0 +1,303 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6 mb-3">
+        <p class="bc-2">Moratorium</p>
+    </div>
+    <div class="col-md-6 col-xl-6  mb-3">
+        <a routerLink="/MoratoriumView"> <span class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+          color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img
+                    src="assets/images/icon-back-blue.svg" width="25px" height="25px">View</span></a>
+    </div>
+</div>
+<!-- <div class="row">
+    <div class="col-md-12 col-xl-12  mb-3">
+        <a routerLink="/MoratoriumView"> <span class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+          color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img
+                    src="assets/images/icon-back-blue.svg" width="25px" height="25px">View</span></a>
+    </div>
+</div> -->
+<div class="section-container">
+    <form [formGroup]="loandropForm" autocomplete="off">
+        
+        <div class="col-md-12 col-xl-12 p-0">
+
+            <div class="row">
+                <div class="col-md-6 col-xl-6 ">
+                    <div class="form-group">
+                        <label id="loanname" title="Select Loan Type">Select Loan Type</label>
+                        <select class="form-control w-100" placeholder="Loan Type" formControlName="loanname" (change)="ChangeLoanType($event)" [ngClass]="{ 'is-invalid': formValidationMessages.loanname }">
+                            <option value="" ng-selected="selected">Select</option>
+                            <option *ngFor="let loan of LoanTypes;trackBy: trackByFn;" [value]="loan.pLoanname">
+                                {{loan.pLoanname}}</option>
+                        </select>
+                        <div class="invalid-feedback-cst">
+                            <span *ngIf="formValidationMessages.loanname">{{formValidationMessages.loanname}}</span>
+                        </div>
+                    </div>
+
+                    <div class="row d-flex form-group mt-4">
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label id="pDattransdate" title="Moratorium Date">Moratorium Date</label>
+                                <fieldset>
+                                    <input type="text" class="form-control" readonly placeholder="Date picker here" formControlName="pDattransdate" (ngModelChange)="dateChnage($event)" [bsConfig]="dpConfig2" #dp="bsDatepicker" [bsValue]="bsValue" bsDatepicker placement="bottom" [ngClass]="{ 'is-invalid': formValidationMessages.pDattransdate }"
+                                    />
+                                </fieldset>
+                                <div class="invalid-feedback-cst">
+                                    <span *ngIf="formValidationMessages.pDattransdate">{{formValidationMessages.pDattransdate}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label id="pDattransdate" title="Moratorium Tenure">Moratorium Tenure</label>
+                                <fieldset>
+                                    <input type="text" class="form-control text-danger font-weight-bold" formControlName="moratoriummonthscount" appRoundecimal="2@0" numbersOnly [ngClass]="{ 'is-invalid': formValidationMessages.moratoriummonthscount }" id="moratoriummonthscount" (change)="changeMoratoriummonths()"></fieldset>
+                                <div class="invalid-feedback-cst">
+                                    <span *ngIf="formValidationMessages.moratoriummonthscount">{{formValidationMessages.moratoriummonthscount}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label id="nextEmiDate" title="Next Emi Date">Next Emi Date</label>
+                                <fieldset>
+                                    <strong>{{nextEmiDate}}</strong></fieldset>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="border rounded bg-white p-3">
+
+                        <label class="col-12 bc-2 p-0"><strong>Installment and due details</strong> </label>
+                        <hr class="light">
+                        <div class="row">
+                            <label class="col-6 text-dark">Installment Amount - <strong
+                                    class="bc-2">{{installmentAmount | currencypipewithdecimal}}</strong></label>
+                            <label class="col-6 text-dark for-cursor" (click)="openModal()">Installment Due: <strong
+                                    class="bc-2">{{totalinstalldue | currencypipewithdecimal}}</strong></label>
+                            <label class="col-6 text-dark">No of Unpaid Installments - <strong
+                                    class="bc-2">{{installmentDues}}</strong></label>
+                            <label class="col-6 text-dark">Future Principle: <strong
+                                    class="bc-2">{{Futureprinciple | currencypipewithdecimal}}</strong></label>
+                            <label class="col-6 text-dark">Future Interest:
+                                <strong class="bc-2">{{Futureinterest | currencypipewithdecimal}}</strong>
+                            </label>
+                            <label class="col-6 text-dark">Future Installments -
+                                <strong class="bc-2">{{Futureduecount}}</strong>
+                            </label>
+                            <label class="col-6 text-dark">Penalty Due :
+                                <strong class="bc-2">{{totalpenality | currencypipewithdecimal}}</strong>
+                            </label>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-6 col-xl-6">
+                    <div class="form-group">
+                        <label id="loanapplication" title="Loan Application / Account No">Loan Application / Account
+                            No.</label>
+                        <span *ngIf="pBalance > 0" class="badge-warning badge p-2  pull-right">{{pPrincipal | currencypipewithdecimal}} Dr
+                        </span>
+                        <span *ngIf="pBalance < 0" class="badge-warning badge p-2 pull-right ">{{pPrincipal | currencypipewithdecimal}} Cr
+                        </span>
+                        <div class="demo-section k-content">
+                            <!-- <span *ngFor="let loan of LoanTypes; index as i; trackBy: trackByFn;"></span> -->
+                            <input [id]="dynamicLoanapplicationId" name="loanapplication" formControlName="loanapplication" class="form-control" (onchange)="changeApplication($event)" [ngClass]="{ 'is-invalid': formValidationMessages.loanapplication }" />
+                        </div>
+
+                        <div class="invalid-feedback-cst">
+                            <span *ngIf="formValidationMessages.loanapplication">{{formValidationMessages.loanapplication}}</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row mt-2 mb-4 mt-4">
+                        <div class="col-md-9 col-xl-6"> <a class="bc-2 mb-2 text-decoration-none"> Do you want to pay
+                                interest
+                                due in moratorium?</a> </div>
+                        <div class="col-md-8 col-xl-4">
+                            <div class="material-switch pull-right"><span class="mr-2">Not applicable</span>
+                                <input id="Referral" name="Referral" type="checkbox" [(ngModel)]="notApplicableForReferralFlag" (change)="notApplicableAllForReferral($event)" [ngModelOptions]="{standalone: true}">
+                                <label for="Referral" class="check-danger"></label>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <label class="col-6 text-dark p-0 mt-4">Disbursement Date - <strong
+                            class="bc-2">{{pdisbursementdate}}</strong></label>
+                    <label class="col-6 text-dark p-0 mt-4">Last Paid Amount - <strong
+                            class="bc-2">{{lastreceiptAmount | currencypipewithdecimal}}</strong></label>
+
+                    <div class="col-6 mt-4 p-0">
+                        <a (click)="GetEmiChartReportbyid()" class="btn btn-b-icon px-3 border-0">
+                            <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">View EMI Chart
+                        </a>
+                    </div>
+                </div>
+            </div>
+          
+            <div class="row">
+                <div class="col-md-12 col-xl-12">
+                    <div class=" rounded mt-4 ">
+                        <label class="col-12 bc-2 p-0"><strong>Loan details</strong> </label>
+                        <div class="row  p-2">
+                            <div class="col-md-3 col-xl-3  border-right">
+                                <p class="bc-2 text-left mb-auto">{{pApplicantname}}</p>
+                                <p class="lc-txt mt-2 text-left mb-auto"> Contact ID - {{pContactid}}</p>
+                            </div>
+                            <div class="col-md-3 col-xl-3 border-right ">
+                                <label class="col-12 p-0">{{pLoanname}}</label>
+                                <label class="font-weight-bolder">{{loanreceiptAppliactionId}}</label>
+                            </div>
+                            <div class="col-md-3 col-xl-3  border-right">
+                                <label class="col-12 p-0">Date of Application</label>
+                                <label class="font-weight-bolder">{{pDateofapplication | date:'dd/MM/yyyy'}}</label>
+                            </div>
+                            <div class="col-md-3 col-xl-3">
+                                <label class="col-12 p-0">Date of Application Approved</label>
+                                <label class="font-weight-bolder">{{pApproveddate}}</label>
+                            </div>
+                        </div>
+                        <hr class="light">
+                        <div class="row  p-2">
+                            <div class="col-md-3 col-xl-3 border-right">
+                                <label class="col-12 p-0 font-weight-bold">Sanctioned Loan Amount </label>
+                                <label class="bc-2 font-weight-bold" style="text-align:right;">{{pApprovedamount | mycurrencypipe}}</label>
+                            </div>
+                            <div class="col-md-3 col-xl-3 border-right">
+                                <label class="col-12 p-0">Tenure of Loan</label>
+                                <label class="">{{pTenureofloan}}</label>
+                            </div>
+                            <div class="col-md-3 col-xl-3  border-right">
+                                <label class="col-12 p-0">Interest Type</label>
+                                <label class="">{{pInteresttype}}</label>
+                            </div>
+                            <div class="col-md-3 col-xl-3 ">
+                                <div class=" p-2">
+                                    <label class="col-12 p-0">Rate of Interest</label>
+                                    <label class=""><span class="bc-1 btn-lg-icon rounded p-2">{{pRateofinterest}}%
+                                            <i class="lc-txt"> per annum</i></span> </label>
+                                </div>
+                            </div>
+
+                        </div>
+<hr class="light">
+
+                        <div class="row  p-2">
+                            <div class="col-md-3 col-xl-3 border-right">
+                                <label class="col-12 p-0">Loan Payin </label>
+                                <label class="">{{pLoanpayin}}</label>
+                            </div>
+                            <div class="col-md-3 col-xl-3 border-right">
+                                <label class="col-12 p-0">Loan Installment Mode</label>
+                                <label class="bc-2 font-weight-bold">{{ploaninstalmentpaymentmode}}</label>
+                            </div>
+                            <div class="col-md-3 col-xl-3  border-right">
+                                <label class="col-12 p-0">Purpose of Loan</label>
+                                <label class="bc-2 font-weight-bold">{{pPurposeofloan}}</label>
+                            </div>
+                            <div class="col-md-3 col-xl-3 ">
+                                <label class="col-12 p-0">Loan Installment</label>
+                                <label class="bc-2 font-weight-bold">{{pEmiAmount | mycurrencypipe}}</label>
+                            </div>
+                        </div>
+<hr class="light">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+    <div class="col-md-12 pl-0">
+        <div class="col-6 p-0 form-group mt-4">
+            <label>Narration</label>
+            <textarea class="form-control" [(ngModel)]="narration" maxlength="150" [ngClass]="{ 'is-invalid': forNarrationError && !narration }" (change)="forNarration($event)" [ngModelOptions]="{standalone: true}"></textarea>
+            <div class=" invalid-feedback-cst ">
+                <span *ngIf="forNarrationError && !narration ">Narration is Required</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-xl-12 pr-0 ">
+        <div class="d-flex justify-content-end mt-4 ">
+            <a class="btn btn-g-icon mr-4 px-3 border-0 " (click)="clearData() ">
+                <img src="assets/images/icon-cancel-white.svg " class="mr-3 " width="20px " height="20px ">Clear</a>
+
+            <!-- <a data-toggle="tab " (click)="saveLoanReceipt() " class="btn btn-b-icon border-0 " role="tab " aria-controls="hot "
+        aria-selected="false "><img src="assets/images/icon-check-white.svg " class="mr-3 " width="20px "
+          height="20px ">Save</a> -->
+
+            <button (click)="saveLoanReceipt() " data-toggle="tab " class="btn btn-b-icon px-3 border-0 " role="tab " aria-controls="hot " aria-selected="false " [disabled]="isLoading ">
+                <i class="fa " [ngClass]="{ 'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading} "></i>
+                <span *ngIf="!isLoading ">
+                </span>{{buttonName}}</button>
+        </div>
+    </div>
+
+</div>
+<!-- row end -->
+<!-- </form> -->
+
+
+<!-- EMI ChatModel -->
+<div class="modal right 	modal-xl slideInRight" id="emiModal" tabindex="-1" role="dialog">
+    <div class="customModal" style="margin-right:0px !important; ">
+        <div class="model-cst modal-content" style="overflow-y: scroll !important; height: 100%;">
+
+            <div class="modal-body">
+                <p class="bc-2">Installment Chart</p>
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="row mt-4">
+                    <div class="col-md-12 col-xl-12">
+
+                        <kendo-grid [kendoGridBinding]="GridData" [resizable]="true" [pageable]="false" [sortable]="false" [height]="480">
+                            <kendo-grid-column field="pInstalmentno" title="No." width="40">
+
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pInstalmentdate" title="Date" width="100"></kendo-grid-column>
+
+                            <kendo-grid-column field="pInstalmentprinciple" title="Principle Amount" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pInstalmentprinciple | mycurrencypipe}}
+                                </ng-template>
+                                <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+                                    <p class="bc-2 text-center"> {{Totalprinciple | mycurrencypipe}}</p>
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pInstalmentinterest" title="Interest" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pInstalmentinterest | mycurrencypipe}}
+                                </ng-template>
+                                <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+                                    <p class="bc-2 text-center">{{TotalInterest | mycurrencypipe}}</p>
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pInstalmentamount" title="Installment Amount" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pInstalmentamount | mycurrencypipe}}
+                                </ng-template>
+                                <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+                                    <p class="bc-2 text-center">{{Totalinstallmentmount | mycurrencypipe}}</p>
+                                </ng-template>
+                            </kendo-grid-column>
+                        </kendo-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- EMI ChatModel End -->
+<div class="my-container ">
+    <ngx-loading [show]="loading " [config]="{ backdropBorderRadius: '3px' } " [template]="customLoadingTemplateForFiView ">
+    </ngx-loading>
+
+</div>

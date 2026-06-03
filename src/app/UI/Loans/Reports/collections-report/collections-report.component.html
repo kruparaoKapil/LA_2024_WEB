@@ -1,0 +1,182 @@
+<div class=" mb-3">
+    <!-- <a href=""> <img class="position-fixed" src="assets/images/cross.svg" width="20"
+      height="20" style="right:6px; top:90px;" title="close this screen"></a> -->
+    <p class="bc-2"> Collection Report</p>
+</div>
+<div class="section-container">
+    <form [formGroup]="CollectionReport" autocomplete="off">
+        <div class="row">
+
+            <!-- <div class="dropdown profile"> <a class="btn dropdown-toggle border-0" href="#" role="button" id="dropdownMenuLink"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="btn btn-b-icon">Date Filters </div>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"> <a class="dropdown-item" href="#">Select Report</a>
+        <a class="dropdown-item" href="#">Select Due Report Format</a></div>
+
+    </div> -->
+
+
+            <div class="col-xl-4 col-md-4 form-group">
+                <label title="From Date">From Date</label>
+                <input type="text" class="form-control w-auto" formControlName="fromDate" (ngModelChange)="ChequeDateChange($event)" placeholder="Date picker here" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+                <!-- [ngClass]="{ 'is-invalid': formValidationMessages.pchequedate }" -->
+
+            </div>
+            <div class="col-xl-4 col-md-4 form-group">
+                <label title="To Date">To Date </label>
+                <input type="text" class="form-control w-auto" formControlName="toDate" placeholder="Date picker here" [bsConfig]="dpConfig1" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+                <!-- [ngClass]="{ 'is-invalid': formValidationMessages.pchequedate }" -->
+            </div>
+            <div class="col-xs-4 col-md-4 pt-3 mt-3 ">
+                <a aria-controls="hot" aria-selected="false" (click)="AddEvent()" class="btn btn-b-icon  border-0" data-toggle="tab" role="tab"><img class="mr-3" height="20px" src="assets/images/reports-white.svg" width="20px">Generate Report</a>
+            </div>
+        </div>
+
+
+        <div class="row ">
+            <div class="col-4">
+                <!-- <input placeholder="Search in all columns..." kendoTextBox class="form-control sb" (input)="onFilter($event.target.value)" /> -->
+            </div>
+
+            <div class="col-8">
+                <div class="d-flex justify-content-end">
+                    <ul class="temp-ul mt-2">
+                        <li class="temp-ico">
+                            <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('CollectionReport('+startDatesReport+'to'+endDatesReport+').pdf')" />
+                        </li>
+                        <li class="temp-ico">
+                            <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true" [scale]="0.8">
+                <!-- <div class="col-md-12 col-xl-12 mt-3">
+          <div class="border rounded shadow-sm bg-white p-2   ">
+            <label class="print-font"> {{startDatesReport}} and {{endDatesReport}}</label>
+            <h2 class="font-14">Collection Report From {{startDatesReport}} To {{endDatesReport}} </h2>
+            <div class="page-responsive">
+
+            </div>
+          </div>
+        </div> -->
+                <div id="temp-box">
+                    <div class="col-md-12 col-xl-12 mt-3">
+                        <div class="mt-2 border rounded shadow-sm bg-white">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <app-company-details></app-company-details>
+                                    <div class="report-head">
+                                        <p class="font-18 text-dark text-center m-0">
+                                            Collection Report
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border rounded shadow-sm bg-white p-2">
+                            <!-- <label class="print-font"> {{startDatesReport}} and {{endDatesReport}}</label> -->
+                            <h2 class="font-14">Collection Report From {{startDatesReport}} To {{endDatesReport}} </h2>
+
+
+                            <kendo-grid [kendoGridBinding]="gridView" [pageSize]="pageSize" [groupable]="true" [reorderable]="true" [resizable]="true" [group]="groups" [pageable]="false" [selectable]="true" [sortable]="true" [resizable]="true" (edit)="addHandler($event)" [scale]="0.9">
+
+
+                                <kendo-grid-column field="pApplicantname" width="90" title="Applicant Name">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pLoantype" title="Loan Type" width="90">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pVchapplicationid" title="Loan A/c Number" width="110">
+                                    <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <a kendoGridEditCommand class="text-blue font-weight-bold">{{dataItem.pVchapplicationid}}</a>
+                        </ng-template> -->
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="pPrinciple" title="Principle" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <!-- {{dataItem.pPrinciple | mycurrencypipe}} -->
+                                        <div *ngIf="dataItem.pPrinciple == 0"></div>
+                                        <div *ngIf="dataItem.pPrinciple !== 0">
+                                            {{dataItem.pPrinciple.toFixed(2) | mycurrencypipe}}</div>
+                                    </ng-template>
+                                    <ng-template kendoGridFooterTemplate>
+                                        <p class="bc-2 text-right">{{totalprincipleamount | mycurrencypipe}}</p>
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pInterest" title="Interest" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <!-- {{dataItem.pInterest | mycurrencypipe}} -->
+                                        <div *ngIf="dataItem.pInterest == 0"></div>
+                                        <div *ngIf="dataItem.pInterest !== 0">
+                                            {{dataItem.pInterest.toFixed(2) | mycurrencypipe}}</div>
+                                    </ng-template>
+                                    <ng-template kendoGridFooterTemplate>
+                                        <p class="bc-2 text-right"> {{totalInterestamount | mycurrencypipe}}</p>
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pPenality" title="Penalty" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <!-- {{dataItem.pPenality | mycurrencypipe}}-->
+                                        <div *ngIf="dataItem.pPenality == 0"></div>
+                                        <div *ngIf="dataItem.pPenality !== 0"> {{dataItem.pPenality.toFixed(2) | mycurrencypipe}}</div>
+                                    </ng-template>
+                                    <ng-template kendoGridFooterTemplate>
+                                        <p class="bc-2 text-right"> {{totalPenalityamount | mycurrencypipe}}</p>
+                                    </ng-template>
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="pCharges " title="Charges" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <!-- {{dataItem.pCharges | mycurrencypipe}}-->
+                                        <div *ngIf="dataItem.pCharges == 0"></div>
+                                        <div *ngIf="dataItem.pCharges !== 0"> {{dataItem.pCharges.toFixed(2) | mycurrencypipe}}</div>
+                                    </ng-template>
+                                    <ng-template kendoGridFooterTemplate>
+                                        <p class="bc-2 text-right"> {{totalChargesamount| mycurrencypipe}}</p>
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="pTotalamount " title="Total Received" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <!-- {{dataItem.pCharges | mycurrencypipe}}-->
+                                        <div *ngIf="dataItem.pTotalamount == 0"></div>
+                                        <div *ngIf="dataItem.pTotalamount !== 0"> {{dataItem.pTotalamount.toFixed(2) | mycurrencypipe}}</div>
+                                    </ng-template>
+                                    <ng-template kendoGridFooterTemplate>
+                                        <p class="bc-2 text-right">{{totalTotalamount | mycurrencypipe}}</p>
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <!-- <kendo-grid-pdf fileName="General_Receipt.pdf" [repeatHeaders]="true"></kendo-grid-pdf> -->
+                                <!-- <kendo-grid-pdf fileName="General_Receipt.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+                      [landscape]="true">
+                      <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+                      <ng-template kendoGridPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+                        <div class="page-template">
+                          <div class="header">
+                            <div style="float: right">Page {{ pageNum }} of {{ totalPages }}</div>
+                           
+                          </div>
+                          <div class="footer">
+                            Page {{ pageNum }} of {{ totalPages }}
+                          </div>
+                        </div>
+                      </ng-template>
+                    </kendo-grid-pdf> -->
+                                <!--  <kendo-grid-excel fileName="General_Receipt.xlsx"></kendo-grid-excel> -->
+                                <div *kendoGridDetailTemplate="let dataItem">
+                                    <app-collection-reports-detail-section [collectionreports]=dataItem [startDatesReport]=startDatesReport [endDatesReport]=endDatesReport>
+                                    </app-collection-reports-detail-section>
+                                </div>
+                            </kendo-grid>
+
+                        </div>
+
+                    </div>
+                </div>
+            </kendo-pdf-export>
+        </div>
+
+    </form>
+</div>

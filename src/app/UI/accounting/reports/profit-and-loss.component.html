@@ -1,0 +1,174 @@
+<div class="row">
+  <div class="col-12 mb-3">
+    <p class="bc-2">Profit and Loss</p>
+  </div>
+</div>
+
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+
+    </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+
+<div class="section-container">
+<form [formGroup]="ProfitAndLossForm" autocomplete="off">
+  <div class="row">
+
+    <div class="col-xl-2 col-md-2 mt-4">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" (change)="checkboxChecked($event)" checked>
+        <label class="mt-2">As On :</label>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-3 form-group ">
+      <label>{{FromDate}}</label>
+      <input type="text" class="form-control" formControlName="fromDate" placeholder="Date picker here" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+
+    </div>
+
+    <div class=" col-xl-3 col-md-3 form-group" *ngIf="hide">
+      <div>
+        <label>To Date</label>
+        <input type="text" class="form-control " formControlName="toDate" placeholder="Date picker here" [bsConfig]="dpConfig1" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+      </div>
+    </div>
+    <div class="justify-content-end d-flex">
+    <div class=" form-group mt-3 pb-5 pt-3">
+      <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetProfitandlossReports()">
+        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+        <span *ngIf="!isLoading">
+          <img class="mr-3" height="25px" src="assets/images/reports-white.svg"
+               width="20px">
+        </span> Generate Report
+      </a>
+    </div>
+    </div>
+    <!--<div class="col-xs-4 col-md-4 form-group mt-3 pt-3">
+
+      <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetProfitandlossReports()">
+        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+        <span *ngIf="!isLoading">
+          <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+               width="20px">
+        </span> Generate Report
+      </a>
+
+    </div>-->
+  </div>
+
+  <div id="template">
+
+    <div class="d-flex justify-content-end">
+      <ul class="temp-ul">
+
+        <li class="temp-ico">
+          <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('ProfitandLoss.pdf')" />
+        </li>
+        <li class="temp-ico">
+          <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+        </li>
+
+      </ul>
+
+    </div>
+
+    <div id="temp-box">
+      <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true" [scale]="0.9">
+
+        <div class="mt-2 border rounded shadow-sm bg-white">
+          <div class="row">
+            <div class="col-md-12">
+
+
+              <app-company-details></app-company-details>
+              <div class="report-head mt-2">
+                <p class="font-16 text-dark text-center m-0">
+                  Profit and Loss
+                </p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class=" border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+          <div class="row">
+            <div class="col-md-6">
+              <div *ngIf="ShowAsOn">
+                <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                    font-weight: bold !important;">As On:</span>
+                <label class="print-font">{{asondate}}</label>
+              </div>
+              <div *ngIf="ShowBetween">
+                <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                      font-weight: bold !important;">Between:</span>
+                <label class="print-font"> {{from}} and {{to}}</label>
+              </div>
+            </div>
+
+          </div>
+          <div class="">
+            <div class="col-md-12">
+              <kendo-treeview [nodes]="gridData"
+                              textField="pAccountname"
+                              idField="pAccountid"
+                              parentIdField="pParentid"
+                              kendoTreeViewFlatDataBinding>
+
+                <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                  <div>
+                    <span class="caret {{dataItem.pColorcode}} small">  {{dataItem.pAccountname}}</span>
+
+                    <span class=" {{dataItem.pColorcode}} small rounded font-weight-bold  float-right" style="position:absolute;">{{dataItem.pAmount}} {{dataItem.pAmounttype}}</span>
+
+
+                  </div>
+                </ng-template>
+
+              </kendo-treeview>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="temp-box-inner border rounded shadow-sm bg-white" style="overflow:hidden; height:auto !important;">
+          <div class="row">
+            <div class="col-md-6 text-right mt-2 profitloassstyle" style="left:-24px">
+              <span class="text-success">Profit</span> / <span class="text-danger">(Loss)</span> : <span class="{{fontcolor}}">{{TotalAmount}}</span> 
+            </div>
+
+          </div>
+        </div>
+        <!-- row end -->
+      </kendo-pdf-export>
+      </div>
+  </div>
+  <!-- main content end -->
+
+</form>
+
+</div>
+<style>
+   span.text-danger {
+    left: 483px  !important;
+  }
+  span.text-primary {
+    left: 466px !important;
+  }
+
+  span.text-success {
+    left: 450px !important;
+  }
+
+  span.text-body {
+    left: 435px !important;
+  }
+</style>

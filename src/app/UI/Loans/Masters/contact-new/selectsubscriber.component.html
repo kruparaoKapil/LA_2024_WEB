@@ -1,0 +1,68 @@
+<div class="form-group" [formGroup]="contactSelectForm">
+    <label>{{controlName}}</label>
+    <ng-select [items]="contactsList" formControlName="contactid" bindLabel="contactname" bindValue="contactid" [multiple]=false placeholder="Select" [searchable]="true" [searchFn]="customSearchFn" (change)="ContactGridRowSelect($event);" [clearable]=true
+        dropdownPosition="bottom" [clearOnBackspace]=true>
+        <ng-template ng-header-tmp>
+            <div class="row">
+                <span class="col-4">Name</span>
+                <span class="col-4 text-center">Mobile</span>
+                <span class="col-4">Email</span>
+            </div>
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+            <div class="row">
+                <span class="col-4 word-break text-wrap" title="{{item.contactname}}">{{item.contactname}}</span>
+                <span class="col-4 text-center" title="{{item.contactmobilenumber}}">{{item.contactmobilenumber}}</span>
+                <span class="col-4 word-break text-wrap" title="{{item.contactemailid}}">{{item.contactemailid}}</span>
+            </div>
+
+        </ng-template>
+    </ng-select>
+    <!-- <ng-select class="custom-ng-select" [items]="contactsList | async"
+           [multiple]="false"          
+           [minTermLength]="dropDownDataSearchLength"           
+           typeToSearchText="{{searchplaceholder}}"
+           [typeahead]="contactSearchevent" 
+           formControlName="contactid" bindLabel="contactname" bindValue="contactid" id="contactname"
+           placeholder="Search by phone, name etc." title="{{controlName}}" [searchable]=true [clearable]="true"
+           dropdownPosition="" [clearOnBackspace]=true (change)="ContactGridRowSelect($event)"   
+           [ngClass]="{ 'is-invalid': formValidationMessages.contactname }" *ngIf="!disablecontrols">
+           <ng-template ng-header-tmp>
+            <div class="row">
+              <span class="col-4">Name</span>
+              <span class="col-4 text-center">Mobile</span>
+              <span class="col-4">Email</span>
+            </div>
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+            <div class="row">
+              <span class="col-4"  title="{{item.contactname}}">{{item.contactname}}</span>
+              <span class="col-4 text-center"  title="{{item.contactmobilenumber}}">{{item.contactmobilenumber}}</span>
+              <span class="col-4"  title="{{item.contactemailid}}">{{item.contactemailid}}</span>
+            </div>
+          </ng-template>        
+  </ng-select> -->
+    <!-- <input class="dropdown-toggle form-control " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+      type="text" placeholder="Search" appCharactersonly aria-label="Search" id="contactname" placeholder="search by phone, name etc."
+      title="{{controlName}}" onkeydown="return (event.keyCode!=13);" formControlName="contactname" [ngClass]="{ 'is-invalid': formValidationMessages.contactname }"
+      (click)="dropDownsHideShow('Contact')" (keyup)="filterContactGrid($event)"
+      [ngClass]="{ 'is-invalid': formValidationMessages.contactname }">
+    <div class="dropdown-menu p-0">
+      <div *ngIf="showContactsGrid" class="">
+        <ngx-datatable class="material expandable" style="height : 300px; width:450px;" [rows]="contactsList"
+          columnMode="force" [headerHeight]="50" [footerHeight]="0" [rowHeight]="50" [scrollbarV]="true"
+          [scrollbarH]="true" [selected]="contactsSelected" [selectionType]="'single'"
+          (select)='ContactGridRowSelect($event)'>
+          >
+         
+          <ngx-datatable-column name="Name" prop="contactname"></ngx-datatable-column>
+          <ngx-datatable-column name="Mobile" prop="contactmobilenumber" [width]="90">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Email" prop="contactemailid">
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </div> -->
+    <app-validation-message [messgae]="formValidationMessages?.contactname">
+    </app-validation-message>
+</div>

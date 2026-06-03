@@ -1,0 +1,80 @@
+
+  <div class="row">
+    <!-- <div class="col-md-12 col-xl-12">
+    <div class="d-flex justify-content-end">
+      <ol class="breadcrumb mt-2 position-absolute">
+        <li class="breadcrumb-item">{{Data?.Loanname}}</li>
+        <li class="breadcrumb-item">{{Data?.LoannameCode}}</li>
+
+      </ol>
+    </div>
+  </div> -->
+    <div class="my-container">
+      <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+          <h3>
+            Loading...
+          </h3>
+
+        </div>
+      </ng-template>
+      <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+    </div>
+
+    <!-- <div class="col-12 mt-5">
+      <p class="bc-2">Identification Documents</p>
+    </div> -->
+    <div class="col-12 ml-2 mt-5">
+      <label class="">Select Required / Mandatory Proofs</label>
+    </div>
+  </div>
+
+<div class="row mt-1">
+  <div class="col-12" *ngFor="let obj of LoanDoucments; let i=index">
+    <a class="lc-title acc1 mb-2 text-decoration-none" data-toggle="collapse" (click)="DocumentName_Click(i)" role="button" aria-expanded="false" aria-controls="identification-proof">
+      <img id="close" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" />
+      <img id="open" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" />
+      &nbsp; &nbsp;
+      <i class='glyphicon'
+         [class.glyphicon-chevron-right]="i != SelectedDocumentIndex"
+         [class.glyphicon-chevron-down]="i == SelectedDocumentIndex"></i>  {{obj.pDocumentGroup}}
+    </a>
+    <hr>
+    <div id="collapse1" data-toggle="collapse" class="panel-collapse" [class.collapse]='SelectedDocumentIndex != i' id="identification-proof">
+      <div class="row">
+        <div class="col-md-6 col-xl-8 mb-2">
+          <table id="example" class="table  table-responsive">
+            <thead>
+              <tr>
+                <th>Mandatory</th>
+                <th>Required</th>
+                <th>Proof Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let i of obj.pDocumentsList">
+                <td class="text-center">
+                  <input class="form-check-input" [checked]="i.pDocumentMandatory == true" type="checkbox" id="idproofmandate1" value="idproof1" name="idproofmandate1"
+                         [(ngModel)]="i.pDocumentMandatory" (change)="OnChange(i)">
+                  <label for="idproofmandate1"></label>
+                </td>
+                <td class="text-center">
+                  <input class="form-check-input" [checked]="i.pDocumentRequired == true" type="checkbox" name="idproofreq1" id="idproofreq1" [(ngModel)]="i.pDocumentRequired" value="option1" (change)="documentrequiredchecked(i)">
+                  <label for="idproofreq1"></label>
+                </td>
+                <td>{{i.pDocumentName}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!-- identification-proof-end-->
+<div class="row mt-4 ml-1">
+  <div class="col-md-12 col-xl-12">
+    <div *ngIf="forButtons" appButtonDoubleClick [debounceTime]="500" (debounceClick)="clear()" class="d-flex justify-content-end mt-4"> <a class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a> <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="NextTabClick()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i>{{savebutton}}</a> </div>
+  </div>
+</div>
+<!--row-end-->

@@ -1,0 +1,323 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6">
+
+    </div>
+    <div class="col-md-6 col-xl-6">
+        <a (click)="back()" class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+      color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;">
+            <img src="assets/images/icon-back-blue.svg" width="25px" height="25px">View
+        </a>
+    </div>
+</div>
+
+
+
+
+
+
+<!-- <div class="btn-group quick-links"> <a class="btn btn-block dropdown-toggle" data-toggle="dropdown" href="#">Loan
+    Details<span class="caret"></span></a>
+  <ul class="dropdown-menu">
+    <li class="dropdown-item"><a href="#">Select Member </a></li>
+    <li class="dropdown-item"><a href="#">KYC Documents</a></li>
+    <li class="dropdown-item"><a href="#">Personal details </a></li>
+    <li class="dropdown-item"><a href="#">Referral</a></li>
+  </ul>
+</div> -->
+
+<div *ngIf="ShowDetailsOnTab" class="col-md-12 col-xl-12">
+    <div class="d-flex justify-content-end">
+        <ol class="breadcrumb mt-2 position-absolute mb-4" style="top:-41px; left: 10px;">
+
+            <li class="breadcrumb-item">{{MemberDetailsForHeader[0]?.pContactName}}</li>
+            <li class="breadcrumb-item">{{MemberDetailsForHeader[0]?.pMemberType}}</li>
+            <li class="breadcrumb-item">{{MemberDetailsForHeader[0]?.pMemberReferenceId}}</li>
+            <!-- <li class="breadcrumb-item">{{MemberDetailsForHeader[0]?.fromForm}}</li> -->
+
+        </ol>
+    </div>
+</div>
+<!----------------------tOP NAV END ------------------------------>
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div class="section-container">
+            <ul class="nav nav-tabs tip-top wiz-tab mt-2 mb-2" id="myTab" role="tablist">
+                <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Select Memebr"> <a class="active disableTabs" data-toggle="tab" href="#selectmember" role="tab" aria-controls="fresh" aria-selected="true">Select Member</a>
+                </li>
+                <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="KYC and Identification Documents">
+                    <a class="disableTabs" data-toggle="tab" href="#kyc-Documents" role="tab" aria-controls="warm" aria-selected="false">
+                        KYC Documents</a> </li>
+                <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Personal-Details">
+                    <a class="disableTabs" data-toggle="tab" href="#personal-details" role="tab" aria-controls="cold" aria-selected="false">Personal-Details</a>
+                </li>
+                <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="References"> <a class="disableTabs" data-toggle="tab" href="#references" role="tab" aria-controls="cold" aria-selected="false">References</a> </li>
+                <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Referral/CP/Agent Details"> <a class="disableTabs" data-toggle="tab" href="#refferral" role="tab" aria-controls="cold" aria-selected="false">Referral</a> </li>
+            </ul>
+            <form [formGroup]="FIMemberContactForm">
+
+                <div class="tab-content" id="myTabContent">
+
+                    <div class="tab-pane fade  active show " id="selectmember" role="tabpanel" aria-labelledby="fresh-tab">
+                        <div class="row mt-5">
+
+                            <div class="col-md-4">
+                                <div class="form-group" [ngClass]="notEditable ? 'cursor-not-allowaed' : ''">
+                                    <label class="mt-1" for="">Date of Member</label>
+                                    <div class="form-group">
+                                        <fieldset [ngClass]="{'for-disable-radio-btn': notEditable}" [disabled]="!disabletransactiondate">
+                                            <input readonly type="text" class="form-control" formControlName="pFIMemberDate" [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="dpConfig" #dp="bsDatepicker" [bsValue]="bsValue" bsDatepicker placement="bottom">
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--//testtttt-->
+                            <div class="col-md-4">
+                                <div class="form-group" [ngClass]="notEditable ? 'cursor-not-allowaed' : ''">
+                                    <label class="mt-1" for="" id="pMembertypeId" title="Member type">Member type</label>
+                                    <div class="form-group" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                        <!-- <select [ngClass]="{'for-disable-radio-btn': notEditable}" class="form-control" formControlName="pMembertypeId" (change)="ChangeMemberType($event)" [ngClass]="{ 'is-invalid': FiMemberContactFormErrors.pMembertypeId}">
+                <option value="" disabled>Select</option>
+                <option *ngFor="let type of MemberTypesList;trackBy: trackByFn;" [value]="type.pmembertypeid">
+                  {{type.pmembertype}}</option>
+              </select> -->
+                                        <!-- <ng-select title="Member Type" id="pMembertypeId" [items]="MemberTypesList" formControlName="pMembertypeId" bindLabel="pmembertype" bindValue="pmembertypeid" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                            [clearOnBackspace]=true (change)="ChangeMemberType($event);" [ngClass]="{ 'is-invalid': FiMemberContactFormErrors.pMembertypeId}">
+                                        </ng-select> -->
+                                        <ng-select title="Member Type" id="pMembertypeId" [items]="MemberTypesList" formControlName="pMembertypeId" bindLabel="pmembertype" bindValue="pmembertypeid" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                            [clearOnBackspace]=true (change)="ChangeMemberType($event);" [ngClass]="{ 'is-invalid': FiMemberContactFormErrors.pMembertypeId }">
+                                        </ng-select>
+                                        <div class="invalid-feedback">
+                                            <span *ngIf="FiMemberContactFormErrors.pMembertypeId">{{FiMemberContactFormErrors?.pMembertypeId}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" hidden>
+                                    <label class="mt-1" for="" id="pApplicanttype" title="Applicant type">Applicant type</label>
+                                    <div class="form-group">
+                                        <select class="form-control" formControlName="pApplicanttype" [ngClass]="{ 'is-invalid': FiMemberContactFormErrors.pApplicanttype}">
+                <option value="" disabled>Select</option>
+                <option *ngFor="let type of ApplicantTypesList;trackBy: trackByFn;" [value]="type.pApplicanttype">
+                  {{type.pApplicanttype}}</option>
+              </select>
+                                        <div class="invalid-feedback">
+                                            <span *ngIf="FiMemberContactFormErrors.pApplicanttype">{{FiMemberContactFormErrors?.pApplicanttype}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-12 col-xl-12">
+                                <h2 class="sec-head-bold">Contact Type</h2>
+                            </div>
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <div class="form-group" [ngClass]="notEditable ? 'cursor-not-allowaed' : ''">
+                                    <div class="form-check form-check-inline mr-5 radio-btn" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                        <input class="form-check-input radio-btn" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Individual" (change)="ChangeContactType('Individual')" [checked]="SelectType=='Contact'">
+                                        <label class="mt-1" for="inlineRadio1"> Individual </label>
+                                    </div>
+                                    <div class="form-check form-check-inline mr-5 radio-btn" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                        <input class="form-check-input radio-btn" [checked]="SelectType=='Business Entity'" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="BusinessEntity" (change)="ChangeContactType('Business Entity')">
+                                        <label class="mt-1" for="inlineRadio2"> Business Entity </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-xl-12">
+                                <div class="individual">
+                                    <div class="col-md-4 col-xl-4 pl-0">
+
+                                        <div class="form-group" [ngClass]="notEditable ? 'cursor-not-allowaed' : ''">
+                                            <label class="mt-1" for="" id="pContactName" title="Select">Select {{SelectType}}</label>
+                                            <div class="form-group " *ngIf="SelectType == 'Contact'" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                                <div class="demo-section k-content">
+                                                    <input id="contactsData" name="Contactdata" formControlName="pContactName" style="width: 100%;" />
+                                                </div>
+                                                <div class="for-error">
+                                                    <span *ngIf="forIndividualApplicantName == true">Contact is Required</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group " *ngIf="SelectType == 'Business Entity'" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                                <div class="demo-section k-content">
+                                                    <input id="businessContactsData" name="BusinessContactsdata" formControlName="pContactName" style="width: 100%;" />
+                                                </div>
+                                                <div class="for-error">
+                                                    <span *ngIf="forBusinessApplicantName == true">Applicant is required</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="loans-card  mb-4 " *ngIf="ShowImageCard">
+                                            <div class="row">
+                                                <div class="col-12 pt-2">
+                                                    <div class="user-pic"> <img [src]="croppedImage"> </div>
+                                                </div>
+                                                <div class="col-12 pt-2">
+                                                    <p class="lc-title text-center mb-auto">{{DisplayCardData?.pContactName}}</p>
+                                                    <div class="mt-3">
+                                                        <p class="lc-sub-title mb-0 text-center mt-3">{{DisplayCardData?.pBusinessEntitycontactNo}}
+                                                        </p>
+                                                        <p class="lc-txt mb-0 mt-1 text-center"> Unique ID - {{DisplayCardData?.pReferenceId}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ================================================================= Select business entity======================================================================== -->
+
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-4">
+                            <!-- <a *ngIf="ButtonType != 'Update'" (click)="ClearButtonClick()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg"
+            width="20px" height="20px" class="mr-3" />Clear</a> -->
+
+                            <!-- <a (click)="NextTabClick()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot"
+          aria-selected="false"><img src="assets/images/icon-chewron-right-whitesolid.svg" width="20px" height="20px"
+            class="mr-3" />Next</a> -->
+                            <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="NextTabClick()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-chewron-right-whitesolid.svg" width="20px" height="20px" class="mr-3" />Save & Continue</a>
+                        </div>
+                    </div>
+                    <!-- ==================================================================== tab content pannnel 1 end =================================================================== -->
+
+                    <div class="tab-pane fade" id="kyc-Documents" role="tabpanel" aria-labelledby="warm-tab">
+                        <!-- <app-fi-kycandidentification #kycandidentification></app-fi-kycandidentification> -->
+                        <app-fi-kycandidentification #kycandidentification [forHideButton]="forHideButton" (forPersonalDetailsGetAndEditEmitEventInFiMemberForm)="forPersonalDetailsGetAndEditEmitEvent($event)">
+                        </app-fi-kycandidentification>
+                    </div>
+                    <!-- ==================================================================== tab content pannnel 2 end =================================================================== -->
+
+                    <div class="tab-pane fade" id="personal-details" role="tabpanel" aria-labelledby="cold-tab">
+                        <app-fi-personaldetails [selectedContactType]="selectedContactType" (forGettingFIMemberReferenceDataEmit)="getFiReferencesGetDataEmit($event)"></app-fi-personaldetails>
+
+                    </div>
+                    <!-- ==================================================================== tab content pannnel 3 end =================================================================== -->
+
+
+                    <div class="tab-pane fade" id="references" role="tabpanel" aria-labelledby="cold-tab">
+                        <app-fi-references (forGettingPersonalDetailsDataEmit)="forGettingPersonalDetailsDataEmit($event)"></app-fi-references>
+                    </div>
+                    <!-- ==================================================================== tab content pannnel 4 end =================================================================== -->
+
+
+                    <div class="tab-pane fade" id="refferral" role="tabpanel" aria-labelledby="cold-tab">
+
+                        <div class="row mt-5 mb-3">
+                            <div class="col-md-6 col-xl-4"> <a class="bc-2 mb-2 text-decoration-none"> Referral</a> </div>
+
+                            <div class="col-md-6 col-xl-4">
+                                <div class="material-switch pull-right"> <span class="mr-2">Not applicable</span>
+                                    <input id="ReferalNotapplicable" name="ReferalNotapplicable" type="checkbox" [(ngModel)]="ReferealNotApplicableForLoan" (change)="ReferalNotApplicable($event)" [ngModelOptions]="{standalone: true}">
+                                    <label for="ReferalNotapplicable" class="check-danger"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="!ShowReferalFlag">
+                            <div class="row">
+                                <div class="col-md-6 col-xl-4">
+                                    <h2 class="sec-head">Is referral commission paid for this Member?</h2>
+
+                                    <!--<div class="material-switch pull-right"> <span class="mr-2">Not applicable</span>
+              <input id="ReferalComisionNotapplicable" name="ReferalComisionNotapplicable" type="checkbox"
+                [(ngModel)]="ReferealComisionNotApplicableForLoan" (change)="ReferalComisionNotApplicable($event)"
+                [ngModelOptions]="{standalone: true}">
+              <label for="ReferalComisionNotapplicable" class="check-danger"></label>
+            </div>-->
+                                </div>
+
+                            </div>
+
+                            <div *ngIf="!ShowRefComisionFlag">
+                                <div class="row">
+                                    <div class="col-md-6 col-xl-4">
+                                        <h2 class="sec-head">
+                                            Commission Payout:</h2>
+
+                                        <div class="form-group">
+                                            <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                                                <input class="form-check-input" type="radio" formControlName="pCommisionPayoutType" id="fixed-amt" value="Fixed">
+                                                <label class="mt-1" for="fixed-amt"> Fixed Amount</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-xl-4">
+                                        <div class="form-group">
+                                            <label for="" id="pCommisionPayoutAmountorPercentile" title="Fixed Amount" hidden>Fixed Amount</label>
+                                            <input appNumbersonly appMycurrencyFormatter class="form-control" type="text" maxlength="12" formControlName="pCommisionPayoutAmountorPercentile" [ngClass]="{ 'is-invalid': FiMemberContactFormErrors.pCommisionPayoutAmountorPercentile}">
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            <span *ngIf="FiMemberContactFormErrors?.pCommisionPayoutAmountorPercentile">{{FiMemberContactFormErrors?.pCommisionPayoutAmountorPercentile}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 col-xl-4">
+                                    <h2 class="sec-head">
+                                        Is TDS Applicable on referral commission?
+                                    </h2>
+
+                                    <!--<div class="material-switch pull-right"> <span class="mr-2">Not applicable</span>
+              <input id="TDSnotapplicable" name="TDSnotapplicable" type="checkbox" [(ngModel)]="tdsnotApplicableforloan"
+                (change)="TDSnotApplicableForLoan($event)" [ngModelOptions]="{standalone: true}">
+              <label for="TDSnotapplicable" class="check-danger"></label>
+            </div>-->
+
+                                    <div class="col-md-4 col-xl-4" *ngIf="!ShowTdsFlag">
+                                        <label id="pTdsSection" title="Section">Section</label>
+                                        <select id="pTdsSection" title="TDS" class="form-control" formControlName="pTdsSection">
+                <option value="" ng-selected="selected">Select</option>
+                <option *ngFor="let tdsdetails of TDSsectiondetails" [value]="tdsdetails.pTdsSection">
+                  {{tdsdetails.pTdsSection}}</option>
+              </select>
+
+                                        <!-- <div class="invalid-feedback">
+                <span
+                  *ngIf="FiMemberContactFormErrors?.pTdsSection">{{FiMemberContactFormErrors?.pTdsSection}}</span>
+              </div> -->
+                                        <app-validation-message [messgae]="FiMemberContactFormErrors?.pTdsSection"></app-validation-message>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-4 ml-1">
+                            <div class="col-md-12 col-xl-12">
+                                <div class="d-flex justify-content-end mt-4">
+                                    <!-- <a href="#" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg"
+                width="20px" height="20px" class="mr-3" />Clear</a> -->
+
+                                    <a (click)="moveToPreviousTab()" data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-chewron-left-whitesolid.svg" width="20px" height="20px" class="mr-3" />Back</a>
+                                    <a (click)="SaveButtonClick()" data-toggle="tab" class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />Save</a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- ==================================================================== tab content pannnel 5 end =================================================================== -->
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+<!-- tab content end -->

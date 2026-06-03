@@ -1,0 +1,218 @@
+<div class="section-container">
+    <div class="col-md-12 mt-5 mb-4">
+        <div id="template">
+            <div class="d-flex justify-content-end mr-3">
+                <ul class="temp-ul">
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf"
+                            style="cursor: pointer;" kendo-button (click)="pdf.saveAs(printFileName+'.pdf')" />
+                    </li>
+                    <!-- <li class="temp-ico ml-2">
+                        <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print"
+                            (click)="print()" style="cursor: pointer;" />
+                    </li> -->
+                </ul>
+    
+            </div>
+    
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+    
+                        <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true"
+                            [landscape]="false" [scale]="0.7">
+                            <div id="temp-box">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <app-company-details></app-company-details>
+    
+                                        <div class="report-head">
+                                            <p class="font-18 text-dark text-center m-0">
+                                                MATURITY PAYMENT DETAILS
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="temp-box-inner border rounded shadow-sm bg-white p-3"
+                                    style="overflow:hidden; height:auto !important;">
+                                    <div class="row">
+                                        <!-- <div class="col-md-12">
+                                            <p class="font-18 text-dark text-center m-0">
+                                                <span class="font-16">(Num Id : 985 )</span>
+                                            </p>
+                                        </div> -->
+                                        <div class="col-md-6">
+                                            <div class="border p-2 h-200">
+                                                <div class="row">
+                                                    <div class="col-md-12 mt-3">
+                                                        <label style="margin-left: 87px;" class=" bc-1 font-weight-bold">OLD CERTIFICATE DETAILS
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">App Name  </label>
+                                                        <label class="font-weight-normal text-left w-50">: {{appName}}</label>                                      
+                                                    </div>   
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">Total Amount </label>
+                                                        <label class="font-weight-normal">: {{totalAmount | mycurrencypipe}}</label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">Adjusted Amount  </label>
+                                                        <label class="font-weight-normal">: {{adjustedAmount | mycurrencypipe}}</label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">Period
+                                                        </label>
+                                                        <label class="font-weight-normal">: {{period}}</label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">Mode Of Extra Return </label>
+                                                        <label class="font-weight-normal">: {{modeOfExtraReturnOld}}</label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">Extra Return Amount
+                                                        </label>
+                                                        <label class="font-weight-normal">: {{extraReturnAmount | mycurrencypipe}}</label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">Actual Extra Return Amount
+                                                        </label>
+                                                        <label class="font-weight-normal">: {{actualExtraReturnAmount | mycurrencypipe}}</label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">Total Amount
+                                                        </label>
+                                                        <label class="font-weight-normal">: {{pTotal_amount | mycurrencypipe}}</label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">Maturity Date
+                                                        </label>
+                                                        <label class="font-weight-normal">: {{maturityDate}}</label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">Less Renewal Amount
+                                                        </label>
+                                                        <label class="font-weight-normal">: {{lessRenewalAmount | mycurrencypipe}}</label>
+                                                    </div>
+                                                    <!-- <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">TDS Amount
+                                                        </label>
+                                                        <label class="font-weight-normal">: 6,830</label>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="border p-2 h-200">
+                                                <div class="row">
+                                                    <div class="col-md-12 mt-3">
+                                                        <label style="margin-left: 87px;" class=" bc-1">New CERTIFICATE DETAILS
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">App Name
+                                                        </label>
+                                                        <label class="font-weight-normal text-left w-50">: {{appNameNew}}</label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">Amount</label>
+                                                        <label class="font-weight-normal">: {{amountNew | mycurrencypipe}}</label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">Period </label>
+                                                        <label class="font-weight-normal">: {{periodNew}}</label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">Mode Of Extra Return
+                                                        </label>
+                                                        <label class="font-weight-normal">: {{modeOfExtraReturnNew}}</label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">JV No.
+                                                        </label>
+                                                        <label class="font-weight-normal">: {{jvNoNew}}</label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">No. OF Days Extra
+                                                        </label>
+                                                        <label class="font-weight-normal">: {{noOfDaysExtraNew}}</label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">Per Day Interest Amount
+                                                        </label>
+                                                        <label class="font-weight-normal">: {{perDayIntrestAmountNew}}</label>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <label class="bc-1 font-14 text-left  w-50">Extra Days Interest Amount
+                                                        </label>
+                                                        <label class="font-weight-normal">: {{extraDaysInterestAmountNew | mycurrencypipe}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    
+                                    
+                                    
+                                  <div class="row mt-5">
+                                        <div class="col-md-3 col-sm-3" style="bottom:0px;">
+                                            <div class="temp-sign-box text-center">
+                                                <label class="font-14 m-0"></label>
+                                                <p class="font-14 font-weight-bold text-dark mb-4">
+                                                    (Manager)
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3" style="bottom:0px;">
+                                            <div class="temp-sign-box text-center">
+                                                <label class="font-14 m-0"></label>
+                                                <p class="font-14 font-weight-bold text-dark mb-4">
+                                                    (Incharge)
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3">
+                                            <div class="temp-sign-box text-center">
+                                                <label class="font-14 m-0"></label>
+                                                <p class="font-14 font-weight-bold text-dark mb-4">
+                                                    (Verified By)
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3">
+                                            <div class="temp-sign-box text-center">
+                                                <label class="font-14 m-0"></label>
+                                                <p class="font-14 font-weight-bold text-dark mb-4">
+                                                    (Account Officer)
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+    
+                            </div>
+                        </kendo-pdf-export>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+    </div>
+    
+    
+    <!-- <div class="col-md-12 col-xl-12 mt-5 text-center">
+        <p class="bc-2">{{receiptName}}</p>
+    </div> -->
+    <div class="my-container">
+        <ng-template #customLoadingTemplate>
+            <div class="custom-class">
+    
+            </div>
+        </ng-template>
+        <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+        </ngx-loading>
+    
+    </div>
+    

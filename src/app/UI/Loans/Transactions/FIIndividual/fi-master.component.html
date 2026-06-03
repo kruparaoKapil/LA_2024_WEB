@@ -1,0 +1,157 @@
+<div class="row">
+    <div class="col-6">
+        <p class="bc-2">First Information</p>
+    </div>
+    <div class="col-md-6 col-xl-6 ">
+        <a routerLink="/FiView"> <span class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+          color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img
+                    src="assets/images/icon-back-blue.svg" width="25px" height="25px">View</span></a>
+    </div>
+</div>
+<!-- <div class="row">
+
+   
+    <div class="col-md-12 col-xl-12 ">
+        <a routerLink="/FiView"> <span class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+          color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img
+                    src="assets/images/icon-back-blue.svg" width="25px" height="25px">View</span></a>
+    </div>
+</div> -->
+<div class="section-container loan-tabs mt-3">
+    <ul class="nav nav-tabs tip-top wiz-tab mt-2" id="myTab" role="tablist">
+        <li class="nav-item for-disable-anchor-links" data-toggle="popover" data-placement="top" data-trigger="hover" *ngFor="let data of GetFirstInformationTabsData; let i = index">
+            <a [ngClass]="{'active': dropdoenTabname == data.pTabsectionname}" class="disableTabs" data-toggle="tab" href="#{{data.pTabsectionid}}" (click)="MoveToNextTab(data.pTabsectionsortorder,data.pTabsectionid)" role="tab" aria-controls="fresh" aria-selected="true">{{data.pTabsectionname}}</a>
+        </li>
+        <!-- <li class="nav-item for-disable-anchor-links" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Select Applicant"> <a class="active disableTabs" data-toggle="tab" href="#select-applicant" (click)="MoveToNextTab(
+            '1', 'select-applicant')" role="tab" aria-controls="fresh" aria-selected="true">1</a> </li>
+    <li class="nav-item for-disable-anchor-links" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Loan Details"> <a class="disableTabs" data-toggle="tab" href="#loan-details" (click)="MoveToNextTab( '2',
+            'loan-details')" role="tab" aria-controls="fresh" aria-selected="true">2</a> </li>
+    <li class="nav-item for-disable-anchor-links" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Applicants and Others"> <a class="disableTabs" data-toggle="tab" href="#applicants-others" (click)="MoveToNextTab(
+            '3', 'applicants-others')" role="tab" aria-controls="hot" aria-selected="false">3</a> </li>
+    <li class="nav-item for-disable-anchor-links" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="KYC and Identification Documents"> <a class="disableTabs" data-toggle="tab" href="#kyc-Documents" (click)="MoveToNextTab(
+            '4', 'kyc-Documents')" role="tab" aria-controls="warm" aria-selected="false">4</a> </li>
+    <li class="nav-item for-disable-anchor-links" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Personal-Details"> <a class="disableTabs" data-toggle="tab" href="#personal-details" (click)="MoveToNextTab( '5',
+            'personal-details')" role="tab" aria-controls="cold" aria-selected="false">5</a></li>
+    <li class="nav-item for-disable-anchor-links" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Security-and-Collateral"> <a class="disableTabs" data-toggle="tab" href="#security-collateral" (click)="MoveToNextTab(
+            '6', 'security-collateral')" role="tab" aria-controls="cold" aria-selected="false">6</a> </li>
+    <li class="nav-item for-disable-anchor-links" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Existing-Loans-or-Credit-Facilities"> <a class="disableTabs" data-toggle="tab" href="#existing-loans" (click)="MoveToNextTab(
+            '7', 'existing-loans')" role="tab" aria-controls="cold" aria-selected="false">7</a> </li>
+    <li class="nav-item for-disable-anchor-links" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Loan-specific-fields"> <a class="disableTabs" data-toggle="tab" href="#loan-specific" (click)="MoveToNextTab( '8',
+            'loan-specific')" role="tab" aria-controls="cold" aria-selected="false">8</a> </li>
+    <li class="nav-item for-disable-anchor-links" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="References"> <a class="disableTabs" data-toggle="tab" href="#references" (click)="MoveToNextTab( '9',
+            'references')" role="tab" aria-controls="cold" aria-selected="false">9</a> </li>
+    <li class="nav-item for-disable-anchor-links" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Referral/CP/Agent Details"> <a class="disableTabs" data-toggle="tab" href="#refferral" (click)="MoveToNextTab(
+            '10', 'refferral')" role="tab" aria-controls="cold" aria-selected="false">10</a> </li> -->
+    </ul>
+    <!-- <div class="btn-group quick-links"> <a class="btn btn-block tabColor dropdown-toggle for-disable-anchor-links" data-toggle="dropdown" href="#">{{dropdoenTabname}}<span class="caret"></span></a>
+    <ul class="dropdown-menu">
+        <li class="dropdown-item for-disable-anchor-links" *ngFor="let data of GetFirstInformationTabsData"><a href="#">{{data.pTabsectionsortorder}} </a></li> -->
+    <!-- <li class="dropdown-item for-disable-anchor-links"><a href="#">Select Applicant </a></li>
+        <li class="dropdown-item for-disable-anchor-links"><a href="#">Loan Details </a></li>
+        <li class="dropdown-item for-disable-anchor-links"><a href="#">Applicants and Others </a></li>
+        <li class="dropdown-item for-disable-anchor-links"><a href="#">KYC Documents </a></li>
+        <li class="dropdown-item for-disable-anchor-links"><a href="#">Personal Details </a></li>
+        <li class="dropdown-item for-disable-anchor-links"><a href="#">Security and Collateral </a></li>
+        <li class="dropdown-item for-disable-anchor-links"><a href="#">Existing Loans or Credit Facilities </a></li>
+        <li class="dropdown-item for-disable-anchor-links"><a href="#">Loan Specific Fields </a></li>
+        <li class="dropdown-item for-disable-anchor-links"><a href="#">References (Not Related to you)</a></li>
+        <li class="dropdown-item for-disable-anchor-links"><a href="#">Referral/CP/Agent Details </a></li> -->
+    <!-- </ul>
+</div> -->
+
+
+    <div *ngIf="ShowDetailsOnTab" class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end">
+            <ol class="breadcrumb mt-2 position-absolute mb-4" style="top:-41px; left: 10px;">
+                <li class="breadcrumb-item">{{LoanDetails?.pApplicantname}} - <img src="assets/images/smartphone-call.svg" class="mr-0 mt-n1" width="12" height="12"> {{LoanDetails?.pBusinessEntitycontactNo}} </li>
+                <li class="breadcrumb-item">{{LoanDetails?.pLoantype}}</li>
+                <li class="breadcrumb-item">{{LoanDetails?.pLoanname}}</li>
+                <li class="breadcrumb-item">{{LoanDetails?.pVchapplicationid}}</li>
+
+            </ol>
+        </div>
+    </div>
+
+    <!-- ======================================================================= tab nav end ============================================================================== -->
+    <!-- <div class="row">
+    <div class="col-md-12 col-xl-12">
+      <div class="d-flex justify-content-end">
+        <ol class="breadcrumb mt-2 position-absolute">
+          <li class="breadcrumb-item">Vignesh Kumar - <img src="assets/images/smartphone-call.svg" class="mr-0 mt-n1" width="12" height="12"> 9999 9999 9999 </li>
+          <li class="breadcrumb-item">Vehicle Loan</li>
+          <li class="breadcrumb-item">2 Wheeler </li>
+        </ol>
+      </div>
+    </div>
+  </div>  -->
+    <!-- breadcrumb end -->
+    <!-- ===========================================tab content start ============================================================================== -->
+    <div class="tab-content" id="myTabContent">
+        <!-- =============1 select-applicant-start==== -->
+        <div class="tab-pane fade" [ngClass]="{'active show': dropdoenTabname == 'Select Applicant'}" id="select-applicant" role="tabpanel" aria-labelledby="fresh-tab">
+            <app-fi-contacttype [notEditable]="notEditable" (forContactTypeEmit)="forContactTypeEmit($event)" (refreshSecondTabData)="refreshSecondTabData($event)" (totalTwotabsData)="totalTwotabsData($event)" [routePchApplicationId]='routeVchApplicationId' (onSelectContactType)="onSelectContactType($event)"
+                [FirstInformationTabsData]="GetFirstInformationTabsData">
+            </app-fi-contacttype>
+        </div>
+        <!-- =============select-applicant-end==== -->
+        <!-- 2 loan-details-start -->
+        <div class="tab-pane fade" [ngClass]="{'active show ': dropdoenTabname == 'Loan Details'}" id="loan-details" role="tabpanel" aria-labelledby="fresh-tab">
+            <app-fi-loandetails [forClearButton]="forClearButton" (forGettingContactDataEmit)="forGettingContactDataEmit($event)" (forCoapplicantAndGuarantersDataEmit)="forCoapplicantAndGuarantersDataEmit($event)
+           " [routePchApplicationId]='routeVchApplicationId' (loanDetails)="loanDetails($event)" [FirstInformationTabsData]="GetFirstInformationTabsData"></app-fi-loandetails>
+        </div>
+        <!-- loan-details-end -->
+        <!-- 3.applicants-others -->
+        <div class="tab-pane fade" [ngClass]="{'active show ': dropdoenTabname == 'Applicants and Others'}" id="applicants-others" role="tabpanel" aria-labelledby="hot-tab">
+            <app-fi-applicantsandothers [forClearButton]="forClearButton" (forGettingLoanDetailsDataEmit)="forGettingLoanDetailsDataEmit($event)" [SelectType]="SelectType" (forGettingKYCAndCreditScoreData)="forGettingKYCAndCreditScoreData($event)
+           " (getApplicantandOthersData)="(kycandidentification ? kycandidentification.getData($event) : null);" [FirstInformationTabsData]="GetFirstInformationTabsData">
+            </app-fi-applicantsandothers>
+        </div>
+        <!-- 3.applicants-others end-->
+        <!--4. KYC and Identification start -->
+        <div class="tab-pane fade" [ngClass]="{'active show ': dropdoenTabname == 'KYC Documents'}" id="kyc-Documents" role="tabpanel" aria-labelledby="warm-tab">
+            <app-fi-kycandidentification [forClearButton]="forClearButton" (forGettingApplicantAndOthersDataEmit)="forGettingApplicantAndOthersDataEmit($event)" (forPersonalDetailsGetAndEditEmitEvent)="forPersonalDetailsGetAndEditEmitEvent($event)" #kycandidentification
+                (kycDocumentdetailsTOBusiness)="kycDocumentdetailsTOBusiness($event)" [FirstInformationTabsData]="GetFirstInformationTabsData">
+            </app-fi-kycandidentification>
+        </div>
+        <!--4. KYC and Identification end -->
+
+        <!--5. personal-details start -->
+        <div class="tab-pane fade" [ngClass]="{'active show ': dropdoenTabname == 'Personal Details'}" id="personal-details" role="tabpanel" aria-labelledby="cold-tab">
+            <app-fi-personaldetails [forClearButton]="forClearButton" (forGettingKYCDataEmit)="forGettingKYCDataEmit($event)" (enteredBusinessFinancialDetails)="enteredBusinessFinancialDetails($event)" (enteredBusinessActivityDetails)="enteredBusinessActivityDetails($event)"
+                (forSecurityColletralGetData)="forSecurityColletralGetData($event)" (enteredOtherIncomeDetails)="enteredOtherIncomeDetails($event)" (enteredIncomeDetails)="enteredIncomeDetails($event)" (enteredEmployeeDetails)="enteredEmployeeDetails($event)"
+                (selectedContactTypeForPersonalLoan)="selectedContactTypeForPersonalLoan($event)" [selectedContactType]="selectedContactType" [FirstInformationTabsData]="GetFirstInformationTabsData">
+            </app-fi-personaldetails>
+        </div>
+        <!-- personal-details end -->
+        <!-- 6.security-collateral-start -->
+        <div class="tab-pane fade" [ngClass]="{'active show ': dropdoenTabname == 'Security and Collateral'}" id="security-collateral" role="tabpanel" aria-labelledby="cold-tab">
+            <app-fi-securityandcollateral [forClearButton]="forClearButton" (forGettingPersonalDetailsDataEmit)="forGettingPersonalDetailsDataEmit($event)" (forLoanSpecificData)="forLoanSpecificData($event)" (forGettingAndEditingExistingUsersEmit)="forGettingAndEditingExistingUsersEmit($event)"
+                #securityandcollateral (securityColletralPropertyDetails)="securityColletralPropertyDetails($event)" (securityColletralmovablePropertyDetails)="securityColletralmovablePropertyDetails($event)" [FirstInformationTabsData]="GetFirstInformationTabsData">
+            </app-fi-securityandcollateral>
+        </div>
+        <!-- 6. security-collateral-end -->
+        <!-- 7. existing-loans -->
+        <div class="tab-pane fade" [ngClass]="{'active show ': dropdoenTabname == 'Existing Loans'}" id="existing-loans" role="tabpanel" aria-labelledby="cold-tab">
+            <app-fi-existingloans [forClearButton]="forClearButton" (forGettingSecurityColletralDataEmit)="forGettingSecurityColletralDataEmit($event)" (getDataForLoanspecific)="getDataForLoanspecific($event)" [FirstInformationTabsData]="GetFirstInformationTabsData"></app-fi-existingloans>
+        </div>
+        <!-- 7. existing-loans-end -->
+        <!-- 8. loan-specific-start -->
+        <div class="tab-pane fade" [ngClass]="{'active show ': dropdoenTabname == 'Loan Specific Fields'}" id="loan-specific" role="tabpanel" aria-labelledby="cold-tab">
+            <app-fi-loanspecfic [forClearButton]="forClearButton" (forGettingExistingLoansDataEmit)="forGettingExistingLoansDataEmit($event)" (forMasterMovalbleProprtyDetailsEmit)="forMasterMovalbleProprtyDetailsEmit($event)
+           " (forMasterPropertyDetailsEmit)="forMasterPropertyDetailsEmit($event)" (getFiReferencesGetDataEmit)="getFiReferencesGetDataEmit($event)" (eightTabPersonalData)="eightTabPersonalData($event)" [enteredEmployeeDataToChild]="enteredEmployeeData"
+                [selectedContactTypeForPersonalLoanComponent]="selectedContactTypeForPersonalLoanComponent" [properDetails]="properDetails" [movableproperDetails]="movableproperDetails" [FirstInformationTabsData]="GetFirstInformationTabsData"></app-fi-loanspecfic>
+        </div>
+        <!-- 8. loan-specific-end -->
+        <!-- 9.References start -->
+        <div class="tab-pane fade" [ngClass]="{'active show ': dropdoenTabname == 'References'}" id="references" role="tabpanel" aria-labelledby="cold-tab">
+            <app-fi-references [forClearButton]="forClearButton" (forGettingLoanSpecificDetailsDataEmit)="forGettingLoanSpecificDetailsDataEmit($event)" (forFiReferalEditData)="forFiReferalEditData($event)" [FirstInformationTabsData]="GetFirstInformationTabsData"></app-fi-references>
+        </div>
+        <!-- 9.References end -->
+        <!-- 10.refferral start -->
+        <div class="tab-pane fade" [ngClass]="{'active show ': dropdoenTabname == 'Referral/CP/Agent Details'}" id="refferral" role="tabpanel" aria-labelledby="cold-tab">
+            <app-fi-referral [forClearButton]="forClearButton" (forGettingReferencesDataEmit)="forGettingReferencesDataEmit($event)" [FirstInformationTabsData]="GetFirstInformationTabsData"></app-fi-referral>
+        </div>
+        <!-- 10.refferral end -->
+    </div>
+    <!-- ===========================================tab content end ============================================================================== -->.
+</div>

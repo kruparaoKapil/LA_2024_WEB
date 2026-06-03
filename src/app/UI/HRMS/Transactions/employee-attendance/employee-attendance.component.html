@@ -1,0 +1,252 @@
+<div class="section-container">
+  <div class="row p-0">
+    <div class="col-xl-12 col-md-12">
+      <div class="section-content">
+        <form [formGroup]="EmployyeAttendForm">
+
+          <div class="row mt-3">
+
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label   title="Employee Name">Employee Name</label>
+
+                <ng-select [items]="employeeList" formControlName="pEmployeecode"
+                bindLabel="pEmployeeName" bindValue="pEmployeecode" [clearable]="false"
+                [multiple]=false placeholder="Select" [searchable]="true"
+                [searchFn]="contactSearchFn" [clearable]=true dropdownPosition="bottom"
+                [clearOnBackspace]=true
+                (change)=ContactGridRowSelect($event)>
+                <ng-template ng-header-tmp>
+                  <div class="row">
+                    <span class="col-4">Employee Name</span>
+                      <span class="col-4">Employee Code</span>
+                      <span class="col-4">Mobile</span>
+                  </div>
+              </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-index="index"
+                    let-search="searchTerm">
+                    <div class="row">
+                      <span class="col-4 word-break text-wrap" >{{item.pEmployeeName}}</span>
+                      <span class="col-4 word-break text-wrap" >{{item.pEmployeecode}}</span>                        
+                      <span class="col-4 word-break text-wrap" >{{item.pContactNo}}</span>
+                  </div>
+                </ng-template>
+
+            </ng-select>
+
+                <!-- <ng-select class="custom-ng-select" [multiple]="false" [items]="employeeList | async"
+                [minTermLength]="dropDownDataSearchLength" typeToSearchText="Please Enter 3 or more Characters"
+                [typeahead]="contactSearchevent" formControlName="pEmployeecode" bindLabel="pEmployeeName"
+                bindValue="pEmployeecode" id="pEmployeeName" placeholder="Search by employee name" title="Employee"
+                [searchable]=true [clearable]="true" dropdownPosition="" [clearOnBackspace]=true
+                (change)="ContactGridRowSelect($event)"  >
+                <ng-template ng-header-tmp>
+                  <div class="row">
+                    <span class="col-3" title="Employee Code">Employee Code</span>
+                    <span class="col-3 text-center" title="Employee Name">Name</span>
+                    <span class="col-3 text-center">Mobile No.</span>
+                    <span class="col-3">Email Id</span>
+                  </div>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  <div class="row">
+                    <span class="col-3" title="{{item.pEmployeecode}}">{{item.pEmployeecode}}</span>
+                    <span class="col-3 text-center" title="{{item.pEmployeeName}}">{{item.pEmployeeName}}</span>
+                    <span class="col-3" title="{{item.pContactNo}}">{{item.pContactNo}}</span>
+                    <span class="col-3 text-center" title="{{item.pEmailid}}">{{item.pEmailid}}</span>
+                  </div>
+                </ng-template>
+              </ng-select> -->
+
+            </div>
+          </div>
+        </div>
+
+
+          <div class="row mt-3">
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label class="required-field" id="pPeriodType" title="Year">Year</label>
+                <ng-select title="Select Year" [items]="calendarYearData" formControlName="pPeriodType" bindLabel="pPeriodType"
+                  bindValue="pCalenderPeriodId" (change)="GetCalendarYearMonth($event)" placeholder="Select" [searchable]="true"
+                  [clearable]="true" dropdownPosition="bottom" [clearOnBackspace]="true"  [style.border]="EmployyeAttendForm.get('pPeriodType').invalid && EmployyeAttendForm.get('pPeriodType').touched ? '1px solid red' : ''">
+                </ng-select>
+                <div *ngIf="EmployyeAttendForm.get('pPeriodType').invalid && EmployyeAttendForm.get('pPeriodType').touched">
+                  <small class="text-danger">Calendar year is Required.</small>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label class="required-field" id="pCalendarMonth" title="Month">
+                  Month</label>
+                <ng-select title="Select Month" [items]="calendarMonthData" formControlName="pCalendarMonth"
+                  bindLabel="pCalendarMonth" (change)="calendarMonthChange($event)" bindValue="pCalenderPeriodDetailsId"
+                  placeholder="Select" [searchable]="true" [clearable]="true" dropdownPosition="bottom" [clearOnBackspace]="true"   [style.border]="EmployyeAttendForm.get('pCalendarMonth').invalid && EmployyeAttendForm.get('pCalendarMonth').touched ? '1px solid red' : ''">
+                </ng-select>
+                <div *ngIf="EmployyeAttendForm.get('pCalendarMonth').invalid && EmployyeAttendForm.get('pCalendarMonth').touched">
+                  <small class="text-danger">Calendar Month is Required.</small>
+                </div>
+
+              </div>
+            </div>
+
+
+            <div class="col-md-2 col-xl-2">
+              <!-- <div class="form-group">
+                <br>
+                <button class="btn btn-primary mt-2" (click)="RunPayRollProcess()" >
+                  Run Attendance
+                </button>
+              </div> -->
+              <div class="form-group mt-2">
+                <br>
+                  <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="RunPayRollProcess()">
+                      <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                      <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                              width="20px"></span> Run
+                  </a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <kendo-grid [kendoGridBinding]="GridData"
+  [pageSize]="pageSize"
+  [pageable]="{ buttonCount: 2 }"
+  [reorderable]="true"
+  [sortable]="true"
+  [resizable]="true">
+
+  <kendo-grid-column-group title="Default" [headerClass]="{'kendo-g-left': true, 'bold-text': true}">
+
+    <!-- Employee Code Column -->
+    <kendo-grid-column field="pEmployeecode" title="Employee Code" width="150"
+      [headerClass]="{'kendo-g-center': true, 'lowercase-text': true, 'bold-text': true}" class="kendo-center">
+    </kendo-grid-column>
+  
+    <!-- Employee Name Column -->
+    <kendo-grid-column field="pEmployeeName" title="Employee Name" width="150"
+     [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+    </kendo-grid-column>
+  
+    <!-- Designation Column -->
+    <kendo-grid-column field="pDesignation" title="Designation" width="120"
+     [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+    </kendo-grid-column>
+  
+    <!-- SL Column -->
+    <kendo-grid-column field="pSLeave" title="SL" width="120"
+     [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+      <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+        <input [(ngModel)]="dataItem.pSLeave"
+        (keyup)="updateValue($event, 'pSLeave', 'SL', rowIndex, dataItem)"
+        type="text" maxlength="5" id="pSLeave" name="sl" class="form-control"
+        style="width: 75px;height: 14px;padding: -2px;margin: 4px;">
+      </ng-template>
+    </kendo-grid-column>
+  
+    <!-- Total SL Column -->
+    <kendo-grid-column field="pSL" title="Total SL" width="80"
+     [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+    </kendo-grid-column>
+  
+    <!-- CL Column -->
+    <kendo-grid-column field="pCLeave" title="CL" width="120"
+     [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+      <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+        <input [(ngModel)]="dataItem.pCLeave" 
+          (keyup)="updateValue($event, 'pCLeave', 'CL', rowIndex, dataItem)"
+          type="text" maxlength="5" id="pCLeave" name="cl" class="form-control k-sized-input"
+          style="width: 75px;height: 14px;padding: -2px;margin: 4px;" />
+      </ng-template>
+    </kendo-grid-column>
+  
+    <!-- Total CL Column -->
+    <kendo-grid-column field="pCL" title="Total CL" width="80"
+     [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+    </kendo-grid-column>
+  
+    <!-- Others Column -->
+    <kendo-grid-column field="pOthers" title="Others" width="120"
+     [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+      <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+        <input [(ngModel)]="dataItem.pOthers"
+          (keyup)="updateValue($event, 'pOthers', 'OT', rowIndex, dataItem)"
+          type="text" maxlength="5" id="pOthers" name="others" class="form-control center-text" 
+          style="width: 75px;height: 14px;padding: -2px;margin: 4px;"/>
+      </ng-template>
+    </kendo-grid-column>
+  
+    <!-- LOP Column -->
+    <kendo-grid-column field="pLOP" title="LOP" width="120"
+     [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+      <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+        <input [(ngModel)]="dataItem.pLOP"
+          (keyup)="updateValue($event, 'pLOP', 'LOP', rowIndex, dataItem)"
+          type="text" maxlength="5" id="pLOP" name="lop" class="form-control center-text"
+          style="width: 75px;height: 14px;padding: -2px;margin: 4px;" />
+      </ng-template>
+    </kendo-grid-column>
+  
+  </kendo-grid-column-group>
+</kendo-grid>
+
+
+
+
+<div class="row mt-1 ml-1 mb-4">
+  <div class="col-md-12 col-xl-12">
+    <div class="d-flex justify-content-end mt-4">
+
+
+      <a data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot"
+        aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="ClearDetails()">
+        <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear
+      </a>
+
+
+      <button appButtonDoubleClick [debounceTime]="500" (debounceClick)="SaveEmployeeAttendance()"
+        class="btn btn-s-icon px-3 border-0">
+        <img src="assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px">
+        Save
+      </button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<style>
+ /* Center the text in grid input fields */
+.center-text {
+text-align: center;
+width: 100%;
+padding: 0.375rem 0.75rem; /* Optional: Adjust padding */
+}
+
+/* Center the text in column headers */
+.kendo-g-center {
+text-align: center;
+}
+
+/* Bold the header text */
+.bold-text {
+font-weight: bold;
+}
+
+/* Optional: Form control adjustments */
+.form-control {
+padding: 0.375rem 0.75rem; /* Adjust padding as needed */
+text-align: center; /* Ensure text inside input is centered */
+}
+
+
+</style>

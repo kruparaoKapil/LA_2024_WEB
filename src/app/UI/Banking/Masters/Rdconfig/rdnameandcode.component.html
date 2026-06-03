@@ -1,0 +1,68 @@
+<div class="row">
+    <!-- <div class="col-12  p-0">
+        <p class="bc-2 pl-3">RD Name and Code</p>
+    </div> -->
+</div>
+
+<form [formGroup]="Rdnameandcodeform">
+    <div class="row mt-5">
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group" [ngClass]="forDisableFirstTab ? 'disableTabs' : ''">
+                <label for="" id="pRdname" title="Recurring Deposit Name">Recurring Deposit Name</label>
+                <input appUppercase maxlength="50" appAlphanumericwithSpecialCharacters class="form-control" type="text" value="" formControlName="pRdname" [ngClass]="{ 'is-invalid': formValidationMessages.pRdname }" (change)="GenerateRdname($event)">
+                <app-validation-message [messgae]="formValidationMessages.pRdname"></app-validation-message>
+            </div>
+        </div>
+        <!--col-end-->
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group" [ngClass]="forDisableFirstTab ? 'disableTabs' : ''">
+                <label for="" id="pRdcode" title="Recurring Deposit Code">Recurring Deposit Code</label>
+                <input maxlength="10" class="form-control" type="text" value="" appUppercase appAlphanumericcharsonly (change)="changeRdcode($event)" [ngClass]="{ 'is-invalid': formValidationMessages.pRdcode }" formControlName="pRdcode">
+                <small class="form-text clr-orange"></small>
+                <app-validation-message [messgae]="formValidationMessages.pRdcode"></app-validation-message>
+            </div>
+        </div>
+        <!--col-end-->
+        <hr class="light">
+        <!--col-end-->
+        <div class="col-md-6 col-xl-4">
+            <div class="row">
+                <div class="col-md-6 col-xl-6 m-0">
+                    <div class="form-group m-0">
+                        <label>Company Code</label>
+                    </div>
+                    <div class="form-group m-0">
+                        <label class="font-weight-bold text-grey">{{Ccode}}</label>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-6 m-0">
+                    <div class="form-group m-0">
+                        <label>Branch Code</label>
+                    </div>
+                    <div class="form-group m-0">
+                        <label class="font-weight-bold border-0 text-grey">{{Bcode}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--col-end-->
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group" [ngClass]="forDisableFirstTab ? 'disableTabs' : ''">
+                <label id="pSeries" title="Series">Series</label>
+                <input maxlength="5" [ngClass]="{'is-invalid':formValidationMessages.pSeries}" class="form-control" type="text" value="" formControlName="pSeries" (change)="GenerateSeries($event)">
+            
+             <app-validation-message [messgae]="formValidationMessages.pSeries"></app-validation-message>
+             </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group m-0">
+                <label>Recurring Deposit Name and Code</label>
+            </div>
+            <div class="form-group">
+                <label class="font-weight-bold text-grey">{{rdnameandcode}}</label>
+            </div>
+        </div>
+        <hr class="light">
+        <!--col-end-->
+    </div>
+</form>

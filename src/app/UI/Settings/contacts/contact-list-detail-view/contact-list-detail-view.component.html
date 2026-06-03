@@ -1,0 +1,907 @@
+
+<ng-template #customLoadingTemplate>
+  <div class="custom-class">
+    <h3>
+      Loading...
+    </h3>
+
+  </div>
+</ng-template>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+</ngx-loading>
+<div class="col-12 p-0">
+  <p class="bc-2">Contact list detailed view</p>
+
+  <a id="sidebarCollapse" class="side-back-btn p-2 border rounded-3 position-fixed">
+    <img class="expand" height="20px" src="assets/images/icon-chevron-left-blue.svg" title="Show hide details" width="12px">
+  </a>
+
+
+</div>
+
+<div class="contact-wrapper">
+  <div id="contact-card">
+    <div class="navbar navbar-expand-lg navbar-light bg-white pt-0">
+      <div class="row">
+        <div class="w-100">
+          <div class="border rounded">
+            <div class="d-flex mt-2">
+              <i class="done p-1 m-2"></i>
+              <div class="col-md-2 col-xl-2">
+                <div class="profile-tumb mr-3 mx-auto">
+                  <img [src]="ContactPersonalInfo?.pImage">
+                </div>
+              </div>
+              <div class="col-md-4 col-xl-4">
+                <div class="form-group m-0">
+                  <label class="bc-2 m-0 font-18"> {{ContactPersonalInfo?.pContactName}} </label>
+                </div>
+                <div class="form-group">
+                  <div class="lc-txt"> Unique ID : {{ContactPersonalInfo?.pRefNo}}</div>
+                  <div class="lc-txt"> Customer Since : {{ContactPersonalInfo?.pContactDate}}</div>
+                </div>
+              </div>
+              <div class="col-md-4 col-xl-4">
+                <div class="form-group m-0">
+                  <label class="bc-2 m-0"> {{ContactPersonalInfo?.pContactNumber}}</label>
+                </div>
+                <div class="form-group m-0">
+                  <p class="bc-2 m-0">{{ContactPersonalInfo?.pContactEmail}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ul class="nav filtered-tab nav-tabs">
+            <li>
+              <a class="active" data-toggle="tab" href="#" (click)="LoansClick('APPLICANT')">
+                <span class="mr-2">Loan Applicant</span>
+                <span class="" *ngIf="AppLoanCounts>0"><span data-toggle="tab" class="active badge badge-orange">{{AppLoanCounts}}</span></span>
+                <span class="" *ngIf="AppLoanCounts==0">
+                  <i class="notdone p-1 mr-2"></i>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a data-toggle="tab" href="#" class="" (click)="LoansClick('GUARANTOR')">
+                <span class="p-0 mr-2">Guarantor</span>
+                <span class="" *ngIf="AppGuarantorCount>0"><span class="active badge badge-primary">{{AppGuarantorCount}}</span></span>
+                <span class="" *ngIf="AppGuarantorCount==0">
+                  <i class="notdone p-1 mr-2"></i>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a data-toggle="tab" href="#" class="" (click)="LoansClick('COAPPLICANT')">
+                <span class="">Co-applicant</span>
+                <span class="" *ngIf="AppCoAppCount>0">
+                  <span class="active badge badge-primary">{{AppCoAppCount}}</span>
+                </span>
+                <span class="" *ngIf="AppCoAppCount==0">
+                  <i class="notdone p-1 mr-2"></i>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a data-toggle="tab" href="#party" class="" (click)="LoansClick('PARTY')">
+                <span class="">
+                  Party
+                  <i class="notdone p-1 mr-2" *ngIf="PartyStatus=='NO'"></i>
+                  <i class="done p-1 mr-2" *ngIf="PartyStatus=='YES'"></i>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a data-toggle="tab" href="#referral" class="" (click)="LoansClick('REFERRAL')">
+                <span class="">
+                  Referral
+                  <i class="notdone p-1 mr-2" *ngIf="ReferralStatus=='NO'"></i>
+                  <i class="done p-1 mr-2" *ngIf="ReferralStatus=='YES'"></i>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a data-toggle="tab" href="#employee" class="" (click)="LoansClick('EMPLOYEE')">
+
+                <span class="">
+                  Employee
+                  <i class="notdone p-1 mr-2" *ngIf="EmployeeStatus=='NO'"></i>
+                  <i class="done p-1 mr-2" *ngIf="EmployeeStatus=='YES'"></i>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a data-toggle="tab" href="#advocate" class="" (click)="LoansClick('ADVOCATE')">
+
+                <span class="">
+                  Advocate
+                  <i class="notdone p-1 mr-2" *ngIf="AdvacateStatus=='NO'"></i>
+                  <i class="done p-1 mr-2" *ngIf="AdvacateStatus=='YES'"></i>
+                </span>
+              </a>
+            </li>
+          </ul>
+
+          <div class="mt-3 tab-content">
+            <div *ngIf="showemployee">
+              <div class="d-flex border rounded p-2">
+                <div class="col-md-3 col-xl-3">
+                  <div class="form-group">
+                    <label class="m-0"> Date Of Joining</label>
+                  </div>
+                  <div class="form-group m-0">
+                    <p class="bc-2 m-0">{{employeedetailslist?.pdateofjoining}} </p>
+                  </div>
+                </div>
+                <div class="col-md-3 col-xl-3">
+                  <div class="form-group">
+                    <label class="m-0">Designation</label>
+                  </div>
+                  <div class="form-group m-0">
+                    <p class="m-0 bc-2">{{employeedetailslist?.pdesignation}} </p>
+                  </div>
+                </div>
+                <div class="col-md-3 col-xl-3">
+                  <div class="form-group">
+                    <label class="m-0">Role</label>
+                  </div>
+                  <div class="form-group m-0">
+                    <p class="m-0 bc-2">{{employeedetailslist?.prolename}} </p>
+                  </div>
+                </div>
+                <div class="col-md-3 col-xl-3">
+                  <div class="form-group">
+                    <label class="m-0">Status</label>
+                  </div>
+                  <div class="form-group m-0">
+                    <p class="m-0 text-success">{{employeedetailslist?.pStatusName }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex border rounded p-2 mt-4">
+                <div class="col-md-3 col-xl-3">
+                  <div class="form-group">
+                    <label class="m-0"> Basic Salary (P.A)</label>
+                  </div>
+
+                  <div class="form-group m-0">
+                    <p class="bc-2 m-0">{{employeedetailslist?.pbasicsalary | mycurrencypipe}} </p>
+                  </div>
+
+                </div>
+                <div class="col-md-3 col-xl-3">
+                  <div class="form-group">
+                    <label class="m-0">Allowance / Variable Pay (P.A)</label>
+                  </div>
+
+                  <div class="form-group m-0">
+                    <p class="bc-2 m-0">{{employeedetailslist?.pallowanceorvariablepay | mycurrencypipe}} </p>
+                  </div>
+                </div>
+                <div class="col-md-3 col-xl-3">
+                  <div class="form-group">
+                    <label class="m-0">Total Cost To Company (CTC)</label>
+                  </div>
+
+                  <div class="form-group m-0">
+                    <p class="bc-2 m-0">{{employeedetailslist?.ptotalcosttocompany | mycurrencypipe}} </p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div *ngIf="showrefferal">
+              <div class="d-flex border rounded p-2">
+                <div class="col-md-3 col-xl-3">
+                  <div class="form-group">
+                    <label class="m-0"> Total Business</label>
+                  </div>
+                  <div class="form-group m-0">
+                    <p class="bc-2 m-0">{{referraldetails?.pbusinessamount | mycurrencypipe}} </p>
+                  </div>
+                </div>
+                <div class="col-md-3 col-xl-3">
+                  <div class="form-group">
+                    <label class="m-0">Total Comission Paid</label>
+                  </div>
+                  <div class="form-group m-0">
+                    <p class="m-0 bc-2">{{referraldetails?.pcommissionpaidamount | mycurrencypipe}} </p>
+                  </div>
+                </div>
+                <div class="col-md-3 col-xl-3">
+                  <div class="form-group">
+                    <label class="m-0">Total Comission Due</label>
+                  </div>
+                  <div class="form-group m-0">
+                    <p class="m-0 bc-2">{{referraldetails?.pcommissionpaidamount | mycurrencypipe}} </p>
+                  </div>
+                </div>
+                <div class="col-md-3 col-xl-3">
+                  <div class="form-group">
+                    <label class="m-0">Status</label>
+                  </div>
+                  <div class="form-group m-0">
+                    <p class="m-0 text-success">{{referraldetails?.pStatusName }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex border rounded p-2 mt-4">
+                <div class="col-md-3 col-xl-3">
+                  <div class="form-group">
+                    <label class="m-0"> Loans</label>
+                  </div>
+                  <div class="form-group m-0" *ngIf="referraldetails.ploansamount>0">
+                    <a data-toggle="tab" href="#" class="" (click)="ReferralClick('LOANS')">
+                      <p class="bc-2 m-0">{{referraldetails?.ploansamount | mycurrencypipe}} </p>
+                    </a>
+                  </div>
+                  <div class="form-group m-0" *ngIf="referraldetails.ploansamount==0">
+                    <p class="bc-2 m-0">{{referraldetails?.ploansamount | mycurrencypipe}} </p>
+                  </div>
+
+                </div>
+                <div class="col-md-3 col-xl-3">
+                  <div class="form-group">
+                    <label class="m-0">FD</label>
+                  </div>
+                  <div class="form-group m-0" *ngIf="referraldetails.pfdamount>0">
+                    <a data-toggle="tab" href="#" class="" (click)="ReferralClick('FD')">
+                      <p class="m-0 bc-2">{{referraldetails?.pfdamount | mycurrencypipe}}</p>
+                    </a>
+                  </div>
+                  <div class="form-group m-0" *ngIf="referraldetails.pfdamount==0">
+                    <p class="bc-2 m-0">{{referraldetails?.pfdamount | mycurrencypipe}} </p>
+                  </div>
+                </div>
+                <div class="col-md-3 col-xl-3">
+                  <div class="form-group">
+                    <label class="m-0">RD</label>
+                  </div>
+                  <div class="form-group m-0" *ngIf="referraldetails.prdamount>0">
+                    <a data-toggle="tab" href="#" class="" (click)="ReferralClick('RD')">
+                      <p class="m-0 bc-2">{{referraldetails?.prdamount | mycurrencypipe}} </p>
+                    </a>
+                  </div>
+                  <div class="form-group m-0" *ngIf="referraldetails.prdamount==0">
+                    <p class="bc-2 m-0">{{referraldetails?.prdamount | mycurrencypipe}} </p>
+                  </div>
+                </div>
+                <div class="col-md-3 col-xl-3">
+                  <div class="form-group">
+                    <label class="m-0">SD</label>
+                  </div>
+                  <div class="form-group m-0" *ngIf="referraldetails.psdamount>0">
+                    <a data-toggle="tab" href="#" class="" (click)="ReferralClick('SD')">
+                      <p class="m-0 bc-2">{{referraldetails?.psdamount | mycurrencypipe}}</p>
+                    </a>
+                  </div>
+                  <div class="form-group m-0" *ngIf="referraldetails.psdamount==0">
+                    <p class="bc-2 m-0">{{referraldetails?.psdamount | mycurrencypipe}} </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="loans" class="tab-pane fade active show mt-4" *ngIf="showloans">
+
+              <kendo-grid [kendoGridBinding]="LoansData" [kendoGridSelectBy]="'id'"
+                          [selectedKeys]="mySelection" [resizable]="true" [pageSize]="10"
+                          [reorderable]="true" [columnMenu]="{ filter: true }" [pageable]="{
+    buttonCount: 2
+  }" [sortable]="true" (remove)="removeHandler($event)">
+
+
+                <ng-template kendoGridToolbarTemplate>
+                  <div class="row mb-5">
+                    <div class="col-4 pl-0 mt-n1">
+                      <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+                             (input)="onFilter($event.target.value)" />
+                    </div>
+                    <div class="col-7 pr-0 pl-4 ml-4">
+                      <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                        <li class="temp-ico ml-2">
+                          <a kendoGridPDFCommand>
+                            <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                                 width="20px">
+                          </a>
+                        </li>
+                        <li class="temp-ico ml-2">
+                          <a kendoGridExcelCommand>
+                            <img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                                 width="20px">
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </ng-template>
+                <kendo-grid-column-group title="{{reportheadername}}" [headerClass]="{'kendo-g-center' : true}">
+                  <kendo-grid-column field="pLoantype" width="100" title="Loan Type">
+                    <!--<ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.pLoantype}}
+                    </ng-template>-->
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pLoanname" title="Loan Name" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pVchapplicationid" [hidden]="true" title="Application Id" width="100">
+                    
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pApplicantname" [hidden]="true" title="Applicant Name" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pApplicanttype" [hidden]="true" title="Applicant Type" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pAmountrequested" title="Loan Amount" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.pAmountrequested | mycurrencypipe}}
+                    </ng-template>
+                  </kendo-grid-column>
+
+                  <kendo-grid-column field="pinstalmentinterest" title="Interest" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.pinstalmentinterest | mycurrencypipe}}
+                    </ng-template>
+                  </kendo-grid-column>
+
+
+                  <kendo-grid-column field="ptotaldisburseamount" title="Disbursed" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.ptotaldisburseamount | mycurrencypipe}}
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pInstalmentamount" title="Installment" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.pInstalmentamount | mycurrencypipe}}
+                    </ng-template>
+                  </kendo-grid-column>
+               
+
+                  <kendo-grid-column field="pTenureofloan" title="Tenor" width="50">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pLoanpayin" title="Payin" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pLoaninstalmentpaymentmode" [hidden]="true" title="Installment Mode" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pInteresttype" [hidden]="true" title="Interest Type" width="100">
+                  </kendo-grid-column>
+
+                  <kendo-grid-column field="pRateofinterest" [hidden]="true" title="Interest Rate" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pVchapplicantstatus" title="Loan Status" width="100">
+                  </kendo-grid-column>
+
+
+
+                  <kendo-grid-column field="pDateofapplication" [hidden]="true" title="Application Date" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="papprovaldate" [hidden]="true" title="Approved Date " width="100">
+                  </kendo-grid-column>
+
+                  <kendo-grid-column field="plastdisbursementdate" [hidden]="true" title="Last Disbursed Date" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="ploanstartddate" [hidden]="true" title="Loan Start Date " width="100">
+                  </kendo-grid-column>
+
+
+                  <kendo-grid-column field="pNextEmiDate" title="Next Installment Date" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="ploancloseddate" [hidden]="true" title="Loan Closed Date " width="100">
+                  </kendo-grid-column>
+
+                  <kendo-grid-column field="ptotalpaidamount" title="Paid" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.ptotalpaidamount | mycurrencypipe}}
+                    </ng-template>
+                  </kendo-grid-column>
+
+                  <kendo-grid-column field="ptotaldueamount" title="Due" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.ptotaldueamount | mycurrencypipe}}
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-command-column title="" width="70" field="pstatementstatus" [hidden]="pstatementstatus">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <a href="#accstmt"> <div *ngIf="dataItem.pstatementstatus=='YES'" id="icon-view" kendoGridRemoveCommand></div> </a>
+                    </ng-template>
+                  </kendo-grid-command-column>
+                </kendo-grid-column-group>
+
+                <kendo-grid-pdf fileName="Applicant_Loans.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true"
+                                [landscape]="true">
+                  <ng-template kendoGridPDFTemplate>
+                    <div class="page-template">
+                      <div class="header bc-2 text-center">
+                        <h5> {{reportheadername}}</h5>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+                  <kendo-grid-column field="pLoantype" width="" title="Receipt No.">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pLoanname" width="" title="Date">
+                  </kendo-grid-column>
+
+                  <kendo-grid-column field="pAmountrequested" width="" title="Loan Amount">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pInstalmentamount" width="" title="Bank Name">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pTenureofloan" width="" title="Tenor">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pLoanpayin" width="" title="Loan Payin">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pNextEmiDate" width="" title="Next EMI Date">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="ploancloseddate" title="Loan ending Date " width="">
+                  </kendo-grid-column>
+                </kendo-grid-pdf>
+                <kendo-grid-excel fileName="Applicant_Loans.xlsx" [fetchData]="allData">
+                  <kendo-excelexport-column-group title="{{reportheadername}}" [headerCellOptions]="headerCells">
+                    <kendo-excelexport-column field="pLoantype" width="100" title="Loan Type">
+                      <!--<ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.pLoantype}}
+    </ng-template>-->
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pLoanname" title="Loan Name" width="100">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pVchapplicationid" [hidden]="true" title="Application Id" width="100">
+
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pApplicantname" [hidden]="true" title="Applicant Name" width="100">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pApplicanttype" [hidden]="true" title="Applicant Type" width="100">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pAmountrequested" title="Loan Amount" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pAmountrequested | mycurrencypipe}}
+                      </ng-template>
+                    </kendo-excelexport-column>
+
+                    <kendo-excelexport-column field="pinstalmentinterest" title="Interest" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pinstalmentinterest | mycurrencypipe}}
+                      </ng-template>
+                    </kendo-excelexport-column>
+
+
+                    <kendo-excelexport-column field="ptotaldisburseamount" title="Disbursed" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.ptotaldisburseamount | mycurrencypipe}}
+                      </ng-template>
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pInstalmentamount" title="Installment" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pInstalmentamount | mycurrencypipe}}
+                      </ng-template>
+                    </kendo-excelexport-column>
+
+
+                    <kendo-excelexport-column field="pTenureofloan" title="Tenor" width="50">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pLoanpayin" title="Payin" width="100">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pLoaninstalmentpaymentmode" [hidden]="true" title="Installment Mode" width="100">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pInteresttype" [hidden]="true" title="Interest Type" width="100">
+                    </kendo-excelexport-column>
+
+                    <kendo-excelexport-column field="pRateofinterest" [hidden]="true" title="Interest Rate" width="100">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pVchapplicantstatus" title="Loan Status" width="100">
+                    </kendo-excelexport-column>
+
+
+
+                    <kendo-excelexport-column field="pDateofapplication" [hidden]="true" title="Application Date" width="100">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="papprovaldate" [hidden]="true" title="Approved Date " width="100">
+                    </kendo-excelexport-column>
+
+                    <kendo-excelexport-column field="plastdisbursementdate" [hidden]="true" title="Last Disbursed Date" width="100">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="ploanstartddate" [hidden]="true" title="Loan Start Date " width="100">
+                    </kendo-excelexport-column>
+
+
+                    <kendo-excelexport-column field="pNextEmiDate" title="Next Installment Date" width="100">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="ploancloseddate" [hidden]="true" title="Loan Closed Date " width="100">
+                    </kendo-excelexport-column>
+
+                    <kendo-excelexport-column field="ptotalpaidamount" title="Paid" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.ptotalpaidamount | mycurrencypipe}}
+                      </ng-template>
+                    </kendo-excelexport-column>
+
+                    <kendo-excelexport-column field="ptotaldueamount" title="Due" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.ptotaldueamount | mycurrencypipe}}
+                      </ng-template>
+                    </kendo-excelexport-column>
+                    <kendo-grid-command-column title="" width="70" field="pstatementstatus" [hidden]="pstatementstatus">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <a href="#accstmt"> <div *ngIf="dataItem.pstatementstatus=='YES'" id="icon-view" kendoGridRemoveCommand></div> </a>
+                      </ng-template>
+                    </kendo-grid-command-column>
+                  </kendo-excelexport-column-group>
+                </kendo-grid-excel>
+              </kendo-grid>
+
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+
+    <div id="accstmt" class="mt-4 pt-2">
+      <!---->
+      <app-loan-statement-report></app-loan-statement-report>
+    </div>
+
+    <div id="accstmt" class="mt-4 pt-2">
+      <!---->
+      <app-contact-list-party></app-contact-list-party>
+    </div>
+
+  </div>
+
+  <!-- Sidebar -->
+  <div id="contact-list" class="border rounded">
+    <div class="col-md-12 mt-3">
+      <!--<div class="row">
+        <div class="col-md-8">
+          <label>Updated on {{transactiondate}}</label>
+        </div>
+        <div class="col-md-4 text-right">
+          <ul class="temp-ul mt-n2 d-flex">
+            <li class="temp-ico ml-2"><a><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a></li>
+            <li class="temp-ico ml-2"><a dir="ltr"><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel" width="20px"></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="d-flex m-1 contact-title">
+          <div class="col-md-8">
+            <label class="m-0 bc-2 mb-0">Loan Disbused:</label>
+          </div>
+          <div class="col-md-4">
+            <label class="badge badge-success pull-right"> 1</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row m-1">
+        <label>Total Amount Disbursed </label>
+        <label class="bc-2 ml-2 pull-right">800,000</label>
+      </div>
+      <div class="row m-1">
+        <label>Total Amount Recevied </label>
+        <label class="bc-2 ml-2 pull-right">250,000</label>
+      </div>
+
+      <div class="row mt-4">
+        <div class="contact-title m-1">
+          <div class="col-md-12">
+            <div class="row m-1">
+              <label class="bc-2">OutStandings</label>
+            </div>
+            <div class="row m-1">
+              <label>Principle & Interest</label>
+              <label class="bc-2 ml-2 pull-right">5,15,500 dr</label>
+            </div>
+            <div class="row m-1">
+              <label>Total Dues as on date</label>
+              <label class="bc-2 ml-2 text-right">45,000 dr</label>
+            </div>
+          </div>
+        </div>
+      </div>-->
+      <!--<div class="row mt-4">
+        <div class="col-md-12">
+          <div class="row m-1 mb-2">
+            <label class="bc-2">Legal (If any then only shows)</label>
+          </div>
+          <div class="row m-1">
+            <label>Notices Sent</label>
+            <label class="badge badge-success ml-2 mr-2"> 2</label>
+            <label>Suit Filled</label>
+            <label class="badge badge-success ml-2">1</label>
+          </div>
+        </div>
+      </div>-->
+
+      <div class="accordion" id="accordionExample">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h2>
+              <a class="lc-sub-title acc1 text-decoration-none p-3 collapsed" data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="false" aria-controls="collapseExample1">
+                <img id="close" src="assets/images/icon-toggle-default.svg" width="10px" height="10px" class=""><img id="open" src="assets/images/icon-toogle-bottom.svg" width="10px" height="10px" class="">KYC
+              </a>
+            </h2>
+          </div>
+          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+              <div class="col-md-12" *ngFor="let kyc of KYCIdentificationDetails; let i = index">
+                <div class="row mt-2">
+                  <label class="col-md-6">{{kyc.pDocumentName}}</label>
+                  <label class="col-md-6">{{kyc.pDocReferenceno}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingTwo">
+            <h2>
+              <a class="lc-sub-title p-3 acc2 text-decoration-none collapsed" data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseExample1">
+                <img id="close" src="assets/images/icon-toggle-default.svg" width="10px" height="10px" class="display-content"><img id="open" src="assets/images/icon-toogle-bottom.svg" width="10px" height="10px" class="display-content">   CIC Score
+              </a>
+            </h2>
+          </div>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+            <div class="card-body">
+
+              <div *ngFor="let cic of cicdetailslist; let i = index">
+                <div class="row mt-2 mb-2 pt-2 pb-2">
+                  <div class="col-md-4 pr-0"><label class="progressText">{{cic.pciccompanyName}}</label></div>
+
+                  <div class="barWrapper col-md-8 pl-0">
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{cic.pcicscorepercentage}}"  aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: getData(i) }">
+                      </div>
+                    </div>
+                    <p class="font-italic text-right m-0">{{cic.pcicscorepercentage}} %</p>
+                  </div>
+                  <!--<div class="col-md-4 mt-3 pr-0"><span class="progressText">EXPERIAN</span></div>
+                  <div class="barWrapper col-md-8 pl-0">
+                      <div class="progress mt-3">
+                          <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
+                          </div>
+                      </div>
+
+                      <p class="font-italic text-right m-0">75%</p>
+                  </div>
+                  <div class="col-md-4 mt-3 pr-0"><span class="progressText">HI-MARK CRIF</span></div>
+                  <div class="barWrapper col-md-8 pl-0">
+                      <div class="progress mt-3">
+                          <div class="progress-bar" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width: 65%;">
+                          </div>
+
+                      </div>
+                      <p class="font-italic text-right m-0">65%</p>
+
+                  </div>-->
+                </div>
+              </div>
+
+
+
+
+
+
+
+              <!--<div class="row">
+                <div *ngFor="let cic of cicdetailslist; let i = index">
+                  <div class="col-md-4"><span class="progressText">{{cic.pciccompanyName}}</span></div>
+
+                  <div class="barWrapper col-md-8">
+
+                    <div class="progress mt-8">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                      </div>
+                    </div>
+                    <span class="text-right pull-right mt-1 progressText">{{cic.pcicscorepercentage}} % </span>
+                  </div>
+                </div>
+
+              </div>-->
+            </div>
+          </div>
+        </div>
+        <div class="card" *ngIf="ContactPersonalInfo?.pContactType =='Individual'">
+          <div class="card-header" id="headingThree">
+            <h2>
+              <a class="lc-sub-title acc3 p-3 text-decoration-none" data-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseExample1">
+                <img id="close" src="assets/images/icon-toggle-default.svg" width="10px" height="10px"><img id="open" src="assets/images/icon-toogle-bottom.svg" width="10px" height="10px">  Personal Details
+              </a>
+            </h2>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+            <div class="card-body" *ngFor="let personal of personaldetailslist; let i = index">
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">Residential Status</label>
+                  <label class="col-md-6">{{personal.presidentialstatus}}</label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">Place Of Birth</label>
+                  <label class="col-md-6">{{personal.pplaceofbirth}}</label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">Country Of Birth</label>
+                  <label class="col-md-6">{{personal.pcountryofbirth}}</label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">Nationality/Citizen</label>
+                  <label class="col-md-6">{{personal.pnationality}}</label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">Community Details</label>
+                  <label class="col-md-6">{{personal.pminoritycommunity}}</label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">Marital Status</label>
+                  <label class="col-md-6">{{personal.pmaritalstatus}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card" *ngIf="ContactPersonalInfo?.pContactType !='Individual'">
+          <div class="card-header" id="headingSeven">
+            <h2>
+              <a class="lc-sub-title acc3 p-3 text-decoration-none" data-toggle="collapse" href="#collapseSeven" role="button" aria-expanded="false" aria-controls="collapseExample1">
+                <img id="close" src="assets/images/icon-toggle-default.svg" width="10px" height="10px"><img id="open" src="assets/images/icon-toogle-bottom.svg" width="10px" height="10px">  Business Activity Details
+              </a>
+            </h2>
+          </div>
+          <div id="collapseSeven" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+            <div class="card-body" *ngFor="let personal of personaldetailslist; let i = index">
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">Description Of The Activity</label>
+                  <label class="col-md-6">{{personal.pbusinessactivity}}</label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">Date Of Establishment</label>
+                  <label class="col-md-6">{{personal.pestablishmentdate}}</label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">Date Of Commencement</label>
+                  <label class="col-md-6">{{personal.pcommencementdate}}</label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">CIN Number</label>
+                  <label class="col-md-6">{{personal.pcinnumber}}</label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">GSTIN</label>
+                  <label class="col-md-6">{{personal.pgstinno}}</label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="card" *ngIf="ContactPersonalInfo?.pContactType =='Individual'">
+          <div class="card-header" id="headingFour">
+            <h2>
+              <a class="lc-sub-title acc1 p-3 text-decoration-none" data-toggle="collapse" href="#collapseFour" role="button" aria-expanded="false" aria-controls="collapseExample1">
+                <img id="close" src="assets/images/icon-toggle-default.svg" width="10px" height="10px" class=""><img id="open" src="assets/images/icon-toogle-bottom.svg" width="10px" height="10px" class="">  Income Details
+              </a>
+            </h2>
+          </div>
+          <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+            <div class="card-body">
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">Net Annual Income</label>
+                  <label class="col-md-6"> {{ContactPersonalInfo?.pnetannualincome | mycurrencypipe}}</label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">Income from other sources</label>
+                  <label class="col-md-6"> {{ContactPersonalInfo?.potherincome | mycurrencypipe }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingFive">
+            <h2>
+              <a class="lc-sub-title acc4 p-3 text-decoration-none" data-toggle="collapse" href="#collapseFive" role="button" aria-expanded="false" aria-controls="collapseExample1">
+                <img id="close" src="assets/images/icon-toggle-default.svg" width="10px" height="10px"><img id="open" src="assets/images/icon-toogle-bottom.svg" width="10px" height="10px">   Address
+              </a>
+            </h2>
+          </div>
+          <div id="collapseFive" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+            <div class="card-body">
+              <div class="col-md-12">
+                <div class="row mt-2">
+
+                  <label class="col-md-12">  {{ContactPersonalInfo?.pAddresDetails}}</label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="card" *ngIf="ContactPersonalInfo?.pContactType =='Individual'">
+          <div class="card-header" id="headingSix">
+            <h2>
+              <a class="lc-sub-title acc3 p-3 text-decoration-none" data-toggle="collapse" href="#collapseSix" role="button" aria-expanded="false" aria-controls="collapseExample1">
+                <img id="close" src="assets/images/icon-toggle-default.svg" width="10px" height="10px"><img id="open" src="assets/images/icon-toogle-bottom.svg" width="10px" height="10px">  Nominee Details
+              </a>
+            </h2>
+          </div>
+          <div id="collapseSix" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+            <div class="card-body" *ngFor="let nominee of nomineedetailslist; let i = index">
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">Nominee Name</label>
+                  <label class="col-md-6">{{nominee.pnomineename}}</label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">Relationship</label>
+                  <label class="col-md-6">{{nominee.prelationship}}</label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">Date Of Birth</label>
+                  <label class="col-md-6">{{nominee.pdateofbirth}}</label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">Contact No</label>
+                  <label class="col-md-6">{{nominee.pcontactno}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingEight">
+            <h2>
+              <a class="lc-sub-title acc3 p-3 text-decoration-none" data-toggle="collapse" href="#collapseEight" role="button" aria-expanded="false" aria-controls="collapseExample1">
+                <img id="close" src="assets/images/icon-toggle-default.svg" width="10px" height="10px"><img id="open" src="assets/images/icon-toogle-bottom.svg" width="10px" height="10px">  Bank Details
+              </a>
+            </h2>
+          </div>
+          <div id="collapseEight" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+            <div class="card-body" *ngFor="let bank of BankDetails; let i = index">
+              <div class="col-md-12">
+                <div class="row mt-2">
+                  <label class="col-md-6">{{bank.pBankName}}</label>
+                  <label class="col-md-6">{{bank.pBankAccountNo}}</label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Page Content -->
+
+</div>
+

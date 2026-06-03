@@ -1,0 +1,109 @@
+<div class="row mt-5">
+ 
+</div>
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+      <h3>
+        Loading...
+      </h3>
+
+    </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+</div>
+<form [formGroup]="JointMemberAndNomineeForm">
+  <div class="col-md-6 col-xl-6 p-0">
+    <label>Add Joint Member </label>
+    <div class="material-switch pull-right">
+      <input id="AddJointMember" name="AddJointMember" formControlName="pIsjointapplicable" (change)="JointMemberchange($event)" type="checkbox"><label class="check-success" for="AddJointMember"></label>
+    </div>
+  </div>
+
+  <div class="row mt-1" *ngIf="ShowJointmembers">
+    <div class="col-md-4 col-xl-4">
+      <div class="form-group">
+        <label class="mt-1" id="pMemberid" title="Member">Select Member</label>
+        <div class="form-group ">
+          <ng-select title="Member" id="pMemberid" [items]="MemberDetailsListAll" formControlName="pMemberid"
+                     bindLabel="pContactName" bindValue="pMembertypeId" [multiple]=false placeholder="Select"
+                     [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true (change)="MemberChange($event);" [ngClass]="{ 'is-invalid': JointMemberErrorMessages.pMemberid }">
+          </ng-select>
+          <div class="invalid-feedback">
+            <span *ngIf="JointMemberErrorMessages.pMemberid">{{JointMemberErrorMessages.pMemberid}}</span>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div>
+    <div class="col-md-4 col-xl-4">
+      <div class="d-flex justify-content-end mt-4">
+        <a (click)="AddJointMembers()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot"
+           aria-selected="false">
+          <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px"
+               height="20px">Add
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4" *ngIf="ShowJointmembers">
+
+    <div class="col-md-12 col-xl-12">
+      <kendo-grid [data]="Jointmembergrid" [height]="250" [pageSize]="gridState.take" [skip]="gridState.skip"
+                  [sort]="gridState.sort" [pageable]="false" [sortable]="true" (edit)="datatableclickedit($event)"
+                  (remove)="removeHandler($event)"
+                  [selectable]="selectableSettings">
+                   <kendo-grid-command-column title="" width="100">
+          <ng-template kendoGridCellTemplate>
+
+            <div id="icon-delete" kendoGridRemoveCommand></div>
+          </ng-template>
+        </kendo-grid-command-column>
+        <kendo-grid-column field="pMembername" title="Member" width="150">
+        </kendo-grid-column>
+        <kendo-grid-column field="pMembercode" title="Membercode" width="150">
+        </kendo-grid-column>
+        <kendo-grid-column field="pContacttype" title="Contact type" width="150"></kendo-grid-column>
+        <kendo-grid-column field="pContactno" title="Contactno" width="150"></kendo-grid-column>
+
+       
+      </kendo-grid>
+
+    </div>
+  </div>
+  <div class="row mt-4">
+  <div class="col-md-6 col-xl-6">
+    <label>Add Nominee Details </label>
+    <div class="material-switch pull-right">
+      <input id="AddNominee" name="AddNominee" formControlName="pIsnomineeapplicable" (change)="Nomineechange($event)" type="checkbox"><label class="check-success" for="AddNominee"></label>
+    </div>
+  </div>
+
+
+    <div class="col-md-12 col-xl-12">
+      <app-fi-personaldetails-nominee [showNominee]="showNominee" ></app-fi-personaldetails-nominee>
+
+    </div>
+  </div>
+</form>
+<div class="row mt-4 ml-1">
+  <div class="col-md-12 col-xl-12">
+    <div class="d-flex justify-content-end mt-4">
+      <!--<a href="#" class="btn btn-g-icon mr-4 px-3 border-0">
+        <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear
+      </a>-->
+      <!-- <a href="#" data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" role="tab" aria-controls="hot"
+        aria-selected="false"><img src="assets/images/icon-chewron-left-whitesolid.svg" width="20px" height="20px"
+          class="mr-3" />Back</a> -->
+      <a (click)="SaveJointMemberAndNominee()" data-toggle="tab" class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot"
+         aria-selected="false">
+        <img src="assets/images/icon-chewron-right-whitesolid.svg" width="20px" height="20px"
+             class="mr-3" />Save &Continue
+      </a>
+    </div>
+  </div>
+</div>

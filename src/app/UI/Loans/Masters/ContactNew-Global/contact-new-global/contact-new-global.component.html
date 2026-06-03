@@ -1,0 +1,73 @@
+<div class="section-container mt-2">
+    <form [formGroup]="contactForm">
+
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-xl-4 pt-2">
+                <app-select-subscriber-global [formName]="formName" [controlName]="controlName"
+                    (returnedData1)="ReturnData1($event)"></app-select-subscriber-global>
+
+                <!-- <div class="form-group "><label id="pContactNumber" title="Contact Number">Contact Number / Name</label><div class="input-group"><input appnumbersonly="" class="form-control ng-pristine ng-invalid ng-touched" formcontrolname="pContactNumber" maxlength="10" placeholder="Enter Contact Number" type="text" autocomplete="off">
+            <div class="input-group-append">
+             <button class="btn my-2 my-sm-0  rounded-right" type="submit"><img src="assets/images/icon-search-field.svg"></button>
+            </div><div class="invalid-feedback"></div></div></div> -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-xl-12">
+                <div class="form-group">
+                    <fieldset [disabled]="enableRadio">
+                        <div class="form-check form-check-inline mr-5 radio-btn-secondary ">
+                            <input class="form-check-input" type="radio" id="inlineRadio2" value="Individual"
+                                formControlName="Contacttype" (click)="contactType_Click('Individual')">
+                            <label class="mt-1" for="inlineRadio2"> Individual </label>
+                        </div>
+                        <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                            <input class="form-check-input" type="radio" id="inlineRadio3" value="Business Entity"
+                                formControlName="Contacttype" (click)="contactType_Click('Business Entity')">
+                            <label class="mt-1" for="inlineRadio3"> Business Entity </label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <app-contact-new-individual-global (emitevent)="Refresh()" [referenceid]="referenceid" [formtype]="formtype"
+        [contactType]="contactType"></app-contact-new-individual-global>
+    <app-contact-new-business-global (emitevent)="Refresh()" [referenceid]="referenceid" [formtype]="formtype"
+        [contactType]="contactType"></app-contact-new-business-global>
+</div>
+
+<div class="d-flex justify-content-end mt-3">
+    <!-- <a href="#" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" class="mr-3" width="20px" height="20px">Cancel</a>  -->
+    <a data-toggle="tab" class="btn btn-g-icon mr-3 px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"
+        appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearContactFormDeatails()"><img
+            src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+
+    <!-- <a href="#" class="btn btn-s-icon px-3 mr-4  border-0 "><img src="assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px" >Save Contact</a> -->
+    <!-- <button appButtonDoubleClick [debounceTime]="300" (debounceClick)="saveContactDetails()" class="btn btn-s-icon px-3 ml-3 border-0"
+            [disabled]="disablesavebutton">
+      <i class="fa"
+         [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i> {{savebutton}}
+    </button> -->
+
+    <!-- <a (click)="saveContactDetails()" data-toggle="tab" class="btn btn-b-icon px-1 border-0 " role="tab"
+    aria-controls="hot" aria-selected="false">
+    <img src="assets/images/icon-check-white.svg"
+      width="20px" height="20px" class="mr-3" />{{savebutton}}</a>
+
+     -->
+    <!--by shubha-->
+    <button appButtonDoubleClick [debounceTime]="300" (debounceClick)="GoNextContactDetails()"
+        class="btn btn-s-icon px-3 ml-3 border-0">
+        <img src="assets/images/icon-chewron-right-whitesolid.svg" class="mr-3" width="20px" height="20px">
+        {{buttonname}} </button>
+    <!--by shubha-->
+    <!--
+    <a href="ad-contact-more.html" class="btn btn-s-icon px-3 border-0 ">
+      <img src="images/icon-chewron-right-whitesolid.svg" class="mr-3" width="20px" height="20px">Next </a> -->
+    <!-- <a [routerLink]="['/configuration', 'ContactMore']" class="btn btn-s-icon px-3 ml-3 border-0 " >
+      <img src="assets/images/icon-chewron-right-whitesolid.svg" class="mr-3" width="20px" height="20px">GO Next </a>   -->
+
+
+</div>

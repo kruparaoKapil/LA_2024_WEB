@@ -1,0 +1,160 @@
+<form [formGroup]="FiContactForm" id="fiform">
+    <div class="col-md-12 col-xl-12">
+        <div class="row mt-5">
+            <div class="col-md-4 col-xl-4 ">
+                <label class="mt-1" for="" id="pLoantypeid" title="Loan Type">Loan Type</label>
+                <div class="form-group" [ngClass]="notEditable ? 'cursor-not-allowaed' : ''">
+                    <select class="form-control w-100" placeholder="Loan Type" (change)="ChangeLoanType($event)" formControlName="pLoantypeid" [ngClass]="{ 'is-invalid': contactValidationErrors.pLoantypeid,
+           'for-disable': notEditable}">
+            <option value="" ng-selected="selected">Select</option>
+            <option *ngFor="let loan of LoanTypes;trackBy: trackByFn;" [value]="loan.pLoantypeid">
+              {{loan.pLoantype}}</option>
+          </select>
+                    <div class="invalid-feedback">
+                        <span *ngIf="contactValidationErrors.pLoantypeid">{{contactValidationErrors?.pLoantypeid}}</span>
+                    </div>
+                </div>
+                <div class="form-group" [ngClass]="notEditable ? 'cursor-not-allowaed' : ''">
+                    <label class="mt-1" for="" id="pLoanid" title="Loan Name">Loan Name</label>
+                    <select class="form-control" formControlName="pLoanid" (change)="ChangeLoanName($event)" [ngClass]="{ 'is-invalid': contactValidationErrors.pLoanid, 'for-disable': notEditable }">
+            <option value="" ng-selected="selected">Select</option>
+            <option *ngFor="let loanname of LoanNames ;trackBy: trackByFn;" [value]="loanname.pLoanid">
+              {{loanname.pLoanNmae}}</option>
+          </select>
+                    <div class="invalid-feedback">
+                        <span *ngIf="contactValidationErrors.pLoantypeid">{{contactValidationErrors?.pLoanid}}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <label class="mt-1" for="" title="Select {{companytype}}">Select {{companytype}}</label>
+                    <div class="form-group" [ngClass]="notEditable ? 'cursor-not-allowaed' : ''">
+                        <div class="form-check radio-btn form-check-inline mr-1" *ngIf="hideFlagIndividual">
+                            <input class="form-check-input radio-btn" disabled type="radio" name="inlineRadioOptions1" id="inlineRadio2" value="businessentity">
+                            <label class="mt-1" for="inlineRadio3"> Individual  </label>
+                        </div>
+                        <div class="form-check dynamicButton form-check-inline mr-1  " [ngClass]="{ 'for-disable-radio-btn': notEditable} ">
+                            <input class="form-check-input radioHide" type="radio" name="inlineRadioOptions1" id="inlineRadio2">
+                            <label class="mt-1" for="inlineRadio2" *ngFor="let contacttypesData of contacttypesDatas; let i = index" [ngClass]="(lastClickedIndex == i) ? 'activeBtn-'+i: ''" (click)="changeActive(i)" #disable> {{contacttypesData.pContacttype | titlecase}} </label>
+                        </div>
+                        <div class="form-check radio-btn form-check-inline mr-2" *ngIf="hideFlagBusiness">
+                            <input class="form-check-input radio-btn" disabled type="radio" name="inlineRadioOptions1" id="inlineRadio3" value="businessentity">
+                            <label class="mt-1" for="inlineRadio3" title="Business Entity"> Business Entity </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 col-xl-4">
+                <div class="form-group individual">
+                    <label class="mt-1" for="" id="pApplicanttype" title="Applicant type">Applicant type</label>
+                    <div class="form-group" [ngClass]="notEditable ? 'cursor-not-allowaed' : ''">
+                        <select class="form-control" formControlName="pApplicanttype" (change)="ChangeApplicantType($event)" [ngClass]="{ 'is-invalid': contactValidationErrors.pApplicanttype, 'for-disable': notEditable }">
+              <option value="" ng-selected="selected">Select</option>
+              <option *ngFor="let type of ApplicantTypes ;trackBy: trackByFn;" [value]="type.pApplicanttype">
+                {{type.pApplicanttype}}</option>
+            </select>
+                        <div class="invalid-feedback">
+                            <span *ngIf="contactValidationErrors.pApplicanttype">{{contactValidationErrors?.pApplicanttype}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="individual">
+        <app-contact-select [SelectType]="SelectType" (ContactpersondataEventemit)="GetContactPersonData($event)">
+        </app-contact-select>
+      </div> -->
+        <div class="row">
+            <div class="col-md-4 col-xl-4">
+                <div class="form-group" [ngClass]="notEditable ? 'cursor-not-allowaed' : ''">
+                    <label class="mt-1" for="" id="pApplicantname" title="Select" *ngIf="GetFICompanyData[0]?.pcompanyname != 'MAC'">Select {{SelectType}}</label>
+                    <label class="mt-1" for="" id="pApplicantname" title="Select" *ngIf="GetFICompanyData[0]?.pcompanyname == 'MAC'">Select {{companytype}}</label>
+                    <div class="form-group " *ngIf="SelectType == 'Contact'" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                        <div class="demo-section k-content">
+                            <!-- <label id="pContactId" title="Select Contact" hidden></label>
+              <input id="contactsData" name="ContactsData" formControlName="pContactId"
+                [ngClass]="{ 'is-invalid': contactValidationErrors.pContactId }" style="width: 100%;" />
+              <div class="invalid-feedback">
+                <span *ngIf="contactValidationErrors.pContactId">{{contactValidationErrors?.pContactId}}</span>
+              </div> -->
+                            <input id="contactsData" name="Contactdata" formControlName="pApplicantname" style="width: 100%;" />
+                        </div>
+                        <div class="for-error">
+                            <span *ngIf="forIndividualApplicantName == true">Applicant is required</span>
+                        </div>
+                    </div>
+                    <div class="form-group " *ngIf="SelectType == 'Business Entity'" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                        <div class="demo-section k-content">
+                            <!-- <label id="pContactId" title="Select Contact" hidden></label>
+                <input id="contactsData" name="ContactsData" formControlName="pContactId"
+                  [ngClass]="{ 'is-invalid': contactValidationErrors.pContactId }" style="width: 100%;" />
+                <div class="invalid-feedback">
+                  <span *ngIf="contactValidationErrors.pContactId">{{contactValidationErrors?.pContactId}}</span>
+                </div> -->
+                            <input id="businessContactsData" name="BusinessContactsdata" formControlName="pApplicantname" style="width: 100%;" />
+                        </div>
+                        <div class="for-error">
+                            <span *ngIf="forBusinessApplicantName == true">Applicant is required</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="loans-card  mb-4 " *ngIf="ShowImageCard">
+                    <div class="row">
+                        <div class="col-12 pt-2">
+                            <!-- <div class="dropdown lc-dd col-auto position-absolute float-right" style="right:0px;">
+                <button class="btn dropdown-toggle border-0" type="button" id="dropdownMenuButton1"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img
+                    src="assets/images/icon-more-dots-blue.svg" width="25px" height="25px"> </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1"> <a class="dropdown-item"
+                    href="#">Action</a> <a class="dropdown-item" href="#">Another action</a> <a class="dropdown-item"
+                    href="#">Something else here</a> </div>
+              </div> -->
+                            <div class="user-pic"> <img [src]="croppedImage"> </div>
+                        </div>
+                        <div class="col-12 pt-2">
+                            <p class="lc-title text-center mb-auto">{{DisplayCardData?.pContactName}}</p>
+                            <div class="mt-3">
+                                <p class="lc-sub-title mb-0 text-center mt-3">{{DisplayCardData?.pBusinessEntitycontactNo}}</p>
+                                <p class="lc-txt mb-0 mt-1 text-center"> Unique ID - {{DisplayCardData?.pReferenceId}} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================================================================= Select business entity======================================================================== -->
+
+
+
+
+
+
+    <div class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end mt-4  position-sticky fixed-bottom">
+            <!-- <a href="#loanconfig" (click)="nextTabClick()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab"
+        aria-controls="hot" aria-selected="false"><img src="assets/images/icon-chewron-right-whitesolid.svg"
+          width="20px" height="20px" class="mr-3" />Next</a> -->
+
+            <button (click)="nextTabClick()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" [disabled]="isLoading">
+            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading,'fa-check': !isLoading}"></i>
+            <span *ngIf="!isLoading">
+            </span>{{buttonName}}</button>
+        </div>
+    </div>
+
+</form>
+
+<div class="my-container">
+
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplateForFiView">
+    </ngx-loading>
+
+</div>

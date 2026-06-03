@@ -1,0 +1,263 @@
+<div class="row">
+  <div class="col-md-12 col-xl-12  mb-3">
+    <p class="bc-2">Bank and Online Transactions (Cheques In Bank)</p>
+  </div>
+</div>
+<div class="section-container">
+<form [formGroup]="ChequesInBankForm">
+  <div class="row  py-1">
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label>Date</label>
+        <input class="form-control w-auto" type="text" title="Date" id="ptransactiondate" (ngModelChange)="DateChange($event)"
+          formControlName="ptransactiondate" [bsConfig]="dpConfig" #dp="bsDatepicker" readonly bsDatepicker placement="bottom"
+          [ngClass]="{ 'is-invalid': ChequesInBankValidation.ptransactiondate }">
+        <div class="invalid-feedback">
+          <span *ngIf="ChequesInBankValidation.ptransactiondate">{{ChequesInBankValidation?.ptransactiondate}}</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Bank</label>
+        <select class="form-control" (change)="SelectBank($event)" id="bankselection">
+          <option value="" >Select</option>
+          <option *ngFor="let bank of BanksList" [value]="bank.pdepositbankname">{{bank.pdepositbankname}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-xl-4">
+      <div class="border rounded  shadow-sm bg-light p-3">
+        <h2 *ngIf="banknameshowhide" class="sec-head-bold-blue mt-2">{{bankname}}
+          <hr>
+        </h2>
+
+        <div class="form-group">
+          <label>Balance: </label> <label class="sec-head-bold ml-2">{{bankbalance}}</label>
+        </div>
+        <div class="form-group m-0">
+          <label>BRS Date: </label> <label class="sec-head-bold ml-2">{{brsdate}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ul class="nav filtered-tab nav-tabs">
+    <li class="active"> <a class="active" (click)="All()" data-toggle="tab" href="#all" role="tab" aria-controls="fresh"
+        aria-selected="true">All <span class="badge badge-warning ml-2">{{all}}</span></a></li>
+
+    <li><a data-toggle="tab" href="#all" (click)="ChequesDeposited()">Cheques Deposited <span
+          class="badge badge-secondary ml-2">{{chequesdeposited}}</span></a></li>
+    <li><a data-toggle="tab" href="#all" (click)="OnlineReceipts()">Online Receipts <span
+          class="badge badge-primary ml-2">{{onlinereceipts}}</span></a></li>
+    <li><a data-toggle="tab" href="#all" (click)="Cleared()">Cleared <span
+          class="badge badge-success ml-2">{{cleared}}</span></a></li>
+    <li><a data-toggle="tab" href="#all" (click)="Returned()">Returned <span
+          class="badge badge-danger ml-2">{{returned}}</span></a></li>
+
+  </ul>
+  <br />
+  <div *ngIf="brsdateshowhidecleared" class="row">
+    <div class="col-md-4 col-xl-4">
+      <div class="form-group">
+        <label>BRS Frome Dat</label>
+        <input class="form-control w-auto" type="text" formControlName="pfrombrsdate" readonly
+          [bsConfig]="brsfromConfig" #dp="bsDatepicker" bsDatepicker placement="bottom">
+      </div>
+    </div>
+    <div class="col-md-4 col-xl-4">
+      <div class="form-group">
+        <label>BRS To Date</label>
+        <input class="form-control w-auto" type="text" formControlName="ptobrsdate" readonly [bsConfig]="brstoConfig"
+          #dp="bsDatepicker" bsDatepicker placement="bottom">
+        <div *ngIf="validatebrsdateclear" style="color:red">Brs To Date Should Be Greater Than From Date</div>
+      </div>
+
+    </div>
+    <div class=" justify-content-end mt-4">
+      <a (click)="ShowBrsClear()" data-toggle="tab" class="btn btn-b-icon " role="tab" aria-controls="hot"
+        aria-selected="false">Show</a>
+    </div>
+  </div>
+
+<form [formGroup]="BrsDateForm">
+  <div *ngIf="brsdateshowhidereturned" class="row">
+    <div class="col-md-4 col-xl-4">
+      <div class="form-group">
+        <label>BRS From Date</label>
+        <input class="form-control w-auto" type="text" readonly formControlName="frombrsdate" placeholder=""
+          [bsConfig]="brsfromConfig" #dp="bsDatepicker" bsDatepicker placement="bottom">
+      </div>
+    </div>
+    <div class="col-md-4 col-xl-4">
+      <div class="form-group">
+        <label>BRS To Date</label>
+        <input class="form-control w-auto" type="text" readonly formControlName="tobrsdate" placeholder=""
+          [bsConfig]="brstoConfig" #dp="bsDatepicker" bsDatepicker placement="bottom">
+        <div *ngIf="validatebrsdatereturn" style="color:red">Brs To Date Should Be Greater Than From Date</div>
+      </div>
+    </div>
+    <div class=" justify-content-end mt-4">
+      <a (click)="ShowBrsReturn()" data-toggle="tab" class="btn btn-b-icon " role="tab" aria-controls="hot"
+        aria-selected="false">Show</a>
+    </div>
+  </div>
+</form>
+<div class="tab-content" id="myTabContent" *ngIf="banknameshowhide">
+  <div class="tab-pane fade active show " id="all" role="tabpanel" aria-labelledby="fresh-tab">
+    <div class="">
+      <div class="section-container">
+
+        <kendo-grid [kendoGridBinding]="gridData" [groupable]="false" [height]="480" [group]="groups"
+          [selectable]="selectableSettings" [selectable]="true" [scale]="0.9"  [reorderable]="true"  [sortable]="true" [resizable]="true">
+          <ng-template kendoGridToolbarTemplate>
+            <!-- <input placeholder="Search in all columns..." kendoTextBox (input)="SearchRecord($event.target.value)" />
+            <button kendoGridExcelCommand type="button" icon="file-excel" style="float:right;">Export to
+              Excel</button>
+            <button kendoGridPDFCommand icon="file-pdf" style="float:right;">Export to PDF</button> -->
+            <div class="row mb-3 mt-2">
+              <div class="col-4 pl-0 mt-n1">
+                <input placeholder="Search in all columns..." kendoTextBox  formControlName="SearchClear" class="form-control search-k-cst sb"
+                  (input)="SearchRecord($event.target.value)" />
+              </div>
+              <div class="col-7 pr-0 pl-4 ml-5">
+                <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                  <li class="temp-ico ml-2">
+                    <a kendoGridPDFCommand><img class="pt-1 pl-3" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                        width="20px"></a></li>
+                  <li class="temp-ico ml-2">
+                    <a kendoGridExcelCommand><img class="pt-1" src="assets/images/icon-excel.svg " title="excel"
+                        width="20px"></a></li>
+                  <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                </ul>
+              </div>
+            </div>
+          </ng-template>
+          <kendo-grid-column-group title="Cheques In Bank ({{pdfstatus}})" [headerClass]="{'kendo-g-center' : true}">
+          <kendo-grid-checkbox-column field="pdepositstatus" title="Clear" showSelectAll="true"
+            [hidden]="showhidegridcolumns">
+            <ng-template kendoGridCellTemplate let-idx="dataItem" let-row="rowIndex">
+              <input type="checkbox" [checked]="idx.pdepositstatus == true" id="{{idx.preceiptid}}{{row}}" (change)="CheckedClear($event,idx)" />
+            </ng-template>
+          </kendo-grid-checkbox-column>
+          <kendo-grid-checkbox-column field="preturnstatus" title="Return" showSelectAll="true"
+            [hidden]="showhidegridcolumns">
+            <ng-template kendoGridCellTemplate let-idx="dataItem">
+              <input type="checkbox" [checked]="idx.preturnstatus == true" id="{{idx.preceiptid}}" (change)="CheckedReturn($event,idx)" />
+            </ng-template>
+          </kendo-grid-checkbox-column>
+  
+          <kendo-grid-column field="" title="" [headerClass]="{'kendo-g-center': true}" class="kendo-center" width="175">
+            <ng-template kendoGridCellTemplate let-idx="dataItem">
+              <div *ngIf="idx.pdepositstatus || idx.preturnstatus">
+                <input type="text" [(ngModel)]="idx.pchequestatusnarration" id="txtenterdata_{{idx.preceiptid}}" (change)="ValidatingNarration(idx)" class="form-control" style="width: 125px;padding: 0px;" [ngModelOptions]="{standalone: true}" appUppercase>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="preceiptid" title="Receipt Id"></kendo-grid-column>
+          <kendo-grid-column field="preceiptdate" title="Receipt Date">
+            <!-- <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.preceiptdate | date: 'dd/MM/yyyy'}}
+                        </ng-template> -->
+          </kendo-grid-column>
+          <kendo-grid-column field="pdepositeddate" title="Deposited Date"></kendo-grid-column>
+          <kendo-grid-column field="pcleardate" title="{{datetitle}}" [hidden]="hiddendate">
+            <!-- <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pdepositeddate | date: 'dd/MM/yyyy'}}
+                        </ng-template> -->
+          </kendo-grid-column>
+          <kendo-grid-column field="pChequenumber" title="Cheque/Reference No"></kendo-grid-column>
+          <kendo-grid-column field="ptypeofpayment" title="Transaction Mode"></kendo-grid-column>
+          <kendo-grid-column field="ppartyname" title="Party"></kendo-grid-column>
+          <kendo-grid-column field="ptotalreceivedamount" title="Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.ptotalreceivedamount | mycurrencypipe}}
+            </ng-template>
+          </kendo-grid-column>
+          </kendo-grid-column-group>
+          <kendo-grid-pdf fileName="Chequesinbank.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+            [landscape]="true">
+            <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                   <div class="header bc-2 text-center">
+                    <h5> Cheques In Bank ({{pdfstatus}}) </h5>
+                   </div>
+                 </div>
+               </ng-template>
+            <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+            <kendo-grid-column field="preceiptid" width="100" title="Receipt Id">
+            </kendo-grid-column>
+            <kendo-grid-column field="preceiptdate" width="100" title="Receipt Date">
+            </kendo-grid-column>
+            <kendo-grid-column field="pdepositeddate"  width="100" title="Deposited Date">
+            </kendo-grid-column>
+            <kendo-grid-column field="pcleardate" width="100" title="{{datetitle}}" [hidden]="hiddendate">
+            </kendo-grid-column>
+            <kendo-grid-column field="pChequenumber" width="100" title="Cheque/Reference No">
+            </kendo-grid-column>
+            <kendo-grid-column field="ptypeofpayment" width="100" title="Transaction Mode">
+            </kendo-grid-column>
+            <kendo-grid-column field="ppartyname" width="100" title="Party"></kendo-grid-column>
+            <kendo-grid-column field="ptotalreceivedamount" width="100" title="Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+            </kendo-grid-column>
+          </kendo-grid-pdf>
+          <kendo-grid-excel fileName="Chequesinbank.xlsx" [fetchData]="allData"></kendo-grid-excel>
+        </kendo-grid>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- <div class="tab-pane fade" id="issued" role="tabpanel" aria-labelledby="fresh-tab">
+                    
+                   <h2 class="mt-4 lc-sub-title"> Issued grid here </h2>
+                  </div>
+                <div class="tab-pane fade" id="online" role="tabpanel" aria-labelledby="fresh-tab">
+                    
+                   <h2 class="mt-4 lc-sub-title"> Online grid here </h2>
+                  </div>
+                <div class="tab-pane fade" id="cleared" role="tabpanel" aria-labelledby="fresh-tab">
+                    
+                   <h2 class="mt-4 lc-sub-title"> Cleared grid here </h2>
+                  </div>
+                <div class="tab-pane fade" id="returned" role="tabpanel" aria-labelledby="fresh-tab">
+                    
+                   <h2 class="mt-4 lc-sub-title"> Returned grid here </h2>
+                  </div> -->
+
+</div>
+
+<div class=" d-flex justify-content-end mt-4"> <a (click)="Clear()" data-toggle="tab"
+    class="btn btn-g-icon px-3 border-0 mr-3" role="tab" aria-controls="hot" aria-selected="false"><img
+      src="assets/images/icon-cancel-white.svg" class="mr-3" width="20px" height="20px">Clear</a>
+  <div *ngIf="saveshowhide">
+    <button (click)="Save()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot"
+      aria-selected="false" [disabled]="disablesavebutton">
+      <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton,'fa-check': !disablesavebutton}"></i>
+      <span *ngIf="!disablesavebutton">
+      </span>{{buttonname}}</button>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal right slideInRight" id="add-detail" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="margin-right:0px !important; ">
+    <div class="model-cst modal-content">
+      <!-- Modal body -->
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="form-group">
+          <label for="">Enter The Return Amount Charges For The Cheque:{{chequenumber}}</label>
+          <input type="text" class="form-control" style="text-align:right;" name="cancelcharges" maxlength="3" id="cancelcharges" #ref appNumbersonly appMycurrencyFormatter>
+        </div>
+        <div class="d-flex justify-content-end mt-4">
+          <a (click)="CancelChargesOk(ref.value)" data-toggle="tab" class="btn btn-b-icon px-3 border-0 mr-3" role="tab"
+            aria-controls="hot" aria-selected="false" data-dismiss="modal"><img src="assets/images/icon-check-white.svg"
+              class="mr-3" width="20px" height="20px">Ok</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+</div>

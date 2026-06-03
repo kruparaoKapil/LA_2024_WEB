@@ -1,0 +1,363 @@
+<div class="row">
+    <div class="col-md-12 col-xl-12 ">
+        <p class="bc-2">Acknowledgement Letter</p>
+    </div>
+    <div class="col-md-12">
+        <ul class="nav filtered-tab nav-tabs border-0 mt-3">
+            <li class="active" (click)="Clicknotsend()"><a data-toggle="tab" href="#yto-send" class="active">Yet To
+                Send<span class="badge badge-warning ml-2">{{yettosend}}</span></a></li>
+            <li (click)="Clicksend()"><a data-toggle="tab" href="#sent">Sent<span
+                    class="badge badge-warning ml-2">{{send}}</span></a></li>
+        </ul>
+        <div class="tab-content border rounded shadow-sm bg-white p-3 temp-tab-content" style="height: 540px; overflow-y: scroll; overflow-x: hidden;">
+            <!---------------tab content---------->
+            <!-- yto-send-->
+            <div id="yto-send" class="tab-pane show fade in active">
+                <div class="row mt-2">
+                    <div class="col-md-12 col-xl-12">
+                        <div class="">
+                            <div class="my-container">
+                                <ng-template #customLoadingTemplate>
+                                    <div class="custom-class">
+
+                                    </div>
+                                </ng-template>
+                                <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+                            </div>
+                            <kendo-grid [kendoGridBinding]="AcknowledgementLetternotsendData" [pageSize]="pageSize" [skip]="gridState.skip" [pageable]="{buttonCount: 2}" [sort]="gridState.sort" [sortable]="true" [resizable]="true">
+
+                                <ng-template kendoGridToolbarTemplate>
+                                    <div class="row mb-3">
+                                        <div class="col-4 pl-0 mt-n1">
+                                            <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilterNotsend($event.target.value)" />
+                                        </div>
+                                        <div class="col-12 pr-2">
+                                            <ul class="temp-ul pull-right">
+                                                <li class="temp-ico">
+                                                    <a kendoGridPDFCommand><img class="pt-1 pl-1" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                                </li>
+                                                <li class="temp-ico">
+                                                    <a kendoGridExcelCommand><img class="pt-1" src="assets/images/icon-excel.svg " title="Excel" width="20px"></a>
+                                                </li>
+                                                <!-- <li class="temp-ico ml-2"><a    (click)="print()"><img class="pt-2" src="assets/images/print-icon-blue.svg " title="print" width="20px"></a></li> -->
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <kendo-grid-column-group style="color:black" title=" Acknowledgement Letter (Yet To Send)" [headerClass]="{'kendo-g-center' : true}">
+                                    <kendo-grid-column field="pIsprimaryAccount" title="Select" width="80">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                            <input type="radio" name="anotsend" [checked]="dataItem.pIsprimaryAccount" (click)="radioselectedtosend(dataItem,rowIndex,'notsend')" />
+                                        </ng-template>
+                                    </kendo-grid-column>
+
+
+
+                                    <kendo-grid-column field="pVchapplicationid" title="Loan Application No" width="200">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantname" title="Applicant"></kendo-grid-column>
+                                    <kendo-grid-column field="pLoanamount" title="Loan Amount" class="no-padding" [headerStyle]="{ 'text-align': 'center' }" [style]="{'text-align': 'center'}">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pLoanamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pMobileno" title="Mobile No" class="no-padding" [headerStyle]="{ 'text-align': 'right' }" [style]="{'text-align': 'left'}"></kendo-grid-column>
+                                    <kendo-grid-column field="pEmail" title="Email"></kendo-grid-column>
+                                </kendo-grid-column-group>
+
+
+                                <kendo-grid-pdf fileName="Acknowledgement Letter_Yet to Send .pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+                                    <ng-template kendoGridPDFTemplate>
+                                        <div class="page-template">
+                                            <div class="header bc-2 text-center">
+                                                <h5> Acknowledgement Letter (Yet To Send) </h5>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm">
+                                    </kendo-grid-pdf-margin>
+                                    <kendo-grid-column field="pVchapplicationid" title="Loan Application No" width="200">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantname" title="Applicant"></kendo-grid-column>
+                                    <kendo-grid-column field="pLoanamount" title="Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pLoanamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pMobileno" title="Mobile No"></kendo-grid-column>
+                                    <kendo-grid-column field="pEmail" title="Email"></kendo-grid-column>
+
+                                </kendo-grid-pdf>
+
+
+                                <kendo-grid-excel fileName="Acknowledgement Letter_Yet to Send.xlsx" [fetchData]="allData">
+                                    <kendo-excelexport-column field="pVchapplicationid" title="Loan Application No" width="200"></kendo-excelexport-column>
+                                    <kendo-excelexport-column field="pApplicantname" title="Applicant">
+                                    </kendo-excelexport-column>
+                                    <kendo-excelexport-column field="pLoanamount" title="Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pLoanamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-excelexport-column>
+                                    <kendo-excelexport-column field="pMobileno" title="Mobile No">
+                                    </kendo-excelexport-column>
+                                    <kendo-excelexport-column field="pEmail" title="Email"></kendo-excelexport-column>
+
+                                </kendo-grid-excel>
+
+
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- yto-send end -->
+            <!-- sent end -->
+            <div id="sent" class="tab-pane fade">
+                <div class="row mt-2">
+                    <div class="">
+                        <div class="col-md-12 col-xl-12">
+                            <div class="my-container">
+                                <ng-template #customLoadingTemplate>
+                                    <div class="custom-class">
+
+                                    </div>
+                                </ng-template>
+                                <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+                            </div>
+
+                            <kendo-grid [kendoGridBinding]="AcknowledgementLettersemdData" [pageSize]="pageSize" [skip]="gridState.skip" [pageable]="{buttonCount: 2}" [sort]="gridState.sort" [sortable]="true" [resizable]="true">
+
+                                <ng-template kendoGridToolbarTemplate>
+                                    <div class="row mb-3">
+                                        <div class="col-4 pl-0 mt-n1">
+                                            <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFiltersend($event.target.value)" />
+                                        </div>
+                                        <div class="col-12 ">
+                                            <ul class="temp-ul  pull-right">
+                                                <li class="temp-ico">
+                                                    <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                                </li>
+                                                <li class="temp-ico">
+                                                    <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel" width="20px"></a>
+                                                </li>
+                                                <!-- <li class="temp-ico ml-2"><a    (click)="print()"><img class="pt-2" src="assets/images/print-icon-blue.svg " title="print" width="20px"></a></li> -->
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+                                </ng-template>
+
+                                <kendo-grid-column-group title=" Acknowledgement Letter (Sent)" [headerClass]="{'kendo-g-center' : true}">
+                                    <kendo-grid-column field="pIsprimaryAccount" title="Select" width="80">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                            <input type="radio" name="asend" [checked]="dataItem.pIsprimaryAccount" (click)="radioselectedtosend(dataItem,rowIndex,'sent')" />
+                                        </ng-template>
+                                    </kendo-grid-column>
+
+
+                                    <kendo-grid-column field="pVchapplicationid" title="Loan Application No" width="200">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantname" title="Applicant"></kendo-grid-column>
+                                    <kendo-grid-column field="pLoanamount" title="Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pLoanamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pMobileno" title="Mobile No"></kendo-grid-column>
+                                    <kendo-grid-column field="pEmail" title="Email">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="psentthrough" title="Status"></kendo-grid-column>
+                                    <kendo-grid-column field="pTransDate" title="Sent">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pTransDate | date : 'dd-MM-yyyy'}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                </kendo-grid-column-group>
+                                <kendo-grid-pdf fileName="Acknowledgement Letter_Sent.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+                                    <ng-template kendoGridPDFTemplate>
+                                        <div class="page-template">
+                                            <div class="header bc-2 text-center">
+                                                <h5 class="color-black"> Acknowledgement Letter (Sent) </h5>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm">
+                                    </kendo-grid-pdf-margin>
+                                    <kendo-grid-column field="pVchapplicationid" title="Loan Application No" width="200">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantname" title="Applicant"></kendo-grid-column>
+                                    <kendo-grid-column field="pLoanamount" title="Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pLoanamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pMobileno" title="Mobile No"></kendo-grid-column>
+                                    <kendo-grid-column field="pEmail" title="Email"></kendo-grid-column>
+                                    <kendo-grid-column field="psentthrough" title="Status"></kendo-grid-column>
+                                    <kendo-grid-column field="pTransDate" title="Sent Time"></kendo-grid-column>
+                                </kendo-grid-pdf>
+
+
+                                <kendo-grid-excel fileName="Acknowledgement Letter_Sent.xlsx" [fetchData]="allData">
+                                    <kendo-excelexport-column field="pVchapplicationid" title="Loan Application No" width="200"></kendo-excelexport-column>
+                                    <kendo-excelexport-column field="pApplicantname" title="Applicant">
+                                    </kendo-excelexport-column>
+                                    <kendo-excelexport-column field="pLoanamount" title="Loan Amount" class="kendo-right" [headerClass]="{'kendo-right': true}">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pLoanamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-excelexport-column>
+                                    <kendo-excelexport-column field="pMobileno" title="Mobile No">
+                                    </kendo-excelexport-column>
+                                    <kendo-excelexport-column field="pEmail" title="Email"></kendo-excelexport-column>
+                                    <kendo-excelexport-column field="psentthrough" title="Status"></kendo-excelexport-column>
+                                    <kendo-excelexport-column field="pTransDate" title="Sent Time"></kendo-excelexport-column>
+                                </kendo-grid-excel>
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!---------------sent end---------->
+            <!---------------tab content end---------->
+        </div>
+    </div>
+
+    <!--<div class="col-md-12">
+        <div class="d-flex pt-4 mt-4">
+          <a href="#template" data-toggle="collapse" aria-expanded="true" class="btn btn-s-icon px-3  mr-4 border-0"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-3">Create Template </a></div>
+     </div>-->
+
+    <div class="col-md-12">
+
+        <div id="template" class="collapse fade {{AcknowledgementLetter}} mt-2">
+            <div class="my-container">
+                <ng-template #customLoadingTemplate>
+                    <div class="custom-class">
+
+                    </div>
+                </ng-template>
+                <ngx-loading [show]="loadingletters" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+            </div>
+            <div class="d-flex justify-content-end mr-3">
+                <ul class="temp-ul mt-0">
+
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Acknowledgement_Letter_'+Vchapplicationid+'_'+today+'.pdf')" />
+                    </li>
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                    </li>
+                    <!--
+                        <li class="temp-ico ml-2">
+                      <img src="assets/images/icon-mail-active.svg " width="20px" class="pt-2" [attr.title]="(ApplicantEmail=='') ? 'Email Not Added' : 'Send Email'" (click)="ApplicantEmail!='' && sendtoemail()" style="cursor: pointer;" />
+  
+                  </li>
+                  <li class="temp-ico ml-2">
+                      <img src="assets/images/icon-sms-active.svg " width="18px" class="pt-2" [attr.title]="(pMobileno=='') ? 'Mobile Number Not Added' : 'Send Mobile'" (click)="pMobileno!='' && sendtoSMS()" style="cursor: pointer;" />
+                  </li>  
+                    <li class="temp-ico ml-2">
+                      <a href=""><img src="assets/images/edit-icon-blue.svg" width="18px" class="pt-2" title="Edit profile (redirect to form)"></a>
+                  </li>-->
+                </ul>
+
+            </div>
+
+
+
+
+
+
+
+            <kendo-pdf-export #pdf paperSize="A4" class="page">
+
+
+
+                <div id="temp-box">
+
+                    <div class="border shadow-sm bg-white">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <app-company-details></app-company-details>
+
+                                <div class="report-head">
+                                    <p class="font-16  text-center mb-0">
+                                        Acknowledgement Letter
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="temp-box-inner border rounded shadow-sm bg-white p-3 pt-0" style="overflow:hidden; height:auto !important;">
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p class="font-14">
+                                    <span class="mr-4 sec-head-black">Date :</span>
+                                    <span class="sec-head-black">{{Applicationdate | date:'dd-MM-yyyy'}},</span>
+                                </p>
+                                <p class="font-14">
+                                    Dear {{Titlename}} {{ApplicantName}},
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="font-14 mb-2">
+                                    We have received your loan application for <span class="sec-head-black"> "{{Loanname}}"
+                                                    </span> for <span class="sec-head-black">  {{Loanamount | mycurrencypipe}}. </span> Your loan application number is<span class="sec-head-black"> {{Vchapplicationid}}.</span> Your application form will
+                                    be processed within a <span class="sec-head-black">Short time </span> from date of acknowledgement.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6" style="bottom:0px;">
+                                <div class="temp-sign-box">
+                                    <p class="font-14 mt-3 mb-3">
+                                        Loan Applicant's Signature
+                                    </p>
+                                    <hr>
+                                    <p class="font-14 mt-3 mb-3">
+                                        {{ApplicantName}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="temp-sign-box">
+                                    <p class="font-14 mt-4 mb-4 text-right">
+                                        Receiving Officer's Signature
+                                    </p>
+                                    <hr>
+                                    <p class="font-14 mt-4 mb-4 text-right">
+                                        Aditya K
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <!-- row end -->
+
+                </div>
+
+            </kendo-pdf-export>
+
+            <div class="d-flex justify-content-end" *ngIf="Savebbutton">
+                <a data-toggle="collapse" aria-expanded="true" class="btn btn-s-icon px-3 mt-4 border-0" (click)="save()"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save </a>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>

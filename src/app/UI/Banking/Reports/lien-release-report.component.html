@@ -1,0 +1,150 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6 ">
+        <p class="bc-2">Lien Release</p>
+    </div>
+    
+</div>
+<div class="row mt-3">
+    <div class="col-md-12 col-xl-12">
+        <div class="section-container">
+        
+       <form [formGroup]="LineReleaseForm" autocomplete="off">
+        <!--<div class="">-->
+         <div class="col-md-12 p-0">
+          <div class="row mt-2">
+             <div class="col-md-4 col-xl-4">
+                  <label id="pbranch" title="Branch Name">Branch Name</label>
+                <select class="form-control col-md-12" formControlName="pbranch"
+                        (change)="branch_change($event)" [ngClass]="{ 'is-invalid': LienReleaseErrors.pbranch}">
+                   <!--<option value="" ng-selected="selected">Select</option>-->
+                    <option value="All">All</option>
+                  <option *ngFor="let i of BranchDetails" [value]="i.pbranch">{{i.pbranch}}</option>
+                </select>
+               <div class="invalid-feedback">
+                  <span *ngIf="LienReleaseErrors.pbranch">{{LienReleaseErrors?.pbranch}}</span>
+                </div>
+              </div>
+
+              <div class="col-md-3  col-xl-3">
+                <div class="form-group">
+                  <label id="pFromMonthOf" title="From Date">From Date</label>
+               
+
+                       <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                         bsDatepicker formControlName="pFromMonthOf" (ngModelChange)="FromDateChange($event)" [ngClass]="{ 'is-invalid': LienReleaseErrors.pFromMonthOf }">
+
+                </div>
+              </div>
+              <div class="col-md-3  col-xl-3">
+                <div class="form-group">
+                  <label id="pToMonthOf" title="To Date">To Date</label>               
+                    
+                <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+                         bsDatepicker formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)" [ngClass]="{ 'is-invalid': LienReleaseErrors.pToMonthOf }">
+                    <div *ngIf="validation" class="text-danger">
+                      please select a valid date
+                    </div>
+                </div>
+              </div>
+
+              
+
+              <div class="">
+
+              <div class="justify-content-end">
+
+                <div class="form-group mt-4 pt-2">
+                    <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="Getlinereleasedetails()">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                    <span *ngIf="!isLoading">
+                      <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                           width="20px">
+                    </span> {{savebutton}}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          </div>
+      </form>
+
+
+      <div class="d-flex justify-content-end">
+        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" (click)="pdf()" style="cursor: pointer;" />
+
+      </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+
+                    <ngx-datatable #myTabl id="gridData" class="material expandable table" [rows]="gridData" 
+                       [headerHeight]="60" [footerHeight]="50" width="210"
+                        [scrollbarH]="true"  [height]="" [selected]="" [groupRowsBy]="'pbranchname'" 
+                             rowHeight="auto" [columnMode]="'force'"[groupExpansionDefault]="true">
+
+                         <ngx-datatable-group-header  [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+          <ng-template let-group="group"  let-expanded="expanded" ngx-datatable-group-header-template>
+            <div style="padding-left:5px;">
+              <a
+                
+                [class.datatable-icon-right]="!expanded"
+                [class.datatable-icon-down]="expanded"
+                title="Expand/Collapse Group"                
+                 (click)="toggleExpandGroup(group)"
+              >
+                <b>{{ group.value[0].pbranchname }}   </b>
+             </a>
+               
+            </div>
+          </ng-template>
+        </ngx-datatable-group-header>
+                     
+
+                        <ngx-datatable-column width="100" name="Member" prop="pmembername"
+                            [cellClass]="'cell-left'" [headerClass]="'header-center'">
+
+                        </ngx-datatable-column>
+                       
+                        <ngx-datatable-column width="130" name="Advance Account No." prop="pfdaccountno"
+                            [cellClass]="'cell-left'" [headerClass]="'header-center'">
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column width="120" name="Advance Amount" prop="pdepositamount"
+                            [cellClass]="'cell-right'" [headerClass]="'header-center'">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.pdepositamount | mycurrencypipe}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column width="100" name="Scheme Name" prop="pschemename"
+                            [cellClass]="'cell-left'" [headerClass]="'header-center'">
+
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column width="80" name="Tenure" prop="ptenor" [cellClass]="'cell-center'"
+                            [headerClass]="'header-center'">
+
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column width="200" name="Interest Rate/Value per 100" prop="pinterestrate"
+                            [cellClass]="'cell-center'" [headerClass]="'header-center'">
+
+                        </ngx-datatable-column>
+                        <ngx-datatable-column width="100" name="Lien Amount" prop="plienamount"
+                            [cellClass]="'cell-right'" [headerClass]="'header-center'">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.plienamount | mycurrencypipe}}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column width="100" name="Lien Release Date" prop="plienreleasedate"
+                            [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                            <!-- <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.plienreleasedate | date:'dd-MM-yyyy'}}
+                            </ng-template> -->
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

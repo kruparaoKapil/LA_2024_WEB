@@ -1,0 +1,255 @@
+<div class="section-container">
+  <div class="row">
+    <div class="col-md-6 col-xl-6 ">
+      <p class="bc-2">Bond Preview</p>
+    </div>
+  </div>
+  <form [formGroup]="Bondpreviewform">
+    <div class="row">
+      <div class="col-xl-4 col-md-4 form-group">
+
+        <label id="" title="Date Of Opening Account" class="" for="">Date</label>
+
+
+        <input readonly type="text" class="form-control" formControlName="ptransdate" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker
+               placement="bottom">
+
+
+
+
+      </div>
+      <div class="col-xl-3 col-md-4 d-flex form-group mt-3 pt-3 pl-0">
+        <label></label>
+        <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon mr-2  border-0" data-toggle="tab"
+                (click)="showdetails()" role="tab">
+          Show
+        </button>
+      </div>
+
+
+
+
+
+    </div>
+  </form>
+  <div class="row">
+    <div class="col-md-12">
+       <div class="row mt-2">
+
+        <div class="col-md-4">
+          <div class="form-group">
+           
+            <input (keyup)="updateFilter($event)" type="text" #search id="search" class="form-control  sb" placeholder="Search" 
+            aria-label="Search" aria-describedby="basic-addon1" width="200">
+          </div>
+        </div>
+      </div>
+<!-- 
+      <ngx-datatable class="material expandable table" [rows]="griddata" [headerHeight]="60" [footerHeight]="50" 
+                     [scrollbarH]="true" [height]="" [selected]="" rowHeight="auto"
+                     [limit]="commencementgridPage.size" [count]="commencementgridPage.totalElements"
+                     [columnMode]="'force'"[columnMode]="ColumnMode.force"
+                     [offset]="commencementgridPage.pageNumber">
+
+
+
+
+        <ngx-datatable-column name="Select" prop="" [cellClass]="'cell-left'" width="50"
+                              [headerClass]="'header-left'">
+          <ng-template ngx-datatable-header-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+                       let-selectFn="selectFn">
+            <input type="checkbox" [checked]="allRowsSelected" [attr.disabled]="selectallcheckbox ? '' : null"
+                   (change)="selectAll($event,row,rowIndex)" />
+          </ng-template>
+          <ng-template class="column-fixed" ngx-datatable-cell-template
+                       let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+            <input type="checkbox"
+                   (change)="selectFdAccountno($event, row, rowIndex)" [checked]="duplicatecheck">
+          </ng-template>
+        </ngx-datatable-column>
+      
+        <ngx-datatable-column name="Member" prop="pMembername" [cellClass]="'cell-left'" width="100"
+                              [headerClass]="'header-left'">
+
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Member Code" prop="pMembercode" [cellClass]="'cell-left'" width="100"
+                              [headerClass]="'header-left'">
+        </ngx-datatable-column>
+        <ngx-datatable-column  name="Advance Amount" prop="pDepositamount" [cellClass]="'cell-right'"  width="130"[headerClass]="'header-right'">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.pDepositamount|mycurrencypipe}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  name="Advance Name" prop="pFdname" [cellClass]="'cell-left'" width="100"
+                              [headerClass]="'header-left'">
+        </ngx-datatable-column>
+        <ngx-datatable-column  name="Advance AccountNo." prop="pFdaccountno" [cellClass]="'cell-left'" width="130"
+                              [headerClass]="'header-left'">
+          <ng-template class="column-fixed" ngx-datatable-cell-template
+                       let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+            <a (click)="GetAccountDetails(row)">{{row.pFdaccountno }}</a>
+          </ng-template>
+
+        </ngx-datatable-column>
+        <ngx-datatable-column  name="Interest Rate/Value Per 100" prop="pInterestrate" [cellClass]="'cell-center'" width="200"
+                              [headerClass]="'header-left'">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.pInterestrate|mycurrencypipe}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  name="Maturity Amount" prop="pMaturityamount" [cellClass]="'cell-right'" width="130" [headerClass]="'header-right'">
+
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.pMaturityamount|mycurrencypipe}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Interest Payable" prop="pInterestpayable" [cellClass]="'cell-right'" width="130"  [headerClass]="'header-right'">
+
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.pInterestpayable|mycurrencypipe}}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column  name="Interest Payout" prop="pInterestpayout" [cellClass]="'cell-left'" width="100"
+          [headerClass]="'header-left'">
+        </ngx-datatable-column>
+        <ngx-datatable-column  name="Tenure" prop="pTenor" [cellClass]="'cell-left'"width="100"
+                              [headerClass]="'header-left'">
+                              <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.pTenor}}-{{row.pTenortype}}
+                              </ng-template>
+        </ngx-datatable-column>
+        
+        <ngx-datatable-column  name="Advance Date" prop="pDepositdate" [cellClass]="'cell-left'" width="100"
+                              [headerClass]="'header-left'">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.pDepositdate}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  name="Maturity Date" prop="pMaturitydate" [cellClass]="'cell-left'" width="100"
+                              [headerClass]="'header-left'">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.pMaturitydate}}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable> -->
+
+
+      <kendo-grid [kendoGridBinding]="griddata" [sortable]="true" [selectedKeys]="mySelection" (remove)="removeHandler($event)" [skip]="skip" height="200" [selectable]="selectableSettings" [pageSize]="10"  [pageable]="true" [skip]="skip" height="500">
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="mb-3">
+            <div class="col-12 mt-5">
+              <ul class="temp-ul pull-right mr-3 pb-3">
+                
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+        <!-- kendo-grid [kendoGridBinding]="promotersalarylist" [sortable]="true" [selectedKeys]="mySelection"
+           [pageSize]="10" [group]="group"  [pageable]="true" [skip]="skip" height="500"
+          [selectable]="selectableSetting" -->
+
+        <kendo-grid-column title="Select All" field="add" class="pl-2" width="40">
+
+
+       
+
+
+            <ng-template kendoGridHeaderTemplate let-dataItem let-rowIndex="rowIndex">
+                <input type="checkbox" name="selectAll" (change)="selectAll($event,dataItem,rowIndex)" [checked]="allRowsSelected" />
+            </ng-template>
+
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <input type="checkbox" (change)="selectFdAccountno($event,dataItem,rowIndex)" [checked]="duplicatecheck" />
+            </ng-template>
+
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pvchname" title="Member" width="100">
+        </kendo-grid-column>
+
+        <!-- <kendo-grid-column field="pMembercode" title="Member Code" width="100">
+        </kendo-grid-column> -->
+
+        <kendo-grid-column field="pnumamount" title="Advance Amount" class="kendo-center" width="150">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pnumamount |currencypipewithdecimal }}
+        </ng-template>
+        </kendo-grid-column>
+        <!-- <kendo-grid-column field="pFdname" title="Fd Name" width="100">
+        </kendo-grid-column> -->
+       
+
+        <kendo-grid-column field="pnumappid" title="Advance AccountNo." class="kendo-center" width="140">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <a (click)="GetAccountDetails(dataItem)">{{dataItem.pnumappid }}</a>
+
+        </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pnumintper"  title="Interest Rate/Value Per 100" class="kendo-right" width="180">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pnumintper |currencypipewithdecimal }}
+        </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pnumamount"  title="Maturity Amount" class="kendo-right" width="140">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pnumamount |currencypipewithdecimal }}
+        </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pmvalue"  title="Interest Payable" width="140" class="kendo-right">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pmvalue |currencypipewithdecimal }}
+        </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pvchperiodmode" title="Interest Payout" class="kendo-center" width="150">
+            <!-- <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pInterestpayout |currencypipewithdecimal }}
+            </ng-template> -->
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pvchappdate" title="Deposit Date" class="kendo-center" width="150">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pvchappdate | date : 'mediumDate'}}
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="pvchmaturitydate" title="Maturity Date" class="kendo-center" width="130">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pvchmaturitydate | date : 'mediumDate'}}
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-excel fileName="Bond_Preview.xlsx" [fetchData]="allData"></kendo-grid-excel>
+
+    </kendo-grid>
+    </div>
+
+  </div>
+  <div class="row mb-2 mt-2">
+    <div class="col-md-12 col-xl-12">
+      <div class="d-flex justify-content-end">
+          <!-- <a (click)="SaveBondPreview()" class="btn btn-g-icon mr-4 px-3 border-0">
+              <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />Print</a>  -->
+        <!-- <a appButtonDoubleClick (debounceClick)="GenerateReport()">
+          <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />
+          Preview
+        </a> -->
+        <button   (click)="GenerateReport()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab"
+        aria-controls="hot" aria-selected="false" >
+        <img src="assets/images/icon-check-white.svg"
+        width="20px" height="20px" class="mr-3" />
+        Preview  </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal right animated slideInRight" id="add-detail">
+    <app-fd-transcation-details></app-fd-transcation-details>
+  </div>
+</div>

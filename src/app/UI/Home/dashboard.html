@@ -1,0 +1,2989 @@
+<div class="section-container">
+  <form [formGroup]="dashboardForm" autocomplete="off">
+
+    <div class="row">
+      <!-- <div class="col-xl-2 col-md-2 mt-4">
+        <div class="form-check form-check-inline check-btn-secondary">
+          <input class="form-check-input" type="checkbox" id="ason" formControlName="date" (change)="checkox($event)">
+          <label class="mt-2" for="ason"> As On:</label>
+        </div>
+      </div> -->
+      <!-- <div class=" col-xl-2 col-md-2 form-group">
+        <label id="dfromdate" title="FromDate">{{FromDate}}</label>
+        <label style="color: #fff !important;">bfbnfb</label>
+        <input type="text" class="form-control" [bsConfig]="dpConfig" readonly bsDatepicker #dp="bsDatepicker"
+          (ngModelChange)="checkfromdate()" formControlName="dfromdate" placeholder="DD/MM/YYYY" />
+      </div> -->
+      <!-- <div *ngIf="showdate" class="col-xl-2 col-md-2">
+        <div class="form-group">
+          <label id="dtodate" title="To Date">To Date</label>
+          <input type="text" class="form-control" [bsConfig]="dppConfig" readonly bsDatepicker #dp="bsDatepicker"
+            (ngModelChange)="checktodate()" formControlName="dtodate" placeholder="DD/MM/YYYY" />
+          <div *ngIf="validation" class="text-danger">
+            please select valid date
+          </div>
+        </div>
+      </div> -->
+
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-4 col-12" (click)="certificatesClick()" style="cursor: pointer;">
+        <div class="card-box bg-blue">
+          <!-- <label>Certificates Received</label> -->
+          <label> Total Certificates</label>
+          <hr>
+          <p>
+            {{ depositCount }} - {{ depositAmount | mycurrencypipe }}
+          </p>
+        </div>
+      </div>
+
+
+      <div class="col-md-4 col-12" (click)="MaturityClick()" style="cursor: pointer;">
+        <div class="card-box bg-blue">
+          <label> Maturity</label>
+          <hr>
+          <p>
+            {{ MaturityCount }} - {{ MaturityAmount | mycurrencypipe }}
+          </p>
+        </div>
+      </div>
+
+
+      <div class="col-md-4 col-12" (click)="PreMaturityClick()" style="cursor: pointer;">
+        <div class="card-box bg-blue">
+          <label> Pre Maturity</label>
+          <hr>
+          <p>
+            {{ PreMaturityCount }} - {{ PreMaturityAmount | mycurrencypipe }}
+          </p>
+        </div>
+      </div>
+
+
+      <!-- <div class="col-md-4 col-12" (click)="agentSummaryClick()" style="cursor: pointer;">
+        <div class="card-box bg-orange">
+          <label>Agent Summary</label>
+          <hr>
+          
+          <p>
+            {{ totalCommissionAmount | mycurrencypipe }}
+          </p>
+
+        </div>
+      </div> -->
+
+      <div class="col-md-4 col-12" (click)="agentSummaryClick()" style="cursor: pointer;">
+        <div class="card-box bg-orange">
+          <label>Agent Summary</label>
+          <hr>
+          <!-- <p>
+            {{totalCommissionAmount | mycurrencypipe}}</p> -->
+
+          <p>
+            {{ agentCommissionCount }} - {{ totalCommissionAmount | mycurrencypipe }}
+          </p>
+
+        </div>
+      </div>
+      <div class="col-md-4 col-12" (click)="bankDataClick()" style="cursor: pointer;">
+        <div class="card-box bg-pink">
+          <label>Bank Details</label>
+          <hr>
+          <div class="row">
+            <div class="col">
+              <!-- <label>No of A/C's</label> -->
+              <p>{{banksCount}} - {{bankAmount | mycurrencypipe}}</p>
+            </div>
+            <div class="col" hidden>
+              <label>Amount </label>
+              <p>{{bankAmount | mycurrencypipe}}</p>
+            </div>
+          </div>
+          <!-- <p>{{banksCount}} - {{bankAmount | mycurrencypipe}} /-</p> -->
+        </div>
+      </div>
+
+
+      <div class="col-md-4 col-12" hidden>
+        <div class="card-box bg-lightgray">
+          <label>Statutory Compliance</label>
+          <hr>
+          <div class="row">
+            <div class="col">
+              <label>Particular</label>
+              <p>TDS</p>
+            </div>
+            <div class="col">
+              <label>Amt. Payable</label>
+              <p>50,000/-</p>
+            </div>
+            <div class="col">
+              <label>Amt. Paid</label>
+              <p>10,00,000/-</p>
+            </div>
+            <div class="col">
+              <label>Over Due Amount</label>
+              <p>2,00,000/-</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-12" (click)="interestDataClick()" style="cursor: pointer;">
+        <div class="card-box bg-orange">
+          <!-- <label>Interest Details</label> -->
+          <label>Interest Report</label>
+          <hr>
+          <div class="row">
+            <div class="col">
+              <!-- <label>Amount Payable</label> -->
+              <p>{{interestAmount | mycurrencypipe}}</p>
+            </div>
+            <div class="col" hidden>
+              <label>Amount Paid</label>
+              <p>{{interestPayable | mycurrencypipe}}</p>
+            </div>
+            <div class="col" hidden>
+              <label>Over Due Amount</label>
+              <p>2,00,000/-</p>
+            </div>
+          </div>
+          <!-- <p>60</p> -->
+        </div>
+      </div>
+
+
+
+      <div class="col-md-4 col-12" (click)="interestDetailsClick()">
+        <div class="card-box bg-teal" style="display: flex; align-items:center;justify-content: center;">
+          <label class="mt-4">Interest Details</label>
+          <div class="row" hidden>
+
+          </div>
+
+        </div>
+      </div>
+
+
+
+      <div class="col-md-4 col-12" (click)="netBusinessMovement()">
+        <div class="card-box bg-teal" style="display: flex; align-items:center;justify-content: center;">
+          <label class="mt-4">Net Business Movement</label>
+          <div class="row" hidden>
+            <div class="col">
+              <label>Current Month</label>
+              <p>50,000/-</p>
+            </div>
+            <div class="col">
+              <label>Previous 3 Months</label>
+              <p>1,00,000/-</p>
+            </div>
+          </div>
+          <!-- <p>6,00,000/-</p> -->
+        </div>
+      </div>
+
+
+      <div class="col-md-4 col-12" (click)="StatutoryClick()">
+        <div class="card-box bg-teal" style="display: flex; align-items:center;justify-content: center;">
+          <label class="mt-4">Statutory Compliance</label>
+          <div class="row" hidden>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-4 col-12" (click)="LivecertificatesClick()" style="cursor: pointer;">
+        <div class="card-box bg-blue">
+          <!-- <label>Certificates Received</label> -->
+          <label> Live Certificates</label>
+          <hr>
+          <p>
+            {{ DepositCount }} - {{ DepositAmount | mycurrencypipe }}
+          </p>
+        </div>
+      </div>
+
+
+    </div>
+
+    <!-- net business movementdates bhargavi -->
+
+    <!-- <div class="col-md-12 p-0" *ngIf="showDateFlag">
+      <div class="row">
+        <div class="col-md-6 col-xl-6">
+          <div class="">
+            <div class="row">
+              <div class="col-md-6 col-xl-6 pt-2 ">
+                <p class="bc-2">Receipt Date</p>
+              </div>
+            </div>
+            <div class="">
+              <div class="row">
+                <div class="col-md-6  col-xl-6">
+                  <div class="form-group">
+                    <label id="pFromMonthOf" title="From Month">From</label>
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig"
+                      #dp="bsDatepicker" bsDatepicker formControlName="pFromMonthOf"
+                      (bsValueChange)="RFromDateChange($event)">
+                  </div>
+                </div>
+                <div class="col-md-6  col-xl-6">
+                  <div class="form-group">
+                    <label id="pToMonthOf" title="To Month">To </label>
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig"
+                      #dp="bsDatepicker" bsDatepicker formControlName="pToMonthOf"
+                      (bsValueChange)="RToDateChange($event)">
+                    <div *ngIf="Rvalidation" class="text-danger">
+                      please select a valid Date
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="col-md-6 col-xl-6">
+          <div class="">
+
+            <div class="row">
+              <div class="col-md-6 col-xl-6 pt-2">
+                <p class="bc-2">Cheque Clear Date</p>
+              </div>
+            </div>
+            <div class="">
+              <div class="row">
+                <div class="col-md-6  col-xl-6">
+                  <div class="form-group">
+                    <label id="pChequFromMonthOf" title="From">From </label>
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpChequeFromConfig"
+                      #dp="bsDatepicker" bsDatepicker formControlName="pChequFromMonthOf"
+                      (ngModelChange)="CFromDateChange($event)">
+                  </div>
+                </div>
+                <div class="col-md-6  col-xl-6">
+                  <div class="form-group">
+                    <label id="pchequeToMonthOf" title="To">To </label>
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpChequeToConfig"
+                      #dp="bsDatepicker" bsDatepicker formControlName="pchequeToMonthOf"
+                      (ngModelChange)="CToDateChange($event)">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 col-xl-6">
+          <div class="">
+            <div class="row">
+              <div class="col-md-6 col-xl-6 pt-2 ">
+                <p class="bc-2">previous Month</p>
+              </div>
+            </div>
+            <div class="">
+              <div class="row">
+                <div class="col-md-6  col-xl-6">
+                  <div class="form-group">
+                    <label id="pFromMonthOf" title="From Month">From</label>
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig"
+                      #dp="bsDatepicker" bsDatepicker formControlName="pFromMonthOf"
+                      (bsValueChange)="RFromDateChange($event)">
+                  </div>
+                </div>
+                <div class="col-md-6  col-xl-6">
+                  <div class="form-group">
+                    <label id="pToMonthOf" title="To Month">To </label>
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig"
+                      #dp="bsDatepicker" bsDatepicker formControlName="pToMonthOf"
+                      (bsValueChange)="RToDateChange($event)">
+                    <div *ngIf="Rvalidation" class="text-danger">
+                      please select a valid Date
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="col-md-6 col-xl-6">
+          <div class="">
+
+            <div class="row">
+              <div class="col-md-6 col-xl-6 pt-2">
+                <p class="bc-2" style="color: #fff !important;" >Cheque Clear Date</p>
+              </div>
+            </div>
+            <div class="">
+              <div class="row">
+                <div class="col-md-6  col-xl-6">
+                  <div class="form-group">
+                    <label id="pChequFromMonthOf" title="From">From </label>
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpChequeFromConfig"
+                      #dp="bsDatepicker" bsDatepicker formControlName="pChequFromMonthOf"
+                      (ngModelChange)="CFromDateChange($event)">
+
+                  </div>
+                </div>
+                <div class="col-md-6  col-xl-6">
+                  <div class="form-group">
+                    <label id="pchequeToMonthOf" title="To">To </label>
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpChequeToConfig"
+                      #dp="bsDatepicker" bsDatepicker formControlName="pchequeToMonthOf"
+                      (ngModelChange)="CToDateChange($event)">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 col-xl-6">
+          <div class="">
+            <div class="row">
+              <div class="col-md-6 col-xl-6 pt-2 ">
+                <p class="bc-2">Last Month</p>
+              </div>
+            </div>
+            <div class="">
+              <div class="row">
+                <div class="col-md-6  col-xl-6">
+                  <div class="form-group">
+                    <label id="pFromMonthOf" title="From Month">From</label>
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig"
+                      #dp="bsDatepicker" bsDatepicker formControlName="pFromMonthOf"
+                      (bsValueChange)="RFromDateChange($event)">
+                  </div>
+                </div>
+                <div class="col-md-6  col-xl-6">
+                  <div class="form-group">
+                    <label id="pToMonthOf" title="To Month">To </label>
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig"
+                      #dp="bsDatepicker" bsDatepicker formControlName="pToMonthOf"
+                      (bsValueChange)="RToDateChange($event)">
+                    <div *ngIf="Rvalidation" class="text-danger">
+                      please select a valid Date
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="col-md-6 col-xl-6">
+          <div class="">
+
+            <div class="row">
+              <div class="col-md-6 col-xl-6 pt-2">
+                <p class="bc-2" style="color: #fff !important;" >Cheque Clear Date</p>
+              </div>
+            </div>
+            <div class="">
+              <div class="row">
+                <div class="col-md-6  col-xl-6">
+                  <div class="form-group">
+                    <label id="pChequFromMonthOf" title="From">From </label>
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpChequeFromConfig"
+                      #dp="bsDatepicker" bsDatepicker formControlName="pChequFromMonthOf"
+                      (ngModelChange)="CFromDateChange($event)">
+
+                  </div>
+                </div>
+                <div class="col-md-6  col-xl-6">
+                  <div class="form-group">
+                    <label id="pchequeToMonthOf" title="To">To </label>
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpChequeToConfig"
+                      #dp="bsDatepicker" bsDatepicker formControlName="pchequeToMonthOf"
+                      (ngModelChange)="CToDateChange($event)">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div> -->
+
+
+
+
+
+
+
+
+    <!-- Ayyappa -->
+
+    <div class="" *ngIf="netDateFlag">
+      <div class="col-md-12 col-xl-12 pt-4 ">
+        <div class="row">
+          <div class="col-xl-2 col-md-2 mt-4">
+            <div class="form-check form-check-inline check-btn-secondary">
+              <input class="form-check-input" type="checkbox" id="ason" formControlName="date"
+                (change)="checkox($event)">
+              <label class="mt-2" for="ason"> As On:</label>
+            </div>
+          </div>
+          <div class=" col-xl-2 col-md-2 form-group">
+            <label id="dfromdate" title="FromDate">{{FromDate}}</label>
+            <label style="color: #fff !important;">bfbnfb</label>
+            <input type="text" class="form-control" [bsConfig]="dpConfig" readonly bsDatepicker #dp="bsDatepicker"
+              (ngModelChange)="checkfromdate()" formControlName="dfromdate" placeholder="DD/MM/YYYY" />
+          </div>
+          <div *ngIf="showdate" class="col-xl-2 col-md-2">
+            <div class="form-group">
+              <label id="dtodate" title="To Date">To Date</label>
+              <input type="text" class="form-control" [bsConfig]="dppConfig" readonly bsDatepicker #dp="bsDatepicker"
+                (ngModelChange)="checktodate()" formControlName="dtodate" placeholder="DD/MM/YYYY" />
+              <div *ngIf="validation" class="text-danger">
+                please select valid date
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+    <div class="col-md-12 col-xl-12 pt-4 " *ngIf="certificatesFlag" hidden>
+
+
+      <kendo-grid [kendoGridBinding]="certificatesData" [sortable]="true" [selectedKeys]="mySelection"
+        (remove)="removeHandler($event)" [pageSize]="10" [pageable]="true" [skip]="skip" [group]="groups"
+        [selectable]="selectableSetting">
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="mb-3">
+            <div class="col-12 mt-2">
+              <ul class="temp-ul pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                      width="20px"></a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+        <kendo-grid-column field="pschemeName" title="Scheme Name">
+        </kendo-grid-column>
+
+
+
+        <kendo-grid-column field="pBranchName" title="Branch Name">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <a class="p-1 font-weight-strong ml-2" (click)="selectBranch(dataItem)">{{dataItem.pBranchName }}</a>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="ptotalCertificates" title="Total Certificates">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="ptotal" title="Total">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.ptotal |mycurrencypipe }}<span class="ml-5"></span>
+          </ng-template>
+        </kendo-grid-column>
+
+
+        <kendo-grid-pdf fileName="Certificates_Received.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+          [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+          <kendo-grid-pdf-margin top="3.5cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+          <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+              <div class="header">
+                <app-company-details></app-company-details>
+
+              </div>
+
+            </div>
+          </ng-template>
+
+        </kendo-grid-pdf>
+
+        <kendo-grid-excel fileName="Certificates_Received.xlsx" [fetchData]="allDataCertificates"></kendo-grid-excel>
+
+
+      </kendo-grid>
+
+    </div>
+
+
+    <div class="col-md-12 col-xl-12 pt-4" *ngIf="certificatesFlag">
+
+      <div class="mb-3">
+        <div class="col-12 mt-2">
+          <ul class="temp-ul pull-right">
+
+            <li class="temp-ico ml-2">
+              <a (click)="downloadSaleAdvancePdf('Pdf')" title="PDF">
+                <img src="assets/images/pdf-icon-blue.svg" width="20">
+              </a>
+            </li>
+
+            <li class="temp-ico ml-2">
+              <a (click)="downloadExcel()" title="Excel">
+                <img src="assets/images/icon-excel.svg" width="20px">
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+
+      <div class="row">
+
+
+        <div class="col-md-6">
+          <div class="scheme-green-header">SALE ADVANCE-HRB</div>
+
+          <kendo-grid [kendoGridBinding]="saleAdvanceHrbList" [sortable]="true" [pageable]="false">
+
+            <kendo-grid-column field="pBranchName" title="Branch Name">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a class="branch-link" (click)="onBranchClick(dataItem, 'SALE ADVANCE-HRB')">
+                  {{ dataItem.pBranchName }}
+                </a>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ptotalCertificates" title="Total Certificates" class="text-center">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ptotal" title="Total">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{ dataItem.ptotal | mycurrencypipe }}
+              </ng-template>
+            </kendo-grid-column>
+
+          </kendo-grid>
+        </div>
+
+        <div class="col-md-6">
+          <div class="scheme-green-header">SALE ADVANCE</div>
+
+          <kendo-grid [kendoGridBinding]="saleAdvanceList" [sortable]="true" [pageable]="false">
+
+            <kendo-grid-column field="pBranchName" title="Branch Name">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a class="branch-link" (click)="onBranchClick(dataItem, 'SALE ADVANCE')">
+                  {{ dataItem.pBranchName }}
+                </a>
+              </ng-template>
+
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ptotalCertificates" title="Total Certificates" class="text-center">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ptotal" title="Total">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{ dataItem.ptotal | mycurrencypipe }}
+              </ng-template>
+            </kendo-grid-column>
+
+          </kendo-grid>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-12 col-xl-12 pt-4" *ngIf="LivecertificatesFlag">
+
+      <div class="mb-3">
+        <div class="col-12 mt-2">
+          <ul class="temp-ul pull-right">
+
+            <li class="temp-ico ml-2">
+              <a (click)="downloadSaleAdvancePdflive('Pdf')" title="PDF">
+                <img src="assets/images/pdf-icon-blue.svg" width="20">
+              </a>
+            </li>
+
+            <li class="temp-ico ml-2">
+              <a (click)="downloadExcellive()" title="Excel">
+                <img src="assets/images/icon-excel.svg" width="20px">
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+
+      <div class="row">
+
+
+        <div class="col-md-6">
+          <div class="scheme-green-header">SALE ADVANCE-HRB</div>
+
+          <kendo-grid [kendoGridBinding]="SaleAdvanceHrbList" [sortable]="true" [pageable]="false">
+
+            <kendo-grid-column field="pBranchName" title="Branch Name">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a class="branch-link" (click)="OnBranchClickLive(dataItem, 'SALE ADVANCE-HRB')">
+                  {{ dataItem.pBranchName }}
+                </a>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ptotalCertificates" title="Total Certificates" class="text-LEFT pl-2">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ptotal" title="Total">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{ dataItem.ptotal | mycurrencypipe }}
+              </ng-template>
+            </kendo-grid-column>
+
+          </kendo-grid>
+        </div>
+
+        <div class="col-md-6">
+          <div class="scheme-green-header">SALE ADVANCE</div>
+
+          <kendo-grid [kendoGridBinding]="SaleAdvanceList" [sortable]="true" [pageable]="false">
+
+            <kendo-grid-column field="pBranchName" title="Branch Name">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a class="branch-link" (click)="OnBranchClickLive(dataItem, 'SALE ADVANCE')">
+                  {{ dataItem.pBranchName }}
+                </a>
+              </ng-template>
+
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ptotalCertificates" title="Total Certificates" class="text-center">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ptotal" title="Total">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{ dataItem.ptotal | mycurrencypipe }}
+              </ng-template>
+            </kendo-grid-column>
+
+          </kendo-grid>
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+    <div class="col-md-12 mt-4" *ngIf="showBranchDetails">
+
+
+
+
+      <!-- Branch Header -->
+      <div class="alert alert-info mb-2 p-2">
+        Branch: {{ selectedBranch }}
+      </div>
+
+
+      <!-- Excel icon on RIGHT -->
+
+      <!-- <a kendoGridExcelCommand title="Excel">
+    <img src="assets/images/icon-excel.svg" width="22px">
+  </a>
+</div> -->
+
+
+      <kendo-grid [kendoGridBinding]="branchDetailsList" [pageable]="true" [pageSize]="10" [excel]="true">
+
+        <!-- Excel Button -->
+        <!-- <ng-template kendoGridToolbarTemplate>
+     <button kendoGridExcelCommand type="button">
+    <img src="assets/images/icon-excel.svg" width="20px">
+  </button>
+    </ng-template> -->
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="d-flex justify-content-end w-100">
+            <button kendoGridExcelCommand type="button" class="btn btn-link p-0">
+              <img src="assets/images/icon-excel.svg" width="20px">
+            </button>
+          </div>
+        </ng-template>
+
+
+        <!-- Excel Export -->
+        <kendo-grid-excel fileName="Branch_Certificates.xlsx" [fetchData]="allDataBranchCertificates">
+        </kendo-grid-excel>
+
+        <!-- Columns -->
+        <kendo-grid-column field="pschemeName" title="Scheme"></kendo-grid-column>
+        <kendo-grid-column field="pBranchName" title="Branch"></kendo-grid-column>
+        <kendo-grid-column field="pCertificateName" title="FD Account No"></kendo-grid-column>
+        <kendo-grid-column field="ptotal" title="Deposit Amount"></kendo-grid-column>
+        <kendo-grid-column field="pagentName" title="Agent Name"></kendo-grid-column>
+        <kendo-grid-column field="pagentcode" title="Agent Code"></kendo-grid-column>
+
+      </kendo-grid>
+
+    </div>
+
+    <div class="col-md-12 mt-4" *ngIf="showLiveBranchDetails">
+
+
+
+
+      <!-- Branch Header -->
+      <div class="alert alert-info mb-2 p-2">
+        Branch: {{ selectedBranch }}
+      </div>
+
+
+      <!-- Excel icon on RIGHT -->
+
+      <!-- <a kendoGridExcelCommand title="Excel">
+    <img src="assets/images/icon-excel.svg" width="22px">
+  </a>
+</div> -->
+
+
+      <kendo-grid [kendoGridBinding]="BranchDetailsList" [pageable]="true" [pageSize]="10" [excel]="true">
+
+        <!-- Excel Button -->
+        <!-- <ng-template kendoGridToolbarTemplate>
+     <button kendoGridExcelCommand type="button">
+    <img src="assets/images/icon-excel.svg" width="20px">
+  </button>
+    </ng-template> -->
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="d-flex justify-content-end w-100">
+            <button kendoGridExcelCommand type="button" class="btn btn-link p-0">
+              <img src="assets/images/icon-excel.svg" width="20px">
+            </button>
+          </div>
+        </ng-template>
+
+
+        <!-- Excel Export -->
+        <kendo-grid-excel fileName="Branch_Certificates.xlsx" [fetchData]="allDataLiveBranchCertificates">
+        </kendo-grid-excel>
+
+        <!-- Columns -->
+        <kendo-grid-column field="pschemeName" title="Scheme"></kendo-grid-column>
+        <kendo-grid-column field="pBranchName" title="Branch"></kendo-grid-column>
+        <kendo-grid-column field="pCertificateName" title="FD Account No"></kendo-grid-column>
+        <kendo-grid-column field="ptotal" title="Deposit Amount"></kendo-grid-column>
+        <kendo-grid-column field="pagentName" title="Agent Name"></kendo-grid-column>
+        <kendo-grid-column field="pagentcode" title="Agent Code"></kendo-grid-column>
+
+      </kendo-grid>
+
+    </div>
+
+
+
+    <!-- interest details  -->
+
+    <div class="col-md-12 col-xl-12 pt-4 " *ngIf="interestdetailsFlag">
+
+
+      <kendo-grid [kendoGridBinding]="interestdetailsData" [sortable]="true" [selectedKeys]="mySelection"
+        [pageSize]="10" [pageable]="true" [skip]="skip" [group]="groups2" [selectable]="selectableSetting">
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="mb-3">
+            <div class="col-12 mt-2">
+              <ul class="temp-ul pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                      width="20px"></a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+        <!-- <kendo-grid-column field="pmschemeName" title="Daetils">
+        </kendo-grid-column> -->
+
+
+
+        <kendo-grid-column field="pmodeofinterest" title="Interest Mode">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pnoofcertificate" title="No.Of Certificate">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="preleasedvalue" title="Interest Realsed Value">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pOustandingAmount" title="Outstanding Interest Payable">
+        </kendo-grid-column>
+
+
+
+        <kendo-grid-pdf fileName="intesrestDetails_report.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+          [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+          <kendo-grid-pdf-margin top="3.5cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+          <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+              <div class="header">
+                <app-company-details></app-company-details>
+
+              </div>
+
+            </div>
+          </ng-template>
+
+        </kendo-grid-pdf>
+
+        <kendo-grid-excel fileName="intesrestDetails_report.xlsx" [fetchData]="allDataCertificates"></kendo-grid-excel>
+
+
+      </kendo-grid>
+
+    </div>
+
+
+    <!-- Statutory Compliance -->
+
+    <div class="col-md-12 col-xl-12 pt-4 " *ngIf="StatutoryFlag" hidden>
+
+
+      <kendo-grid [kendoGridBinding]="StatutoryData" [sortable]="true" [selectedKeys]="mySelection" [pageSize]="10"
+        [pageable]="true" [skip]="skip" [group]="groups2" [selectable]="selectableSetting">
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="mb-3">
+            <div class="col-12 mt-2">
+              <ul class="temp-ul pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                      width="20px"></a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+        <kendo-grid-column field="" title="Particulars">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="" title="Amount Payable">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="" title="Amount Paid">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="" title="Over Due Amount">
+        </kendo-grid-column>
+
+
+
+        <kendo-grid-pdf fileName="Statutory_report.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+          [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+          <kendo-grid-pdf-margin top="3.5cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+          <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+              <div class="header">
+                <app-company-details></app-company-details>
+
+              </div>
+
+            </div>
+          </ng-template>
+
+        </kendo-grid-pdf>
+
+        <kendo-grid-excel fileName="Statutory_report.xlsx" [fetchData]="allDataCertificates"></kendo-grid-excel>
+
+
+      </kendo-grid>
+
+    </div>
+
+
+    <div *ngIf="StatutoryFlag" class="d-inline-block mt-5">
+      <label><b>*AsOnDate</b></label>
+      <div class="bg-warning text-center font-weight-bold py-2 border">
+        Statutory Compliance
+      </div>
+
+      <kendo-grid [kendoGridBinding]="StatutoryData" [pageable]="false" [sortable]="true"
+        class="table table-sm mb-0 statutory-grid">
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="d-flex justify-content-end statutory-toolbar">
+            <a kendoGridPDFCommand class="mr-3">
+              <img src="assets/images/pdf-icon-blue.svg" width="20">
+            </a>
+            <a kendoGridExcelCommand>
+              <img src="assets/images/icon-excel.svg" width="20">
+            </a>
+          </div>
+        </ng-template>>
+        <!-- <kendo-grid-column field="particular" title="Particulars" width="220">
+    </kendo-grid-column> -->
+        <kendo-grid-column field="particular" title="Particulars" width="220">
+          <ng-template kendoGridHeaderTemplate>
+            <div class="text-left pl-2">Particulars</div>
+          </ng-template>
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="text-left pl-2">
+              {{ dataItem.particular }}
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+
+
+        <!-- <kendo-grid-column field="amountPayable" title="Amount Payable" width="160">
+      <ng-template kendoGridCellTemplate let-dataItem class="text-left pl-2">
+        {{ dataItem.amountPayable | mycurrencypipe }}
+      </ng-template>
+    </kendo-grid-column> -->
+        <kendo-grid-column field="amountPayable" title="Amount Payable" width="160">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="text-left pr-3">
+              {{ dataItem.amountPayable | mycurrencypipe }}
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+
+
+        <kendo-grid-column field="amountPaid" title="Amount Paid" width="160">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="text-left pr-3">
+              {{ dataItem.amountPaid | mycurrencypipe }}
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="overDueAmount" title="Over Due Amount" width="160">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="text-left pr-3">
+              <span [ngClass]="{ 'text-danger': dataItem.overDueAmount < 0 }">
+                {{ dataItem.overDueAmount | mycurrencypipe }}
+              </span>
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-pdf fileName="Statutory_report.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+          [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+          <kendo-grid-pdf-margin top="3.5cm" left="0.5cm" right="0.5cm" bottom="2cm"> </kendo-grid-pdf-margin>
+
+          <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+              <div class="header">
+                <app-company-details></app-company-details>
+              </div>
+            </div>
+          </ng-template>
+
+        </kendo-grid-pdf>
+
+        <kendo-grid-excel fileName="Statutory_report.xlsx" [fetchData]="allDataCertificates">
+        </kendo-grid-excel>
+
+      </kendo-grid>
+
+    </div>
+
+
+
+    <!-- maturity -->
+    <div class="col-md-12 col-xl-12 pt-4 " *ngIf="maturityFlag">
+
+
+      <kendo-grid [kendoGridBinding]="maturityData" [sortable]="true" [selectedKeys]="mySelection" [pageSize]="10"
+        [pageable]="true" [skip]="skip" [group]="groups2" [selectable]="selectableSetting">
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="mb-3">
+            <div class="col-12 mt-2">
+              <ul class="temp-ul pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                      width="20px"></a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+        <kendo-grid-column field="pmschemeName" title="Scheme Name">
+        </kendo-grid-column>
+
+
+
+        <kendo-grid-column field="pmCertifiacateNo" title="Certificate.No">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pmMemeberName" title="Member Name">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pmDepositValue" title="Deposite Value">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pmDepositValue |mycurrencypipe }}<span class="ml-5"></span>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pMaturityValue" title="Maturity Amount">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pMaturityValue |mycurrencypipe }}<span class="ml-5"></span>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pmBranchName" title="Branch Name">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pmAgentName" title="Agent Name">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pmAgentCode" title="Agent Code">
+        </kendo-grid-column>
+
+        <kendo-grid-pdf fileName="Maturity_report.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+          [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+          <kendo-grid-pdf-margin top="3.5cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+          <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+              <div class="header">
+                <app-company-details></app-company-details>
+
+              </div>
+
+            </div>
+          </ng-template>
+
+        </kendo-grid-pdf>
+
+        <kendo-grid-excel fileName="Maturity_report.xlsx" [fetchData]="allDataCertificates"></kendo-grid-excel>
+
+
+      </kendo-grid>
+
+    </div>
+    <!-- maturity -->
+
+    <!-- pre maturity -->
+    <!-- pre maturity -->
+    <div class="col-md-12 col-xl-12 pt-4 " *ngIf="pre_maturityFlag">
+
+
+      <kendo-grid [kendoGridBinding]="pre_maturityData" [sortable]="true" [selectedKeys]="mySelection" [pageSize]="10"
+        [pageable]="true" [skip]="skip" [group]="groups" [selectable]="selectableSetting">
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="mb-3">
+            <div class="col-12 mt-2">
+              <ul class="temp-ul pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                      width="20px"></a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+        <kendo-grid-column field="ppremschemeName" title="Scheme Name">
+        </kendo-grid-column>
+
+
+
+        <kendo-grid-column field="ppremCertifiacateNo" title="Certificate.No">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="ppremMemeberName" title="Member Name">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="ppremDepositValue" title="Deposite Value">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.ppremDepositValue |mycurrencypipe }}<span class="ml-5"></span>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pPreMaturityValue" title="Pre-Maturity Amount">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pPreMaturityValue |mycurrencypipe }}<span class="ml-5"></span>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="ppremBranchName" title="Branch Name">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="ppreAgentName" title="Agent Name">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="ppreAgentCode" title="Agent Code">
+        </kendo-grid-column>
+
+        <kendo-grid-pdf fileName="Pre_Maturity_report.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+          [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+          <kendo-grid-pdf-margin top="3.5cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+          <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+              <div class="header">
+                <app-company-details></app-company-details>
+
+              </div>
+
+            </div>
+          </ng-template>
+
+        </kendo-grid-pdf>
+
+        <kendo-grid-excel fileName="Pre_Maturity_report.xlsx" [fetchData]="allDataCertificates"></kendo-grid-excel>
+
+
+      </kendo-grid>
+
+    </div>
+    <!--pre maturity -->
+
+    <div class="col-md-12 col-xl-12 pt-4 " *ngIf="detailedBranchFlag">
+
+      <kendo-grid [kendoGridBinding]="detailedByBranchList" [sortable]="true" [selectedKeys]="mySelection"
+        (remove)="removeHandler($event)" [pageSize]="10" [group]="groups1" [pageable]="true" [skip]="skip"
+        [selectable]="selectableSetting">
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="mb-3">
+            <div class="col-12 mt-2">
+              <ul class="temp-ul pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                      width="20px"></a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+        <kendo-grid-column-group title="Certificate Details By Branch" [headerClass]="'details-header'">
+
+          <kendo-grid-column field="pschemeName" title="Scheme Name">
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pCertificateName" title="Certificate No.">
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pBranchName" title="Branch Name">
+
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pagentName" title="Agent Name">
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pagentcode" title="Agent Code">
+          </kendo-grid-column>
+
+          <kendo-grid-column field="ptotal" title="Total">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.ptotal |mycurrencypipe }}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+        </kendo-grid-column-group>
+
+        <kendo-grid-pdf fileName="Certificates_Received_By_Branch.pdf" [allPages]="true" paperSize="A4"
+          [repeatHeaders]="true" [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+          <kendo-grid-pdf-margin top="3.5cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+          <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+              <div class="header">
+                <app-company-details></app-company-details>
+
+              </div>
+
+            </div>
+          </ng-template>
+
+        </kendo-grid-pdf>
+
+        <kendo-grid-excel fileName="Certificates_Received_By_Branch.xlsx" [fetchData]="allDataCertifiacteDetails">
+
+
+        </kendo-grid-excel>
+
+      </kendo-grid>
+
+    </div>
+
+    <div class="col-md-12 col-xl-12 pt-4 " *ngIf="agentSummaryFlag">
+
+
+      <kendo-grid [kendoGridBinding]="agentSummaryDetList" [sortable]="true" [selectedKeys]="mySelection"
+        (remove)="removeHandler($event)" [pageSize]="10" [group]="group" [pageable]="true" [skip]="skip"
+        [selectable]="selectableSetting">
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="mb-3">
+            <div class="col-12 mt-2">
+              <ul class="temp-ul pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                      width="20px"></a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+
+
+        <kendo-grid-column field="preferralname" title="Agent Name">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <a class="p-1 font-weight-strong ml-2" (click)="selectAgentName(dataItem)">{{dataItem.preferralname }}</a>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pfdaccountno" title="Certificate No.">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pcommssionamount" title="Commission Amount">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pcommssionamount |mycurrencypipe }}<span class="ml-5"></span>
+          </ng-template>
+        </kendo-grid-column>
+
+
+        <kendo-grid-column field="pcommissionpayable" title="Commission Payable">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pcommissionpayable |mycurrencypipe }}<span class="ml-5"></span>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pdepositamount" title="Certificate Amount">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pdepositamount |mycurrencypipe }}<span class="ml-5"></span>
+          </ng-template>
+        </kendo-grid-column>
+
+
+        <kendo-grid-column field="pbalance" title="OutStanding Amount">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pbalance |mycurrencypipe }}<span class="ml-5"></span>
+          </ng-template>
+        </kendo-grid-column>
+
+
+        <kendo-grid-pdf fileName="Agent_Summary.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+          [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+          <kendo-grid-pdf-margin top="3.5cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+          <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+              <div class="header">
+                <app-company-details></app-company-details>
+
+              </div>
+
+            </div>
+          </ng-template>
+
+        </kendo-grid-pdf>
+
+        <kendo-grid-excel fileName="Agent_Summary.xlsx" [fetchData]="allDataAgentSummary"></kendo-grid-excel>
+
+
+      </kendo-grid>
+
+    </div>
+
+    <div class="col-md-12 col-xl-12 pt-4 " *ngIf="detailedAgentFlag">
+
+
+      <kendo-grid [kendoGridBinding]="detailedTransListAgent" [sortable]="true" [selectedKeys]="mySelection"
+        (remove)="removeHandler($event)" [pageSize]="10" [group]="group" [pageable]="true" [skip]="skip"
+        [selectable]="selectableSetting">
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="mb-3">
+            <div class="col-12 mt-2">
+              <ul class="temp-ul pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                      width="20px"></a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+
+
+        <kendo-grid-column field="pSchemeName" title="Scheme Name">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pMemberName" title="Member Name">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pCertificateNo" title="Certificate No.">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pAppDate" title="App Date">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pAppDate |date : 'dd-MM-yyyy' }}<span class="ml-5"></span>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pCertificateValue" title="Certificate Amount">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.pCertificateValue |mycurrencypipe }}<span class="ml-5"></span>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="pCertificatePeriod" title="Certificate Period">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{ dataItem.pCertificatePeriod | date: 'dd-MM-yyyy' }}
+          </ng-template>
+        </kendo-grid-column>
+
+
+
+        <kendo-grid-column field="pInterestMode" title="Interest Mode"></kendo-grid-column>
+
+        <kendo-grid-column field="pAgentName" title="Agent Name"></kendo-grid-column>
+
+
+
+        <kendo-grid-pdf fileName="Detailed_Summary_By_Agent.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+          [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+          <kendo-grid-pdf-margin top="3.5cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+          <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+              <div class="header">
+                <app-company-details></app-company-details>
+
+              </div>
+
+            </div>
+          </ng-template>
+
+        </kendo-grid-pdf>
+
+        <kendo-grid-excel fileName="Detailed_Summary_By_Agent.xlsx"
+          [fetchData]="allDataAgentSummaryDetails"></kendo-grid-excel>
+
+
+      </kendo-grid>
+
+    </div>
+
+    <div class="col-md-12 col-xl-12 pt-4 " *ngIf="bankDataDetailedFlag" (click)="viewBankDetails()" hidden>
+
+
+      <kendo-grid [kendoGridBinding]="bankDataDetailed" [sortable]="true" [selectedKeys]="mySelection"
+        (remove)="removeHandler($event)" [pageSize]="10" [group]="group" [pageable]="true" [skip]="skip"
+        [selectable]="selectableSetting">
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="mb-3">
+            <div class="col-12 mt-2">
+              <ul class="temp-ul pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                      width="20px"></a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+        <kendo-grid-column-group title="Bank Details" [headerClass]="'details-header'">
+
+          <kendo-grid-column title="S.NO" width="85px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              {{ rowIndex + 1 }}
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pAccountNumber" width="120">
+            <ng-template kendoGridHeaderTemplate>
+              <div class="header-wrap">Account<br />Number</div>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pBankBalance" width="100">
+            <ng-template kendoGridHeaderTemplate>
+              <div class="header-wrap">Bank<br />Balance</div>
+            </ng-template>
+            <!-- <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pBankBalance | mycurrencypipe }}<span class="ml-5"></span>
+            </ng-template> -->
+
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <!-- Display both Account Number and Bank Balance -->
+              <div>
+                <span>{{ dataItem.accountnumber }}</span>
+                <span class="ml-5">|</span> <!-- Separator -->
+                <span>{{ dataItem.pBankBalance | mycurrencypipe }}</span>
+              </div>
+              <div>
+                <!-- Display Issued Amount and Cheques in Bank Amount -->
+                <span>{{ dataItem.issuedamount | mycurrencypipe }}</span>
+                <span class="ml-5">|</span> <!-- Separator -->
+                <span>{{ dataItem.chequesinbankamt | mycurrencypipe }}</span>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+
+
+          <kendo-grid-column field="pbrsdate" title="Last BRS Date" width="120">
+
+            <ng-template kendoGridHeaderTemplate>
+              <div class="header-wrap">Last<br />BRS Date</div>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pbrsdate}}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+
+
+
+
+          <kendo-grid-column field="pChequesInBank" title="Cheques In Bank" width="120">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pChequesInBank | mycurrencypipe }}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+
+          <kendo-grid-column field="pissuedamount_count" title="Cheques Issued Count" width="150">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pissuedamount_count | mycurrencypipe }}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pChequesIssued" title="Cheques Issued" width="120">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pChequesIssued | mycurrencypipe }}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pbrsdate" title="Last BRS Date">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pbrsdate}}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+          <!-- <kendo-grid-column title="BRS Date" >
+           
+          </kendo-grid-column> -->
+
+
+
+        </kendo-grid-column-group>
+
+        <kendo-grid-pdf fileName="Bank_Details.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+          [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+          <kendo-grid-pdf-margin top="3.5cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+          <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+              <div class="header">
+                <app-company-details></app-company-details>
+
+              </div>
+
+            </div>
+          </ng-template>
+
+        </kendo-grid-pdf>
+
+        <kendo-grid-excel fileName="Bank_Details.xlsx" [fetchData]="allDataBank">
+          <!-- <kendo-excelexport-column-group title="Certificate Details By Branch" [headerCellOptions]="{ textAlign: 'center', background:'#28a745', color:'#fff'}">
+                              </kendo-excelexport-column-group> -->
+
+        </kendo-grid-excel>
+
+      </kendo-grid>
+
+    </div>
+
+
+    <div class="col-md-12 col-xl-12 pt-4 " *ngIf="bankDataDetailedFlag" (click)="viewBankDetails()" hidden>
+
+
+      <kendo-grid [kendoGridBinding]="bankDataDetailed" [scrollable]="'scroll'" [resizable]="true" [sortable]="true"
+        [selectedKeys]="mySelection" (remove)="removeHandler($event)" [pageSize]="10" [group]="group" [pageable]="true"
+        [skip]="skip" [selectable]="selectableSetting">
+
+        <!-- <kendo-grid [kendoGridBinding]="bankDataDetailed" [sortable]="true" [selectedKeys]="mySelection"
+                [pageSize]="10" [pageable]="true" [skip]="skip"
+                  [selectable]="selectableSetting"> -->
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="mb-3">
+            <div class="col-12 mt-2">
+              <ul class="temp-ul pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                      width="20px"></a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+
+
+
+        <kendo-grid-column-group title="Bank Details" [headerClass]="'details-header'">
+
+          <kendo-grid-column title="S.NO" width="85px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              {{ rowIndex + 1 }}
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pAccountNumber" title="Account Number" width="130">
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pBankBalance" title="Bank Balance" width="100">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pBankBalance | mycurrencypipe }}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pchequesinbankamt_count" title="Cheques In Bank Count" width="150">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pchequesinbankamt_count | mycurrencypipe }}<span class="ml-2"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+
+
+
+
+          <kendo-grid-column field="pissuedamount_count" title="Cheques Issued Count" width="150">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pissuedamount_count | mycurrencypipe }}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pClearedReceiptDate" title="Received cheque latest Cleared date" width="170">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{ dataItem.pClearedReceiptDate || '-' }}
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pChequesIssued" title="Cheques Issued" width="120">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pChequesIssued | mycurrencypipe }}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+
+          <kendo-grid-column field="pChequesInBank" title="Cheques In Bank" width="120">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pChequesInBank | mycurrencypipe }}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+
+
+          <kendo-grid-column field="pClearedPaymentDate" title="Issued cheque latest Cleared Date" width="100">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{ dataItem.pClearedPaymentDate || '-' }}
+            </ng-template>
+          </kendo-grid-column>
+
+
+          <kendo-grid-column field="pbrsdate" title="Last BRS Date" width="120">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pbrsdate}}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+
+          <!-- <kendo-grid-column title="BRS Date" >
+
+          </kendo-grid-column> -->
+
+
+
+        </kendo-grid-column-group>
+
+
+        <kendo-grid-pdf fileName="Bank_Details.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+          [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+          <kendo-grid-pdf-margin top="3.5cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+          <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+              <div class="header">
+                <app-company-details></app-company-details>
+
+              </div>
+
+            </div>
+          </ng-template>
+
+        </kendo-grid-pdf>
+
+        <kendo-grid-excel fileName="Bank_Details.xlsx" [fetchData]="allDataBank">
+          <!-- <kendo-excelexport-column-group title="Certificate Details By Branch" [headerCellOptions]="{ textAlign: 'center', background:'#28a745', color:'#fff'}">
+                              </kendo-excelexport-column-group> -->
+
+        </kendo-grid-excel>
+
+      </kendo-grid>
+
+    </div>
+
+
+    <div class="col-md-12 col-xl-12 pt-4 " *ngIf="bankDataDetailedFlag" (click)="viewBankDetails()">
+
+
+      <kendo-grid [kendoGridBinding]="bankDataDetailed" [scrollable]="'scroll'" [resizable]="true" [sortable]="true"
+        [selectedKeys]="mySelection" (remove)="removeHandler($event)" [pageSize]="10" [group]="group" [pageable]="true"
+        [skip]="skip" [selectable]="selectableSetting">
+
+        <!-- <kendo-grid [kendoGridBinding]="bankDataDetailed" [sortable]="true" [selectedKeys]="mySelection"
+                [pageSize]="10" [pageable]="true" [skip]="skip"
+                  [selectable]="selectableSetting"> -->
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="mb-3">
+            <div class="col-12 mt-2">
+              <ul class="temp-ul pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                      width="20px"></a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+
+
+
+        <kendo-grid-column-group title="Bank Details" [headerClass]="'details-header'">
+
+          <kendo-grid-column title="S.NO" width="85px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              {{ rowIndex + 1 }}
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pAccountNumber" width="120">
+            <ng-template kendoGridHeaderTemplate>
+              <div class="header-wrap">Account<br />Number</div>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pBankBalance" width="100">
+            <ng-template kendoGridHeaderTemplate>
+              <div class="header-wrap">Bank<br />Balance</div>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pBankBalance | mycurrencypipe }}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pSecondBrsDate" width="120">
+
+            <ng-template kendoGridHeaderTemplate>
+              <div class="header-wrap">Last<br />BRS Date</div>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pSecondBrsDate}}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pbrsdate" width="120">
+
+            <ng-template kendoGridHeaderTemplate>
+              <div class="header-wrap">Present<br />BRS Date</div>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pbrsdate}}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+          <!--
+          <kendo-grid-column field="pchequesinbankamt_count" title="Cheques In Bank Count" width="150">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pchequesinbankamt_count | mycurrencypipe }}<span class="ml-2"></span>
+            </ng-template>
+          </kendo-grid-column> -->
+          <kendo-grid-column field="pchequesinbankamt_count" width="90">
+            <ng-template kendoGridHeaderTemplate>
+              <div class="header-wrap">Cheques in<br />Bank Count</div>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem> {{ dataItem.pchequesinbankamt_count | mycurrencypipe }}
+            </ng-template>
+          </kendo-grid-column>
+          <!--
+           <kendo-grid-column field="pissuedamount_count" title="Cheques Issued Count"  width="150">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pissuedamount_count | mycurrencypipe }}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column> -->
+
+          <kendo-grid-column field="pissuedamount_count" width="120">
+            <ng-template kendoGridHeaderTemplate>
+              <div class="kendo-header-wrap"> Cheques Issued<br />Count
+              </div>
+            </ng-template>
+
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{ dataItem.pissuedamount_count | mycurrencypipe }}
+            </ng-template>
+          </kendo-grid-column>
+
+          <!-- <kendo-grid-column field="pClearedReceiptDate"
+                   title="Received cheque latest Cleared date"
+                   width="170">
+  <ng-template kendoGridCellTemplate let-dataItem>
+    {{ dataItem.pClearedReceiptDate || '-' }}
+  </ng-template>
+          </kendo-grid-column> -->
+          <kendo-grid-column field="pClearedReceiptDate" width="140">
+            <ng-template kendoGridHeaderTemplate>
+              <div class="kendo-header-wrap">
+                Received Cheque<br />Latest Cleared Date </div>
+            </ng-template>
+
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{ dataItem.pClearedReceiptDate || '-' }}
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pChequesIssued" width="80">
+            <ng-template kendoGridHeaderTemplate>
+              <div class="kendo-header-wrap"> Cheques <br />Issued
+              </div>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pChequesIssued | mycurrencypipe }}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+
+          <!-- <kendo-grid-column field="pChequesInBank" title="Cheques In Bank" width="120">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pChequesInBank | mycurrencypipe }}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column> -->
+          <kendo-grid-column field="pChequesInBank" width="110">
+            <ng-template kendoGridHeaderTemplate>
+              <div class="kendo-header-wrap">
+                Cheques In<br />Bank
+              </div>
+            </ng-template>
+
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{ dataItem.pChequesInBank | mycurrencypipe }}
+            </ng-template>
+          </kendo-grid-column>
+
+
+
+          <!-- <kendo-grid-column field="pClearedPaymentDate"
+                   title="Issued cheque latest Cleared Date"
+                   width="100">
+  <ng-template kendoGridCellTemplate let-dataItem>
+    {{ dataItem.pClearedPaymentDate || '-' }}
+  </ng-template>
+</kendo-grid-column> -->
+          <kendo-grid-column field="pClearedPaymentDate" width="130">
+            <ng-template kendoGridHeaderTemplate>
+              <div class="kendo-header-wrap">
+                Issued Cheque<br />Latest Cleared Date
+              </div>
+            </ng-template>
+
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{ dataItem.pClearedPaymentDate || '-' }}
+            </ng-template>
+          </kendo-grid-column>
+
+
+
+
+
+
+          <!-- <kendo-grid-column title="BRS Date" >
+
+          </kendo-grid-column> -->
+
+
+
+        </kendo-grid-column-group>
+
+
+        <kendo-grid-pdf fileName="Bank_Details.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+          [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+          <kendo-grid-pdf-margin top="3.5cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+          <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+              <div class="header">
+                <app-company-details></app-company-details>
+
+              </div>
+
+            </div>
+          </ng-template>
+
+        </kendo-grid-pdf>
+
+        <kendo-grid-excel fileName="Bank_Details.xlsx" [fetchData]="allDataBank">
+          <!-- <kendo-excelexport-column-group title="Certificate Details By Branch" [headerCellOptions]="{ textAlign: 'center', background:'#28a745', color:'#fff'}">
+                              </kendo-excelexport-column-group> -->
+
+        </kendo-grid-excel>
+
+      </kendo-grid>
+
+    </div>
+
+
+
+
+
+
+    <div class="card-box" *ngIf="netbusinessFlag" hidden><!-- style="padding: 10px;" -->
+
+      <!-- <div class="col-md-12 col-xl-12 pt-4 " *ngIf="netbusinessFlag"> -->
+      <!-- <div class="row">
+          <div class=" col-xl-2 col-md-2 form-group">
+            <label id="drfromdate" title="FromDate">From Date</label>
+
+            <input type="text" class="form-control" [bsConfig]="dpConfig" bsDatepicker formControlName="drfromdate"
+              (ngModelChange)="DateChange($event)" placeholder="DD/MM/YYYY" />
+          </div>
+          <div class="col-xl-2 col-md-2">
+            <div class="form-group">
+              <label id="drtodate" title="To Date">To Date</label>
+
+              <input type="text" class="form-control" [bsConfig]="dppConfig" bsDatepicker formControlName="drtodate"
+                (ngModelChange)="DateChange($event)" placeholder="DD/MM/YYYY" />
+              <div *ngIf="validation" class="text-danger">
+                please select valid date
+              </div>
+            </div>
+          </div>
+        </div> -->
+      <!-- </div> -->
+
+      <!-- <div class="col-md-12 p-0" *ngIf="showDateFlag"> -->
+      <div class="col-md-12 p-0">
+        <div class="row">
+          <div class="col-md-6 col-xl-6">
+            <div class="">
+              <div class="row">
+                <div class="col-md-12 col-xl-12 pt-2 text-center mb-3" style="margin-left: 101px;">
+                  <p class="bc-2">Receipt Date</p>
+                </div>
+              </div>
+              <div class="">
+                <div class="row">
+                  <div class="col-md-4 col-xl-4 pt-2" style="margin-top: 20px;">
+                    <p class="bc-2">Present Month - </p>
+                  </div>
+                  <div class="col-md-4  col-xl-4">
+                    <div class="form-group">
+                      <label id="pFromMonthOf" title="From Month">From</label>
+                      <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig"
+                        #dp="bsDatepicker" bsDatepicker formControlName="pFromMonthOf"
+                        (ngModelChange)="RFromDateChange($event)"><!--  [ngClass]="{ 'is-invalid': TargetreportErrors.pFromMonthOf }" -->
+                    </div>
+                  </div>
+                  <div class="col-md-4  col-xl-4">
+                    <div class="form-group">
+                      <label id="pToMonthOf" title="To Month">To </label>
+                      <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig"
+                        #dp="bsDatepicker" bsDatepicker formControlName="pToMonthOf"
+                        (ngModelChange)="RToDateChange($event)"><!-- [ngClass]="{ 'is-invalid': TargetreportErrors.pToMonthOf }" -->
+                      <div *ngIf="Rvalidation" class="text-danger">
+                        please select a valid Date
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-md-6 col-xl-6">
+            <div class="">
+
+              <div class="row" style="margin-left: -130px;">
+                <div class="col-md-12 col-xl-12 pt-2 text-center mb-3">
+                  <p class="bc-2">Cheque Clear Date</p>
+                </div>
+              </div>
+              <div class="">
+                <div class="row">
+                  <!-- <div class="col-md-2 col-xl-2 pt-2">
+                  <p class="bc-2" style="color: #fff !important;">Cheque Clear Date</p>
+                </div> -->
+                  <div class="col-md-4  col-xl-4" style="margin-left: 40px;">
+                    <div class="form-group">
+                      <label id="pChequFromMonthOf" title="From">From </label>
+                      <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpChequeFromConfig"
+                        #dp="bsDatepicker" bsDatepicker formControlName="pChequFromMonthOf"
+                        (ngModelChange)="CFromDateChange($event)"><!--  [ngClass]="{ 'is-invalid': TargetreportErrors.pChequFromMonthOf }" -->
+
+                    </div>
+                  </div>
+                  <div class="col-md-4  col-xl-4" style="margin-left: 2px;">
+                    <div class="form-group">
+                      <label id="pchequeToMonthOf" title="To">To </label>
+                      <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpChequeToConfig"
+                        #dp="bsDatepicker" bsDatepicker formControlName="pchequeToMonthOf"
+                        (ngModelChange)="CToDateChange($event)"><!-- [ngClass]="{ 'is-invalid': TargetreportErrors.pchequeToMonthOf }" -->
+                      <!-- <div *ngIf="Cvalidation" class="text-danger">
+                                                 please select a valid Date
+                                             </div>  -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 col-xl-6">
+            <div class="">
+              <!-- <div class="row">
+               <div class="col-md-4 col-xl-4 pt-2 ">
+                  <p class="bc-2">previous Month</p>
+                </div> 
+              </div> -->
+              <div class="">
+                <div class="row">
+                  <div class="col-md-4 col-xl-4 pt-2" style="margin-top: -10px;">
+                    <p class="bc-2">Previous Month - </p>
+                  </div>
+                  <div class="col-md-4  col-xl-4">
+                    <div class="form-group">
+                      <label id="vFromMonthOf" title="From Month" style="color: white !important;">From</label>
+                      <input style="margin-top: -25px;" class="form-control col-md-12" type="text" value=""
+                        [bsConfig]="dpFromConfig1" #dp="bsDatepicker" bsDatepicker formControlName="vFromMonthOf"
+                        (ngModelChange)="VFromDateChange($event)"><!--  [ngClass]="{ 'is-invalid': TargetreportErrors.pFromMonthOf }" -->
+                    </div>
+                  </div>
+                  <div class="col-md-4  col-xl-4">
+                    <div class="form-group">
+                      <label id="vToMonthOf" title="To Month" style="color: white !important;">To </label>
+                      <input style="margin-top: -25px;" class="form-control col-md-12" type="text" value=""
+                        [bsConfig]="dpToConfig1" #dp="bsDatepicker" bsDatepicker formControlName="vToMonthOf"
+                        (ngModelChange)="VToDateChange($event)"><!-- [ngClass]="{ 'is-invalid': TargetreportErrors.pToMonthOf }" -->
+                      <div *ngIf="Vvalidation" class="text-danger">
+                        please select a valid Date
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-md-6 col-xl-6">
+            <div class="">
+
+              <!-- <div class="row">
+                <div class="col-md-6 col-xl-6 pt-2">
+                  <p class="bc-2" style="color: #fff !important;">Cheque Clear Date</p>
+                </div>
+              </div> -->
+              <div class="">
+                <div class="row">
+                  <!-- <div class="col-md-2 col-xl-2 pt-2">
+                    <p class="bc-2" style="color: #fff !important;">Cheque Clear Date</p>
+                  </div> -->
+                  <div class="col-md-4  col-xl-4" style="margin-left: 40px;">
+                    <div class="form-group">
+                      <label id="vChequFromMonthOf" title="From" style="color: white !important;">From </label>
+                      <input style="margin-top: -25px;" class="form-control col-md-12" type="text" value=""
+                        [bsConfig]="dpChequeFromConfig1" #dp="bsDatepicker" bsDatepicker
+                        formControlName="vChequFromMonthOf"
+                        (ngModelChange)="VCFromDateChange($event)"><!--  [ngClass]="{ 'is-invalid': TargetreportErrors.pChequFromMonthOf }" -->
+
+                    </div>
+                  </div>
+                  <div class="col-md-4  col-xl-4" style="margin-left: 2px;">
+                    <div class="form-group">
+                      <label id="vchequeToMonthOf" title="To" style="color: white !important;">To </label>
+                      <input style="margin-top: -25px;" class="form-control col-md-12" type="text" value=""
+                        [bsConfig]="dpChequeToConfig1" #dp="bsDatepicker" bsDatepicker
+                        formControlName="vchequeToMonthOf"
+                        (ngModelChange)="VCToDateChange($event)"><!-- [ngClass]="{ 'is-invalid': TargetreportErrors.pchequeToMonthOf }" -->
+                      <!-- <div *ngIf="Cvalidation" class="text-danger">
+                                                 please select a valid Date
+                                             </div>  -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 col-xl-6">
+            <div class="">
+              <!-- <div class="row">
+                <div class="col-md-6 col-xl-6 pt-2 ">
+                  <p class="bc-2">Last Month - </p>
+                </div>
+              </div> -->
+              <div class="">
+                <div class="row">
+                  <div class="col-md-4 col-xl-4 pt-2 " style="margin-top: -6px;padding-left: 46px;">
+                    <p class="bc-2">Last Month - </p>
+                  </div>
+                  <div class="col-md-4  col-xl-4">
+                    <div class="form-group">
+                      <label id="LFromMonthOf" title="From Month" style="color: white !important;;">From</label>
+                      <input style="margin-top: -19px;" class="form-control col-md-12" type="text" value=""
+                        [bsConfig]="dpFromConfig2" #dp="bsDatepicker" bsDatepicker formControlName="LFromMonthOf"
+                        (ngModelChange)="LFromDateChange($event)"><!--  [ngClass]="{ 'is-invalid': TargetreportErrors.pFromMonthOf }" -->
+                    </div>
+                  </div>
+                  <div class="col-md-4  col-xl-4">
+                    <div class="form-group">
+                      <label id="LToMonthOf" title="To Month" style="color: white !important;;">To </label>
+                      <input style="margin-top: -19px;" class="form-control col-md-12" type="text" value=""
+                        [bsConfig]="dpToConfig2" #dp="bsDatepicker" bsDatepicker formControlName="LToMonthOf"
+                        (ngModelChange)="LToDateChange($event)"><!-- [ngClass]="{ 'is-invalid': TargetreportErrors.pToMonthOf }" -->
+                      <div *ngIf="Lvalidation" class="text-danger">
+                        please select a valid Date
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-md-6 col-xl-6">
+            <div class="">
+
+              <!-- <div class="row">
+                <div class="col-md-6 col-xl-6 pt-2">
+                  <p class="bc-2" style="color: #fff !important;">Cheque Clear Date</p>
+                </div>
+              </div> -->
+              <div class="">
+                <div class="row">
+                  <!-- <div class="col-md-2 col-xl-2 pt-2">
+                    <p class="bc-2" style="color: #fff !important;">Cheque Clear Date</p>
+                  </div> -->
+                  <div class="col-md-4  col-xl-4" style="margin-left: 40px;">
+                    <div class="form-group">
+                      <label id="LChequFromMonthOf" title="From" style="color: white !important;">From </label>
+                      <input style="margin-top: -19px;" class="form-control col-md-12" type="text" value=""
+                        [bsConfig]="dpChequeFromConfig2" #dp="bsDatepicker" bsDatepicker
+                        formControlName="LChequFromMonthOf"
+                        (ngModelChange)="LCFromDateChange($event)"><!--  [ngClass]="{ 'is-invalid': TargetreportErrors.pChequFromMonthOf }" -->
+
+                    </div>
+                  </div>
+                  <div class="col-md-4  col-xl-4" style="margin-left: 2px;">
+                    <div class="form-group">
+                      <label id="LchequeToMonthOf" title="To" style="color: white !important;">To </label>
+                      <input style="margin-top: -19px;" class="form-control col-md-12" type="text" value=""
+                        [bsConfig]="dpChequeToConfig2" #dp="bsDatepicker" bsDatepicker
+                        formControlName="LchequeToMonthOf"
+                        (ngModelChange)="LCToDateChange($event)"><!-- [ngClass]="{ 'is-invalid': TargetreportErrors.pchequeToMonthOf }" -->
+                      <!-- <div *ngIf="Cvalidation" class="text-danger">
+                                                 please select a valid Date
+                                             </div>  -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== dates end  -->
+      <!-- <div class="col-md-12 col-xl-12 pt-4 " *ngIf="netbusinessFlag && totalNoList.length>0"> -->
+      <div class="col-md-12 col-xl-12 pt-2" style="margin-top: 10px;">
+
+        <!-- <div *ngIf="totalNoList.length!=0"> -->
+        <div class="">
+          <kendo-grid [kendoGridBinding]="net_Business_gridData" [sortable]="true" [selectedKeys]="mySelection"
+            (remove)="removeHandler($event)" [pageSize]="10" [group]="group" [pageable]="true" [skip]="skip"
+            [selectable]="selectableSetting">
+
+            <ng-template kendoGridToolbarTemplate>
+              <div class="mb-3">
+                <div class="col-12 mt-2">
+                  <ul class="temp-ul pull-right">
+                    <li class="temp-ico ml-2">
+                      <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                          width="20px"></a>
+                    </li>
+                    <li class="temp-ico ml-2">
+                      <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                          width="20px"></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </ng-template>
+
+            <kendo-grid-column-group title="Details" [headerClass]="'details-header'">
+
+              <!-- <kendo-grid-column title="S.NO" width="85px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                  {{ rowIndex + 1 }}
+                </ng-template>
+              </kendo-grid-column> -->
+              <kendo-grid-column field="" title="Business">
+                <!-- <ng-template kendoGridCellTemplate let-dataItem>
+                  Fresh
+                </ng-template> -->
+              </kendo-grid-column>
+              <kendo-grid-column field="ppresentreceipttotalvalue" title="Present Month Value">
+                <!-- <ng-template kendoGridCellTemplate let-dataItem>
+                  Fresh
+                </ng-template> -->
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.ppresentreceipttotalvalue | mycurrencypipe }}<span class="ml-5"></span>
+                </ng-template>
+              </kendo-grid-column>
+
+              <kendo-grid-column field="ppresentchequeamount" title="Last Month Value">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.ppresentchequeamount | mycurrencypipe }}<span class="ml-5"></span>
+                </ng-template>
+              </kendo-grid-column>
+
+              <kendo-grid-column field="ppervousereceiptamount" title="Preivous Month Value">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.ppervousereceiptamount | mycurrencypipe }}<span class="ml-5"></span>
+                </ng-template>
+              </kendo-grid-column>
+
+              <!-- <kendo-grid-column field="ppreviouschequeamount" title="Preivous Cheque Amount">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.ppreviouschequeamount | mycurrencypipe }}<span class="ml-5"></span>
+                </ng-template>
+              </kendo-grid-column> -->
+
+              <!-- <kendo-grid-column field="plastreceiptamount" title="Last Receipt Amount">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.plastreceiptamount | mycurrencypipe }}<span class="ml-5"></span>
+                </ng-template>
+              </kendo-grid-column> -->
+
+              <!-- <kendo-grid-column field="plastchequeamount" title="Last Cheque Amount">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.plastchequeamount | mycurrencypipe }}<span class="ml-5"></span>
+                </ng-template>
+              </kendo-grid-column> -->
+
+
+            </kendo-grid-column-group>
+
+            <kendo-grid-pdf fileName="Details.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [scale]="0.5"
+              [margin]="0.5" [landscape]="true">
+
+              <kendo-grid-pdf-margin top="3.5cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+              <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                  <div class="header">
+                    <app-company-details></app-company-details>
+
+                  </div>
+
+                </div>
+              </ng-template>
+
+            </kendo-grid-pdf>
+
+            <kendo-grid-excel fileName="Details.xlsx" [fetchData]="allData">
+
+
+            </kendo-grid-excel>
+
+          </kendo-grid>
+        </div>
+
+        <!--  -->
+        <!-- <div *ngIf="totalNoListOld.length!=0"> -->
+        <div class="" hidden>
+
+          <kendo-grid [kendoGridBinding]="" [sortable]="true" [selectedKeys]="mySelection"
+            (remove)="removeHandler($event)" [pageSize]="10" [group]="group" [pageable]="true" [skip]="skip"
+            [selectable]="selectableSetting" *ngIf="totalNoListOld.length!=0">
+
+            <ng-template kendoGridToolbarTemplate>
+              <div class="mb-3">
+                <div class="col-12 mt-2">
+                  <ul class="temp-ul pull-right">
+                    <li class="temp-ico ml-2">
+                      <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                          width="20px"></a>
+                    </li>
+                    <li class="temp-ico ml-2">
+                      <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                          width="20px"></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </ng-template>
+
+            <kendo-grid-column-group title="Details " [headerClass]="'details-header'">
+
+              <kendo-grid-column title="S.NO" width="85px" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                  {{ rowIndex + 1 }}
+                </ng-template>
+              </kendo-grid-column>
+
+              <kendo-grid-column field="" title="Outword">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  Renewal
+
+                </ng-template>
+              </kendo-grid-column>
+
+              <kendo-grid-column field="pTotalNo" title="Total No.">
+              </kendo-grid-column>
+
+              <kendo-grid-column field="pTotalValue" title="Total Value">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pTotalValue | mycurrencypipe }}<span class="ml-5"></span>
+                </ng-template>
+              </kendo-grid-column>
+
+              <kendo-grid-column field="pTotalValue" title="Last Month No.s">
+              </kendo-grid-column>
+
+              <kendo-grid-column field="pTotalValue" title="Last Month Value">
+
+              </kendo-grid-column>
+
+
+
+            </kendo-grid-column-group>
+
+            <kendo-grid-pdf fileName="Details_Old.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+              [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+              <kendo-grid-pdf-margin top="3.5cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+              <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                  <div class="header">
+                    <app-company-details></app-company-details>
+
+                  </div>
+
+                </div>
+              </ng-template>
+
+            </kendo-grid-pdf>
+
+            <kendo-grid-excel fileName="Details.xlsx" [fetchData]="allData">
+
+
+            </kendo-grid-excel>
+
+          </kendo-grid>
+        </div>
+        <!--  -->
+
+      </div>
+
+
+    </div>
+
+
+    <div class="card-box" *ngIf="netbusinessFlag">
+
+
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="font-weight-bold">Month Of</label>
+            <input class="form-control" type="text" readonly bsDatepicker [bsConfig]="dpToConfig" #dp="bsDatepicker"
+              formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)" (onShown)="onOpenCalendar($event)">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+
+          <kendo-grid [kendoGridBinding]="net_Business_gridData" [sortable]="false" [pageable]="true"
+            [resizable]="true">
+
+            <ng-template kendoGridToolbarTemplate>
+              <div class="d-flex justify-content-end">
+                <a kendoGridPDFCommand title="Export PDF" class="mr-3">
+                  <img src="assets/images/pdf-icon-blue.svg" width="20">
+                </a>
+
+                <a kendoGridExcelCommand title="Export Excel">
+                  <img src="assets/images/icon-excel.svg" width="20">
+                </a>
+              </div>
+            </ng-template>
+
+            <kendo-grid-column field="pMonth" title="Month" width="260">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <b>{{ dataItem.pMonth }}</b>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pFreshCount" title="No. of Fresh"></kendo-grid-column>
+            <kendo-grid-column field="pFreshAmount" title="Fresh"></kendo-grid-column>
+
+            <kendo-grid-column field="pRenewalCount" title="No. of Renewal"></kendo-grid-column>
+            <kendo-grid-column field="pRenewalAmount" title="Renewal"></kendo-grid-column>
+
+            <kendo-grid-column field="pPrematureCount" title="No. of Prematured"></kendo-grid-column>
+            <kendo-grid-column field="pPrematureAmount" title="Prematured"></kendo-grid-column>
+
+            <kendo-grid-column field="pNetMovementCount" title="Net Business Movement Count">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pNetMovementAmount" title="Net Business Movement">
+            </kendo-grid-column>
+
+
+
+
+            <kendo-grid-pdf fileName="Details_Old.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+              [scale]="0.5" [margin]="0.5" [landscape]="true">
+
+              <kendo-grid-pdf-margin top="3.5cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+              <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                  <div class="header">
+                    <app-company-details></app-company-details>
+
+                  </div>
+
+                </div>
+              </ng-template>
+
+            </kendo-grid-pdf>
+
+            <kendo-grid-excel fileName="Net_Business_Report.xlsx">
+            </kendo-grid-excel>
+
+          </kendo-grid>
+
+
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+
+    <!-- <div class="row" hidden>
+      <div class="col-md-2  col-xl-2" hidden>
+        <div class="form-group">
+          <label id="pFromMonthOf" title="From Date">From Date</label>
+          <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+            bsDatepicker formControlName="pFromMonthOf" (ngModelChange)="FromDateChange($event)">
+
+
+
+        </div>
+      </div>
+      <div class="col-md-2  col-xl-2" hidden>
+        <div class="form-group">
+          <label id="pToMonthOf" title="To Date">To Date</label>
+          <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+            bsDatepicker formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)">
+          <div *ngIf="validation" class="text-danger">
+            please select a valid date
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-4 col-md-4 form-group">
+        <div class="d-flex">
+          <div class="col-md-8 col-xl-8 pl-0">
+            <label>As on Month</label>
+            <input type="text" title="Date" id="monthname" class="form-control w-auto" formControlName="monthname"
+              placeholder="MM/YY" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly
+              (onShown)="onOpenCalendar($event)">
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="row" hidden>
+
+      <div class="col-md-6">
+        <h5 class="highlight-title">Summary Table</h5>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Customers</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data">
+              <td>{{ item.category }}</td>
+              <td>
+                <!-- <a href="#" (click)="showModal(item.customers, $event)">
+                  {{ item.customers.length }} Customers
+                </a> -->
+                <a data-toggle="modal" (click)="showModal(Summary)">
+                  {{ item.customers.length }} Customers
+                </a>
+              </td>
+              <td style="text-align: right;">{{ item.amount | mycurrencypipe }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-md-6">
+        <h5 class="highlight-title">Commission Paid</h5>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Agent ID</th>
+              <th>Agent Name</th>
+              <th>Commission Amount (₹)</th>
+              <th>Payment Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data1">
+              <td>{{ item.id }}</td>
+              <td>
+                <a href="#" (click)="showModal(Commission)">
+                  {{ item.name}}
+                </a>
+              </td>
+              <td style="text-align: right;">{{ item.amount | mycurrencypipe }}</td>
+              <td>{{ item.payDate }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+          <div class="custom-modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4>Summary Details</h4>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Customers</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of data">
+                  <td>{{ item.category }}</td>
+                  <td>
+                    {{ item.customers.length }} Customers
+                  </td>
+                  <td>{{ item.amount | currency }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+      <!-------------------------->
+
+      <!-- Modal -->
+      <div class="modal fade" id="isModalVisible" tabindex="-1" role="dialog">
+        <div class="modal-dialog  modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="custom-modal-content">
+              <span class="close" (click)="closeModal()">&times;</span>
+              <h4>Summary Details</h4>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Customers</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of data">
+                    <td>{{ item.category }}</td>
+                    <td>
+                      {{ item.customers.length }} Customers
+                    </td>
+                    <td>{{ item.amount | currency }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <div class="row justify-content-center" hidden>
+      <div class="col-auto">
+        <h5 class="highlight-heading text-center">Detailed Breakdown</h5>
+      </div>
+    </div>
+
+    <div class="row" hidden>
+      <div class="col-md-6">
+        <h5 class="highlight-title">A. Opening Balances</h5>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Customer ID</th>
+              <th>Customer Name</th>
+              <th>Bond Amount (₹)</th>
+              <th>Maturity Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data1">
+              <td>{{ item.id }}</td>
+              <td>
+                <a href="#" (click)="showModalCommission(item.name, $event)">
+                  {{ item.name}}
+                </a>
+              </td>
+              <td style="text-align: right;">{{ item.amount | mycurrencypipe }}</td>
+              <td>{{ item.payDate }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="custom-modal" *ngIf="isModalVisible1">
+        <div class="custom-modal-content">
+          <span class="close" (click)="closeModalCommission()">&times;</span>
+          <h4>Commission Details</h4>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Agent ID</th>
+                <th>Agent Name</th>
+                <th>Commission Amount (₹)</th>
+                <th>Payment Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data1">
+                <td>{{ item.id }}</td>
+                <td>
+                  {{ item.name}}
+                </td>
+                <td>{{ item.amount | mycurrencypipe }}</td>
+                <td>{{ item.payDate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <h5 class="highlight-title">B. Maturities (Current Month)</h5>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Customer ID</th>
+              <th>Customer Name</th>
+              <th>Matured Amount (₹)</th>
+              <th>Maturity Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data1">
+              <td>{{ item.id }}</td>
+              <td>
+                <a href="#" (click)="showModalCommission(item.name, $event)">
+                  {{ item.name}}
+                </a>
+              </td>
+              <td style="text-align: right;">{{ item.amount | mycurrencypipe }}</td>
+              <td>{{ item.payDate }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="custom-modal" *ngIf="isModalVisible1">
+        <div class="custom-modal-content">
+          <span class="close" (click)="closeModalCommission()">&times;</span>
+          <h4>Commission Details</h4>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Agent ID</th>
+                <th>Agent Name</th>
+                <th>Commission Amount (₹)</th>
+                <th>Payment Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data1">
+                <td>{{ item.id }}</td>
+                <td>
+                  {{ item.name}}
+                </td>
+                <td>{{ item.amount | mycurrencypipe }}</td>
+                <td>{{ item.payDate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <h5 class="highlight-title">C. Pre-Maturities (Current Month)</h5>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Cust. ID</th>
+              <th>Cust. Name</th>
+              <th>Pre-Matured Amount (₹)</th>
+              <th>Pre-Maturity Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data1">
+              <td>{{ item.id }}</td>
+              <td>
+                <a href="#" (click)="showModalCommission(item.name, $event)">
+                  {{ item.name}}
+                </a>
+              </td>
+              <td style="text-align: right;">{{ item.amount | mycurrencypipe }}</td>
+              <td>{{ item.payDate }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="custom-modal" *ngIf="isModalVisible1">
+        <div class="custom-modal-content">
+          <span class="close" (click)="closeModalCommission()">&times;</span>
+          <h4>Commission Details</h4>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Agent ID</th>
+                <th>Agent Name</th>
+                <th>Commission Amount (₹)</th>
+                <th>Payment Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data1">
+                <td>{{ item.id }}</td>
+                <td>
+                  {{ item.name}}
+                </td>
+                <td>{{ item.amount | mycurrencypipe }}</td>
+                <td>{{ item.payDate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <h5 class="highlight-title">D. New Bonds Issued (Current Month)</h5>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Customer ID</th>
+              <th>Customer Name</th>
+              <th>Bond Amount (₹)</th>
+              <th>Bond Issue Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data1">
+              <td>{{ item.id }}</td>
+              <td>
+                <a href="#" (click)="showModalCommission(item.name, $event)">
+                  {{ item.name}}
+                </a>
+              </td>
+              <td style="text-align: right;">{{ item.amount | mycurrencypipe }}</td>
+              <td>{{ item.payDate }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="custom-modal" *ngIf="isModalVisible1">
+        <div class="custom-modal-content">
+          <span class="close" (click)="closeModalCommission()">&times;</span>
+          <h4>Commission Details</h4>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Agent ID</th>
+                <th>Agent Name</th>
+                <th>Commission Amount (₹)</th>
+                <th>Payment Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data1">
+                <td>{{ item.id }}</td>
+                <td>
+                  {{ item.name}}
+                </td>
+                <td>{{ item.amount | mycurrencypipe }}</td>
+                <td>{{ item.payDate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <h5 class="highlight-title">E. Closing Balances</h5>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Customer ID</th>
+              <th>Customer Name</th>
+              <th>Bond Amount (₹)</th>
+              <th>Maturity Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data1">
+              <td>{{ item.id }}</td>
+              <td>
+                <a href="#" (click)="showModalCommission(item.name, $event)">
+                  {{ item.name}}
+                </a>
+              </td>
+              <td style="text-align: right;">{{ item.amount | mycurrencypipe }}</td>
+              <td>{{ item.payDate }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="custom-modal" *ngIf="isModalVisible1">
+        <div class="custom-modal-content">
+          <span class="close" (click)="closeModalCommission()">&times;</span>
+          <h4>Commission Details</h4>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Agent ID</th>
+                <th>Agent Name</th>
+                <th>Commission Amount (₹)</th>
+                <th>Payment Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data1">
+                <td>{{ item.id }}</td>
+                <td>
+                  {{ item.name}}
+                </td>
+                <td>{{ item.amount | mycurrencypipe }}</td>
+                <td>{{ item.payDate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+  </form>
+</div>
+
+<style>
+  .custom-modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    text-align: center;
+  }
+
+  .close {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .highlight-title {
+    background-color: #f0f4ff;
+    border-left: 6px solid #3f51b5;
+    /* blue accent */
+    padding: 10px 15px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+
+  .highlight-heading {
+    background-color: #f8f9fa;
+    /* Light gray background */
+    padding: 12px 24px;
+    border-radius: 8px;
+    color: #343a40;
+    /* Darker text */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-weight: 600;
+    display: inline-block;
+  }
+
+  .card-box {
+    padding: 5px;
+    border: 1px solid #0000ff;
+    color: #0000ff;
+    border-radius: 4px;
+    /* font-family: "Times New Roman", Times, serif; */
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    min-height: 87px;
+  }
+
+  .card-box hr {
+    margin: 0px !important;
+  }
+
+  .modal-content {
+    min-height: auto !important;
+    padding: 5% !important;
+  }
+
+  .card-box label,
+  .card-box p {
+    color: #0000ff !important;
+    margin: 5px !important;
+  }
+</style>

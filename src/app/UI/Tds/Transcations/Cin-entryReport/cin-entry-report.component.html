@@ -1,0 +1,508 @@
+<div class="section-container">
+  <div class="col-md-12 col-xl-12 p-0">
+    <p class="bc-2">CIN Entry Report</p>
+  </div>
+  <div class="my-container">
+    <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+
+      </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+  </div>
+  <div class="col-md-12 p-0">
+    <div id="template">
+      <form [formGroup]="CINEntryReportform" autocomplete="off">
+        <div class="row mb-4 pb-4">
+          <div class="col-xl-2 col-md-2 mt-4">
+            <div class="form-check form-check-inline check-btn-secondary">
+              <input class="form-check-input" type="checkbox" id="ason" formControlName="date"
+                (change)="checkox($event)">
+              <label class="mt-2" for="ason"> Between:</label>
+            </div>
+          </div>
+          <div *ngIf="showdropdown" class="col-xl-3 col-md-4 form-group">
+
+
+            <label>Select Challana No.</label>
+            <ng-select title="Challana No." id="pChallanaNo" [items]="challanalist" formControlName="pChallanaNo"
+              bindLabel="pChallanaNo" bindValue="pChallanaNo" [multiple]=false placeholder="Select" [searchable]=true
+              [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true (change)="challanachange($event)"
+              [ngClass]="{ 'is-invalid': CommisionPaymentErrors.pChallanaNo }">
+            </ng-select>
+
+            <div class="invalid-feedback">
+              <span *ngIf="CommisionPaymentErrors.pChallanaNo">{{CommisionPaymentErrors?.pChallanaNo}}</span>
+            </div>
+
+
+          </div>
+          <div *ngIf="showdate" class="col-xl-3 col-md-3 ">
+            <div class="form-group">
+              <label title="From Date">From Date</label>
+              <input type="text" class="form-control " formControlName="pFromDate"
+                (ngModelChange)="FromDateChange($event)" placeholder="Date picker here" [bsConfig]="dpFromConfig"
+                #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+
+            </div>
+          </div>
+          <div *ngIf="showdate" class="col-xl-3 col-md-3 form-group">
+            <label title="To Date">To Date </label>
+            <input type="text" class="form-control" formControlName="pToDate" placeholder="Date picker here"
+              [bsConfig]="dpToConfig" #dp="bsDatepicker" (ngModelChange)="ToDateChange($event)" bsDatepicker
+              placement="bottom" readonly>
+
+            <div *ngIf="validation" class="text-danger">
+              please select valid date
+            </div>
+          </div>
+
+          <div class="col-md-3 mt-4 pt-2">
+            <div class="form-group">
+
+              <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon  border-0" data-toggle="tab"
+                role="tab" (click)="GetCinEntryData()">
+                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                    width="20px"></span> Generate Report
+              </button>
+            </div>
+          </div>
+
+
+        </div>
+
+        <!-- <div class="row mb-4 pb-4">
+                        <div class="col-xl-3 col-md-3">
+                                <div class="form-group">
+                                    <label title="From Date">From Date</label>
+                                    <input type="text" class="form-control " formControlName="pFromDate"
+              (ngModelChange)="FromDateChange($event)" placeholder="Date picker here" [bsConfig]="dpFromConfig"
+              #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+                                  
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-3 form-group">
+                                <label title="To Date">To Date </label>
+                                <input type="text" class="form-control" formControlName="pToDate" placeholder="Date picker here"
+            [bsConfig]="dpToConfig" #dp="bsDatepicker" (ngModelChange)="ToDateChange($event)" bsDatepicker
+            placement="bottom" readonly>
+                               
+                                <div *ngIf="validation" class="text-danger">
+                                    please select valid date
+                                </div>
+                            </div>
+                            <div class="col-md-3 mt-4 pt-2">
+                                    <div class="form-group">
+                              
+                                      <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon  border-0" data-toggle="tab" role="tab"
+                                        (click)="GetCinEntryData()">
+                                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                                        <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                            width="20px"></span> Generate Report
+                                      </button>
+                                    </div>
+                                  </div>
+                </div> -->
+
+
+
+
+
+
+
+
+        <div id="temp-box">
+          <div class="mt-2 border rounded shadow-sm bg-white">
+            <div class="row">
+              <div class="col-md-12">
+                <app-company-details></app-company-details>
+
+                <div class="report-head">
+                  <p class="font-16 text-dark text-center m-0">
+                    CIN Entry Report
+                  </p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="row pt-2">
+            <div class="col-12">
+
+              <div *ngIf="showchalanagrid">
+                <kendo-grid [kendoGridBinding]="gridData" [groupable]="false" [pageSize]="10" [skip]="skip"
+                  [pageable]="{buttonCount: 2}" [kendoGridSelectBy]="'id'" [reorderable]="true" [sortable]="true"
+                  [resizable]="true">
+                  <ng-template kendoGridToolbarTemplate>
+                    <div class="mb-3">
+                      <div class="col-12 mt-5">
+                        <ul class="temp-ul pull-right mr-4 pb-3">
+                          <li class="temp-ico ml-2">
+                            <a kendoGridPDFCommand>
+                              <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px">
+                            </a>
+                          </li>
+                          <li class="temp-ico ml-2">
+                            <a kendoGridExcelCommand>
+                              <img class="pt-2" src="assets/images/icon-excel.svg " title="excel" width="20px">
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </ng-template>
+
+
+
+                  <kendo-grid-column field="pPanNo" title="Pan No." width="120">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pName" title="Name" width="120">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pPaidDate" title="Paid Date" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pAmount" title="Amount" width="100" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.pAmount | mycurrencypipe}}
+                    </ng-template>
+
+                    <ng-template kendoGridFooterTemplate>
+                      <p class="text-right" style="padding-right: 25px;">{{ totalamount | mycurrencypipe }}</p>
+                    </ng-template>
+                  </kendo-grid-column>
+
+
+                  <kendo-grid-column field="pActualTdsAmount" class="kendo-center" width="150" title="Actual T.D.S">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.pActualTdsAmount | mycurrencypipe}}
+                    </ng-template>
+                    <ng-template kendoGridFooterTemplate>
+                      <p class="text-right" style="padding-right: 25px;">{{ totaltdsamount | mycurrencypipe }}</p>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pChallanaDate" title="Challana Date" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pBsrCode" title="BSR Code" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pChallanaSNO" title="Challana SNo." width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pChallanaBank" title="Challana Bank" width="100">
+                  </kendo-grid-column>
+
+                  <kendo-grid-column field="pPaidBank" title="Paid Bank" width="100">
+                  </kendo-grid-column>
+
+                  <!-- //bhargavi start -->
+                  <kendo-grid-column field="pSection" title="Section" width="100">
+                  </kendo-grid-column>
+
+                  <kendo-grid-pdf fileName=" CIN Entry Report.pdf" [allPages]="true" paperSize="A2"
+                    [repeatHeaders]="true" [landscape]="true">
+
+                    <kendo-grid-pdf-margin top="8cm" left="1cm" right="1cm" bottom="2cm">
+                    </kendo-grid-pdf-margin>
+
+                    <!-- <ng-template kendoGridPDFTemplate>
+                      <div class="page-template">
+                        <div class="header">
+                          <app-company-details></app-company-details> -->
+                          <!-- <div class="row">
+                            <div class="col-md-6">
+                              <div class="">
+
+                                <label
+                                  class="font-14 text-left m-4 mr-4 font-weight-bold m-0">Date:{{DatetoShow}}</label>
+                                <label
+                                  class="font-14 text-left m-4 mr-4 font-weight-bold m-0">Months:{{MonthtoShow}}</label>
+                              </div>
+                            </div>
+                          </div> -->
+                        <!-- </div>
+
+                      </div>
+                    </ng-template> -->
+                    <ng-template kendoGridPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+                      <div class="page-template">
+                        <div class="header">
+                          <app-company-details></app-company-details>
+                          <!-- <div class="row">
+                            <div class="col-md-6">
+                              <div class="" style="margin-bottom: 1000px;">
+
+                                <label
+                                  class="font-14 text-left m-4 mr-4 font-weight-bold m-0">Date:{{DatetoShow}}</label>
+                                <label
+                                  class="font-14 text-left m-4 mr-4 font-weight-bold m-0">Months:{{MonthtoShow}}</label>
+                              </div>
+                            </div>
+                          </div> -->
+                          <div class="report-head">
+                            <p class="text-dark text-center m-0">
+                              <span class="text-capitalize"
+                                style="font-size: 20px !important; font-weight: bold !important;">CIN Entry Report</span>
+                            </p>
+                          </div>
+                           
+                        </div>
+                        <div class="footer"
+                          style="position: absolute; bottom: 1cm;right:50px; width: 100%; text-align: right; font-size: 12px; color: #000;">
+                          Page {{ pageNum }} of {{ totalPages }}
+                        </div>
+                      </div>
+
+                    </ng-template>
+
+                     <kendo-grid-column field="pPanNo" title="Pan No." width="120">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pName" title="Name" width="120">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pPaidDate" title="Paid Date" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pAmount" title="Amount" width="100" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.pAmount | mycurrencypipe}}
+                    </ng-template>
+
+                    <ng-template kendoGridFooterTemplate>
+                      <p class="text-right" style="padding-right: 25px;">{{ totalamount | mycurrencypipe }}</p>
+                    </ng-template>
+                  </kendo-grid-column>
+
+
+                  <kendo-grid-column field="pActualTdsAmount" class="kendo-center" width="150" title="Actual T.D.S">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.pActualTdsAmount | mycurrencypipe}}
+                    </ng-template>
+                    <ng-template kendoGridFooterTemplate>
+                      <p class="text-right" style="padding-right: 25px;">{{ totaltdsamount | mycurrencypipe }}</p>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pChallanaDate" title="Challana Date" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pBsrCode" title="BSR Code" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pChallanaSNO" title="Challana SNo." width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pChallanaBank" title="Challana Bank" width="100">
+                  </kendo-grid-column>
+
+                  <kendo-grid-column field="pPaidBank" title="Paid Bank" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pSection" title="Section" width="100">
+                  </kendo-grid-column>
+
+                  </kendo-grid-pdf>
+                  <!-- bhargavi end -->
+                  <kendo-grid-excel fileName="CIN Entry Report.xlsx" [fetchData]="allData"></kendo-grid-excel>
+
+                </kendo-grid>
+              </div>
+
+
+
+
+
+
+              <div *ngIf="showbetweendates">
+                <kendo-grid [kendoGridBinding]="Betweengrid" [groupable]="false" [group]="groups" [pageSize]="10"
+                  [skip]="skip" [pageable]="{buttonCount: 2}" [kendoGridSelectBy]="'id'" [reorderable]="true"
+                  [sortable]="true" [resizable]="true">
+                  <ng-template kendoGridToolbarTemplate>
+                    <div class="mb-3">
+                      <div class="col-12 mt-5">
+                        <ul class="temp-ul pull-right mr-4 pb-3">
+                          <li class="temp-ico ml-2">
+                            <a kendoGridPDFCommand>
+                              <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px">
+                            </a>
+                          </li>
+                          <li class="temp-ico ml-2">
+                            <a kendoGridExcelCommand>
+                              <img class="pt-2" src="assets/images/icon-excel.svg " title="excel" width="20px">
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </ng-template>
+
+
+
+                  <kendo-grid-column field="pPanNo" title="Pan No." width="120">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pName" title="Name" width="120">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pAmount" title="Amount" width="100" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.pAmount | mycurrencypipe}}
+                    </ng-template>
+                    <ng-template kendoGridGroupFooterTemplate let-group let-aggregates>
+                      <p class="text-right" style="padding-right: 25px;"> {{aggregates.pAmount.sum | mycurrencypipe}}
+                      </p>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pTdsAmount" title="TDS Amount" width="100" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.pTdsAmount | mycurrencypipe}}
+                    </ng-template>
+                    <ng-template kendoGridGroupFooterTemplate let-group let-aggregates>
+                      <p class="text-right" style="padding-right: 25px;"> {{aggregates.pTdsAmount.sum | mycurrencypipe}}
+                      </p>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pPaidDate" title="Paid Date" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pChallanaDate" title="Challana Date" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pBsrCode" title="BSR Code" width="100">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="pChallanaSNO" title="Challana SNo." width="100">
+                  </kendo-grid-column> 
+                  <!-- bhargavi start -->
+                  <kendo-grid-column field="pSection" title="Section" width="100">
+                  </kendo-grid-column>
+                  <!--<kendo-grid-column field="pActualTdsAmount" class="kendo-center" width="150"
+                                               title="Actual TDS Amount">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pActualTdsAmount | mycurrencypipe}}
+                              </ng-template>
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="pBalance" title="Balance" width="100" class="kendo-center">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pBalance | mycurrencypipe}}
+                              </ng-template>
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="pChallanaBank" title="Challana Bank" width="100">
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="pChallanaNo" title="Challana No." width="100">
+                            </kendo-grid-column>
+
+
+
+
+                            <kendo-grid-column field="pPaidBank" title="Paid Bank" width="100">
+                            </kendo-grid-column>-->
+
+
+                  <kendo-grid-pdf fileName="CIN Entry Report.pdf" [allPages]="true" paperSize="A2"
+                    [repeatHeaders]="true" [margin]="{ top: '2cm', left: '1cm', right: '1cm', bottom: '2cm' }" [landscape]="true">
+<!-- 
+                    <kendo-grid-pdf-margin top="8cm" left="1cm" right="1cm" bottom="2cm">
+                    </kendo-grid-pdf-margin> -->
+                     <kendo-grid-pdf-margin top="10cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+                    <ng-template kendoGridPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+                      <div class="page-template">
+                        <div class="header">
+                          <app-company-details></app-company-details>
+                          <!-- <div class="row">
+                            <div class="col-md-6">
+                              <div class="" style="margin-bottom: 1000px;">
+
+                                <label
+                                  class="font-14 text-left m-4 mr-4 font-weight-bold m-0">Date:{{DatetoShow}}</label>
+                                <label
+                                  class="font-14 text-left m-4 mr-4 font-weight-bold m-0">Months:{{MonthtoShow}}</label>
+                              </div>
+                            </div>
+                          </div> -->
+                          <div class="report-head">
+                            <p class="text-dark text-center m-0">
+                              <span class="text-capitalize"
+                                style="font-size: 20px !important; font-weight: bold !important;">CIN Entry Report</span>
+                            </p>
+                          </div>
+                          <div class="row mt-2">
+                            <div class="col">
+                              <span style="font-size: 16px !important; font-weight: bold !important;">
+                               From Date : {{frommonthof}}
+                              </span>
+                            </div>
+                            <div class="col">
+                              <span style="font-size: 16px !important; font-weight: bold !important;">
+                               To Date : {{todate2}}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="footer"
+                          style="position: absolute; bottom: 1cm;right:50px; width: 100%; text-align: right; font-size: 12px; color: #000;">
+                          Page {{ pageNum }} of {{ totalPages }}
+                        </div>
+                      </div>
+
+                    </ng-template>
+
+                    <kendo-grid-column field="pPanNo" title="Pan No."  class="kendo-center">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pName" title="Name" [headerClass]="{'kendo-right': true}" class="kendo-center" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pAmount" title="Amount" [headerClass]="{'kendo-right': true}"  class="kendo-center">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pAmount | mycurrencypipe}}
+                      </ng-template>
+                      <ng-template kendoGridGroupFooterTemplate let-group let-aggregates>
+                        <!-- <p class="text-right" style="padding-right: 25px;"> {{aggregates.pAmount.sum | mycurrencypipe}}
+                      </p> -->
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pTdsAmount" title="TDS Amount" [headerClass]="{'kendo-right': true}" class="kendo-center">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pTdsAmount | mycurrencypipe}}
+                      </ng-template>
+                      <!-- <ng-template kendoGridGroupFooterTemplate let-group let-aggregates>
+                      <p class="text-right" style="padding-right: 25px;"> {{aggregates.pTdsAmount.sum | mycurrencypipe}}
+                      </p>
+                    </ng-template> -->
+                    </kendo-grid-column>
+                     <kendo-grid-column field="pPaidDate" title="Paid Date" [headerClass]="{'kendo-right': true}" class="kendo-center" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pChallanaDate" title="Challana Date"  [headerClass]="{'kendo-right': true}" class="kendo-center">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pBsrCode" title="BSR Code" [headerClass]="{'kendo-right': true}" class="kendo-center">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pChallanaSNO" title="Challana SNo." [headerClass]="{'kendo-right': true}" class="kendo-center">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pSection" title="Section"  [headerClass]="{'kendo-right': true}" class="kendo-center">
+                  </kendo-grid-column>
+
+                  </kendo-grid-pdf>
+
+                  <!-- bhargavi end -->
+
+                  <!-- ---------------------------------------------- -->
+                  <kendo-grid-excel fileName="CIN Entry Report.xlsx" [fetchData]="allData1"></kendo-grid-excel>
+
+                </kendo-grid>
+                <div class="row mt-3 justify-content-end">
+                  <div class="col-md-8 col-xl-8 text-right">
+                    <label class="text-dark pl-4">Total Payment Amount : </label>
+                    <label> {{total | currencypipewithdecimal}} </label>
+
+                  </div>
+                </div>
+              </div>
+
+
+
+
+            </div>
+          </div>
+
+        </div>
+
+
+
+      </form>
+
+    </div>
+  </div>
+</div>

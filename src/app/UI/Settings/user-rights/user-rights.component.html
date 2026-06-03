@@ -1,0 +1,174 @@
+<div class="row mt-4">
+    <div class="col-12">
+        <p class="bc-2">Rights allocation on</p>
+    </div>
+</div>
+<form>
+
+    <div class="col-md-12 col-lg-12 col-xl-12 pl-0">
+        <div class="form-group">
+            <div class="form-check radio-btn form-check-inline mr-1  ">
+                <input class="form-check-input " [checked]="Type === 'Designation'" type="radio" name="inlineRadioOptions1" id="inlineRadio2" value="designation" (click)="DesignationClick()">
+                <label class="mt-1" for="inlineRadio2">Designation</label>
+            </div>
+            <div class="form-check radio-btn form-check-inline mr-2">
+                <input class="form-check-input radio-btn" [checked]="Type === 'User'" type="radio" name="inlineRadioOptions1" id="inlineRadio3" value="others" (click)="UsersClick()">
+                <label class="mt-1" for="inlineRadio3">Users</label>
+            </div>
+            <div class="form-check radio-btn form-check-inline mr-2">
+                <input class="form-check-input radio-btn" [checked]="Type === 'CloningRights'" type="radio" name="inlineRadioOptions1" id="inlineRadio4" value="others" (click)="CloningRightsClick()">
+                <label class="mt-1" for="inlineRadio4">Cloning Rights</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="designation" *ngIf="Designationsview">
+        <div class="col-md-6 col-xl-4 pl-0">
+            <div class="form-group">
+                <label>Designation</label>
+                <select class="form-control" (change)="SelectDesignation($event)">
+          <option value="">Select</option>
+          <option *ngFor="let Roles of Rolesdata;" [value]="Roles.prolename"
+            [selected]="Roles.prolename === Selectdata"> {{Roles.prolename}}</option>
+
+        </select>
+            </div>
+        </div>
+    </div>
+    <!-- Designation end -->
+    
+    <div class="others" *ngIf="Usersview">
+        <div class="col-md-6 col-xl-4 p-0">
+            <div class="form-group">
+                <label>Select User </label>  <label *ngIf="CloningRightsview">&nbsp;Form</label>
+                <select class="form-control" (change)="SelectUser($event)">
+          <option value="">Select</option>
+          <option *ngFor="let User of Userdata;" [value]="User.pUserName" [selected]="User.pUserName === Selectdata">
+            {{User.pUserName}}</option>
+
+        </select>
+            </div>
+        </div>
+    </div>
+    <div class="others" *ngIf="CloningRightsview">
+        <div class="col-md-6 col-xl-4 p-0">
+            <div class="form-group">
+                <label>Select User to</label>
+                <select class="form-control" (change)="SelectUserto($event)">
+          <option value="">Select</option>
+          <option *ngFor="let User of toUserdata;" [value]="User.pUserName" [selected]="User.pUserName === toSelectdata">
+            {{User.pUserName}}</option>
+
+        </select>
+            </div>
+        </div>
+    </div>
+    <!-- others end -->
+    <div class="row">
+        <div class="col-md-12 col-xl-12">
+            <div class="table-responsive">
+                <div class="my-container">
+                    <ng-template #customLoadingTemplate>
+                        <div class="custom-class">
+
+                        </div>
+                    </ng-template>
+                    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+                    </ngx-loading>
+
+                </div>
+                <br/>
+
+                <kendo-grid [kendoGridBinding]="Navigationdata" [groupable]="false" [group]="groups" [resizable]="true" [resizable]="true" [pageable]="false" [sortable]="false" [resizable]="true">
+                    <ng-template kendoGridToolbarTemplate>
+                        <div class="row mb-4">
+                            <div class="col-4 pl-0 mt-n1">
+                                <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+                            </div>
+
+                        </div>
+                    </ng-template>
+
+                    <kendo-grid-column field="pmodulename" title="Module">
+                        <ng-template kendoGridCellTemplate let-group let-field="field" let-value="value">
+                            <!-- {{dataItem.ptransactiondate}} -->
+                        </ng-template>
+                    </kendo-grid-column>
+
+
+                    <!-- <kendo-grid-column field="psubmodulename" title="Sub Module">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                        </ng-template>
+                    </kendo-grid-column> -->
+
+                    <kendo-grid-column field="psubmodulename" title="Sub Module">
+                        <ng-template kendoGridGroupHeaderTemplate let-group  let-dataItem let-field="field">
+                            <ng-container *ngIf="group.field === 'psubmodulename'">
+                              <div class="d-flex align-items-center"> 
+                                <table>
+                                    <tr>
+                                        <td colspan="3">Sub Module:  {{ group.value }}</td>
+                                        <td><input  type="checkbox"  (change)="CheckboxChange($event, dataItem,'View')" class="ml-2"/> All View</td>
+                                        <td><input  type="checkbox"  (change)="CheckboxChange($event, dataItem,'Create')" class="ml-2" /> All Create</td>
+                                        <td style="color: #333 !important;"><input  type="checkbox"  (change)="CheckboxChange($event, dataItem,'Update')" class="ml-2" /> All Update</td>
+                                        <td><input  type="checkbox"  (change)="CheckboxChange($event, dataItem,'Delete')" class="ml-2" /> All Delete</td>
+                                    </tr>
+                                </table>
+                              </div>
+                            </ng-container>
+                          </ng-template>
+                    </kendo-grid-column>
+
+
+                    <kendo-grid-column field="pFunctionName" title="Form Name"></kendo-grid-column>
+
+                    <kendo-grid-checkbox-column title="View">
+                        <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                            <input type="checkbox" [checked]="dataItem.pIsviewpermission" (click)="clickaview(dataItem)" />
+                        </ng-template>
+                    </kendo-grid-checkbox-column>
+
+                    <kendo-grid-checkbox-column title="Create">
+                        <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                            <input type="checkbox" [checked]="dataItem.pIscreatepermission" (click)="clickacreate(dataItem)" />
+                        </ng-template>
+                    </kendo-grid-checkbox-column>
+
+                    <kendo-grid-checkbox-column title="Update">
+                        <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                            <input type="checkbox" [checked]="dataItem.pIsupdatepermission" (click)="clickaupdate(dataItem)" />
+                        </ng-template>
+                    </kendo-grid-checkbox-column>
+
+                    <kendo-grid-checkbox-column title="Delete">
+                        <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                            <input type="checkbox" [checked]="dataItem.pIsdeletepermission" (click)="Clickadelete(dataItem)" />
+                        </ng-template>
+                    </kendo-grid-checkbox-column>
+
+                </kendo-grid>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <!--row-end-->
+    <div class="col-12 mt-4 p-0" (click)="Addpermissions()">
+        <a href="" data-toggle="tab" class="btn btn-s-icon border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />Add permissions</a>
+    </div>
+</form>
+
+<!--buttons-end-->
+<script>
+    $('.k-grouping-row').each(function(e) {
+        if ($(this).next('tr').hasClass('k-grouping-row')) {
+            let input = $(this).find('.select-group')
+            $(input).attr("disabled", true)
+        }
+    })
+</script>

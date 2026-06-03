@@ -1,0 +1,260 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6 ">
+      <p class="bc-2">Branch Wise Receipt</p>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-12 col-xl-12">
+      <div class="section-container">
+        <form [formGroup]="MemberwisereceiptForm" autocomplete="off">
+          <div class="row mt-1">
+            <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-2 col-xl-2">
+                    <div class="">
+                      <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                        <input class="form-check-input" type="radio" name="pDatetype" formControlName="pDatetype" id="interestd1" value="ASON" 
+                               (change)="DatetypeChange('ASON')" [ngClass]="{ 'is-invalid': MemberwisereceiptErrors.pDatetype }">
+                        <label id="pDatetype" title="AsOn" class="mt-2" for="interestd1"> As On </label>
+                      </div>
+                    <div class="invalid-feedback">
+                        <span *ngIf="MemberwisereceiptErrors.pDatetype">{{MemberwisereceiptErrors?.pDatetype}}</span>
+                      </div> 
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-xl-2">
+                    <div class="">
+                      <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                        <input class="form-check-input" type="radio" name="pDatetype" formControlName="pDatetype" id="interestd2" value="BETWEEN"
+                               (change)="DatetypeChange('BETWEEN')" [ngClass]="{ 'is-invalid': MemberwisereceiptErrors.pDatetype }">
+                        <label id="pDatetype" title="Between" class="mt-2" for="interestd2"> Between </label>
+                      </div>
+                      <div class="invalid-feedback">
+                        <span *ngIf="MemberwisereceiptErrors.pDatetype">{{MemberwisereceiptErrors?.pDatetype}}</span>
+                      </div> 
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-2  col-xl-2" *ngIf="showFrommonth">
+                    <div class="">
+                      <label id="pFromMonthOf" title="Month Of">From Date</label>
+  
+                      <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                             bsDatepicker  formControlName="pFromMonthOf" (ngModelChange)="FromDateChange($event)" [ngClass]="{ 'is-invalid': MemberwisereceiptErrors.pFromMonthOf }">
+                      
+  
+                    </div>
+                  </div>
+  
+                  <div class="col-md-2 col-xl-2" *ngIf="showTomonth">
+                    <div class="">
+                      <label>{{displaytodate}}</label>
+                      <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+                             bsDatepicker  formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)" [ngClass]="{ 'is-invalid': MemberwisereceiptErrors.pToMonthOf }">
+                      <div *ngIf="validation" class="text-danger">
+                        please select a valid date
+                      </div>
+                    </div>
+                  </div>
+            
+  
+                  <!-- <div class="col-md-4 col-xl-4">
+                    <label id="pmemberid" title="Member Name">Member Name</label>
+                <select class="form-control col-md-12" formControlName="pmemberid"
+                        (change)="Member_change($event)" [ngClass]="{ 'is-invalid': MemberwisereceiptErrors.pmemberid }"   >
+
+                     <option value="0" ng-selected="selected">All</option>
+                     <option *ngFor="let i of getmemberreceipt" [value]="i.pmemberid">{{i.pmembername}}</option>
+                   
+                </select>
+                   <div class="invalid-feedback">
+                      <span *ngIf="MemberwisereceiptErrors.pmemberid">{{MemberwisereceiptErrors?.pmemberid}}</span>
+                    </div> 
+   
+                  </div> -->
+                  <div class="col-md-4 col-xl-4">
+                    <label id="pmemberid" title="Member Name">Branch Name</label>
+                <select class="form-control col-md-12" formControlName="pmemberid"
+                        (change)="branchChange($event)" [ngClass]="{ 'is-invalid': MemberwisereceiptErrors.pmemberid }"   >
+
+                     <option value="0" ng-selected="selected">All</option>
+                     <option *ngFor="let i of Branchdetails" [value]="i.pBranchId">{{i.pBranchname}}</option>
+                   
+                </select>
+                   <div class="invalid-feedback">
+                      <span *ngIf="MemberwisereceiptErrors.pmemberid">{{MemberwisereceiptErrors?.pmemberid}}</span>
+                    </div> 
+   
+                  </div>
+                  <div class="justify-content-end">
+                    <div class="form-group mt-4 pt-1">
+  
+                      <div class="col-md-12 col-xl-12 pull-right">
+                        <div class="form-group mt-1">
+                          <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="showBrancwiseReceiptsReport()">
+                            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                            <span *ngIf="!isLoading">
+                              <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                   width="20px">
+                            </span> {{savebutton}}
+                          </a>
+  
+                        </div>
+                      </div>
+                  
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </form>
+        <div class="d-flex justify-content-end">
+            <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" (click)="pdf()" style="cursor: pointer;" />
+    
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12">
+    
+              <!-- <ngx-datatable id="Memberwisereceiptlist" class="material expandable table" [rows]="Memberwisereceiptlist"
+                             [headerHeight]="60" [footerHeight]="50" width="300"
+                             [scrollbarH]="true" [height]="" [selected]=""  [groupRowsBy]="'pMembername'"
+                             rowHeight="auto"
+                             [limit]="commencementgridPage.size" [count]="commencementgridPage.totalElements"
+                             [columnMode]="'force'"[columnMode]="ColumnMode.force"
+                             [offset]="commencementgridPage.pageNumber"
+                            [groupExpansionDefault]="true"> -->
+                            <ngx-datatable  id="Memberwisereceiptlist" class="material expandable table" [rows]="branchWiseList"
+                            [headerHeight]="60" [footerHeight]="50" width=""
+                            [scrollbarH]="true" [height]="" [selected]="" [groupRowsBy]="'pBranchname'"
+                            rowHeight="auto"
+                            [limit]="10" 
+                            [columnMode]="'force'"[columnMode]="ColumnMode.force"
+                            [groupExpansionDefault]="true">
+
+                            
+                <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+                  <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+                    <div style="padding-left:5px;">
+                      <a [class.datatable-icon-right]="!expanded"
+                         [class.datatable-icon-down]="expanded"
+                         title="Expand/Collapse Group"
+                         (click)="toggleExpandGroup(group)">
+                        <b>{{ group.value[0].pBranchname }}   </b>
+                      </a>
+    
+                    </div>
+                  </ng-template>
+                </ngx-datatable-group-header> 
+    
+    
+                <!-- <ngx-datatable-column width="130" name="Member Name" prop="pMembername" [cellClass]="'cell-left'"
+                                      [headerClass]="'header-left'">
+    
+                </ngx-datatable-column> -->
+                <ngx-datatable-column width="140" name="Advance Account No." prop="pFdAccountNo" [cellClass]="'cell-left'"
+                                      [headerClass]="'header-center'">
+                </ngx-datatable-column>
+                <ngx-datatable-column width="120" name="Scheme Name" prop="pSchemename" [cellClass]="'cell-left'"
+                                      [headerClass]="'header-center'">
+                 
+                </ngx-datatable-column>
+
+               
+
+                <ngx-datatable-column width="120" name="Advance Amount" prop="pDepositamount" [cellClass]="'cell-right'"
+                                      [headerClass]="'header-center'">
+                     <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.pDepositamount | mycurrencypipe}}
+                     </ng-template>
+                </ngx-datatable-column>
+    
+                <ngx-datatable-column width="100" name="Advance Date" prop="pDepositdate"
+                [cellClass]="'cell-left'" [headerClass]="'header-center'">
+                <!-- <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{row.pDepositdate  | date:'dd/Mon/yyyy'}}
+              </ng-template> -->
+              </ngx-datatable-column>
+               
+               
+                <!-- <ngx-datatable-column width="150" name="Total Receipt Amount" prop=""
+                [cellClass]="'cell-right'" [headerClass]="'header-right'">
+               <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.pMaturityJVDate  | mycurrencypipe}}
+                </ng-template> 
+            </ngx-datatable-column>           -->
+
+       
+       <ngx-datatable-column width="140" name="Advance Receipt Date" prop="pFDReceiptDate"
+       [cellClass]="'cell-left'" [headerClass]="'header-center'">
+      <!-- <ng-template let-row="row" ngx-datatable-cell-template>
+           {{row.pFDReceiptDate  | date:'dd/Mon/yyyy'}}
+       </ng-template> -->
+     </ngx-datatable-column>
+     <!-- <ngx-datatable-column width="110" name="Receipt Date" prop="pReceiptDate"
+     [cellClass]="'cell-left'" [headerClass]="'header-center'">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+         {{row.pReceiptDate   | date:'dd-MM-yyyy'}}
+     </ng-template> 
+   </ngx-datatable-column> -->
+   <!-- <ngx-datatable-column width="140" name="Installment Amount" prop="pInstallmentamount"
+   [cellClass]="'cell-right'" [headerClass]="'header-center'">
+   <ng-template let-row="row" ngx-datatable-cell-template>
+    {{row.pInstallmentamount  | mycurrencypipe}}
+</ng-template> 
+ </ngx-datatable-column> -->
+ <ngx-datatable-column width="120" name="Received Amount" prop="pReceivedamount"
+ [cellClass]="'cell-right'" [headerClass]="'header-center'">
+ <ng-template let-row="row" ngx-datatable-cell-template>
+  {{row.pReceivedamount  | mycurrencypipe}}
+</ng-template> 
+</ngx-datatable-column>
+<ngx-datatable-column width="110" name="Mode of Receipt" prop="pModeofReceipt"
+ [cellClass]="'cell-left'" [headerClass]="'header-center'">
+
+</ngx-datatable-column>
+<ngx-datatable-column width="120" name="Agent Name" prop="pAgentName"
+[cellClass]="'cell-left'" [headerClass]="'header-center'">       
+</ngx-datatable-column> 
+<ngx-datatable-column width="150" name="Commission Percentage" prop="pCommissionValue"
+[cellClass]="'cell-center'" [headerClass]="'header-center'">       
+</ngx-datatable-column> 
+ <ngx-datatable-column width="110" name="Receipt No." prop="pReceiptVoucherno"
+ [cellClass]="'cell-left'" [headerClass]="'header-center'">
+
+</ngx-datatable-column> 
+<ngx-datatable-column width="110" name="Cheque Status" prop="pChequeStatus"
+ [cellClass]="'cell-left'" [headerClass]="'header-center'">
+  <ng-template let-row="row" ngx-datatable-cell-template>
+    <div *ngIf="row.pChequeStatus == 'Canceled'" class="text-danger">
+      {{row.pChequeStatus}}
+    </div>
+    <div *ngIf="row.pChequeStatus == 'Rejected'" class="text-warning">
+      {{row.pChequeStatus}}
+    </div>
+    <div *ngIf="row.pChequeStatus== 'Cleared'" class="text-success">
+      {{row.pChequeStatus}}
+    </div>
+    <div *ngIf="row.pChequeStatus== 'Returned'" class="text-warning">
+      {{row.pChequeStatus}}
+    </div>
+    <div *ngIf="row.pChequeStatus== 'Pending'" class="text-primary">
+      {{row.pChequeStatus}}
+    </div>
+    <div *ngIf="row.pChequeStatus== 'ADJUSTMENT'" class="text-success">
+      {{row.pChequeStatus}}
+    </div>
+  </ng-template>
+
+</ngx-datatable-column>
+        
+         </ngx-datatable>   
+    
+            </div>
+          </div>
+    
+      </div>
+    </div>
+</div>

@@ -1,0 +1,137 @@
+<div class="row">
+    <div class="col-md-12 col-xl-12 mb-2">
+        <p class="bc-2">EMI Chart</p>
+    </div>
+
+    <div class="section-container mx-3 mb-4">
+
+
+        <div class="row mt-2 ">
+            <div class="col-md-12 col-xl-12">
+                <div class="">
+
+                    <div class="my-container">
+                        <ng-template #customLoadingTemplate>
+                            <div class="custom-class">
+
+                            </div>
+                        </ng-template>
+                        <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+                    </div>
+
+
+                    <kendo-grid [kendoGridBinding]="EmichartData" [pageSize]="pageSize" [skip]="gridState.skip" [pageable]="{buttonCount: 2}" [sort]="gridState.sort" [sortable]="true" [resizable]="true" [scale]="0.9">
+
+                        <ng-template kendoGridToolbarTemplate>
+                            <div class="row mb-3  pt-1">
+                                <div class="col-4 pl-0 mt-n1 mr-3">
+                                    <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+                                </div>
+                                <div class="col-7 pr-0 pl-4">
+                                    <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                                        <li class="temp-ico ml-2">
+                                            <a kendoGridPDFCommand>
+                                                <img class="pt-1 pl-3" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px">
+                                            </a>
+                                        </li>
+                                        <li class="temp-ico ml-2">
+                                            <a kendoGridExcelCommand>
+                                                <img class="pt-1" src="assets/images/icon-excel.svg " title="excel" width="20px">
+                                            </a>
+                                        </li>
+                                        <!-- <li class="temp-ico ml-2"><a    (click)="print()"><img class="pt-2" src="assets/images/print-icon-blue.svg " title="print" width="20px"></a></li> -->
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                        </ng-template>
+                        <kendo-grid-column-group title="EMI Chart" [headerClass]="{'kendo-g-center' : true}">
+                            <kendo-grid-column field="pIsprimaryAccount" title="Select" width="80">
+                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                    <input type="radio" name="anotsend" [checked]="dataItem.pIsprimaryAccount" (click)="selectEmichartReport(dataItem,rowIndex)" />
+                                </ng-template>
+                            </kendo-grid-column>
+
+
+
+                            <kendo-grid-column field="pVchapplicationID" title="Loan Application No" width="200"></kendo-grid-column>
+                            <kendo-grid-column field="pApplicantname" title="Applicant"></kendo-grid-column>
+                            <kendo-grid-column field="pApprovedloanamount" title="Approved Loan Amount" class="no-padding" [headerStyle]="{ 'text-align': 'center' }" [style]="{'text-align': 'center'}" width="150">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pApprovedloanamount | mycurrencypipe}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pDisbursalamount" title="Disbursed Amount" class="no-padding" [headerStyle]="{ 'text-align': 'center' }" [style]="{'text-align': 'center'}" width="150">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pDisbursalamount | mycurrencypipe}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pApplicantMobileNo" title="Mobile No" class="no-padding" [headerStyle]="{ 'text-align': 'right' }" [style]="{'text-align': 'left'}"></kendo-grid-column>
+                            <kendo-grid-column field="pApplicantEmail" title="Email"></kendo-grid-column>
+                        </kendo-grid-column-group>
+
+                        <kendo-grid-pdf fileName="EmiChartView.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true" [scale]="0.9">
+                            <ng-template kendoGridPDFTemplate>
+                                <div class="page-template">
+                                    <div class="header bc-2 text-center">
+                                        <h5> EMI Chart </h5>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+                            <kendo-grid-column field="pVchapplicationID" title="Loan Application No" width="200"></kendo-grid-column>
+
+                            <kendo-grid-column field="pApplicantname" title="Applicant"></kendo-grid-column>
+                            <kendo-grid-column field="pApprovedloanamount" title="Approved Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pApprovedloanamount | mycurrencypipe}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pDisbursalamount" title="Disbursed Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.pDisbursalamount | mycurrencypipe}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="pApplicantMobileNo" title="Mobile No"></kendo-grid-column>
+                            <kendo-grid-column field="pApplicantEmail" title="Email"></kendo-grid-column>
+                        </kendo-grid-pdf>
+
+
+                        <kendo-grid-excel fileName="EmiChartView.xlsx">
+                            <kendo-excelexport-column-group title="EMI Chart" [headerCellOptions]="headerCells">
+                                <kendo-excelexport-column field="pVchapplicationID" title="Loan Application No" width="200"></kendo-excelexport-column>
+
+                                <kendo-excelexport-column field="pApplicantname" title="Applicant"></kendo-excelexport-column>
+                                <kendo-excelexport-column field="pApprovedloanamount" title="Approved Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.pApprovedloanamount | mycurrencypipe}}
+                                    </ng-template>
+                                </kendo-excelexport-column>
+                                <kendo-excelexport-column field="pDisbursalamount" title="Disbursed Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.pDisbursalamount | mycurrencypipe}}
+                                    </ng-template>
+                                </kendo-excelexport-column>
+                                <kendo-excelexport-column field="pApplicantMobileNo" title="Mobile No"></kendo-excelexport-column>
+                                <kendo-excelexport-column field="pApplicantEmail" title="Email"></kendo-excelexport-column>
+                            </kendo-excelexport-column-group>
+                        </kendo-grid-excel>
+                    </kendo-grid>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    <div class="col-md-12">
+        <div id="template" class="collapse {{ShowEmichartReport}} hide mt-4">
+            <app-emichart-report [Vchapplicationid]=Vchapplicationid></app-emichart-report>
+        </div>
+    </div>
+</div>

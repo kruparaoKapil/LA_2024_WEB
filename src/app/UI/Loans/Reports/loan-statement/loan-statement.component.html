@@ -1,0 +1,88 @@
+<div class="section-container p-0">
+<div class="col-md-12 col-xl-12 mt-3">
+  <p class="bc-2">Loan Statement</p>
+</div>
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+      <h3>
+      </h3>
+
+    </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+<div class="col-md-12">
+  <div id="template">
+    <!-- <div class="d-flex justify-content-end mr-3">
+      <ul class="temp-ul">
+          <li class="temp-ico ml-2">
+              <a href=""><img src="assets/images/icon-mail-active.svg " width="20px" class="pt-2" title="Email" />
+              </a>
+          </li>
+      </ul>
+
+  </div> -->
+    <form [formGroup]="LoanStatementForm">
+      <div class="row">
+        <div class="col-md-4 col-xl-4 ">
+          <div class="form-group">
+            <label id="loanname" title="Loan Type">Loan Type</label>
+            <select class="form-control w-100" placeholder="Loan Type" formControlName="loanname" (change)="ChangeLoanType($event)" [ngClass]="{ 'is-invalid': formValidationMessages.loanname }">
+              <option value="" ng-selected="selected">Select</option>
+              <option *ngFor="let loan of LoanTypes;trackBy: trackByFn;" [value]="loan.pLoanname">
+                {{loan.pLoanname}}
+              </option>
+            </select>
+            <div class="invalid-feedback-cst">
+              <span *ngIf="formValidationMessages.loanname">{{formValidationMessages.loanname}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-xl-4">
+          <div class="form-group">
+            <label id="loanapplication" title="Loan Application / Account No">
+              Loan Application / Account
+              No.
+            </label>
+            <div class="demo-section k-content">
+
+              <!-- <span *ngFor="let loan of LoanTypes; index as i; trackBy: trackByFn;"></span> -->
+              <input [id]="dynamicLoanapplicationId" name="loanapplication" formControlName="loanapplication" class="form-control" />
+            </div>
+
+            <div class="invalid-feedback-cst">
+              <span *ngIf="formValidationMessages.loanapplication">{{formValidationMessages.loanapplication}}</span>
+            </div>
+          </div>
+
+
+
+
+
+        </div>
+
+        <div class="col-xs-4 col-md-4 pt-3 mt-3 ">
+          <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="LoanStatement()">
+            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+            <span *ngIf="!isLoading">
+              <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                   width="20px">
+            </span> {{savebutton}}
+          </a>
+        </div>
+      </div>
+    </form>
+    <div >
+      <!---->
+      <app-loan-statement-report></app-loan-statement-report>
+    </div>
+
+    <!--*ngIf="LoanAccountStatementView"-->
+    
+  </div>
+</div>
+</div>

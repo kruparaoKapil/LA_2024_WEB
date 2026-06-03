@@ -1,0 +1,315 @@
+<!--<div class="row mt-2">
+    <div class="col d-flex flex-wrap align-items-center">
+      <a class="btn btn-b-icon border-0" routerLink="/LienEntryNew" (click)="NewButtonClick('New')">
+        <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+      </a>
+    </div>
+  </div>-->
+<div class="row">
+  <div class="col-md-6 col-xl-6">
+    <a class="btn btn-b-icon border-0" routerLink="/LienEntryNew" style="float: left;" (click)="NewButtonClick('New')">
+      <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+    </a>
+  </div>
+
+</div>
+<div class="row mt-3">
+  <div class="col-md-12 col-xl-12">
+    <div class="section-container">
+      &nbsp;
+
+      <kendo-grid [kendoGridBinding]="gridview" [groupable]="true" [resizable]="true" [selectedKeys]="mySelection"
+        [pageSize]="10" [skip]="skip" [reorderable]="true" [columnMenu]="{ filter: true }"
+        [pageable]="{ buttonCount: 2 }" [sortable]="true" (edit)="datatableclickedit($event)"
+        (remove)="removeHandler($event)">
+
+
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="mb-3">
+            <div class="col-4 pl-0 mt-n1">
+              <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+                (input)="onFilter($event.target.value)" />
+            </div>
+            <div class="col-12 mt-5">
+              <ul class="temp-ul pull-right mr-4 pb-3">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                      width="20px"></a>
+                </li>
+                <!-- <li class="temp-ico">
+                  <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+              </li> -->
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                      width="20px"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+
+        <!-- <ng-template kendoGridToolbarTemplate>
+          <div class="row mb-2">
+            <div class="col-4 pl-0 mt-n1">
+              <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+                (input)="onFilter($event.target.value)" />
+            </div>
+
+          </div>
+        </ng-template> -->
+        <kendo-grid-column-group title="Lien Entry" [headerClass]="{'kendo-g-center': true}">
+          <!-- <kendo-grid-command-column title="Actions" width="150">
+              <ng-template kendoGridCellTemplate>
+                <div id="icon-edit" kendoGridEditCommand [primary]="true"></div>
+                <div id="icon-delete" kendoGridRemoveCommand></div>
+              </ng-template>
+            </kendo-grid-command-column> -->
+          <kendo-grid-column title="Select" field="" class="pl-3" width="100">
+            <!-- <ng-template kendoGridHeaderTemplate let-dataItem let-rowIndex="rowIndex">
+              <input type="checkbox" name="selectAll" (change)="selectAllStudentsChange($event,dataItem,rowIndex)"
+                [checked]="SelectAllAccountHead" />
+            </ng-template> -->
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <!-- <input type="radio"  [checked]="dataItem.selectvalue"
+                (change)="selectAllStudentsChange($event,dataItem)" width="100" /> -->
+
+              <input type="radio" name="pChracctype" id="pChracctype" value="2"
+                (change)="selectAllStudentsChange($event,dataItem)" href="#myId">
+
+            </ng-template>
+
+
+
+
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pLiendate" title="Lien Date" width="150">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <a (click)="GetAccountDetails(dataItem)">{{dataItem.pLiendate }}</a>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pMembername" title="Member" width="150"></kendo-grid-column>
+          <kendo-grid-column field="pDepositdate" title="Advance Date" width="150"></kendo-grid-column>
+          <kendo-grid-column field="pmaturitydate" title="Maturity Date" width="100"></kendo-grid-column>
+          <kendo-grid-column field="pFdaccountno" title="Advance Account No." width="150">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <a (click)="GetAccountDetails(dataItem)">{{dataItem.pFdaccountno }}</a>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pDepositamount" title="Advance Amount" width="150" class="kendo-center">
+            <ng-template let-dataItem let-rowIndex="rowIndex" kendoGridCellTemplate>
+              {{dataItem.pDepositamount|mycurrencypipe}}
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pLienamount" title="Lien Amount" width="150" class="kendo-center">
+            <ng-template let-dataItem let-rowIndex="rowIndex" kendoGridCellTemplate>
+              {{dataItem.pLienamount|mycurrencypipe}}
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pCompanybranch" title="Branch" width="150"> </kendo-grid-column>
+          <kendo-grid-column field="pLienadjuestto" title="Lien Adjust To." width="150"> </kendo-grid-column>
+
+
+
+        </kendo-grid-column-group>
+
+
+        <kendo-grid-pdf fileName="Lien_Entry.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [scale]="0.5"
+          [margin]="0.5" [landscape]="true">
+
+          <kendo-grid-pdf-margin top="2cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+          <ng-template kendoGridPDFTemplate>
+            <div class="page-template">
+              <div class="header">
+                <app-company-details></app-company-details>
+
+              </div>
+
+            </div>
+          </ng-template>
+
+          <kendo-grid-column-group title="Lien Entry" [headerClass]="{'kendo-g-center': true}">
+
+
+
+            <kendo-grid-column field="pLiendate" title="Lien Date" width="150">
+
+            </kendo-grid-column>
+            <kendo-grid-column field="pMembername" title="Member" width="150"></kendo-grid-column>
+            <kendo-grid-column field="pDepositdate" title="Advance Date" width="150"></kendo-grid-column>
+            <kendo-grid-column field="pmaturitydate" title="Maturity Date" width="100"></kendo-grid-column>
+            <!-- <kendo-grid-column field="pFdaccountno" title="Advance Account No." width="150">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              <a (click)="GetAccountDetails(dataItem)">{{dataItem.pFdaccountno }}</a>
+                            </ng-template>
+                          </kendo-grid-column> -->
+            <kendo-grid-column field="pFdaccountno" title="Advance Account No." width="150" class="kendo-center">
+            </kendo-grid-column>
+            <kendo-grid-column field="pDepositamount" title="Advance Amount" width="150" class="kendo-center">
+              <ng-template let-dataItem let-rowIndex="rowIndex" kendoGridCellTemplate>
+                {{dataItem.pDepositamount|mycurrencypipe}}
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pLienamount" title="Lien Amount" width="150" class="kendo-center">
+              <ng-template let-dataItem let-rowIndex="rowIndex" kendoGridCellTemplate>
+                {{dataItem.pLienamount|mycurrencypipe}}
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pCompanybranch" title="Branch" width="150"> </kendo-grid-column>
+            <kendo-grid-column field="pLienadjuestto" title="Lien Adjust To." width="150"> </kendo-grid-column>
+
+
+
+          </kendo-grid-column-group>
+
+        </kendo-grid-pdf>
+        <kendo-grid-excel fileName="Lien_Entry.xlsx" [fetchData]="allData"></kendo-grid-excel>
+
+      </kendo-grid>
+
+      <hr>
+
+
+      <div class="container-fluid" *ngIf="lienEntryList !='' " id="myId">
+
+
+
+        <div class="row">
+          <div class="col-md-12 col-sm-12 mt-2 text-right justify-content-end">
+            <!-- <a class="pr-2">
+            <img class="justify-content-end text-right" src="assets/images/pdf-icon-blue.svg"  (click)="pdf.saveAs('LienEntry.pdf')" 
+           width="20" heigh="20"></a> -->
+            <a><img src="assets/images/print-icon-blue.svg " (click)="print()" width="20" title="print" heigh="20"></a>
+          </div>
+        </div>
+        <div class="row" id="lienpdf">
+          <div class="col-md-12 m-auto">
+
+            <div class="p-2">
+
+              <div class="row">
+                <!-- <div class="col-md-12">
+                  <div class=" float-md-center pt-3">
+                    <h2 class="font-18 text-dark text-center m-0 font-weight-bold"> NALGONDA REALTORS PRIVATE LIMITED</h2>
+                    <p class="font-16 text-dark text-center m-0"> Kapil Towers,Financial District, Nanakramguda,Gachibowli, Rangareddy,Hyderabad, Telangana - 500032 </p>
+                    <p class="font-14 text-dark text-center">CIN :  U65929GJ2019PLC107277</p>
+                  </div>
+                </div> -->
+                <app-company-details></app-company-details>
+                <!-- <div class="col-md-2 col-sm-2">
+                  <div class="temp-img float-md-left">
+                    <img width="150px" src="assets/images/Logonew.png" />
+                  </div>
+                </div>
+                <div class="col-md-8 col-sm-8">
+                  <div class="float-md-center pt-3">
+                    <h3 class="text-dark text-center m-0 font-weight-bold"> {{pCompanyName}}</h3>
+                    <p class="font-14 text-dark text-center m-0"> {{pAddress1}} {{pAddress2}} {{pDistrict}}, {{pcity}},
+                      {{pState}} - {{pPincode}} </p>
+                    <p class="font-14 text-dark text-center">CIN : {{pCinNo}}</p>
+                  </div>
+                </div> -->
+              </div>
+              <!-- <div class="page-title">
+                KAUSALYA MANAGEMENT SERVICES AND STRUCTURES PVT LTD
+              </div> -->
+              <!-- <div class="sub-title">D.NO.45/203, A2-3, 1ST FLOOR, ASHOK NAGAR, KURNOOL - 518005,</div> -->
+
+              <div class=" row pt-2">
+                <hr class="m-0">
+                <div class="col-md-12 text-right mt-2">
+                  <p class="text-inner-left">Date : {{newDate | date : 'dd-MM-yyyy'}}</p>
+                  <!-- <span>:</span> -->
+                </div>
+              </div>
+              <!-- <div class="col-md-12 p-0">
+                <p>To,</p>
+                <p>{{pMembername}},</p>
+                <p>{{pAddress1}},</p>
+                <p>{{pAddress2}},</p>
+                <p>{{pcity}},</p>
+                <p>{{pState}},</p>
+                <p>{{pPincode}}.</p>
+              </div> -->
+              <div class="col-md-12 p-0">
+                <p>To,</p>
+                <p>{{ pMembername }},</p>
+                <p *ngIf="pAddress1">{{ pAddress1 }}{{ (!pAddress2 && !pcity && !pState && !pPincode) ? '.' : ',' }}</p>
+                <p *ngIf="pAddress2">{{ pAddress2 }}{{ (!pcity && !pState && !pPincode) ? '.' : ',' }}</p>
+                <p *ngIf="pcity">{{ pcity }}{{ (!pState && !pPincode) ? '.' : ',' }}</p>
+                <p *ngIf="pState">{{ pState }}{{ (!pPincode) ? '.' : ',' }}</p>
+                <p *ngIf="pPincode">{{ pPincode }}.</p>
+              </div>
+              <div class="col-md-12">
+                <div class="text-center pt-3">
+                  <p><b>Sub : Pledge Notice - Invoke off.</b></p>
+                </div>
+              </div>
+              <p class="pt-1">Sir / Madam</p>
+              <p>
+                1. Based on your request for pledge, vide letter dated on ........this company Stood guarantee
+                for payment of future installments to <b>M/S,{{companyNameDet}} </b>,
+                <b> {{pCompanybranch}}</b> branch against chit no <b>{{pLienadjuestto}}</b> . A Notice From
+                <b>M/S,{{companyNameDet}}
+                </b> has since been received to invoke the guarantee.
+
+
+              </p>
+              <p class="pt-0">
+                2. If the defaulting amount due to <b>M/S,{{companyNameDet}} </b> Is not
+                cleared with in seven days of receipt of this notice, this company will have No option but to
+                discharge CERTIFICATE No.<b> {{pFdaccountno}} </b>, for an amount of Rs.<b> {{pDepositamount
+                  |mycurrencypipe}}/-</b>
+                and Lien amount of <b>{{pLienamount |mycurrencypipe}}/- </b>in favor of <b>M/S,{{companyNameDet}}
+                </b>,on {{pLiendate}}
+                and Recover the amount from the amount payable to you, in this company.
+              </p>
+              <br>
+              <div class="row mt-5">
+                <!-- <div class="col-md-6 col-sm-6">
+                  <p class="text-inner-left ">Date : {{pLiendate}}</p>
+                  <!-- <span>:</span> ->
+                </div> -->
+                <div class="col-md-6 col-sm-6" style="position:relative;left:463px ;">
+                  <div class="d-flex justify-content-end">
+                    <div>
+                      <p class="font-18 text-dark text-center m-0 font-weight-bold"> {{pCompanyName}}</p><br><br>
+                      <p class="font-bold text-right"><b>ACCOUNTANT / MANAGER</b></p>
+                    </div>
+                    <!-- <p class="font-bold text-right"></p> -->
+                  </div>
+                </div>
+              </div>
+              <br><br>
+              <div class=" row">
+                <div class="col-md-12">
+                  <div class="pull-left">
+                    <p class="font-bold text-left"><b>Copy to :</b></p>
+                    <p class="font-bold text-left"><b>M/S,{{companyNameDet}} . {{pCompanybranch}}</b></p>
+                    <p class="font-bold text-left"><b>With reference your letter date ...............</b></p>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+
+
+
+
+  <div class="modal right animated slideInRight" id="add-detail">
+    <app-fd-transcation-details></app-fd-transcation-details>
+  </div>
+</div>

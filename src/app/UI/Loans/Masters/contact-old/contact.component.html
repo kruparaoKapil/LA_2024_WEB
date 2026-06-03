@@ -1,0 +1,44 @@
+
+<div class="row mt-2">
+  <div class="col-md-6 col-xl-6">
+   
+  </div>
+  <div class="col-md-6 col-xl-6">
+    <a routerLink="/ContactView" class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+      color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;">
+      <img src="assets/images/icon-back-blue.svg"
+           width="25px" height="25px"> View
+    </a>
+  </div>
+  <!--<div class="col-8 d-flex flex-wrap align-items-center">
+    <a routerLink="/ContactView" class="btn btn-b-icon border-0">
+      <img class="mr-2" height="20px" src="assets/images/icon-back-blue.svg" width="20px">
+      View
+    </a>
+  </div>-->
+</div>
+<div class="section-container mt-2">
+  <form [formGroup]="contactForm">
+    <div class="row">
+      <div class="col-md-12 col-lg-12 col-xl-12">
+        <div class="form-group mt-4 ">
+          <fieldset [disabled]="enableRadio">
+            <div class="form-check form-check-inline mr-5 radio-btn-secondary ">
+              <input class="form-check-input" type="radio" id="inlineRadio2" value="Individual" formControlName="Contacttype" (click)="contactType_Click('Individual')">
+              <label class="mt-1" for="inlineRadio2"> Individual </label>
+            </div>
+            <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+              <input class="form-check-input" type="radio" id="inlineRadio3" value="Business Entity" formControlName="Contacttype" (click)="contactType_Click('Business Entity')">
+              <label class="mt-1" for="inlineRadio3"> Business Entity </label>
+            </div>
+          </fieldset>
+        </div>
+
+      </div>
+    </div>
+
+  </form>
+
+  <app-contact-individual [referenceid]="referenceid" [formtype]="formtype" [contactType]="contactType"></app-contact-individual>
+  <app-contact-business [referenceid]="referenceid" [formtype]="formtype" [contactType]="contactType"></app-contact-business>
+</div>

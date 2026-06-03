@@ -1,0 +1,291 @@
+<div class="row">
+  <div class="col-md-6 col-xl-6 ">
+    <p class="bc-2">Maturity Report</p>
+  </div>
+
+
+</div>
+<div class="row mt-3">
+  <div class="col-md-12 col-xl-12">
+    <div class="section-container">
+
+      <form [formGroup]="MaturityIntimationForm" autocomplete="off">
+        <div class="row mt-1">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-4 col-xl-4">
+                <label id="pSchemeId" title="Scheme Name">Scheme Name</label>
+                <select class="form-control" formControlName="pSchemeId" (change)="shemename_change($event)"
+                  [ngClass]="{ 'is-invalid': MaturityIntimationErrors.pSchemeId }">
+                  <option value="0">All</option>
+                  <option *ngFor="let i of SchemeDetails" [value]="i.pSchemeId">{{i.pSchemename}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  <span *ngIf="MaturityIntimationErrors.pSchemeId">{{MaturityIntimationErrors?.pSchemeId}}</span>
+
+                </div>
+
+              </div>
+
+              <div class="col-md-4 col-xl-4">
+                <label id="pbranch" title="Branch Name">Branch Name</label>
+                <select class="form-control col-md-12" formControlName="pbranch" (change)="branch_change($event)"
+                  [ngClass]="{ 'is-invalid': MaturityIntimationErrors.pbranch }">
+                  <option value="All">All</option>
+                  <option *ngFor="let i of BranchDetails" [value]="i.pbranch">{{i.pbranch}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  <span *ngIf="MaturityIntimationErrors.pbranch">{{MaturityIntimationErrors?.pbranch}}</span>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row pt-2">
+              <div class="col-md-4  col-xl-4">
+                <div class="form-group">
+                  <label id="pFromMonthOf" title="From Date">From Date</label>
+                  <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig"
+                    #dp="bsDatepicker" bsDatepicker formControlName="pFromMonthOf"
+                    (ngModelChange)="FromDateChange($event)"
+                    [ngClass]="{ 'is-invalid': MaturityIntimationErrors.pFromMonthOf }">
+
+
+
+                </div>
+              </div>
+              <div class="col-md-4  col-xl-4">
+                <div class="form-group">
+                  <label id="pToMonthOf" title="To Date">To Date</label>
+                  <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+                    bsDatepicker formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)"
+                    [ngClass]="{ 'is-invalid': MaturityIntimationErrors.pToMonthOf }">
+                  <div *ngIf="validation" class="text-danger">
+                    please select a valid date
+                  </div>
+                </div>
+              </div>
+
+              <div class="justify-content-end">
+                <div class="form-group mt-4 pt-2">
+                  <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab"
+                    role="tab" (click)="GetShowMaturitDetails()">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                    <span *ngIf="!isLoading">
+                      <img class="mr-3" height="20px" src="assets/images/reports-white.svg" width="20px">
+                    </span> {{savebutton}}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </form>
+
+      <div class="row mt-3">
+        <div class="col-md-12">
+
+          <kendo-grid [kendoGridBinding]="gridData" [sortable]="true" [selectedKeys]="mySelection"
+            [selectable]="selectableSettings" [pageSize]="10" [pageable]="true" [skip]="skip" height="500"
+            [group]="group" [sort]="sort" (sortChange)="onSortChange($event)">
+
+            <ng-template kendoGridToolbarTemplate>
+              <div class="mb-3">
+                <div class="col-12 mt-5">
+                  <ul class="temp-ul pull-right mr-4 pb-3">
+                    <li class="temp-ico ml-2">
+                      <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                          width="20px"></a>
+                    </li>
+                    <li class="temp-ico ml-2">
+                      <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                          width="20px"></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </ng-template>
+
+            <!-- <kendo-grid-column field="pinterestpayout" width="120" title="Interest Payout" class="kendo-left" [hidden]="hidden">
+                    <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                        {{value}}
+                    </ng-template>
+                </kendo-grid-column> -->
+
+
+
+            <kendo-grid-column field="pfdaccountno" title="Certificate No." width="140"></kendo-grid-column>
+
+
+            <kendo-grid-column field="pmembername" title="Scheme Holder Name" width="100">
+            </kendo-grid-column>
+
+
+
+            <!-- <kendo-grid-column field="pschemename" title="Scheme Name" width="140"></kendo-grid-column> -->
+
+
+
+
+            <kendo-grid-column field="pdepositamount" title="Amount" class="kendo-center" width="100">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pdepositamount |currencypipewithdecimal }}
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ptenor" title="Period" width="100"></kendo-grid-column>
+
+            <kendo-grid-column field="pinterestpayout" title="Interest Payout" width="100">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pdepositdate" title="App Date" class="kendo-center" width="100">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pdepositdate | date: 'dd-MM-yyyy'}}
+              </ng-template>
+            </kendo-grid-column>
+
+
+
+            <kendo-grid-column field="pinterestrate" title="Extra Return Rate" class="kendo-center" width="100">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pinterestrate |currencypipewithdecimal }}
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pmaturitydate" title="Maturity Date" class="kendo-center" width="150">
+            </kendo-grid-column>
+
+
+
+            <kendo-grid-column field="pextrareturnamount" title="Extra Return Amount" class="kendo-center" width="130">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pextrareturnamount |currencypipewithdecimal }}
+              </ng-template>
+            </kendo-grid-column>
+
+
+            <kendo-grid-column field="padjusttogroup" title="Adjust To Group" class="kendo-center"
+              width="130"></kendo-grid-column>
+
+            <kendo-grid-column field="padjusttobranch " title="Adjust To Branch" class="kendo-center"
+              width="130"></kendo-grid-column>
+
+            <kendo-grid-column field="pbranchname" title="Branch" width="140"></kendo-grid-column>
+            <kendo-grid-column field="pAgentName" title="Agent Name" width="120"></kendo-grid-column>
+
+            <kendo-grid-column field="pmaturityamount" title="Maturity Amount" class="kendo-center" width="120">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pmaturityamount |currencypipewithdecimal }}
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <p class="bc-2 text-center"> {{totalmaturityamount | currencypipewithdecimal}}</p>
+              </ng-template>
+            </kendo-grid-column>
+
+            
+
+
+
+
+
+
+
+            <kendo-grid-pdf fileName="Maturity_Report.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+              [scale]="0.33" [margin]="0.2" [landscape]="false">
+
+              <kendo-grid-pdf-margin top="4cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+              <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                  <div class="header">
+                    <app-company-details></app-company-details>
+
+                    <div class="report-head mt-2">
+                      <p class="font-15 text-dark text-center m-0" [ngClass]="{ 'bold-text': isBold }">
+                        <span class="text-capitalize">MATURITY REPORT FOR THE PERIOD : {{frommonthof}} To
+                          {{tomonthof}}</span>
+                      </p>
+                    </div>
+
+                  </div>
+
+                </div>
+              </ng-template>
+            </kendo-grid-pdf>
+
+            <kendo-grid-excel fileName="Maturity_Report.xlsx" [fetchData]="allData"></kendo-grid-excel>
+
+          </kendo-grid>
+
+          <!-- <div class="justify-content-end mt-3">
+            <a class="btn btn-g-icon  pull-right px-3 border-0" appButtonDoubleClick (debounceClick)="GenerateReport()">
+              <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />
+              Preview
+            </a>
+            </div> -->
+        </div>
+      </div>
+
+
+      <div class="modal right animated slideInRight" id="add-detail">
+        <app-fd-transcation-details></app-fd-transcation-details>
+      </div>
+
+    </div>
+  </div>
+</div>
+<style>
+  .bold-text {
+    font-weight: bold;
+  }
+</style>
+
+
+<!-- 
+<div class="row mt-3 pb-4">
+
+            <div class="col-xl-2 col-md-2 mt-4">
+              <div class="form-check form-check-inline check-btn-secondary">
+                <input class="form-check-input" type="checkbox" id="ason" formControlName="date"
+                  (change)="checkox($event)">
+                <label class="mt-2" for="ason"> As On:</label>
+              </div>
+            </div>
+
+            <div class=" col-xl-2 col-md-2 form-group">
+              <label id="pFromMonthOf" title="From Date">{{FromDate}}</label>
+              <label  style="color: #fff !important;">bfbnfb</label> 
+
+              <input type="text" class="form-control" [bsConfig]="dpFromConfig" readonly bsDatepicker
+                #dp="bsDatepicker" (ngModelChange)="checkfromdate()" formControlName="pFromMonthOf"
+                [ngClass]="{ 'is-invalid': MaturityIntimationErrors.pFromMonthOf }" />
+            </div>
+              <div *ngIf="showdate" class="col-xl-2 col-md-2">
+                  <div class="form-group">
+                <label id="pToMonthOf" title="To Date">To Date</label>
+                <input type="text" class="form-control" [bsConfig]="dpToConfig" readonly bsDatepicker
+                  #dp="bsDatepicker" (ngModelChange)="checktodate()" formControlName="pToMonthOf"
+                  [ngClass]="{ 'is-invalid': MaturityIntimationErrors.pToMonthOf }" />
+                <div *ngIf="validation" class="text-danger">
+                  please select valid date
+                </div>
+              </div>
+            </div>
+
+            <div class="justify-content-end" *ngIf="validation == false">
+              <div class="form-group mt-4 pt-2">
+                <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetShowMaturitDetails()">
+                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                  <span *ngIf="!isLoading">
+                    <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                         width="20px">
+                  </span> {{savebutton}}
+                </a>
+              </div>
+            </div>
+-->

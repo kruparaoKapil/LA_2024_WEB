@@ -1,0 +1,81 @@
+<div class="modal-dialog">
+  <div class="model-cst modal-content">
+    <div class="modal-header border-0">
+      <h5 class="bc-2"></h5>
+      <div class="form-check form-check-inline radio-btn" [ngClass]="disabledforButtons ? 'disableTabs':''">
+        <input class="form-check-input" type="radio" name="FDAndTransactionDetails" id="AccountDetails" [checked]="true"
+               value="AccountDetails">
+        <label class="mt-1 w-m-100 text-center" (click)="GetFDAndTransactionDetails('AccountDetails')" for="AccountDetails" checked>
+          Transaction Details
+        </label>
+      </div>
+      <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="modal-body">
+    
+      <div>
+        <div class="col-md-12 col-xl-12  d-flex">
+          <label class="col-md-6 pl-0 pr-0">FD Account No.:</label>
+          <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left word-break text-wrap">{{Fdaccountno}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Member :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left word-break text-wrap"><b>{{Membername}}</b></label>
+        </div>
+        <div class="col-md-12 col-xl-12  d-flex">
+          <label class="col-md-6 pl-0 pr-0">FD Amount :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{Depositamount | currencypipewithdecimal}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Maturity Amount :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{Maturityamount | currencypipewithdecimal}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Total Received Amount :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{ReceivedAmount | currencypipewithdecimal}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Balance Amount :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{BalanceAmount | currencypipewithdecimal}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12  d-flex">
+          <label class="col-md-6 pl-0 pr-0">Transaction Date :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{TransDate}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12  d-flex">
+          <label class="col-md-6 pl-0 pr-0">FD Date :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{DepositDate}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Maturity Date :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{MaturityDate}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Tenure :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{Tenor}} {{Tenortype}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Interest Type :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{Interesttype}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Interest Rate :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{Interestrate | currencypipewithdecimal}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Interest Payble :</label>
+          <label class="col-md-4 pl-0 pr-0 sec-head-bold text-left">{{InterestPayble | currencypipewithdecimal}}</label>
+        </div>
+        <div class="col-md-12 col-xl-12">
+          <label class="col-md-6 pl-0 pr-0">Interest Payout :</label>
+          <label class="col-md-6 pl-0 pr-0 sec-head-bold text-left">{{InterestPayout}}</label>
+        </div>
+      </div>
+
+
+    </div>
+    </div>
+  </div>
+
+   
+

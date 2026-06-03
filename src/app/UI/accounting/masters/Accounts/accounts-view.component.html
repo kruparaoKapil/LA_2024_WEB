@@ -1,0 +1,399 @@
+<div class="row">
+    <div class="col-md-12 col-xl-12">
+        <div class="section-container">
+
+
+            <div class="row">
+                <div class="col-md-6 col-xl-6">
+                    <div class="form-group mr-0 custom-search">
+                        <div class="input-group">
+                            <input type="search" class="form-control" (input)="onSearch($event)">
+                        </div>
+                    </div>
+                </div>
+
+
+                <ul id="tree-view" *ngIf="showOrHideAccounTreeGrid">
+                    <li *ngFor="let TdataFirst of treeData;trackBy: trackByFn" [contextMenu]="basicMenu" [contextMenuSubject]="TdataFirst" class="rightclick"><span class="caret text-primary" (click)="ActivateClass($event)">{{TdataFirst.account_name}}</span> <span class="badge text-primary rounded small float-right" contenteditable="false">
+                            <div *ngIf="TdataFirst.account_balance>=0">{{mycurrencypipe}}
+                                {{TdataFirst.account_balance | mycurrencypipe}} {{TdataFirst.account_balance>=0?'Dr':'Cr'}}</div>
+                            <div *ngIf="TdataFirst.account_balance<0">{{mycurrencypipe}}
+                                {{0-TdataFirst.account_balance | mycurrencypipe}} {{TdataFirst.account_balance>=0?'Dr':'Cr'}}</div>
+                        </span>
+                        <ul class="nested">
+                            <li *ngFor="let TdataSecond of TdataFirst.children;trackBy: trackByFn;let index=index" [contextMenu]="basicMenu" [contextMenuSubject]="TdataSecond" class="rightclick" (contextmenu)="onRightClick($event,TdataSecond)"><span (click)="ActivateClass($event)" class="{{returnClass2(TdataSecond,index)}}">{{TdataSecond.account_name}}</span>
+                                <span class="badge  {{returnClass22(TdataSecond,index)}} small rounded float-right" contenteditable="false">
+                                    <div *ngIf="TdataSecond.account_balance>=0">{{mycurrencypipe}}
+                                        {{TdataSecond.account_balance | mycurrencypipe}}
+                                        {{TdataSecond.account_balance>=0?'Dr':'Cr'}}</div>
+                                    <div *ngIf="TdataSecond.account_balance<0">{{mycurrencypipe}}
+                                        {{0-TdataSecond.account_balance | mycurrencypipe}}
+                                        {{TdataSecond.account_balance>=0?'Dr':'Cr'}}</div>
+                                </span>
+                                <ul class="nested">
+                                    <li *ngFor="let TdataThird of TdataSecond.children;trackBy: trackByFn" [contextMenu]="basicMenu" [contextMenuSubject]="TdataThird" (contextmenu)="onRightClick($event,TdataThird)"><span (click)="ActivateClass($event)" class="{{returnClass3(TdataThird,index)}}">{{TdataThird.account_name}}</span> <span class="badge {{returnClass33(TdataSecond,index)}} small rounded  float-right" contenteditable="false">
+            
+                                            <div *ngIf="TdataThird.account_balance>=0">{{currencysymbol}}
+                                                {{TdataThird.account_balance | mycurrencypipe}}
+                                                {{TdataThird.account_balance>=0?'Dr':'Cr'}}</div>
+                                            <div *ngIf="TdataThird.account_balance<0">{{currencysymbol}}
+                                                {{0-TdataThird.account_balance | mycurrencypipe}}
+                                                {{TdataThird.account_balance>=0?'Dr':'Cr'}}</div>
+                                        </span>
+
+                                        <ul class="nested">
+                                            <li *ngFor="let Tdatafourth of TdataThird.children;trackBy: trackByFn" [contextMenu]="basicMenu" [contextMenuSubject]="Tdatafourth" (contextmenu)="onRightClick($event,Tdatafourth)"><span (click)="ActivateClass($event)" class="{{returnClass4(Tdatafourth,index)}}">{{Tdatafourth.account_name}}</span>
+                                                <span class="badge {{returnClass44(TdataSecond,index)}} small rounded  float-right" contenteditable="false">
+            
+                                                    <div *ngIf="Tdatafourth.account_balance>=0">{{currencysymbol}}
+                                                        {{Tdatafourth.account_balance | mycurrencypipe}}
+                                                        {{TdataThird.account_balance>=0?'Dr':'Cr'}}</div>
+                                                    <div *ngIf="Tdatafourth.account_balance<0">{{currencysymbol}}
+                                                        {{0-Tdatafourth.account_balance | mycurrencypipe}}
+                                                        {{Tdatafourth.account_balance>=0?'Dr':'Cr'}}</div>
+            
+                                                </span>
+                                                <ul class="nested">
+                                                    <li *ngFor="let Tdatafifth of Tdatafourth.children;trackBy: trackByFn" [contextMenu]="basicMenu" [contextMenuSubject]="Tdatafifth" (contextmenu)="onRightClick($event,Tdatafifth)"><span (click)="ActivateClass($event)" class="caret text-info">{{Tdatafifth.account_name}}</span> <span class="badge text-info small rounded  float-right" contenteditable="false">
+            
+                                                            <div *ngIf="Tdatafifth.account_balance>=0">{{currencysymbol}}
+                                                                {{Tdatafifth.account_balance | mycurrencypipe}}
+                                                                {{Tdatafifth.account_balance>=0?'Dr':'Cr'}}</div>
+                                                            <div *ngIf="Tdatafifth.account_balance<0">{{currencysymbol}}
+                                                                {{0-Tdatafifth.account_balance | mycurrencypipe}}
+                                                                {{Tdatafifth.account_balance>=0?'Dr':'Cr'}}</div>
+                                                        </span>
+                                                </ul>
+                                        </ul>
+
+                                        </li>
+                                </ul>
+                                </li>
+
+                        </ul>
+                        </li>
+
+                </ul>
+
+                <ul id="tree-view" *ngIf="showOrHideAccounTreesearchGrid">
+                    <li *ngFor="let TdataFirst of searchTreeData;trackBy: trackByFn" [contextMenu]="basicMenu" [contextMenuSubject]="TdataFirst" class="rightclick"><span class="caret text-primary" (click)="ActivateClass($event)">{{TdataFirst.account_name}}</span> <span class="badge text-primary rounded small float-right" contenteditable="false">
+                            <div *ngIf="TdataFirst.account_balance>=0">{{currencysymbol}}
+                                {{TdataFirst.account_balance | mycurrencypipe}} {{TdataFirst.account_balance>=0?'Dr':'Cr'}}</div>
+                            <div *ngIf="TdataFirst.account_balance<0">{{currencysymbol}}
+                                {{0-TdataFirst.account_balance | mycurrencypipe}} {{TdataFirst.account_balance>=0?'Dr':'Cr'}}</div>
+                        </span>
+                        <ul>
+                            <li *ngFor="let TdataSecond of TdataFirst.children;trackBy: trackByFn;let index=index" [contextMenu]="basicMenu" [contextMenuSubject]="TdataSecond" class="rightclick" (contextmenu)="onRightClick($event,TdataSecond)"><span (click)="ActivateClass($event)" class="{{returnClass2(TdataSecond,index)}}">{{TdataSecond.account_name}}</span>
+                                <span class="badge  {{returnClass22(TdataSecond,index)}} small rounded float-right" contenteditable="false">
+                                    <div *ngIf="TdataSecond.account_balance>=0">{{currencysymbol}}
+                                        {{TdataSecond.account_balance | mycurrencypipe}}
+                                        {{TdataSecond.account_balance>=0?'Dr':'Cr'}}</div>
+                                    <div *ngIf="TdataSecond.account_balance<0">{{currencysymbol}}
+                                        {{0-TdataSecond.account_balance | mycurrencypipe}}
+                                        {{TdataSecond.account_balance>=0?'Dr':'Cr'}}</div>
+                                </span>
+                                <ul>
+                                    <li *ngFor="let TdataThird of TdataSecond.children;trackBy: trackByFn" [contextMenu]="basicMenu" [contextMenuSubject]="TdataThird" (contextmenu)="onRightClick($event,TdataThird)"><span (click)="ActivateClass($event)" class="{{returnClass3(TdataThird,index)}}">{{TdataThird.account_name}}</span> <span class="badge {{returnClass33(TdataSecond,index)}} small rounded  float-right" contenteditable="false">
+            
+                                            <div *ngIf="TdataThird.account_balance>=0">{{currencysymbol}}
+                                                {{TdataThird.account_balance | mycurrencypipe}}
+                                                {{TdataThird.account_balance>=0?'Dr':'Cr'}}</div>
+                                            <div *ngIf="TdataThird.account_balance<0">{{currencysymbol}}
+                                                {{0-TdataThird.account_balance | mycurrencypipe}}
+                                                {{TdataThird.account_balance>=0?'Dr':'Cr'}}</div>
+                                        </span>
+                                        <!-- mahesh start-->
+                                        <ul>
+                                            <li *ngFor="let Tdatafourth of TdataThird.children;trackBy: trackByFn" [contextMenu]="basicMenu" [contextMenuSubject]="Tdatafourth" (contextmenu)="onRightClick($event,Tdatafourth)"><span (click)="ActivateClass($event)" class="{{returnClass4(Tdatafourth,index)}}">{{Tdatafourth.account_name}}</span>
+                                                <span class="badge {{returnClass44(TdataSecond,index)}} small rounded  float-right" contenteditable="false">
+            
+                                                    <div *ngIf="Tdatafourth.account_balance>=0">{{currencysymbol}}
+                                                        {{Tdatafourth.account_balance | mycurrencypipe}}
+                                                        {{TdataThird.account_balance>=0?'Dr':'Cr'}}</div>
+                                                    <div *ngIf="Tdatafourth.account_balance<0">{{currencysymbol}}
+                                                        {{0-Tdatafourth.account_balance | mycurrencypipe}}
+                                                        {{Tdatafourth.account_balance>=0?'Dr':'Cr'}}</div>
+            
+                                                </span>
+                                                <ul>
+                                                    <li *ngFor="let Tdatafifth of Tdatafourth.children;trackBy: trackByFn" [contextMenu]="basicMenu" [contextMenuSubject]="Tdatafifth" (contextmenu)="onRightClick($event,Tdatafifth)"><span (click)="ActivateClass($event)" class="caret text-info">{{Tdatafifth.account_name}}</span> <span class="badge text-info small rounded  float-right" contenteditable="false">
+            
+                                                            <div *ngIf="Tdatafifth.account_balance>=0">{{currencysymbol}}
+                                                                {{Tdatafifth.account_balance | mycurrencypipe}}
+                                                                {{Tdatafifth.account_balance>=0?'Dr':'Cr'}}</div>
+                                                            <div *ngIf="Tdatafifth.account_balance<0">{{currencysymbol}}
+                                                                {{0-Tdatafifth.account_balance | mycurrencypipe}}
+                                                                {{Tdatafifth.account_balance>=0?'Dr':'Cr'}}</div>
+                                                        </span>
+                                                </ul>
+                                        </ul>
+                                        <!-- mahesh end-->
+                                        </li>
+                                </ul>
+                                </li>
+
+                        </ul>
+                        </li>
+
+                </ul>
+
+
+
+            </div>
+            <context-menu>
+
+                <ng-template let-item [visible]="ShowChild" contextMenuItem (execute)="OpenModelpopup($event,'Child')">
+                    Add Child
+                </ng-template>
+                <!-- <ng-template  contextMenuItem divider="true"></ng-template> -->
+
+                <ng-template let-item [visible]="ShoeSiblings" contextMenuItem (execute)="OpenModelpopup($event,'Sibling')">
+                    Add Siblings
+                </ng-template>
+
+            </context-menu>
+            <form [formGroup]="AccountTreeForm" autocomplete="off">
+                <div class="modal right animated slideInRight" id="add-detail" data-backdrop="static" data-keyboard="false">
+                    <div class="modal-dialog position-fixed">
+                        <div class="model-cst modal-content">
+                            <div class="modal-header border-0">
+                                <h5 class="bc-2">{{MainAccountHeadName}}</h5>
+                                <button aria-label="Close" class="close" (click)="closeModel('')" type="button"><span
+                                        aria-hidden="true">×</span></button>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="modal-body">
+
+
+                                <div class="form-group">
+
+                                    <div class="form-check form-check-inline mr-5" *ngIf="Accountmaster.showaccledger">
+                                        <input formControlName="pChracctype" class="form-check-input" type="radio" name="pChracctype" id="inlineRadio1" value="2" (change)="Isseleted()">
+                                        <label class="form-check-label" for="inlineRadio1">A/C Ledger</label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline" *ngIf="Accountmaster.showaccgroup">
+                                        <input formControlName="pChracctype" class="form-check-input" type="radio" name="pChracctype" id="inlineRadio2" value="1" (change)="Isseleted()">
+                                        <label class="form-check-label" for="inlineRadio2">Group</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Ledger</label>
+                                    <input type="text" class="form-control" value="{{HeadName}}" readonly />
+
+                                </div>
+                                <div class="form-group">
+                                    <label id="pAccountname" title="A/C Ledger or Sub Ledger">A/C Ledger or Sub Ledger</label>
+                                    <input formControlName="pAccountname" type="text" maxlength="150" class="form-control" [ngClass]="{ 'is-invalid': AccountTreeFormErrorMessages.pAccountname}" />
+
+                                    <app-validation-message [messgae]="AccountTreeFormErrorMessages?.pAccountname">
+                                    </app-validation-message>
+
+                                </div>
+                                <div class="d-flex" *ngIf="Accountmaster.showopeningbalance">
+                                    <div class="col-md-6 pl-0">
+                                        <div class="form-group">
+                                            <label for="">Opening balance</label>
+                                            <div class="input-group">
+                                                <input appNumbersonly appMycurrencyFormatter type="text" class="form-control text-right" formControlName="pOpeningamount" maxlength="12" />
+                                                <div class="input-group-append">
+                                                    <select class="btn-lg-icon rounded-right pl-2 pr-2" formControlName="pOpeningBalanceType">
+                                                        <option value="DEBIT">Debit</option>
+                                                        <option value="CREDIT">Credit</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 pr-0">
+                                        <div class="form-group">
+                                            <label for="">Date as on</label>
+
+                                            <input readonly type="text" formControlName="pOpeningdate" class="form-control" [bsConfig]="dpConfig" bsDatepicker placement="bottom">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" *ngIf="Accountmaster.showopeningbalance">
+                                    <div class="border rounded p-2 mt-3">
+                                        <div class="row">
+                                            <div class="col-md-6 col-xl-6"> <a class="bc-2 mb-2 text-decoration-none"> Is Gst
+                                                    Applicable?</a>
+                                            </div>
+                                            <div class="col-md-5 col-xl-5">
+                                                <!-- <div class="material-switch pull-right"><span class="mr-2"></span>
+                                <input id="Referral-rd" name="pIsreferralcommissionapplicable" [ngModelOptions]="{standalone: true}"
+                                  [(ngModel)]="isGstNotApplicableFlag" (change)="isGstNotApplicable($event)" type="checkbox">
+                                <label for="Referral-rd" class="check-danger"></label>
+                              </div> -->
+                                                <div class="material-switch">
+                                                    <span class="mr-2" id="pisgstapplicable" title="GST"> GST </span>
+                                                    <input id="tds-switchh" name="tds-switch" formControlName="pisgstapplicable" (change)="isGstApplicableOrNot($event)" type="checkbox">
+                                                    <label for="tds-switchh" class="badge-success" data-toggle="collapse" data-target="#gst"></label>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+
+                                        <div id="gst" *ngIf="showgst">
+                                            <div class="row">
+                                                <div class="col-md-4 col-xl-4">
+                                                    <div class="form-check form-check-inline mr-4">
+                                                        <input class="form-check-input" type="radio" formControlName="pgsttype" value="I" (change)="taxTypeChange('Include')">
+                                                        <label class="mt-1" for="procgstinc"> Include</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-xl-6" *ngIf="showInclude">
+                                                    <div class="form-group mr-1 col-md-8">
+                                                        <label id="pgstpercentage" title="GST(%)">GST(%)</label>
+                                                        <select id="gstSelect" class="form-control" formControlName="pgstpercentage" [ngClass]="{ 'is-invalid': AccountTreeFormErrorMessages.pgstpercentage}">
+                                                            <option value="" ng-selected="selected">Select</option>
+                                                            <option *ngFor="let gst of gstPercentagesList;trackBy: trackByFn"
+                                                                [value]="gst.pgstpercentage">{{gst.pgstpercentage}}</option>
+                                                        </select>
+                                                        <app-validation-message [messgae]="AccountTreeFormErrorMessages?.pgstpercentage">
+                                                        </app-validation-message>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 col-xl-4">
+                                                    <div class="form-check form-check-inline mr-4 mb-2 mt-2">
+                                                        <input class="form-check-input" type="radio" formControlName="pgsttype" value="E" (change)="taxTypeChange('Exclude')">
+                                                        <label class="mt-1" for="procgstexc"> Exclude </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-xl-6" *ngIf="showExclude">
+                                                    <div class="form-group mr-1 col-md-8">
+                                                        <label id="pgstpercentage" title="GST(%)">GST(%)</label>
+                                                        <select class="form-control" id="gstSelect" class="form-control" formControlName="pgstpercentage" [ngClass]="{ 'is-invalid': AccountTreeFormErrorMessages.pgstpercentage}">
+                                                            <option value="" ng-selected="selected">Select</option>
+                                                            <option ng-selected="selected"
+                                                                *ngFor="let gst of gstPercentagesList;trackBy: trackByFn"
+                                                                [value]="gst.pgstpercentage">{{gst.pgstpercentage}}
+                                                            </option>
+                                                        </select>
+                                                        <app-validation-message [messgae]="AccountTreeFormErrorMessages?.pgstpercentage">
+                                                        </app-validation-message>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-group" *ngIf="Accountmaster.showopeningbalance">
+                                    <div class="border rounded p-2 mt-3">
+                                        <div class="col-md-12 col-xl-12 mt-2 mb-2">
+                                            <div class="material-switch">
+                                                <span class="mr-2" id="pistdsapplicable" title="TDS"> TDS </span>
+                                                <input id="tds-switch" name="tds-switch" formControlName="pistdsapplicable" (change)="isTdsApplicableOrNot($event)" type="checkbox">
+                                                <label for="tds-switch" class="badge-success" data-toggle="collapse" data-target="#tds"></label>
+                                            </div>
+                                            <div id="tds" *ngIf="showtds">
+                                                <div class="row">
+                                                    <fieldset>
+                                                        <div class="col-md-12 col-xl-12" id="ptdscalculationtype" title="TDS Calculation Type">
+                                                            <div class="form-check form-check-inline mr-4 ">
+                                                                <input class="form-check-input" type="radio" id="tdsinclude" value="I" formControlName="ptdscalculationtype" (change)="tdsTaxTypeChange()" name="ptdscalculationtype">
+                                                                <label class="mt-1" for="tdsinclude"> Include</label>
+                                                            </div>
+                                                            <div class="form-check form-check-inline mr-4">
+                                                                <input class="form-check-input" type="radio" id="tdsexcluded" value="E" formControlName="ptdscalculationtype" (change)="tdsTaxTypeChange()" name="ptdscalculationtype">
+                                                                <label class="mt-1" for="tdsexcluded"> Exclude</label>
+                                                            </div>
+                                                            <!-- <app-validation-message [messgae]="formValidationMessages?.ptdscalculationtype">
+                                    </app-validation-message> -->
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div class="col-md-8 col-xl-8">
+                                                        <label class="required-field">Section</label>
+                                                        <select class="form-control" id="pRecordId" title="Section" formControlName="pRecordId">
+                                                            <option value="" ng-selected="selected">Select</option>
+                                                            <option *ngFor="let tds of tdssectionlist;trackBy: trackByFn"
+                                                                [value]="tds.pRecordid">
+                                                                {{tds.pTdsSection}}</option>
+                                                        </select>
+                                                        <app-validation-message [messgae]="AccountTreeFormErrorMessages?.pRecordId">
+                                                        </app-validation-message>
+                                                    </div>
+                                                    <!-- <div class="col-md-4 col-xl-4">
+                                  <label class="required-field">Percentage</label>
+                                  <select class="form-control" id="pTdsPercentage" title="Section" formControlName="pTdsPercentage">
+                                    <option value="" ng-selected="selected">Select</option>
+                                    <option *ngFor="let tds of tdspercentagelist;trackBy: trackByFn" [value]="tds.pTdsPercentage">
+                                      {{tds.pTdsPercentage}}</option>
+            
+                                  </select>
+                                   <app-validation-message [messgae]="formValidationMessages?.pTdsPercentage">
+                                  </app-validation-message> 
+                                </div> -->
+                                                    <!-- <div class="col-md-4 col-xl-4">
+                                  <label>Amount</label>
+                                  <label class="form-control col-md-12 text-right pt-2" id="ptdsamount" title="Section"
+                                    [ngClass]="{ 'is-invalid': formValidationMessages.ptdsamount }">{{paymentVoucherForm['controls'].ppaymentsslistcontrols['controls'].ptdsamount.value}}</label>
+                                  <app-validation-message [messgae]="formValidationMessages?.ptdsamount"></app-validation-message>
+            
+                                </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <div class="d-flex justify-content-end mt-4">
+
+
+                                    <!-- <button type="button"  appButtonDoubleClick [debounceTime]="500"
+                            (debounceClick)="SaveAccountHeads()" class="btn btn-s-icon px-3 border-0 ">
+                            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i>{{button}}
+                          </button> -->
+
+                                    <button type="button" appButtonDoubleClick [debounceTime]="500" (debounceClick)="SaveAccountHeads()" class="btn btn-s-icon px-3 border-0 ">
+                                        <img src="assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px"
+                                            *ngIf="!disablesavebutton">
+                                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton}"></i>{{button}}
+                                    </button>
+
+                                </div>
+                                <span class="mr-2"></span>
+                                <div class="form-group" *ngIf="showsubledgergrid">
+                                    <ngx-datatable class='material expandable table' [rows]='subledgergriddata' [headerHeight]="50" [rowHeight]="50" columnMode="force">
+
+                                        <ngx-datatable-column name="Sub Ledger Name" prop="psubledgername" [cellClass]="'cell-left'" [headerClass]="'header-left'">
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Amount" prop="accountbalance" [cellClass]="'cell-right'" [headerClass]="'header-cerightnter'">
+                                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                                {{currencysymbol}} {{row.accountbalance|mycurrencypipe}}
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                    </ngx-datatable>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,587 @@
+<div class="shadow-bg-view">
+
+  <div class="my-container">
+    <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+
+      </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+  </div>
+  <style>
+
+  </style>
+  <div class="col-md-12 mt-5 mb-4">
+    <div class="d-flex justify-content-end mr-3" *ngIf="!cancelled">
+      <ul class="temp-ul">
+
+        <li class="temp-ico ml-2">
+          <img src="assets/images/print-icon-blue.svg " width="28px" class="pt-2" title="print" style="cursor: pointer;"
+            (click)="pdfOrprint('Print')" />
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+
+  <div id="temp-box">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 offset-md-1">
+
+          <div class=" p-3">
+            <!-- <div class="temp-img float-md-left mt-3">
+              <img class="img-fluid" src="assets/images/kapillogo.png" />
+            </div> -->
+            <!-- <div class="col-md-12">
+              <div class="temp-head text-center pt-3">
+                <h2 class="font-18 text-dark text-center m-0 font-weight-bold"> {{pCompanyName}}
+                </h2>
+                  <p class="font-16 text-dark text-center m-0"> {{pAddress1}}
+                <p class="font-14 text-dark text-center">CIN : {{pCinNo}}</p>
+              </div>
+            </div> -->
+            <div class="header">
+              <h6 class="font-size-12 text-center">FORM NO. 15H</h6>
+              <p class="sub-header text-center">   <strong>[See section 197A(1C) and rule 29C]</strong></p>
+              <p class="declaration-text text-center font-size-8">
+                <strong>Declaration under section 197A(1C) to be made by an individual who is of the age of
+                  sixty years or more claiming certain incomes without deduction of tax.</strong>
+              </p>
+              <h6 class="font-size-12 text-center">PART 1</h6>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-6">
+                <div class="">
+                  <!-- <p class="font-14 text-left m-0 mr-4 font-weight-bold m-0">Printed On :
+                    {{printedon}}</p> -->
+                </div>
+              </div>
+              <div class="col-md-6">
+                <!-- <div class="">
+                  <p class="font-14 text-right m-0 font-weight-bold m-0">Branch :
+                    {{pBranchname | titlecase}}</p>
+                </div> -->
+              </div>
+            </div>
+            <h1 *ngIf="cancelled">Cancelled</h1>
+
+            <!-- <div class="row">
+              <div class="col-md-12">
+                <app-company-details [PrintedDateShowhide]="printedDate">
+                </app-company-details>
+
+              </div>
+            </div> -->
+
+            <div class="form15h-container page-1">
+              <div class="print-content">
+
+                <div class="info-container">
+                  <!-- <div class="info-row ">
+                    <div class="info-item">
+                      <div class="label">1. Name of Assessee (Declarant):</div>
+                      <div class="value">{{formData.contactname }}</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="label">2. PAN of the Assessee:</div>
+                      <div class="value">{{formData.subscriberpanno}}</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="label">3. Date of birth:</div>
+                      <div class="value">{{formData.dateofbirth | dateformat}}</div>
+                    </div>
+                  </div> -->
+<div class="info-row">
+  
+  <div class="info-item name-col">
+    <div class="label" style="font-weight: bold;">1. Name of Assessee (Declarant):</div>
+    <div class="value">{{formData.contactname}}</div>
+  </div>
+
+  <div class="info-item pan-col">
+    <div class="label" style="font-weight: bold;">2. PAN of the Assessee:</div>
+    <div class="value">{{formData.panno}}</div>
+  </div>
+
+  <div class="info-item dob-col">
+    <div class="label" style="font-weight: bold;">3. Date of birth:</div>
+    <div class="value">{{formData.dateofbirth }}</div>
+  </div>
+
+</div>
+
+                  <div class="info-row">
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">4. Previous year (F.Y) (for which declaration is being made)</div>
+                      <div class="value">{{formData.previousyear}}</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">5. Flat/Door/Block No.:</div>
+                      <div class="value">{{formData.contactaddress}}</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">6. Name of Premises:</div>
+                      <div class="value">{{formData.contactaddress2 || ' '}}</div>
+                    </div>
+                  </div>
+
+                  <div class="info-row">
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">7. Road/Street/Lane:</div>
+                      <div class="value">{{formData.street}}</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">8. Area/Locality:</div>
+                      <div class="value">{{formData.contactaddress2}}</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">9. Town/City/District:</div>
+                      <div class="value">{{formData.districtname}}</div>
+                    </div>
+                  </div>
+
+                  <div class="info-row">
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">10. State:</div>
+                      <div class="value">{{formData.statename}}</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">11. PIN Code:</div>
+                      <div class="value">{{formData.pincode}}</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">12. Email:</div>
+                      <div class="value">{{formData.contactemailid}}</div>
+                    </div>
+                  </div>
+
+                  <div class="info-row">
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">13. Telephone No. (with STD code)/Mobile No.:</div>
+                      <div class="value">{{formData.contactmobilenumber}}</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">14(a). Whether assessed to tax :</div>
+                     
+                      <div class="checkbox-row">
+                        <span class="chk-label">Yes</span>
+                        <span class="checkbox-box"></span>
+                        <span class="chk-label">No</span>
+                        <span class="checkbox-box">
+                          <span class="tick">&#10003;</span>
+                        </span>
+
+                      </div>
+
+                      <div class="label" style="font-weight: bold;">(b).if yes, latest assessment year for which assessed:</div>
+                      <div class="value">{{formData.assessmentYear}}</div>
+                    </div>
+                  </div>
+
+                  <div class="info-row">
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">15. Estimated income for which this declaration is made:</div>
+                      <div class="value text-right">{{formData.estimated_income_declartion_amount }}</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">16. Estimated total income of the F.Y. in which income mentioned in the
+                        column 15 to be included:</div>
+                      <div class="value  text-right">{{formData.estimated_income_declartion_amount }}</div>
+                    </div>
+                  </div>
+
+                  <div class="section-title">17. Details of Form No. 15H other than this form filed for the
+                    previous year, if any,
+                  </div>
+                  <div class="info-row">
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">Total No. of Form No.15H filed:</div>
+                      <div class="value">{{formData.form15_filedcount || '0'}}</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">Aggregate amount of income for which Form No.15H filed:</div>
+                      <div class="value  text-right">{{formData.aggregateamount }}</div>
+                    </div>
+                  </div>
+
+                  <div class="section-title">18. Details of income for which the declaration is filed</div>
+                  <div class="info-row">
+                    <div class="info-item dob-col ">
+                      <div class="label" style="font-weight: bold;">Sl. No.</div>
+                      <div class="value">1.</div>
+                    </div>
+                    <div class="info-item name-col">
+                      <div class="label" style="font-weight: bold;">Identification Number of relevant investment/account,etc:</div>
+                      <div class="value">{{formData.investorreceiptno}}</div>
+                    </div>
+                    <div class="info-item pan-col">
+                      <div class="label" style="font-weight: bold;">Nature of Income:</div>
+                      <div class="value">{{formData.natur_of_income}}</div>
+                    </div>
+                  </div>
+
+                  <div class="info-row">
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">Section under which tax is deductible:</div>
+                      <div class="value">{{formData.incometaxact}}</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="label" style="font-weight: bold;">Amount of income:</div>
+                      <div class="value  text-right">{{formData.income_paidamount }}</div>
+                    </div>
+                  </div>
+                      <div class="signature-section">
+                    <div class="signature-row">
+                      <div class="signature-left">
+                        <p class="place-line"> </p>
+                        <p></p>
+                      </div>
+                      <div class="signature-right">
+                         <p class="signature-line">_____________________</p>
+                        <p>Signature of the Declarant</p>
+                       
+                        <!-- <p>Full Name:<strong> {{formData.contactname}} </strong> </p> -->
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="declaration">
+                    <h6 class="text-center"><strong> Declaration/Verification </strong></h6>
+
+                    <p class="declaration-content">
+                       <strong> I,<span class="underline-value"> {{formData.contactname}} </span>, do hereby
+                      declare that I am resident in India within the meaning of section 6 of the Income-tax Act, 1961. I
+                      also hereby
+                      declare that to the best of my knowledge and belief what is stated above is correct,complete and
+                      is truly stated and that the incomes referred to in this form
+                      are not includible in the total income of any other person under sections 60 to 64 of the
+                      Income-tax Act, 1961. I further declare that the tax on my estimated
+                      total Income including *Income/Incomes referred to in column 15 *and aggregate amount of
+                      *Income/Incomes referred to in column 17 computed in
+                      accordance with the provisions of the Income-tax Act, 1961, for the previous year
+                        <span class="underline-value"> {{formData.nextyear }} </span> relevant to the
+                      assessment year
+                        <span class="underline-value"> {{formData.assessmentyear}} </span>will be nil. </strong>
+                    </p>
+                  </div>
+                  <div class="signature-section">
+                    <div class="signature-row">
+                      <div class="signature-left">
+                        <p class="place-line">Place:<strong><span class="underline-value"> {{formData.districtname}} </span> </strong></p>
+                        <p>Date:<strong><span class="underline-value">  {{formData.declarationreceived_date}}  </span> </strong></p>
+                      </div>
+                      <div class="signature-right">
+                         <p class="signature-line">_____________________</p>
+                        <p>Signature of the Declarant</p>
+                       
+                        <!-- <p>Full Name:<strong> {{formData.contactname}} </strong> </p> -->
+                      </div>
+                    </div>
+                  </div>
+
+<!-- underline-value and for label bold is not showing -->
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="header">
+            <h6 class="font-size-12 text-center">FORM NO. 15H</h6>
+            <p class="sub-header text-center"><strong>[See section 197A(1C) and rule 29C]</strong></p>
+            <h6 class="font-size-12 text-center">PART 2</h6>
+            <p class="declaration-text text-center">
+              
+              <strong>[To be filled by the person responsible for paying the income referred to in
+                column 15 of Part 1]</strong>
+            </p>
+            
+          </div>
+
+          <div class="form15h-container page-2">
+            <div class="contact-container">
+
+              <div class="info-row">
+                <div class="info-item">
+                  <div class="label" style="font-weight: bold;">1. Name of the person responsible for paying:</div>
+                  <div class="value">{{ formData.companyname }}</div>
+                </div>
+                <div class="info-item">
+                  <div class="label" style="font-weight: bold;">2. Unique Identification No.:</div>
+                  <div class="value">{{ formData.uid }}</div>
+                </div>
+              </div>
+
+              <div class="info-row">
+                <div class="info-item">
+                  <div class="label" style="font-weight: bold;">3. PAN of the person responsible paying:</div>
+                  <div class="value">{{ formData.companypanno || " " }}</div>
+                </div>
+                <div class="info-item">
+                  <div class="label" style="font-weight: bold;">4. Complete Address:</div>
+                  <div class="value">{{ formData.registration_address }}</div>
+                </div>
+              </div>
+
+              <div class="info-row">
+                <div class="info-item">
+                  <div class="label" style="font-weight: bold;">5. TAN of the person responsible for paying:</div>
+                  <div class="value">{{ formData.companytanno }}</div>
+                </div>
+                <div class="info-item">
+                  <div class="label" style="font-weight: bold;">6. Email:</div>
+                  <div class="value">{{ formData.tabcompanymail }}</div>
+                </div>
+              </div>
+
+              <div class="info-row">
+                <div class="info-item">
+                  <div class="label" style="font-weight: bold;">7. Telephone No. (with STD code) / Mobile No.:</div>
+                  <div class="value">{{ formData.tabcompanymobile }}</div>
+                </div>
+                <div class="info-item">
+                  <div class="label" style="font-weight: bold;">8. Amount of Income paid:</div>
+                  <div class="value text-right">{{ formData.income_paidamount}}</div>
+                </div>
+              </div>
+
+              <div class="info-row">
+                <div class="info-item">
+                  <div class="label" style="font-weight: bold;">9. Date on which declaration is received (DD/MM/YYYY):</div>
+                  <div class="value text-center">{{ formData.declarationreceived_date }}</div>
+                </div>
+                <div class="info-item">
+                  <div class="label" style="font-weight: bold;">10. Date on which the income has been paid/credited (DD/MM/YYYY):
+                  </div>
+                  <div class="value text-center">{{ formData.income_paiddate }}</div>
+                </div>
+
+              </div>
+              <div class="signature-section">
+                <div class="signature-row">
+                  <div class="signature-left">
+                    <br><br>
+                    <p class="place-line text-left">Place:<strong><span class="underline-value"> {{formData.districtname}} </span> </strong></p>
+                    <p class="place-line text-left">Date:<strong><span class="underline-value"> {{formData.declarationreceived_date}} </span> </strong></p>
+                  </div>
+
+                  <div class="signature-right">
+                    <br>
+                    <br>
+                       <p class="signature-line">_____________________</p>
+                       
+                    <p>Signature of the person responsible for paying <br>the income referred  in column 15 of part 1</p>
+                 
+                    
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="declarationpart2">
+                <p class="declarationpart2-content font-14"><strong>* Delete whichever is not applicable. <br>
+                  1. As per provisions of section 206 AA(2), the declaration under section 197A(1C) shall be invalid if
+                  the declarant fails to furnish his valid <br>permanent Account
+                  Number(PAN).<br>
+
+                  2. Declaration can be furnished by a resident individual who is of the age 60 years or more at any
+                  time during the previous year. <br>
+                  3. The financial year to which the income pertains. <br>
+                  4. Please mention "Yes" if assessed to tax under the provisions of income-tax Act, 1961 for any of the
+                  assessment year out of 6 assessment years  preceding year in which the
+                  declaration is filed. <br>
+                  5.Please mention the amount of estimated total income of the previous year for which the declaration
+                  if filed including the amount of income for which this
+                  declaration is made. <br>
+                  6. In case any declaration(s) in Form No.15H is filed before filling this declaration during the
+                  previous year, mention the total number of such Form No.15H filedalong with the aggregate amount
+                  of income for which said declaration(s) have been filed.<br>
+                  7. Mention the distinctive number of shares, account number of term deposit, recurring deposit,
+                  National Savings Schemes, life insurance policy number,
+                  employee code, ect. <br>
+                  8. Before signing the declaration/verification,the declarant should satisfy himself that the
+                  information furnished in this form is true, correct  and complete in all
+                  respects. Any person making a false statement in the declaration shall be liable to prosecution under
+                  section 277 of the Income-tax Act,1961 and on conviction punishble-<br>
+                  i) In case where tax sought to be evaded exceeds twenty-five lakh rupees, with rigorous imprisonment
+                  which shall not be less than six months but which mayextend to seven years and with fine.
+                  <br>
+                  ii) In any other case, with rigorous imprisonment which shall not be less than three months but which
+                  may extend to two years and with fine.<br>
+                  9. The person responsible for paying the income referred to in column 15 of part one shall allot a
+                  unique identification number to all the Form No.15H received by him during a quarter of the financial
+                  year and report this reference number along with the particulars presribed in rule 31A(4)(vii) of
+                  the Income-tax Rules,
+                  1962 in the TDS statement furnished for the same quarter. In case the person has also received Form
+                  No.15G during the same quarter, please allot seperate
+                  series of serial number for Form No.15H and Form No.15G. during the same quarter, please allot
+                  seperate
+                  series of serial number for Form No.15H and Form No.15G.
+                  <br>
+                  10. .The person responsible for paying the income referred to in column 15 of part 1 shall not accept
+                  the declaration where the amount of income of the nature
+                  referred to in section 197A(1C) or the aggregate of the amounts of such income credited or paid or
+                  likely to be credited or paid during the previous year in which
+                  such income is to be included exceeds the maximum amount which is not chargeable to tax after allowing
+                  for deduction(s) under Chapter VI-A,if any, or set off of
+                  loss,if any,under the head "income from house property" for which the declarant is eligible. For
+                  deciding the eligibility, he is required to verify income or the
+                  aggregate amount of incomes, as the case may be,reported by the declarant in columns 15 and 17.
+                  <br>
+                  <br>
+                  [provided that such person shall accept the declaration in a case where income of the assessee, who is
+                  eligible for rebate of income -tax under section 87A, is
+                  higher than the income for which declaration can be accepted as per this notice, but his tax liability
+                  shall be nil after taking into account the rebate available to
+                  him under the said section 87A] </strong>
+
+                </p>
+              </div>
+              <div>
+
+
+              </div> -->
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+  body,
+  html {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    font-family: 'Times New Roman', Times, serif;
+  }
+
+  .form15h-header {
+    text-align: center;
+    margin-bottom: 6mm;
+  }
+
+  .form15h-title {
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0;
+    text-decoration: underline;
+  }
+
+  .form15h-rule {
+    font-size: 13px;
+    margin: 2px 0;
+    font-style: italic;
+  }
+
+  .form15h-declaration {
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+
+  .page-1,
+  .page-2 {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    background: #fff;
+    box-sizing: border-box;
+    padding: 2mm 2mm;
+    border: 1px solid #000;
+    font-size: 16px;
+    page-break-after: always;
+  }
+
+  /* === Inner table style === */
+  .info-row {
+    display: flex;
+    width: 100%;
+    margin: 0;
+    border-bottom: 1px solid #000;
+  }
+
+  .info-item {
+    flex: 1;
+    padding: 4px 6px;
+    border-right: 1px solid #000;
+    box-sizing: border-box;
+  }
+
+  .info-item:last-child {
+    border-right: none;
+  }
+
+  .label {
+    font-weight: 600;
+    font-size: 12px;
+    margin: 0 0 1px 0;
+    display: block;
+  }
+
+  .value {
+    display: block;
+    font-size: 12px;
+    margin: 0;
+  }
+
+  .section-title {
+    font-weight: bold;
+    background: #f7f7f7;
+    padding: 2px 4px;
+  }
+
+  .declaration,
+  .signature-section {
+    padding: 4px 0;
+    margin-top: 9px;
+    text-align: justify;
+    line-height: 1.5;
+    font-size: 12px;
+  }
+
+  .signature-row {
+    display: flex;
+    justify-content: end;
+    margin-top: 8px;
+  }
+
+  .signature-left,
+  .signature-right {
+    width: 48%;
+  }
+
+  .signature-right {
+    text-align: right;
+  }
+
+  /* === Print-specific === */
+  @media print {
+    @page {
+      size: A4;
+      margin: 5mm;
+    
+    }
+
+    .no-print {
+      display: none !important;
+    }
+
+    .page-1,
+    .page-2 {
+      border: 1px solid #000;
+      padding: 12mm 15mm;
+      box-shadow: none;
+    }
+  }
+</style>

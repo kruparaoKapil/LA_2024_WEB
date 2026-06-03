@@ -1,0 +1,144 @@
+<div class="tab-pane fade active show" id="applicants-others" role="tabpanel" aria-labelledby="hot-tab">
+    <div class="row mt-5">
+        <div class="col-4 ">
+            <p class="bc-2">Co-Applicants, Guarantors and Promotors</p>
+        </div>
+
+        <div class="col-4">
+            <div class="form-group">
+                <div class="material-switch pull-right"> <span class="mr-2">Not applicable</span>
+                    <input id="coapplicant-notapplicable" name="coapplicant-notapplicable" type="checkbox" [(ngModel)]="notApplicableCoApplicantsFlag" (change)="notApplicableCoApplicants($event)">
+                    <label for="coapplicant-notapplicable" class="check-danger"></label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <form [formGroup]="applicantAndOtherForm">
+        <div class="row">
+            <div class="col-md-12 p-0" *ngIf="!notApplicableCoApplicantsFlag">
+                <div class="form-group col-md-3">
+                    <label class="mt-1" id="pSurityapplicanttype" title="Select Contact Type">Select Contact Type</label>
+
+                    <div class="input-group">
+                        <select class="form-control" formControlName="pSurityapplicanttype" (change)="onChange($event)" [ngClass]="{ 'is-invalid': chargesConfigErrorMessage.pSurityapplicanttype}">
+
+                <option value="" ng-selected="selected">Select</option>
+                <option *ngFor="let applicant of applicants"> {{ applicant.pSurityapplicanttype }}</option>
+              </select>
+                        <!-- <div class="input-group-append">
+                <button class="btn btn-lg-icon px-2 p-0" data-toggle="modal" tabindex="-1" data-target="#contacttype">
+                  <img src="assets/images/icon-add-blue.svg" class="" width="20px" height="20px"></button>
+              </div> -->
+                    </div>
+                    <div class="invalid-feedback-cst">
+                        <span *ngIf="chargesConfigErrorMessage.pSurityapplicanttype">{{chargesConfigErrorMessage.pSurityapplicanttype}}</span>
+                    </div>
+
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="">Select Contact</label>
+
+                    <app-contact-select [SelectType]="SelectType" (ContactpersondataEventemit)="GetContactPersonDataInFiOther($event)">
+                    </app-contact-select>
+
+                    <div class="col-12 p-0">
+                        <button class="btn btn-b-icon" (click)="addDataToTable()"> <img src="assets/images/icon-add-white.svg"
+                  width="20px" height="20px" class="mr-3"> Add </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Applicant Detail -->
+
+    <div class="col-md-12 col-xl-12 mt-4" *ngIf="!notApplicableCoApplicantsFlag">
+        <table id="example" class="table" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Contact Type</th>
+                    <th>Contact Id</th>
+                    <th>Contact No.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of lstOtherApplicants ; let i=index">
+                    <td>{{data?.papplicantname}}</td>
+                    <td>{{data?.papplicanttype}}</td>
+                    <td>{{data?.pcontactreferenceid}}</td>
+                    <td>{{data?.pBusinessEntitycontactNo ? data?.pBusinessEntitycontactNo : data?.psuritycontactno}}</td>
+                    <td>
+                        <div (click)="confirmForDelete(i)" id="icon-delete"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ================================================================= page buttons  here======================================================================== -->
+    <div class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end mt-4">
+            <a *ngIf="forClearButton" (click)="clearForm()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+            <a data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" role="tab" aria-controls="hot" (click)="moveToPreviousTab()" aria-selected="false"><img src="assets/images/icon-chewron-left-whitesolid.svg" width="20px" height="20px" class="mr-3">Back</a>
+            <!-- <a href="#mandatorykyc" data-toggle="tab"
+          class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" aria-selected="false"
+          (click)="nextTabClick()"><img src="assets/images/icon-chewron-right-whitesolid.svg" width="20px" height="20px"
+            class="mr-3">Save & Continue</a> -->
+
+            <button (click)="nextTabClick()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" [disabled]="isLoading">
+            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading,'fa-check': !isLoading}"></i>
+            <span *ngIf="!isLoading">
+            </span>{{buttonName}}</button>
+
+        </div>
+    </div>
+
+    <!-- Contact Type Model -->
+    <div class="modal right slideInRight" id="contacttype" tabindex="-1" role="dialog">
+        <div class="modal-dialog" style="margin-right:0px !important; ">
+            <div class="model-cst modal-content">
+                <div class="modal-body">
+
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <form autocomplete="off">
+                        <div class="form-group">
+                            <label>Contact Type</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade top-100" id="contactModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content height-auto">
+            <div class="row">
+                <div class="col-10">
+                    <p class="bc-2">Confirm</p>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="col-12">
+                    <p>Do you want to delete contact - <b>{{selectedContactForDelete}}</b></p>
+                </div>
+                <div class="col-12 text-center">
+                    <button class="btn btn-success mar-5" (click)="removeContact()">Yes</button>
+                    <button class="btn btn-danger mar-5" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="my-container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplateForFiView">
+    </ngx-loading>
+
+</div>

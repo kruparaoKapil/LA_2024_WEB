@@ -1,0 +1,269 @@
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+
+      </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+
+<div class="row mt-2">
+  <div class="col-md-12">
+                    
+    <div class="form-group pt-2" *ngIf="salaryStatementListData.length!=0">
+      <div class="d-flex justify-content-end">
+          <a  class="export-icons" (click)="pdfOrprint('Pdf')">
+              <img class="" src="assets/images/pdf-icon-blue.svg " title="pdf" width="18px">
+          </a>
+         
+          <a  class="export-icons" (click)="pdfOrprint('Print')"><img class=""
+                  src="assets/images/print-icon-blue.svg " title="Print" width="18px"></a>
+      </div>
+  </div>
+  </div>
+</div>
+
+<div class="col-md-12 mt-5 mb-4">
+  <div id="template">
+      <!-- <div class="d-flex justify-content-end mr-3">
+          <ul class="temp-ul">
+              <li class="temp-ico ml-2">
+                  <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('SalaryStatement.pdf')" />
+              </li>
+              <li class="temp-ico ml-2">
+                  <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+              </li>
+          </ul>
+
+      </div> -->
+
+      <div class="container salary-statement">
+          <div class="row">
+              <div class="col-md-12" >
+
+                  <kendo-pdf-export #pdf paperSize="A4" margin="0.1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="true" [scale]="0.45">
+                      <div id="temp-box">
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <app-company-details></app-company-details>
+                                  <!-- <div class="report-head mt-2">
+                                      <p class="font-20 text-dark text-center m-0">
+                                          <span *ngIf="!showbutton" class="text-capitalize">PayRoll Approval  for the Month of {{monthyear}}</span>
+                                          <span *ngIf="showbutton"  class="text-capitalize">Salary Statement  for the Month of {{monthYear}}</span>
+                                      </p>
+                                  </div> -->
+                              </div>
+                          </div>
+                          <div class="border rounded shadow-sm bg-white" style="overflow:hidden; height:auto !important;">
+
+                          
+                              <kendo-grid [kendoGridBinding]="salaryStatementListData" [pageable]="false" [sortable]="false" [groupable]="false" 
+                              [reorderable]="true" [resizable]="true">
+
+                              <kendo-grid-column-group title="PayRoll Approval  for the Month of {{monthyear}}" class="text-capitalize"   [headerClass]="{'kendo-g-center': true}" >                                 
+                              <kendo-grid-column field="pEmployeeId" title="Emp. ID"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center" width="90">
+                              </kendo-grid-column>
+              
+                              <kendo-grid-column field="pEmployeeName" title="Emp. Name"  width="100"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+              
+                              <kendo-grid-column field="pDeptName" title="Designation" width="110" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+              
+                              <kendo-grid-column field="pDateOfJoining" title="DOJ" width="60" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+              
+                              <kendo-grid-column field="pBasicAmount" width="60" title="Basic" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pBasicAmount | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+              
+                              <kendo-grid-column field="pVdaAmt" width="50" title="VDA" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pVdaAmt | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+              
+                              <kendo-grid-column field="pArrearsAmt" width="60" title="Arrears" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pArrearsAmt | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+              
+                              <!-- <kendo-grid-column field="pBasicProtection" title="Basic Protection" width="90"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pBasicProtection | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column> -->
+              
+                              <kendo-grid-column field="pAllowancesAmt" width="100" title="Allowances" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pAllowancesAmt | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+              
+                              <kendo-grid-column field="pSpecialAllowAmt" width="150" title="Special Allowance"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pSpecialAllowAmt | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+
+                              <kendo-grid-column field="pOtherAllowAmt" width="150" title="Other Allowance"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pOtherAllowAmt | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+
+                              <kendo-grid-column field="pVehicleAllowAmt" width="150" title="Vehicle Allowance"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pVehicleAllowAmt | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+              
+                              <!-- <kendo-grid-column field="pIncrementalProtection" width="100" title="Increment Protection" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pIncrementalProtection | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column> -->
+
+                              <kendo-grid-column field="pAdvanceAmt" width="100" title="Advance" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pAdvanceAmt | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+              
+                              <kendo-grid-column field="pGrossSalary" width="100" title="Gross Salary" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pGrossSalary | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+              
+                             
+              
+                              <kendo-grid-column field="pInsuranceAmt" width="90" title="Insurance"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pInsuranceAmt | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+              
+                              <kendo-grid-column field="pRecoveryAmt" width="90" title="Recoveries" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pRecoveryAmt | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+              
+                              <kendo-grid-column field="pIncomeTaxAmt" width="100" title="Income Tax" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pIncomeTaxAmt | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+              
+                              <kendo-grid-column field="pPFAmt" width="90" title="PF Amt." [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pEmpPFAmt | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+              
+                              <kendo-grid-column field="pEmpEsiAmt" width="100" title="ESI Amount" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pEmpEsiAmt | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+              
+                              <!-- <kendo-grid-column field="" width="100" title="Absenties" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column> -->
+              
+                              <kendo-grid-column field="pProffTaxAmt" width="100" title="Prof Tax" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pProffTaxAmt | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+              
+                              <kendo-grid-column field="pDedectionAmt" width="100" title="Deductions" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pDedectionAmt | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+              
+                              <kendo-grid-column field="pNetSalary" width="100" title="Net Salary"  [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                  <span>{{dataItem.pNetSalary | mycurrencypipe}}</span>
+                                </ng-template>
+                              </kendo-grid-column>
+                              </kendo-grid-column-group>
+
+                              </kendo-grid>
+
+
+                                <div class="col-12">
+                                  <table>
+                                    <thead>
+                                        <th>Totals</th>
+                                        <th></th>
+                                        <th>No.Of Employees : {{countOfEmployees}}</th>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>Basic : {{Basic_pdfCalculations | mycurrencypipe}}</td>
+                                        <td>Special Allowance : {{Special_Allowance_pdfCalculations | mycurrencypipe}}</td>
+                                        <td>Income Tax : {{Income_Tax_pdfCalculations | mycurrencypipe}}</td>
+                                      </tr>
+                                      <tr>
+                                        <td>VDA : {{VDA_pdfCalculations | mycurrencypipe}}</td>
+                                        <td>Increment Protection : {{Increment_Protection_pdfCalculations | mycurrencypipe}}</td>
+                                        <td>PF : {{PF_pdfCalculations | mycurrencypipe}}</td>
+                                      </tr>
+                                      <tr>
+                                        <td>Arrears : {{Arrears_pdfCalculations | mycurrencypipe}}</td>
+                                        <td>Advance : {{Advance_pdfCalculations | mycurrencypipe}}</td>
+                                        <td>ESI : {{ESI_pdfCalculations | mycurrencypipe}}</td>
+                                      </tr>
+                                      <tr>
+                                        <td>Basic Protection : {{Basic_Protection_pdfCalculations | mycurrencypipe}}</td>
+                                        <td>Insurance : {{Insurance_pdfCalculations | mycurrencypipe}}</td>
+                                        <td>Allowances : {{Allowances_pdfCalculations | mycurrencypipe}}</td>
+                                      </tr>
+                                      <tr>
+                                        <td>Recoveries : {{Recoveries_pdfCalculations | mycurrencypipe}}</td>
+                                        <td>Prof.Tax : {{Prof_Tax_pdfCalculations | mycurrencypipe}}</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+
+                                <hr>
+
+                                  <div class="col-12">
+                                  <table>
+                                    <thead>
+                                      <th>Total Gross Salary : {{Total_Gross_Salary_pdfCalculations | mycurrencypipe}}</th>
+                                      <th>Total Deductions : {{Total_Deductions_pdfCalculations | mycurrencypipe}}</th>
+                                      <th>Total Net Salary :  {{Total_Net_Salary_pdfCalculations | mycurrencypipe}}</th>
+                                    </thead>
+                                  </table>
+                                </div>
+                                <hr>
+                          </div>
+                          
+
+                      </div>
+                  </kendo-pdf-export>
+              </div>
+          </div>
+      </div>
+
+  </div>
+</div>
+
+<style>
+  .asset-kendo kendo-grid .k-grid-header th.k-header {
+  text-align: center !important;
+ 
+}
+
+
+</style>
+

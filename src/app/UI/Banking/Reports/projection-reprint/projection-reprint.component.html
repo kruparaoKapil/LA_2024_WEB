@@ -1,0 +1,97 @@
+<div class="row">
+  <div class="col-md-12 mt-3 mb-4">
+    <p class="bc-2">Projections</p>
+  </div>
+</div>
+<div class="section-container">
+  <div class="container-fluid py-4" style="background-color: #f3f4f6; min-height: 100vh;">
+
+    <div class="projection-card mx-auto">
+
+      <form [formGroup]="projectionReprintForm">
+        <div class="row">
+
+          <!-- Month input -->
+          <div class="col-md-4 col-xl-4">
+            <div class="form-group">
+              <label id="selectedMonth" title="Month">Month</label>
+              <input class="form-control col-md-12" readonly type="text" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker
+                placeholder="mmm/YY" (ngModelChange)="DateChange($event)" [bsValue]="today"
+                formControlName="selectedMonth" (onShown)="onOpenCalendar($event)">
+            </div>
+          </div>
+
+          <div class="justify-content-end d-flex">
+            <div class=" pt-4 mt-2">
+              <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab"
+                role="tab" (click)="GenerateData()">
+                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                    width="20px"></span> GenerateReport
+              </a>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="temp-box" *ngIf="tabledisable">
+          <div class="section-container">
+          <div class="d-flex justify-content-end mt-3">
+                      <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px" kendo-button
+                        (click)="pdf.saveAs('Projection_Data.pdf')">
+                    </div>
+          <kendo-pdf-export #pdf paperSize="A4" [landscape]="false" [allPages]="true" [repeatHeaders]="true"
+            [scale]="0.5">
+            <!-- <div id="temp-box"> -->
+              <div class="mt-2 border rounded shadow-sm bg-white">
+                <div class="row">
+                  <div class="col-md-12">
+                    <app-company-details></app-company-details>
+                    
+                  </div>
+                </div>
+                <div class="container" style="margin: 10px">
+                  <h4 class="mb-4 text-center text-black">PROJECTION DATA</h4>
+                  <table border="1" width="100%" cellspacing="0" cellpadding="8">
+                    <thead>
+                      <tr>
+                        <th style="font-weight: bold;">{{projData[0]?.pschemename}}</th>
+                        <th style="font-weight: bold;">{{projData[0]?.column1}}</th>
+                        <th style="font-weight: bold;">{{projData[0]?.column2}}</th>
+                        <th style="font-weight: bold;">{{projData[0]?.column3}}</th>
+                        <th style="font-weight: bold;">{{projData[0]?.column4}}</th>
+                        <th style="font-weight: bold;">{{projData[0]?.column5}}</th>
+                        <th style="font-weight: bold;">{{projData[0]?.column6}}</th>                       
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of projData; let i = index;" [hidden]="i===0">
+                        <td>{{item?.pschemename}}</td>
+                        <td>{{item?.column1}}</td>
+                        <td>{{item?.column2}}</td>
+                        <td>{{item?.column3}}</td>
+                        <td>{{item?.column4}}</td>
+                        <td>{{item?.column5}}</td>
+                        <td>{{item?.column6}}</td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+            <!-- </div> -->
+          </kendo-pdf-export>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+

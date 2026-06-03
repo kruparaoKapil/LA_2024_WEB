@@ -1,0 +1,78 @@
+<div *ngIf="installmentreceivableGrid!=''">
+    <kendo-grid [kendoGridBinding]="installmentreceivableGrid" [resizable]="true" [pageable]="false" [sortable]="true">
+        <ng-template kendoGridToolbarTemplate>
+            <h2 class="font-14">
+                INSTALMENT RECEIVABLE
+            </h2>
+        </ng-template>
+        <kendo-grid-column field="pInstalmentno" title="Instalment No."></kendo-grid-column>
+        <kendo-grid-column title="Instalment Date">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pInstalmentdate}}
+            </ng-template>
+            <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex" style="text-align: right !important;">
+                <b>Total</b>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column title="Principle Receivable" [headerClass]="{'kendo-right': true}" class="kendo-right">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <div *ngIf="dataItem.pPrinciplereceivable == 0"></div>
+                <div *ngIf="dataItem.pPrinciplereceivable !== 0"> {{dataItem.pPrinciplereceivable.toFixed(2) | mycurrencypipe}}
+                </div>
+            </ng-template>
+            <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+                <p class="bc-2 text-right">{{pPrinciplereceivabletot | mycurrencypipe}}</p>
+            </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column title="Interest Receivable" [headerClass]="{'kendo-right': true}" class="kendo-right">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <div *ngIf="dataItem.pIntrestreceivable == 0"></div>
+                <div *ngIf="dataItem.pIntrestreceivable !== 0"> {{dataItem.pIntrestreceivable.toFixed(2) | mycurrencypipe}}
+                </div>
+            </ng-template>
+            <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+                <p class="bc-2 text-right">{{pIntrestreceivabletot | mycurrencypipe}}</p>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column title="Due Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <div *ngIf="dataItem.pInstalmentdue == 0"></div>
+                <div *ngIf="dataItem.pInstalmentdue !== 0"> {{dataItem.pInstalmentdue.toFixed(2) | mycurrencypipe}}
+                </div>
+            </ng-template>
+            <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+                <p class="bc-2 text-right">{{pInstalmentduetot | mycurrencypipe}}</p>
+            </ng-template>
+        </kendo-grid-column>
+
+    </kendo-grid>
+</div>
+<div *ngIf="penaltyreceivableGrid!=''">
+    <kendo-grid [kendoGridBinding]="penaltyreceivableGrid" [resizable]="true" [pageable]="false" [sortable]="true">
+        <ng-template kendoGridToolbarTemplate>
+            <h2 class="font-14">
+                PENALTY RECEIVABLE
+            </h2>
+        </ng-template>
+        <kendo-grid-column field="pInstalmentno" title="Instalment No."></kendo-grid-column>
+        <kendo-grid-column title="Instalment Date">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pInstalmentdate}}
+            </ng-template>
+            <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex" style="text-align: right !important;">
+                <b>Total</b>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column title="Due Penalty" [headerClass]="{'kendo-right': true}" class="kendo-right">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <div *ngIf="dataItem.pPenaltyreceivable == 0"></div>
+                <div *ngIf="dataItem.pPenaltyreceivable !== 0"> {{dataItem.pPenaltyreceivable.toFixed(2) | mycurrencypipe}}
+                </div>
+            </ng-template>
+            <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+                <p class="bc-2 text-right">{{pPenaltyreceivabletot| mycurrencypipe}}</p>
+            </ng-template>
+        </kendo-grid-column>
+    </kendo-grid>
+</div>

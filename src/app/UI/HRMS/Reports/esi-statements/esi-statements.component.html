@@ -1,0 +1,133 @@
+<div class="section-container">
+  <div class="row p-0">
+    <div class="col-xl-12 col-md-12">
+      <div class="section-content ">
+        <form [formGroup]="ESIStatementForm">
+          <div class="row mt-3">
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label title="Employee Name" id="employee">Employee Name</label>
+                <ng-select  title="Employee Name" [items]="employeeList "
+                  formControlName="employee" bindLabel="pEmployeeName" bindValue="pEmployeeId"
+                  placeholder="Select" title="Employee" [searchable]=true [clearable]="true" dropdownPosition="down"
+                  [clearOnBackspace]=true (change)="EmployeeId_change($event)"></ng-select>
+                  <!-- [ngClass]="{ 'is-invalid': EsiStatementFormValidationErrorMessages.employee }">
+                </ng-select> -->
+                <!-- <div class="invalid-feedback">
+                  <span *ngIf="EsiStatementFormValidationErrorMessages.employee">
+                    {{EsiStatementFormValidationErrorMessages?.employee}}</span>
+                </div> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label title="Year" id="year" class="required-field">Year</label>
+                <ng-select  title="Calendar Year" [items]="calendarYearData"
+                  formControlName="year" bindLabel="pPeriodType" bindValue="pCalenderPeriodId" [multiple]="false"
+                  placeholder="Select" [searchable]="true" [clearable]="true" dropdownPosition="bottom"
+                  [clearOnBackspace]="true" (change)="CalendarYear_change($event)"  
+                  [ngClass]="{ 'is-invalid': EsiStatementFormValidationErrorMessages.year }">
+                </ng-select>
+                <div class="invalid-feedback">
+                  <span *ngIf="EsiStatementFormValidationErrorMessages.year">
+                    {{EsiStatementFormValidationErrorMessages?.year}}</span>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label title="Month" id="month" class="required-field">Month</label>
+                <ng-select  title="Calendar Month" [items]="calendarMonthData"
+                  formControlName="month" bindLabel="pCalendarMonth" bindValue="pCalenderPeriodDetailsId"
+                  [multiple]="false" placeholder="Select Month" [searchable]="true" [clearable]="true"
+                  dropdownPosition="bottom" [clearOnBackspace]="true" (change)="CalendarMonth_change($event)"
+                  [ngClass]="{ 'is-invalid': EsiStatementFormValidationErrorMessages.month }">
+                </ng-select>
+                <div class="invalid-feedback">
+                  <span *ngIf="EsiStatementFormValidationErrorMessages.month">
+                    {{EsiStatementFormValidationErrorMessages?.month}}</span>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-2 col-xl-2">
+              <div class="form-group">
+                <br>
+                <!-- <button class="btn btn-primary mt-2" (click)="RunPayRollProcess()">Show</button> -->
+                <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="showESIStatement()">
+                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                  <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                    width="20px"></span> Show
+                </a>
+              </div>
+            </div>
+          </div>
+        </form>
+
+
+        <div class="row mt-2">
+          <div class="col-md-12">                
+            <div class="form-group pt-2">
+              <div class="d-flex justify-content-end">
+                <a  class="export-icons" (click)="pdfOrprint('Pdf')">
+                  <img src="assets/images/pdf-icon-blue.svg " title="pdf" width="18px">
+                </a> 
+                <a  class="export-icons" (click)="pdfOrprint('Print')"><img
+                  src="assets/images/print-icon-blue.svg " title="Print" width="18px">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <kendo-grid [kendoGridBinding]="esistatementdatalist" [pageSize]="pageSize" [pageable]="{buttonCount: 2}" [reorderable]="true"
+[sortable]="true" [resizable]="true">
+
+
+<kendo-grid-column-group title="ESI Statement Data" [headerClass]="{'kendo-g-center' : true}">
+
+<kendo-grid-column field="pEmployeecode" title="Emp.Id" width="80"
+[headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+<kendo-grid-column field="pEsino" title="E.S.I Number" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center" width="90">
+</kendo-grid-column>
+
+
+<kendo-grid-column field="pEmployeeName" title="Employee Name" width="140"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+<kendo-grid-column field="pNoofLOP" title="Absent Days" width="90" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center"></kendo-grid-column>
+
+<kendo-grid-column field="pGrossSalary" title="Total Monthly Wages" width="100"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+  <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+    <span>{{dataItem.pGrossSalary |mycurrencypipe }}</span>
+  </ng-template>
+</kendo-grid-column>
+
+<kendo-grid-column field="pEmpEsiAmt" width="150" title="Employee Contribution(0.75%)" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center">
+  <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+    <span>{{dataItem.pEmpEsiAmt |mycurrencypipe }}</span>
+  </ng-template>
+</kendo-grid-column>
+
+
+</kendo-grid-column-group>
+
+</kendo-grid>
+
+    </div>
+  </div>
+</div>
+</div>
+

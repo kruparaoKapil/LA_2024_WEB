@@ -1,0 +1,194 @@
+<!--<div class="col-md-12 col-xl-12 mt-5">
+  <p class="bc-2">EMI CHART REPORT</p>
+</div>
+<div class="main-content pl-5 ">
+
+  <div class="d-flex justify-content-end mr-3">
+    <ul class="temp-ul">
+      <li class="temp-ico ml-2">
+        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;"
+          kendo-button (click)="pdf.saveAs('EmiChartReport.pdf')" />
+      </li>
+      <li class="temp-ico ml-2">
+        <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()"
+          style="cursor: pointer;" />
+      </li>
+    </ul>
+  </div>-->
+
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+
+    </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+<div id="template">
+  <div class="d-flex justify-content-end mr-3">
+    <ul class="temp-ul">
+
+      <li class="temp-ico ml-2">
+        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('EmichartReport.pdf')" />
+      </li>
+      <li class="temp-ico ml-2">
+        <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+      </li>
+
+    </ul>
+
+  </div>
+  <div id="temp-box">
+    <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="false">
+
+      <div class="mt-2 border rounded shadow-sm bg-white">
+        <div class="row">
+          <div class="col-md-12">
+            <app-company-details></app-company-details>
+            <div class="report-head">
+              <p class="font-14 text-dark text-center mb-0">
+                EMI CHART REPORT
+              </p>
+              <p class="font-14 text-dark text-center mb-0">
+                Loan Account No: {{Applicationid}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+
+      <div class="temp-box-inner border rounded shadow-sm bg-white p-3"
+           style="overflow:hidden; height:auto !important;">
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="">
+
+              <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+					font-weight: bold !important;">Applicant Name :</span>
+              <label class="print-font"> {{Applicantname}}</label>
+            </div>
+          </div>
+         
+        </div>
+        <hr class="light">
+        <div class="row">
+          <div class="col-md-6">
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Loan Type.</label>
+              <label class="print-font">: {{loantype}} </label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Loan Amount.</label>
+              <label class="print-font">: {{Loanamount | mycurrencypipe}} </label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Rate of Interest(P.A).</label>
+              <label class="print-font">: {{Rateofinterest}} % ({{interesttype}}) </label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Installment Amount.</label>
+              <label class="print-font">: {{Installmentamount | mycurrencypipe}} </label>
+            </p>
+
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Installment Mode.</label>
+              <label class="print-font">: {{installmentmode}} </label>
+            </p>
+
+          </div>
+          <div class="col-md-6">
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Loan Name.</label>
+              <label class="print-font">: {{Loanname}} </label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Tenure.</label>
+              <label class="print-font">: {{Tenure}} </label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Loan Payin.</label>
+              <label class="print-font">: {{Payinmode}} </label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Total interest.</label>
+              <label class="print-font">: {{TotalInterest| mycurrencypipe}} </label>
+            </p>
+            <p class="m-0">
+              <label class="font-weight-bold w-50">Emi Start Date.</label>
+              <label class="print-font">: {{Emistartdate}} </label>
+            </p>
+
+
+          </div>
+        </div>
+        <kendo-grid [kendoGridBinding]="GridData" [resizable]="true" 
+                    [pageable]="false" [sortable]="false">
+          <ng-template kendoGridToolbarTemplate>
+
+            <!-- <button kendoGridExcelCommand type="button" icon="file-excel" style="float:right;">Export to Excel</button>
+        <button kendoGridPDFCommand icon="file-pdf" style="float:right;">Export to PDF</button> -->
+          </ng-template>
+          <kendo-grid-column field="pInstalmentno" title="Installment No">
+
+          </kendo-grid-column>
+          <kendo-grid-column field="pInstalmentdate" title="Installment Date."></kendo-grid-column>
+
+          <kendo-grid-column field="pInstalmentprinciple" title="Installment Principle" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pInstalmentprinciple | mycurrencypipe}}
+            </ng-template>
+            <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+              <p class="bc-2 text-right"> {{Totalprinciple | mycurrencypipe}}</p>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pInstalmentinterest" title="Installment Interest" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pInstalmentinterest | mycurrencypipe}}
+            </ng-template>
+            <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+              <p class="bc-2 text-right">{{TotalInterest | mycurrencypipe}}</p>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pInstalmentamount" title="Installment Amount" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pInstalmentamount | mycurrencypipe}}
+            </ng-template>
+            <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+              <p class="bc-2 text-right">{{Totalinstallmentmount | mycurrencypipe}}</p>
+            </ng-template>
+          </kendo-grid-column>
+          <!-- <kendo-grid-pdf fileName="EmiChartReport.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+                      [landscape]="true">
+        <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+      </kendo-grid-pdf>
+      <kendo-grid-excel fileName="Disursed_Approved.xlsx"></kendo-grid-excel> -->
+        </kendo-grid>
+
+      </div>
+
+
+      <!-- <div class="d-flex justify-content-end">
+  <a href="#templete" data-toggle="collapse" aria-expanded="true" class="btn btn-s-icon px-3 mt-4 border-0"><img src="images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save </a></div> -->
+
+      <div class="my-container">
+        <ng-template #customLoadingTemplate>
+          <div class="custom-class">
+            <h3>
+              Loading...
+            </h3>
+
+          </div>
+        </ng-template>
+        <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+        </ngx-loading>
+
+      </div>
+
+    </kendo-pdf-export>
+  </div>
+</div>

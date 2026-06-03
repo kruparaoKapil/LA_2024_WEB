@@ -1,0 +1,272 @@
+<div class="section-content bg-white p-3">
+    <form [formGroup]="PanvalidaionForm">
+        <div class="row mt-3">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="required-field">Verification Type</label>
+                    <ng-select title="Verification Type" id="verifytype" [items]="DocumentProofs"
+                        formControlName="verifytype" bindLabel="pverificationtype" bindValue="pverificationtype"
+                        [multiple]=false placeholder="Select" [searchable]=true [clearable]=false
+                        dropdownPosition="bottom" [clearOnBackspace]=false (change)="onVerificationTypeChange($event)"
+                        [ngClass]="{'is-invalid':PanvalidaionFormvalidation.verifytype}">
+
+                    </ng-select>
+                    <app-validation-message [messgae]="PanvalidaionFormvalidation?.verifytype">
+                    </app-validation-message>
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="required-field">Verification No.</label>
+                    <input class="form-control" type="text" title="Verification No." id="proffnumer" placeholder="Enter"
+                        formControlName="proffnumer" placeholder="" appUppercase
+                        [ngClass]="{ 'is-invalid': PanvalidaionFormvalidation.proffnumer }">
+                    <app-validation-message [messgae]="PanvalidaionFormvalidation?.proffnumer">
+                    </app-validation-message>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="d-flex justify-content-end mt-4">
+
+                    <!-- <button (click)="Show()" class="btn btn-b-icon px-4 border-0">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton}"></i>{{button}}
+                    </button> -->
+
+                    <!-- <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon  border-0" data-toggle="tab"
+                        role="tab" (click)="Show()">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                        <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                width="20px"></span> {{button}}
+                    </button> -->
+                    <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon border-0" data-toggle="tab"
+                         role="tab" (click)="Show()">
+                    <span *ngIf="isLoading"><i class="fa fa-spin fa-spinner"></i></span>
+                    <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg" width="20px"></span>
+                     {{button}}
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <ngx-datatable class="material expandable table" [rows]="voterdetails" [columnMode]="ColumnMode.force"
+                    [headerHeight]="50" [scrollbarH]="true" [rowHeight]="60"
+                    [footerHeight]="pageCriteria.footerPageHeight" [limit]="pageCriteria.pageSize"
+                    [offset]="pageCriteria.offset">
+                    <ngx-datatable-column name="Action" prop="" editable="true" frozenLeft="True" [width]="60">
+                        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template
+                            let-value="value">
+
+                            <div class="form-check form-check-inline radio-btn-secondary">
+                                <input class="form-check-input" type="radio"
+                                    (change)="Receipt_Select(row,rowIndex,'savebutton','bankdropdown')" name="abc"
+                                    id="{{rowIndex}}abc">
+                                <label class="" for="{{rowIndex}}abc"></label>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column prop="contactName" name="Name" [cellClass]="'cell-left'"
+                        [headerClass]="'header-center'">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column prop="contactReferenceId" name="Ref ID" [cellClass]="'cell-left'"
+                        [headerClass]="'header-center'" [width]="115">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column prop="panNumber" name="PAN" [cellClass]="'cell-center'"
+                        [headerClass]="'header-center'" [width]="120">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column prop="contactMobile" name="Mobile" [cellClass]="'cell-center'"
+                        [headerClass]="'header-center'" [width]="115">
+                    </ngx-datatable-column>
+                    <!-- <ngx-datatable-column  prop="panStatusId" name="PAN Status" [cellClass]="'cell-center'"
+                [headerClass]="'header-center'">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row"
+                let-value="value">
+                <select  id=""  (change)="this.updateValue($event,$event,rowIndex,'panStatusId')"
+                    [value]="value" class="form-control" >
+                    <option value=""  disabled>Select</option>
+                    <option *ngFor="let status of panvalidatestatus"
+                        [value]="status.panStatusId">
+                        {{status.panStatusName}}</option>
+                </select>     
+            </ng-template>
+    </ngx-datatable-column> -->
+                    <ngx-datatable-column *ngIf="approovedstatus" prop="panStatusId" name="Status"
+                        [cellClass]="'cell-center'" [headerClass]="'header-center'" [width]="150">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row"
+                            let-value="value">
+                            <!-- <select  id=""  (change)="this.updateValue($event,$event,rowIndex,'panStatusId')"
+                    [value]="value" class="form-control" >
+                    <option value=""  disabled>Select</option>
+                    <option *ngFor="let status of panvalidatestatus"
+                        [value]="status.panStatusId">
+                        {{status.panStatusName}}</option>
+                </select>  -->
+                            <!-- <div> -->
+                    <select class="form-control required-field" (change)="this.updateValue($event,$event,rowIndex,'panStatusId')" id="" title="PAN status" [disabled]="row.savebutton">
+                       <option value="" disabled selected>Select</option>
+                      <option *ngFor="let status of panvalidatestatus" [value]="status.panStatusId">
+                      {{status.panStatusName}}
+                      </option>
+                    </select>
+                            <!-- </div>     -->
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <!-- <ngx-datatable-column *ngIf="!viewstatus"  prop="documentupload" name="upload document" [width]="125">
+                <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control" maxlength="75" [value]="row.documentupload"
+                                title="pFilename" disabled ="pFilename" id="pFilename">
+                            <div class="input-group-append">
+                                <button class="btn btn-lg-icon px-2 p-0" (click)="fileInputvalue.click()">
+                                    <img src="assets/images/icon-upload-blue.svg" class="" width="18px" height="18px">
+                                </button>
+                                <input style="display: none" type="file"
+                                    (change)="uploadAndProgress($event,fileInputvalue.files,'savepan',rowIndex)" #fileInputvalue>
+                            </div>
+                        </div>
+                         <app-validation-message [messgae]="?.pFilename"></app-validation-message>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column> -->
+
+
+                    <ngx-datatable-column *ngIf="!viewstatus" prop="documentupload" name="Upload Document" [cellClass]="'cell-center'"
+                        [width]="170">
+                        <ng-template let-row="row" let-rowIndex="rowIndex" let-value="value"
+                            ngx-datatable-cell-template>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" maxlength="75" [value]="row.displayname ? row.displayname : row.documentupload"
+                                        title="pFilename" disabled id="pFilename" />
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-lg-icon px-2 p-0"
+                                            (click)="fileInputvalue.click()">
+                                            <img src="assets/images/icon-upload-blue.svg" width="18px" height="18px" />
+                                        </button>
+                                        <input #fileInputvalue type="file" style="display: none" accept=".jpg,.png,.pdf"
+                                             (change)="uploadAndProgress($event,fileInputvalue.files,'savepan',rowIndex)" />
+
+                                    </div>
+                                </div>
+                            </div>     
+                             <!-- <div class="form-group mb-0">
+                               <div class="input-group flex-nowrap">
+                                <input type="text" class="form-control" style="font-size:11px; width:80px;"
+                                   maxlength="75" [value]="row.documentupload"
+                                   title="pFilename" disabled id="pFilename" />
+                                 <label class="btn btn-lg-icon px-2 p-0 mb-0" style="cursor:pointer;">
+                                <img src="assets/images/icon-upload-blue.svg" width="18px" height="18px" />
+                                 <input type="file" style="display: none;" accept=".jpg,.png,.pdf"
+                                 multiple (change)="uploadAndProgress($event,$event.target.files,'savepan',rowIndex)" />
+                                </label>
+                              </div>
+                            </div>                       -->
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column *ngIf="viewstatus" name="Filename" prop="filename">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <span *ngIf="value != '' && value != null && value != 'null' &&  value != '[object Object]'"
+                                title="{{row.filename}}">
+                                <a class="text-primary" data-toggle="modal" data-target="#Details"
+                                    (click)="pdf(row,row.documentupload,'Form121')"
+                                    style="cursor: pointer!important;">
+                                    <i class="fa fa-external-link" aria-hidden="true"></i> &nbsp; View</a>
+                            </span>
+                            <span
+                                *ngIf="value == '' || value == 'null' || value == null || value == '[object Object]'">NA</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column *ngIf="approovedstatus" prop="approvedby" name="Approved by">
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex"
+                            let-value="value">
+                            <select class="form-control" id="" (change)="approvedbyChange($event,rowIndex,'approvedby')"
+                                title="PAN status" [disabled]="row.savebutton">
+                                <!-- <option>Select</option> -->
+                                <option value="" disabled selected>Select</option>
+                                <option *ngFor="let item of authorizedbylist" [value]="item.subintroducedid">
+                                    {{item.subintroducedname}}
+                                </option>
+                            </select>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column prop="dateOfBirth" name="Year" [cellClass]="'cell-center'"
+                        [headerClass]="'header-center'">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <span title="{{row.dateOfBirth }}">{{row.dateOfBirth}}</span>
+
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column *ngIf="!form15hstatus" prop="supplier" name="Supplier"
+                        [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column *ngIf="!form15hstatus" prop="advocate" name="Advocate"
+                        [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column *ngIf="!form15hstatus" prop="refferal" name="Refferal"
+                        [cellClass]="'cell-center'" [headerClass]="'header-center'">
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Save" prop="savebutton" [cellClass]="'cell-center'"
+                        [headerClass]="'header-center'" editable="true" frozenRight="True" [width]="100">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" 
+                            let-row="row">
+                            <div>
+                                <button style="height: fit-content; width: 200px important;"
+                                    (click)="ConfirmSaveRowData(row)" class="btn btn-s-icon px-2  border-0"
+                                    [disabled]="value">Save</button>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+
+
+
+
+                    <ngx-datatable-footer *ngIf="voterdetails">
+                        <ng-template ngx-datatable-footer-template let-rowCount="rowCount"
+                            let-pageSize="pageCriteria.pageSize" let-selectedCount="selectedCount" let-curPage="curPage"
+                            let-offset="pageCriteria.offset" let-isVisible="isVisible">
+                            <div style="padding: 5px 10px" *ngIf="voterdetails.length>0">
+                                <div>Page {{pageCriteria.CurrentPage}} of {{pageCriteria.TotalPages}} ({{
+                                    pageCriteria.totalrows }} items) </div>
+                                <!-- <div>{{ pageCriteria.currentPageRows }} {{pageCriteria.footerMessagetext1}} {{ pageCriteria.totalrows }}
+                              {{pageCriteria.footerMessagetext2}}</div> -->
+                            </div>
+                            <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                                [pagerRightArrowIcon]="'datatable-icon-right'"
+                                [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'"
+                                [page]="curPage" [size]="pageCriteria.pageSize" [count]="rowCount"
+                                (change)="onFooterPageChange($event)">
+                            </datatable-pager>
+                        </ng-template>
+                    </ngx-datatable-footer>
+
+
+                </ngx-datatable>
+
+            </div>
+
+
+            <!-- <div class="col-md-12">
+             
+                <div class="d-flex justify-content-end mt-3"> 
+
+                    <a href="#" data-toggle="tab" class="btn btn-s-icon px-3  border-0 " role="tab"
+                        aria-controls="hot" aria-selected="false" (click)="SaveEverificationformform()"><img src="assets/images/icon-check-white.svg" class="mr-3"
+                            width="20px" height="20px">Save </a>
+                </div>
+
+
+            </div> -->
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,128 @@
+   
+    <form [formGroup]="PersonalDetailsForm" *ngIf="showPersonal" >
+      <div class="row">
+        <div class="col-md-6 col-xl-4" >
+          <div class="border rounded p-2" style="min-height:318px;">
+            <div class="form-group">
+              <label class="sec-head">Residential Status</label>
+            </div>
+            <div class="form-group">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="presidentialstatus" title="Residential Status" id="presidentialstatus" value="Resident" formControlName="presidentialstatus" [(ngModel)]="checked">
+                <label class="mt-1" for="inlineRadio2"> Resident </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="presidentialstatus" title="Residential Status" id="presidentialstatus" value="Non-Resident" formControlName="presidentialstatus">
+                <label class="mt-1" for="inlineRadio2"> Non-Resident </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="presidentialstatus" title="Residential Status" id="presidentialstatus" value="Foreign National" formControlName="presidentialstatus">
+                <label class="mt-1" for="inlineRadio2"> Foreign National </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="presidentialstatus" title="Residential Status"  id="presidentialstatus" value="Person of Indian Origin" formControlName="presidentialstatus" >
+                <label class="mt-1" for="inlineRadio2"> Person of Indian Origin </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <div class="border rounded p-2">
+            <label class="sec-head">Birth &amp; Nationality</label>
+            <div class="form-group mb-1">
+              <label>Place of Birth</label>
+              <input class="form-control" type="text" value=""  title="Place of Birth" maxlength="20"  id="pplaceofbirth" formControlName="pplaceofbirth" appTitlecaseword appCharactersonly
+              [ngClass]="{ 'is-invalid': PersonalDetailsValidations.pplaceofbirth }" placeholder="Enter Place of Birth">
+              <div class="invalid-feedback">
+                <span *ngIf="PersonalDetailsValidations.pplaceofbirth">{{PersonalDetailsValidations?.pplaceofbirth}}</span>
+              </div>
+            </div>
+            <div class="form-group mb-1">
+              <label>Country of Birth</label>
+              <select id="pcountryofbirth" title="Country of Birth"  class="form-control" formControlName="pcountryofbirth" 
+                        [ngClass]="{ 'is-invalid': PersonalDetailsValidations.pCountry }"
+                        (change)="pCountry_Change($event)">
+                        <option value="" ng-selected="selected">Select</option>
+                        <option *ngFor="let country of countryDetails" [value]="country.pCountry">{{country.pCountry}}
+                        </option>
+
+                    </select>
+
+              <!-- <input class="form-control" type="text"  title="Country of Birth"  id="pcountryofbirth" value="" formControlName="pcountryofbirth" appTitlecaseword appCharactersonly
+              [ngClass]="{ 'is-invalid': PersonalDetailsValidations.pcountryofbirth }"> -->
+              <div class="invalid-feedback">
+                <span *ngIf="PersonalDetailsValidations.pcountryofbirth">{{PersonalDetailsValidations?.pcountryofbirth}}</span>
+              </div>
+            </div>
+            <div class="form-group mb-1">
+              <label>Nationality/Citizen of</label>
+              <input class="form-control" type="text"  title="Nationality/Citizen of" maxlength="20" id="pnationality" value="" formControlName="pnationality" appTitlecaseword appCharactersonly
+              [ngClass]="{ 'is-invalid': PersonalDetailsValidations.pnationality }" placeholder="Enter Nationality/Citizen of">
+              <div class="invalid-feedback">
+                <span *ngIf="PersonalDetailsValidations.pnationality">{{PersonalDetailsValidations?.pnationality}}</span>
+              </div>
+            </div>
+            <div class="form-group mb-1">
+              <label>Community Details</label>
+              <select id="pminoritycommunity" class="form-control"  title="Minority Community Details" formControlName="pminoritycommunity"
+              [ngClass]="{ 'is-invalid': PersonalDetailsValidations.pminoritycommunity }">
+                <option value="" disabled>Select</option>
+                <option   class="" value="Buddhist">Buddhist</option>
+                <option  class=""  value="Christian">Christian</option>
+                <option  class="" value="Hindu">Hindu</option>
+                <option  class="" value="Jain">Jain</option>
+                <option class=""  value="Muslim">Muslim</option>
+                <option   class="" value="Sikh">Sikh</option>
+                <option  class=""  value="Zorostrian">Zorostrian</option>
+                <option  class="" value="None of these">None of these</option>
+              </select>
+              <div class="invalid-feedback">
+                <span *ngIf="PersonalDetailsValidations.pminoritycommunity">{{PersonalDetailsValidations?.pminoritycommunity}}</span>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <div class="border rounded p-2" style="min-height:318px;">
+            <div class="form-group">
+              <label class="sec-head">Marital Status</label>
+            </div>
+            <div class="form-group">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="pmaritalstatus" id="pmaritalstatus" title="Marital Status" value="Married" formControlName="pmaritalstatus">
+                <label class="mt-1" for="inlineRadio2"> Married </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="pmaritalstatus" id="pmaritalstatus" title="Marital Status" value="Single" formControlName="pmaritalstatus">
+                <label class="mt-1" for="inlineRadio2"> Single </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="pmaritalstatus"id="pmaritalstatus" title="Marital Status" value="Separated" formControlName="pmaritalstatus">
+                <label class="mt-1" for="inlineRadio2"> Separated </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="pmaritalstatus" id="pmaritalstatus" title="Marital Status" value="Widowed" formControlName="pmaritalstatus">
+                <label class="mt-1" for="inlineRadio2"> Widowed </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    </form>
+    <div *ngIf="familydetailsshowhide">  <hr>
+      <app-family-details></app-family-details>
+    </div>

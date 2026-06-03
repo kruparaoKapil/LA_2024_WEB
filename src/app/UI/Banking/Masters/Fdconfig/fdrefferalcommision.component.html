@@ -1,0 +1,86 @@
+<div [formGroup]="refferalForm" >
+    <div class="row mt-5 mb-3">
+      <div class="col-md-3 col-xl-3"> <a class="bc-2 mb-2 text-decoration-none"> Is Referral Commission Paid?</a> </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="material-switch pull-right"><span class="mr-2">Not Applicable</span>
+          <input id="Referral-fd"  name="pIsreferralcommissionapplicable" [ngModelOptions]="{standalone: true}" type="checkbox" [(ngModel)]="notApplicableFlag" (change)="notApplicable($event)" checked>
+          <label for="Referral-fd" class="check-danger"></label>
+        </div>
+      </div>
+    </div>
+    
+      <!-- <div class="row" >
+        <div class="col-md-3 col-xl-3">
+          <h2 class="sec-head">Is referral commission paid?</h2>
+          <div class="form-group">
+            <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+              <input class="form-check-input" formControlName="pIsreferralcommissionapplicable" type="radio" name="pIsreferralcommissionapplicable" id="ref-commission1"
+                value="true">
+              <label class="mt-1" for="ref-commission1"> Yes </label>
+            </div>
+      
+            <div class="form-check form-check-inline mr-0 radio-btn-secondary">
+              <input class="form-check-input" formControlName="pIsreferralcommissionapplicable" type="radio" name="pIsreferralcommissionapplicable" id="ref-commission2"
+                value="false">
+              <label class="mt-1" for="ref-commission2"> No </label>
+            </div>
+          </div>
+        </div>
+      
+      </div> -->
+      <div class="row" *ngIf="!notApplicableFlag">
+        <div class="col-md-6 col-xl-4">
+          <h2 class="sec-head">
+            Commission Payout:</h2>
+      
+          <div class="form-group">
+            <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+              <input class="form-check-input" formControlName="pReferralcommissiontype" type="radio" [checked]="forFixed ? true : false" name="pReferralcommissiontype" id="fixed-fd-amt" value="fixed" (change)="onCommissionChange($event)">
+              <label class="mt-1" for="fixed-fd-amt"> Fixed Amount</label>
+            </div>
+      
+            <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+              <input class="form-check-input" formControlName="pReferralcommissiontype" type="radio" name="pReferralcommissiontype" id="fixed-fd-per" value="percentage" (change)="onCommissionChange($event)">
+              <label class="mt-1" for="fixed-fd-per"> Percentage </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="!notApplicableFlag">
+        <div class="col-md-6 col-xl-4">
+          <div class="form-group">
+            <label class="mt-1" for="inlineRadio2">Fixed Amount/Percentage </label>
+            <input *ngIf="forFixed" appMycurrencyFormatter maxlength="17" appNumbersonly removeZero class="form-control text-right" formControlName="pCommissionValue" name="pCommissionValue" type="text">
+            <input *ngIf="forPercentage" appRoundecimal="2@2" removeZero  class="form-control" formControlName="pCommissionValue" name="pCommissionValue" type="text">
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4" *ngIf="!notApplicableFlag">
+        <div class="col-md-6 col-xl-4">
+          <div class="form-group">
+            <div class="material-switch">
+              <span class="mr-2">TDS</span>
+              <input id="Employment-fd" name="pIstdsapplicable" formControlName="pIstdsapplicable" type="checkbox"
+                (change)="tdsCheck($event)">
+              <label for="Employment-fd" class="badge-success"></label>
+            </div>
+          </div>
+      
+          <div class="form-group" *ngIf="tdsshow">
+            <label id="ptdsSectionName" title="TDS Section No">Select TDS Section No</label>
+            <div class="input-group">
+              <select id="ptdssection" title="TDS" class="form-control" name="pTdssection" formControlName="pTdssection">
+                <option value="" ng-selected="selected">Select</option>
+                <option *ngFor="let tdsdetails of TDSsectiondetails" [value]="tdsdetails.pTdsSection">
+                  {{tdsdetails.pTdsSection}}</option>
+              </select>
+      
+            </div>
+          </div>
+      
+        </div>
+      </div>
+    </div>
+    
+    
+    

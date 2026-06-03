@@ -1,0 +1,102 @@
+<!-- <div class="col-md-12 col-xl-12 mt-5 text-center">
+    <p class="bc-2">{{receiptName}}</p>
+</div> -->
+<style>
+    body {
+        background-color: white !important;
+    }
+</style>
+<div class="temp-Content">
+    <div class="my-container">
+        <ng-template #customLoadingTemplate>
+            <div class="custom-class">
+
+            </div>
+        </ng-template>
+        <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+        </ngx-loading>
+
+    </div>
+    <style>
+
+    </style>
+    <div class="col-md-8 offset-md-2 pt-3 pb-3">
+        <div id="template">
+            <div class="d-flex justify-content-end mr-3">
+                <ul class="temp-ul mt-3">
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('RD-Installment-Chart.pdf')" />
+                    </li>
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <kendo-pdf-export #pdf paperSize="A3" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="false">
+                            <div id="temp-box">
+                                <div class="mt-2 border rounded shadow-sm bg-white">
+                                    <div class="row" id="printid">
+                                        <div class="col-md-12">
+                                            <app-company-details></app-company-details>
+                                            <div class="report-head">
+                                                <p class="font-18 text-dark text-center m-0">
+                                                    RD Installment Chart
+                                                </p>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 mt-4 mb-4">
+                                                <div class="row mt-2">
+                                                    <div class="col-md-6 col-sm-6 pl-4">
+                                                        <div class="">
+                                                            <p class="font-14 text-left m-0  font-weight-bold m-0">
+                                                                Member Name : {{InstalmentsReportData[0]?.pMembername}}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 pl-4">
+                                                        <div class="">
+                                                            <p class="font-14 text-right m-0  font-weight-bold m-0">
+                                                                RD Account No. : {{InstalmentsReportData[0]?.prdaccountno}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <kendo-grid [kendoGridBinding]="InstalmentsReportData" [groupable]="false" [resizable]="true" [resizable]="true" [pageable]="false" [sortable]="false" [selectable]="true" [group]="groups">
+                                                <kendo-grid-column field="pinstalmentno" title="Installment No." width="120" [headerClass]="{'kendo-left': true}" class="kendo-left">
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="pinstalmentdate" title="Installment Date" width="90" [headerClass]="{'kendo-left': true}" class="kendo-left">
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        {{dataItem.pinstalmentdate | date:'dd/MM/yyyy'}}
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column field="pinstalmentamount" title="Installment Amount" width="100" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        {{dataItem.pinstalmentamount | mycurrencypipe}}
+                                                    </ng-template>
+                                                    <ng-template kendoGridFooterTemplate>
+                                                        <div *ngIf="pinstalmentamount == 0"></div>
+                                                        <div *ngIf="pinstalmentamount !== 0">
+                                                            <p class="bc-2 text-right">
+                                                                {{totalinstalmentamount | mycurrencypipe}}
+                                                            </p>
+                                                        </div>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                            </kendo-grid>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </kendo-pdf-export>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

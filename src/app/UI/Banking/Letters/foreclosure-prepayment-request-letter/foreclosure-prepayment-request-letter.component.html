@@ -1,0 +1,125 @@
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<style>
+
+</style>
+<div class="col-md-12 mt-5 mb-4">
+    <div id="template">
+        <div class="d-flex justify-content-end mr-3">
+            <ul class="temp-ul">
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Default Reminder Letter.pdf')" />
+                </li>
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="false">
+                        <div id="temp-box">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <app-company-details></app-company-details>
+                                    <div class="report-head">
+                                        <p class="font-18 text-dark text-center m-0">Foreclosure Prepayment Request Letter</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="font-14 text-left m-0 font-weight-bold">From :</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6"> ____________Borrower / Co-Borrower Name:<br> _____________Address of the Borrower / Co-Borrower:<br> ______________
+                                        <br> _______________
+                                        <br> _______________
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="font-14 text-left m-0 mb-5">To<br>The Branch Manager,<br> Enorme Capital Private Limited,
+                                            <br> No 422, 2nd Floor,
+                                            <br>Periyakulam Road, Theni-625531
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Subject: &nbsp; &nbsp; &nbsp;Foreclosure / Part prepayment of the Loan Account No</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Dear Sir/Madam,</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">I/We hold the above referred loan account in your company.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">I am writing this letter to request you to permit foreclosure / part prepayment of my above referred loan account.</p>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">In case of part prepayment:<br> The amount available for part prepayment is Rs. _____________.<br> (or)
+                                            <br> In case of foreclosure:<br> The reason for foreclosure is ________________.<br> Sources of funds: Own Fund / Takeover by other financial institution</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">I am authorising the company to debit charges from the account for the part prepayment / foreclosure of the loan account (if any) as per the loan agreement / sanction letter.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>Thanking you,</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-5">Sincerely,</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-5">Signature of the Borrower/Co-Borrower</p>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                    </kendo-pdf-export>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="section-container">
+    <div class="row p-0">
+      <div class="col-xl-12 col-md-12">
+        <div class="section-content">
+            <div class="row mt-1">
+                <div class="col-md-2 col-xl-2">
+                    <a class="btn btn-b-icon border-0" style="float: left;" (click)="newEmployee()">
+                      <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+                    </a>
+                </div>
+            </div>
+            <br>
+
+            <kendo-grid [kendoGridBinding]="employeeDetails" [pageSize]="10" [pageable]="{buttonCount: 2}"
+            [reorderable]="true"  [sortable]="true" [resizable]="true" (edit)="editEmployeeData($event)">
+
+            <ng-template kendoGridToolbarTemplate>
+                <div class="row mb-4">
+                    <div class="col-md-4 col-xl-4 pl-0 mt-n1">
+                       <input type="search" placeholder="Search in all columns..." class="form-control search-k-cst sb" (input)="searchRecord($event.target.value)">
+                    </div>
+                </div>
+              </ng-template>
+    
+            <kendo-grid-column-group title="Employee Details" [headerClass]="{'kendo-g-center' : true}">
+
+                <kendo-grid-command-column title="Actions" width="100">
+                    <ng-template kendoGridCellTemplate>
+                      <div id="icon-edit" kendoGridEditCommand title="Edit"></div>
+                    </ng-template>
+                  </kendo-grid-command-column>
+    
+                  <kendo-grid-column field="pcontactname" title="Contact Name" width="140" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+              <kendo-grid-column field="pdepartment" title="Department" width="140" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+    
+              <kendo-grid-column field="pbasiamount" title="Basic Salary" width="120" class="kendo-center" [headerClass]="{'kendo-g-center': true}">
+                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                  <span>{{dataItem.pbasiamount | mycurrencypipe}}</span>
+                </ng-template>
+              </kendo-grid-column>
+    
+              <kendo-grid-column field="pctcamount" title="CTC Amount" width="120" class="kendo-center" [headerClass]="{'kendo-g-center': true}">
+                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                <span>{{dataItem.pctcamount | mycurrencypipe}}</span>
+                </ng-template>
+              </kendo-grid-column>
+    
+              <kendo-grid-column field="pesino" title="Esi No." width="80" class="kendo-center" [headerClass]="{'kendo-g-center': true}">
+              </kendo-grid-column>
+    
+              <kendo-grid-column field="pispfeligible" title="PF Eligible" width="130" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                  <span *ngIf="dataItem.pispfeligible==true" class="done"></span>
+                  <span *ngIf="dataItem.pispfeligible==false" class="notdone"></span>
+                </ng-template>
+              </kendo-grid-column>
+    
+              <kendo-grid-column field="ppannumber" title="PAN No." width="130" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+              <kendo-grid-column field="pdateofreporting" title="Date Of Reporting" width="160" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+    
+              <kendo-grid-column field="pdesignationname" title="Joined As" width="100" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+    
+            </kendo-grid-column-group>
+          </kendo-grid>
+        </div>
+      </div>
+    </div>
+</div>
+

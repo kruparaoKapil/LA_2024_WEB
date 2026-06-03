@@ -1,0 +1,100 @@
+<div class="row">
+    <!-- <div class="col-12 mt-5 p-0">
+        <p class="bc-2">Loan Facility</p>
+    </div> -->
+</div>
+<div class="my-container mt-5">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+            <h3>
+                Loading...
+            </h3>
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+</div>
+<form [formGroup]="loanFacilityform">
+    <div class="row">
+        <div class="col-md-6 col-xl-6">
+            <label class="text-dark">Is Loan Facility Available?</label>
+            <div class="material-switch pull-right">
+                <input id="loanfacilityapplicable" name="loanfacilityapplicable" formControlName="pIsloanfacilityapplicable" (change)="IsloanfacilityChange()" type="checkbox"><label class="check-success" for="loanfacilityapplicable"></label>
+            </div>
+        </div>
+        <!--<div class="col-md-12 col-xl-12">
+      <label>Is Loan facility available against Saving Accounts? </label>
+      <div class="form-group">
+        <div class="form-check form-check-inline radio-btn-secondary">
+          <input class="form-check-input " type="radio" formControlName="pIsloanfacilityapplicable" id="Yes" value="Yes" (change)="IsloanfacilityChange()">
+          <label for="Yes"> Yes</label>
+        </div>
+
+        <div class="form-check form-check-inline radio-btn-secondary">
+          <input class="form-check-input " type="radio" formControlName="pIsloanfacilityapplicable" id="No" value="No" (change)="IsloanfacilityChange()">
+          <label for="No"> No</label>
+        </div>
+      </div>
+    </div>-->
+    </div>
+    <div class="loanyes mt-2" *ngIf="loanyes">
+        <div class="row">
+            <div class="col-md-12 col-xl-12">
+                <div class="form-group">
+                    <label id="pEligiblepercentage" title="Eligible Percentage">How Much Percentage of Saving's A/C can be Availed as Loan</label>
+                    <div class="col-md-6 col-xl-6 pl-0">
+                        <div class="input-group ">
+                            <input class="form-control w-25 rounded-left" type="text" formControlName="pEligiblepercentage" ThreeDigitNumber [ngClass]="{ 'is-invalid': loanFacilityErrorMessages.pEligiblepercentage }">
+                            <div class="input-group-append">
+                                <label class=" btn-lg-icon  pt-2 pr-2 pl-2 h-100 pb-0 rounded-right "> % </label>
+                            </div>
+                            <div class="invalid-feedback">
+                                <span *ngIf="loanFacilityErrorMessages.pEligiblepercentage">{{loanFacilityErrorMessages?.pEligiblepercentage}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-xl-12">
+                <div class="form-group">
+                    <label id="pAgeperiod" title="Age of Saving's A/C">Age of Saving's A/C for Loan</label>
+                    <label id="pAgeperiodtype" title="Age Period Type"></label>
+                    <div class="col-md-6 col-xl-6 pl-0">
+                        <div class="input-group">
+                            <input class="form-control" type="text" formControlName="pAgeperiod" appNumbersonly maxlength="3" [ngClass]="{ 'is-invalid': loanFacilityErrorMessages.pAgeperiod }">
+
+                            <div class="input-group-append">
+                                <select class="form-control w-auto btn-lg-icon" formControlName="pAgeperiodtype" [ngClass]="{ 'is-invalid': loanFacilityErrorMessages.pAgeperiodtype }">
+                         <option ng-selected="selected" value="" disabled>Select</option>
+                               <option>Days</option>
+                              <option>Months</option>
+                             <option>Years</option>
+                          </select>
+                          <!-- <ng-select title="Age of Saving's A/C for Loan" id="pAgeperiodtype" [items]="lstageperiodtype" formControlName="pAgeperiodtype" bindLabel="periodtype" bindValue="periodtype" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                            [clearOnBackspace]=true [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pAgeperiodtype }">
+                                        </ng-select> -->
+                            </div>
+                        </div>
+                         <div class="d-flex p-0">
+                          <div class="invalid-feedback col-8" >
+                         <span *ngIf="loanFacilityErrorMessages.pAgeperiod">{{loanFacilityErrorMessages?.pAgeperiod}}</span>
+                        </div>
+                      <div class="invalid-feedback col-4 pr-0">
+                          <span *ngIf="loanFacilityErrorMessages.pAgeperiodtype">{{loanFacilityErrorMessages?.pAgeperiodtype}}</span>
+                        </div>
+                     
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!--row-end-->
+<div class="d-flex justify-content-end mt-4">
+    <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="clearLoanfacility()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+    <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="nexttabclick()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false">        <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i> {{savebutton}}
+</a>
+</div>
+<!--buttons-end-->

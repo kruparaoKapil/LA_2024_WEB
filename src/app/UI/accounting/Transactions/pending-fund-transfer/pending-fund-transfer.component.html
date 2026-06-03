@@ -1,0 +1,324 @@
+<div class="card-header">
+    <div class="col-md-6 col-xl-6 mb-3">
+        <p class="bc-2">Pending Fund Transfers</p>
+    </div>
+</div>
+
+<div class="section-container">
+    <div class="card-box">
+
+        <form [formGroup]="ReceiptForm" autocomplete="off">
+
+            <!-- ── Date ── -->
+            <div class="row">
+                <div class="col-md-4 col-xl-3">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="text" class="form-control w-auto"
+                            formControlName="preceiptdate"
+                            [bsConfig]="dpConfig1" bsDatepicker readonly>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Pending Grid ── -->
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="rounded border">
+                        <kendo-grid [data]="pendingList"
+                            [pageable]="false" [sortable]="true" [resizable]="true">
+
+                            <kendo-grid-column title="Select" width="70">
+                                <ng-template kendoGridCellTemplate let-row>
+                                    <input type="radio" name="pendingRow"
+                                        [checked]="selectedRow && selectedRow.recordid === row.recordid"
+                                        (change)="onRadioSelect(row)" />
+                                </ng-template>
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="from_company_name" title="From Company" width="200">
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="from_branch_name" title="From Branch" width="150">
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="voucher_reference" title="Voucher Ref." width="150">
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="voucher_date" title="Voucher Date" width="130">
+                            </kendo-grid-column>
+
+                            <kendo-grid-column field="voucher_amount" title="Amount" width="130">
+                                <ng-template kendoGridCellTemplate let-row>
+                                    {{ row.voucher_amount | number:'1.2-2' }}
+                                </ng-template>
+                            </kendo-grid-column>
+
+                        </kendo-grid>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Receipt Form ── -->
+            <div *ngIf="selectedRow">
+
+                <!-- Mode of Receipt -->
+                <div class="row mt-2">
+                    <div class="mt-1 mb-4 col-12">
+                        <div class="rounded border p-2 pt-3 pl-3 shadow-sm">
+                            <p class="bc-2">Mode of Receipt</p>
+
+                            <div class="form-group mt-2 pl-0">
+                                <div class="form-check form-check-inline radio-btn">
+                                    <input class="form-check-input" type="radio"
+                                        formControlName="pmodofreceipt" id="CASH" value="CASH">
+                                    <label class="mt-1" (click)="Paymenttype('Cash')" for="CASH">
+                                        Cash - {{ cashBalance }}
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline radio-btn">
+                                    <input class="form-check-input" type="radio"
+                                        formControlName="pmodofreceipt" id="BANK" value="BANK">
+                                    <label class="mt-1" (click)="Paymenttype('Bank')" for="BANK">
+                                        Bank - {{ bankBalance }}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Bank sub-types -->
+                            <div *ngIf="bankshowhide">
+                                <div class="ml-3 mb-3 rounded border pl-2 pr-2 badge-light d-inline-block">
+                                    <div class="form-check form-check-inline radio-btn-secondary">
+                                        <input class="form-check-input" type="radio"
+                                            formControlName="ptranstype"
+                                            (click)="Banktype('Cheque')" id="cheque" value="Cheque">
+                                        <label class="mt-1" for="cheque">Cheque</label>
+                                    </div>
+                                    <div class="form-check form-check-inline radio-btn-secondary">
+                                        <input class="form-check-input" type="radio"
+                                            formControlName="ptranstype"
+                                            (click)="Banktype('Online')" id="net" value="Online">
+                                        <label class="mt-1" for="net">Online</label>
+                                    </div>
+                                    <div class="form-check form-check-inline radio-btn-secondary">
+                                        <input class="form-check-input" type="radio"
+                                            formControlName="ptranstype"
+                                            (click)="Banktype('Debit Card')" id="debit" value="Debit Card">
+                                        <label class="mt-1" for="debit">Debit Card</label>
+                                    </div>
+                                    <div class="form-check form-check-inline radio-btn-secondary">
+                                        <input class="form-check-input" type="radio"
+                                            formControlName="ptranstype"
+                                            (click)="Banktype('Credit Card')" id="credit" value="Credit Card">
+                                        <label class="mt-1" for="credit">Credit Card</label>
+                                    </div>
+                                </div>
+
+                                <!-- Cheque -->
+                                <div *ngIf="chequeshowhide">
+                                    <div class="row">
+                                        <div class="col-md-3 form-group">
+                                            <label id="pbankname" title="Bank Name">Bank Name</label>
+                                            <input class="form-control" type="text"
+                                                formControlName="pbankname" placeholder="Bank Name"
+                                                [ngClass]="{'is-invalid': formValidationMessages?.pbankname}">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label id="pbranchname" title="Branch Name">Branch Name</label>
+                                            <input class="form-control" type="text"
+                                                formControlName="pbranchname" placeholder="Branch Name">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label id="pChequenumber" title="Cheque No">Cheque No</label>
+                                            <input class="form-control" type="text"
+                                                formControlName="pChequenumber"
+                                                placeholder="Cheque No" maxlength="30"
+                                                [ngClass]="{'is-invalid': formValidationMessages?.pChequenumber}">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label id="pchequedate" title="Cheque Date">Cheque Date</label>
+                                            <input type="text" class="form-control w-auto"
+                                                formControlName="pchequedate"
+                                                [bsConfig]="dpConfig" bsDatepicker readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Online -->
+                                <div *ngIf="onlineshowhide">
+                                    <div class="row">
+                                        <div class="col-md-3 form-group">
+                                            <label id="pbankname" title="Bank Name">Bank Name</label>
+                                            <input class="form-control" type="text"
+                                                formControlName="pbankname" placeholder="Bank Name"
+                                                [ngClass]="{'is-invalid': formValidationMessages?.pbankname}">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label id="ptypeofpayment" title="Type of Receipt">Type of Receipt</label>
+                                            <select class="form-control" formControlName="ptypeofpayment"
+                                                (change)="typeofPaymentChange($event)"
+                                                [ngClass]="{'is-invalid': formValidationMessages?.ptypeofpayment}">
+                                                <option value="" disabled>Select</option>
+                                                <option *ngFor="let t of typeofpaymentlist; trackBy: trackByFn"
+                                                    [value]="t.ptypeofpayment">{{ t.ptypeofpayment }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label id="pChequenumber" title="Reference No">Reference No</label>
+                                            <input class="form-control" type="text"
+                                                formControlName="pChequenumber"
+                                                placeholder="Reference No" maxlength="30"
+                                                [ngClass]="{'is-invalid': formValidationMessages?.pChequenumber}">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label id="pchequedate" title="Transaction Date">Transaction Date</label>
+                                            <input type="text" class="form-control w-auto"
+                                                formControlName="pchequedate"
+                                                [bsConfig]="dpConfig1" bsDatepicker readonly>
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label id="pdepositbankid" title="Deposited Bank Name">Deposited Bank Name</label>
+                                            <select class="form-control" formControlName="pdepositbankid"
+                                                (change)="typeofDepositBank($event)"
+                                                [attr.disabled]="DepositBankDisable ? '' : null"
+                                                [ngClass]="{'is-invalid': formValidationMessages?.pdepositbankid}">
+                                                <option value="" disabled>Select</option>
+                                                <option *ngFor="let bank of banklist; trackBy: trackByFn"
+                                                    [value]="bank.pbankid">{{ bank.pbankname }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-12 mb-2">
+                                            <span class="badge-success badge p-1 font-weight-light">
+                                                Bank Book - {{ bankbookBalance }}
+                                            </span>
+                                            <span class="badge-warning badge p-1 font-weight-light ml-2">
+                                                Pass Book - {{ bankpassbookBalance }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Debit Card -->
+                                <div *ngIf="DebitShowhide">
+                                    <div class="row">
+                                        <div class="col-md-3 form-group">
+                                            <label id="pCardNumber" title="Debit Card">Debit Card</label>
+                                            <input class="form-control" type="text"
+                                                formControlName="pCardNumber"
+                                                placeholder="XXXX XXXX XXXX 3066" maxlength="16"
+                                                [ngClass]="{'is-invalid': formValidationMessages?.pCardNumber}">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label id="pbankname" title="Bank / Financial Services">Bank / Financial Services</label>
+                                            <input class="form-control" type="text"
+                                                formControlName="pbankname" placeholder="SBI-Master Card"
+                                                [ngClass]="{'is-invalid': formValidationMessages?.pbankname}">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label id="pChequenumber" title="Reference No">Reference No</label>
+                                            <input class="form-control" type="text"
+                                                formControlName="pChequenumber"
+                                                placeholder="Reference No" maxlength="30"
+                                                [ngClass]="{'is-invalid': formValidationMessages?.pChequenumber}">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label id="pdepositbankid" title="Deposited Bank Name">Deposited Bank Name</label>
+                                            <select class="form-control" formControlName="pdepositbankid"
+                                                (change)="typeofDepositBank($event)"
+                                                [attr.disabled]="DepositBankDisable ? '' : null">
+                                                <option value="" disabled>Select</option>
+                                                <option *ngFor="let bank of banklist; trackBy: trackByFn"
+                                                    [value]="bank.pbankid">{{ bank.pbankname }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Credit Card -->
+                                <div *ngIf="creditShowhide">
+                                    <div class="row">
+                                        <div class="col-md-3 form-group">
+                                            <label id="pCardNumber" title="Credit Card">Credit Card</label>
+                                            <input class="form-control" type="text"
+                                                formControlName="pCardNumber"
+                                                placeholder="XXXX XXXX XXXX 3066" maxlength="16"
+                                                [ngClass]="{'is-invalid': formValidationMessages?.pCardNumber}">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label id="pbankname" title="Bank / Financial Services">Bank / Financial Services</label>
+                                            <input class="form-control" type="text"
+                                                formControlName="pbankname" placeholder="SBI-Master Card"
+                                                [ngClass]="{'is-invalid': formValidationMessages?.pbankname}">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label id="pChequenumber" title="Reference No">Reference No</label>
+                                            <input class="form-control" type="text"
+                                                formControlName="pChequenumber"
+                                                placeholder="Reference No" maxlength="30"
+                                                [ngClass]="{'is-invalid': formValidationMessages?.pChequenumber}">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label id="pdepositbankid" title="Deposited Bank Name">Deposited Bank Name</label>
+                                            <select class="form-control" formControlName="pdepositbankid"
+                                                (change)="typeofDepositBank($event)"
+                                                [attr.disabled]="DepositBankDisable ? '' : null">
+                                                <option value="" disabled>Select</option>
+                                                <option *ngFor="let bank of banklist; trackBy: trackByFn"
+                                                    [value]="bank.pbankid">{{ bank.pbankname }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- /bankshowhide -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Narration + Amount -->
+                <div class="row mt-2">
+                    <div class="col-md-6 form-group">
+                        <label>Narration</label>
+                        <textarea class="form-control" rows="3"
+                            formControlName="pnarration" maxlength="300"
+                            [ngClass]="{'is-invalid': formValidationMessages?.pnarration}"></textarea>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label>Amount</label>
+                        <input class="form-control" type="text"
+                            [value]="selectedRow?.voucher_amount | number:'1.2-2'"
+                            readonly />
+                    </div>
+                </div>
+
+            </div>
+            <!-- /selectedRow -->
+
+        </form>
+
+        <!-- Action Buttons -->
+        <div class="row mt-4 mb-4">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-secondary mr-4 px-3 border-0"
+                        (click)="clearSelection()">
+                        <img src="assets/images/icon-cancel-white.svg"
+                            width="20px" height="20px" class="mr-2">
+                        Clear
+                    </button>
+                    <button type="button" class="btn btn-primary px-3 border-0 ml-4"
+                        [disabled]="disablesavebutton"
+                        (click)="save()">
+                        <i class="fa"
+                            [ngClass]="{'fa-spin fa-spinner': disablesavebutton,
+                                        'fa-check': !disablesavebutton}"></i>
+                        &nbsp;{{ savebutton }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,141 @@
+<div class="section-container">
+
+<div class="row">
+    <div class="col-md-6 col-xl-6 ">
+      <p class="bc-2">Pan Number Update</p>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-12 col-xl-12">
+
+        <form [formGroup]="panUpdateForm" autocomplete="off">
+          <div class="row mt-1">
+            <div class="col-md-8 col-xl-8">
+              <div class="form-group">
+              <label id="pContactdId" title="Select Contact">Select Contact</label>
+             
+              <ng-select [items]="contactsList" formControlName="pContactdId" bindLabel="pContactName" bindValue="pContactdId" [multiple]=false placeholder="Select" [searchable]="true" [searchFn]="customSearchFn" (change)="ContactGridRowSelect($event);" [clearable]=true
+              dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': PlotsLayoutsValidationErrors.pContactdId}">
+              <ng-template ng-header-tmp>
+                  <div class="row">
+                      <span class="col-3 text-center">Name</span>
+                      <span class="col-3 text-center">Mobile</span>
+                      <span class="col-3 text-center">Reference Id</span>
+                      <span class="col-3 text-center">Member Id</span>
+                      <!-- <span class="col-3">Email</span> -->
+                  </div>
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  <div class="row">
+                      <span class="col-md-3 word-break text-wrap" >{{item.pContactName}}</span>
+                      <span class="col-3 text-center" >{{item.pContactNumber}}</span>
+                      <span class="col-3 text-center" >{{item.pContactreferenceid}}</span>
+                      <span class="col-3 text-center" >{{item.pMembercode}}</span>
+                      <!-- <span class="col-3 word-break text-wrap" >{{item.pContactEmail}}</span> -->
+                  </div>
+      
+              </ng-template>
+          </ng-select>
+          <div class="invalid-feedback">
+            <span
+                *ngIf="PlotsLayoutsValidationErrors?.pContactdId">{{PlotsLayoutsValidationErrors.pContactdId}}</span>
+        </div>
+        </div>
+            </div>
+
+            <!-- <div class="col-md-6 col-xl-6">
+                <label id="pagentid" title="Agent Name">Pan Number</label>
+
+                <input type="text" formControlName="pDocreferenceno" class="form-control">
+               
+                
+  
+              </div> -->
+          </div>
+
+          <div class="row mt-1">
+           
+
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+
+                <label id="pDocType" title="Document Type">Document Type</label>
+
+                <input type="text" formControlName="pDocType" class="form-control" readonly>
+               
+                
+              </div>
+  
+              </div>
+
+              <div class="col-md-4 col-xl-4">
+                <div class="form-group">
+
+                <label id="pDocName" title="Document Name">Document Name</label>
+
+                <input type="text" formControlName="pDocName" class="form-control" readonly>
+               
+                </div>
+  
+              </div>
+
+              <div class="col-md-4 col-xl-4">
+                <div class="form-group">
+
+                <label id="pDocreferenceno" title="Pan Card No.">Pan Card No.</label>
+
+                <input type="text" formControlName="pDocreferenceno" class="form-control" appUppercase [ngClass]="{ 'is-invalid': PlotsLayoutsValidationErrors.pDocreferenceno}">
+                <div class="invalid-feedback">
+                  <span
+                      *ngIf="PlotsLayoutsValidationErrors?.pDocreferenceno">{{PlotsLayoutsValidationErrors.pDocreferenceno}}</span>
+              </div>
+               </div>
+  
+              </div>
+
+              <div class="col-md-6 col-xl-4 ">
+                <div class="form-group">
+                    <label id="pDocStorePath" title="Upload Identification Proof">Upload Identification Proof</label>
+                    <div class="input-group">
+                        <input #input type="text" class="form-control" placeholder="" [value]="imageResponse?.name" disabled formControlName="pDocStorePath">
+                        <div class="input-group-append">
+                            <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()">
+          <img src="assets/images/icon-upload-blue.svg" class="" width="18px" height="18px">
+        </button>
+                            <!-- to uplaod the image -->
+                            <input id="fileInput1" style="display: none" type="file" (change)="uploadAndProgress($event,fileInput.files)" #fileInput>
+                        </div>
+                        <span class="text-success">
+        <ng-container *ngIf="uploadSuccess"></ng-container>
+      </span>
+                    </div>
+
+                </div>
+
+            </div>
+          </div>
+        </form>
+       
+  
+    
+    </div>
+  </div>
+
+  <div class="row mt-4 ml-1 mb-4">
+    <div class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end mt-2" >
+
+            <!-- <a data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearInterestPayment()"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a> -->
+
+            <a data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="savePanDeails()">
+                <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" >
+                <i class="fa" ></i> Save
+            </a>
+            
+
+        </div>
+    </div>
+</div>
+</div>
+
+

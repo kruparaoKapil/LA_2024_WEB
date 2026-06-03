@@ -1,0 +1,167 @@
+<div class="col-md-12 col-xl-12 p-0">
+    <p class="bc-2 pb-3">Bank Reconciliation</p>
+</div>
+<div class="section-container">
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<div class="col-md- p-0">
+    <div id="template">
+        <form [formGroup]="BRStatmentForm" autocomplete="off">
+
+            <div class="row mb-4 pb-4">
+                <div class="col-xs-3 col-md-3 form-group">
+                    <label>Bank Name</label>
+                    <select class="form-control" id="pbankname" title="Bank Name" formControlName="pbankname" [ngClass]="{ 'is-invalid': f.pbankname.errors && submitted }">
+                        <option value="" ng-selected="selected">Select</option>
+                        <option *ngFor="let bankDataDetails of bankData;" [value]="bankDataDetails.pbankaccountid">
+                            {{bankDataDetails.pbankname}}</option>
+                    </select>
+
+                    <div *ngIf="submitted &&f.pbankname.errors?.required" class="invalid-feedback">
+                        Select Bank Name</div>
+                </div>
+                <div class="col-xs-3 col-md-3 form-group">
+                    <label>As on Date</label>
+                    <div class="input-group">
+                        <!-- <input type="text" class="form-control" bsDatepicker [bsConfig]="{ isAnimated: true }" [maxDate]="startDate" formControlName="fromDate" [ngClass]="{ 'is-invalid': f.fromDate.errors }"> -->
+                        <input type="text" class="form-control" formControlName="fromDate" placeholder="Date picker here" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+                        <!-- <div *ngIf="submitted &&f.fromDate.errors" class="invalid-feedback">
+                                                <div *ngIf="f.fromDate.errors.required">Select From Date</div>
+                                            </div> -->
+                    </div>
+                </div>
+                <div class="justify-content-end d-flex">
+                <div class=" pt-4 mt-2">
+                    <div class="example-wrapper">
+                        <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="getBRStatmentReports()">
+                            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                            <span *ngIf="!isLoading"><img class="mr-3" height="20px"
+                                    src="assets/images/reports-white.svg" width="20px"></span> {{savebutton}}
+                        </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="d-flex justify-content-end">
+            <ul class="temp-ul">
+                <li class="temp-ico">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Bank_Reconciliation_Report.pdf')" />
+                </li>
+                <li class="temp-ico">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li>
+            </ul>
+
+        </div>
+        <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+            <div id="temp-box">
+
+                <div class="mt-2 border rounded shadow-sm bg-white">
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <app-company-details></app-company-details>
+
+                            <div class="report-head mt-2">
+                                <p class="font-16 text-dark text-center m-0">
+                                    Bank Reconciliation
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" border  shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+					font-weight: bold !important;">As on :</span>
+                            <label class="print-font">{{startDate}}</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="font-14 text-right m-0" style="font-size: 14px !important;
+					font-weight: bold !important;">{{bankname}}</p>
+                        </div>
+                    </div>
+
+
+                    <kendo-grid [kendoGridBinding]="gridView" [pageable]="false" [sortable]="false" [groupable]="false" [reorderable]="true" [resizable]="true" [group]="groups" [sort]="sort" [scale]="0.9">
+                        <kendo-grid-column field="pGroupType" title="Transaction Date" [hidden]="hdnTranDate">
+                            <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                                {{value}}
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="ptransactiondate" title="Transaction Date">
+                            <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                {{dataItem.ptransactiondate}}
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pChequeNumber" title="Cheque No."></kendo-grid-column>
+                        <kendo-grid-column field="pparticulars" title="Particulars"></kendo-grid-column>
+                        <!-- <kendo-grid-column field="pGroupType" title="Group Type">
+                            <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                                {{value}}
+                            </ng-template>
+                        </kendo-grid-column> -->
+                        <kendo-grid-column title="Amount" class="kendo-right" [headerClass]="{'kendo-right': true}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <div *ngIf="dataItem.ptotalreceivedamount == 0"></div>
+                                <div *ngIf="dataItem.ptotalreceivedamount !== 0" class="text-right">
+                                    {{dataItem.ptotalreceivedamount.toFixed(2) | mycurrencypipe}}
+                                </div>
+                            </ng-template>
+                            <ng-template kendoGridGroupFooterTemplate let-group="group" let-aggregates="aggregates">
+                                <p class="bc-2 text-right">
+                                    {{ aggregates.ptotalreceivedamount.sum.toFixed(2) | mycurrencypipe }}</p>
+                            </ng-template>
+                        </kendo-grid-column>
+                    </kendo-grid>
+                    <div class="temp-box-inner border rounded shadow-sm bg-white p-3 mt-4" style="overflow:hidden; height:auto !important;" *ngIf="show">
+                        <div class="row">
+                            <div class="col-12">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 pl-0">
+                                <p class="m-0"><label class="font-weight-bold col-md-4 pl-0">Balance as per bank
+                                        book</label>
+                                    <label class="print-font">: {{pBankBookBalance | negativevalue}}</label>
+                                </p>
+                                <p class="m-0"><label class="font-weight-bold col-md-4 pl-0">less: Cheques deposited but
+                                        not
+                                        credited</label>
+                                    <label class="print-font">:
+                                        {{chequesdepositedbutnotcredited.toFixed(2)  | mycurrencypipe}}</label>
+                                </p>
+                                <p class="m-0"><label class="font-weight-bold col-md-4 pl-0">Add: cheques issued but not
+                                        cleared</label>
+                                    <label class="print-font">:
+                                        {{CHEQUESISSUEDBUTNOTCLEARED | mycurrencypipe}}</label>
+                                </p>
+                                <p class="m-0"><label class="font-weight-bold col-md-4 pl-0">Balance as per pass
+                                        book / statement</label>
+                                    <label class="print-font">: {{Balanceasperbankbook | mycurrencypipe}}</label>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </kendo-pdf-export>
+        <!-- main content end -->
+    </div>
+</div>

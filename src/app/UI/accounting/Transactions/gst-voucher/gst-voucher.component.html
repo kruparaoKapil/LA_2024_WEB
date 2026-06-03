@@ -1,0 +1,627 @@
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<div class="section-container">
+    <div class="row">
+        <div class="col-md-6 col-xl-6  mt-3">
+            <span class="bc-2">GST Voucher</span>
+        </div>
+        <!-- <div class="col-md-6 col-xl-6  mt-3">
+        <a routerLink='/' style="background-color: #4b70ff;
+      color: #fff !important; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img src="assets/images/icon-back-blue.svg" width="25px" height="25px"> View</a>
+    </div> -->
+    </div>
+
+    <form [formGroup]="GSTVoucherForm" autocomplete="off">
+        <div class="card-box mt-4">
+
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>GST Voucher Date</label>
+                        <input type="text" class="form-control " formControlName="gstvoucher_date"
+                            placeholder="Date picker here" [bsConfig]="dpConfig1" #dp="bsDatepicker" bsDatepicker
+                            placement="bottom" readonly>
+
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="required-field" id="debitparentid" title="Account Head">Account Head</label>
+                        <!-- <input type="text" class="form-control " formControlName="accounthead" >       -->
+                        <ng-select [items]="ledgeraccountslist" formControlName="debitparentid" groupBy="pAccounttype"
+                            bindLabel="paccountname" id="debitparentid" bindValue="paccountid" [multiple]=false
+                            placeholder="Select" [searchable]=true [clearable]=false
+                            (change)="accountheadChange($event)" dropdownPosition="bottom" [clearOnBackspace]=true
+                            [ngClass]="{ 'is-invalid': formValidationMessages.debitparentid }">
+                            <!-- <ng-template ng-optgroup-tmp let-item="item">
+             {{item.pAccounttype}}
+           </ng-template> -->
+                        </ng-select>
+                        <app-validation-message
+                            [messgae]="formValidationMessages?.debitparentid"></app-validation-message>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="required-field" id="invoiceno" title="Invoice No">Invoice No.</label>
+                        <input type="text" class="form-control " id="invoiceno" formControlName="invoiceno" appUppercase (blur)="checkInvoiceNo()"
+                            [ngClass]="{ 'is-invalid': formValidationMessages.invoiceno }">
+                        <app-validation-message [messgae]="formValidationMessages?.invoiceno"></app-validation-message>
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="">Invoice Date</label>
+                        <input type="text" class="form-control " formControlName="invoicedate"
+                            placeholder="Date picker here" [bsConfig]="dpConfig1" #dp="bsDatepicker" bsDatepicker
+                            placement="bottom" readonly>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="card-box">
+
+            <div class="row mt-2">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required-field" id="ppartyname" title="Party Name">Party Name</label>
+                        <!-- <input type="text" class="form-control " formControlName="ppartyname" >                 -->
+
+                        <ng-select [items]="partyDetailslist" formControlName="ppartyname" id="ppartyname"
+                            bindLabel="pcontactmailingname" bindValue="pcontactid" [multiple]=false placeholder="Select"
+                            [searchable]=true [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true
+                            (change)="changePartyName($event)"
+                            [ngClass]="{ 'is-invalid': formValidationMessages.ppartyname }">
+
+                        </ng-select>
+                        <app-validation-message [messgae]="formValidationMessages?.ppartyname"></app-validation-message>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="">GST No.</label>
+                        <input type="text" class="form-control " formControlName="gst_Number" readonly>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required-field" id="pStateId" title="State">State</label>
+                        <input type="text" class="form-control" id="pStateId" formControlName="pStateId" readonly
+                            [ngClass]="{ 'is-invalid': formValidationMessages.pStateId }">
+                        <app-validation-message [messgae]="formValidationMessages?.pStateId"></app-validation-message>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="">Address</label>
+
+                        <textarea class="form-control " formControlName="paddress" rows="4" cols="50"
+                            readonly></textarea>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="">Pan No.</label>
+                        <input type="text" class="form-control " formControlName="ppanno" readonly>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="">Aadhar No.</label>
+                        <input type="text" class="form-control " formControlName="paadharno" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <h5>Product Details</h5>
+
+            <div class="row mt-2">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required-field" id="product_name" title="Product Name">Product Name</label>
+                        <!-- <input type="text" class="form-control" id="product_name" formControlName="product_name"
+                        appCharactersonly [ngClass]="{ 'is-invalid': formValidationMessages.product_name }"> -->
+
+                        <ng-select [items]="productNameList" formControlName="product_name" id="product_name"
+                            bindLabel="pProductName" bindValue="pProductName" [multiple]=false placeholder="Select"
+                            [searchable]=true [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true
+                            (change)="changeProductNames($event)"
+                            [ngClass]="{ 'is-invalid': formValidationMessages.product_name }">
+
+                        </ng-select>
+                        <app-validation-message
+                            [messgae]="formValidationMessages?.product_name"></app-validation-message>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required-field" id="hsN_code" title="HSN Code">HSN Code</label>
+                        <input type="text" class="form-control" id="hsN_code" formControlName="hsN_code" appNumbersonly
+                            readonly [ngClass]="{ 'is-invalid': formValidationMessages.hsN_code }">
+                        <app-validation-message [messgae]="formValidationMessages?.hsN_code"></app-validation-message>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required-field" id="product_qty" title="Product Quantity">Product quantity</label>
+                        <input type="text" class="form-control" id="product_qty" formControlName="product_qty"
+                            appNumbersonly (blur)="productCalculation()" style="text-align: right;"
+                            [ngClass]="{ 'is-invalid': formValidationMessages.product_qty }">
+                        <app-validation-message
+                            [messgae]="formValidationMessages?.product_qty"></app-validation-message>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required-field" id="product_cost" title="Product Cost">Product Cost</label>
+                        <input type="text" class="form-control" id="product_cost" formControlName="product_cost"
+                            (blur)="productCalculation()" style="text-align: right;" appNumbersonly
+                            appMycurrencyFormatter [ngClass]="{ 'is-invalid': formValidationMessages.product_cost }">
+                        <app-validation-message
+                            [messgae]="formValidationMessages?.product_cost"></app-validation-message>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label id="product_discount" title="Product Discount">Product Discount</label>
+                        <input type="text" class="form-control" id="product_discount" formControlName="product_discount"
+                            style="text-align: right;" (blur)="productCalculation()">
+                        <!-- [ngClass]="{ 'is-invalid': formValidationMessages.product_discount }"  -->
+                        <!-- <app-validation-message [messgae]="formValidationMessages?.product_discount"></app-validation-message>             -->
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required-field" id="product_value" title="Product Value">Product Value</label>
+                        <input type="text" class="form-control" id="product_value" formControlName="product_value"
+                            readonly appMycurrencyFormatter style="text-align: right;"
+                            [ngClass]="{ 'is-invalid': formValidationMessages.product_value }">
+                        <app-validation-message
+                            [messgae]="formValidationMessages?.product_value"></app-validation-message>
+                    </div>
+                </div>
+            </div>
+
+            <h5>GST Details</h5>
+
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="required-field" id="gsT_percentage" title="GST Percentage">GST %</label>
+                        <!-- <input type="text" class="form-control" id="gsT_percentage" formControlName="gsT_percentage"
+                            (blur)="gstCalculation()" style="text-align: right;"
+                            [ngClass]="{ 'is-invalid': formValidationMessages.gsT_percentage }"> -->
+                        <ng-select [items]="gstPercentageList" formControlName="gsT_percentage" id="gsT_percentage"
+                            bindLabel="gstPercentage" bindValue="gstPercentage" [multiple]=false placeholder="Select"
+                            [searchable]=true [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true
+                            (change)="changeGSTPercentage($event)"
+                            [ngClass]="{ 'is-invalid': formValidationMessages.gsT_percentage }">
+
+                        </ng-select>
+                        <app-validation-message
+                            [messgae]="formValidationMessages?.gsT_percentage"></app-validation-message>
+
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="required-field" id="gst_amount" title="GST Amount">GST Amount</label>
+                        <input type="text" class="form-control" id="gst_amount" style="text-align: right;"
+                            formControlName="gst_amount" readonly
+                            [ngClass]="{ 'is-invalid': formValidationMessages.gst_amount }">
+                        <app-validation-message [messgae]="formValidationMessages?.gst_amount"></app-validation-message>
+                    </div>
+                </div>
+
+                <div class="col-md-3" *ngIf="gstHidden">
+                    <div class="form-group">
+                        <label class="">CGST Amount</label>
+                        <input type="text" class="form-control " formControlName="cgst_amount"
+                            style="text-align: right;" readonly>
+                    </div>
+                </div>
+
+                <div class="col-md-3" *ngIf="gstHidden">
+                    <div class="form-group">
+                        <label class="">SGST Amount</label>
+                        <input type="text" class="form-control " style="text-align: right;"
+                            formControlName="sgst_amount" readonly>
+                    </div>
+                </div>
+
+                <div class="col-md-3" *ngIf="!gstHidden">
+                    <div class="form-group">
+                        <label class="">IGST Amount</label>
+                        <input type="text" class="form-control " formControlName="igst_amount"
+                            style="text-align: right;" readonly>
+                    </div>
+                </div>
+
+
+                <!-- <div class="col-md-12 col-xl-12">
+                <div class="d-flex justify-content-end mt-2">
+                  
+
+                        <button class="btn btn-lg-icon px-2 p-0" (click)="addToGrid()"> <img src="assets/images/icon-add-blue.svg" class="" width="18px" height="18px" >Add</button>
+                    
+                   
+    
+                </div>
+            </div> -->
+
+                <!-- <div class="col-md-6 col-xl-4">
+                <div class=" d-flex justify-content-end mt-4">
+                    
+                    <a data-toggle="tab" (click)="addToGrid()" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-3">Add</a>
+                </div>
+            </div> -->
+
+
+
+
+
+
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12 col-xl-12">
+                    <div class="d-flex justify-content-end mt-2">
+
+
+                        <a data-toggle="tab" (click)="addToGrid()" class="btn btn-b-icon px-3 border-0" role="tab"
+                            aria-controls="hot" aria-selected="false"><img src="assets/images/icon-add-white.svg"
+                                width="20px" height="20px" class="mr-3">Add</a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-md-12 col-xl-12 pt-4">
+
+                        <div class="rounded border">
+
+                            <kendo-grid [data]="gridData" [pageSize]="gridState.take" [skip]="gridState.skip"
+                                [sort]="gridState.sort" [pageable]="false" [sortable]="true" [resizable]="false">
+
+                                <!-- <kendo-grid-column width="100" [cellClass]="'cell-left'"
+                                    [headerClass]="'header-left'" name="" frozenLeft="True">
+                                    <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+
+                                        <div id="icon-delete" (click)="ClearGstVoucher(row,rowIndex)"></div>
+
+
+                                    </ng-template>
+                                </kendo-grid-column> -->
+
+                                <kendo-grid-column field="" title="Select" width="80">
+                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                        <div id="icon-delete" (click)="gridDataDelete(dataItem,rowIndex)"></div>
+                                    </ng-template>
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="product_name" title="Particular" width="150" [locked]="false">
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="hsN_code" title="HSN Code" width="150" [locked]="false">
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="invoice_amount" title="Amount" width="150" [locked]="false">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.invoice_amount | mycurrencypipe}}
+                                    </ng-template>
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="product_cost" title="Product Cost" width="150"
+                                    [locked]="false">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.product_cost | mycurrencypipe}}
+                                    </ng-template>
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="product_qty" title="Product Quantity" width="150"
+                                    [locked]="false"></kendo-grid-column>
+
+                                <kendo-grid-column field="product_discount" title="Product Discount " width="150"
+                                    [locked]="false">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.product_discount | mycurrencypipe}}
+                                    </ng-template>
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="invoice_No" title="Invoice No. " width="150" [locked]="false">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="gsT_percentage" title="GST % " width="150" [locked]="false">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="gst_amount" title="GST Amount" width="150" [locked]="false">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.gst_amount | mycurrencypipe}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="igst_amount" title="IGST Amount" width="150" [locked]="false"
+                                    *ngIf="!gstHidden">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.igst_amount | mycurrencypipe}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <!-- <kendo-grid-column field="gstno" title="TDS Amount" width="150" [locked]="false">   </kendo-grid-column>
+                        <kendo-grid-column field="gst_Number" title="GST No." width="150" [locked]="false">   </kendo-grid-column>
+                        <kendo-grid-column field="ppartyname" title="Vendor Name" width="150" [locked]="false"> </kendo-grid-column>
+                        <kendo-grid-column field="paadharno" title="Aadhar No." width="150" [locked]="false"> </kendo-grid-column> -->
+                                <kendo-grid-column field="cgst_amount" title="CGST Amount" width="150" [locked]="false"
+                                    *ngIf="gstHidden">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.cgst_amount | mycurrencypipe}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="sgst_amount" title="SGST Amount" width="150" [locked]="false"
+                                    *ngIf="gstHidden">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.sgst_amount | mycurrencypipe}}
+                                    </ng-template>
+                                </kendo-grid-column>
+
+
+
+
+                            </kendo-grid>
+
+                        </div>
+
+
+
+                        <div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="">Total Gross Amount</label>
+                        <input type="text" class="form-control " formControlName="invoice_total_amount"
+                            value={{invoiceAmount}} appMycurrencyFormatter appNumbersonly style="text-align: right;"
+                            readonly>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="">Total GST Amount</label>
+                        <input type="text" class="form-control " formControlName="totalGstAmount"
+                            value={{invoiceGstCalculation}} appMycurrencyFormatter readonly style="text-align: right;">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="">Total Discount Amount</label>
+                        <input type="text" class="form-control " formControlName="discount_amount"
+                            value="{{discountCalculation}}" style="text-align: right;" readonly>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="">Total Invoice Amount</label>
+                        <input type="text" class="form-control " formControlName="invoice_amount"
+                            value={{totalAmountInvoice}} readonly style="text-align: right;">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="rounded border p-2 pt-3 pl-3 shadow-sm ">
+                        <fieldset>
+                            <div class="material-switch">
+                                <span class="mr-2" id="isTdsapplicable" title="TDS"> TDS </span>
+                                <input id="gst-switch" name="gst-switch" formControlName="isTdsapplicable"
+                                    type="checkbox" (change)="tdsApplicableChecked($event);">
+                                <label for="gst-switch" class="badge-success" data-toggle="collapse"
+                                    data-target="#gst"></label>
+                            </div>
+                        </fieldset>
+                        <div class="row" *ngIf="showTDS">
+                            <div class="col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label title="Section" id="tdsSectionName" class="required-field">Section</label>
+                                    <!-- <ng-select [items]="sectionsList" formControlName="sectionName"
+                                            bindLabel="partyName" bindValue="partyId" placeholder="Select"
+                                            [searchable]=true [clearable]=true dropdownPosition="bottom"
+                                            [clearOnBackspace]=true (change)="sectionNameChange($event)"
+                                            [ngClass]="{ 'is-invalid': formValidationMessages.sectionName }">
+                                        </ng-select> -->
+                                    <ng-select [items]="tdssectionlist" formControlName="tdsSectionName"
+                                        bindLabel="pSection" bindValue="pSection" [multiple]=false placeholder="Select"
+                                        [searchable]="true" (change)="sectionNameChange($event);" [clearable]=true
+                                        dropdownPosition="bottom" [clearOnBackspace]=true
+                                        [ngClass]="{ 'is-invalid': formValidationMessages.tdsSectionName }">
+
+
+                                    </ng-select>
+                                    <app-validation-message
+                                        [messgae]="formValidationMessages?.tdsSectionName"></app-validation-message>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label title="Percentage" id="tdsPercentage"
+                                        class="required-field">Percentage</label>
+                                    <ng-select [items]="tdsPerentage" formControlName="tdsPercentage"
+                                        bindLabel="pPanPercentage" bindValue="pPanPercentage" placeholder="Select"
+                                        [searchable]=true [clearable]=true dropdownPosition="bottom"
+                                        [clearOnBackspace]=true (change)="percentageChange($event)"
+                                        [ngClass]="{ 'is-invalid': formValidationMessages.tdsPercentage }">
+                                    </ng-select>
+                                    <app-validation-message
+                                        [messgae]="formValidationMessages?.tdsPercentage"></app-validation-message>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label title="Amount" id="tdsAmount">Amount</label>
+                                    <input formControlName="tdsAmount" class="form-control" type="text"
+                                        value={{tdsAmount}} readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="">Round Off Amount</label>
+                        <input type="text" class="form-control " formControlName="invoice_amount"
+                            value={{decimalAmount}} readonly style="text-align: right;">
+                    </div>
+                </div>
+
+                <div class="col-md-3" hidden>
+                    <div class="form-group">
+                        <label class="">Discount On Invoice Amount</label>
+                        <input type="text" class="form-control " formControlName="invoice_amount"
+                            value={{discountOnInvoice}} readonly style="text-align: right;">
+                    </div>
+                </div>
+
+                <div class="col-md-3" *ngIf="!showTDS">
+                    <div class="form-group">
+                        <label class="">Total Amount</label>
+                        <input type="text" class="form-control " formControlName="invoice_amount"
+                            value={{totalAmountFor}} readonly style="text-align: right;">
+                    </div>
+                </div>
+
+                <div class="col-md-3" *ngIf="showTDS">
+                    <div class="form-group">
+                        <label class="">Total Amount After TDS</label>
+                        <input type="text" class="form-control " formControlName="invoice_amount"
+                            value={{totalAmountFor}} readonly style="text-align: right;">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label id="pNarration" title="Narration">Narration</label>
+                    <textarea class="form-control" style="height:40px" formControlName="pNarration"
+                        maxlength="150"></textarea>
+
+                </div>
+
+
+
+
+
+
+                <!-- <div class="col-4">
+            <div class="form-group">
+                <label id="pImagepath" title="Upload Image" class="required-field">Upload
+                    </label>
+                <div class="input-group">
+                    <input type="text" class="form-control" disabled maxlength="200"
+                        >
+                    <div class="input-group-append">
+                        <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()"><img
+                                src="./assets/images/icon-upload-blue.svg" class="" width="18px"
+                                height="18px"></button>
+                        <input formControlName="pfileName" id="fileGoldLoan" style="display: none"
+                            type="file" multiple (change)="uploadAndProgress($event,fileInput.files)" #fileInput
+                            >
+
+                    </div>
+
+                 
+
+
+
+                </div>
+            </div>
+        </div> -->
+
+                <div class="col-3">
+                    <div class="form-group">
+                        <label id="saleagreementfilename" title="saleagreement filename">Upload </label>
+                        <div class="input-group">
+                            <input #input type="text" class="form-control" placeholder="" [value]="imageResponse?.name"
+                                disabled formControlName="pfileName">
+                            <div class="input-group-append">
+                                <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()">
+                                    <img src="assets/images/icon-upload-blue.svg" class="" width="18px" height="18px">
+                                </button>
+                                <input id="fileInput1" style="display: none" type="file"
+                                    (change)="uploadAndProgress($event,fileInput.files)" #fileInput>
+                            </div>
+                            <span class="text-success">
+                                <ng-container *ngIf="uploadSuccess"></ng-container>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+
+            <hr>
+            <!------------- save Buttons ------------>
+
+            <div class="row ">
+                <div class="col-md-12 col-xl-12">
+                    <div class="d-flex justify-content-end mt-2">
+                        <a (click)="ClearGstVoucher()" class="btn btn-g-icon mr-4 px-3 border-0">
+                            <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px"
+                                class="mr-3">Clear</a>
+                        <!-- <a (click)="saveGenerealReceipt()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab"
+              aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px"
+                height="20px" class="mr-3">Save</a> -->
+                        <!-- <button (click)="saveGstVoucher()" class="btn btn-b-icon px-3 border-0"
+                            [disabled]="disablesavebutton">
+                            <i class="fa"
+                                [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i>
+                            {{savebutton}}
+                        </button> -->
+
+                        <button appButtonDoubleClick [debounceTime]="300" (debounceClick)="saveGstVoucher()"
+                            class="btn btn-s-icon px-3 border-0">
+                            <i class="fa mr-2" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                            <span *ngIf="!isLoading">
+                                <img class="mr-3" height="20px" src="assets/images/icon-check-white.svg" width="20px">
+                            </span>
+                            {{savebutton}}
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

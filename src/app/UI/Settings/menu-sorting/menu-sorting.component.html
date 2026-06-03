@@ -1,0 +1,46 @@
+
+<kendo-grid [kendoGridBinding]="Navigationdata" [groupable]="false" [group]="groups" [pageable]="false" [sortable]="true" [resizable]="true" [sort]="sort">
+    <ng-template kendoGridToolbarTemplate>
+        <div class="row mb-4">
+            <div class="col-4 pl-0 mt-n1">
+                <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+            </div>
+
+        </div>
+    </ng-template>
+
+    <kendo-grid-column field="pmodulename" title="Module">
+        <ng-template kendoGridCellTemplate let-group let-field="field" let-value="value">
+            <!-- {{dataItem.ptransactiondate}} -->
+        </ng-template>
+    </kendo-grid-column>
+
+
+    <kendo-grid-column field="psubmodulename" title="Sub Module">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <!-- {{dataItem.ptransactiondate}} -->
+        </ng-template>
+    </kendo-grid-column>
+
+
+    <kendo-grid-column field="pFunctionName" title="Form Name"></kendo-grid-column>
+
+    <kendo-grid-column field="pfunctionsortorder" title="Sort Order">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <input type="number" (change)="ChangeInput(dataItem,$event)" min="0" max="999" [value]="dataItem.pfunctionsortorder" />
+        </ng-template>
+    </kendo-grid-column>
+   
+
+</kendo-grid>
+<div class="justify-content-end d-flex">
+
+
+    <div class="pt-4 mt-2" *ngIf="btnShow">
+
+        <a aria-controls="hot" aria-selected="false" class="btn btn-s-icon px-3 border-0" (click)="UpdateSortOrder()">
+            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+            <span *ngIf="!isLoading"></span> Update
+        </a>
+    </div>
+</div>

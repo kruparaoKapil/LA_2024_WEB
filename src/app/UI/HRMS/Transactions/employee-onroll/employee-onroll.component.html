@@ -1,0 +1,847 @@
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+
+      </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+
+
+
+<div class="section-container">
+  <div class="row">
+    <div class="col-md-12 col-xl-12">
+      <div class="my-section-content border-box">
+      <kendo-grid [kendoGridBinding]="employeeOnrollList" [pageSize]="10" [pageable]="{buttonCount: 2}"
+        [reorderable]="true"  [sortable]="true" [resizable]="true">
+
+        <ng-template kendoGridToolbarTemplate>
+          <div class="row mb-4">
+              <div class="col-md-4 col-xl-4 pl-0 mt-n1">
+                 <input type="search" placeholder="Search in all columns..." class="form-control search-k-cst sb" (input)="searchRecord($event.target.value)">
+              </div>
+          </div>
+        </ng-template>
+
+        <kendo-grid-column-group title="Employee OnRoll Details" [headerClass]="{'kendo-g-center' : true}">
+
+          <kendo-grid-column title="Actions" width="65" [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+              <span>
+                <button (click)="openPopupView(dataItem)">View</button>
+          </span>
+            </ng-template>
+        </kendo-grid-column>
+
+          <kendo-grid-column field="pEmployeecode" title="Emp ID" width="100" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+          <kendo-grid-column field="pEmployeeName" title="Employee Name" width="180" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+          <kendo-grid-column field="pDesignation" title="Designation" width="140" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+          <kendo-grid-column field="pBasicAmount" title="Basic Salary" width="120" class="kendo-right" [headerClass]="{'kendo-right': true}">
+            <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+              {{dataItem.pBasicAmount | mycurrencypipe}}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pAllowanceAmount" title="Allowances" width="120" class="kendo-right" [headerClass]="{'kendo-right': true}">
+            <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+            {{dataItem.pAllowanceAmount | mycurrencypipe}}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+          <!-- <kendo-grid-column field="pOtherallowanceAmount" title="Other Allowances" width="150" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+              <span>{{dataItem.pOtherallowanceAmount | mycurrencypipe}}</span>
+            </ng-template>
+          </kendo-grid-column>            -->
+
+          <kendo-grid-column field="pCtcAmount" title="Total" width="80" class="kendo-right" [headerClass]="{'kendo-right': true}">
+            <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+             {{dataItem.pCtcAmount | mycurrencypipe}}<span class="ml-5"></span>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="pPfno" title="PF No." width="130" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+          <kendo-grid-column field="pEsino" title="ESI No." width="130" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+          <kendo-grid-column field="pKhcno" title="KHC No." width="130" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+          <kendo-grid-column field="pBloodGroup" title="Blood" width="100" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+          <kendo-grid-column field="pDateOfJoining" title="Date Of Joining" width="130" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+          <kendo-grid-column field="pSscMinutesDate" title="SSC Minutes" width="120" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+        </kendo-grid-column-group>
+      </kendo-grid>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="employeeonrollDetails" style="z-index: 1080 !important;">
+  <div class="modal-dialog modal-fullscreen-sm-down">
+    <div class="modal-content" style="padding:5px 10px !important;height:fit-content;">
+      <div class="head">
+        <button type="button" class="close" (click)="closemodel()">&times;</button>
+      </div>
+      <hr>
+      <div class="container-fluid">
+        <div class="container">
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group" [ngClass]="notEditable ? 'cursor-not-allowaed' : ''">
+                  <div class="form-check form-check-inline mr-5 radio-btn" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                    <input class="form-check-input radio-btn active" type="radio"  id="inlineRadio1" value="Allowance" (change)="allowanceClick()" [(ngModel)]="popupbutton">
+                    <label class="mt-1" for="inlineRadio1">Allowance</label>
+                  </div>
+                  <div class="form-check form-check-inline mr-5 radio-btn" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                    <input class="form-check-input radio-btn" type="radio" id="inlineRadio3" value="Advance" [(ngModel)]="popupbutton" (change)="advanceClick()">
+                    <label class="mt-1" for="inlineRadio3">Advance</label>
+                  </div>
+                  <div class="form-check form-check-inline mr-5 radio-btn" [ngClass]="{'for-disable-radio-btn': notEditable}">
+                    <input class="form-check-input radio-btn" type="radio" id="inlineRadio6" value="Recoveries" [(ngModel)]="popupbutton" (change)="recoveriesClick()">
+                    <label class="mt-1" for="inlineRadio6">Recoveries</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br><br>
+
+
+
+            <div *ngIf="allowanceShow">
+              <div class="section-content">
+                <div class="container">
+                  <div class="row">
+                    <label class="text-primary"><b>{{employeeClickName}} - {{employeeClickDesignation}}</b></label>
+                  </div>
+                <div class="row">
+                  <div class="my-section-content border-box">
+                    
+                <kendo-grid [kendoGridBinding]="allowanceGridData"
+                [pageSize]="10"
+                [pageable]="{buttonCount: 2}"
+                [reorderable]="true"  [sortable]="true" [resizable]="true" (remove)="removeAllowanceDetails($event)">
+
+               <kendo-grid-column-group title="Allowance Details" [headerClass]="{'kendo-g-center' : true}">
+
+                 <!-- <kendo-grid-column title="Actions" width="60" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                  <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                    <span>
+                      <input type="checkbox">
+                    </span>
+
+                  </ng-template>
+                 </kendo-grid-column> -->
+
+                 <kendo-grid-command-column title="Actions" width="50" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                  <ng-template kendoGridCellTemplate>                    
+                    <div id="icon-delete" kendoGridRemoveCommand title="Delete"></div>
+                  </ng-template>
+                </kendo-grid-command-column>
+
+                 <kendo-grid-column field="allowancetype" width="50" title="Allowance Type" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                 <kendo-grid-column field="allowanceamount" width="60" title="Allowance Amount" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                  <!-- <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                    <span>{{dataItem.allowanceamount | mycurrencypipe}}</span>
+                  </ng-template> -->
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.allowanceamount | mycurrencypipe}}<span class="ml-5"></span>
+                  </ng-template>
+
+                  <ng-template kendoGridFooterTemplate>
+                    <p class="bc-2 text-center" style="margin-right: 42px;"> {{totalAllowanceAmount | mycurrencypipe}}</p>
+                  </ng-template>
+                 </kendo-grid-column>
+
+                 <kendo-grid-column field="allowanceperiod" width="30" title="Period" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                 <kendo-grid-column field="typeofallowance" width="60" title="Deduction type" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+              </kendo-grid-column-group>
+              </kendo-grid>
+                  </div>
+                </div>
+              </div>
+
+                <div class="container">
+                <form [formGroup]="allowancesForm">
+                  <div class="row mt-3">
+                    <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label class="required-field" id="allowancetype" title="Allowances">Allowances</label>
+                      <ng-select title="Allowances"  [items]="allowancesDDL"
+                        formControlName="allowancetype" bindLabel="allowancetype" bindValue="allowancetype"
+                        placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true (change)="allowanceChange($event)" [ngClass]="{ 'is-invalid':ErrorMessages['allowancetype'] && allowancesForm.get('allowancetype')?.invalid}">
+                      </ng-select>
+                      <span style="color: red;" *ngIf="allowancesForm.get('allowancetype')?.errors">
+                        {{ErrorMessages['allowancetype']}}</span>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label class="required-field" id="allowanceamount" title="Amount">Amount</label>
+                      <input type="text" class="form-control text-right"  appMycurrencyFormatter appNumbersonly formControlName="allowanceamount" [ngClass]="{ 'is-invalid':ErrorMessages['allowanceamount'] && allowancesForm.get('allowanceamount')?.invalid}">
+                      <span style="color: red;" *ngIf="allowancesForm.get('allowanceamount')?.errors">
+                        {{ErrorMessages['allowanceamount']}}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label id="effectedfromdate" class="required-field" title="Effected From">Effected From</label>
+                      <input  class="form-control" readonly type="text" [bsConfig]="dateConfig" bsDatepicker
+                            formControlName="effectedfromdate" [ngClass]="{ 'is-invalid':ErrorMessages['effectedfromdate'] && allowancesForm.get('effectedfromdate')?.invalid}">
+                            <span style="color: red;" *ngIf="allowancesForm.get('effectedfromdate')?.errors">
+                              {{ErrorMessages['effectedfromdate']}}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-3">
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <br><br>
+                      <input type="checkbox" formControlName="isrecurring" readonly="readonly" value="true" (change)="recurringChange($event)">&nbsp;&nbsp;Recurring
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label class="required-field" id="typeofallowance" title="Allowances Type">Allowances Type</label>
+                      <ng-select title="Allowances Type"  [items]="allowancesTypeDDL"
+                        formControlName="typeofallowance" bindLabel="name" bindValue="value"
+                        placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid':ErrorMessages['typeofallowance'] && allowancesForm.get('typeofallowance')?.invalid}">
+                      </ng-select>
+                      <span style="color: red;" *ngIf="allowancesForm.get('typeofallowance')?.errors">
+                        {{ErrorMessages['typeofallowance']}}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label class="required-field" id="allowanceperiod" title="Allowances Period">Allowances Period</label>
+                      <input type="text" class="form-control"  formControlName="allowanceperiod"  [ngClass]="{ 'is-invalid':ErrorMessages['allowanceperiod'] && allowancesForm.get('allowanceperiod')?.invalid}">
+                      <span style="color: red;" *ngIf="allowancesForm.get('allowanceperiod')?.errors">
+                        {{ErrorMessages['allowanceperiod']}}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-1 ml-1 mb-4">
+                  <div class="col-md-12 col-xl-12">
+                    <div class="d-flex justify-content-end mt-4">
+                     <a (click)="allowanceGridAdd()"
+                 data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px"
+                 height="20px" class="mr-3" />{{allowancegridaddbtn}}</a>
+                    </div>
+                  </div>
+                </div>
+                </form>
+
+                <div class="my-section-content  border-box">
+                  <kendo-grid [kendoGridBinding]="allowanceAddedGridData"
+                    [pageSize]="10" (edit)="editAllowanceAddedGrid($event)" (remove)="removeAllowanceAddedGrid($event)"
+                    [pageable]="{buttonCount: 2}"
+                    [reorderable]="true"  [sortable]="true" [resizable]="true">
+
+                   <kendo-grid-column-group title="Added Allowance Details" [headerClass]="{'kendo-g-center' : true}">
+
+                    <kendo-grid-command-column title="Actions" width="100">
+                      <ng-template kendoGridCellTemplate>
+                        <div id="icon-edit" kendoGridEditCommand title="Edit"></div>
+                        <div id="icon-delete" kendoGridRemoveCommand title="Delete"></div>
+                      </ng-template>
+                    </kendo-grid-command-column>
+
+                     <kendo-grid-column field="allowancetype" width="50" title="Pay Type" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                     <kendo-grid-column field="allowanceamount" width="60" title="Amount" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                      <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.allowanceamount | mycurrencypipe}}</span>
+                      </ng-template>
+                     </kendo-grid-column>
+
+                     <kendo-grid-column field="effectedfromdate" width="30" title="Effected" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                     <kendo-grid-column title="Recurring" field="isrecurring" width="60" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                      <ng-template kendoGridCellTemplate let-dataItem="dataItem"                   let-rowIndex="rowIndex">
+                        <span *ngIf="dataItem.isrecurring==true" class="done cell-center"></span>
+                        <span *ngIf="dataItem.isrecurring==false" class="notdone cell-center"></span>
+                      </ng-template>
+                     </kendo-grid-column>
+
+                     <kendo-grid-column field="typeofallowance" width="60" title="Type" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                     <kendo-grid-column field="allowanceperiod" width="60" title="Period" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                  </kendo-grid-column-group>
+                  </kendo-grid>
+                </div>
+
+
+                <form [formGroup]="allowancesForm2">
+                <div class="row mt-3">
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label class="required-field" id="comments" title="Reference / Comment">Reference / Comment</label>
+                      <input type="text" class="form-control" formControlName="comments"
+                      [ngClass]="{ 'is-invalid':ErrorMessages['comments'] && allowancesForm2.get('comments')?.invalid}">
+                      <span style="color: red;" *ngIf="allowancesForm2.get('comments')?.errors">
+                        {{ErrorMessages['comments']}}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label>Attach Letter / Minutes</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" formControlName="originalfilename" placeholder=""
+                          readonly>
+                        <div class="input-group-append">
+                          <button class="btn btn-lg-icon" (click)="fileInput.click()"> <img
+                              src="assets/images/icon-upload-blue.svg" class="" width="18px" height="18px"></button>
+                          <input id="docuementUpload" style="display: none" type="file"
+                            (change)="uploadAndProgress($event,fileInput.files,'Allowance')" #fileInput>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label id="authorizedbyid" title="Authorised by" class="required-field">Authorised by</label>
+                      <ng-select title="Authorised by"  [items]="authorizedbylist"
+                        formControlName="authorizedbyid" bindLabel="subintroducedname" bindValue="subintroducedid"
+                        placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid':ErrorMessages['authorizedbyid'] && allowancesForm2.get('authorizedbyid')?.invalid}">
+                      </ng-select>
+                      <span style="color: red;" *ngIf="allowancesForm2.get('authorizedbyid')?.errors">
+                        {{ErrorMessages['authorizedbyid']}}</span>
+                    </div>
+                  </div>
+                </div>
+                </form>
+
+                <div class="row mt-1 ml-1 mb-4">
+                  <div class="col-md-12 col-xl-12">
+                    <div class="d-flex justify-content-end mt-4">
+
+                      <a data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearAllowanceDetails()"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+
+
+                          <button appButtonDoubleClick [debounceTime]="500"
+                              (debounceClick)="SaveAllowanceDetails()" class="btn btn-s-icon px-3 border-0"
+                              >
+                              <img src="assets/images/icon-check-white.svg" class="mr-3" width="20px"
+                                  height="20px" >
+                              Save
+                          </button>
+                      </div>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div *ngIf="advanceShow">
+              <div class="section-content">
+                <div class="container">
+                  <div class="row">
+                    <label class="text-primary"><b>{{employeeClickName}} - {{employeeClickDesignation}}</b></label>
+                  </div>
+                <div class="row">
+                  <div class="my-section-content  border-box">
+                <kendo-grid [kendoGridBinding]="advanceGridData"
+                    [pageSize]="10"
+                    [pageable]="{buttonCount: 2}"
+                    [reorderable]="true"  [sortable]="true" [resizable]="true" (remove)="removeAdvanceDetails($event)">
+
+                   <kendo-grid-column-group title="Advance Details" [headerClass]="{'kendo-g-center' : true}">
+
+                    <kendo-grid-command-column title="Actions" width="50" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                      <ng-template kendoGridCellTemplate>                    
+                        <div id="icon-delete" kendoGridRemoveCommand title="Delete"></div>
+                      </ng-template>
+                    </kendo-grid-command-column>
+
+                     <kendo-grid-column field="nameofadvance" title="Loan / Advance" width="60" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                     </kendo-grid-column>
+
+                     <kendo-grid-column field="advanceamount" width="50" title="Advance Amount" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                      <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                    {{dataItem.advanceamount | mycurrencypipe}}<span class="ml-5"></span>
+                      </ng-template>
+
+                      <ng-template kendoGridFooterTemplate>
+                        <p class="bc-2 text-center" style="margin-right: 42px;"> {{totalDeductionAmount | mycurrencypipe}}</p>
+                      </ng-template>
+
+                      
+                     </kendo-grid-column>
+
+                     <kendo-grid-column field="deductionperiod" width="30" title="Period" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                     <kendo-grid-column field="deductedfromdate" width="90" title="Deduction From Date" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.deductedfromdate | date: 'dd-MM-yyyy'}}
+                    </ng-template>
+                     </kendo-grid-column>
+
+                     <kendo-grid-column field="deductedtodate" width="70" title="Deduction To Date" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.deductedtodate | date: 'dd-MM-yyyy'}}
+                    </ng-template>
+                     </kendo-grid-column>
+
+                  </kendo-grid-column-group>
+                  </kendo-grid>
+                  </div>
+                </div>
+                </div>
+
+                <div class="container">
+                <form [formGroup]="advanceForm">
+                <div class="row mt-3">
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label class="required-field" id="advancetype" title="Advance">Advance</label>
+                      <ng-select title="Advance"  [items]="advanceTypes"
+                        formControlName="advancetype" bindLabel="nameofadvance" bindValue="nameofadvance"
+                        placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true (change)="advanceChange($event)" [ngClass]="{ 'is-invalid':ErrorMessages['advancetype'] && advanceForm.get('advancetype')?.invalid}">
+                      </ng-select>
+                      <span style="color: red;" *ngIf="advanceForm.get('advancetype')?.errors">
+                        {{ErrorMessages['advancetype']}}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label class="required-field" id="advanceamount" title="Loan/advance Amount">Loan/advance Amount</label>
+                      <input type="text" class="form-control text-right" (blur)="calculateDeductionAmount()" formControlName="advanceamount" appMycurrencyFormatter appNumbersonly [ngClass]="{ 'is-invalid':ErrorMessages['advanceamount'] && advanceForm.get('advanceamount')?.invalid}">
+                      <span style="color: red;" *ngIf="advanceForm.get('advanceamount')?.errors">
+                        {{ErrorMessages['advanceamount']}}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label class="required-field" id="advancedeductionperiod" title="Deduction Period">Deduction Period</label>
+                      <input type="text" class="form-control text-right"  (blur)="calculateDeductionAmount()" formControlName="advancedeductionperiod" appNumbersonly [ngClass]="{ 'is-invalid':ErrorMessages['advancedeductionperiod'] && advanceForm.get('advancedeductionperiod')?.invalid}">
+                      <span style="color: red;" *ngIf="advanceForm.get('advancedeductionperiod')?.errors">
+                        {{ErrorMessages['advancedeductionperiod']}}</span>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row mt-3">
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label>Deduction Amount</label>
+                      <input type="text" class="form-control text-right" formControlName="advancedeductionamount" readonly appMycurrencyFormatter appNumbersonly>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label id="effectedFrom" class="required-field" title="Effected From">Effected From</label>
+                      <input  class="form-control" readonly type="text" [bsConfig]="dateConfig1" bsDatepicker formControlName="effectedFrom" [ngClass]="{ 'is-invalid':ErrorMessages['effectedFrom'] && advanceForm.get('effectedFrom')?.invalid}" (ngModelChange)="onDeductionPeriodChange()">
+                      <span style="color: red;" *ngIf="advanceForm.get('effectedFrom')?.errors">
+                        {{ErrorMessages['effectedFrom']}}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <!-- <label id="effectedTo" class="required-field" title="Effected To">Effected To</label>
+                      <input  class="form-control" readonly type="text" [bsConfig]="dateConfig2" bsDatepicker formControlName="effectedTo" [ngClass]="{ 'is-invalid':ErrorMessages['effectedTo'] && advanceForm.get('effectedTo')?.invalid}">
+                      <span style="color: red;" *ngIf="advanceForm.get('effectedTo')?.errors">
+                        {{ErrorMessages['effectedTo']}}</span> -->
+                    
+                      <label>Effected To</label>
+                      <label class="form-control">
+                        <span>{{advanceForm.controls.effectedTo.value | date :'dd/MM/yyyy'}}</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-1 ml-1 mb-4">
+                  <div class="col-md-12 col-xl-12">
+                    <div class="d-flex justify-content-end mt-4">
+                      <a (click)="advanceGridAdd()"
+                      data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px"
+                      height="20px" class="mr-3" />{{advancegridaddbtn}}</a>
+                    </div>
+                  </div>
+                </div>
+                </form>
+
+
+                  <div class="my-section-content border-box">
+                    <kendo-grid [kendoGridBinding]="advanceGridAddedData"
+                    [pageSize]="10" (edit)="editAdvanceAddedGrid($event)" (remove)="removeAdvanceAddedGrid($event)"
+                    [pageable]="{buttonCount: 2}"
+                    [reorderable]="true"  [sortable]="true" [resizable]="true">
+
+                   <kendo-grid-column-group title="Added Advance Details" [headerClass]="{'kendo-g-center' : true}">
+
+                    <kendo-grid-command-column title="Actions" width="100">
+                      <ng-template kendoGridCellTemplate>
+                        <div id="icon-edit" kendoGridEditCommand title="Edit"></div>
+                        <div id="icon-delete" kendoGridRemoveCommand title="Delete"></div>
+                      </ng-template>
+                    </kendo-grid-command-column>
+
+                     <kendo-grid-column field="nameofadvance" width="50" title="Loan / Advance" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                     <kendo-grid-column field="advanceamount" width="60" title="Loan / Advance Amount" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                      <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.advanceamount | mycurrencypipe}}</span>
+                      </ng-template>
+                     </kendo-grid-column>
+
+                     <kendo-grid-column field="deductedfromdate" width="90" title="Effected From" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                     <kendo-grid-column field="deductedtodate" width="70" title="Effected To" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                     <kendo-grid-column field="deductionperiod" width="70" title="Period" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                     <kendo-grid-column field="deductionamount" width="70" title="Deduction Amount" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                      <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.deductionamount | mycurrencypipe}}</span>
+                      </ng-template>
+                     </kendo-grid-column>
+
+                  </kendo-grid-column-group>
+                  </kendo-grid>
+                  </div>
+
+                <form [formGroup]="advanceForm2">
+                <div class="row mt-3">
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label class="required-field" id="advancecomments" title="Reference / Comment">Reference / Comment</label>
+                      <input type="text" class="form-control" formControlName="advancecomments"
+                      [ngClass]="{ 'is-invalid':ErrorMessages['advancecomments'] && advanceForm2.get('advancecomments')?.invalid}">
+                      <span style="color: red;" *ngIf="advanceForm2.get('advancecomments')?.errors">
+                        {{ErrorMessages['advancecomments']}}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label>Attach Letter / Minutes</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" formControlName="originalfilename" placeholder=""
+                          readonly>
+                        <div class="input-group-append">
+                          <button class="btn btn-lg-icon" (click)="advanceFileInput.click()"> <img
+                              src="assets/images/icon-upload-blue.svg" class="" width="18px" height="18px"></button>
+                          <input id="docuementUpload" style="display: none" type="file"
+                            (change)="uploadAndProgress($event,advanceFileInput.files,'Adavance')" #advanceFileInput>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xl-4">
+                    <div class="form-group">
+                      <label class="required-field" id="advanceauthorizedbyid" title="Authorised by">Authorised by</label>
+                      <ng-select title="Authorised by"  [items]="authorizedbylist"
+                        formControlName="advanceauthorizedbyid" bindLabel="subintroducedname" bindValue="subintroducedid"
+                        placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid':ErrorMessages['advanceauthorizedbyid'] && advanceForm2.get('advanceauthorizedbyid')?.invalid}">
+                      </ng-select>
+                      <span style="color: red;" *ngIf="advanceForm2.get('advanceauthorizedbyid')?.errors">
+                        {{ErrorMessages['advanceauthorizedbyid']}}</span>
+                    </div>
+                  </div>
+                </div>
+                </form>
+
+                <div class="row mt-1 ml-1 mb-4">
+                  <div class="col-md-12 col-xl-12">
+                    <div class="d-flex justify-content-end mt-4">
+
+                      <a data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearAdvance()"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+
+
+                          <button appButtonDoubleClick [debounceTime]="500"
+                              (debounceClick)="saveAdvanceDetails()" class="btn btn-s-icon px-3 border-0"
+                              >
+                              <img src="assets/images/icon-check-white.svg" class="mr-3" width="20px"
+                                  height="20px" >
+                              Save
+                          </button>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+          </div>
+
+
+
+          <div *ngIf="recoveriesShow">
+            <div class="section-content">
+              <div class="container">
+                <div class="row">
+                  <label class="text-primary"><b>{{employeeClickName}} - {{employeeClickDesignation}}</b></label>
+                </div>
+              <div class="row">
+                <div class="my-section-content  border-box">
+              <kendo-grid [kendoGridBinding]="recoveryGridData"
+                  [pageSize]="10"
+                  [pageable]="{buttonCount: 2}"
+                  [reorderable]="true"  [sortable]="true" [resizable]="true" (remove)="removeRecoveryDetails($event)">
+
+                 <kendo-grid-column-group title="Recovery Details" [headerClass]="{'kendo-g-center' : true}" >
+
+                  <kendo-grid-command-column title="Actions" width="50" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                    <ng-template kendoGridCellTemplate>                    
+                      <div id="icon-delete" kendoGridRemoveCommand title="Delete"></div>
+                    </ng-template>
+                  </kendo-grid-command-column>
+
+                  <!-- <kendo-grid-column title="Actions" width="60" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                      <span>
+                        <input type="checkbox">
+                      </span>
+
+                    </ng-template>
+                   </kendo-grid-column> -->
+
+                   <kendo-grid-column field="recoverytype" width="50" title="Recovery Type" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                   <kendo-grid-column field="recoveryamount" width="50" title="Ded. Amount" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">                   
+
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                      {{dataItem.recoveryamount | mycurrencypipe}}<span class="ml-5"></span>
+                        </ng-template>
+  
+                        <ng-template kendoGridFooterTemplate>
+                          <p class="bc-1 text-center" style="margin-right: 42px;"> {{totalRecoveryAmount | mycurrencypipe}}</p>
+                        </ng-template>
+                   </kendo-grid-column>
+
+                   <kendo-grid-column field="deductionperiod" width="40" title="Period" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                   <kendo-grid-column field="deductedfromdate" width="70" title="Ded. From Date" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      {{dataItem.deductedfromdate | date: 'dd-MM-yyyy'}}
+                  </ng-template>
+                   </kendo-grid-column>
+
+                </kendo-grid-column-group>
+                </kendo-grid>
+                </div>
+              </div>
+              <hr>
+              <div class="container">
+              <form [formGroup]="recoveriesForm">
+
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="recoverytype" title="Recoveries">Recoveries</label>
+                    <ng-select title="Recoveries"  [items]="recoveriesTypesDDL"
+                      formControlName="recoverytype" bindLabel="recoverytype" bindValue="recoverytype"
+                      placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true (change)="recoveryChange($event)" [ngClass]="{ 'is-invalid':ErrorMessages['recoverytype'] && recoveriesForm.get('recoverytype')?.invalid}">
+                    </ng-select>
+                    <span style="color: red;" *ngIf="recoveriesForm.get('recoverytype')?.errors">
+                      {{ErrorMessages['recoverytype']}}</span>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="recoveryamount" title="Amount">Amount</label>
+                    <input type="text" class="form-control text-right" appMycurrencyFormatter formControlName="recoveryamount" appNumbersonly (blur)="calculateRecoveriesDeductionAmount()" [ngClass]="{ 'is-invalid':ErrorMessages['recoveryamount'] && recoveriesForm.get('recoveryamount')?.invalid}">
+                    <span style="color: red;" *ngIf="recoveriesForm.get('recoveryamount')?.errors">
+                      {{ErrorMessages['recoveryamount']}}</span>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="recoverydeductiontype" title="Deduction Type">Deduction Type</label>
+                    <ng-select title="Recoveries"  [items]="recoverydeductionTypes"
+                    formControlName="recoverydeductiontype" bindLabel="name" bindValue="value"
+                    placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid':ErrorMessages['recoverydeductiontype'] && recoveriesForm.get('recoverydeductiontype')?.invalid}">
+                  </ng-select>
+                  <span style="color: red;" *ngIf="recoveriesForm.get('recoverydeductiontype')?.errors">
+                    {{ErrorMessages['recoverydeductiontype']}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="recoverydeductionperiod" title="Deduction Period">Deduction Period</label>
+                    <input type="text" class="form-control text-right" formControlName="recoverydeductionperiod" appNumbersonly (blur)="calculateRecoveriesDeductionAmount()" [ngClass]="{ 'is-invalid':ErrorMessages['recoverydeductionperiod'] && recoveriesForm.get('recoverydeductionperiod')?.invalid}">
+                    <span style="color: red;" *ngIf="recoveriesForm.get('recoverydeductionperiod')?.errors">
+                      {{ErrorMessages['recoverydeductionperiod']}}</span>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label>Deduction Amount</label>
+                    <input type="text" class="form-control text-right" formControlName="recoverydeductionamount" readonly appMycurrencyFormatter appNumbersonly>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="recoveryeffectedfrom" title="Effected From">Effected From</label>
+                    <input  class="form-control" readonly type="text" [bsConfig]="dateConfig2" bsDatepicker formControlName="recoveryeffectedfrom" [ngClass]="{ 'is-invalid':ErrorMessages['recoveryeffectedfrom'] && recoveriesForm.get('recoveryeffectedfrom')?.invalid}">
+                    <span style="color: red;" *ngIf="recoveriesForm.get('recoveryeffectedfrom')?.errors">
+                      {{ErrorMessages['recoveryeffectedfrom']}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-1 ml-1 mb-4">
+                <div class="col-md-12 col-xl-12">
+                  <div class="d-flex justify-content-end mt-4">
+                    <a (click)="recoveryGridAdd()"
+                      data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px"
+                      height="20px" class="mr-3" />{{recoverygridaddbtn}}</a>
+                  </div>
+                </div>
+              </div>
+              </form>
+
+
+                 <div class="my-section-content  border-box">
+                  <kendo-grid [kendoGridBinding]="recoveryAddedGridData"
+                  [pageSize]="10" (edit)="editRecoveryAddedGrid($event)" (remove)="removeRecoveryAddedGrid($event)"
+                  [pageable]="{buttonCount: 2}"
+                  [reorderable]="true"  [sortable]="true" [resizable]="true">
+
+                 <kendo-grid-column-group title="Added Recovery Details" [headerClass]="{'kendo-g-center' : true}">
+
+                  <kendo-grid-command-column title="Actions" width="100">
+                    <ng-template kendoGridCellTemplate>
+                      <div id="icon-edit" kendoGridEditCommand title="Edit"></div>
+                      <div id="icon-delete" kendoGridRemoveCommand title="Delete"></div>
+                    </ng-template>
+                  </kendo-grid-command-column>
+
+                   <kendo-grid-column field="recoverytype" width="50" title="Recoveries" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                   <kendo-grid-column field="recoveryamount" width="60" title="Amount" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                      <span>{{dataItem.recoveryamount | mycurrencypipe}}</span>
+                    </ng-template>
+                   </kendo-grid-column>
+
+                   <kendo-grid-column field="deductedfromdate" width="90" title="Effected From" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                   <kendo-grid-column field="typeofdeduction" width="70" title="Deduction Type" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                   <kendo-grid-column field="deductionperiod" width="70" title="Period" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                   <kendo-grid-column field="deductionamount" width="70" title="Deduction Amount" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                      <span>{{dataItem.deductionamount | mycurrencypipe}}</span>
+                    </ng-template>
+                   </kendo-grid-column>
+
+                </kendo-grid-column-group>
+                </kendo-grid>
+                </div>
+
+
+
+
+                <form [formGroup]="recoveriesForm2">
+              <div class="row mt-3">
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="recoverycomments" title="Reference / Comment">Reference / Comment</label>
+                    <input type="text" class="form-control" formControlName="recoverycomments"
+                    [ngClass]="{ 'is-invalid':ErrorMessages['recoverycomments'] && recoveriesForm2.get('recoverycomments')?.invalid}">
+                    <span style="color: red;" *ngIf="recoveriesForm2.get('recoverycomments')?.errors">
+                      {{ErrorMessages['recoverycomments']}}</span>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label>Attach Letter / Minutes</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" formControlName="originalfilename" placeholder=""
+                        readonly>
+                      <div class="input-group-append">
+                        <button class="btn btn-lg-icon" (click)="recoveriesFileInput.click()"> <img
+                            src="assets/images/icon-upload-blue.svg" class="" width="18px" height="18px"></button>
+                        <input id="docuementUpload" style="display: none" type="file"
+                          (change)="uploadAndProgress($event,recoveriesFileInput.files,'Recoveries')"
+                          #recoveriesFileInput>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <label class="required-field" id="recoveryauthorizedby" title="Authorised by">Authorised by</label>
+                    <ng-select title="Authorised by"  [items]="authorizedbylist"
+                      formControlName="recoveryauthorizedby" bindLabel="subintroducedname" bindValue="subintroducedid"
+                      placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid':ErrorMessages['recoveryauthorizedby'] && recoveriesForm2.get('recoveryauthorizedby')?.invalid}">
+                    </ng-select>
+                    <span style="color: red;" *ngIf="recoveriesForm2.get('recoveryauthorizedby')?.errors">
+                      {{ErrorMessages['recoveryauthorizedby']}}</span>
+                  </div>
+                </div>
+              </div>
+                </form>
+              </div>
+
+              <div class="row mt-1 ml-1 mb-4">
+                <div class="col-md-12 col-xl-12">
+                  <div class="d-flex justify-content-end mt-4">
+
+                    <a data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearRecovery()"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+
+
+                        <button appButtonDoubleClick [debounceTime]="500"
+                            (debounceClick)="SaveRecoveryDetails()" class="btn btn-s-icon px-3 border-0"
+                            >
+                            <img src="assets/images/icon-check-white.svg" class="mr-3" width="20px"
+                                height="20px" >
+                            Save
+                        </button>
+                    </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+
+
+
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<style>
+  @media (min-width: 576px) {
+      .modal-dialog {
+          max-width: 100% !important;
+      }
+  }
+  .my-section-content {
+    padding: 20px 20px;
+    background: #fbfdff;
+    border: 1px solid #d2dbe4;
+    border-radius: 4px;
+    box-shadow: 0px 0px 10px #dbdbdb;
+    border-bottom: 2px solid #b3c0cc
+  }
+
+</style>

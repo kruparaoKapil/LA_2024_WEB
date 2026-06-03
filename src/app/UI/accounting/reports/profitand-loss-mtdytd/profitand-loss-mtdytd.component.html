@@ -1,0 +1,206 @@
+<div class="col-md-12 col-xl-12 mb-3 pl-0">
+    <p class="bc-2">Profit And Loss-MTD&YTD</p>
+</div>
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+</div>
+<div class="section-container">
+<div id="template">
+    <form [formGroup]="MTDAndYTDForm" autocomplete="off">
+        <div class="row mb-4">
+            <div class="col-xs-6 col-md-6 pl-0">
+                <div class="d-flex">
+                    <div class="col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label title="Report type">Report type</label>
+                            <select class="form-control" formControlName="ReportType" [ngClass]="{ 'is-invalid': f.ReportType.errors && submitted }">
+                                <option value="" selected>Select</option>
+                                <option value="MTD" selected>Month</option>
+                                <option value="YTD" selected>Year</option>
+                            </select>
+                            <div *ngIf="submitted &&f.ReportType.errors?.required" class="invalid-feedback">
+                                Select Report Type</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label>As on Month</label>
+                            <input type="text" class="form-control" formControlName="fromDate" placeholder="Date picker here" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly (onShown)="onOpenCalendar($event)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-6 mt-1 pt-1 form-group">
+                <br>
+                <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetMTDYTDReportData()">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                    <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                            width="20px"></span> {{savebutton}}
+                </a>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-md-12" *ngIf="showData">
+            <ul class="nav filtered-tab nav-tabs border-0">
+                <li class="active"><a data-toggle="tab" href="#yto-send" class="active">Summary of MTD And YTD </a></li>
+                <li><a data-toggle="tab" href="#sent">Details of MTD And YTD </a></li>
+            </ul>
+            <div class="tab-content  shadow-sm bg-white ">
+                <!---------------tab content---------->
+                <div id="yto-send" class="tab-pane show fade in active">
+                    <div class="border rounded shadow-sm bg-white">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <app-company-details></app-company-details>
+                                <div class="report-head mt-2">
+                                    <p class="font-18 text-dark text-center m-0">
+                                        Profit and loss Summary
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" border  shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                                            font-weight: bold !important;">As on Month :</span>
+                                <label class="print-font"> {{month}}</label>
+                            </div>
+                        </div>
+                        <kendo-grid [kendoGridBinding]="MtdData" [pageable]="false" [sortable]="false" [groupable]="false" [reorderable]="true" [resizable]="true" [group]="groups" [scale]="0.9">
+                            <ng-template kendoGridToolbarTemplate>
+                                <div class="row mb-3">
+                                    <div class="col-12 pr-2">
+                                        <ul class="temp-ul pull-right">
+                                            <li class="temp-ico">
+                                                <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                            </li>
+                                            <li class="temp-ico">
+                                                <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel" width="20px"></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <kendo-grid-column field="plevel1" [hidden]="hdnJvNo">
+                                <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                                    {{value}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="plevel2" [hidden]="hdnJvNo">
+                                <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                                    {{value}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="plevel3" [hidden]="hdnJvNo">
+                                <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                                    {{value}}
+                                </ng-template>
+                            </kendo-grid-column>
+
+                            <!-- <kendo-grid-column field="paccountname" title="Account Name" [headerClass]="{'kendo-left': true}" class="kendo-left" width="200">
+                                <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                                    {{value}}
+                                </ng-template>
+                            </kendo-grid-column> -->
+                            <kendo-grid-column *ngFor="let column of gridColoumn" field="{{column.pfield}}" title="{{column.ptitle}}" format="{{column.pformat}}" filter="{{column.ptype}}" [headerClass]="{'kendo-right': true}" class="kendo-right" width="200">
+                                <!-- <ng-template kendoGridGroupFooterTemplate let-group="groups" let-aggregates="aggregates" let-column let-columnIndex="columnIndex" let-dataItem>
+                                    <p class="bc-2 text-right">{{aggregates[field].sum}}</p>
+                                </ng-template> -->
+                            </kendo-grid-column>
+                            <kendo-grid-pdf fileName="ProfitandLoss_Reports.pdf" [repeatHeaders]="true" [allPages]="true" [scale]="0.9">
+                                <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm">
+                                </kendo-grid-pdf-margin>
+                            </kendo-grid-pdf>
+                            <kendo-grid-excel fileName="ProfitandLoss_Reports.xlsx"></kendo-grid-excel>
+                        </kendo-grid>
+                    </div>
+                    <!-- row end -->
+                </div>
+                <div id="sent" class="tab-pane fade">
+                    <div class="border rounded shadow-sm bg-white">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <app-company-details></app-company-details>
+                                <div class="report-head">
+                                    <p class="font-18 text-dark text-center m-0">
+                                        Profit and loss Details
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                                            font-weight: bold !important;">As on Month :</span>
+                                <label class="print-font"> {{month}}</label>
+                            </div>
+                        </div>
+                        <kendo-grid [kendoGridBinding]="YtdData" [pageable]="false" [sortable]="false" [groupable]="false" [reorderable]="true" [resizable]="true" [group]="groupdetails" [scale]="0.9">
+                            <ng-template kendoGridToolbarTemplate>
+                                <div class="row mb-3">
+                                    <div class="col-12 pr-2">
+                                        <ul class="temp-ul pull-right">
+                                            <li class="temp-ico">
+                                                <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                            </li>
+                                            <li class="temp-ico">
+                                                <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel" width="20px"></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <kendo-grid-column field="plevel0" [hidden]="hdnJvNo">
+                                <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                                    {{value}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="plevel1" [hidden]="hdnJvNo">
+                                <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                                    {{value}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="plevel2" [hidden]="hdnJvNo">
+                                <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                                    {{value}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="plevel3" [hidden]="hdnJvNo">
+                                <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                                    {{value}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <!-- <kendo-grid-column field="paccountname" title="Account Name" [headerClass]="{'kendo-left': true}" class="kendo-left" width="200">
+                                <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                                    {{value}}
+                                </ng-template>
+                            </kendo-grid-column> -->
+                            <kendo-grid-column *ngFor="let column of gridColoumn" field="{{column.pfield}}" title="{{column.ptitle}}" format="{{column.pformat}}" filter="{{column.ptype}}" [headerClass]="{'kendo-right': true}" class="kendo-right" width="200">
+                            </kendo-grid-column>
+                            <kendo-grid-pdf fileName="ProfitandLoss_Reports.pdf" [repeatHeaders]="true" [allPages]="true">
+                                <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm">
+                                </kendo-grid-pdf-margin>
+                            </kendo-grid-pdf>
+                            <kendo-grid-excel fileName="ProfitandLoss_Reports.xlsx"></kendo-grid-excel>
+                        </kendo-grid>
+
+                    </div>
+                    <!-- row end -->
+                </div>
+                <!---------------tab content end---------->
+            </div>
+        </div>
+    </div>
+    <!-- main content end -->
+</div>
+</div>

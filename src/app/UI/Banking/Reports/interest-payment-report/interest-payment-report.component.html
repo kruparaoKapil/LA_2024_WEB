@@ -1,0 +1,429 @@
+<div class="row">
+  <div class="col-md-6 col-xl-6 ">
+    <p class="bc-2">Interest Payment</p>
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="col-md-12 col-xl-12">
+    <div class="section-container">
+      <form [formGroup]="InterestPaymentForm" autocomplete="off">
+        <div class="row mt-2">
+          <div class="col-md-4 col-xl-4">
+            <label id="pSchemeId" title="Scheme Name">Scheme Name</label>
+            <select class="form-control" formControlName="pSchemeId" (change)="shemename_change($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pSchemeId }">
+              <option ng-selected="selected" value="">All</option>
+              <option *ngFor="let i of SchemeDetails" [value]="i.pSchemeId">{{i.pSchemename}}</option>
+
+            </select>
+            <div class="invalid-feedback">
+              <span *ngIf="InterestPaymentErrors.pSchemeId">{{InterestPaymentErrors?.pSchemeId}}</span>
+            </div>
+          </div>
+          <div class="col-md-4 col-xl-4">
+            <label id="padjustmenttype" title="Adjustment Type">Adjustment Type</label>
+            <select class="form-control" id="padjustmenttype" title="Adjustment Type" formControlName="padjustmenttype" (change)="adjustmentTypeChange($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.padjustmenttype }">
+              <option value="SELF" ng-selected="selected">SELF</option>
+              <option value="ADJUSTMENT" ng-selected="selected">ADJUSTMENT</option>
+            </select>
+            <div class="invalid-feedback">
+              <span *ngIf="InterestPaymentErrors.padjustmenttype">{{InterestPaymentErrors?.padjustmenttype}}</span>
+            </div>
+
+          </div>
+          
+          <div class="col-md-4 col-xl-4">
+            <label id="pFdAccNo" title="Advance Account Number">Advance Account Number</label>
+            <select class="form-control" id="pFdAccNo" formControlName="pFdAccNo" (change)="accno_change($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pFdAccNo }">
+
+              <option value="ALL" ng-selected="selected">All</option>
+              <option *ngFor="let i of AccNodetails" [value]="i.pFdAccNo">{{i.pFdAccNoMembername}}</option>
+            </select>
+            <div class="invalid-feedback">
+              <span *ngIf="InterestPaymentErrors.pFdAccNo">{{InterestPaymentErrors?.pFdAccNo}}</span>
+            </div>
+          </div>
+
+          <div class="col-md-12" *ngIf="showCompany">
+            <div class="row">
+              <div class="col-md-4 col-xl-4">
+                <div class="form-group">
+                  <label id="pcompanyname" title="Company Name">Company Name</label>
+                  <select class="form-control" formControlName="pcompanyname" (change)="GetBranchDetailsIP($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pcompanyname }">
+                    <option ng-selected="selected" value="">Select</option>
+                    <option *ngFor="let i of CompanyDetails" [value]="i.pCompanyname">{{i.pCompanyname}}</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    <span *ngIf="InterestPaymentErrors.pcompanyname">{{InterestPaymentErrors?.pcompanyname}}</span>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-md-4 col-xl-4">
+                <div class="form-group">
+                  <label id="pbranchnamemain" title="Branch Name">Branch Name</label>
+                  <select class="form-control col-md-12" formControlName="pbranchnamemain"
+                          (change)="branchNameChange($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pbranchnamemain }">
+                    <option ng-selected="selected" value="">Select</option>
+                    <option *ngFor="let i of BranchDetails" [value]="i.pBranchname">{{i.pBranchname}}</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    <span *ngIf="InterestPaymentErrors.pbranchnamemain">{{InterestPaymentErrors?.pbranchnamemain}}</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+     
+
+
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-4 col-xl-2 mt-1">
+                <div class="">
+                  <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                    <input class="form-check-input" type="radio" name="pDatetype" formControlName="pDatetype" id="interestd1" value="ASON" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pDatetype }"
+                           (change)="DatetypeChange('ASON')">
+                    <label id="pDatetype" title="AsOn" class="mt-2" for="interestd1"> For The Month </label>
+                  </div>
+                  <div class="invalid-feedback">
+                    <span *ngIf="InterestPaymentErrors.pDatetype">{{InterestPaymentErrors?.pDatetype}}</span>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-4 col-xl-2 mt-1">
+                <div class="">
+                  <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                    <input class="form-check-input" type="radio" name="pDatetype" formControlName="pDatetype" id="interestd2" value="BETWEEN"
+                           (change)="DatetypeChange('BETWEEN')" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pDatetype}">
+                    <label id="pDatetype" title="Between" class="mt-2" for="interestd2"> Between </label>
+                  </div>
+                  <div class="invalid-feedback">
+                    <span *ngIf="InterestPaymentErrors.pDatetype">{{InterestPaymentErrors?.pDatetype}}</span>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row">
+
+              <div class="col-md-2  col-xl-2" *ngIf="showFrommonth">
+                <div class="form-group">
+                  <label id="pFromMonthOf" title="Month Of">From Month</label>
+
+                  <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                         bsDatepicker formControlName="pFromMonthOf" (ngModelChange)="FromDateChange($event)"
+                         (onShown)="onOpenCalendar($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pFromMonthOf }">
+
+
+                  <!-- <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                  bsDatepicker  formControlName="pFromMonthOf" (ngModelChange)="FromDateChange($event)"
+                  [ngClass]="{ 'is-invalid': InterestPaymentErrors.pFromMonthOf }"> -->
+
+
+
+                </div>
+              </div>
+
+              <div class="col-md-2  col-xl-2" *ngIf="showTomonth">
+                <div class="form-group">
+                  <label>Month Of</label>
+                  <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+                         bsDatepicker formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)"
+                         (onShown)="onOpenCalendar($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pToMonthOf }">
+
+
+                  <!-- <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+                  bsDatepicker  formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)"
+                  [ngClass]="{ 'is-invalid': InterestPaymentErrors.pToMonthOf }"> -->
+                  <div *ngIf="validation" class="text-danger">
+                    please select a valid month
+                  </div>
+                </div>
+              </div>
+
+                <div class="col-md-4 col-xl-4">
+                    <label id="padjustmenttype" title="Type">Type</label>
+                    <select class="form-control" id="ptype" title="Type" formControlName="ptype" (change)="TypeChange($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.ptype }">
+    
+                      <option value="ALL" ng-selected="selected">All</option>
+                      <option value="PAYMENT" ng-selected="selected">Payment</option>
+                      <option value="NONPAYMENT" ng-selected="selected">Non Payment</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      <span *ngIf="InterestPaymentErrors.ptype">{{InterestPaymentErrors?.ptype}}</span>
+                    </div>
+                  </div>
+              
+              <div class="justify-content-end mx-3 d-flex">
+                <div class="form-group mt-4 pt-2">
+                  <a aria-controls="hot" aria-selected="false" class=" btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetShowmemberdetails()">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                    <span *ngIf="!isLoading">
+                      <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                           width="20px">
+                    </span> {{savebutton}}
+                  </a>
+                </div>
+              </div>
+             
+
+            </div>
+          </div>
+           <div class="col-md-12">
+            <div class="row">
+               <!--<div class="col-md-4 col-xl-4">
+                <label id="padjustmenttype" title="Type">Type</label>
+                <select class="form-control" id="ptype" title="Type" formControlName="ptype" (change)="TypeChange($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.ptype }">
+
+                  <option value="ALL" ng-selected="selected">All</option>
+                  <option value="PAYMENT" ng-selected="selected">Payment</option>
+                  <option value="NONPAYMENT" ng-selected="selected">Non Payment</option>
+                </select>
+                <div class="invalid-feedback">
+                  <span *ngIf="InterestPaymentErrors.ptype">{{InterestPaymentErrors?.ptype}}</span>
+                </div>
+
+              </div>--> 
+              <!-- <div class="col-md-8 col-xl-8 justify-content-end pull-right">
+
+              </div>
+              <div class="col-md-8 col-xl-8 justify-content-end pull-right">
+                <div class="form-group mt-2 pt-3">
+
+                  <div class="col-md-12 col-xl-12 p-0 pull-right">
+                    <div class="form-group mt-2">
+                      <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetShowmemberdetails()">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                        <span *ngIf="!isLoading">
+                          <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                               width="20px">
+                        </span> {{savebutton}}
+                      </a>
+
+                    </div>
+                  </div>
+                  <hr class="light">
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- <div class="d-flex justify-content-end">
+        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" (click)="pdf()" style="cursor: pointer;" />
+
+      </div> -->
+
+
+
+     
+
+
+      <div class="row">
+
+
+
+
+
+        <div class="col-md-12 col-xl-12 pt-4 ">
+
+
+          <kendo-grid [kendoGridBinding]="gridData" [sortable]="true"  [pageSize]="10" [group]="group"  [pageable]="true" [skip]="skip" height="500"
+            [selectable]="selectableSetting">
+
+            <ng-template kendoGridToolbarTemplate>
+              <div class="mb-3">
+                <div class="col-12 mt-2">
+                  <ul class="temp-ul pull-right">
+                    <li class="temp-ico ml-2">
+                      <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                          width="20px"></a>
+                    </li>
+                    <li class="temp-ico ml-2">
+                      <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                          width="20px"></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </ng-template>
+
+            <kendo-grid-column field="pPaymentstatus" title="Payment Status" width="150" [hidden]="hdnpPaymentstatus">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pSchemename" title="Scheme Name" width="130">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pMembername" title="Member" width="130">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pFdaccountno" title="Adv Acc No." width="100" [headerClass]="{'kendo-center': true}" class="kendo-center">
+            </kendo-grid-column>
+            
+            <kendo-grid-column field="pdepositeamount" title="Adv Amount" width="100">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pdepositeamount |currencypipewithdecimal }}
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pdepositedate" title="Adv Date" width="100">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pmaturitydate" title="Maturity Date" width="120">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pinterestrate" title="Interest Rate/Value per 100" width="200" [headerClass]="{'kendo-center': true}" class="kendo-center" >
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pinterestrate }}
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pIntrestamount" title="Interest Amount" width="130" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pIntrestamount |mycurrencypipe }}<span class="ml-5"></span>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pTdsamount" title="TDS Amount" width="130" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pTdsamount |mycurrencypipe }}<span class="ml-5"></span>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ptotalamount" title="Paid Amount" width="130" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.ptotalamount |mycurrencypipe }}<span class="ml-5"></span>
+              </ng-template>
+
+              
+            <ng-template kendoGridFooterTemplate>
+              <p class="bc-2 text-center"> {{netPaidAmount | mycurrencypipe}}</p>
+            </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pbankname" title="Bank Name" width="100" [headerClass]="{'kendo-center': true}" class="kendo-center">             
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pbankbranch" title="Branch Name" width="100" [headerClass]="{'kendo-center': true}" class="kendo-center">             
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pvoucherno" title="Voucher No." width="100" [headerClass]="{'kendo-center': true}" class="kendo-center">             
+              
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="getVoucherno(dataItem)">{{dataItem.pvoucherno }}</a>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ppaymentdate" title="Payment Date" width="100">             
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pmodeofpayment" title="Payment Type" width="100" [headerClass]="{'kendo-center': true}" class="kendo-center">             
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ppaybankname" title="Payment Bank" width="100" [headerClass]="{'kendo-center': true}" class="kendo-center">             
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ppaybankbranchname" title="Branch Name" width="100" [headerClass]="{'kendo-center': true}" class="kendo-center">             
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ppaychequeno" title="Cheque No." width="100" [headerClass]="{'kendo-center': true}" class="kendo-center">             
+            </kendo-grid-column>
+
+            <kendo-grid-pdf fileName="Interest_Payment.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [scale]="0.5" [margin]="0.5"
+              [landscape]="true">
+
+              <kendo-grid-pdf-margin top="2cm" left="0.5cm" right="0.5cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+              <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                  <div class="header">
+                    <app-company-details></app-company-details>
+
+                  </div>
+
+                </div>
+              </ng-template>
+
+              <kendo-grid-column field="pSchemename" title="Scheme Name" width="130">
+              </kendo-grid-column>
+  
+              <kendo-grid-column field="pMembername" title="Member" width="130">
+              </kendo-grid-column>
+  
+              <kendo-grid-column field="pFdaccountno" title="Adv Acc No." width="100" [headerClass]="{'kendo-center': true}" class="kendo-center">
+              </kendo-grid-column>
+              
+              <kendo-grid-column field="pdepositeamount" title="Adv Amount" width="100">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pdepositeamount |currencypipewithdecimal }}
+                </ng-template>
+              </kendo-grid-column>
+  
+              <kendo-grid-column field="pdepositedate" title="Adv Date" width="100">
+              </kendo-grid-column>
+  
+              <kendo-grid-column field="pmaturitydate" title="Maturity Date" width="120">
+              </kendo-grid-column>
+  
+              <kendo-grid-column field="pinterestrate" title="Interest Rate/Value per 100" width="200" [headerClass]="{'kendo-center': true}" class="kendo-center" >
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pinterestrate }}
+                </ng-template>
+              </kendo-grid-column>
+  
+              <kendo-grid-column field="pIntrestamount" title="Interest Amount" width="130" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pIntrestamount |mycurrencypipe }}<span class="ml-5"></span>
+                </ng-template>
+              </kendo-grid-column>
+  
+              <kendo-grid-column field="pTdsamount" title="TDS Amount" width="130" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pTdsamount |mycurrencypipe }}<span class="ml-5"></span>
+                </ng-template>
+              </kendo-grid-column>
+  
+              <kendo-grid-column field="ptotalamount" title="Paid Amount" width="130" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.ptotalamount |mycurrencypipe }}<span class="ml-5"></span>
+                </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <p class="bc-2 text-center"> {{netPaidAmount | mycurrencypipe}}</p>
+              </ng-template>
+              </kendo-grid-column>           
+  
+              <kendo-grid-column field="pvoucherno" title="Voucher No." width="100" [headerClass]="{'kendo-center': true}" class="kendo-center"> 
+              </kendo-grid-column>
+  
+          
+  
+  
+             
+  
+            
+  
+              <kendo-grid-column field="ppaychequeno" title="Cheque No." width="100" [headerClass]="{'kendo-center': true}" class="kendo-center">             
+              </kendo-grid-column>
+
+            </kendo-grid-pdf>
+            <kendo-grid-excel fileName="Interest_Payment.xlsx" [fetchData]="allData"></kendo-grid-excel>
+          </kendo-grid>
+
+        </div>
+
+
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,199 @@
+<!-- <div class="row">
+  <div class="col-md-12 col-xl-12 mt-5">
+    <p class="bc-2">Views</p>
+  </div>
+</div> -->
+
+
+<ng-template #customLoadingTemplate>
+  <div class="custom-class">
+    <h3>
+      Loading...
+    </h3>
+
+  </div>
+</ng-template>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+</ngx-loading>
+
+
+
+<ul class="nav filtered-tab nav-tabs">
+  <li class="active">
+    <a data-toggle="tab" href="#contacts" class="active" (click)="SelectType('Contacts')">Contacts</a>
+  </li>
+  <li><a data-toggle="tab" href="#applicants" (click)="SelectType('Applicants')">Applicants</a></li>
+  <!-- <li><a data-toggle="tab" href="#members" (click)="SelectType('Members')">Members</a></li> -->
+  <li><a data-toggle="tab" href="#applicants" (click)="SelectType('Parties')">Parties</a></li>
+  <li><a data-toggle="tab" href="#applicants" (click)="SelectType('Employees')">Employees</a></li>
+  <li><a data-toggle="tab" href="#applicants" (click)="SelectType('Referrals')">Referrals</a></li>
+  <li><a data-toggle="tab" href="#applicants" (click)="SelectType('Advocates')">Advocates</a></li>
+
+</ul>
+
+<div class="row justify-content-end">
+  <div class="mt-n5 mr-3">
+    <div class="form-group">
+      <input class="form-control sb" type="text" (input)="SearchRecord($event.target.value)" placeholder="Search..." />
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="tab-content">
+
+  <div id="contacts" class="tab-pane show fade in active">
+
+    <div class="row">
+      <div class="col-md-6 col-xl-6 mt-2">
+        <a (click)="ContactsBinding('Individual')" class="lc-txt mr-3 active">Individual</a>
+        <a (click)="ContactsBinding('Business Entity')" class="lc-txt  mr-3">Business Entity</a>
+        <!-- <a href="#" class="ml-2"><img src="assets/images/icon-filter-b.svg" width="15" height="15"></a> -->
+      </div>
+      <div class="col-md-6 col-xl-6  mt-3">
+        <label class="lc-txt pull-right">
+          Shows {{showContacts}} of {{ContactListData?.length}} <a>
+            <img src="assets/images/icon-chevron-left-blue.svg" width="15" height="15"
+                 class="fa-rotate-180 ml-2">
+          </a>
+        </label>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="col-md-6 col-xl-6 mt-3" *ngFor="let data of ContactListData | slice:0:show; let i=index;trackBy: trackByFn">
+        <div class="contact-list-view">
+          <a (click)="NavigateContactListDetailView(data.pRefNo)">
+            <div class="profile-tumb">
+              <img [src]="data?.pImage">
+            </div>
+            <div class="contact-info">
+              <label class="font-weight-bold sec-head-bold">
+                {{data?.pContactName}}
+              </label>
+              <p class="m-0">
+                <span class="lc-txt">
+                  Unique ID : {{data?.pRefNo}}
+                </span>
+              </p>
+              <label class="info-txt">
+                <span>{{data?.pFatherName}} </span>
+                <span *ngIf="data.pFatherName!=''"> , </span>
+                <span>
+                  {{data?.pContactNumber}}
+                </span>
+                <span *ngIf="data.pContactNumber!=''"> , </span>
+                <span>{{data?.pContactEmail}}</span>
+              </label>
+              <label class="info-txt">{{data?.pAddresDetails}}</label>
+            </div>
+            <!-- <a href="#" class="position-absolute ml-n5 mt-n1 ">
+            <img src="assets/images/edit-icon-grey.svg" width="30" height="30" class="mt-4  " title="Edit Contact">
+              </a> -->
+            <a>
+              <img src="assets/images/right-arrow.svg" width="20" height="20" class="mt-4" title="detailed view">
+            </a>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-center mt-4  position-sticky fixed-bottom">
+          <a *ngIf="showContacts < ContactListData?.length" (click)="LoadMore()" class="btn btn-b-icon px-3 border-0">
+            <img class="mr-3 " height="20px" src="assets/images/icon-add-white.svg" width="20px">More
+          </a>
+          <a *ngIf="showContacts > displayContacts " (click)="LoadLess()"
+             class="btn btn-b-icon px-3 border-0 ml-2">
+            <img class="mr-3" height="20px"
+                 src="assets/images/icon-add-white.svg" width="20px">Less
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="applicants" class="tab-pane fade">
+
+    <div class="row">
+      <div class="col-md-6 col-xl-6 mt-2">
+      </div>
+      <div class="col-md-6 col-xl-6  mt-3">
+        <label class="lc-txt pull-right">
+          Shows {{showContacts}} of {{ContactListData?.length}} <a>
+            <img src="assets/images/icon-chevron-left-blue.svg" width="15" height="15"
+                 class="fa-rotate-180 ml-2">
+          </a>
+        </label>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="col-md-6 col-xl-6 mt-3" *ngFor="let data of ContactListData | slice:0:show; let i=index;trackBy: trackByFn">
+        <div class="contact-list-view">
+          <div class="profile-tumb">
+            <img [src]="data?.pImage">
+          </div>
+          <div class="contact-info">
+            <label class="font-weight-bold sec-head-bold">
+              {{data?.pContactName}} <span class="lc-txt ml-3">
+                Unique ID : {{data?.pRefNo}}
+              </span>
+            </label>
+            <label class="info-txt">
+              <span> {{data?.pFatherName}} </span> <span *ngIf="data.pFatherName!=''"> , </span> <span>
+
+                {{data?.pContactNumber}}
+              </span>
+              <span *ngIf="data.pContactNumber!=''"> , </span>
+              <span>{{data?.pContactEmail}}</span>
+            </label>
+            <label class="info-txt">{{data?.pAddresDetails}}</label>
+          </div>
+          <!-- <a href="#" class="position-absolute ml-n5 mt-n1 ">
+                 <img src="assets/images/edit-icon-grey.svg" width="30" height="30" class="mt-4  " title="Edit Contact">
+                   </a> -->
+          <a (click)="NavigateContactListDetailView(data.pRefNo)">
+            <img src="assets/images/right-arrow.svg" width="20" height="20" class="mt-4" title="detailed view">
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-center mt-4  position-sticky fixed-bottom">
+          <a *ngIf="showContacts < ContactListData?.length" (click)="LoadMore()" class="btn btn-b-icon px-3 border-0">
+            <img class="mr-3 " height="20px" src="assets/images/icon-add-white.svg" width="20px">More
+          </a>
+          <div *ngIf="ContactListData?.length > displayContacts">
+            <a *ngIf="showContacts > displayContacts " (click)="LoadLess()"
+               class="btn btn-b-icon px-3 border-0 ml-2">
+              <img class="mr-3" height="20px"
+                   src="assets/images/icon-add-white.svg" width="20px">Less
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+  <div id="members" class="tab-pane fade">
+    <div class="row mt-5">
+      <div class="col-md-12 col-xl-12">
+
+        3
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+<!-- <ng4-loading-spinner> </ng4-loading-spinner> -->

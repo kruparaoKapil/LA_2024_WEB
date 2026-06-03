@@ -1,0 +1,499 @@
+<!--<div class="row mt-4">
+
+  <div class="col">
+    <input type="search" class="form-control border-left-0 border-top-0 shadow-none border-right-0 rounded-0 sb" placeholder="Vignesh Kumar 1- 54-896543">
+  </div>
+
+  <div class="col-auto dropdown">
+    <button class="btn btn-sm sm-dd dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Select action
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" href="#">Action</a>
+      <a class="dropdown-item" href="#">Another action</a>
+      <a class="dropdown-item" href="#">Something else here</a>
+    </div>
+  </div>
+</div>-->
+<!-- ======================================================================= tab nav end ============================================================================== -->
+
+<ul class="nav  filtered-tab nav-tabs mt-2">
+  <li class="active"><a data-toggle="tab" href="#yettodisbure" class="active">Approved <span
+        class="badge badge-info">{{papprovedloanslist.length}}</span></a></li>
+
+  <li><a data-toggle="tab" href="#disbursed">Fully Disbursed <span
+        class="badge badge-success">{{ptotaldisbusedlist.length}}</span></a></li>
+  <li><a data-toggle="tab" href="#part-disbursed">Part Amount Disbursed <span
+        class="badge badge-danger">{{ppartdisbursedlist.length}}</span></a></li>
+  <li><a data-toggle="tab" href="#stage-disbursed">  Stage Wise Disbursement <span class="badge badge-danger">{{pstagedisbursedlist.length}}</span>
+</a></li>
+</ul>
+
+
+<div class="tab-content border rounded">
+  <div class="tab-pane show active fade" id="yettodisbure" role="tabpanel" aria-labelledby="hot-tab">
+    <div class="row">
+      <div class="col-md-12 col-xl-12">
+        <!-- <kendo-grid [data]="papprovedloanslist" [height]="380" [resizable]="true" [pageSize]="pageSize" [skip]="skip" [pageable]="true"> -->
+        <kendo-grid [kendoGridBinding]="papprovedloanslist" [pageSize]="10" [resizable]="true"
+          [columnMenu]="{ filter: true }" [sortable]="true" [pageable]="{ buttonCount: 2}" [group]="groups" [scale]="0.9"
+          [groupable]="true">
+          <ng-template kendoGridToolbarTemplate>
+            <div class="row mt-2 mb-2 p-3">
+              <div class="col-4 pl-0 mt-n1">
+                <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+                  (input)="onFilter($event.target.value)" />
+              </div>
+              <div class="col-7 pr-0 pl-4 ml-4">
+                <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                  <li class="temp-ico ml-2">
+                    <a kendoGridPDFCommand><img class="pt-1 ml-3" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                        width="20px"></a></li>
+                  <li class="temp-ico ml-2">
+                    <a kendoGridExcelCommand><img class="pt-1" src="assets/images/icon-excel.svg " title="excel"
+                        width="20px"></a></li>
+                  <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                </ul>
+              </div>
+            </div>
+
+          </ng-template>
+          <kendo-grid-column-group title="Loan Disbursal (Approved)" [headerClass]="{'kendo-g-center' : true}">
+          <kendo-grid-column field="pvchapplicationid" title="Application No" width="150">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              <a [routerLink]="['/DisbursementNew',encrypt(dataItem.pvchapplicationid)]"
+                class="text-blue font-weight-bold">{{dataItem.pvchapplicationid}}</a>
+            </ng-template>
+            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+              <p class="bc-2">Total</p>
+            </ng-template>
+           
+          </kendo-grid-column>
+          <kendo-grid-column field="ploantype" title="Loan Type" width="100"></kendo-grid-column>
+          <kendo-grid-column field="ploanname" title="Loan Name" width="100"></kendo-grid-column>
+          <kendo-grid-column field="papplicantname" title="Appl. Name" width="100"></kendo-grid-column>
+          <kendo-grid-column field="pcontactno" title="Contact No." width="100"></kendo-grid-column>
+          <kendo-grid-column field="ploanapprovedamount" title="Sanctioned Amount" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.ploanapprovedamount | mycurrencypipe}}
+            </ng-template>
+           
+            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+              <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+            </ng-template>
+          </kendo-grid-column>
+        </kendo-grid-column-group>
+          <kendo-grid-pdf fileName="Disursed_Approved.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+            [landscape]="true">
+            <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                   <div class="header bc-2 text-center">
+                    <h5> Loan Disbursal (Approved) </h5>
+                   </div>
+                 </div>
+               </ng-template>
+            <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+            <kendo-grid-column field="pvchapplicationid" title="Application No" width="150">
+                <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                    <p class="bc-2">Total</p>
+                  </ng-template>
+                  <ng-template kendoGridFooterTemplate>
+                    <p class="bc-2">Grand Total</p>
+                  </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="ploantype" title="Loan Type" width="100"></kendo-grid-column>
+            <kendo-grid-column field="ploanname" title="Loan Name" width="100"></kendo-grid-column>
+            <kendo-grid-column field="papplicantname" title="Appl. Name" width="100"></kendo-grid-column>
+            <kendo-grid-column field="pcontactno" title="Contact No." width="100"></kendo-grid-column>
+            <kendo-grid-column field="ploanapprovedamount" title="Sanctioned Amount" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.ploanapprovedamount | mycurrencypipe}}
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <p class="bc-2">{{Sanctionedamount | mycurrencypipe}}</p>
+  
+              </ng-template>
+              <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+              </ng-template>
+            </kendo-grid-column>
+          </kendo-grid-pdf>
+          <kendo-grid-excel fileName="Disursed_Approved.xlsx"></kendo-grid-excel>
+        </kendo-grid>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================================== tab content pannnel 1 end =================================================================== -->
+
+  <div class="tab-pane fade" id="disbursed" role="tabpanel" aria-labelledby="hot-tab">
+    <div class="row">
+      <div class="col-md-12 col-xl-12">
+        <!-- <kendo-grid [data]="ptotaldisbusedlist" [height]="380" [resizable]="true" [pageSize]="pageSize" [skip]="skip"
+          [pageable]="true"> -->
+        <kendo-grid [kendoGridBinding]="ptotaldisbusedlist" [pageSize]="10" [resizable]="true"
+          [columnMenu]="{ filter: true }" [pageable]="true" [sortable]="true" [pageable]="{buttonCount: 2}"
+          [group]="groupstotaldisbursed" [groupable]="true">
+          <ng-template kendoGridToolbarTemplate>
+            <div class="row mt-2 mb-2 p-3">
+              <div class="col-4 pl-0 mt-n1">
+                <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+                  (input)="onFiltertotaldisbursed($event.target.value)" />
+              </div>
+              <div class="col-7 pr-0 pl-5">
+                <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                  <li class="temp-ico ml-2">
+                    <a kendoGridPDFCommand><img class="pt-1 pl-3 " src="assets/images/pdf-icon-blue.svg " title="pdf"
+                        width="20px"></a></li>
+                  <li class="temp-ico ml-2">
+                    <a kendoGridExcelCommand><img class="pt-1" src="assets/images/icon-excel.svg " title="excel"
+                        width="20px"></a></li>
+                  <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                </ul>
+              </div>
+            </div>
+
+          </ng-template>
+          <kendo-grid-column-group title="Loan Disbursal (Fully Disbursed)" [headerClass]="{'kendo-g-center' : true}">
+          <kendo-grid-column field="pvchapplicationid" title="Application No" width="150">
+            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+              <p class="bc-2">Total</p>
+            </ng-template>
+            
+          </kendo-grid-column>
+          <kendo-grid-column field="ploantype" title="Loan Type" width="110"></kendo-grid-column>
+          <kendo-grid-column field="ploanname" title="Loan Name" width="110"></kendo-grid-column>
+          <kendo-grid-column field="papplicantname" title="Appl. Name" width="110"></kendo-grid-column>
+          <kendo-grid-column field="pcontactno" title="Contact No." width="110"></kendo-grid-column>
+          <kendo-grid-column field="pdisbursementamount" title="Disbursed Amount" width="110" [headerClass]="{'kendo-right': true}" class="kendo-right">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pdisbursementamount | mycurrencypipe}}
+            </ng-template>
+           
+            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+              <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+            </ng-template>
+          </kendo-grid-column>
+          </kendo-grid-column-group>
+          <kendo-grid-pdf fileName="Disursed_Fully_Disbursed.pdf" [allPages]="true" paperSize="A4"
+            [repeatHeaders]="true" [landscape]="true">
+            <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                   <div class="header bc-2 text-center">
+                    <h5> Loan Disbursal (Fully Disbursed) </h5>
+                   </div>
+                 </div>
+               </ng-template>
+            <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+            <kendo-grid-column field="pvchapplicationid" title="Application No" width="150">
+                <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                  <p class="bc-2">Total</p>
+                </ng-template>
+                <ng-template kendoGridFooterTemplate>
+                  <p class="bc-2">Grand Total</p>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="ploantype" title="Loan Type" width="110"></kendo-grid-column>
+              <kendo-grid-column field="ploanname" title="Loan Name" width="110"></kendo-grid-column>
+              <kendo-grid-column field="papplicantname" title="Appl. Name" width="110"></kendo-grid-column>
+              <kendo-grid-column field="pcontactno" title="Contact No." width="110"></kendo-grid-column>
+              <kendo-grid-column field="pdisbursementamount" title="Disbursed Amount" width="110" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pdisbursementamount | mycurrencypipe}}
+                </ng-template>
+                <ng-template kendoGridFooterTemplate>
+                  <p class="bc-2">{{Disbursementamount | mycurrencypipe}}</p>
+    
+                </ng-template>
+                <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                  <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+                </ng-template>
+              </kendo-grid-column>
+            
+          </kendo-grid-pdf>
+          <kendo-grid-excel fileName="Disursed_Fully_Disbursed.xlsx"></kendo-grid-excel>
+        </kendo-grid>
+      </div>
+    </div>
+  </div>
+  <!-- ==================================================================== tab content pannnel 2 end =================================================================== -->
+
+  <div class="tab-pane fade" id="part-disbursed" role="tabpanel" aria-labelledby="warm-tab">
+    <div class="row">
+      <div class="col-md-12 col-xl-12">
+        <!-- <kendo-grid [data]="ppartdisbursedlist" [height]="380" [resizable]="true" [pageSize]="pageSize" [skip]="skip"
+          [pageable]="true"> -->
+        <kendo-grid [kendoGridBinding]="ppartdisbursedlist" [pageSize]="10" [resizable]="true"
+          [columnMenu]="{ filter: true }" [pageable]="true" [sortable]="true" [pageable]="{buttonCount: 2}"
+          [group]="groupsPartAmountDisbursed" [groupable]="true">
+          <ng-template kendoGridToolbarTemplate>
+            <div class="row mt-2 mb-2 p-3">
+              <div class="col-4 pl-0 mt-n1">
+                <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+                  (input)="onFilterpartdisbursed($event.target.value)" />
+              </div>
+              <div class="col-7 pr-0 pl-5">
+                <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                  <li class="temp-ico ml-2">
+                    <a kendoGridPDFCommand><img class="pt-1 pl-3" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                        width="20px"></a></li>
+                  <li class="temp-ico ml-2">
+                    <a kendoGridExcelCommand><img class="pt-1" src="assets/images/icon-excel.svg " title="excel"
+                        width="20px"></a></li>
+                  <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                </ul>
+              </div>
+            </div>
+          </ng-template>
+          <kendo-grid-column-group title="Loan Disbursal (Part Amount Disbursed)" [headerClass]="{'kendo-g-center' : true}">
+          <kendo-grid-column field="pvchapplicationid" title="Application No" width="250">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              <a [routerLink]="['/DisbursementNew',encrypt(dataItem.pvchapplicationid)]"
+                class="text-blue font-weight-bold">{{dataItem.pvchapplicationid}}</a>
+            </ng-template>
+            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+              <p class="bc-2">Total</p>
+            </ng-template>
+           
+          </kendo-grid-column>
+          <kendo-grid-column field="ploantype" title="Loan Type" width="110"></kendo-grid-column>
+          <kendo-grid-column field="ploanname" title="Loan Name" width="110"></kendo-grid-column>
+          <kendo-grid-column field="papplicantname" title="Appl. Name" width="110"></kendo-grid-column>
+          <kendo-grid-column field="pcontactno" title="Contact No." width="110"></kendo-grid-column>
+          <kendo-grid-column field="ploanapprovedamount" title="Sanctioned Amount" width="250" [headerClass]="{'kendo-right': true}" class="kendo-right">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.ploanapprovedamount | mycurrencypipe}}
+            </ng-template>
+           
+            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+              <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pdisbursementamount" title="Disbursed Amount" width="110" [headerClass]="{'kendo-right': true}" class="kendo-right">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pdisbursementamount | mycurrencypipe}}
+            </ng-template>
+            
+            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+              <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pdisbursementbalance" title="Payable" width="110" [headerClass]="{'kendo-right': true}" class="kendo-right">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pdisbursementbalance | mycurrencypipe}}
+            </ng-template>
+           
+            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+              <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+            </ng-template>
+          </kendo-grid-column>
+          </kendo-grid-column-group>
+          <kendo-grid-pdf fileName="Disursed_Part_Amount_Disbursed.pdf" [allPages]="true" paperSize="A2"
+            [repeatHeaders]="true" [landscape]="true">
+            <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                   <div class="header bc-2 text-center">
+                    <h5> Loan Disbursal (Part Amount Disbursed) </h5>
+                   </div>
+                 </div>
+               </ng-template>
+            <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+            <kendo-grid-column field="pvchapplicationid" title="Application No" width="250">
+                
+                <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                  <p class="bc-2">Total</p>
+                </ng-template>
+                <ng-template kendoGridFooterTemplate>
+                  <p class="bc-2">Grand Total</p>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="ploantype" title="Loan Type" width="110"></kendo-grid-column>
+              <kendo-grid-column field="ploanname" title="Loan Name" width="110"></kendo-grid-column>
+              <kendo-grid-column field="papplicantname" title="Appl. Name" width="110"></kendo-grid-column>
+              <kendo-grid-column field="pcontactno" title="Contact No." width="110"></kendo-grid-column>
+              <kendo-grid-column field="ploanapprovedamount" title="Sanctioned Amount" width="250" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.ploanapprovedamount | mycurrencypipe}}
+                </ng-template>
+                <ng-template kendoGridFooterTemplate>
+                  <p class="bc-2">{{partSanctionedamount | mycurrencypipe}}</p>
+    
+                </ng-template>
+                <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                  <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pdisbursementamount" title="Disbursed Amount" width="110" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pdisbursementamount | mycurrencypipe}}
+                </ng-template>
+                <ng-template kendoGridFooterTemplate>
+                  <p class="bc-2 ">{{partDisbursementamount | mycurrencypipe}}</p>
+    
+                </ng-template>
+                <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                  <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pdisbursementbalance" title="Payable" width="110" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pdisbursementbalance | mycurrencypipe}}
+                </ng-template>
+                <ng-template kendoGridFooterTemplate>
+                  <p class="bc-2">{{partpayable | mycurrencypipe}}</p>
+    
+                </ng-template>
+                <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                  <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+                </ng-template>
+              </kendo-grid-column>
+          </kendo-grid-pdf>
+          <kendo-grid-excel fileName="Disursed_Part_Amount_Disbursed.xlsx"></kendo-grid-excel>
+        </kendo-grid>
+      </div>
+    </div>
+  </div>
+  <!-- ==================================================================== tab content pannnel 3 end =================================================================== -->
+
+  <div class="tab-pane fade" id="stage-disbursed" role="tabpanel" aria-labelledby="warm-tab">
+    <div class="row">
+      <div class="col-md-12 col-xl-12">
+        <!-- <kendo-grid [data]="pstagedisbursedlist" [height]="380" [resizable]="true" [pageSize]="pageSize" [skip]="skip"
+          [pageable]="true"> -->
+        <kendo-grid [kendoGridBinding]="pstagedisbursedlist" [pageSize]="10" [resizable]="true"
+          [columnMenu]="{ filter: true }" [pageable]="true" [sortable]="true" [pageable]="{buttonCount: 2}"
+          [group]="groupsStagewiseDisbursed" [groupable]="true">
+          <ng-template kendoGridToolbarTemplate>
+            <div class="row mt-2 mb-2 p-3">
+              <div class="col-4 pl-0 mt-n1">
+                <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+                  (input)="onFilterstagedisbursed($event.target.value)" />
+              </div>
+              <div class="col-7 pr-0 pl-5">
+                <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                  <li class="temp-ico ml-2">
+                    <a kendoGridPDFCommand><img class="pt-1 pl-3" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                        width="20px"></a></li>
+                  <li class="temp-ico ml-2">
+                    <a kendoGridExcelCommand><img class="pt-1" src="assets/images/icon-excel.svg " title="excel"
+                        width="20px"></a></li>
+                  <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                </ul>
+              </div>
+            </div>
+          </ng-template>
+          <kendo-grid-column-group title="Loan Disbursal (Stage Wise Disbursment)" [headerClass]="{'kendo-g-center' : true}">
+          <kendo-grid-column field="pvchapplicationid" title="Application No" width="150">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              <a [routerLink]="['/DisbursementNew',encrypt(dataItem.pvchapplicationid)]"
+                class="text-blue font-weight-bold">{{dataItem.pvchapplicationid}}</a>
+            </ng-template>
+            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+              <p class="bc-2">Total</p>
+            </ng-template>
+            
+          </kendo-grid-column>
+          <kendo-grid-column field="ploantype" title="Loan Type" width="110"></kendo-grid-column>
+          <kendo-grid-column field="ploanname" title="Loan Name" width="110"></kendo-grid-column>
+          <kendo-grid-column field="papplicantname" title="Appl. Name" width="110"></kendo-grid-column>
+          <kendo-grid-column field="pcontactno" title="Contact No." width="110"></kendo-grid-column>
+          <kendo-grid-column field="ploanapprovedamount" title="Sanctioned Amount" width="150"  [headerClass]="{'kendo-right': true}" class="kendo-right">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.ploanapprovedamount | mycurrencypipe}}
+            </ng-template>
+            
+            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+              <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pdisbursementamount" title="Disbursed Amount" width="130"  [headerClass]="{'kendo-right': true}" class="kendo-right">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pdisbursementamount | mycurrencypipe}}
+            </ng-template>
+          
+            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+              <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pdisbursementbalance" title="Payable" width="80"  [headerClass]="{'kendo-right': true}" class="kendo-right">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pdisbursementbalance | mycurrencypipe}}
+            </ng-template>
+           
+            <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+              <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pendingstatgesno" title="Pending Stages" width="110">
+          </kendo-grid-column>
+          </kendo-grid-column-group>
+          <kendo-grid-pdf fileName="Disursed_StageWise_Disbursment.pdf" [allPages]="true" paperSize="A2"
+            [repeatHeaders]="true" [landscape]="true">
+            <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                   <div class="header bc-2 text-center">
+                    <h5> Loan Disbursal (Stage Wise Disbursment) </h5>
+                   </div>
+                 </div>
+               </ng-template>
+            <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+            <kendo-grid-column field="pvchapplicationid" title="Application No" width="150">
+               
+                <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                  <p class="bc-2">Total</p>
+                </ng-template>
+                <ng-template kendoGridFooterTemplate>
+                  <p class="bc-2">Grand Total</p>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="ploantype" title="Loan Type" width="110"></kendo-grid-column>
+              <kendo-grid-column field="ploanname" title="Loan Name" width="110"></kendo-grid-column>
+              <kendo-grid-column field="papplicantname" title="Appl. Name" width="110"></kendo-grid-column>
+              <kendo-grid-column field="pcontactno" title="Contact No." width="110"></kendo-grid-column>
+              <kendo-grid-column field="ploanapprovedamount" title="Sanctioned Amount" width="150"  [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.ploanapprovedamount | mycurrencypipe}}
+                </ng-template>
+                <ng-template kendoGridFooterTemplate>
+                  <p class="bc-2">{{stagewiseSanctionedamount | mycurrencypipe}}</p>
+    
+                </ng-template>
+                <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                  <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pdisbursementamount" title="Disbursed Amount" width="80"  [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pdisbursementamount | mycurrencypipe}}
+                </ng-template>
+                <ng-template kendoGridFooterTemplate>
+                  <p class="bc-2">{{stagewiseDisbursementamount | mycurrencypipe}}</p>
+    
+                </ng-template>
+                <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                  <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pdisbursementbalance" title="Payable" width="80"  [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.pdisbursementbalance | mycurrencypipe}}
+                </ng-template>
+                <ng-template kendoGridFooterTemplate>
+                  <p class="bc-2">{{stagewisepayable | mycurrencypipe}}</p>
+    
+                </ng-template>
+                <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                  <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column field="pendingstatgesno" title="Pending Stages" width="80">
+              </kendo-grid-column>
+          </kendo-grid-pdf>
+          <kendo-grid-excel fileName="Disursed_StageWise_Disbursment.xlsx"></kendo-grid-excel>
+
+        </kendo-grid>
+      </div>
+    </div>
+  </div>
+</div>
+<!----------------Tab content end ------------->

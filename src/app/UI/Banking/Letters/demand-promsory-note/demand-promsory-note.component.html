@@ -1,0 +1,155 @@
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<style>
+
+</style>
+<div class="col-md-12 mt-5 mb-4">
+    <div id="template">
+        <div class="d-flex justify-content-end mr-3">
+            <ul class="temp-ul">
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Default Reminder Letter.pdf')" />
+                </li>
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="false">
+                        <div id="temp-box">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <app-company-details></app-company-details>
+                                    <div class="report-head">
+                                        <p class="font-18 text-dark text-center m-0">Demand Promsory Note Letter</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+
+                                <div class="row mb-2">
+                                    <div class="col-md-12">
+                                        <p class="font-14 text-right m-0">Date : ________________________</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="font-14 text-right m-0">Place : ________________________</p>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-4 mb-4">
+                                    <div class="col-12 ">
+                                        <p class="mb-3 ">ON DEMAND I/We as mentioned here in below (the “Borrower(s)”, which term shall, include all Co-Borrower(s) and Guarantor(s), if any) [jointly and severally] promise to pay to Enorme Capital Private Limited, a company
+                                            incorporated under the Companies Act, 2013 and having its registered office at 422, Second Floor, Periyakulam Road, Theni – 625 531, Tamil Nadu, India (hereinafter referred to as “ECPL” which term shall unless
+                                            repugnant to the context be deemed to mean and include its successors and assigns), the sum of Rs. _______________________ / - (Rupees __________________________________________________________________________________
+                                            only) together with interest at the compounding rate of _______ percent per annum (IRR) or such other rate as ECPL may fix from time to time, payable with monthly rests, for value received. Presentment for payment
+                                            and noting and protest of the note are hereby unconditionally and irrevocably waived.
+                                        </p>
+                                        <p class="mb-3">Rs. __________________________ /- (Rupees ___________________________________________________________________________________________________ only)
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+
+                                    <div class="col-3 mt-4">
+                                        Name of the Borrower
+                                    </div>
+                                    <div class="col-5 mt-4">
+                                        _________________________________________________________________
+                                    </div>
+                                    <div class="col-2 border p-4 border-dark  m-4 h-100"></div>
+
+                                </div>
+                                <div class="row mb-2">
+
+                                    <div class="col-3 mt-4">
+                                        Name of the Co-Borrower
+                                    </div>
+                                    <div class="col-5 mt-4">
+                                        _________________________________________________________________
+                                    </div>
+                                    <div class="col-2 border p-4 border-dark  m-4 h-100"></div>
+
+                                </div>
+                                <div class="row mb-2">
+
+                                    <div class="col-3 mt-4">
+                                        Name of the Guarantor
+                                    </div>
+                                    <div class="col-5 mt-4">
+                                        _________________________________________________________________
+                                    </div>
+                                    <div class="col-2 border p-4 border-dark  m-4 h-100"></div>
+
+                                </div>
+
+                                <div class="row mb-2">
+
+                                    <div class="col-12">
+                                        If the Borrower(s) is a Company
+                                    </div>
+                                    <div class="col-12 mt-4">
+                                        <p class="mb-3 ">Common Seal of ________________________________ has been affixed pursuant to resolution passed in the meeting of its Board of Directors held on ______________ in the presence of __________________________________________
+                                            its Director who has signed these presents and __________________ Authorised Person / Company Secretary who has countersigned these presents in token thereof.</p>
+                                    </div>
+                                </div>
+                                <h3 class="page-break"></h3>
+                                <div class="row mb-2">
+
+                                    <div class="col-12 text-center text-underline">
+                                        <strong><u>LETTER OF CONTINUITY FOR DEMAND PROMISSORY NOTE</u></strong>
+                                    </div>
+
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-md-12">
+                                        <p class="font-14 text-right m-0">Date : ________________________</p>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <p class="font-14 text-left m-0">Enorme Capital Private Limited,</p>
+                                        <p class="font-14 text-left m-0">422, Second floor, Periyakulam Road,</p>
+                                        <p class="font-14 text-left m-0">Theni-625531, Tamilnadu, India.</p>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <p class="font-14 text-left mt-4 mb-4">Dear Sir / Madam,</p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p class="font-14 mt-4 mb-4">I/We _________________________________ have executed a Demand Promissory Note for Rs. _________________/- (Rupees ___________________________________________________only) dated _______________duly signed and delivered
+                                            by me/us to you as security for the repayment by me/us to Enorme Capital Private Limited of any sum now due or which may hereafter be or become due by me/us to Enorme Capital Private Limited by way of loans
+                                            or advances, notwithstanding the fact that the loans or advances or the account, may from time to time be reduced or extinguished or the balance in the said account brought to credit, the intention being that
+                                            the said Demand Promissory Note and the security shall be a continuing security for any borrowing by us at any time to Enorme Capital Private Limited.</p>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <p class="col-4 font-14 text-left">Borrower</p>
+                                    <p class="col-4 font-14 text-center">Co-Borrower(s)</p>
+                                    <p class="col-4 font-14 text-right">Guarantor</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </kendo-pdf-export>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,133 @@
+<div id="vehicleloan">
+    <div class="row">
+      <div class="col-12 mt-5 p-0">
+        <p class="bc-2"></p>
+      </div>
+    </div>
+    
+    <hr class="light">
+    <form class="container-fluid" [formGroup]="vehicleForm">
+        <div class="row">
+            <div class="col-md-6 col-xl-4">
+                <fieldset >
+                    <div class="form-group">
+                       <label class="mt-1" for="" id="pShowroomName" title="Select Showroom">Select Showroom</label>
+                       <div  class="form-group ">
+                                        
+                           <div class="demo-section k-content">
+                               <input id="showRoomContacts" name="Select Showroom" formControlName="pShowroomName" style="width: 100%;" 
+                                 [ngClass]="{ 'is-invalid': vehicleLoanErrorMessage.pShowroomName}"/>
+                           </div> 
+                           <div class="invalid-feedback-cst">
+                            <span
+                              *ngIf="vehicleLoanErrorMessage.pShowroomName">{{vehicleLoanErrorMessage.pShowroomName}}</span>
+                          </div>         
+                       </div>
+                    </div>
+                    </fieldset>
+              <!-- <div class="form-group">
+                <label id="pShowroomName" title="Select Showroom">Select Showroom</label>
+                <select class="form-control " formControlName="pShowroomName" [ngClass]="{ 'is-invalid': vehicleLoanErrorMessage.pShowroomName }" >
+                  <option value="" ng-selected="selected">select</option>
+                  <option *ngFor="let data of showroom" >{{data.showtype}}</option>
+                </select>
+                <div class="invalid-feedback"><span *ngIf="vehicleLoanErrorMessage.pShowroomName">{{vehicleLoanErrorMessage.pShowroomName}}</span></div>
+              </div> -->
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="form-group">
+                <label id="pVehicleManufacturer" title="Vehicle Manufacturer">Vehicle Manufacturer</label>
+                <select class="form-control " formControlName="pVehicleManufacturer" maxlength="50"
+                 [ngClass]="{ 'is-invalid': vehicleLoanErrorMessage.pVehicleManufacturer }">
+                  <option value="" ng-selected="selected">select</option>
+                  <option *ngFor="let data of model" [value]="data?.modeltype">{{data?.modeltype}}</option>
+                </select>
+                <div class="invalid-feedback-cst"> 
+                  <span *ngIf="vehicleLoanErrorMessage.pVehicleManufacturer">{{vehicleLoanErrorMessage.pVehicleManufacturer}}</span> </div>
+              </div>
+              
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="form-group">
+                <label id="pVehicleModel" title="Vehicle Model">Vehicle Model</label>
+                <input type="text" class="form-control" value=""  formControlName="pVehicleModel" appAlphanumeric appTitlecaseword maxlength="50" 
+                [ngClass]="{ 'is-invalid': vehicleLoanErrorMessage.pVehicleModel }">
+                <div class="invalid-feedback">
+                  <span *ngIf="vehicleLoanErrorMessage.pVehicleModel">{{vehicleLoanErrorMessage.pVehicleModel}}</span></div>
+              </div>
+            </div>
+            <hr class="light">
+            <div class="col-md-6 col-xl-4">
+              <div class="form-group">
+                <label id="pActualcostofVehicle" title="Actual cost of Vehicle">Actual cost of Vehicle</label>
+                <input type="text" class="form-control text-right" value="" appNumbersonly  removeZero maxlength="10" (change) ="onEnteredActualCost()" 
+                formControlName="pActualcostofVehicle" [ngClass]="{ 'is-invalid': vehicleLoanErrorMessage.pActualcostofVehicle }">
+                <div class="invalid-feedback-cst"> <span *ngIf="vehicleLoanErrorMessage.pActualcostofVehicle">{{vehicleLoanErrorMessage.pActualcostofVehicle}}</span> </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="form-group">
+               <label id="pDownPayment" title="Down Payment">Down Payment</label>
+                <input type="text" class="form-control text-right" value="" appNumbersonly  removeZero maxlength="10"  formControlName="pDownPayment" (change) ="onEnteredDownPayment()"  [ngClass]="{ 'is-invalid': vehicleLoanErrorMessage.pDownPayment }">
+                <div class="invalid-feedback-cst"> <span *ngIf="vehicleLoanErrorMessage.pDownPayment">{{vehicleLoanErrorMessage.pDownPayment}}</span> </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="form-group">
+               <label id="pOnroadprice" title="On road price">On road price</label>
+                <input type="text" class="form-control text-right" value="" appNumbersonly  removeZero maxlength="10"  formControlName="pOnroadprice" (change) ="onEnteredOnRoadPrice()"  [ngClass]="{ 'is-invalid': vehicleLoanErrorMessage.pOnroadprice }">
+                <div class="invalid-feedback-cst"> <span *ngIf="vehicleLoanErrorMessage.pOnroadprice">{{vehicleLoanErrorMessage.pOnroadprice}}</span> </div>
+              </div>
+            </div>
+            <hr class="light">
+            <div class="col-md-6 col-xl-4 pl-0">
+              <div class="form-group">
+                <!-- <label class="col-12">Requested Loan Amount </label>
+                <span class="col-12 bc-2-bold">1,00,000</span> -->
+               </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="form-group">
+                <label id="pEngineNo" title="Engine No">Engine No.</label>
+                <input type="text" class="form-control" value="" appUppercase appAlphanumeric maxlength="20" formControlName="pEngineNo" [ngClass]="{ 'is-invalid': vehicleLoanErrorMessage.pEngineNo }">
+                <div class="invalid-feedback-cst"> <span *ngIf="vehicleLoanErrorMessage.pEngineNo">{{vehicleLoanErrorMessage.pEngineNo}}</span> </div>
+
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="form-group">
+                <label id="pChassisNo" title="Chassis No">Chassis No.</label>
+                <input type="text" class="form-control" value="" appUppercase appAlphanumeric  maxlength="20" formControlName="pChassisNo" [ngClass]="{ 'is-invalid': vehicleLoanErrorMessage.pChassisNo }">
+                <div class="invalid-feedback-cst"> <span *ngIf="vehicleLoanErrorMessage.pChassisNo">{{vehicleLoanErrorMessage.pChassisNo}}</span> </div>
+
+              </div>  
+            </div>
+            <hr class="light">
+            <div class="col-md-6 col-xl-4">
+              <div class="form-group">
+                <label id="pRegistrationNo" title="Registration No">Registration No.</label>
+                <input type="text" class="form-control" value="" appUppercase appAlphanumeric maxlength="10"  formControlName="pRegistrationNo" [ngClass]="{ 'is-invalid': vehicleLoanErrorMessage.pRegistrationNo }">
+                <div class="invalid-feedback-cst"> <span *ngIf="vehicleLoanErrorMessage.pRegistrationNo">{{vehicleLoanErrorMessage.pRegistrationNo}}</span> </div>
+              </div>
+              
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="form-group">
+                <label id="pYearofMake" title="Year of Make">Year of Make</label>
+                <input type="text" class="form-control" value="" appNumbersonly maxlength="15"  formControlName="pYearofMake" [ngClass]="{ 'is-invalid': vehicleLoanErrorMessage.pYearofMake }">
+                <div class="invalid-feedback-cst"> <span *ngIf="vehicleLoanErrorMessage.pYearofMake">{{vehicleLoanErrorMessage.pYearofMake}}</span> </div>
+
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="form-group">
+                <label id="pAnyotherRemarks" title="Any other Remarks">Any other Remarks</label>
+                <input type="text" class="form-control" value="" appCharactersonly maxlength="200"  formControlName="pAnyotherRemarks" [ngClass]="{ 'is-invalid': vehicleLoanErrorMessage.pAnyotherRemarks }">
+                <div class="invalid-feedback-cst"> <span *ngIf="vehicleLoanErrorMessage.pAnyotherRemarks">{{vehicleLoanErrorMessage.pAnyotherRemarks}}</span> </div>
+              </div>
+            </div>
+          </div>
+    </form>
+    
+    <!-- <div class="d-flex justify-content-end mt-4 ml-3 mb-4"> <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" (click)="Submit()"><img src="./assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Generate delivery order</a> </div>
+  </div> -->

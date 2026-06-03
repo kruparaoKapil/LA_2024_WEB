@@ -1,0 +1,134 @@
+<div class="row mt-4">
+  <div class="col d-flex flex-wrap align-items-center">
+    <a class="btn btn-b-icon border-0" routerLink="/SelfOrAdjustmentNew">
+      <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+    </a>
+
+  </div>
+</div>
+
+<div class="row mt-3">
+  <div class="col-md-12 col-xl-12">
+    <div class="section-container">
+
+      <div class="row d-flex col-md-12 mt-3 ">
+
+
+        <div class="form-group">
+          <div class="form-check radio-btn form-check-inline mr-1  ">
+            <input class="form-check-input " [checked]="Type === 'SELF'" type="radio" name="inlineRadioOptions1"
+              id="inlineRadio2" value="SELF" (click)="selfViewClick()">
+            <label class="mt-1" for="inlineRadio2">SELF</label>
+          </div>
+          <div class="form-check radio-btn form-check-inline mr-2">
+            <input class="form-check-input radio-btn" [checked]="Type === 'ADJUSTMENT'" type="radio"
+              name="inlineRadioOptions1" id="inlineRadio3" value="ADJUSTMENT" (click)="adjustementViewClick()">
+            <label class="mt-1" for="inlineRadio3">ADJUSTMENT</label>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="row mt-3">
+        <div class="col-md-12">
+          <!-- <kendo-grid [kendoGridBinding]="gridview" [groupable]="true" [group]="group" [selectedKeys]="mySelection"
+            [pageSize]="10" [skip]="skip" [pageable]="{buttonCount: 2}" [reorderable]="true" [resizable]="true"
+            [columnMenu]="{ filter: true }" [pageable]="true" [sortable]="true" (edit)="editHandler($event)"
+            (remove)="removeHandler($event)"> -->
+          <kendo-grid [kendoGridBinding]="gridview" [groupable]="true" [group]="group" [selectedKeys]="mySelection"
+            [pageSize]="10" [skip]="skip" [pageable]="{buttonCount: 2}" [reorderable]="true" [resizable]="true"
+            [columnMenu]="{ filter: true }" [pageable]="true" [sortable]="true" 
+            (remove)="removeHandler($event)">
+            <ng-template kendoGridToolbarTemplate>
+              <div class="row mb-5">
+                <div class="col-4 pl-0 mt-n1">
+                  <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+                    (input)="onFilter($event.target.value)" />
+                </div>
+
+
+                <div class="col-12 ">
+                  <ul class="temp-ul pull-right">
+                    <!-- <li class="temp-ico ml-2">
+                <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                    width="20px"></a>
+              </li> -->
+                    <li class="temp-ico ">
+                      <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                          width="20px"></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+
+
+            </ng-template>
+            <kendo-grid-command-column title="" width="100">
+              <ng-template kendoGridCellTemplate>
+
+                <button kendoGridEditCommand>
+                  <div id="icon-edit"></div>
+                </button>
+              </ng-template>
+            </kendo-grid-command-column>
+            <!-- <kendo-grid-command-column title="" width="100">
+        <ng-template kendoGridCellTemplate>
+
+          <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+        </ng-template>
+      </kendo-grid-command-column> -->
+            <kendo-grid-column field="pTransdate" width="150" title="Date">
+            </kendo-grid-column>
+            <kendo-grid-column field="branch" width="150" title="From Branch" *ngIf="selfView==true">
+            </kendo-grid-column>
+            <kendo-grid-column field="pPaymenttype" width="150" title="Payment Type" *ngIf="selfView==false">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pPaymenttype" width="150" title="Payment Type" *ngIf="selfView==true">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pFdAccountno" width="150" title="Adv. Account No.">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="GetAccountDetails(dataItem)">{{dataItem.pFdAccountno }}</a>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pMemberName" width="150" title="Member">
+            </kendo-grid-column>
+            <kendo-grid-column field="pCompnayname" width="150" title="Company Name" *ngIf="selfView==false">
+            </kendo-grid-column>
+            <kendo-grid-column field="pChitpersonname" width="150" title="Person Name" *ngIf="selfView==false">
+            </kendo-grid-column>
+            <!-- <kendo-grid-column field="branch" width="150" title="Branch Name">
+      </kendo-grid-column> -->
+
+            <kendo-grid-column field="chitbranchname" title="Adj Chit Branch" width="150" *ngIf="selfView==false">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pGroupcodeticketno" title="Adj Group" width="150" *ngIf="selfView==false">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="psubscribername" title="Subscriber" width="150" *ngIf="selfView==false">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pBankaccountno" title="Account No." width="150" *ngIf="selfView==true">
+            </kendo-grid-column>
+            <kendo-grid-column field="pBankname" title="Bank Name" width="150" *ngIf="selfView==true">
+            </kendo-grid-column>
+            <kendo-grid-column field="pIfsccode" title="IFSC Code" width="150" *ngIf="selfView==true">
+            </kendo-grid-column>
+
+            <kendo-grid-excel fileName="SelfOrAdjustment.xlsx" [fetchData]="allData"></kendo-grid-excel>
+
+          </kendo-grid>
+        </div>
+        <div class="modal right animated slideInRight" id="add-detail">
+          <app-fd-transcation-details></app-fd-transcation-details>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

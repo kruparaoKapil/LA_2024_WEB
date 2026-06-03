@@ -1,0 +1,181 @@
+<form [formGroup]="LeaveDetailsForm">
+  <div class="section-content">
+    <div class="row">
+      <div class="col-md-3 col-xl-3">
+        <div class="form-group">
+          <label class="required-field">From Date</label>
+          <input readonly type="text" formControlName="fromdate" bsDatepicker [bsConfig]="dpConfig1"
+            class="form-control" id="fromdate" title="From Date">
+          <app-validation-messages [messgae]="LeaveDetailsFormMessages?.fromdate"></app-validation-messages>
+        </div>
+      </div>
+      <div class="col-md-3 col-xl-3">
+        <div class="form-group">
+          <label class="required-field">To Date</label>
+          <input readonly type="text" formControlName="todate" bsDatepicker [bsConfig]="dpConfig2" class="form-control"
+            id="todate" title="To Date">
+          <app-validation-messages [messgae]="LeaveDetailsFormMessages?.todate"></app-validation-messages>
+        </div>
+      </div>
+      <div class="col-md-3 col-xl-3">
+        <div class=" d-flex justify-content mt-3 pt-2">
+          <!-- <button class="btn btn-b-icon border-0 mt-1" (click)="show()">Show</button> -->
+          <button class="btn btn-b-icon border-0 mt-1" [disabled]="showbuttonbool" (click)="show()">
+            <i class="fa" [ngClass]="{'fa-spin fa-spinner': showbuttonbool}"></i>{{showbuttontext}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-content mt-2">
+    <div class="row">
+      <div class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end mt-4 mr-3">
+          <ul class="temp-ul pt-3">
+            <li class="temp-ico ml-2">
+              <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;"
+                kendo-button (click)="pdfOrprint('Pdf')" />
+            </li>
+            <li class="temp-ico ml-2">
+              <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print"
+                (click)="pdfOrprint('Print')" style="cursor: pointer;" />
+            </li>
+            <!-- <li class="temp-ico ml-2">
+                            <a class="export-icons" (click)="export()"><img src="assets/images/icon-excel.svg " class="pt-2" title="Excel" width="18px"></a>
+                        </li> -->
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-12 col-xl-12 mt-3">
+        <ngx-datatable #myTable [rows]="ngxgriddata" class='material expandable' [headerHeight]="50"
+          [rowHeight]="'auto'" [columnMode]="'force'" [scrollbarH]="true" [footerHeight]="pageCriteria.footerPageHeight"
+          [limit]="pageCriteria.pageSize" [offset]="pageCriteria.offset" [groupRowsBy]="'type'"
+          [groupExpansionDefault]="false">
+          <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+            <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+              <div style="padding-left:5px;">
+                <a [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+                  title="Expand/Collapse Group" (click)="toggleExpandGroup(group)">
+                  <b> {{ group.value[0].type }} </b>
+                </a>
+              </div>
+            </ng-template>
+          </ngx-datatable-group-header>
+          <ngx-datatable-row-detail [rowHeight]="75" #myDetailRow>
+          </ngx-datatable-row-detail>
+          <!-- <ngx-datatable-column name="Action" prop="" [cellClass]="'cell-center'"
+                    [headerClass]="'header-center'">
+                    <ngx-datatable-column  name="Edit" prop="" [canAutoResize]="false" [width]="100">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+                            let-group="group">
+                            <label for="edit{{ rowIndex }}" >
+                                <div id="icon-edit" (click)="editleavedetails(row, rowIndex,$event)"></div>
+                            </label>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable-column> -->
+          <ngx-datatable-column frozenLeft="True" [width]="60">
+            <ng-template class="column-fixed" ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+              let-row="row" let-group="group">
+              <!-- *ngIf="row.type=='Absent'&& row.checkboxstatus == 'N'" -->
+              <div *ngIf="row.checkboxstatus == 'N'">
+                <input type="checkbox" [value]="select" [checked]="row.check_uncheck"
+                  (change)="selectca($event,row,rowIndex)">
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Branch" prop="branchname"></ngx-datatable-column>
+          <ngx-datatable-column name="Employee code" prop="employeecode"></ngx-datatable-column>
+          <ngx-datatable-column name="Date" prop="date">
+            <!-- <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div *ngIf="row.date == ''"></div>
+                            <div *ngIf="row.date !== ''">{{row.date | dateformat}}</div>
+                          </ng-template> -->
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <div *ngIf="row.date == ''"></div>
+              <div *ngIf="row.date !== ''">{{row.date | date:'dd/MM/yyyy'}}</div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Employee Name" prop="employeename"></ngx-datatable-column>
+          <!-- <ngx-datatable-column name="Absent" prop="absent"></ngx-datatable-column> -->
+          <!-- <ngx-datatable-column name="No of Sundays" prop="noofsundays">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div *ngIf="row.noofsundays==''">--NA--</div>
+                            <div *ngIf="row.noofsundays !==''">{{row.noofsundays}}</div>
+                        </ng-template>
+                    </ngx-datatable-column> -->
+          <!-- <ngx-datatable-column name="Present" prop="present">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div *ngIf="row.present==null">--NA--</div>
+                            <div *ngIf="row.present !==null">{{row.present}}</div>
+                        </ng-template>
+                    </ngx-datatable-column> -->
+          <!-- <ngx-datatable-column name="Total days" prop="totaldays"></ngx-datatable-column> -->
+          <ngx-datatable-column prop="leavetype" name="Leave Type" [cellClass]="'cell-center'"
+            [headerClass]="'header-center'" [width]="100">
+            <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value">
+              <!-- <div *ngIf="row.editabsent">
+                                    <input type="text" id="{{rowIndex}}" class="form-control" (blur)="updateValue($event.target.value)">
+                                </div> -->
+              <!-- *ngIf="row.type=='Absent'&& row.leavetype == ''" -->
+              <div *ngIf="row.leavetype == ''">
+                <!-- <div *ngIf="row.type=='Absent'"> -->
+                <!-- <input type="checkbox" [value]="select" [checked]="row.remarksonduty"
+                                    (change)="selectcheckbox($event,row,rowIndex)"> -->
+                <select class="form-control" id="idremarks{{rowIndex}}" title="Remarks"
+                  (change)="changeRemarks($event,row,rowIndex,$event.target.value)" [disabled]="!row.check_uncheck">
+                  <option value="" ng-selected="selected">Select</option>
+                  <option *ngFor="let remarks of row.remarkslist;trackBy: trackByFn" [value]="remarks.leavecode">
+                    {{remarks.leavetype}}</option>
+                </select>
+
+
+              </div>
+              <!-- *ngIf="row.type=='Absent'&& row.leavetype != ''" -->
+              <p *ngIf="row.leavetype != ''">{{row.leavetype}}</p>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column prop="remarks" name="Remarks" [cellClass]="'cell-center'"
+            [headerClass]="'header-center'">
+            <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value">
+              <!-- *ngIf="row.type=='Absent'&& row.remarks == ''" -->
+              <div *ngIf="row.remarks == ''">
+                <!-- <div *ngIf="row.editabsent"> -->
+                <input type="text" id="{{rowIndex}}" class="form-control" (blur)="updateValue(row,$event.target.value)"
+                  [disabled]="row.remarksbool" [value]="value">
+              </div>
+              <!-- *ngIf="row.type=='Absent'&& row.remarks != ''" -->
+              <p *ngIf="row.remarks != ''">{{row.remarks}}</p>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-footer *ngIf="ngxgriddata.length>0">
+            <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageCriteria.pageSize"
+              let-selectedCount="selectedCount" let-curPage="curPage" let-offset="pageCriteria.offset"
+              let-isVisible="isVisible">
+              <div style="padding: 5px 10px">
+                <div>Page {{pageCriteria.CurrentPage}} of {{pageCriteria.TotalPages}} ({{ pageCriteria.totalrows }}
+                  items) </div>
+              </div>
+              <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageCriteria.pageSize"
+                [count]="rowCount" (change)="onFooterPageChange($event)"
+                [hidden]="!((rowCount / pageCriteria.pageSize) > 0)">
+              </datatable-pager>
+            </ng-template>
+          </ngx-datatable-footer>
+        </ngx-datatable>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end mt-3"> <a class="btn btn-g-icon mr-4 px-3 border-0"><img
+              src="assets/images/icon-cancel-white.svg" class="mr-3" width="20px" height="20px">Cancel</a>
+          <button class="btn btn-s-icon px-3 border-0 " (click)="SaveLeaveDetails()" [disabled]="savebuttonbool">
+            <!-- <img src="assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px"> {{savebutton}} </a> -->
+            <img src="assets/images/icon-check-white.svg" class="mr-3" width="20px"
+              height="20px">{{savebuttontext}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

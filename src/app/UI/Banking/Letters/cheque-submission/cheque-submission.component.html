@@ -1,0 +1,199 @@
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<style>
+
+</style>
+<div class="col-md-12 mt-5 mb-4">
+    <div id="template">
+        <div class="d-flex justify-content-end mr-3">
+            <ul class="temp-ul">
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Welcome Letter.pdf')" />
+                </li>
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="false">
+                        <div id="temp-box">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <app-company-details></app-company-details>
+                                    <div class="report-head">
+                                        <p class="font-18 text-dark text-center m-0">CHEQUE SUBMISSION FORM</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="mb-5">Application No.</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="mb-5">Loan No.</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="mb-5">Name of the Borrower (s) </p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="mb-5">1)<br>2)<br>3)</p>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>Name of the Guarantor </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>CHEQUE DETAILS </p>
+                                        <table class="table table-bordered receipt-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-left">S.No.</th>
+                                                    <th class="text-left">From</th>
+                                                    <th class="text-left">To</th>
+                                                    <th class="text-left">Cheque Count</th>
+                                                    <th class="text-left">From</th>
+                                                    <th class="text-left">To</th>
+                                                    <th class="text-left">Bank</th>
+                                                    <th class="text-left">Branch</th>
+                                                    <th class="text-left">Amount of Each Cheque</th>
+                                                    <th class="text-left">Purpose*</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>5</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+
+
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-5"><b>I/We solemnly declare and say that:</b><br> i. I/We have not given any cheque(s), other than those mentioned above<br> ii. All cheques are drawn in favour of <b>“Enorme Capital Private Limited”</b> and crossed
+                                            as “A/C Payee Only”.<br> iii. Enorme Capital Private Limited shall not be held responsible for any cheques left blank in favour of any name other than <b>“Enorme Capital Private Limited”.</b></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Borrower’s Name:__________________________________________________________________________</p>
+                                    </div>
+                                    <div class="col-12">
+                                        <p class="mb-3">Borrower’s Signature:_______________________________________________________________________</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Received By-</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Name & Signature of Executive:<br> Name of Direct sales Associate:</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-5"><b>Important Instruction:</b><br> 1. Please ensure that there are no correction/mistakes in the cheques and that the amounts mentioned in words and figures are same. Correction/mistakes, even when countersigned
+                                            shall not be accepted by any banks.<br> 2. Enorme Capital Private Limited shall destroy the cheques within 90 days from the date of closure of the loan account at its sole discretion if the borrowers fails to
+                                            collect the cheques back.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </kendo-pdf-export>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

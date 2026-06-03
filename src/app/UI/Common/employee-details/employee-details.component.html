@@ -1,0 +1,74 @@
+        <div class="row">
+          <div class="col-12 mt-5">
+            <p class="bc-2">Employment Details</p>
+          </div>
+        </div>
+        <form [formGroup]="EmployeeDetailsForm" >
+          <div class="row">
+            <div class="col-md-6 col-xl-4">
+              <div class="form-group">
+                <label>Basic Salary (P.A)</label>
+                <input class="form-control" id="pEmploymentBasicSalary" title="Basic Salary" maxlength="11" type="text" value="" placeholder=0  (keyup)="ctcCalculation()" formControlName="pEmploymentBasicSalary" appNumbersonly appMycurrencyFormatter
+                [ngClass]="{ 'is-invalid': EmployeeDetailsValidation.pEmploymentBasicSalary }">
+                <div class="invalid-feedback">
+                  <span *ngIf="EmployeeDetailsValidation.pEmploymentBasicSalary">{{EmployeeDetailsValidation?.pEmploymentBasicSalary}}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Allowance / Variable Pay (P.A)</label>
+                <input class="form-control" id="pEmploymentAllowanceORvda" maxlength="11" title="Allowance / Variable Pay" type="text" value="" placeholder=0  (keyup)="ctcCalculation()" formControlName="pEmploymentAllowanceORvda" appNumbersonly appMycurrencyFormatter>
+              </div>
+              <div class="form-group">
+                <label class="col-md-12 col-xl-12 pl-0">Total Cost to Company (CTC)</label>
+                <span  class="col-md-12 col-xl-12 bc-2-bold font-weight-bolder pl-0"> {{ctc | mycurrencypipe}} </span> </div>
+              <div class="form-group">
+                <label>Designation</label>
+                <input class="form-control" id="pEmploymentDesignation" maxlength="50" title="Designation" type="text" value="" formControlName="pEmploymentDesignation" appCharactersonly appTitlecaseword>
+              </div>
+              <div class="form-group">
+                <label>Role</label>
+                <div class="input-group"  >
+                  <select  class="form-control" id="pEmploymentRoleName" title="Role" formControlName="pEmploymentRoleName" (click)="employeeRoleId()">
+                   <option value="" disabled>Select</option>
+                   <option *ngFor="let role of EmployeeRoleList"  [value]="role.pemploymentrole"> {{role.pemploymentrole}}</option>
+                  </select>
+                
+                  <div class="input-group-append">
+                    <button class="btn btn-lg-icon px-2 p-0" (click)="clickToAddRole()"> <img src="assets/images/icon-add-blue.svg" class="" width="20px" height="20px" data-toggle="modal" data-target="#add-detail"></button>
+                  </div>
+                
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Date of Joining</label>
+                <input class="form-control" type="text" id="pEmploymentJoiningDate" readonly title="Date of Joining" placeholder="Date picker here" [bsConfig]="dpConfig" #dp="bsDatepicker"
+                bsDatepicker placement="top" formControlName="pEmploymentJoiningDate">
+              </div>
+            </div>
+          </div>
+        </form>
+
+        
+<!-- The Modal -->
+<div class="modal right slideInRight"  id="add-detail" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="margin-right:0px !important; ">
+            <div class="model-cst modal-content">
+              <!-- Modal body -->
+              <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <form [formGroup]="RoleForm">
+                  <div class="form-group">
+                    <label for="">Role</label>
+                    <input type="text" class="form-control" formControlName="pEmployeeRoleName" appCharactersonly appTitlecaseword [ngClass]="{'is-invalid': roleValidation && RoleForm.controls.pEmployeeRoleName.errors }">
+                    <div *ngIf=" roleValidation && RoleForm.controls.pEmployeeRoleName.errors" class="invalid-feedback">
+                      <div *ngIf="RoleForm.controls.pEmployeeRoleName.errors.required">Role is required</div>
+                    </div> 
+                  </div>
+                  <div class="d-flex justify-content-end mt-4">
+                    <a class="close" (click)="clearRole()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a> <a (click)="addRole()"   data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>

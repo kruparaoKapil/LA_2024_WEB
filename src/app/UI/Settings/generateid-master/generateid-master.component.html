@@ -1,0 +1,74 @@
+<div class="row mt-4">
+  <div class="col-12">
+    <p class="bc-2">Generate Id</p>
+  </div>
+</div>
+<form [formGroup]="GenerateIdForm">
+  
+  <div class="row">
+    <div class="col-md-12 col-xl-12 pt-4">
+
+      <div class="rounded border">
+
+        <kendo-grid [data]="GenerateIdData" [height]="500" [pageSize]="gridState.take" [skip]="gridState.skip"
+                    [sort]="gridState.sort" [pageable]="false" [sortable]="true"
+                    (remove)="removeHandler($event)"
+                   >
+          <kendo-grid-column field="pRecordid" title="Recordid" width="150" [hidden]="true">
+          </kendo-grid-column>
+          <kendo-grid-column field="pFormName" title="Form name" width="150">
+          </kendo-grid-column>
+          <kendo-grid-column field="pFieldname" title="Field Name" width="150"></kendo-grid-column>
+          <kendo-grid-column field="pTransactionCode" title="Code" width="150">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              <input appCharactersonly width="60" type="text" value="{{dataItem.pTransactionCode}}" id="TransactionCode_{{rowIndex}}" style="text-transform:uppercase;" class="form-control w-auto"
+                     kendoGridEditCommand (change)="Code_Change($event,dataItem,rowIndex)" />
+            </ng-template>
+
+          </kendo-grid-column>
+          <kendo-grid-column field="pTransactionSerice" title="Serice" width="120">
+
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              <input appNumbersonly width="60" type="text" value="{{dataItem.pTransactionSerice}}" (change)="Serice_Change($event,dataItem,rowIndex)" class="form-control w-auto"
+                     kendoGridEditCommand  />
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pSericeReset" title="Sericec Reset" width="150">
+
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              <select class="form-control" (change)="SericeReset_Change($event,dataItem,rowIndex)" style="box-sizing: border-box;">
+
+                <option *ngFor="let Serice of SericeReset;" [value]="Serice.value" [selected]="Serice.value ==dataItem.pSericeReset"> {{Serice.text}}</option>
+              </select>
+            </ng-template>
+
+
+          </kendo-grid-column>
+
+
+          <kendo-grid-column field="pStatus" title="Edit Status" width="150"></kendo-grid-column>
+        </kendo-grid>
+
+      </div>
+
+
+
+      <div>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="row mt-4 ml-1 mb-4">
+  <div class="col-md-12 col-xl-12">
+    <div class="d-flex justify-content-end mt-4">
+      
+  
+      <button (click)="saveGenerateIdmaster()" class="btn btn-b-icon px-3 border-0"
+              [disabled]="disablesavebutton">
+        <i class="fa"
+           [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i> {{savebutton}}
+      </button>
+    </div>
+  </div>
+</div>
+

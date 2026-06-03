@@ -1,0 +1,220 @@
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<style>
+
+</style>
+<div class="col-md-12 mt-5 mb-4">
+    <div id="template">
+        <div class="d-flex justify-content-end mr-3">
+            <ul class="temp-ul">
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Welcome Letter.pdf')" />
+                </li>
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="false">
+                        <div id="temp-box">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <app-company-details></app-company-details>
+                                    <div class="report-head">
+                                        <p class="font-18 text-dark text-center m-0">Part Disbursement Advice</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <p class="font-14 mb-4 text-left m-0 font-weight-bold">Date : <label class="font-weight-normal">11-06-2021</label></p>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">Customer Name<span
+                                                        class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                   
+                                                </label>
+                                            </p>
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">Address<span
+                                                        class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                   
+                                                </label>
+                                            </p>
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">Mobile No.<span
+                                                        class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                   
+                                                </label>
+                                            </p>
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">Email id<span
+                                                        class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                   
+                                                </label>
+                                            </p>
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">Loan Product<span
+                                                            class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                       
+                                                    </label>
+                                            </p>
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">Loan Account No<span
+                                                            class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                       
+                                                    </label>
+                                            </p>
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">Sanctioned Loan Amount<span
+                                                            class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                       
+                                                    </label>
+                                            </p>
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">Current Disbursement<span
+                                                            class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                       
+                                                    </label>
+                                            </p>
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">Total Loan Disbursed till date<span
+                                                                class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                           
+                                                        </label>
+                                            </p>
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">Loan Yet to be Disbursed<span
+                                                                    class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                               
+                                                            </label>
+                                            </p>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+
+                                        <p class="m-0">
+                                            <label class="font-weight-bold col-md-3 pl-0 align-top">Pre-EMI Interest @_____ for the month of ______ <span
+                                                                class="pull-right">: </span></label>
+                                            <label class="col-md-9 p-0 font-weight-normal">
+                                                                Rs.
+                                                        </label>
+                                        </p>
+                                        <p class="m-0">
+                                            <label class="font-weight-bold col-md-3 pl-0 align-top">Pre-EMI Interest Dues<span
+                                                                class="pull-right">: </span></label>
+                                            <label class="col-md-9 p-0 font-weight-normal">
+                                                                Rs.
+                                                        </label>
+                                        </p>
+                                        <p class="m-0">
+                                            <label class="font-weight-bold col-md-3 pl-0 align-top">Total<span
+                                                                class="pull-right">: </span></label>
+                                            <label class="col-md-9 p-0 font-weight-normal">
+                                                                Rs.
+                                                        </label>
+                                        </p>
+
+
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>Your Pre-Emi interest from _______ will be _______ which you pay remit every ________till you avail further disbursement.</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>The rate of interest (ROI) will be subjected to reset on ______</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">The rate of interest is subject to any higher rate that may be prevailing at the time of subsequent/final disbursement.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-3">Pre-Emi interest, Interest rate reset revision cycle shall all remain subject to terms and conditions of the Loan Agreement executed by you.</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-5"><b>DISBURSEMENT DETAILS</b><br> Beneficiary Account Name:<br> Beneficiary Account Number:<br> Beneficiary Bank Name and Branch:<br> Payment Mode:<br> UTR / Cheque No:<br> Amount:
+                                            <br> Disbursement Date:</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-5">For Enorme Capital Private Limited</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-5">Authorised Signatory</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </kendo-pdf-export>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

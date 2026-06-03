@@ -1,0 +1,280 @@
+<div class="row mt-5">
+    <div class="col-md-6 col-xl-4">
+        <p class="bc-2">Personal Details {{selectedContactType}}</p>
+    </div>
+    <div class="col-md-6 col-xl-4">
+        <div class="material-switch pull-right">
+            <span class="mr-2">Not applicable</span>
+            <input id="personal-all-notapplicable" name="personal-all-notapplicable" type="checkbox" [(ngModel)]="notApplicableForAll" (change)="notApplicableAll($event)" />
+            <label for="personal-all-notapplicable" class="check-danger"></label>
+        </div>
+    </div>
+</div>
+
+<form>
+    <ng-container *ngIf="PersonalDetailsIndividualTab">
+        <div class="row" *ngIf="ContactDetailsShowOrHideForMember">
+            <div class="col-md-12 col-xl-12">
+                <label class="">Select Contact type</label>
+                <div class="col-md-6 col-xl-12">
+                    <table id="example" class="table text-center w-auto">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let applicants of lstApplicantsandothers; let i = index">
+                                <td>
+                                    <input *ngIf="(applicants.papplicanttype == 'Applicant')" class="form-check-input  radio-btn-secondary" type="radio" name="personaldetails" id="perapplicant-{{i}}" value="{{applicants.pcontactreferenceid}}" (change)="applicantNameChange(i)">
+                                    <input *ngIf="(applicants.papplicanttype != 'Applicant') " class="form-check-input" type="radio" name="personaldetails" id="perapplicant-{{i}}" value="{{applicants.pcontactreferenceid}}" (change)="applicantNameChange(i)">
+
+                                    <label for="perapplicant"></label>
+
+                                    <!-- <input *ngIf="applicants.papplicanttype == 'Applicant'" class="form-check-input  radio-btn-secondary" checked type="radio" name="personaldetails" id="perapplicant" value="{{applicants.pcontactreferenceid}}" (change)="applicantNameChange(i)">
+                <input *ngIf="applicants.papplicanttype != 'Applicant'" class="form-check-input" type="radio" name="personaldetails" id="perapplicant" value="{{applicants.pcontactreferenceid}}" (change)="applicantNameChange(i)">
+                <label  for="perapplicant"></label> -->
+                                </td>
+                                <td>{{applicants.papplicantname}}</td>
+                                <td>{{applicants.papplicanttype}}</td>
+                                <td *ngIf="applicants.status == true">
+                                    <div class="done"></div>
+                                </td>
+                                <td *ngIf="applicants.status == false">
+                                    <div class="notdone"></div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </ng-container>
+    <div class="row">
+        <ng-container *ngIf="selectedContactType == 'Business Entity'">
+            <div class="col-md-6 col-xl-4 ">
+                <a class="lc-title acc1 mb-2 text-decoration-none" data-toggle="collapse" href="#personaldetailsBusiness" role="button" aria-expanded="false" aria-controls="personaldetails"><img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" /><img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Business Activity Details
+                </a>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="material-switch pull-right">
+                    <span class="mr-2">Not applicable</span>
+                    <input id="personaldetailsBusiness" name="personaldetailsBusiness" type="checkbox" [(ngModel)]="showBusinessActivity" (change)="notApplicable($event, 'businessActivity')" />
+                    <label for="personaldetailsBusiness" class="check-danger"></label>
+                </div>
+            </div>
+            <div class="col-12 collapse" id="personaldetailsBusiness">
+                <app-fi-personaldetails-business [showBusinessActivity]="!showBusinessActivity">
+                </app-fi-personaldetails-business>
+            </div>
+            <hr>
+            <div class="col-md-6 col-xl-4 ">
+                <a class="lc-title acc1 mb-2 text-decoration-none" data-toggle="collapse" href="#personaldetailsFinancialperformance" role="button" aria-expanded="false" aria-controls="personaldetails"><img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" /><img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Financial Performance
+                </a>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="material-switch pull-right">
+                    <span class="mr-2">Not applicable</span>
+                    <input id="personaldetailsFinancialperformance" name="personaldetailsFinancialperformance" type="checkbox" [(ngModel)]="showBusinessFinacial" (change)="notApplicable($event, 'financialInfo')" />
+                    <label for="personaldetailsFinancialperformance" class="check-danger"></label>
+                </div>
+            </div>
+            <div class="col-12 collapse" id="personaldetailsFinancialperformance">
+                <app-fi-personaldetails-financialperformance [showBusinessFinacial]="!showBusinessFinacial">
+                </app-fi-personaldetails-financialperformance>
+            </div>
+
+        </ng-container>
+
+        <ng-container *ngIf="selectedContactType == 'Individual'">
+            <!---------------employmentdetails start------------------------->
+            <ng-container *ngIf="EmploymentDetailsTab">
+                <div class="col-md-6 col-xl-4 ">
+                    <a class="lc-title acc1 mb-2 text-decoration-none" data-toggle="collapse" href="#employmentdetails" role="button" aria-expanded="false" aria-controls="personaldetails"><img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" /><img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Employment Details
+                    </a>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="material-switch pull-right">
+                        <span class="mr-2">Not applicable</span>
+                        <input id="Employment" name="Employment" type="checkbox" [(ngModel)]="showEmployeement" (change)="notApplicable($event, 'employeement')" />
+                        <label for="Employment" class="check-danger"></label>
+                    </div>
+                </div>
+                <div class="col-12 collapse" id="employmentdetails">
+                    <app-fi-personaldetails-employment [showEmployeement]="!showEmployeement" (enteredEmploeeData)="enteredEmploeeData($event)" [typeOfEmployement]="'fi-personalLoan'">
+                    </app-fi-personaldetails-employment>
+                </div>
+            </ng-container>
+
+            <!---------------employmentdetails end------------------------->
+            <hr>
+            <!---------------personal details start------------------------->
+            <ng-container *ngIf="PersonalDetailsTab">
+                <div class="col-md-6 col-xl-4 ">
+                    <a class="lc-title acc1 mb-2 text-decoration-none" data-toggle="collapse" href="#personaldetails" role="button" aria-expanded="false" aria-controls="personaldetails"> <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" /> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Personal Details </a>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="material-switch pull-right">
+                        <span class="mr-2">Not applicable</span>
+                        <input id="personal-details1" name="personal-details1" type="checkbox" [(ngModel)]="showPersonal" (change)="notApplicable($event, 'personal')" />
+                        <label for="personal-details1" class="check-danger"></label>
+                    </div>
+                </div>
+                <div class="col-12 collapse" id="personaldetails">
+                    <app-personal-details [showPersonal]="!showPersonal"></app-personal-details>
+                </div>
+            </ng-container>
+            <!---------------personal details end------------------------->
+            <hr>
+            <!---------------family start------------------------->
+            <ng-container *ngIf="FamilyDetailsTab">
+                <div class="col-md-6 col-xl-4">
+                    <a class="lc-title acc2 mb-2 text-decoration-none" data-toggle="collapse" href="#family" role="button" aria-expanded="false" aria-controls="family"> <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" /> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Family Details </a>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="material-switch pull-right">
+                        <span class="mr-2">Not applicable</span>
+                        <input id="family-details" name="family-details" type="checkbox" [(ngModel)]="showFamily" (change)="notApplicable($event, 'family')" />
+                        <label for="family-details" class="check-danger"></label>
+                    </div>
+                </div>
+                <div class="col-12 collapse" id="family">
+                    <app-fi-personaldetails-family [showFamily]="!showFamily"></app-fi-personaldetails-family>
+                </div>
+            </ng-container>
+            <!----------family end-------------------->
+            <hr>
+            <!----------nominee start-------------------->
+            <ng-container *ngIf="NomineeDetailsTab">
+                <div class="col-md-6 col-xl-4">
+                    <a class="lc-title acc3 mb-2 text-decoration-none" data-toggle="collapse" href="#nominee" role="button" aria-expanded="false" aria-controls="family"> <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" /> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Nominee Details </a>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="material-switch pull-right">
+                        <span class="mr-2">Not applicable</span>
+                        <input id="nominee-details" name="nominee-details" type="checkbox" [(ngModel)]="showNominee" (change)="notApplicable($event, 'nominee')" />
+                        <label for="nominee-details" class="check-danger"></label>
+                    </div>
+                </div>
+                <div class="col-12 collapse" id="nominee">
+                    <app-fi-personaldetails-nominee [showNominee]="!showNominee"></app-fi-personaldetails-nominee>
+                </div>
+            </ng-container>
+        </ng-container>
+        <!---------nominee end--------------->
+        <hr>
+        <!---------bankdetails start-------------->
+        <ng-container *ngIf="BankDetailsTab">
+            <div class="col-md-6 col-xl-4">
+                <a class="lc-title acc4 mb-2 text-decoration-none" data-toggle="collapse" href="#bankdetails" role="button" aria-expanded="false" aria-controls="family"> <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" /> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Bank Details
+                </a>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="material-switch pull-right">
+                    <span class="mr-2">Not applicable</span>
+                    <input id="bank-details" name="bank-details" type="checkbox" [(ngModel)]="showBank" (change)="notApplicable($event, 'bank')" />
+                    <label for="bank-details" class="check-danger"></label>
+                </div>
+            </div>
+            <div class="col-12 collapse" id="bankdetails">
+                <app-bankdetails [showBank]="!showBank"></app-bankdetails>
+            </div>
+        </ng-container>
+        <!---------bankdetails end-------------->
+        <hr>
+        <!---------Income start-------------->
+        <ng-container *ngIf="selectedContactType == 'Individual'">
+            <ng-container *ngIf="IncomeDetailsTab">
+                <div class="col-md-6 col-xl-4">
+                    <a class="lc-title acc5 mb-2 text-decoration-none" data-toggle="collapse" href="#Income " role="button" aria-expanded="false" aria-controls="family"> <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" /> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Income Details </a>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="material-switch pull-right">
+                        <span class="mr-2">Not applicable</span>
+                        <input id="Income-details" name="Income-details" type="checkbox" [(ngModel)]="showIncome" (change)="notApplicable($event, 'income')" />
+                        <label for="Income-details" class="check-danger"></label>
+                    </div>
+                </div>
+                <div class="col-12 collapse" id="Income">
+                    <app-fi-personaldetails-income [showIncome]="!showIncome" (forComputeDetailsEmit)="forComputeDetailsEmit($event)"></app-fi-personaldetails-income>
+
+                    <hr class="light">
+                    <div class="col-md-8 col-xl-8 p-0 pr-0">
+                        <app-fi-personaldetails-otherincome [showIncome]="!showIncome" [incomeFormData]="incomeFormData">
+                        </app-fi-personaldetails-otherincome>
+                    </div>
+
+                </div>
+            </ng-container>
+            <!---------Income end-------------->
+            <hr>
+            <!---------Education start-------------->
+            <ng-container *ngIf="EducationDetailsTab">
+                <div class="col-md-6 col-xl-4">
+                    <a class="lc-title acc6 mb-2 text-decoration-none" data-toggle="collapse" href="#Education" role="button" aria-expanded="false" aria-controls="family"> <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" /> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Education Details </a>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="material-switch pull-right">
+                        <span class="mr-2">Not applicable</span>
+                        <input id="Education-details" name="Education-details" type="checkbox" [(ngModel)]="showEducation" (change)="notApplicable($event, 'education')" />
+                        <label for="Education-details" class="check-danger"></label>
+                    </div>
+                </div>
+                <div class="col-12 collapse" id="Education">
+                    <app-fi-personaldetails-education [showEducation]="!showEducation"></app-fi-personaldetails-education>
+                </div>
+            </ng-container>
+        </ng-container>
+        <!--Education end-->
+    </div>
+
+
+    <div class="row mt-4">
+        <div class="col-md-12 col-xl-12">
+            <!-- for defaultly selected applicant name type (applicantConfigDetailsStatus changed to applicantsConfigDetails - Start) => Kiran Gaikwad -->
+            <div class="d-flex justify-content-end mt-4" *ngIf="!applicantsConfigDetails">
+                <a href="" data-toggle="tab" class="btn  btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="500" (debounceClick)="applicantConfigDetails()"><img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add</a>
+            </div>
+            <div class="d-flex justify-content-end mt-4" *ngIf="applicantsConfigDetails">
+                <a *ngIf="ContactDetailsShowOrHideForMember" href="" data-toggle="tab" class="btn  btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="500" (debounceClick)="applicantConfigDetails()"><img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add ({{applicantsConfigDetails}}) </a>
+            </div>
+            <!-- for defaultly selected applicant name type (applicantConfigDetailsStatus changed to applicantsConfigDetails - End) => Kiran Gaikwad -->
+        </div>
+        <hr>
+        <div class="col-md-12 col-xl-12">
+            <div class="d-flex justify-content-end mt-4">
+                <a *ngIf="forClearButton" (click)="clearForm()" class="btn btn-g-icon mr-4 px-3 border-0">
+                    <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" /> Clear
+                </a>
+                <a href="#" data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" role="tab" (click)="moveToPreviousTab()" aria-controls="hot" aria-selected="false">
+                    <img src="assets/images/icon-chewron-left-whitesolid.svg" width="20px" height="20px" class="mr-3" />Back</a>
+
+                <!-- <a appButtonDoubleClick [debounceTime]="500" 
+             (debounceClick)="SaveApplicationPersonalInformation()" data-toggle="tab"
+              class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot"
+               aria-selected="false">
+               <img src="assets/images/icon-chewron-right-whitesolid.svg" width="20px"
+                height="20px" class="mr-3" />Save & Continue</a> -->
+
+                <button (click)="SaveApplicationPersonalInformation()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" [disabled]="isLoading">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading,'fa-check': !isLoading}"></i>
+                    <span *ngIf="!isLoading">
+                    </span>{{buttonName}}</button>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+<div class="my-container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplateForFiView">
+    </ngx-loading>
+
+</div>

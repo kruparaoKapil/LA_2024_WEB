@@ -1,0 +1,384 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6  mb-3">
+        <p class="bc-2">Gst Payment Voucher</p>
+    </div>
+</div>
+            <div class="section-content">
+                <form [formGroup]="gstForm">
+                    <div class="card-box">
+                        <div class="row mt-3">
+                            <div class="col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label title="Party Name" id="partyName" class="required-field">Party Name</label>
+                                    <ng-select title="Party Name" [items]="partyNamesList" formControlName="partyId"
+                                        bindLabel="pcontactmailingname" bindValue="pcontactid" placeholder="Select"
+                                        [searchable]=true [clearable]=true dropdownPosition="bottom"
+                                        [clearOnBackspace]=true (change)="partyNameChange($event)"
+                                        [ngClass]="{ 'is-invalid': errorMessages.partyName }">
+                                    </ng-select>
+
+                                    <div class="invalid-feedback">
+                                        <span *ngIf="errorMessages.partyId">{{errorMessages?.partyId}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-xl-2">
+                                <div class="form-group mt-2">
+                                    <br>
+                                    <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0"
+                                        data-toggle="tab" role="tab" (click)="showGridData()">
+                                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                                        <span *ngIf="!isLoading"><img class="mr-3" height="20px"
+                                                src="assets/images/reports-white.svg" width="20px"></span> Show
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="card-box">
+                    <kendo-grid [kendoGridBinding]="GridData" [pageSize]="10" [pageable]="{buttonCount: 2}"
+                        [resizable]="false" class="mt-4">
+
+                        <kendo-grid-column width="40">
+                            <ng-template kendoGridHeaderTemplate>
+                                <input type="checkbox" [checked]="allChecked" (change)="toggleAllRows($event)" />
+                            </ng-template>
+
+                            <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+                                <input type="checkbox" [checked]="dataItem.selectvalue" id="{{dataItem.gstVoucherNo}}"
+                                    (change)="checkedRow($event, dataItem)" />
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pgstvoucherdate" width="150" title="Gst Vocher Date"
+                            [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{ dataItem.pgstvoucherdate.split(' ')[0] }}
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="pgstvoucherno" width="120" title="Vocher No"
+                            [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="invoice_date" width="150" title="Vocher Date"
+                            [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{ dataItem.invoice_date.split(' ')[0] }}
+                            </ng-template>
+                        </kendo-grid-column>
+
+
+
+                        <kendo-grid-column field="invoice_amount" width="180" title="Invoice Total Amount"
+                            [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                <span>{{dataItem.invoice_amount | mycurrencypipe}}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="discount_amount" width="200" title="Discount On Invoice To"
+                            [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                <span>{{dataItem.discount_amount | mycurrencypipe}}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="invoice_due_amount" width="180" title="Invoice Due Amount"
+                            [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                <span>{{dataItem.invoice_due_amount | mycurrencypipe}}</span>
+                            </ng-template>
+                            <ng-template kendoGridFooterTemplate>
+                                <strong>Total: {{invoicedueGridTotal | mycurrencypipe}}</strong>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="invoice_paid_amount" width="150" title="Amount To Pay"
+                            [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+
+                            <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                <div *ngIf="dataItem.selectvalue">
+                                    <input type="text" class="form-control text-center" appMycurrencyFormatter
+                                        (blur)="validateEnterAmount(dataItem)" appNumbersonly
+                                        [(ngModel)]="dataItem.invoice_paid_amount"
+                                        style="width: 110px;padding: 1px;margin-left: 8px;"
+                                        [ngModelOptions]="{standalone: true}">
+                                </div>
+                            </ng-template>
+
+
+                            <ng-template kendoGridFooterTemplate>
+                                <strong>Total: {{amountTopayGridTotal | mycurrencypipe}}</strong>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <!--                  
+                 <kendo-grid-column field="uploadDocument" width="150" title="Upload Document" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                 </kendo-grid-column hidden> -->
+                    </kendo-grid>
+                </div>
+
+                <div class="card-box">
+                    <form [formGroup]="paymentVoucherForm" autocomplete="off">
+                        <div class="row">
+
+                            <div class="mt-1 mb-4 col-12 ">
+                                <div class="rounded border p-2 pt-3 pl-3 shadow-sm ">
+                                    <p class="bc-2">Mode of Payment</p>
+                                    <div class="form-group mt-2  pl-0" id="pmodofpayment" title="Mode of Paymen">
+                                        <div class="form-check form-check-inline radio-btn ">
+                                            <input class="form-check-input" type="radio" name="pmodofpayment"
+                                                formControlName="pmodofpayment" id="cash" value="CASH"
+                                                (change)="modeofPaymentChange()">
+                                            <label class="mt-1 w-m-100 text-center" for="cash"> Cash - {{cashBalance}}
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline radio-btn ">
+                                            <input class="form-check-input" type="radio" name="pmodofpayment"
+                                                formControlName="pmodofpayment" id="Instrument" value="BANK"
+                                                (change)="modeofPaymentChange()">
+                                            <label class="mt-1 w-m-100 text-center" for="Instrument"> Bank -
+                                                {{bankBalance}}</label>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="Instrument" *ngIf="showModeofPayment">
+                                        <div class="row">
+                                            <div class="ml-3 mb-3 rounded border pl-2 pr-2 badge-light "
+                                                *ngIf="showtranstype" id="ptranstype" title="Trans Type">
+                                                <div class="form-check form-check-inline radio-btn-secondary">
+                                                    <input class="form-check-input" type="radio" name="ptranstype"
+                                                        formControlName="ptranstype" (change)="transofPaymentChange()"
+                                                        id="cheque" value="CHEQUE" checked>
+                                                    <label class="mt-1" for="cheque"> Cheque </label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline radio-btn-secondary">
+                                                    <input class="form-check-input " type="radio" name="ptranstype"
+                                                        formControlName="ptranstype" (change)="transofPaymentChange()"
+                                                        id="net" value="ONLINE">
+                                                    <label class="mt-1" for="net"> Online </label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline radio-btn-secondary">
+                                                    <input class="form-check-input " type="radio" name="ptranstype"
+                                                        formControlName="ptranstype" (change)="transofPaymentChange()"
+                                                        id="debit" value="DEBIT CARD">
+                                                    <label class="mt-1" for="debit"> Debit Card </label>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-12 col-xl-12">
+                                                <div class="cheque ">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <div class="form-group" *ngIf="showbankcard">
+                                                                <label>Bank Name</label>
+                                                                <select class="form-control" id="pbankname"
+                                                                    title="Bank Name" formControlName="pbankid"
+                                                                    [ngClass]="{ 'is-invalid': errorMessages.pbankname }"
+                                                                    (change)="bankName_Change($event)">
+                                                                    <option value="" ng-selected="selected">Select
+                                                                    </option>
+                                                                    <option
+                                                                        *ngFor="let bank of banklist;trackBy: trackByFn"
+                                                                        [value]="bank.pbankid">
+                                                                        {{bank.pbankname}}</option>
+                                                                </select>
+
+                                                                <app-validation-message
+                                                                    [messgae]="errorMessages?.pbankname"></app-validation-message>
+
+                                                            </div>
+                                                            <div class="form-group" *ngIf="!showbankcard">
+                                                                <label>{{displayCardName}} </label>
+                                                                <select class="form-control" id="pCardNumber"
+                                                                    title="{{displayCardName}}"
+                                                                    formControlName="pCardNumber"
+                                                                    [ngClass]="{ 'is-invalid': errorMessages.pCardNumber }"
+                                                                    (change)="debitCard_Change($event)">
+                                                                    <option value="" ng-selected="selected">Select
+                                                                    </option>
+                                                                    <option
+                                                                        *ngFor="let debitcard of debitcardlist;trackBy: trackByFn"
+                                                                        [value]="debitcard.pCardNumber">
+                                                                        {{debitcard.pCardNumber}}
+                                                                    </option>
+                                                                </select>
+                                                                <app-validation-message
+                                                                    [messgae]="errorMessages?.pCardNumber"></app-validation-message>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3" *ngIf="showTypeofPayment">
+                                                            <div class="form-group">
+                                                                <label>Type of Payment</label>
+                                                                <select class="form-control " id="ptypeofpayment"
+                                                                    title="Type of Payment"
+                                                                    formControlName="ptypeofpayment"
+                                                                    (change)="typeofPaymentChange()"
+                                                                    [ngClass]="{ 'is-invalid': errorMessages.ptypeofpayment }">
+                                                                    <option value="" ng-selected="selected">Select
+                                                                    </option>
+                                                                    <option
+                                                                        *ngFor="let typeofpayment of typeofpaymentlist;trackBy: trackByFn"
+                                                                        [value]="typeofpayment.ptypeofpayment">
+                                                                        {{typeofpayment.ptypeofpayment}}</option>
+
+                                                                </select>
+
+                                                                <app-validation-message
+                                                                    [messgae]="errorMessages?.ptypeofpayment"></app-validation-message>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="showbranch">
+                                                            <div class="form-group">
+                                                                <label>Branch Name</label>
+                                                                <input class="form-control" type="text" readonly
+                                                                    placeholder="Branch Name" id="pbranchname"
+                                                                    title="Branch Name" formControlName="pbranchname">
+                                                                <app-validation-message
+                                                                    [messgae]="errorMessages?.pbranchname"></app-validation-message>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="showfinancial">
+                                                            <div class="form-group">
+                                                                <label>Bank / Financial Services</label>
+                                                                <input class="form-control" type="text" readonly
+                                                                    id="pbankname" title="Bank / Financial Services"
+                                                                    formControlName="pbankname">
+                                                                <app-validation-message
+                                                                    [messgae]="errorMessages?.pbankname"></app-validation-message>
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="UPI1" class="col-md-3" *ngIf="showupi">
+
+                                                            <div class="form-group">
+                                                                <label>UPI</label>
+                                                                <select class="form-control" id="pUpiname" title="UPI"
+                                                                    formControlName="pUpiname"
+                                                                    [ngClass]="{ 'is-invalid': errorMessages.pUpiname }"
+                                                                    (change)="upiName_Change($event)">
+                                                                    <option value="" ng-selected="selected">Select
+                                                                    </option>
+                                                                    <option
+                                                                        *ngFor="let upinames of upinameslist;trackBy: trackByFn"
+                                                                        [value]="upinames.pUpiname">
+                                                                        {{upinames.pUpiname}}</option>
+                                                                </select>
+                                                                <app-validation-message
+                                                                    [messgae]="errorMessages?.pUpiname"></app-validation-message>
+                                                            </div>
+                                                        </div>
+                                                        <div id="UPI2" class="col-md-3" *ngIf="showupi">
+
+                                                            <div class="form-group">
+                                                                <label id="pUpiid">UPI ID</label>
+                                                                <select class="form-control" id="pUpiid" title="UPI ID"
+                                                                    formControlName="pUpiid"
+                                                                    [ngClass]="{ 'is-invalid': errorMessages.pUpiid }"
+                                                                    (change)="upid_change()">
+                                                                    <option value="" ng-selected="selected">Select
+                                                                    </option>
+                                                                    <option
+                                                                        *ngFor="let upinames1 of upiidlist;trackBy: trackByFn"
+                                                                        [value]="upinames1.pUpiid">{{upinames1.pUpiid}}
+                                                                    </option>
+                                                                </select>
+
+                                                                <app-validation-message
+                                                                    [messgae]="errorMessages?.pUpiid"></app-validation-message>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 cheque ">
+                                                            <div class="form-group">
+                                                                <label id="pChequenumber"
+                                                                    title="{{displaychequeno}}">{{displaychequeno}}</label>
+                                                                <select class="form-control"
+                                                                    formControlName="pChequenumber" *ngIf="showchequno"
+                                                                    (change)="chequenumber_Change()"
+                                                                    [ngClass]="{ 'is-invalid': errorMessages.pChequenumber }">
+                                                                    <option value="" ng-selected="selected">Select
+                                                                    </option>
+                                                                    <option
+                                                                        *ngFor="let chequenumbers of chequenumberslist;trackBy: trackByFn"
+                                                                        [value]="chequenumbers.pChequenumber">
+                                                                        {{chequenumbers.pChequenumber}}</option>
+                                                                </select>
+
+                                                                <input class="form-control" type="text"
+                                                                    placeholder="{{displaychequeno}}"
+                                                                    formControlName="pChequenumber" appAlphanumeric
+                                                                    maxlength="30" *ngIf="!showchequno"
+                                                                    [ngClass]="{ 'is-invalid': errorMessages.pChequenumber }"
+                                                                    (blur)="chequenumber_Change()">
+
+                                                                <app-validation-message
+                                                                    [messgae]="errorMessages?.pChequenumber"></app-validation-message>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-md-12 col-xl-12 mb-2">
+                                                            <div id="sbi-bal">
+                                                                <span
+                                                                    class="badge-info badge p-1 font-weight-light ">Bank
+                                                                    Book -
+                                                                    {{bankbookBalance}} </span>
+                                                                <span
+                                                                    class="badge-warning badge p-1 font-weight-light">Pass
+                                                                    Book -
+                                                                    {{bankpassbookBalance}} </span>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- cheque-radio-toggle -->
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-md-12 col-xl-12 d-flex justify-content-end">
+                                <div class="col-md-2">
+                                    <label>Transaction Date</label>
+                                    <input class="form-control" readonly type="text" [bsConfig]="dateConfig"
+                                        bsDatepicker formControlName="transDate" #dp="bsDatepicker" placement="bottom">
+                                </div>
+                                <div class="col-md-2" style="margin-top: 30px;">
+                                    <!-- <button appButtonDoubleClick [debounceTime]="500" (debounceClick)="saveGSTPaymentVoucher()"
+                    class="btn btn-s-icon px-3 border-0">
+                    <img src="assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px">Save
+                  </button> -->
+                                    <button appButtonDoubleClick [debounceTime]="300"
+                                        (debounceClick)="saveGSTPaymentVoucher()" class="btn btn-s-icon px-3 border-0">
+                                        <i class="fa mr-2" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                                        <span *ngIf="!isLoading">
+                                            <img class="mr-3" height="20px" src="assets/images/icon-check-white.svg"
+                                                width="20px">
+                                        </span>
+                                        {{savebutton}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+
+            </div>
+       

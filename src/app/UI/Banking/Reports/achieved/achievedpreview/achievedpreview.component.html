@@ -1,0 +1,63 @@
+<div class="d-flex justify-content-end">
+    <ul class="temp-ul">
+        <li class="temp-ico">
+            <img src="assets/images/pdf-icon-blue.svg" width="18px" class="pt-5" title="pdf" style="cursor: pointer;"
+                kendo-button (click)="pdf.saveAs('Projection_Report.pdf')" />
+        </li>
+    </ul>
+</div>
+<kendo-pdf-export #pdf paperSize="A4" [landscape]="false" [allPages]="true" [repeatHeaders]="true" [scale]="0.5">
+    <div id="temp-box">
+
+        <div class="mt-2 border rounded shadow-sm bg-white">
+            <div class="row">
+                <div class="col-md-12">
+                    <app-company-details></app-company-details>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" style="margin: 30px">
+            <table border="1" width="100%" cellspacing="0" cellpadding="8">
+                <thead>
+                    <tr>
+                       <th rowspan="2">Scheme Name</th>
+                        <th *ngFor="let m of nextMonths" colspan="3">{{ m }}</th>
+                    </tr>
+                    <tr>
+                        <th>Projection</th>
+                        <th>Achieved</th>
+                        <th>Variance <br /> Ex/(Sh)</th>
+                        <th>Projection</th>
+                        <th>Achieved</th>
+                        <th>Variance <br /> Ex/(Sh)</th>
+                        <th>Projection</th>
+                        <th>Achieved</th>
+                        <th>Variance <br /> Ex/(Sh)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of groupedData">
+                        <td>{{ item.name }}</td>
+                        <ng-container *ngFor="let m of nextMonths">
+                            <td>{{ item.projections[m]?.projection || 0 }}</td>
+                            <td>{{ item.projections[m]?.achieved || 0 }}</td>
+                            <td>{{ item.projections[m]?.variance || 0 }}</td>
+                        </ng-container>
+                  </tr>
+                </tbody>
+            </table>
+            <div *ngIf="achiData.length === 0" class="alert alert-info mt-4">
+                No data found.
+            </div>
+        </div>
+    </div>
+</kendo-pdf-export>
+
+
+
+     
+ 
+
+
+     

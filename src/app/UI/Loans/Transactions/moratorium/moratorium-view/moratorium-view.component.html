@@ -1,0 +1,189 @@
+<div class="row">
+    <div class="col-6 mb-3">
+        <p class="bc-2">Moratorium</p>
+    </div>
+    <div class="col-md-6 col-xl-6 mb-3">
+        <a class="btn btn-b-icon border-0 pull-right" routerLink="/Moratorium"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+    </div>
+</div>
+<!-- <div class="row mt-2 mb-3">
+
+    <div class="col-md-4 col-xl-4 mt-3 d-flex">
+        <a class="btn btn-b-icon border-0" routerLink="/Moratorium"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+    </div>
+</div> -->
+
+<div class="row">
+    <div class="col-md-12 col-xl-12">
+        <kendo-grid [kendoGridBinding]="loanReceiptData" [groupable]="true" [pageSize]="10" [pageable]="{buttonCount: 2}" [reorderable]="true" [resizable]="true" [columnMenu]="{ filter: true }" [pageable]="true" [sortable]="true" (remove)="removeHandler($event)">
+
+            <ng-template kendoGridToolbarTemplate>
+
+                <div class="row pr-4">
+                    <div class="col-md-12 pr-3">
+                        <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                            <li class="temp-ico ml-2">
+                                <a kendoGridPDFCommand><img class="pt-1 ml-3" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                            </li>
+                            <li class="temp-ico ml-2">
+                                <a kendoGridExcelCommand><img class="pt-1" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </ng-template>
+            <kendo-grid-column-group title="Moratorium" [headerClass]="{'kendo-g-center' : true}">
+                <kendo-grid-column field="pmoratoriumdate" width="130" title="Moratorium Date">
+                </kendo-grid-column>
+                <kendo-grid-column field="pmoratoriumcount" width="130" title="Moratorium Months">
+                </kendo-grid-column>
+                <kendo-grid-column field="papplicationno" width="130" title="Application ID">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoantype" width="130" title="Loan Type">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoanname" width="130" title="Loan Name">
+                </kendo-grid-column>
+                <kendo-grid-column field="pApplicantname" title="Applicant Name" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pApprovedamount" title="Approved Amount" width="180" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pApprovedamount |mycurrencypipe }}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pEmiAmount" title="Emi Amount" width="180" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pEmiAmount |mycurrencypipe }}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pRateofinterest" title="Rate of interest" width="180" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pEmiAmount}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pTenureofloan" title="Tenure of Loan" width="180" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pTenureofloan}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="ploaninstalmentpaymentmode" title="Loan Instalment Paymentmode" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pdisbursementdate" title="Disbursement Date" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pApproveddate" title="Approved Date" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pdisbursementpayinmode" title="Moratorium pay-in mode" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoanpayin" title="Loan pay-in" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pInteresttype" title="Interest type" width="160" class="kendo-center">
+                </kendo-grid-column>
+                <!-- <kendo-grid-column field="pLoanstatus" title="Loa Status" width="160" [headerClass]="{'kendo-center': true}" class="kendo-center"> </kendo-grid-column> -->
+
+
+            </kendo-grid-column-group>
+            <kendo-grid-pdf fileName="Moratorium.pdf" [allPages]="true" paperSize="A2" [repeatHeaders]="true" [landscape]="true">
+                <ng-template kendoGridPDFTemplate>
+                    <div class="page-template">
+                        <div class="header bc-2 text-center">
+                            <h5> Moratorium </h5>
+                        </div>
+                    </div>
+                </ng-template>
+                <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+                <kendo-grid-column field="pmoratoriumdate" width="130" title="Moratorium Date">
+                </kendo-grid-column>
+                <kendo-grid-column field="pmoratoriumcount" width="130" title="Moratorium Months">
+                </kendo-grid-column>
+                <kendo-grid-column field="papplicationno" width="130" title="Application ID">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoantype" width="130" title="Loan Type">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoanname" width="130" title="Loan Name">
+                </kendo-grid-column>
+                <kendo-grid-column field="pApplicantname" title="Applicant Name" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pApprovedamount" title="Approved Amount" width="180" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pApprovedamount |mycurrencypipe }}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pEmiAmount" title="Emi Amount" width="180" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pEmiAmount |mycurrencypipe }}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pRateofinterest" title="Rate of interest" width="180" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pEmiAmount}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pTenureofloan" title="Tenure of Loan" width="180" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pTenureofloan}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="ploaninstalmentpaymentmode" title="Loan Instalment Paymentmode" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pdisbursementdate" title="Disbursement Date" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pApproveddate" title="Approved Date" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pdisbursementpayinmode" title="Moratorium pay-in mode" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoanpayin" title="Loan pay-in" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pInteresttype" title="Interest type" width="160" class="kendo-center">
+                </kendo-grid-column>
+            </kendo-grid-pdf>
+
+            <kendo-grid-excel fileName="Moratorium.xlsx">
+                <kendo-grid-column field="pmoratoriumdate" width="130" title="Moratorium Date">
+                </kendo-grid-column>
+                <kendo-grid-column field="pmoratoriumcount" width="130" title="Moratorium Months">
+                </kendo-grid-column>
+                <kendo-grid-column field="papplicationno" width="130" title="Application  No.">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoantype" width="130" title="Loan Type">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoanname" width="130" title="Loan Name">
+                </kendo-grid-column>
+                <kendo-grid-column field="pApplicantname" title="Applicant Name" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pApprovedamount" title="Approved Amount" width="160" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pApprovedamount |mycurrencypipe }}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pEmiAmount" title="Emi Amount" width="150" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pEmiAmount |mycurrencypipe }}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pRateofinterest" title="Rate of interest" width="150" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pRateofinterest |mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pTenureofloan" title="Tenure of Loan" width="150" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pTenureofloan}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="ploaninstalmentpaymentmode" title="Loan Instalment Paymentmode" width="200">
+                </kendo-grid-column>
+                <kendo-grid-column field="pdisbursementdate" title="Disbursement Date" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pApproveddate" title="Approved Date" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pdisbursementpayinmode" title="Pay-in mode" width="150">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoanpayin" title="Loan pay-in" width="180">
+                </kendo-grid-column>
+                <kendo-grid-column field="pInteresttype" title="Interest type" width="160">
+                </kendo-grid-column>
+            </kendo-grid-excel>
+
+        </kendo-grid>
+
+    </div>
+</div>

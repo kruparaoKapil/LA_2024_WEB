@@ -1,0 +1,409 @@
+<div class="section-container">
+    <div class="row p-0">
+        <div class="col-xl-12 col-md-12">
+            <div class="section-content ">
+                <form [formGroup]="paySlipForm">
+                    <div class="row mt-3">
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label title="Employee Name">Employee Name</label>
+                                <ng-select id="pEmployeeId" title="Employee Name" [items]="employeeList "
+                                    formControlName="pEmployeeId" bindLabel="pEmployeeName" bindValue="pEmployeeId"
+                                    placeholder="Select" title="Employee" [searchable]=true [clearable]="true"
+                                    dropdownPosition="" [clearOnBackspace]=true (change)="EmployeeId_change($event)">
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label title="Year">Year</label>
+                                <ng-select id="pPeriodType" title="Calendar Year" [items]="calendarYearData"
+                                    formControlName="pPeriodType" bindLabel="pPeriodType" bindValue="pCalenderPeriodId"
+                                    [multiple]="false" placeholder="Select" [searchable]="true" [clearable]="true"
+                                    dropdownPosition="bottom" [clearOnBackspace]="true"
+                                    (change)="CalendarYear_change($event)">
+                                </ng-select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label title="Month">Month</label>
+                                <ng-select id="pCalendarMonth" title="Calendar Month" [items]="calendarMonthData"
+                                    formControlName="pCalendarMonth" bindLabel="pCalendarMonth"
+                                    bindValue="pCalenderPeriodDetailsId" [multiple]="false" placeholder="Select Month"
+                                    [searchable]="true" [clearable]="true" dropdownPosition="bottom"
+                                    [clearOnBackspace]="true" (change)="CalendarMonth_change($event)">
+                                </ng-select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <br>
+                                <button class="btn btn-primary mt-2" (click)="runPaySlip()">Generate</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+
+                
+                <div class="col-md-12 mt-5 mb-4" hidden>
+                    <div id="template">
+                        <div class="d-flex justify-content-end mr-3">
+                            <ul class="temp-ul">
+                                <li class="temp-ico ml-2">
+                                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf"
+                                        style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Payslip.pdf')" />
+                                </li>
+                                <!-- <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print"
+                        (click)="print()" style="cursor: pointer;" />
+                </li> -->
+                            </ul>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false"
+                                    [repeatHeaders]="true" [landscape]="false" [scale]="0.6">
+                                    <div id="temp-box">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <app-company-details></app-company-details>
+
+                                                <div class="report-head">
+                                                    <p class="font-18 text-dark text-center m-0">
+                                                        Pay Slip Details
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="temp-box-inner border rounded shadow-sm bg-white p-3"
+                                            style="overflow:hidden; height:auto !important;">
+                                            <div class="card-box">
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                        <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Name
+                                                        </label>
+                                                        <label class="font-weight-normal">:
+                                                            {{pBranchName}}</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="bc-1 font-14 text-left m-0 mr-4 w-50">ID
+                                                        </label>
+                                                        <label class="font-weight-normal">:
+                                                            {{pBranchName}}</label>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Designation
+                                                        </label>
+                                                        <label class="font-weight-normal">:
+                                                            {{pBranchName}}</label>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Month
+                                                        </label>
+                                                        <label class="font-weight-normal">:
+                                                            {{pBranchName}}</label>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="bc-1 font-14 text-left m-0 mr-4 w-50">PF No.
+                                                        </label>
+                                                        <label class="font-weight-normal">:
+                                                            {{pBranchName}}</label>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="bc-1 font-14 text-left m-0 mr-4 w-50">ESI No.
+                                                        </label>
+                                                        <label class="font-weight-normal">:
+                                                            {{pBranchName}}</label>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="bc-1 font-14 text-left m-0 mr-4 w-50">UAN No.
+                                                        </label>
+                                                        <label class="font-weight-normal">:
+                                                            {{pBranchName}}</label>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Date of
+                                                            Joining
+                                                        </label>
+                                                        <label class="font-weight-normal">:
+                                                            {{pBranchName}}</label>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Leave
+                                                            Balance
+                                                        </label>
+                                                        <label class="font-weight-normal">:
+                                                            {{pBranchName}}</label>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Loss of Pay
+                                                            Days
+                                                        </label>
+                                                        <label class="font-weight-normal">:
+                                                            {{pBranchName}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <p class="font-18 text-dark text-center m-0">
+                                                        <span class="font-16">(EARNINGS)</span>
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p class="font-18 text-dark text-center m-0">
+                                                        <span class="font-16">(DEDUCTIONS)</span>
+                                                    </p>
+                                                </div>
+                                                <hr>
+                                                <div class="col-md-6">
+                                                    <div class="border p-2 h-200">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <label
+                                                                    class="bc-1 font-14 text-left m-0 mr-4 w-50">Basic
+                                                                    Salary </label>
+                                                                <label class="font-weight-normal">:
+                                                                    {{pBranchName}}</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <label
+                                                                    class="bc-1 font-14 text-left m-0 mr-4 w-50">Arrears</label>
+                                                                <label class="font-weight-normal">:
+                                                                    {{pDepositDate}}</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <label
+                                                                    class="bc-1 font-14 text-left m-0 mr-4 w-50">Medical
+                                                                    Allowance </label>
+                                                                <label class="font-weight-normal">:
+                                                                    {{pInterestpayoutMA}}</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <label
+                                                                    class="bc-1 font-14 text-left m-0 mr-4 w-50">Conveyance
+                                                                    Allowance
+                                                                </label>
+                                                                <label class="font-weight-normal">: {{pDepositamount
+                                                                    |mycurrencypipe}}</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <label class="bc-1 font-14 text-left m-0 mr-4 w-50">HRA
+                                                                </label>
+                                                                <label class="font-weight-normal">: {{pInterestpayable |
+                                                                    mycurrencypipe}}</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <label
+                                                                    class="bc-1 font-14 text-left m-0 mr-4 w-50">Other
+                                                                    Allowance
+                                                                </label>
+                                                                <label class="font-weight-normal">: {{pTdsamount
+                                                                    |mycurrencypipe}}</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <label
+                                                                    class="bc-1 font-14 text-left m-0 mr-4 w-50">Special
+                                                                    Allowance
+                                                                </label>
+                                                                <label class="font-weight-normal">: {{pTdsamount
+                                                                    |mycurrencypipe}}</label>
+                                                            </div>
+
+                                                            <div class="col-md-12">
+                                                                <label
+                                                                    class="bc-1 font-14 text-left m-0 mr-4 w-50">Loyalty
+                                                                    Allowance
+                                                                </label>
+                                                                <label class="font-weight-normal">: {{pTdsamount
+                                                                    |mycurrencypipe}}</label>
+                                                            </div>
+
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="border p-2 h-200">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <label class="bc-1 font-14 text-left m-0 mr-4 w-50">PF
+                                                                </label>
+                                                                <label class="font-weight-normal">:
+                                                                    {{pMembername}}</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <label
+                                                                    class="bc-1 font-14 text-left m-0 mr-4 w-50">ESI</label>
+                                                                <label class="font-weight-normal">:
+                                                                    {{pMaturitydate}}</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <label
+                                                                    class="bc-1 font-14 text-left m-0 mr-4 w-50">Professional
+                                                                    Tax </label>
+                                                                <label class="font-weight-normal">: {{pTenor}}</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <label
+                                                                    class="bc-1 font-14 text-left m-0 mr-4 w-50">Advance
+                                                                </label>
+                                                                <label class="font-weight-normal">: {{pNetpayable |
+                                                                    mycurrencypipe}}</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <label
+                                                                    class="bc-1 font-14 text-left m-0 mr-4 w-50">Insurance
+                                                                </label>
+                                                                <label class="font-weight-normal">: {{pNetpayable |
+                                                                    mycurrencypipe}}</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <label
+                                                                    class="bc-1 font-14 text-left m-0 mr-4 w-50">Income
+                                                                    Tax
+                                                                </label>
+                                                                <label class="font-weight-normal">: {{pNetpayable |
+                                                                    mycurrencypipe}}</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <label
+                                                                    class="bc-1 font-14 text-left m-0 mr-4 w-50">Absent
+                                                                </label>
+                                                                <label class="font-weight-normal">: {{pNetpayable |
+                                                                    mycurrencypipe}}</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <label
+                                                                    class="bc-1 font-14 text-left m-0 mr-4 w-50">Recoveries
+                                                                </label>
+                                                                <label class="font-weight-normal">: {{pNetpayable |
+                                                                    mycurrencypipe}}</label>
+                                                            </div>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row mt-2">
+                                                <div class="col-md-6">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Gross Salary
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pNetpayable |
+                                                        mycurrencypipe}}</label>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Total
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pNetpayable |
+                                                        mycurrencypipe}}</label>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row mt-2">
+                                                <div class="col-md-6">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-4 w-50">Paid Through
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pNetpayable |
+                                                        mycurrencypipe}}</label>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-4 w-50"><b>Net
+                                                            Salary</b>
+                                                    </label>
+                                                    <label class="font-weight-normal">: {{pNetpayable |
+                                                        mycurrencypipe}}</label>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row mt-2">
+                                                <div class="col-md-12">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-2 w-25">Amount In Words
+                                                    </label>
+                                                    <label class="font-weight-normal">: Rupees Fifty Four Thousand Eight
+                                                        Hundred Only.
+                                                    </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="bc-1 font-14 text-left m-0 mr-2 w-25">Emp Bank Details
+                                                    </label>
+                                                    <label class="font-weight-normal">: Acc No 309009626243 - Rbl Bank -
+                                                        Somajiguda</label>
+                                                </div>
+                                                <!--     
+                                                <div class="col-md-12">
+                                                    <label
+                                                        class="bc-1 font-14 text-left m-0 mr-4 w-50"><b>Net Salary</b> 
+                                                    </label>
+                                                    <label >: {{pNetpayable |
+                                                        mycurrencypipe}}</label>
+                                                </div> -->
+
+                                            </div>
+
+                                            <div class="row mt-4">
+
+                                                <div class="col-md-12">
+                                                    <label class="font-weight-normal"><strong> ** This is system
+                                                            generated document that does not require Signature.
+                                                        </strong> </label>
+
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                </kendo-pdf-export>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

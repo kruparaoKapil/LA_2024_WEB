@@ -1,0 +1,262 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6 ">
+        <p class="bc-2">Share Application</p>
+    </div>
+    <div class="col-md-6 col-xl-6 ">
+        <span (click)="back()" class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+		color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img src="assets/images/icon-back-blue.svg"
+                width="25px" height="25px">View</span>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-8 col-xl-8">
+        <div class="section-container">
+            <ul class="nav nav-tabs tip-top wiz-tab " id="myTab" role="tablist">
+                <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Select Member">
+                    <a class="active disableTabs" data-toggle="tab" href="#selectmember" role="tab" aria-controls="fresh" aria-selected="true">Select Member</a>
+                </li>
+                <!-- <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="FD A/C"> <a
+                    class="" data-toggle="tab" href="#fd-ac" role="tab" aria-controls="cold" aria-selected="false">2</a></li> -->
+                <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Add Joint Member">
+                    <a class="disableTabs" data-toggle="tab" href="#add-joint-member" role="tab" aria-controls="warm" aria-selected="false">Joint Member & Nominee</a>
+                </li>
+                <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Referral/CP/Agent Details">
+                    <a class="disableTabs" data-toggle="tab" href="#refferral" role="tab" aria-controls="cold" aria-selected="false">Referral</a>
+                </li>
+            </ul>
+            <form [formGroup]=shareAppForm>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade  active show " id="selectmember" role="tabpanel" aria-labelledby="fresh-tab">
+
+                        <div class="row mt-4 ">
+                            <div class="col-md-12 col-xl-12  mt-2">
+                                <p class="sec-head-bold">Membership Fees</p>
+
+                                <label id="IsMembershipfeeapplicable" title="Is Membership fee applicable?">Is Membership fee applicable?</label>
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                                        <input class="form-check-input" type="radio" name="pismemberfeeapplicable" (click)="Membershipfeeapplicable('true')" [checked]="true" id="inlineRadio1">
+                                        <label class="mt-1" for="inlineRadio1"> Yes </label>
+                                    </div>
+                                    <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                                        <input class="form-check-input" type="radio" name="pismemberfeeapplicable" (click)="Membershipfeeapplicable('false')" id="inlineRadio2">
+                                        <label class="mt-1" for="inlineRadio2"> No </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xl-6">
+                                <div class="form-group">
+                                    <label id="pTransdate" title="Transaction Date">Transaction Date</label>
+                                    <div class="form-group">
+                                        <fieldset [disabled]="!disabletransactiondate">
+                                            <!-- <input readonly type="text" class="form-control" formControlName="pTransdate" [bsConfig]="dpConfig3" #dp="bsDatepicker" [bsValue]="bsValue" bsDatepicker
+                                   placement="bottom"> -->
+                                            <input type="text" class="form-control" id="fromdate" formControlName="pTransdate" readonly [bsConfig]="pdateofbirthConfig" bsDatepicker #dp="bsDatepicker" (ngModelChange)="Transdateclick()">
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-6">
+                                <div class="form-group">
+                                    <label id="pmembertypeid" title="Member Type">Member Type</label>
+                                    <!-- <select class="form-control" (change)="memberTypeChange($event)" [ngClass]="{ 'is-invalid': shareAppErrorMessage.pmembertypeid}">
+                                    <option value="" disabled>Select</option>
+                                    <option *ngFor="let type of memberTypeDetails;" [value]="type.pmembertypeid">
+                                        {{type.pmembertype}}</option>
+                                </select> -->
+                                    <ng-select title="Member Type" id="pmembertypeid" [items]="memberTypeDetails" formControlName="pmembertypeid" bindLabel="pmembertype" bindValue="pmembertypeid" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                        [clearOnBackspace]=true (change)="memberTypeChange($event);" [ngClass]="{ 'is-invalid': shareAppErrorMessage.pmembertypeid }">
+                                    </ng-select>
+                                    <div class="invalid-feedback-cst">
+                                        <span *ngIf="shareAppErrorMessage.pmembertypeid">{{shareAppErrorMessage.pmembertypeid}}</span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4 col-xl-4 members">
+                                <div class="form-group">
+                                    <label id="pmembername" title="Member">Member</label>
+                                    <div class="form-group" [ngClass]="{'for-disable-radio-btn': notEditable}">
+
+                                        <ng-select [items]="allSearchMembers" formControlName="pmembername" bindLabel="pMemberName" bindValue="pMemberName" [multiple]=false placeholder="Select" [searchable]="true" (change)="MemberChanges($event);" [clearable]=true dropdownPosition="bottom"
+                                            [clearOnBackspace]=true [ngClass]="{ 'is-invalid': shareAppErrorMessage.pmembername }">
+                                            <ng-template ng-header-tmp>
+                                                <label class="col-4 p-0"><strong>Member</strong> </label>
+                                                <label class="col-4 p-0" style="text-align:center"><strong>Member Code</strong> </label>
+                                                <label class="col-4 p-0" style="text-align:center"><strong>Contact No.</strong> </label>
+                                            </ng-template>
+                                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                                <div class="row">
+                                                    <span class="col-4 text-dark word-break text-wrap">{{item.pMemberName}}</span>
+                                                    <span class="col-4 text-dark">{{item.pMemberCode}}</span>
+                                                    <span class="col-4 text-dark">{{item.pContactnumber}}</span>
+                                                </div>
+                                            </ng-template>
+                                        </ng-select>
+                                        <div class="invalid-feedback">
+                                            <span *ngIf="shareAppErrorMessage.pmembername">{{shareAppErrorMessage.pmembername}}</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label id="pApplicanttype" title="Applicant Type">Applicant Type</label>
+                                    <select class="form-control" formControlName="pApplicanttype" (change)="applicantTypeChange($event)" [ngClass]="{ 'is-invalid': shareAppErrorMessage.pApplicanttype}">
+                              <option value="" disabled>Select</option>
+                              <option *ngFor="let type of applicantTypes;trackBy: trackByFn;" [value]="type.pApplicanttype">
+                                {{type.pApplicanttype}}</option>
+                            </select>
+
+                                    <div class="invalid-feedback-cst">
+                                        <span *ngIf="shareAppErrorMessage.pApplicanttype">{{shareAppErrorMessage.pApplicanttype}}</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label id="pshareconfigid" title="Share Capital Name">Share Capital Name</label>
+                                    <select class="form-control" formControlName="pshareconfigid" (change)="shareCapitalNameChange($event)" [ngClass]="{ 'is-invalid': shareAppErrorMessage.pshareconfigid }">
+                                <option value="" disabled>Select</option>
+                                <option *ngFor="let capitalName of shareCapitalNames;" [value]="capitalName.pshareconfigid">
+                                    {{capitalName.psharename}}</option>
+                            </select>
+                                    <div class="invalid-feedback-cst">
+                                        <span *ngIf="shareAppErrorMessage.pshareconfigid">{{shareAppErrorMessage.pshareconfigid}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label id="preferenceno" title="Reference No">Reference No.</label>
+                                    <input type="text" formControlName="preferenceno" (keyup)="ReferenceNo()" [ngClass]="{ 'is-invalid': shareAppErrorMessage.preferenceno }" class="form-control" placeholder="" maxlength="20" />
+                                    <div class="invalid-feedback-cst">
+                                        <span *ngIf="shareAppErrorMessage.preferenceno">{{shareAppErrorMessage.preferenceno}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xl-4" *ngIf="selectedShareCapitalName!='' ">
+                                <div class="form-group">
+                                    <label id="pnoofsharesissued" title="No. of shares issued">No. of shares issued</label>
+                                    <input type="text" formControlName="pnoofsharesissued" removeZero (change)="calculateToatlFaceValueofShare()" [ngClass]="{ 'is-invalid': shareAppErrorMessage.pnoofsharesissued }" appNumbersonly class="form-control" placeholder="" />
+                                    <div class="invalid-feedback-cst">
+                                        <span *ngIf="shareAppErrorMessage.pnoofsharesissued">{{shareAppErrorMessage.pnoofsharesissued}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label id="ptotalamount" title="Total Amount of Shares issued">Total Amount of Shares issued</label>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" formControlName="ptotalamount" readonly appNumbersonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label id="pshareissuedate" title="Share Date">Share Date</label>
+                                    <div class="form-group">
+                                        <fieldset>
+                                            <input type="text" class="form-control" formControlName="pshareissuedate" readonly [bsConfig]="pshareissuedate" bsDatepicker #dp="bsDatepicker">
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!------------- save Buttons ------------>
+                        <div class="row mt-4 ml-1 mb-4">
+                            <div class="col-md-12 col-xl-12">
+                                <div class="d-flex justify-content-end mt-4">
+                                    <a class="btn btn-g-icon mr-4 px-3 border-0" (click)="cleaShareAppForm()"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+                                    <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="saveShareApplication()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-chewron-right-whitesolid.svg" width="20px" height="20px" class="mr-3"> Save & Continue</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!------------- save Buttons ------------>
+                    <!-- ==================================================================== tab content pannnel 2 end =================================================================== -->
+
+                    <div class="tab-pane fade" id="add-joint-member" role="tabpanel" aria-labelledby="warm-tab">
+                        <!-- <app-fd-jointmember></app-fd-jointmember> -->
+                        <!-- <app-jointmember-nominee></app-jointmember-nominee> -->
+                        <!-- <app-sp-jointmember></app-sp-jointmember> -->
+                        <app-co-jointmember [jointmemberdata]="{accounttype:'share',AddJointMembervalidation:false,AddNomineevalidation:false,Button:true}"></app-co-jointmember>
+                    </div>
+
+
+                    <!-- ==================================================================== tab content pannnel 3 end =================================================================== -->
+                    <div class="tab-pane fade" id="refferral" role="tabpanel" aria-labelledby="cold-tab">
+                        <!-- <app-fd-referral></app-fd-referral> -->
+                        <app-co-referral [referraldata]="{accounttype:'share',validation:false,returnurl:'ShareApplication',Button:true}"></app-co-referral>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="col-md-4 col-xl-4 pl-0">
+        <div class="card-box ">
+            <div class="">
+                <div class="card-body">
+                    <div class="sec-headd">
+                        <h2>View here</h2>
+                    </div>
+                    <div class="border mt-3" *ngIf="selectedShareCapitalName!='' && searchMemberName!=''">
+                        <div class="d-flex p-0 border-bottom pb-2 mt-2" *ngIf="selectedShareCapitalName!='' ">
+                            <div class="col-md-6 text-left pl-2 font-12">Member Type </div>
+                            <span class="pl-2 pr-2 col-md-1">:</span>
+                            <div class="col-md-5 text-left text-dark font-12 font-weight-bold"> {{memberType}} </div>
+                        </div>
+                        <div class="d-flex p-0 border-bottom pb-2 mt-2 " *ngIf="selectedShareCapitalName!='' ">
+                            <div class="col-md-6 text-left pl-2  font-12  ">Member </div>
+                            <span class="pl-2 pr-2 col-md-1  ">:</span>
+                            <div class="col-md-5 text-left text-dark font-12 font-weight-bold "> {{searchMemberName}} </div>
+                        </div>
+                        <div class="d-flex p-0 border-bottom pb-2 mt-2 " *ngIf="selectedShareCapitalName!='' ">
+                            <div class="col-md-6 text-left pl-2  font-12  ">Applicant Type</div>
+                            <span class="pl-2 pr-2 col-md-1 ">:</span>
+                            <div class="col-md-5 text-left text-dark font-12 font-weight-bold ">{{applicantType}} </div>
+                        </div>
+                        <div class="d-flex p-0 border-bottom pb-2 mt-2  " *ngIf="selectedShareCapitalName!=''">
+                            <div class="col-md-6 text-left pl-2  font-12">Share Capital Name</div>
+                            <span class="pl-2 pr-2 col-md-1">:</span>
+                            <div class="col-md-5 text-left text-dark font-12 font-weight-bold "> {{selectedShareCapitalName}} </div>
+                        </div>
+                        <div class="d-flex p-0 border-bottom pb-2 mt-2 " *ngIf="Minshare!='' ">
+                            <div class="col-md-6 text-left pl-2  font-12 ">Min share</div>
+                            <span class="pl-2 pr-2 col-md-1">:</span>
+                            <div class="col-md-5 text-left text-dark font-12 font-weight-bold"> {{Minshare | mycurrencypipe}} </div>
+                        </div>
+                        <div class="d-flex p-0 border-bottom pb-2 mt-2 " *ngIf="Maxshare!='' ">
+                            <div class="col-md-6 text-left pl-2  font-12  ">Max share</div>
+                            <span class="pl-2 pr-2 col-md-1 ">:</span>
+                            <div class="col-md-5 text-left text-dark font-12 font-weight-bold "> {{Maxshare | mycurrencypipe}} </div>
+                        </div>
+
+                        <div class="d-flex p-0 border-bottom pb-2 mt-2 " *ngIf="faceValueofShare!=''">
+                            <div class="col-md-6 text-left pl-2  font-12  ">Face Value of Share</div>
+                            <span class="pl-2 pr-2 col-md-1">:</span>
+                            <div class="col-md-5 text-left text-dark font-12 font-weight-bold"> {{faceValueofShare | mycurrencypipe}} </div>
+                        </div>
+                        <div class="d-flex p-0 border-bottom pb-2 mt-2 " *ngIf="IsmultiplesharesNotApplicable==false">
+                            <div class="col-md-6 text-left pl-2  font-12  ">Multiple Shares</div>
+                            <span class="pl-2 pr-2 col-md-1">:</span>
+                            <div class="col-md-5 text-left text-dark font-12 font-weight-bold"> {{Multipleshares | mycurrencypipe}} </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

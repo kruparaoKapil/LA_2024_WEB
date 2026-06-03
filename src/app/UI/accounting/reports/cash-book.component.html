@@ -1,0 +1,207 @@
+<div class="col-md-12 col-xl-12 mb-3  pl-0">
+    <p class="bc-2">Cash Book Details</p>
+
+</div>
+<div class="section-container">
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+
+<div id="template">
+    <form [formGroup]="CashBookReportForm" autocomplete="off">
+        <div class="row mb-4">
+            <div class="col-xs-4 col-md-4 pl-0">
+                <div class="d-flex">
+
+                    <div class="col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label>From Date</label>
+                            <!-- <input type="text" class="form-control" bsDatepicker [bsConfig]="{ isAnimated: true }" [maxDate]="startDate" formControlName="fromDate" [ngClass]="{ 'is-invalid': f.fromDate.errors }"> -->
+                            <input type="text" class="form-control " formControlName="fromDate" (ngModelChange)="ToDateChange($event)" placeholder="Date picker here" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+                            <!-- <div *ngIf="submitted &&f.fromDate.errors" class="invalid-feedback">
+                                <div *ngIf="f.fromDate.errors.required">Select From Date</div>
+                            </div> -->
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-6">
+                        <div class="form-group">
+                            <label>To Date</label>
+                            <input type="text" class="form-control" formControlName="toDate" placeholder="Date picker here" [bsConfig]="dpConfig1" (ngModelChange)="FromDateChange($event)" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+                            <!-- <div *ngIf="submitted &&f.toDate.errors" class="invalid-feedback">
+                                <div *ngIf="f.toDate.errors.required">Select To Date</div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-6 col-md-4">
+                <label>Transaction type</label>
+                <div class="mb-3  pr-2 ">
+                    <div class="form-check form-check-inline radio-btn-secondary">
+                        <input class="form-check-input " type="radio" name="ptranstype" id="net" value="CASH" formControlName="ptranstype" [ngClass]="{ 'is-invalid': f.ptranstype.errors && submitted }">
+                        <label class="mt-1" for="net"> Cash </label>
+                    </div>
+                    <div class="form-check form-check-inline radio-btn-secondary">
+                        <input class="form-check-input" type="radio" id="cheque" value="CHEQUE" formControlName="ptranstype" [ngClass]="{ 'is-invalid': f.ptranstype.errors && submitted }">
+                        <label class=" mt-1 " for="cheque"> Cheque </label>
+                    </div>
+                    <div class="form-check form-check-inline radio-btn-secondary">
+                        <input class="form-check-input" type="radio" name="ptranstype" id="Both" value="BOTH" formControlName="ptranstype" [ngClass]="{ 'is-invalid': f.ptranstype.errors && submitted }" [checked]="true">
+                        <label class="mt-1" for="Both"> Both </label>
+                    </div>
+                    <div *ngIf="submitted &&f.ptranstype.errors?.required" style="font-size:80%;color:#dc3545">
+                        Select Transaction Type</div>
+                </div>
+
+            </div>
+            <div class="justify-content-end d-flex col-md-4">
+            <div class=" form-group">
+                <br>
+                <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="cashBookData()">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                    <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                width="20px"></span> {{savebutton}}
+                </a>
+
+                <!-- <button (click)="cashBookData()" class="btn btn-b-icon px-3 border-0" [disabled]="isLoading"><i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i> {{savebutton}}</button> -->
+
+            </div>
+            </div>
+        </div>
+    </form>
+</div>
+    <div class="d-flex justify-content-end">
+        <ul class="temp-ul">
+            <li class="temp-ico ml-2">
+                <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Cash_Book.pdf')" />
+            </li>
+            <li class="temp-ico">
+                <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+            </li>
+        </ul>
+    </div>
+    <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="false" [scale]="0.56">
+        <div id="temp-box">
+            <div class="mt-2 border rounded shadow-sm bg-white">
+                <div class="row">
+                    <div class="col-md-12">
+                        <app-company-details></app-company-details>
+                        <div class="report-head mt-2">
+                            <p class="font-18 text-dark text-center m-0">
+                                Cash Book Details
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border shadow-sm bg-white py-2" style="overflow:hidden; height:auto !important;">
+
+                <div class="col-md-6">
+                    <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+					font-weight: bold !important;">Between :</span>
+                    <label class="print-font"> {{startDate}} and {{endDate}}</label>
+                </div>
+                <!-- <div class="col-md-6">
+                            <p class="font-14 text-right m-0" style="font-size: 14px !important;
+					font-weight: bold !important;">CENTRAL REVOLVING FUND</p>
+                        </div> -->
+                <kendo-grid [kendoGridBinding]="gridView" [pageable]="false" [sortable]="false" [groupable]="false" [reorderable]="true" [resizable]="true" [group]="groups" [sort]="sort" [scale]="0.9">
+                    <!-- <ng-template kendoGridToolbarTemplate>
+                            <button kendoGridExcelCommand type="button" icon="file-excel" style="float:right;">Export to
+                                Excel</button>
+                            <button kendoGridPDFCommand icon="file-pdf" style="float:right;">Export to
+                                PDF</button>
+                        </ng-template> -->
+                    <!-- <kendo-grid-column field="ptransactiondate" title="Trans.Date" [hidden]="hidetransactiondate">
+                            <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                                {{value}}
+                            </ng-template>
+                        </kendo-grid-column> -->
+
+                    <!-- <kendo-grid-column field="ptransactiondate" title="Transaction Date">
+                            <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                                {{value}}
+                            </ng-template>
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.ptransactiondate}}
+                            </ng-template>
+                        </kendo-grid-column> -->
+
+                        <ng-template kendoGridToolbarTemplate>
+  
+                            <div class="row pb-3 p-0">
+                              <div class="col-4 pl-0 mt-n1">
+                              </div>
+                              <div class="col-7 pr-0 pl-4">
+                                <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                                  <li class="temp-ico ml-2">
+                                    <a kendoGridExcelCommand>
+                                      <img class="pt-2" src="assets/images/icon-excel.svg "   title="excel" width="20px">
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            </ng-template>
+
+                    <kendo-grid-column field="ptransactiondate" title="Transaction Date" [hidden]="hdnTranDate">
+                        <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                            {{value |date:'dd-MM-yyyy'}}
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="ptransactionno" title="Transaction No." width="150">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <!-- {{dataItem.ptransactionno}} -->
+                            <div *ngIf="dataItem.ptransactionno == '0'"></div>
+                            <div *ngIf="dataItem.ptransactionno !== '0'">
+                                <a (click)="click(dataItem)"> {{dataItem.ptransactionno}}</a></div>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pparticulars" title="Particulars"></kendo-grid-column>
+                    <kendo-grid-column field="pdescription" title="Narration"></kendo-grid-column>
+                    <kendo-grid-column title="Receipts" class="kendo-right" width="120" [headerClass]="{'kendo-right': true}">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <div *ngIf="dataItem.pdebitamount == 0"></div>
+                            <div *ngIf="dataItem.pdebitamount !== 0"> {{dataItem.pdebitamount.toFixed(2) | mycurrencypipe}}
+                            </div>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column class="kendo-right" title="Payments" width="120" [headerClass]="{'kendo-right': true}">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <div *ngIf="dataItem.pcreditamount == 0"></div>
+                            <div *ngIf="dataItem.pcreditamount !== 0">
+                                {{dataItem.pcreditamount.toFixed(2) | mycurrencypipe}}</div>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column title="Balance" class="kendo-right" width="150" [headerClass]="{'kendo-right': true}">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <div *ngIf="dataItem.pclosingbal == 0"></div>
+                            <div *ngIf="dataItem.pclosingbal !== 0" class="mr-2"> {{dataItem.pclosingbal.toFixed(2) | mycurrencypipe}} {{dataItem.pBalanceType}}
+                            </div>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <!-- <kendo-grid-pdf fileName="cashbook_reports.pdf" [repeatHeaders]="true" [allPages]="true">
+                            <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm">
+                            </kendo-grid-pdf-margin>
+                        </kendo-grid-pdf>
+                        <kendo-grid-excel fileName="cashbook_reports.xlsx"></kendo-grid-excel> -->
+                        <kendo-grid-excel fileName="Cash_Book.xlsx" [fetchData]="allData"></kendo-grid-excel>
+                </kendo-grid>
+
+            </div>
+            <!-- row end -->
+
+        </div>
+    </kendo-pdf-export>
+
+    <!-- main content end -->
+</div>

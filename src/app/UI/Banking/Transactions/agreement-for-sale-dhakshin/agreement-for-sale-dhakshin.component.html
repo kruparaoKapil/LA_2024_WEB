@@ -1,0 +1,1549 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+
+</head>
+
+<body>
+    <div class="content-inner-view">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 mt-2 text-right justify-content-end">
+                <a><img class="justify-content-end text-right mr-2" src="assets/images/pdf-icon-blue.svg" width="20"
+                        heigh="20" (click)="exportPDF('Sale Agreement.pdf')"></a>
+
+                <!-- <a>
+                            <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                        </a> -->
+                <!-- <a><img src="assets/images/print-icon-blue.svg" width="20" heigh="20" (click)="Print()"></a> -->
+            </div>
+        </div>
+        <div class="col-md-12 m-auto">
+
+
+
+
+
+            <kendo-pdf-export #pdf paperSize="A4" margin="0.5cm" [allPages]="true" [repeatHeaders]="true"
+                [landscape]="false" [scale]="0.57" forcePageBreak=".page-break">
+
+                <div id="SaleAgreement">
+                    <ng-template kendoPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+                        <div class="watermark" *ngIf="saveType != 'saveSaleAgreement' ">DRAFT</div>
+                        <!-- <div class="pdf-pagination">
+                                <span>-{{ pageNum }}-</span>
+                            </div> -->
+
+                        <!-- <div class="pdf-pagination" *ngIf="pageNum > 1">
+                                <span>-{{ pageNum - 1 }}-</span>
+                            </div> -->
+                        <div class="pdf-pagination" *ngIf="pageNum > 1">
+                            <span>-{{ pageNum }}-</span>
+                        </div>
+                        <!-- *ngIf="pageNum !== 23" -->
+                        <kendo-pdft-footer *ngIf="pageNum <= totalPages - 2">
+                            <div class="footer">
+                                <div class="row mt-2 ml-5 mr-5">
+                                    <div class="col-6">For <b>{{pcompany_name}}</b></div>
+                                    <div class="col-6 text-right">Accepted By Allottee(s)</div>
+
+                                </div>
+
+                                <!-- ---Mond change -->
+                                <!-- <div class="row mt-2 ml-5 mr-5">
+                                    <div class="col-4">For <b>{{pcompany_name}}</b></div>
+                                    <div class="col-6">For <b>For Bhuviteja Enterprises (india) Pvt Ltd.
+                                            Through its GPA Dakshin Infrastructures Pvt Ltd.</b></div>
+                                    <div class="col-2">Accepted By Allottee(s)</div>
+                                </div>
+                                <div class="row mt-5 ml-5 mr-5 pt-2">
+                                    <div class="col-2">{{directorDesignation}} </div>
+                                    <div class="col-3">Authorised Signatory </div>
+                                    <div class="col-2">{{directorDesignation}} </div>
+                                    <div class="col-3">Authorised Signatory </div>
+                                    <div class="col-2 text-center">Signature(s)</div>
+                                </div> -->
+                                  <div class="row mt-5 ml-5 mr-5 pt-2">
+                                    <div class="col-4">{{directorDesignation}} </div>
+                                    <div class="col-4" style="position:relative;right: 65px;">Authorised Signatory </div>
+                                    <!-- <div class="col-2">{{directorDesignation}} </div>
+                                    <div class="col-3">Authorised Signatory </div> -->
+                                    <div class="col-4 text-center" style="position:relative;left: 15px;">Signature(s)</div>
+                                </div>
+                                  <!-- <div class="row mt-2 ml-5 mr-5">
+                                    <div class="col-6">For <b>{{pcompany_name}}</b></div>
+                                    <div class="col-6  text-right">Accepted By Allottee(s)</div>
+                                </div>
+                                <div class="row mt-5 ml-5 mr-5 pt-2">
+                                    <div class="col-4">{{directorDesignation}} </div>
+                                    <div class="col-4" style="position: relative;right: 70px;" >Authorised Signatory</div>
+                                    <div class="col-4 text-center" style="position:relative;left: 15px;">Signature(s)</div>
+                                </div> -->
+                                <!-- ----------mond change end-- -->
+                                <!-- <div class="row ml-5 mr-5"> 
+                                    <div class="col-12 text-right">
+                                        Page {{ pageNum }} of {{ totalPages }}
+                                    </div>
+                                </div> -->
+                            </div>
+                        </kendo-pdft-footer>
+
+                    </ng-template>
+
+                    <div id="temp-box" class="" style="padding:30px 30px;">
+                        <div class="temp-box-inner text-justify" style="overflow:hidden; height:auto !important;">
+
+                            <div class="row" [ngClass]="{ 'pdf-export-style': isExporting }">
+                                <div class="col-12">
+                                    <h2 class="text-center m-0 pt-1 pb-1"> <b><u>AGREEMENT FOR SALE OF PROPERTY</u></b>
+                                    </h2><br>
+                                    <p>This Agreement for Sale of Property is executed on this {{day}} day of {{month}},
+                                        {{year}} by
+                                        and between :</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <!-- <p style="margin-left: 30px;">
+                                        <b>(1) {{companyDetails.pnameofenterprise | titlecase}} </b> (a company
+                                        incorporated
+                                        under the
+                                        Companies Act, 1956) having it's registered office at
+                                        {{companyDetails.paddress1}},
+                                        {{companyDetails.paddress2}}, {{companyDetails.pcity | titlecase}},
+                                        {{companyDetails.pdistrict | titlecase}}, {{companyDetails.pstate | titlecase}},
+                                        {{companyDetails.pcountry | titlecase}}-{{companyDetails.ppincode}}, CIN
+                                        {{companyDetails.pcinnumber}}, PAN :{{companyDetails.ppanno}}
+                                        represented by its Director, Sri.{{directorContactName}} Son of
+                                        {{directorFatherName}} aged about {{getAgeDirector()}} years, residing at
+                                        {{directorAddress | titlecase}} (Aadhar No. : {{formattedAadhardirector}} ) and
+                                        Manager
+                                        Sri.{{managerContactName}} Son of {{managerFatherName}} aged about
+                                        {{getAgeManager()}}
+                                        years, residing at {{managerAddress | titlecase}}(Aadhar No.
+                                        :{{formattedAadharManager}} )
+                                        (hereinafter
+                                        called as <b>"Seller"</b> or <b>"Company"</b> of the <b>first part,</b>
+                                        which expression shall
+                                        mean and include it's executors, successors, administrators, legal
+                                        representatives, nominees, assignees etc.)
+
+                                    </p> -->
+                                    <p style="margin-left: 30px;">
+                                        <b>{{companyDetails.pnameofenterprise | titlecase}} </b> (a company incorporated
+                                        under the
+                                        Companies Act, 1956) having it's registered office at
+                                        {{companyDetails.paddress1}},
+                                        {{companyDetails.paddress2}}, {{companyDetails.pcity | titlecase}},
+                                        {{companyDetails.pdistrict | titlecase}}, {{companyDetails.pstate | titlecase}},
+                                        {{companyDetails.pcountry | titlecase}}-{{companyDetails.ppincode}}, CIN
+                                        {{companyDetails.pcinnumber}}, PAN :{{companyDetails.ppanno}}
+                                        represented by its Director, Sri.{{directorContactName}} Son of
+                                        {{directorFatherName}} aged about {{getAgeDirector()}} years, residing at
+                                        {{directorAddress | titlecase}} (Aadhar No. : {{formattedAadhardirector}} ) and
+                                        {{dynSignature}}
+                                        Sri.{{managerContactName}} Son of {{managerFatherName}} aged about
+                                        {{getAgeManager()}}
+                                        years, residing at {{managerAddress | titlecase}}(Aadhar No.
+                                        :{{formattedAadharManager}} )
+                                        (hereinafter
+                                        called as <b>"Seller"</b> or <b>"Company"</b> of the <b>first part,</b>
+                                        which expression shall
+                                        mean and include it's executors, successors, administrators, legal
+                                        representatives, nominees, assignees etc.)
+
+                                    </p>
+
+                                    <p style="text-align: center; font-weight: bold;">and</p>
+
+
+                                    <!-- <ul class="list-C">
+                                        <li> -->
+                                    <!-- <span *ngFor="let JointMembersDetails of memberData let index=index"><b>Mr.
+                                                    / Ms.{{JointMembersDetails.pmembername}},</b>
+                                                Son / daughter / wife of {{JointMembersDetails.pfathername}}, aged about
+                                                {{getAgeMember()}} years, residing at
+                                                {{JointMembersDetails.paddress | titlecase}},(PAN
+                                                :{{JointMembersDetails.ppanno}}) (Aadhar No.
+                                                {{JointMembersDetails.padharno}})
+                                            </span> -->
+
+                                    <!-- <span><b>{{ptitlename}}.{{pmembername}},</b>
+                                           {{pmemberfathername}}, aged about
+                                            {{getAgeMember()}} years, residing at
+                                            {{pmemberaddress | titlecase}},(PAN
+                                            :{{pmemberpan}}) (Aadhar No.
+                                            {{pmemberadharno}})
+                                        </span> -->
+                                    <!-- </li>
+                                    </ul> -->
+
+
+
+
+                                </div>
+
+                            </div>
+                            <!---------------page1 end---------------->
+                            <div class="row page-break">
+                                <div class="col-12">
+
+                                    <p style="margin-left: 30px;">
+                                        <b>(2) Bhuviteja Enterprises (India) Private Limited</b> (a company incorporated
+                                        under
+                                        the Companies Act, 1956) having its registered office at Petrol bunk, Sy. No.
+                                        115/1, I.T. Park, Nanakramguda Village, Serilingampally Mandal &amp;
+                                        Municipality,
+                                        Rangareddy District, represented by its Development Agreement cum - General
+                                        Power of Attorney holder Dakshin Infrastructures Private Limited (a company
+                                        incorporated under the Companies Act, 1956) having it&#39;s registered office at
+                                        15th
+                                        floor, Kapil Towers, Sy. No. 115/1, I.T. Park, Nanakraraguda Village,
+                                        Serilingampally Mandal &amp; Municipality, Rangareddy District, Telangana,
+                                        through
+                                        by its (i) Authorised Signatory, Sri. Vididhineni Naresh, son of Rajaiah, aged
+                                        about
+                                        34 years, resident of H. No. 1-131, Oditala Village, Chityal Mandal, Warangal
+                                        District 506 348. and its (ii) Authorised Signatory, Sri. Gorenkala Ramesh, son
+                                        of
+                                        Lingaiah, aged about 32 years, resident of H.No. 7-93/440, Devender Nagar
+                                        Colony, Boduppal, Ghatkesar Mandal, Medchal, Telangana-500039. (Development
+                                        agreement - cum General Power of Attorney is registered as document number
+                                        6560 of 2009 of Book-1 of District Registrar&#39;s office, Rangareddy District
+                                        on 05-
+                                        12-2009).
+                                        (Hereinafter called as 'VENDORS' which expression shall mean and include its
+                                        executors, successors, administers, legal representatives, nominees, assignees
+                                        etc.)
+                                    </p>
+
+                                    <!-- <p style="text-align: center; font-weight: bold;">and</p> -->
+
+
+                                </div>
+                                <div class="col-12">
+                                    <!-- <p class=" page-break"><b>{{titledata}}.{{Contactdetailsdata.pContactName}},</b> son of {{Contactdetailsdata.pFatherName}}, aged about {{memberBirthdate}} years, resident of {{Contactdetailsdata.pAddressList[0]?.pAddressDetails}}., {{Contactdetailsdata.documentstorelist[0]?.pDocumentName}} No.{{Contactdetailsdata.documentstorelist[0]?.pDocReferenceno}}</p> -->
+
+                                    <ul class="list-C">
+                                        <li>
+
+                                            <span *ngIf="jointMemeberData.length ==0">
+                                                <b>{{ptitlename}}.{{pmembername}},</b> {{pmemberfathername}}, aged about
+                                                {{getAgeMember()}} years, residing at {{pmemberaddress |
+                                                titlecase}},(PAN :{{pmemberpan}}) (Aadhar No.
+                                                {{aadharsplit}})(hereinafter called as <b>"Purchaser"</b> of the
+                                                which expression shall mean and include his/her executors, successors,
+                                                administrators, legal representatives, nominees, assignees etc.)
+                                            </span>
+
+
+
+
+                                            <span *ngIf="jointMemeberData.length >0">
+                                                <b>{{ptitlename}}.{{pmembername}},</b> {{pmemberfathername}}, aged about
+                                                {{getAgeMember()}} years, residing at {{pmemberaddress |
+                                                titlecase}},(PAN :{{pmemberpan}}) (AadharNo.{{aadharsplit}})
+
+                                                <!-- (hereinafter called as <b>"Purchaser"</b> of the which expression shall mean and include his/her executors, successors, administrators, legal representatives, nominees, assignees etc.) -->
+                                            </span>
+                                        </li>
+                                        <li *ngIf="jointMemeberData.length >0">
+
+                                            <span>
+                                                <b>{{jointMemeberTitle}}.{{jointMemeberName}},</b>
+                                                {{jointMemeberFatNameRelation}}, aged about {{getAgeMember1() || 'N/A'}}
+                                                years, residing at {{jointMemeberAddress | titlecase}},(PAN
+                                                :{{jointMemeberPan}}) (Aadhar No. {{jointaadhar}}) (hereinafter
+                                                called as <b>"Purchaser"</b> of the which expression shall mean and
+                                                include his/her executors, successors, administrators, legal
+                                                representatives, nominees, assignees etc.)
+                                            </span>
+
+
+                                            <!-- <p *ngFor="let JointMembersDetails of memberData; let i = index">
+                                                <b>{{i + 1}}. {{JointMembersDetails.ptitlename}}.{{JointMembersDetails.pmembername}},</b>
+                                                {{JointMembersDetails.pfathername}}, aged about {{getAgeMember1()}} years, 
+                                                residing at {{JointMembersDetails.paddress | titlecase}},
+                                                (PAN : {{JointMembersDetails.ppanno}}) 
+                                                (Aadhar No. {{JointMembersDetails.padharno}})
+                                              </p> -->
+                                        </li>
+                                    </ul>
+
+                                    <p>
+
+                                    </p>
+
+                                    <!-- <p >
+                                            1. Mr. / Ms. {{memberData[0].pmembername}} Son / daughter / wife of {{memberData[0].pfathername}} aged about
+                                            {{memberData[0].pdob}} years, residing at H. No.{{memberData[0].paddress}}(PAN
+                                            : {{memberData[0].ppanno}} ) (Aadhar No. {{memberData[0].padharno}})
+                                            (hereinafter called as <b>"Purchaser"</b> of the <b>second part,</b> which
+                                            expression
+                                            shall mean and include his/her executors, successors, administrators, legal
+                                            representatives, nominees, assignees etc.)
+                                        </p> -->
+
+                                    <p>
+                                        Whereas {{companyDetails.pnameofenterprise | titlecase}}, the
+                                        <b>Seller/company</b> has
+                                        purchased /
+                                        constructed /
+                                        developed a commercial building fully described in <b> Schedule - 'A'</b>
+                                        with {{pparkinglevels}}
+                                        levels
+                                        for parking and {{pupperfloors}} upper floors under the name and
+                                        style of {{pbuildingname}}, bearing
+                                        :{{pAddress1}} having obtained Occupancy Certificate for the said
+                                        building
+                                        through Proceedings No. {{pproceedingno}} dated {{pocdate | date :
+                                        'dd-MM-yyyy'}} from the {{pocprovidedby | titlecase}}
+                                    </p>
+
+
+                                    <p>
+                                        <b>Schedule - 'A'</b> property has a potential for high growth in future
+                                        leading to
+                                        higher
+                                        returns on investment, by way of rental income. Documents evidencing title
+                                        of
+                                        <b>Schedule - 'A'</b> property in favor of the <b>company</b> are mentioned
+                                        in <b>Schedule - 'B'.</b>
+                                    </p>
+                                    <p>
+                                        The <b>company</b> is offering to sell undivided, super built-up space of
+                                        commercial
+                                        office space (in square feet) on the specific floor, along with a
+                                        proportionate
+                                        undivided share in the land, on which the said building is constructed,
+                                        mentioned
+                                        in more detail in <b>Schedule - 'C'</b> on the following terms and
+                                        conditions : <br>
+                                    </p>
+
+                                    <ul class="list-A">
+                                        <li>
+                                            The <b>Seller</b> offers to sell a part of the balance undivided
+                                            share (in
+                                            square feet)
+                                            of commercial space, belonging to it in <b>Schedule - 'A'</b> alongwith
+                                            proportionate undivided share in the land on which the said building is
+                                            built,
+                                            at Rs 40,000/- per square foot. </li>
+
+
+
+
+
+
+
+
+
+                                    </ul>
+
+
+
+                                </div>
+
+                            </div>
+                            <!---------------page2 end---------------->
+
+                            <div class="row page-break">
+                                <div class="col-12">
+
+                                    <ul class="list-A">
+                                        <li>
+                                            The <b>company</b> is offering for sale, a minimum super built-up
+                                            area of
+                                            twenty
+                                            square feet and multiples of five square feet thereafter. Application
+                                            for a
+                                            fraction of square foot is not accepted, for sale.
+                                        </li>
+
+                                        <li>
+                                            The <b>purchaser</b> is required to pay Rs 27,000/- per square foot
+                                            of super
+                                            built-
+                                            up area, for reserving/buying undivided commercial space, on the
+                                            required
+                                            floor in the <b>Schedule - 'A'</b> property and pay the balance Rs
+                                            13,000/- per
+                                            square foot (including Rs. 4,000/- per square foot towards cost of
+                                            amenities
+                                            etc.,.) within forty eight months from the date of paying Rs 27,000/-
+                                            per
+                                            square foot. This period of 48 months, is given to the <b>purchaser</b>
+                                            to pay
+                                            the
+                                            final/balance sale consideration, to enable him/her to have sufficient
+                                            time to
+                                            fully satisfy himself / herself as to the actual growth in value,
+                                            rentals etc.,.
+                                            from the property now being sold.
+                                        </li>
+                                        <li>
+                                            Since the advance paid by the <b>purchaser</b> for purchase of this
+                                            property,
+                                            would be used by the <b>company</b> for its own business activities,
+                                            till receipt of
+                                            the final/balance agreed sale consideration and registration/transfer of
+                                            the
+                                            property in favour of the <b>purchaser</b>, the <b>company</b> has
+                                            offered to pay
+                                            Return On Investment at 01% per month, each month, on the amount of advance
+                                            received
+                                            from the <b>purchaser</b> at Rs 27,000/- per square foot, for purchase
+                                            of the
+                                            <b>Schedule - 'C'</b> property on the following terms :
+                                        </li>
+                                    </ul>
+
+                                    <ol class="list-B">
+                                        <li>
+                                            Return On Investment will accrue from the date of realization of
+                                            cheques/drafts/pay
+                                            orders or transfer of amount to the advance account of the
+                                            <b>company.</b>
+                                        </li>
+
+                                        <li>
+                                            Return On Investment ceases to accrue, after the 48 th month of receipt of
+                                            advance money
+                                            at Rs 27,000/- per square foot, for area to be purchased.
+                                        </li>
+
+                                        <li>
+                                            TDS will be deducted from the amount of Return On Investment as per the
+                                            provisions of
+                                            the Income Tax Act. However, purchasers opting for payment of interest
+                                            without deduction of tax may submit, applicable forms, as applicable.
+                                        </li>
+                                    </ol>
+
+                                    <ul class="list-A">
+                                        <li>The <b>company</b> has explained to the <b>purchaser</b> that the
+                                            entire <b>Schedule - 'A'</b>
+                                            property is being leased out, floor wise and any person desirous of
+                                            purchasing built-up space for his/her own use, he/she will have to
+                                            purchase
+                                            not less than 25% of the entire floor in <b>Schedule - 'A'</b>property.
+                                            Otherwise
+                                            the purchaser can purchase or own undivided share of office space in the
+                                            floor mentioned in <b>Schedule - 'C',</b> along with other
+                                            purchasers/owners of
+                                            built-up office space in the said floor of <b>Schedule -
+                                                'A'</b>property.</li>
+                                        <li>If the <b>purchaser</b> is not satisfied with the expected rent or
+                                            appreciation in
+                                            value etc.,. of the property now being purchased, at the end of forty
+                                            eighth
+                                            month of paying the advance amount for purchase of the property, the
+                                            <b>company</b> agrees to refund without any cancellation charges, the
+                                            entire
+                                            advance sale consideration received by it, within 30 days after receipt
+                                            in
+                                            writing, of an application seeking repayment of advance sale
+                                            consideration
+                                            paid by him/her. However, if the purchaser seeks to cancel this sale
+                                            transaction before 48 months of such payment, the <b>company</b> shall
+                                            refund to
+                                            the purchaser the advance sale consideration received by it, after
+                                            collecting
+                                            cancellation charges at Rs 100/- per square foot, plus 50% of the actual
+                                            interest (including TDS) paid to the <b>purchaser.</b>
+                                        </li>
+
+
+                                    </ul>
+
+
+
+                                </div>
+                            </div>
+                            <!---------------page3 end---------------->
+
+                            <div class="row page-break">
+                                <div class="col-12">
+                                    <p style="text-align: center; font-weight: bold;">
+                                        Now this agreement of sale of property witnesseth
+                                    </p>
+                                    <ul class="list-A">
+                                        <li> After payment of the final/balance sale consideration for purchase
+                                            of
+                                            <b>‘Schedule C’</b> property, the <b>purchaser.</b> has the sole option
+                                            of giving the
+                                            <b>Schedule - 'C'</b> property, on lease for a minimum period of 20
+                                            years to the
+                                            company, at the higher of 90% of actual average rent received per sft,
+                                            per
+                                            month, from all tenants on the same floor <b>OR</b> monthly rent of Rs
+                                            225/- per
+                                            square foot, with an escalation of 05% every five years, on the previous
+                                            monthly rent paid, from the end of the month of execution of lease deed
+                                            in
+                                            favor of the <b>company.</b>
+                                        </li>
+                                    </ul>
+                                    <ul class="list-C">
+                                        <li>
+                                            In consideration of the above, the <b>purchaser</b> has made an
+                                            application
+                                            to
+                                            purchase {{psquareyard}} square feet of super built-up area fully described
+                                            in
+                                            <b>Schedule - 'C'</b> at Rs 40,000/- (Rupees Forty Thousand Only) per
+                                            square foot, out
+                                            of
+                                            which Rs {{pdepositamount | mycurrencypipe}}/- (Rupees {{pdepositamount |
+                                            numberToWords}} Only) is already paid by the
+                                            <b>purchaser</b> on {{pdepositdate | date: 'dd-MM-yyyy'}}, to
+                                            the <b>company</b> at Rs
+                                            27,000/- (Rupees
+                                            twenty seven thousand only) per square foot. The <b>purchaser</b>
+                                            further
+                                            agrees
+                                            to pay the balance sale consideration amounting to Rs {{calDepAmount |
+                                            mycurrencypipe}}/- to the
+                                            <b>company</b> at Rs 13,000/- (Rupees thirteen thousand only) per square
+                                            foot
+                                            including cost of amenities at Rs 4,000 /- (Rupees four thousand only)
+                                            per
+                                            square foot on or before {{pmaturitydate | date : 'dd-MM-yyyy'}}.
+                                        </li>
+
+
+
+
+
+                                        <li>
+                                            After receipt of the final / balance sale consideration from the
+                                            <b>purchaser</b>,
+                                            the <b>company</b> shall execute and register a sale deed transferring
+                                            the
+                                            title in
+                                            <b>Schedule - 'C' property</b> to the name of the <b>purchaser</b> or
+                                            his/her nominee,
+                                            within thirty days after receipt of the entire final/balance sale
+                                            consideration
+                                            from the <b>purchaser,</b> plus 10% of such total price, towards
+                                            registration
+                                            and
+                                            other expenses for registration of sale deed.
+                                        </li>
+                                        <li>
+                                            The possession of <b>Schedule - 'C'</b> property being purchased by
+                                            the
+                                            <b>purchaser</b> shall be given to the <b>purchaser</b> or his/her
+                                            nominee on the date
+                                            of
+                                            registration of sale deed. However the <b>purchaser</b> agrees to be and
+                                            will
+                                            be
+                                            under an obligation to fulfill the commitments already made by the
+                                            <b>company</b> to the lessee/occupants/operators of the <b>Schedule -
+                                                'C'</b>
+                                            property,
+                                            before execution of the sale deed, transferring the <b>Schedule -
+                                                'C'</b>
+                                            property
+                                            in his/her favour.
+                                        </li>
+                                        <li>
+                                            The <b>purchaser</b> is entitled to inspect the documents mentioned
+                                            in
+                                            <b>Schedule -
+                                                'B'</b> at any time during office hours, after giving at least three
+                                            days
+                                            advance
+                                            notice.
+                                        </li>
+                                        <li>
+                                            The <b>Company</b> assures to keep the <b>purchaser</b> indemnified
+                                            from all
+                                            losses,
+                                            costs, expenses, damages etc.,. that the <b>purchaser</b> shall be put
+                                            into by
+                                            reason
+                                            of any defect in the title of the <b>Company</b> regarding <b>Schedule -
+                                                'C'</b>
+                                            property, to be conveyed.
+                                        </li>
+                                        <li>
+                                            The <b>Company</b> assures the <b>purchaser</b> that the <b>Schedule
+                                                - 'C'</b> property
+                                            shall
+                                            be free from all encumbrances, charges, lien, mortgages etc.,. before
+                                            registration of sale deed. There are no legal impediments whatsoever for
+                                            the
+                                            <b>Company</b> to convey the <b>Schedule - 'C'</b> property in favour of
+                                            the
+                                            <b>purchaser.</b>
+                                        </li>
+                                        <li>
+                                            The land mentioned in the <b>Schedule - 'A'</b> is not an assigned
+                                            land as
+                                            defined
+                                            in section 2 (1), Act 9 of 1997, the said land is not covered by A.P.
+                                            Agricultural Lands Ceiling Act 1973 and also Urban Land Ceiling Act.
+                                        </li>
+
+
+                                    </ul>
+
+
+                                </div>
+                            </div>
+
+                            <!---------------page4 end---------------->
+
+                            <div class="row page-break">
+                                <div class="col-12">
+                                    <ul class="list-C" style="counter-reset: item 7;">
+                                        <li>
+                                            The <b>purchaser</b> and all other purchasers of property in
+                                            <b>Schedule - 'A'</b>
+                                            shall
+                                            form an association/society/LLP/any other statutory body to jointly
+                                            manage
+                                            the said property for mutual benefit, after the property is registered
+                                            in favour
+                                            of the <b>purchaser</b> or his/her nominee. The <b>company</b> shall
+                                            assist formation
+                                            of
+                                            such body of purchasers after atleast 50 % of the total property
+                                            mentioned in
+                                            <b>Schedule - 'A'</b> is transferred to such purchasers.
+                                        </li>
+                                    </ul>
+
+                                    <h4 style="text-align: center; font-weight: bolder;">SCHEDULE - 'A'</h4>
+                                    <ul>
+                                        <li>
+
+                                            <!-- The building called `{{pbuildingname}}' bearing H.No. {{pAddress1}}, {{pAddress2}}, {{pdistrict}} district,
+                                               {{ppincode}} (PIN), admeasuring {{ptotalsft | mycurrencypipe}}
+                                                square feet, with {{pparkinglevels}} levels for parking and {{pupperfloors}} upper floors,
+                                                constructed on {{pconstructedland | mycurrencypipe}} square
+                                                yards of land, purchased/constructed/developed by the company, acquired
+                                                through
+                                                documents mentioned in Schedule - 'B' below, with the following
+                                                boundaries: - -->
+
+
+                                            The building called `{{pbuildingname}}' bearing {{pAddress1}},
+                                            {{pAddress2}}, {{pdistrict}} District,
+                                            {{ppincode}}, admeasuring {{ptotalsft | mycurrencypipe}}
+                                            square feet, with {{pparkinglevels}} levels for parking and ground plus
+                                            {{pupperfloors}} upper floors,
+                                            constructed on {{pconstructedland | mycurrencypipe}} square
+                                            yards of land, purchased/constructed/developed by the company, acquired
+                                            through
+                                            documents mentioned in Schedule - 'B' below, with the following
+                                            boundaries: -
+
+
+
+
+
+                                        </li>
+                                        <!-- <li>North : {{pnorthboundry}}</li>
+                                        <li> East : {{peastboundry}}</li>
+                                        <li>South : {{psouthboundry}}</li>
+                                        <li>West : {{pwestboundry}}</li> -->
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="boundary-item">
+                                                    <span>North</span><span>:</span><span>{{pnorthboundry}}</span>
+                                                </div>
+                                                <div class="boundary-item">
+                                                    <span>East</span><span>:</span><span>{{peastboundry}}</span>
+                                                </div>
+                                                <div class="boundary-item">
+                                                    <span>South</span><span>:</span><span>{{psouthboundry}}</span>
+                                                </div>
+                                                <div class="boundary-item">
+                                                    <span>West</span><span>:</span><span>{{pwestboundry}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                    <h4 style="text-align: center; font-weight: bolder;">SCHEDULE - 'B'</h4>
+                                    <h4 style="text-align: center; font-weight: bolder;">(Documents evidencing
+                                        Rights of the Company over the land mentioned in Schedule–‘A’)</h4>
+
+                                    <!-- First 5 items -->
+                                    <div class="row">
+                                        <div class="col-md-12 col-xl-12 mt-4">
+                                            <div class="table-responsive border p-0">
+                                                <table id="example" class="table text-center">
+                                                    <thead>
+                                                        <tr style="font-weight: bolder;">
+                                                            <th class="font-bold">Doc.No</th>
+                                                            <th>Regd.Date</th>
+                                                            <th>S.R.O</th>
+                                                            <th>Transferor</th>
+                                                            <th>Transferee</th>
+                                                            <th>Acres</th>
+                                                            <th>Guntas</th>
+                                                            <th>Total Sq.Yds</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr
+                                                            *ngFor="let rocol of RightsofcompanyoverlandData.slice(0,11)">
+                                                            <td>{{rocol.pDocumentno}}</td>
+                                                            <td>{{rocol.pregistrationdate | date : 'mediumDate'}}</td>
+                                                            <td>{{rocol.psro}}</td>
+                                                            <td>{{rocol.ptransferee}}</td>
+                                                            <td>{{rocol.ptransferor}}</td>
+                                                            <td>{{rocol.pacers}}</td>
+                                                            <td>{{rocol.pguntas}}</td>
+                                                            <td>{{rocol.ptotalareainsqyards | mycurrencypipe}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Page Break -->
+                                    <!-- <div *ngIf="RightsofcompanyoverlandData.length > 12" class="page-break"></div> -->
+
+                                    <!-- Remaining items -->
+                                    <div *ngIf="RightsofcompanyoverlandData.length > 8" class="row d-none" hidden>
+                                        <div class="col-md-12 col-xl-12 mt-4">
+                                            <div class="table-responsive border p-0">
+                                                <table id="example2" class="table text-center">
+                                                    <thead>
+                                                        <tr style="font-weight: bolder;">
+                                                            <th class="font-bold">Doc.No</th>
+                                                            <th>Regd.Date</th>
+                                                            <th>S.R.O</th>
+                                                            <th>Transferor</th>
+                                                            <th>Transferee</th>
+                                                            <th>Acres</th>
+                                                            <th>Guntas</th>
+                                                            <th>Total Sq.Yds</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let rocol of RightsofcompanyoverlandData.slice(5)">
+                                                            <td>{{rocol.pDocumentno}}</td>
+                                                            <td>{{rocol.pregistrationdate | date : 'mediumDate'}}</td>
+                                                            <td>{{rocol.psro}}</td>
+                                                            <td>{{rocol.ptransferee}}</td>
+                                                            <td>{{rocol.ptransferor}}</td>
+                                                            <td>{{rocol.pacers}}</td>
+                                                            <td>{{rocol.pguntas}}</td>
+                                                            <td>{{rocol.ptotalareainsqyards | mycurrencypipe}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div *ngIf="RightsofcompanyoverlandData.length <=11">
+
+                                        <h4 style="text-align: center; font-weight: bolder;">SCHEDULE - 'C'</h4>
+
+                                        <ul>
+                                            <li>
+                                                {{pallocatedarea | mycurrencypipe}} Square feet of super built-up area
+                                                on
+                                                the {{pfloorname}} floor along with
+                                                {{pfloorundividedarea}} square
+                                                feet of undivided land in <b>Schedule - 'A'</b> property, to be used for
+                                                {{occupancyType}}, in the building called `{{pbuildingname}}'.
+                                            </li>
+                                            <!-- <li class="row"><div class="col-sm-2"></div>East<div class="col-sm-8">:</div> {{peastboundry}}</li>
+                                            <li class="row"><div class="col-sm-2"></div><div class="col-sm-8">:</div></li> -->
+                                        </ul>
+
+
+                                        <br>
+                                        <h2>WITNESSES</h2>
+
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <p>1.</p>
+                                            </div>
+
+                                            <div class="col-8">
+                                                <p class="text-right">For <b>{{pcompany_name |titlecase}}</b></p>
+                                            </div>
+
+
+
+
+
+                                            <!-- <div class="col-5">
+                                                <p>1.</p>
+                                            </div> -->
+
+                                        </div>
+
+
+                                        <div class="row mt-5">
+                                            <div class="col-1">
+                                                <p>2.</p>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <p class="text-right" style="margin-right: -55px;position: relative;left: 30px;"> Director</p>
+                                            </div>
+
+                                            <div class="col-5">
+                                                <p class="text-right">Authorised Signatory
+                                                </p>
+                                                <p class="text-right">For <b>VENDOR</b></p>
+                                            </div>
+
+                                        </div>
+                                        <br><br>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="d-flex justify-content-end">Accepted By Allottee(s)</p>
+                                                <br><br>
+
+                                                <p class="d-flex justify-content-end">Signature(s) <br><b>VENDEE</b></p>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+
+
+                            <!---------------page4 end---------------->
+
+                            <!---------------page5 Start---------------->
+
+                            <div *ngIf="RightsofcompanyoverlandData.length >=11">
+
+                                <div class="row page-break">
+                                    <div class="col-12">
+
+
+                                        <table id="example2" class="table text-center">
+                                            <thead>
+                                                <tr style="font-weight: bolder;">
+                                                    <th class="font-bold">Doc.No</th>
+                                                    <th>Regd.Date</th>
+                                                    <th>S.R.O</th>
+                                                    <th>Transferor</th>
+                                                    <th>Transferee</th>
+                                                    <th>Acres</th>
+                                                    <th>Guntas</th>
+                                                    <th>Total Sq.Yds</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let rocol of RightsofcompanyoverlandData.slice(11)">
+                                                    <td>{{rocol.pDocumentno}}</td>
+                                                    <td>{{rocol.pregistrationdate | date : 'mediumDate'}}</td>
+                                                    <td>{{rocol.psro}}</td>
+                                                    <td>{{rocol.ptransferee}}</td>
+                                                    <td>{{rocol.ptransferor}}</td>
+                                                    <td>{{rocol.pacers}}</td>
+                                                    <td>{{rocol.pguntas}}</td>
+                                                    <td>{{rocol.ptotalareainsqyards | mycurrencypipe}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+                            <!---------------page5 end---------------->
+
+
+                            <!---------------page6 Start---------------->
+
+                            <div *ngIf="RightsofcompanyoverlandData.length >11">
+
+                                <div class="row page-break">
+                                    <div class="col-12">
+
+
+                                        <table id="example2" class="table text-center" hidden>
+                                            <thead>
+                                                <tr style="font-weight: bolder;">
+                                                    <th class="font-bold">Doc.No</th>
+                                                    <th>Regd.Date</th>
+                                                    <th>S.R.O</th>
+                                                    <th>Transferor</th>
+                                                    <th>Transferee</th>
+                                                    <th>Acres</th>
+                                                    <th>Guntas</th>
+                                                    <th>Total Sq.Yds</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let rocol of RightsofcompanyoverlandData.slice(22)">
+                                                    <td>{{rocol.pDocumentno}}</td>
+                                                    <td>{{rocol.pregistrationdate | date : 'mediumDate'}}</td>
+                                                    <td>{{rocol.psro}}</td>
+                                                    <td>{{rocol.ptransferee}}</td>
+                                                    <td>{{rocol.ptransferor}}</td>
+                                                    <td>{{rocol.pacers}}</td>
+                                                    <td>{{rocol.pguntas}}</td>
+                                                    <td>{{rocol.ptotalareainsqyards | mycurrencypipe}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div>
+                                            <h4 style="text-align: center; font-weight: bolder;">SCHEDULE - 'C'</h4>
+
+                                            <ul>
+                                                <li>
+                                                    {{pallocatedarea | mycurrencypipe}} Square feet of super built-up
+                                                    area on
+                                                    the {{pfloorname}} floor along with
+                                                    {{pfloorundividedarea}} square
+                                                    feet of undivided land in <b>Schedule - 'A'</b> property, to be used
+                                                    for
+                                                    {{occupancyType}}, in the building called `{{pbuildingname}}'.
+                                                </li>
+                                                <!-- <li class="row"><div class="col-sm-2"></div>East<div class="col-sm-8">:</div> {{peastboundry}}</li>
+                                                <li class="row"><div class="col-sm-2"></div><div class="col-sm-8">:</div></li> -->
+                                            </ul>
+
+
+                                            <br>
+                                            <h2>WITNESSES</h2>
+
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <p>1.</p>
+                                                </div>
+
+                                                <div class="col-8">
+                                                    <p class="text-right">For <b>{{pcompany_name |titlecase}}</b></p>
+                                                </div>
+
+
+
+
+
+                                                <!-- <div class="col-5">
+                                                    <p>1.</p>
+                                                </div> -->
+
+                                            </div>
+
+
+                                            <div class="row mt-5">
+                                                <div class="col-1">
+                                                    <p>2.</p>
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <p class="text-right" style="margin-right: -55px;"> Director</p>
+                                                </div>
+
+                                                <div class="col-5">
+                                                    <p class="text-right">Authorised Signatory
+                                                    </p>
+                                                    <p class="text-right">For <b>VENDOR</b></p>
+                                                </div>
+
+                                            </div>
+                                            <br><br>
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="d-flex justify-content-end">Accepted By Allottee(s)</p>
+                                                    <br><br>
+
+                                                    <p class="d-flex justify-content-end">Signature(s) <br><b>VENDEE</b>
+                                                    </p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                            <!---------------page6 end---------------->
+
+
+                            <div class="row page-break annexr-report"
+                                style="border: 1px solid #222;min-height: 1350px;">
+                                <div class="col-md-12">
+                                    <div class="mt-5" style="border: 1px solid #222;">
+                                        <h2 class="text-center annexr-p">ANNEXURE</h2>
+                                        <p class="annexr-p" style="text-align: center; font-weight: bold;">Gist of
+                                            Agreement for Sale of
+                                            property in {{companyDetails.paddress1}},
+                                            {{companyDetails.paddress2}}, {{companyDetails.pcity | titlecase}},
+                                            {{companyDetails.pdistrict | titlecase}}, {{companyDetails.pstate |
+                                            titlecase}},
+                                            {{companyDetails.pcountry | titlecase}}-{{companyDetails.ppincode}}</p>
+                                    </div>
+
+                                    <div class="row mt-4">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <p>Date: <span class="annexr-p">{{abcd[0].dateDeposite | date:
+                                                        'dd-MM-yyyy'}}</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <p>Number: <span class="annexr-p">{{abcd[0].pfdaccountnoF}}</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <p>Floor: <span class="annexr-p">{{abcd[0].floorD}}</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <p>Area In Sft.: <span class="annexr-p">{{abcd[0].psquareyardF}}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="mt-4" style="border: 1px solid #222;min-height:630px;">
+
+                                        <div class="col-sm-12">
+
+
+                                            <div class="form-group">
+                                                <p>Name(s) of the Applicant : <span
+                                                        class="annexr-p"><strong>{{pmembername |
+                                                            uppercase}}</strong></span></p>
+                                            </div>
+
+                                            <!-- <div class="form-group">
+                                                <p>Name(s) of the Applicant : <span
+                                                        class="annexr-p"><strong>{{pmembername
+                                                            | uppercase}}</strong></span></p>
+                                            </div> -->
+
+                                            <div class="form-group">
+                                                <p>Address: <span class="annexr-p">{{pmemberaddress | titlecase}}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 mt-2">
+                                            <table class="mt-2">
+                                                <tr>
+                                                    <th colspan="2" style="font-size: x-large;">Part / Advance-Sale
+                                                        Consideration Received at Rs. 27,000/- per sft
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th class="text-center" style="font-size: x-large;">Amount in Rs
+                                                    </th>
+                                                    <th class="text-center" style="font-size: x-large;">Date</th>
+                                                </tr>
+                                                <tr *ngFor="let ab of abcd">
+                                                    <td class="text-center" style="font-size: x-large;">
+                                                        {{ab.pdepositamount}}/-</td>
+                                                    <td class="text-center" style="font-size: x-large;">
+                                                        {{ab.dateDeposite | date:
+                                                        'dd-MM-yyyy'}}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th colspan="2" style="font-size: x-large;">Balance / Full
+                                                        consideration Payable at Rs. 13,000/- per sft
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th class="text-center" style="font-size: x-large;">Amount in Rs
+                                                    </th>
+                                                    <th class="text-center" style="font-size: x-large;">On or before
+                                                        Date</th>
+                                                </tr>
+                                                <tr *ngFor="let ab of abcd">
+                                                    <td class="text-center" style="font-size: x-large;">{{ab.sixty |
+                                                        mycurrencypipe}}/-</td>
+                                                    <td class="text-center" style="font-size: x-large;">
+                                                        {{ab.pmaturitydateF | date: 'dd-MM-yyyy'}}</td>
+                                                </tr>
+
+
+
+                                            </table>
+                                            <table>
+                                                <tr>
+                                                    <th colspan="4" style="font-size: x-large;">Interest Payable
+                                                        (subject to TDS) on advance Sale consideration received</th>
+                                                </tr>
+                                                <tr>
+                                                    <th class="text-center" style="font-size: x-large;">Mode</th>
+                                                    <th class="text-center" style="font-size: x-large;">Period <br>
+                                                        Months</th>
+                                                    <th class="text-center" style="font-size: x-large;">Monthly
+                                                        Interest-Amount(Rs)</th>
+                                                    <th class="text-center" style="font-size: x-large;">Interest payment
+                                                        upto Date</th>
+                                                </tr>
+                                                <tr *ngFor="let int of intPay">
+                                                    <td class="text-center" style="font-size: x-large;">Monthly</td>
+                                                    <td class="text-center" style="font-size: x-large;">48</td>
+                                                    <td class="text-center" style="font-size: x-large;">
+                                                        {{int.intAmount}}/-</td>
+                                                    <td class="text-center" style="font-size: x-large;">{{int.mpdate |
+                                                        date:
+                                                        'dd-MM-yyyy'}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class=" mt-4 p-3"
+                                        style="border: 1px solid #222;min-height:100px;text-align:center">
+                                        <div class="row" *ngFor="let nominee of nomineeDetails">
+                                            <div class="col-4">
+                                                <div class="form-group" style="text-align: center;">
+                                                    <p >Nominee Name : <br>
+                                                        <span
+                                                            class="annexr-p">{{nominee.pnomineename}}</span></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group" style="white-space: nowrap;position: relative;left: 20px;">
+                                                    <p>Nominee Relation : <span
+                                                            class="annexr-p">{{nominee.prelationship}}</span></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <p>Proportion : <span
+                                                            class="annexr-p">{{nominee.ppercentage}} %</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+
+
+                                    <div class="mt-2 p-3" style="border: 1px solid #222; margin-top: 20px;"
+                                        class="myavoid-break-inside">
+                                        <div class="row">
+                                            <div class="col-4 text-center">
+                                                <p><span>Nominee Name:</span></p>
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <p><span>Nominee Relation:</span></p>
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <p><span>Proportion:</span></p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Data rows -->
+                                        <div class="row" *ngFor="let nominee of nomineeDetails">
+                                            <div class="col-4 text-center" style="position: relative;left: 20px;">
+                                                <p><span class="annexr-p">{{ nominee.pnomineename | uppercase}}</span>
+                                                </p>
+                                            </div>
+                                            <div class="col-4 text-center"
+                                                style="white-space: nowrap;position: relative;left: 20px;">
+                                                <p><span class="annexr-p">{{ nominee.prelationship | uppercase}}</span>
+                                                </p>
+                                            </div>
+                                            <div class="col-4 text-center"
+                                                style="white-space: nowrap;position: relative;left: 20px;">
+                                                <p><span class="annexr-p">{{ nominee.ppercentage }}%</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="mt-4 p-3" style="border: 1px solid #222;min-height:40px;">
+
+
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <p>Lien To : <span class="annexr-p">{{pvchgroupticket}}</span></p>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+
+
+                                    <!-- <div class="mt-4 p-3" style="border: 1px solid #222;min-height:100px;">
+                                     
+                                    </div> -->
+                                    <!--today <div class="mt-4" style="position: absolute;bottom:0;">
+                                        <div class="row">
+                                            <div class="col-7 text-center offset-5 mb-5"
+                                                style="margin-top: -4px;position: relative;right: 50px; white-space: nowrap;">
+                                                For <b>{{pcompany_name}}</b></div>
+                                            <div class="col-4">
+                                                <div class="form-group" style="white-space: nowrap;">
+                                                    <p>Print Date : <span class="annexr-p">{{today |
+                                                            date:'dd-MM-yyyy'}}</span></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-right">
+                                                <div class="form-group" style="position:relative;right: 10px;">
+                                                    <p>(Authorized Signatory)</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-center" style="position: relative;left:20px;">
+                                                <div class="form-group">
+                                                    <p>(Authorized Signatory)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="mt-4" style="position: absolute;bottom:0;">
+                                        <div class="row">
+                                            <!-- Monday 21/7/25 change start <div class="row" style="position: relative;left: 32px;top: 95px;">
+                                                <p>Print Date : <span class="annexr-p">{{today
+                                                        |date:'dd-MM-yyyy'}}</span></p>
+                                            </div>
+
+                                            <div class="row col-12">
+                                                <div class="col-6"
+                                                    style="position: relative;top: 89px;font-size: 16px;">
+                                                     <b>For Bhuviteja Enterprises (india) Pvt Ltd.
+                                                        Through its GPA Dakshin Infrastructures Pvt Ltd.</b>
+
+                                                </div>
+                                                <div class="col-6 offset-5 mb-5"
+                                                    style="margin-top: -4px;position: relative;left: 90px;top:43px; white-space: nowrap;">
+                                                    For <span style="font-size: 16px;"><b>{{pcompany_name}}</b></span>
+                                                </div>
+                                            </div>  mon end-->
+                                             <div class="col-7 text-center offset-5 mb-5"
+                                                style="margin-top: -4px;position: relative;right: 50px; white-space: nowrap;">
+                                                For <b>{{pcompany_name}}</b></div>
+                                            <div class="col-4">
+                                                <div class="form-group" style="white-space: nowrap;">
+                                                    <p>Print Date : <span class="annexr-p">{{today |
+                                                            date:'dd-MM-yyyy'}}</span></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-right">
+                                                <div class="form-group" style="position:relative;right: 10px;">
+                                                    <p>(Authorized Signatory)</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-center" style="position: relative;left:20px;">
+                                                <div class="form-group">
+                                                    <p>(Authorized Signatory)</p>
+                                                </div>
+                                            </div>
+                                            <!-- mon chng <div class="row mt-5 ml-5 mr-5 pt-2">
+                                                <div class="col-2" style="position: relative;right: 25px;">
+                                                    {{directorDesignation}}</div>
+                                                <div class="col-3"
+                                                    style="position: relative;right: 25px;white-space: nowrap;">
+                                                    (Authorized Signatory)</div>
+                                                <div class="col-2" style="position: relative;left: 15px;">
+                                                    {{directorDesignation}}</div>
+                                                <div class="col-3"
+                                                    style="position: relative;right: 5px; white-space: nowrap;">
+                                                    (Authorized Signatory)</div>
+                                                <div class="col-2 text-center" style="position: relative;left: 55px;">
+                                                    Signature(s)</div>
+                                            </div> mon chng-->
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+                            <!---------------page7 end---------------->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </kendo-pdf-export>
+
+        </div>
+    </div>
+</body>
+
+<style>
+    .footer {
+        position: absolute;
+        bottom: 50px;
+        right: 20px;
+        left: 20px;
+    }
+
+    .footer1 {
+        position: absolute;
+        bottom: 20px;
+    }
+
+    kendo-pdf-export {
+        font-family: "Times New Roman", "Arial", sans-serif;
+        font-size: 21px !important;
+    }
+
+    kendo-pdft-footer {
+        font-family: "Times New Roman", "Arial", sans-serif;
+        font-size: 18px !important;
+    }
+
+    body {
+        counter-reset: list-counter;
+        /* Reset counter for A, B, C... at the start of the page */
+    }
+
+    /* Apply increment of the counter for each li in the list */
+    ul.list-A li {
+        counter-increment: list-counter;
+        padding: 0;
+        text-indent: -20px;
+        /* Aligns text properly */
+        padding-left: 20px;
+        /* Ensures text starts correctly after A. */
+    }
+
+    ul.list-A li::before {
+        content: counter(list-counter, upper-alpha) ". ";
+    }
+
+    ul.list-A li span {
+        display: block;
+        /* Ensures text wraps properly under A. */
+        margin-left: 20px;
+        /* Keeps text aligned under A. */
+        text-indent: 0;
+        /* Removes unnecessary indentation */
+    }
+
+    /* Style for Roman numerals */
+    ol.list-B {
+        list-style: none;
+        /* Remove default numbering */
+        counter-reset: roman-counter;
+        /* Initialize the Roman numeral counter for list B */
+    }
+
+    ol.list-B li {
+        counter-increment: roman-counter;
+        /* Increment the Roman numeral counter */
+        position: relative;
+        padding-left: 25px;
+        /* Space for Roman numeral */
+    }
+
+    ol.list-B li::before {
+        content: counter(roman-counter, lower-roman) ". ";
+        /* Display the Roman numeral before the item */
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+
+
+    ul.list-C {
+        counter-reset: item;
+        list-style: none;
+        padding-left: 1.5em;
+        margin: 0;
+    }
+
+    ul.list-C>li {
+        /* Only direct children get counted */
+        counter-increment: item;
+        position: relative;
+        padding-left: 1.5em;
+    }
+
+    ul.list-C>li::before {
+        content: counter(item) ". ";
+        position: absolute;
+        left: 0;
+    }
+
+    /* Continued main list (start from a specific number, e.g., 2 for continuation) */
+    ul.list-C.continued {
+        counter-reset: item 1;
+    }
+
+    /* SUBLIST: a, b, c... */
+    ol.list-D li {
+        list-style-type: lower-alpha;
+        padding-left: 0.2em;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+    }
+
+
+
+    /* Styling the table with horizontal and vertical lines */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        /* Collapse borders between cells */
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        /* Light gray border for both rows and columns */
+        padding: 8px;
+        /* Padding for cell content */
+    }
+
+    th {
+        background-color: #f2f2f2;
+        /* Light gray background for header */
+        font-weight: bold;
+        /* Bold text for the header */
+    }
+
+    td {
+        text-align: center;
+        /* Center align text in cells */
+    }
+
+    .watermark {
+        position: absolute;
+        width: 100%;
+        top: 40%;
+        left: 70%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+        font-size: 80px;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 0.15);
+        /* Adjust opacity */
+        z-index: 0;
+        /* Behind content */
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .pdf-export-style {
+        margin-top: 80% !important;
+    }
+
+    .boundary-item {
+        display: flex;
+        justify-content: flex-start;
+        gap: 5px;
+        /* Minimal spacing */
+        margin: 0;
+        padding: 0;
+        line-height: 1;
+        /* Removes extra space between lines */
+    }
+
+    .boundary-item span {
+        margin: 0;
+        padding: 0;
+        white-space: nowrap;
+        /* Prevents wrapping */
+    }
+
+    .boundary-item span:first-child {
+        min-width: 70px;
+        /* Ensures all labels + colons align */
+        text-align: left;
+    }
+
+    .pdf-pagination {
+        position: absolute;
+        top: 10px;
+        /* Adjust spacing if needed */
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .page-break {
+        page-break-before: always;
+        break-before: page;
+    }
+
+    /* Basic styling for the table */
+    .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+        /* Remove space between columns */
+        margin: 20px 0;
+    }
+
+    .custom-table th,
+    .custom-table td {
+        padding: 5px;
+        /* Reduced padding */
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+
+    .group-header {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    /* Optional: Add hover effect for rows */
+    .custom-table tbody tr:hover {
+        background-color: #f9f9f9;
+    }
+
+    .annexr-p {
+        color: #0b59ac;
+    }
+
+    .annexr-report table th {
+        background: #fff !important;
+        font-size: 16px;
+        text-align: center;
+    }
+</style>
+
+</html>
+
+
+<!-- .k-pdf-export {
+    font-size: 12px; /* Adjust font size if needed */
+    line-height: 1.2; /* Decrease line spacing (default is usually 1.5) */
+}
+
+/* Apply tighter spacing to specific elements */
+p, ul, li, div {
+    line-height: 1.2 !important;
+} -->

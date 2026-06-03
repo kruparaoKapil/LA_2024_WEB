@@ -1,0 +1,117 @@
+<form>
+<div class="row mt-2">
+  <div class="col d-flex flex-wrap align-items-center">
+    <a (click)="newContact()"  class="btn btn-b-icon border-0"><img
+        src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+  </div>
+</div>
+<div class="section-container mt-3">
+<div class="row">
+  <div class="col-md-12 col-xl-12">
+
+    <kendo-grid [kendoGridBinding]="EmployeeData" 
+    [pageSize]="10"
+    [columnMenu]="{filter: true}"
+               [pageable]="{buttonCount: 2}"
+               [reorderable]="true"  [sortable]="true" [resizable]="true"
+                 (edit)="editHandler($event)" (remove)="removeHandler($event)">
+      <ng-template kendoGridToolbarTemplate>
+                <div class="row mb-3">
+                  <div class="col-4 pl-0 mt-n1">
+                    <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+                  </div>
+                  <div class="col-7 pr-0 pl-4 ml-4">
+                  <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                    <li class="temp-ico ml-2">
+                      <a kendoGridPDFCommand><img class="pt-2"  src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a></li>
+                   <li class="temp-ico ml-2">
+                      <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel" width="20px"></a></li>
+                    <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                  </ul>
+              </div>
+              </div>
+        <!-- <button kendoGridExcelCommand type="button" icon="file-excel">Export to Excel</button>
+        <button kendoGridPDFCommand icon="file-pdf">Export to PDF</button> -->
+      </ng-template>
+      <ng-template kendoGridToolbarTemplate>
+         <div class="px-5"></div>
+      </ng-template>
+
+      <kendo-grid-column-group title="Employee" [headerClass]="{'kendo-g-center' : true}">
+        <kendo-grid-command-column field="" title="Actions" width="150">
+          <ng-template kendoGridCellTemplate>
+            <div id="icon-edit" class="icon-edit1" kendoGridEditCommand [primary]="true"></div>
+            <div id="icon-delete" class="icon-delete1" kendoGridRemoveCommand></div>
+          </ng-template>
+        </kendo-grid-command-column>
+      <kendo-grid-column field="pEmployeeName" title="Employee Full Name" width="150"></kendo-grid-column>
+      <kendo-grid-column field="pEmploymentDesignation" title="Designation" width="150"></kendo-grid-column>
+      <kendo-grid-column field="pEmploymentRoleName" title="Role" width="150"></kendo-grid-column>
+      <kendo-grid-column field="pEmployeeContactNo" title="Contact Number" width="150"></kendo-grid-column>
+      <kendo-grid-column field="pEmployeeContactEmail" title="Email ID" width="150"></kendo-grid-column>
+     
+      </kendo-grid-column-group>
+      <kendo-grid-pdf fileName="Employee.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+                      [landscape]="true">
+                      <ng-template kendoGridPDFTemplate>
+                          <div class="page-template">
+                             <div class="header bc-2 text-center">
+                              <h5> Employee </h5>
+                             </div>
+                           </div>
+                         </ng-template>
+        <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+        <!-- <ng-template kendoGridPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+          <div class="page-template">
+            <div class="header">
+              <div style="float: right">Page {{ pageNum }} of {{ totalPages }}</div>
+
+            </div>
+            <div class="footer">
+              Page {{ pageNum }} of {{ totalPages }}
+            </div>
+          </div>
+        </ng-template> -->
+  
+        <kendo-grid-column field="employeefullname" width="100" title="Employee Full Name">
+        </kendo-grid-column>
+        <kendo-grid-column field="pEmploymentDesignation" width="100" title="Designation">
+        </kendo-grid-column>
+        <kendo-grid-column field="pEmploymentRoleName" width="100" title="Role">
+        </kendo-grid-column>
+        <kendo-grid-column field="pEmployeeContactNo" width="100" title="Contact Number">
+        </kendo-grid-column>
+        <kendo-grid-column field="pEmployeeContactEmail" width="100" title="Email ID">
+        </kendo-grid-column>
+      </kendo-grid-pdf>
+      <kendo-grid-excel fileName="Employee.xlsx">
+          <kendo-excelexport-column-group title="Employee" [headerCellOptions]="headerCells">
+              <kendo-excelexport-column field="employeefullname"  title="Employee Full Name">
+                </kendo-excelexport-column>
+                <kendo-excelexport-column field="pEmploymentDesignation"  title="Designation">
+                </kendo-excelexport-column>
+                <kendo-excelexport-column field="pEmploymentRoleName"  title="Role">
+                </kendo-excelexport-column>
+                <kendo-excelexport-column field="pEmployeeContactNo"  title="Contact Number">
+                </kendo-excelexport-column>
+                <kendo-excelexport-column field="pEmployeeContactEmail"  title="Email ID">
+                </kendo-excelexport-column>
+          </kendo-excelexport-column-group>
+      </kendo-grid-excel>
+    </kendo-grid>
+  </div>
+</div>
+</div>
+</form>
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+        <h3>
+          Loading...
+        </h3>
+      
+      </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+  
+  </div>

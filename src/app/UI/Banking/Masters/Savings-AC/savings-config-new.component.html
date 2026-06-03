@@ -1,0 +1,73 @@
+<!-----------------Top Nav Start --------------------->
+<div class="row">
+
+    <div class="col-md-12 col-xl-12  mb-3">
+        <span (click)="back()" class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+        color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img src="assets/images/icon-back-blue.svg"
+        width="25px" height="25px">View</span>
+    </div>
+</div>
+<div class="section-container tab-contents">
+<ul class="nav nav-tabs tip-top wiz-tab mt-3" id="myTab" role="tablist">
+    <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Saving A/C Name and Code"> <a class="active disableTabs" data-toggle="tab" href="#savingnameandcode" role="tab" aria-controls="loanname" aria-selected="true">A/C Type Name and Code</a> </li>
+    <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Saving A/C Configuration"> <a class="disableTabs" data-toggle="tab" href="#savingconfig" role="tab" aria-controls="loanconfig" aria-selected="false">A/C Type Configuration </a> </li>
+    <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Loan Facility"> <a class="disableTabs" data-toggle="tab" href="#loanfacility" role="tab" aria-controls="Installmentduedate" aria-selected="false">Loan Facility</a> </li>
+    <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Identification Documents"> <a class="disableTabs" data-toggle="tab" href="#mandatorykyc" role="tab" aria-controls="cold" aria-selected="false">Documents   </a> </li>
+    <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Referral Commission"> <a class="disableTabs" data-toggle="tab" href="#refferral" role="tab" aria-controls="cold" aria-selected="false">Referral Commission</a> </li>
+</ul>
+
+
+<!--<div class="btn-group quick-links">
+  <a class="btn btn-block dropdown-toggle mt-1 sm-dd" data-toggle="dropdown" href="#">{{selectedtype}}<span class="caret"></span></a>
+  <ul class="dropdown-menu">
+    <li class="dropdown-item"><a (click)="NavigateLinks('savingnameandcode','Savings a/c Name and Code')">Savings a/c Name and Code </a></li>
+    <li class="dropdown-item"><a (click)="NavigateLinks('savingconfig','Savings a/c Configuration')">Savings a/c Configuration</a></li>
+    <li class="dropdown-item"><a (click)="NavigateLinks('loanfacility','Loan Facility and Pre-Maturity')">Loan Facility and Pre-Maturity</a></li>
+    <li class="dropdown-item"><a (click)="NavigateLinks('mandatorykyc','Identification Documents')">Identification Documents</a></li>
+    <li class="dropdown-item"><a (click)="NavigateLinks('refferral','Referral Commission')">Referral Commission</a></li>
+  </ul>
+</div>-->
+
+<!-- <div *ngIf="ShowDetailsOnTab" class="col-md-12 col-xl-12">
+    <div class="d-flex justify-content-end">
+        <ol class="breadcrumb mt-2 position-absolute mb-4" style="top:-41px; left: 10px;">
+
+            <li class="breadcrumb-item">{{Accname}}</li>
+            <li class="breadcrumb-item">{{AccountCode}}</li>
+            <li class="breadcrumb-item">{{AccNameandCode}}</li>
+
+        </ol>
+    </div>
+</div> -->
+<!-----------------Top Nav ENd --------------------->
+
+<div class="tab-content" id="myTabContent">
+
+    <div class="tab-pane fade  active show " id="savingnameandcode" role="tabpanel" aria-labelledby="fresh-tab">
+        <app-savings-name-code [accountid]="EditsavingID"></app-savings-name-code>
+    </div>
+
+    <!-- -*----------------------------------------tab content pannnel 1 end ----------------------------------------->
+    <div class="tab-pane fade" id="savingconfig" role="tabpanel" aria-labelledby="hot-tab">
+        <app-savings-configuration></app-savings-configuration>
+    </div>
+
+    <!-- ==================================================================== tab content pannnel 2 end =================================================================== -->
+    <div class="tab-pane fade" id="loanfacility" role="tabpanel" aria-labelledby="hot-tab">
+        <app-loan-facility></app-loan-facility>
+    </div>
+    <!-- ==================================================================== tab content pannnel 3 end =================================================================== -->
+    <div class="tab-pane fade" id="mandatorykyc" role="tabpanel" aria-labelledby="cold-tab">
+        <app-identification-documents [forButtons]='true' [formtype]="formtype"></app-identification-documents>
+    </div>
+
+    <!-- ==================================================================== tab content pannnel 4 end =================================================================== -->
+    <div class="tab-pane fade" id="refferral" role="tabpanel" aria-labelledby="cold-tab">
+        <app-referral-commission [accountid]="EditsavingID"></app-referral-commission>
+    </div>
+
+    <!-- ==================================================================== tab content pannnel 5 end =================================================================== -->
+
+</div>
+</div>
+<!-- Tab content end -->

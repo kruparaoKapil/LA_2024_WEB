@@ -1,0 +1,151 @@
+<div class="section-container">
+
+
+    <div class="row ">
+        <div class=" col-md-7 col-xl-7">
+            <div class="d-flex">
+                <div class=" profile-tumb mr-3">
+                    <img [src]="DisplayCardData?.pImage">
+                    <!-- <img src="assets/images/prof-1.jpg">  -->
+
+                </div>
+
+                <h2 class="text-grey font-18">
+                    {{DisplayCardData?.pContactName}}
+                    <span class="lc-txt ml-0 "> - UID : {{DisplayCardData?.pContactdId}}</span>
+                </h2>
+
+            </div>
+        </div>
+
+        <div class="col-md-5 col-xl-5">
+            <div class="contact-info">
+                <label class="lc-txt">
+            <span *ngIf="DisplayCardData?.pContactType =='Individual'">
+             
+              {{DisplayCardData?.pFatherName}}
+            </span>
+          </label>
+                <label>
+            <a >+91 - {{DisplayCardData?.pContactNumber}} | </a>
+            <a > {{DisplayCardData?.pContactEmail}}</a>
+          </label>
+                <label class="lc-txt">{{DisplayCardData?.pAddresDetails}}</label>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <hr>
+
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th *ngIf="pContactType=== 'Individual'">Employee</th>
+                <th>Referral</th>
+                <th>Party</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <!--<td> <span class="done"></span> <a (click)="getContactSubscriber(DisplayCardData?.pContactdId)"
+              data-target="#sub-detail"> {{DisplayCardData?.subscribercount}} tickets </a> </td>-->
+                <td *ngIf="pContactType=== 'Individual'">
+                    <div *ngIf="DisplayCardData?.pisemployee=== false">
+                        <span class="notdone"></span> <a (click)="NavigateEmployee(DisplayCardData?.pRefNo)">create</a>
+                    </div>
+                    <div *ngIf="DisplayCardData?.pisemployee === true">
+                        <span class="done"></span> <a (click)="NavigateEmployee(DisplayCardData?.pRefNo)">Edit</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="DisplayCardData?.pisreferral=== false">
+                        <span class="notdone"></span> <a (click)="NavigateReferral(DisplayCardData?.pRefNo)">create</a>
+                    </div>
+                    <div *ngIf="DisplayCardData?.pisreferral === true">
+                        <span class="done"></span> <a (click)="NavigateReferral(DisplayCardData?.pRefNo)">Edit</a>
+                    </div>
+                </td>
+                <td>
+            <div *ngIf="DisplayCardData?.pissupplier=== false">
+              <span class="notdone"></span> <a (click)="NavigateSupplier(DisplayCardData?.pRefNo)">create</a>
+            </div>
+            <div *ngIf="DisplayCardData?.pissupplier === true">
+              <span class="done"></span>
+            </div>
+          </td>
+           <!--
+          <td>
+            <div *ngIf="DisplayCardData?.pisadvocate === false">
+              <span class="notdone"></span> <a (click)="NavigateAdovate(DisplayCardData?.pRefNo)">create</a>
+            </div>
+            <div *ngIf="DisplayCardData?.pisadvocate === true">
+              <span class="done"></span>
+            </div>
+          </td> -->
+                <!--<td> <span class="notdone"></span> <a>create</a> </td>-->
+            </tr>
+
+
+        </tbody>
+        <tfoot>
+        </tfoot>
+
+    </table>
+
+
+
+</div>
+
+
+
+<div class="section-content mt-2" *ngIf="showcontactsubscriber" id="sub-detail">
+    <h2 class="sec-head">Subscriber has {{DisplayCardData?.subscribercount}} Chits </h2>
+
+    <ngx-datatable class="material" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarH]="true" [limit]="5" [rows]="contactSubscriberData">
+        <ngx-datatable-column name="Branch Name" prop="branchname" [cellClass]="'cell-left'">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Group Type" prop="chigrouptype" [cellClass]="'cell-right'" [headerClass]="'header-right'">
+        </ngx-datatable-column>
+
+
+        <ngx-datatable-column name="Group Code" prop="groupcode" [cellClass]="'cell-right'" [headerClass]="'header-right'">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Ticket No." prop="ticketno" [cellClass]="'cell-right'" [headerClass]="'header-right'">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Chit Value" prop="chitvalue" [cellClass]="'cell-right'" [headerClass]="'header-right'">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span title="{{currencysymbol}} {{row.chitvalue|mycurrencypipe}}">
+            {{currencysymbol}}
+            {{row.chitvalue|mycurrencypipe}}
+          </span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Chit Period" prop="chitperiod" [cellClass]="'cell-right'" [headerClass]="'header-right'">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Status" prop="chitstatus" [cellClass]="'cell-right'" [headerClass]="'header-right'">
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Due Amount" prop="dueamount" [cellClass]="'cell-right'" [headerClass]="'header-right'">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span title="{{currencysymbol}} {{row.dueamount|mycurrencypipe}}">
+            {{currencysymbol}}
+            {{row.dueamount|mycurrencypipe}}
+          </span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Due Date" prop="duedate" [cellClass]="'cell-right'" [headerClass]="'header-right'">
+        </ngx-datatable-column>
+    </ngx-datatable>
+
+
+
+</div>

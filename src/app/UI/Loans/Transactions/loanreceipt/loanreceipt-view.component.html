@@ -1,0 +1,129 @@
+<div class="row">
+    <div class="col-12">
+        <p class="bc-2">Loan Receipt</p>
+    </div>
+</div>
+<!-- <div class="mt-2">
+    <a class="btn btn-b-icon border-0" routerLink="/LoanreceiptNew"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+</div> -->
+<form [formGroup]="LoanReceiptForm">
+    <div class="row mb-3">
+        <div class="col-md-8 col-xl-8 d-flex">
+            <div class=" mt-2">
+                <div class="form-check form-check-inline check-btn-secondary">
+                    <input class="form-check-input" id="asdate" type="checkbox" (change)="checkox($event)">
+                    <label class="mt-2" for="asdate"> Advance Search</label>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4 col-xl-4 mt-2 d-flex justify-content-end  ">
+            <a class="btn btn-b-icon border-0" routerLink="/LoanreceiptNew"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12 col-xl-12">
+            <kendo-grid [kendoGridBinding]="loanReceiptData" [groupable]="true" [pageSize]="10" [pageable]="{buttonCount: 2}" [reorderable]="true" [resizable]="true" [columnMenu]="{ filter: true }" [pageable]="true" [sortable]="true" (remove)="removeHandler($event)">
+                <ng-template kendoGridToolbarTemplate>
+                    <div class="row mb-0 pt-3 pb-0 ml-3">
+                        <div class="col-4 pl-0 mt-n1 " *ngIf="ShowSearch">
+                            <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+                        </div>
+                        <div class="col-md-3 col-xl-3 pl-0 mb-2 mt-2 mt-n1 input-group" *ngIf="ShowDates">
+                            <label class="mr-2 mt-2">From Date:</label>
+                            <input type="text" class="form-control" id="fromdate" readonly [bsConfig]="dpConfig" formControlName="pFromDate" (ngModelChange)="checkingfrommdate()" bsDatepicker #dp="bsDatepicker">
+                        </div>
+                        <div class="col-md-3 pl-0 mt-n1 input-group" *ngIf="ShowDates">
+                            <label class="mr-2 mt-2">To Date:</label>
+                            <input type="text" class="form-control" id="todate" readonly [bsConfig]="dppConfig" formControlName="pTodate" (ngModelChange)="checkdatevalidation()" bsDatepicker #dp="bsDatepicker">
+                        </div>
+                        <div class="col-md-2 pl-0 mt-n1" *ngIf="ShowDates">
+                            <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon  border-0" data-toggle="tab" (click)="getLoanReceiptViewData()" role="tab" style="box-sizing:border-box !important">
+                              <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                              <span *ngIf="!isLoading">
+                                <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                     width="20px">
+                              </span> Show
+                            </button>
+
+                        </div>
+
+                    </div>
+                    <div class="row pr-4">
+                        <div class="col-md-12 pr-3">
+                            <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                                <li class="temp-ico ml-2">
+                                    <a kendoGridPDFCommand><img class="pt-1 ml-3" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                </li>
+                                <li class="temp-ico ml-2">
+                                    <a kendoGridExcelCommand><img class="pt-1" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </ng-template>
+                <kendo-grid-column-group title="Loan Receipt" [headerClass]="{'kendo-g-center' : true}">
+                    <kendo-grid-column field="pReceiptdate" title="Loan Receipt Date" width="150">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pReceiptno" width="130" title="Receipt Number">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pLoanno" width="130" title="Loan Number">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pCustomername" width="180" title="Applicant Name">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pModeofreceipt" title="Mode Of Receipt" width="100">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pBankname" title="Bank Name" width="110">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pChequeno" title="Cheque Number" width="160">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pTotalreceived" title="Total Received" width="140" [headerClass]="{'kendo-center': true}" class="kendo-center" [footerClass]="{'kendo-center': true}">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{dataItem.pTotalreceived |mycurrencypipe }}
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pNarration" title="Narration" width="130">
+                    </kendo-grid-column>
+                    <kendo-grid-command-column title="" width="100">
+                        <ng-template kendoGridCellTemplate>
+                            <div id="icon-view" kendoGridRemoveCommand></div>
+                        </ng-template>
+                    </kendo-grid-command-column>
+                </kendo-grid-column-group>
+                <kendo-grid-pdf fileName="Loanreceiptview.pdf" [allPages]="true" paperSize="A2" [repeatHeaders]="true" [landscape]="true">
+                    <ng-template kendoGridPDFTemplate>
+                        <div class="page-template">
+                            <div class="header bc-2 text-center">
+                                <h5> Loan Receipt </h5>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+                    <kendo-grid-column field="pReceiptdate" title="Loan Receipt Date" width="150">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pReceiptno" width="130" title="Receipt Number">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pLoanno" width="130" title="Loan Number">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pCustomername" width="180" title="Customer Name">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pModeofreceipt" title="Mode of Receipt" width="100">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pBankname" title="Bank Name" width="110">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pChequeno" title="Cheque Number" width="160">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pTotalreceived" title="Total Received" width="140" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pNarration" title="Narration" width="160">
+                    </kendo-grid-column>
+                </kendo-grid-pdf>
+
+                <kendo-grid-excel fileName="Loanreceiptview.xlsx">
+
+                </kendo-grid-excel>
+
+            </kendo-grid>
+        </div>
+    </div>
+</form>

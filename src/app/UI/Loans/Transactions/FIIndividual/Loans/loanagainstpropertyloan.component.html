@@ -1,0 +1,45 @@
+<div id="loanagainstproperty">
+    <div class="row">
+      <div class="col-12 mt-5">
+        <p class="bc-2">Loan against property</p>
+      </div>
+    </div>
+  
+  
+  <div class="col-12 pl-0">
+     
+    <div class="d-flex mt-2">
+      <div class="col-md-6 col-xl-4 p-0"> <a class="lc-title acc1 mb-2 text-decoration-none" data-toggle="collapse" href="#propertydetails" role="button" aria-expanded="false" aria-controls="personaldetails"> <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" /> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Property Details</a> </div>
+      <div class="col-md-6 col-xl-4">
+        <!-- <div class="material-switch pull-right"> <span class="mr-2">Not applicable</span>
+          <input id="property" name="property" type="checkbox" (change)=" notApplicablePropertyDetails($event)" >
+          <label for="property" class="check-danger"></label>
+        </div> -->
+       </div>
+    </div>
+    <div class="collapse mt-3" id="propertydetails" >
+     <app-property-details  [showPropertyDetails]="false"  (propertyDetailsEmitEvent)="propertyDetailsEmitEvent($event)" [propertyGridData]="propertyGridData"></app-property-details>    
+    
+    </div>
+ 
+</div>
+<hr>
+  <div class="col-12 pl-0">
+     
+    <div class="d-flex">
+      <div class="col-md-6 col-xl-4 p-0"> <a class="lc-title acc2 mb-2 text-decoration-none" data-toggle="collapse" href="#movableproperty" role="button" aria-expanded="false" aria-controls="personaldetails"> <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" /> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Movable Property Details </a> </div>
+      <div class="col-md-6 col-xl-4">
+        <!-- <div class="material-switch pull-right"> <span class="mr-2">Not applicable</span>
+          <input id="movable-property" name="movable-property" type="checkbox" (change)="notApplicableMovablePropertyDetails($event)">
+          <label for="movable-property" class="check-danger"></label>
+        </div> -->
+       </div>
+    </div>
+    <div class="collapse mt-3" id="movableproperty" >
+     
+  <app-movable-property-details [showMovablePropertyDetails]="false" (movablepropertyDetailsEmitEvent)="movablepropertyDetailsEmitEvent($event)" ></app-movable-property-details>
+        </div>
+        </div>
+
+<hr>
+</div>

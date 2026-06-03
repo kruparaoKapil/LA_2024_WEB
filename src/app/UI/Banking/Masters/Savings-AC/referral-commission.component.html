@@ -1,0 +1,121 @@
+<div class="row">
+  <!-- <div class="col-12 mt-5 p-0">
+    <p class="bc-2">Referral Commission</p>
+  </div> -->
+</div>
+<div class="my-container mt-5">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+      <h3>
+        Loading...
+      </h3>
+
+    </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+</div>
+<form [formGroup]="ReferralCommissionform">
+  <div class="col-md-4 col-xl-4">
+          <div class="form-group">
+          <div class="material-switch">
+            <span class="mr-2">Referral Commission?</span>
+            <input id="referralCommissionapplicable" name="referralCommissionapplicable" formControlName="pIsreferralcommissionapplicable" type="checkbox"
+              (change)="referralCommissionChange()">
+            <label for="referralCommissionapplicable" class="badge-success"></label>
+          </div>
+        </div>
+    <!-- <p>Referral Commission?</p>
+    <div class="material-switch pull-right">
+      <input id="referralCommissionapplicable" name="referralCommissionapplicable" formControlName="pIsreferralcommissionapplicable" (change)="referralCommissionChange()" type="checkbox"><label class="check-success" for="referralCommissionapplicable"></label>
+    </div> -->
+  </div>
+  <div class="row pl-4" *ngIf="loanyes">
+    <!--<div class="col-md-12 col-xl-12 mt-1">
+
+      <div class="form-group m-0">
+        <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+          <input class="form-check-input" type="radio" formControlName="pReferralcommissioncalfield" id="Number of saving a/c" value="Number of saving a/c" >
+          <label class="mt-1" for="Number of saving a/c"> Number of saving a/c's</label>
+        </div>
+      </div>
+      <div class="form-group m-0">
+        <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+          <input class="form-check-input" type="radio" formControlName="pReferralcommissioncalfield"  id="First" value="First">
+          <label class="mt-1" for="First"> First</label>
+        </div>
+      </div>
+    </div>-->
+    <div class="col-md-6 col-xl-6">       
+      <div class="yes" id="commission">
+       <p class="mb-4">Commission Payout</p>
+        <div class="form-group m-0">
+          <div class="form-check form-check-inline mr-5 ">
+            <label class="mt-2" data-toggle="collapse " for="Fixed"> Fixed </label>
+            <div class="ml-5 mt-n2 comfixed">
+
+              <input class="form-control w-auto" type="text" maxlength="12" formControlName="pCommissionValue" appMycurrencyFormatter appNumbersonly [ngClass]="{ 'is-invalid': ReferralCommissionErrorMessages.pCommissionValue}" id="pCommissionValue" title="Commission Value">
+              <div class="invalid-feedback">
+                <span *ngIf="ReferralCommissionErrorMessages.pCommissionValue">{{ReferralCommissionErrorMessages?.pCommissionValue}}</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+  
+  
+    <div class="col-md-6 col-xl-6" *ngIf="loanyes">
+     <div class="form-group mb-0 ">
+          <div class="material-switch">
+            <span class="mr-2">TDS</span>
+            <input id="Istdsapplicable" name="Istdsapplicable" formControlName="pIstdsapplicable" type="checkbox"
+              (change)="tdsCheck()">
+            <label for="Istdsapplicable" class="badge-success"></label>
+          </div>
+        </div>
+      <!-- <div class="form-group">
+        <div class="material-switch">
+          <span class="mr-2">TDS</span>
+          <input id="Istdsapplicable" name="Istdsapplicable" formControlName="pIstdsapplicable" type="checkbox"
+                 (change)="tdsCheck()">
+          <label for="Istdsapplicable" class="badge-success"></label>
+        </div>
+      </div> -->
+     <div class="col-md-8 col-xl-8">
+      <div class="form-group mb-0" *ngIf="tdsshow">
+        <label id="ptdssection" title="TDS Section No.">TDS Section No.</label>
+         <!-- <div class="input-group">
+         <select id="ptdssection" title="TDS" class="form-control" formControlName="ptdssection" [ngClass]="{ 'is-invalid': ReferralCommissionErrorMessages.ptdssection}">
+            <option value="" ng-selected="selected">Select</option>
+            <option *ngFor="let tdsdetails of TDSsectiondetails" [value]="tdsdetails.pTdsSection">
+              {{tdsdetails.pTdsSection}}
+            </option>
+          </select> -->
+          <ng-select title="TDS" id="ptdssection" [items]="TDSsectiondetails" formControlName="ptdssection"
+            bindLabel="pTdsSection" bindValue="pTdsSection" [multiple]=false placeholder="Select" [searchable]=true
+            [clearable]=false [clearOnBackspace]=true [ngClass]="{ 'is-invalid': ReferralCommissionErrorMessages.ptdssection}">
+          </ng-select>
+          <div class="invalid-feedback">
+            <span *ngIf="ReferralCommissionErrorMessages.ptdssection">{{ReferralCommissionErrorMessages?.ptdssection}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="row mt-4 ml-1">
+  <div class="col-md-12 col-xl-12">
+    <div class="d-flex justify-content-end mt-4"> 
+      <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="clear()" class="btn btn-g-icon mr-4 px-3 border-0">
+        <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a> 
+        <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="SaveAccountConfig()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i>{{button}}</a> </div>
+  </div>
+</div>
+

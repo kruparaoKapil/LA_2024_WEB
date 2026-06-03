@@ -1,0 +1,306 @@
+<div class="d-flex mt-5 mb-3">
+    <div class="col-md-6 col-xl-4 p-0">
+        <a class="bc-2 acc4 mb-2 text-decoration-none" data-toggle="collapse" href="#depositlien" role="button" aria-expanded="false" aria-controls="personaldetails"> <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" /> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Existing Loans/Credit Facilities
+        </a>
+    </div>
+    <div class="col-md-6 col-xl-4">
+        <div class="material-switch pull-right">
+            <span class="mr-2">Not applicable</span>
+            <input id="existing" name="existing" type="checkbox" [(ngModel)]="notApplicableForExistingLoansFlag" (change)="notApplicableForExistingLoans($event)">
+            <label for="existing" class="check-danger"></label>
+        </div>
+    </div>
+</div>
+<form [formGroup]="existingform">
+    <div class="row" *ngIf="!notApplicableForExistingLoansFlag">
+        <div class="col-md-6 col-xl-4 form-group">
+            <label>Bank/Credit Facility Name</label>
+            <input type="text" value="" class="form-control" formControlName="pbankorcreditfacilityname" maxlength="75" appCharactersonly [ngClass]="{ 'is-invalid':  submitted && existingform.controls.pbankorcreditfacilityname.errors }">
+            <div *ngIf=" submitted &&  existingform.controls.pbankorcreditfacilityname.errors" class="invalid-feedback">
+                <div *ngIf="existingform.controls.pbankorcreditfacilityname.errors.required">Bank/Credit Facility Name is required
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4 form-group">
+            <label>Loan A/c No.</label>
+            <input type="text" value="" class="form-control" formControlName="pLoanno" maxlength="20" appAlphanumeric (keyup)="checkaccountno($event)" [ngClass]="{ 'is-invalid':  submitted && existingform.controls.pLoanno.errors }">
+            <!-- <div *ngIf=accountno>
+            <p class="text-danger">Account no should be 12 digits</p>
+          </div> -->
+            <div *ngIf=" submitted &&  existingform.controls.pLoanno.errors" class="invalid-feedback">
+                <div *ngIf="existingform.controls.pLoanno.errors.required">Loan A/c No is required</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4 form-group">
+            <label>Loan Type</label>
+            <input type="text" value="" class="form-control" formControlName="pLoanname" maxlength="50" appTitlecaseword appCharactersonly [ngClass]="{ 'is-invalid':  submitted && existingform.controls.pLoanname.errors }">
+            <div *ngIf=" submitted &&  existingform.controls.pLoanname.errors" class="invalid-feedback">
+                <div *ngIf="existingform.controls.pLoanname.errors.required">Loantype is required</div>
+            </div>
+        </div>
+        <hr class="light">
+        <div class="col-md-6 col-xl-4">
+            <label>Loan Period</label>
+            <input type="text" value="" class="form-control text-right" formControlName="pTenureofloan" appRoundecimal="12@0" [ngClass]="{ 'is-invalid':  submitted && existingform.controls.pTenureofloan.errors }" removeZero maxlength="3">
+            <div *ngIf=" submitted &&  existingform.controls.pTenureofloan.errors" class="invalid-feedback">
+                <div *ngIf="existingform.controls.pTenureofloan.errors.required">Loan Period is required</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <label>Pay-in</label>
+            <!-- <input type="text" value="" class="form-control"  formControlName="pLoanpayin" appCharactersonly maxlength="15"> -->
+            <select (change)="changeLoanPayIn($event.target.value)" class="form-control" [ngClass]="{ 'is-invalid':  submitted && existingform.controls.pLoanpayin.errors }" formControlName="pLoanpayin">
+        <option value="" disabled>Select</option>
+        <option *ngFor="let payIn of loanPayinsList" [value]="payIn.pLoanpayin"> {{payIn.pLoanpayin}}
+        </option>
+      </select>
+            <div *ngIf=" submitted &&  existingform.controls.pLoanpayin.errors" class="invalid-feedback">
+                <div *ngIf="existingform.controls.pLoanpayin.errors.required">Pay-in is required</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <label>Rate of Interest</label>
+            <input appRoundecimal="2@2" type="text" value="" class="form-control" formControlName="pRateofinterest">
+        </div>
+
+        <hr class="light">
+        <div class="col-md-6 col-xl-4">
+            <label>Installment amount</label>
+            <input type="text" value="" class="form-control text-right" (change)="installAmount($event)" formControlName="pInstalmentamount" maxlength="15" appRoundecimal="12@0" removeZero [ngClass]="{ 'is-invalid':  submitted && existingform.controls.pInstalmentamount.errors }">
+            <div *ngIf=" submitted &&  existingform.controls.pInstalmentamount.errors" class="invalid-feedback">
+                <div *ngIf="existingform.controls.pInstalmentamount.errors.required">Installment amount is required</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <label>Loan Amount</label>
+            <input type="text" value="" class="form-control text-right" (change)="loanAmount($event)" formControlName="ploanamount" maxlength="15" appRoundecimal="12@0" removeZero [ngClass]="{ 'is-invalid':  submitted && existingform.controls.ploanamount.errors }">
+            <div *ngIf=" submitted &&  existingform.controls.ploanamount.errors" class="invalid-feedback">
+                <div *ngIf="existingform.controls.ploanamount.errors.required">Loan Amount is required</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <label>Principal outstanding as on date</label>
+            <input type="text" value="" class="form-control text-right" (change)="principalAmount($event)" formControlName="pPrincipleoutstanding" maxlength="15" appRoundecimal="12@0" removeZero>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label id="pUploadLoanSanctionDocument" title="Upload Loan Sanction Document">Upload Loan Sanction</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" disabled [value]="pUploadLoanSanctionDocumentResponse?.name" placeholder="" formControlName="pLoanSanctionDocumentfilename">
+                    <div class="input-group-append">
+                        <button class="btn btn-lg-icon px-2 p-0" (click)="fileSanctionInput.click()"> <img
+                src="assets/images/icon-upload-blue.svg" width="18px" height="18px" class=""></button>
+                        <input id="fileSanctionId" style="display: none" type="file" (change)="uploadAndProgressFiles($event,fileSanctionInput.files,'sanction')" #fileSanctionInput>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label id="pUploadEmiChartDocument" title="Upload EMI Chart Document">Upload EMI Chart</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" disabled [value]="pUploadEmiChartDocumentResponse?.name" placeholder="" formControlName="pEmichartDocumentfilename">
+                    <div class="input-group-append">
+                        <button class="btn btn-lg-icon px-2 p-0" (click)="fileEmiInput.click()"> <img
+                src="assets/images/icon-upload-blue.svg" width="18px" height="18px" class=""></button>
+                        <input id="fileEmiId" style="display: none" type="file" (change)="uploadAndProgressFiles($event,fileEmiInput.files,'emi')" #fileEmiInput>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- <div class="col-md-6 col-xl-4 mt-3">
+            <label>Remaining Tenure of Loan</label>
+            <input type="text" value="" class="form-control"  formControlName="premainingTenureofloan" appNumbersonly>
+          </div> -->
+        <hr class="light">
+        <div class="col-md-12 col-xl-12 ">
+            <div class="d-flex justify-content-end mt-4">
+                <a (click)="addToGrid()" href="#" data-toggle="tab" class="btn btn-b-icon px-3 border-0 mr-3" role="tab" aria-controls="hot" aria-selected="false">
+                    <img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-3" /> {{buttonname}}
+                </a>
+                <!-- <a href="#" class="btn btn-lg-icon px-3 border-0">
+                <img src="assets/images/icon-more-hori-b.svg" width="20px" height="20px" class="mr-3" />View
+              </a> -->
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row" *ngIf="!notApplicableForExistingLoansFlag">
+        <div *ngIf="(gridData && gridData.length > 0)" class="col-12">
+            <label> Existing Loans/Credit Facilities availed till date (Other Lenders)</label>
+            <!-- <table id="example" class="table text-center w-auto">
+            <thead>
+              <tr>
+              <th>Bank/Credit Facility Name</th>
+             <th>Loan Application Number</th>
+             <th>Loan Type</th>
+             <th>Loan Period</th>
+             <th>Rate of Interest</th>
+             <th>Pay-in</th>
+             <th>Installment</th>
+             <th>Loan Amount</th>
+             <th>Loan Sanction Date</th>
+             <th>Remaining Tenure</th>
+             <th>Principal outstanding as on date</th>
+             <th></th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr>
+             <td>ICICI</td>
+             <td> HL001213 </td>
+          <td>Home Loan</td>
+                <td>20 Years</td>
+                <td>18% pa</td>
+                <td>Monthly</td>
+                <td>50000</td>
+                <td>20,00,000</td>
+                <td>01/01/2006</td>
+                <td>91</td>
+                <td>10,50,000</td>
+                <td><div id="icon-edit"></div><div id="icon-remove"></div></td>
+              </tr>
+              <tr>
+                <td>HDFC</td>
+                <td> HL001213 </td>
+                <td>HDFC Loan</td>
+                <td>5 Years</td>
+                <td>24% pa</td>
+                <td>Monthly</td>
+                <td>5000</td>
+                <td>15,00,000</td>
+                <td>01/01/2006</td>
+                <td>43</td>
+                <td>75,000</td>
+                <td><div id="icon-edit"></div><div id="icon-remove"></div></td>
+              </tr>
+              <tr>
+                <td>Internal</td>
+                <td> HL001213 </td>
+                <td>Home Loan</td>
+                <td>20 Years</td>
+                <td>18% pa</td>
+                <td>Monthly</td>
+                <td>50000</td>
+                <td>20,00,000</td>
+                <td>01/01/2006</td>
+                <td>91</td>
+                <td>10,50,000</td>
+                <td><div id="icon-edit"></div><div id="icon-remove"></div></td>
+              </tr>
+              <tr>
+                <td>Internal</td>
+                <td> HL001213 </td>
+                <td>Home Loan</td>
+                <td>20 Years</td>
+                <td>18% pa</td>
+                <td>Monthly</td>
+                <td>50000</td>
+                <td>20,00,000</td>
+                <td>01/01/2006</td>
+                <td>91</td>
+                <td>10,50,000</td>
+                <td><div id="icon-edit"></div><div id="icon-remove"></div></td>
+              </tr>
+            </tbody>
+          </table> -->
+            <kendo-grid [data]="gridData" class="mt-3" [width]="500" (edit)="editdata($event)" (remove)="removeHandler($event)" [pageSize]="20" [pageable]="true" [scrollable]="true" [sortable]="true" [reorderable]="true" [resizable]="true" [navigable]="true">
+                <kendo-grid-checkbox-column title="" width="50">
+                    <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                        <input type="checkbox" [checked]="dataItem.pisbalancetransferapplicable " (click)="checkStatus(dataItem)" />
+                    </ng-template>
+                </kendo-grid-checkbox-column>
+                <kendo-grid-column field="pbankorcreditfacilityname" title="Bank/Credit Facility Name" width="250">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoanno" title="Loan A/c No." width="250"></kendo-grid-column>
+                <kendo-grid-column field="pLoanname" title="Loan Type" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenureofloan" title="Loan Period" width="150"></kendo-grid-column>
+                <kendo-grid-column field="pRateofinterest" title="Rate of Interest" width="150"></kendo-grid-column>
+                <kendo-grid-column field="pLoanpayin" title="Pay-in" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pInstalmentamount" title="Installment Amount" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                </kendo-grid-column>
+                <kendo-grid-column field="ploanamount" title="Loan Amount" width="150" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                </kendo-grid-column>
+                <!-- <kendo-grid-column field="" title="Loan Sanction Date" width="200"></kendo-grid-column>
+              <kendo-grid-column field="premainingTenureofloan" title="Remaining Tenure" width="200"></kendo-grid-column> -->
+                <kendo-grid-column field="pPrincipleoutstanding" title="Principle outstanding as on date" width="300" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pLoanSanctionDocumentfilename" title="Upload Loan Sanction File Name" width="100">
+                </kendo-grid-column>
+                <kendo-grid-column field="pEmichartDocumentfilename" title="Upload EMI Chart File Name" width="100">
+                </kendo-grid-column>
+
+                <kendo-grid-command-column title="" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <!-- <div id="icon-edit" kendoGridEditCommand [primary]="true"></div> -->
+                        <div id="icon-delete" *ngIf="dataItem?.pTypeofLender != 'company'" kendoGridRemoveCommand></div>
+                    </ng-template>
+                </kendo-grid-command-column>
+            </kendo-grid>
+            <div class="col-md-6 col-xl-6 mt-5">
+                <label> Total Principle outstanding as on date - {{principlesum|mycurrencypipe}} <strong
+            class="sec-head-bold"></strong></label>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4 ml-1">
+        <div class="col-md-12 col-xl-12">
+            <div class="d-flex justify-content-end mt-4">
+                <a *ngIf="forClearButton" (click)="clearForm()" class="btn btn-g-icon mr-4 px-3 border-0">
+                    <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear
+                </a>
+                <a href="#" data-toggle="tab" (click)="moveToPreviousTab()" class="btn btn-g-icon px-3 border-0 mr-4" role="tab" aria-controls="hot" aria-selected="false">
+                    <img src="assets/images/icon-chewron-left-whitesolid.svg" width="20px" height="20px" class="mr-3" />Back
+                </a>
+
+                <!-- <a  (click)="saveApplicationELoanDetails()" data-toggle="tab"
+             class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" aria-selected="false">
+               <img src="assets/images/icon-chewron-right-whitesolid.svg" width="20px"
+                height="20px" class="mr-3" />Save & Continue
+            </a> -->
+
+                <button (click)="saveApplicationELoanDetails()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" [disabled]="isLoading">
+          <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading,'fa-check': !isLoading}"></i>
+          <span *ngIf="!isLoading">
+          </span>{{buttonName}}</button>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="modal fade top-100" id="balanceTransferModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content height-auto">
+            <div class="row">
+                <div class="col-10">
+                    <p class="bc-2">Confirm</p>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="col-12">
+                    <p>Do you want to proceed without any balance transfer?
+                    </p>
+                </div>
+                <div class="col-12 text-center">
+                    <button class="btn btn-success mar-5" (click)="forBalanceTransfer()">Yes</button>
+                    <button class="btn btn-danger mar-5" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="my-container">
+    <ng-template #customLoadingTemplateForFiView>
+
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplateForFiView">
+    </ngx-loading>
+
+</div>

@@ -1,0 +1,101 @@
+<div class="row">
+    <div class="col-6 ">
+        <p class="bc-2">Loans Configuration</p>
+    </div>
+    <div class="col-md-6 col-xl-6">
+        <a routerLink="/LoansMaster"> <span class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+      color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img
+                src="assets/images/icon-back-blue.svg" width="25px" height="25px">View</span></a>
+    </div>
+</div>
+<!-- <div class="row">
+    <div class="col-md-12 col-xl-12">
+        <a routerLink="/LoansMaster"> <span class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+      color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img
+                src="assets/images/icon-back-blue.svg" width="25px" height="25px">View</span></a>
+    </div>
+</div> -->
+<div class="section-container mt-3 pt-3">
+    <ul class="nav nav-tabs tip-top wiz-tab mt-4" id="myTab" role="tablist">
+        <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Loan Name and Code"> <a class="active" data-toggle="tab" href="#loanname" (click)="ShowTitle('Loan Creation')" role="tab" aria-controls="loanname" aria-selected="true">1</a> </li>
+        <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Loan Configuration"> <a class="" data-toggle="tab" href="#loanconfig" (click)="ShowTitle('Loan Configuration')" role="tab" aria-controls="loanconfig" aria-selected="false">2 </a> </li>
+        <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Installment Due Date"> <a class="" data-toggle="tab" href="#InstallmentdueDate" (click)="ShowTitle('Installment Due Date')" role="tab" aria-controls="Installmentduedate" aria-selected="false">3</a> </li>
+        <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Penal Interest"> <a class="" data-toggle="tab" href="#penalinterest" role="tab" (click)="ShowTitle('Penal Interest')" aria-controls="penalinterest" aria-selected="false">4</a> </li>
+        <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Identification Documents"> <a class="" data-toggle="tab" href="#mandatorykyc" (click)="ShowTitle('Identification Documents')" role="tab" aria-controls="cold" aria-selected="false">5</a> </li>
+        <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Referral Commission"> <a class="" data-toggle="tab" href="#refferral" (click)="ShowTitle('Referral Commission')" role="tab" aria-controls="cold" aria-selected="false">6</a> </li>
+    </ul>
+
+
+    <div class="btn-group quick-links ml-2">
+        <a class="btn btn-block dropdown-toggle mt-1 sm-dd" data-toggle="dropdown">{{selectedtype}}<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+
+            <li class="dropdown-item"><a (click)="testlinks('loanname','Loan Creation')">Loan Creation</a></li>
+            <li class="dropdown-item"><a (click)="testlinks('loanconfig','Loan Configuration')">Loan Configuration</a></li>
+            <li class="dropdown-item"><a (click)="testlinks('InstallmentdueDate','Installment Due Date')">Installment Due Date</a></li>
+            <li class="dropdown-item"><a (click)="testlinks('penalinterest','Penal Interest')">Penal Interest</a></li>
+            <li class="dropdown-item"><a (click)="testlinks('mandatorykyc','Identification Documents')">Identification Documents</a></li>
+            <li class="dropdown-item"><a (click)="testlinks('refferral','Referral Commission')">Referral Commission</a></li>
+
+        </ul>
+    </div>
+
+    <div *ngIf="LoannameShowHide" class="col-md-12 col-xl-12">
+        <div class="d-flex justify-content-end">
+            <ol class="breadcrumb mt-2 position-absolute" style="top:-41px;">
+                <li class="breadcrumb-item">{{Data?.Loantype}}</li>
+                <li class="breadcrumb-item">{{Data?.Loanname}}</li>
+                <li class="breadcrumb-item">{{Data?.LoannameCode}}</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- ======================================================================= tab nav end ============================================================================== -->
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade  active show " id="loanname" role="tabpanel" aria-labelledby="fresh-tab">
+            <app-loansnamecode></app-loansnamecode>
+        </div>
+        <div class="my-container">
+            <ng-template #customLoadingTemplate>
+                <div class="custom-class">
+                    <h3>
+                        Loading...
+                    </h3>
+
+                </div>
+            </ng-template>
+            <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+        </div>
+
+        <div class="tab-pane fade" id="loanconfig" role="tabpanel" aria-labelledby="hot-tab">
+
+            <app-loansconfiguration></app-loansconfiguration>
+
+        </div>
+
+        <!-- ==================================================================== tab content pannnel 2 end =================================================================== -->
+        <div class="tab-pane fade" id="InstallmentdueDate" role="tabpanel" aria-labelledby="hot-tab">
+            <app-loansinstallmentduedate></app-loansinstallmentduedate>
+        </div>
+
+        <!-- ==================================================================== tab content pannnel 3 end =================================================================== -->
+
+        <div class="tab-pane fade" id="penalinterest" role="tabpanel" aria-labelledby="warm-tab">
+            <app-loanspenalinterest></app-loanspenalinterest>
+        </div>
+
+        <!-- ==================================================================== tab content pannnel 3 end =================================================================== -->
+
+        <div class="tab-pane fade" id="mandatorykyc" role="tabpanel" aria-labelledby="cold-tab">
+            <app-loansidentificationdocuments></app-loansidentificationdocuments>
+        </div>
+        <!-- ==================================================================== tab content pannnel 4 end =================================================================== -->
+        <div class="tab-pane fade" id="refferral" role="tabpanel" aria-labelledby="cold-tab">
+            <app-loansreferralcommission></app-loansreferralcommission>
+            <!-- ==================================================================== tab content pannnel 5 end =================================================================== -->
+        </div>
+        <!-- =============================================================== tab-content-end ============================================================================ -->
+    </div>
+</div>

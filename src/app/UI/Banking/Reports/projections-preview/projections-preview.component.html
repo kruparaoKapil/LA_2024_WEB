@@ -1,0 +1,147 @@
+<div class="d-flex justify-content-end">
+  <ul class="temp-ul">
+    <li class="temp-ico">
+      <img src="assets/images/pdf-icon-blue.svg" width="18px" class="pt-5" title="pdf" style="cursor: pointer;"
+        kendo-button (click)="pdf.saveAs('Projection_Report.pdf')" />
+    </li>
+  </ul>
+</div>
+<kendo-pdf-export #pdf paperSize="A4" [landscape]="false" [allPages]="true" [repeatHeaders]="true" [scale]="0.5">
+  <div id="temp-box">
+
+    <div class="mt-2 border rounded shadow-sm bg-white">
+      <div class="row">
+        <div class="col-md-12">
+          <app-company-details></app-company-details>
+        </div>
+      </div>
+    </div>
+
+
+
+   <div class="container" style="margin: 30px">
+      <h5 class="mb-4 text-bold">PROJECTIONS</h5> 
+
+      <table class="table table-bordered table-striped" *ngIf="groupedData.length > 0">
+        <thead >
+          <tr   id="headerrrr">
+            <th>Product Name</th>
+            <th *ngFor="let m of nextMonths">{{ m }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of groupedData">
+            <td><b>{{ row.name }}</b></td>
+            <td *ngFor="let m of nextMonths">
+              {{ row.projections[m] || 0 }}
+            </td>
+          </tr> 
+
+    <!--  ADD THIS TOTAL ROW -->
+    <!-- <tr class="table-secondary">
+                        <td><b>Total</b></td>
+                        <td *ngFor="let m of nextMonths"><b>{{ totalRow[m] }}</b></td>
+                    </tr> -->
+    <!-- 🧮 TOTAL ROW -->
+     <tr class="bg-light fw-bold">
+            <td class="text-end"><b>Total</b></td>
+            <td *ngFor="let m of nextMonths" class="text-end">
+              <b>{{ totals[m] || 0 }}</b>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="groupedData.length === 0" class="alert alert-info mt-4">
+        No projection data found.
+      </div>
+    </div>  
+  </div>
+</kendo-pdf-export>
+
+
+<!-- 
+<style>
+  table {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  th {
+    text-align: center;
+  }
+
+  td {
+    text-align: right;
+  }
+
+  /* Remove alternating gray stripes */
+ /* .table-striped tbody tr:nth-of-type(odd) {
+  background-color: #ffffff !important;
+}  */
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #ffffff !important;
+} 
+
+</style> -->
+
+<style>
+  /* Editable row-like inputs */
+  .editable-cell {
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: right;
+    padding: 4px 6px;
+    background-color: transparent;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .editable-cell:focus {
+    border-bottom: 2px solid #007bff;
+    background-color: #f8f9fa;
+  }
+
+  /* Keep compact table layout */
+  .table td,
+  .table th {
+    vertical-align: middle;
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  /* Fix calendar picker position for <input type="month"> */
+  input[type="month"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    z-index: 5;
+  }
+
+  input[type="month"] {
+    position: relative;
+    padding-right: 30px;
+    /* space for icon */
+  }
+
+  /* Remove alternating gray stripes */
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #ffffff !important;
+  }
+
+  /* Remove alternating gray stripes */
+  .table-striped tbody tr:nth-of-type(even) {
+    background-color: #ffffff !important;
+  }
+
+  /* Make the whole table background white */
+  .table {
+    background-color: #ffffff !important;
+  }
+
+  #headerrrr {
+    background-color: white !important;
+
+  }
+</style>

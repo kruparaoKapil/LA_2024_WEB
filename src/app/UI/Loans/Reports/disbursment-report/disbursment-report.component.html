@@ -1,0 +1,224 @@
+<div class="row">
+    <div class="col-md-12 col-xl-12 mb-3 ">
+        <p class="bc-2">Disbursement Report</p>
+    </div>
+</div>
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+            <h3>
+            </h3>
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<div class="section-container">
+<form [formGroup]="DisbursmentReportsForm" autocomplete="off">
+    <div class="row">
+        <div class="col-xs-6 col-md-6 form-group">
+            <div class="d-flex">
+                <div class="col-md-6 col-xl-6 pl-0">
+                    <label>As on Month</label>
+                    <input type="text" class="form-control w-auto" formControlName="fromDate" placeholder="Date picker here" [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly (onShown)="onOpenCalendar($event)">
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-6 form-group">
+            <br>
+            <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 mt-2 border-0" data-toggle="tab" role="tab" (click)="GetDisbursedReportData()">
+                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                        width="20px"></span> {{savebutton}}
+            </a>
+        </div>
+    </div>
+</form>
+<div class="row">
+    <div class="col-md-6 col-xl-6 mt-2">
+        <div class=" shadow-sm bg-white p-2  ">
+            <kendo-grid [kendoGridBinding]="disbursedlist">
+
+                <kendo-grid-column title="Loan Disbursed">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.ptype}}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column title="Count">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.ploancount}}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column title="Value" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.ploanvalue | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+            </kendo-grid>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 col-lg-12 col-xl-12 p-0 mt-4">
+    <div class="form-group">
+        <div class="form-group">
+            <div class="form-check radio-btn form-check-inline mr-1  ">
+                <input class="form-check-input " checked type="radio" name="inlineRadioOptions1" id="inlineRadio2" value="Loan Type">
+                <label class="mt-1" for="inlineRadio2" (click)="LoantypeSelect('Loan Type')">Loan Type</label>
+            </div>
+            <div class="form-check radio-btn form-check-inline mr-2">
+                <input class="form-check-input radio-btn" type="radio" name="inlineRadioOptions1" id="inlineRadio3" value="Applicant Type">
+                <label class="mt-1" for="inlineRadio3" (click)="ApplicantTypeSelect('Applicant Type')">Applicant
+                    Type</label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mb-5" *ngIf="Loantype">
+    <div class="col-md-6 col-xl-6 mt-2">
+        <div class=" shadow-sm bg-white p-2   ">
+            <kendo-grid [kendoGridBinding]="loantypelist">
+
+                <!-- <kendo-grid-column title="Loan Type">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <a>{{dataItem.ptype}}</a>
+                    </ng-template>
+                </kendo-grid-column> -->
+
+                <kendo-grid-column title="Loan Type" field="ptype">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div (click)="LoanTypeData(dataItem)"><a class="text-blue font-weight-bold">{{dataItem.ptype}}</a></div>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column title="Count" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.ploancount | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column title="Value" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.ploanvalue | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+
+
+                <kendo-grid-column title="Avg Loan Value" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.ploanaveragevalue | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+            </kendo-grid>
+        </div>
+    </div>
+</div>
+<div class="row mb-5" *ngIf="ApplicantType">
+    <div class="col-md-6 col-xl-6 mt-2">
+        <div class="shadow-sm bg-white p-2">
+            <kendo-grid [kendoGridBinding]="applicanttypeslist">
+
+                <kendo-grid-column title="Applicant Type" field="ptype">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div (click)="ApplicantTypeData(dataItem)"><a class="text-blue font-weight-bold">{{dataItem.ptype}}</a></div>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column title="Count" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.ploancount | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column title="Value" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.ploanvalue | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+
+
+                <kendo-grid-column title="Avg Loan Value" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.ploanaveragevalue | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+            </kendo-grid>
+        </div>
+    </div>
+</div>
+<div class="row mb-5" *ngIf="LoanTypeGrid">
+    <div class="col-md-12 col-xl-12 mt-2">
+
+        <div class=" shadow-sm bg-white p-2 overflow-auto  ">
+            <!-- <div class="d-flex mt-3">
+                <h2 class="font-14 font-weight-bold mr-3 ">{{reportTitle}}</h2>
+            </div> -->
+            <kendo-grid [kendoGridBinding]="gridData" [pageable]="false" [sortable]="false" [groupable]="false" [reorderable]="true" [resizable]="true">
+                <ng-template kendoGridToolbarTemplate>
+                    <!-- <button kendoGridExcelCommand type="button" icon="file-excel" style="float:right;">Export to Excel</button>
+                    <button kendoGridPDFCommand icon="file-pdf" style="float:right;">Export to
+                                PDF</button> -->
+                    <!-- <div class="col-7 pr-0 pl-5 ml-4"> -->
+                    <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                        <li class="temp-ico ml-2">
+                            <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                        </li>
+                        <li class="temp-ico ml-2">
+                            <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                        </li>
+                        <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                    </ul>
+                    <!-- </div> -->
+                </ng-template>
+                <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+                <kendo-grid-column-group title="{{reportTitle}}" [headerClass]="{'kendo-g-center' : true}">
+                <kendo-grid-column field="pvchapplicationid" width="100" title="Application No.">
+                </kendo-grid-column>
+                <kendo-grid-column field="papplicantname" width="100" title="Applicant name">
+                </kendo-grid-column>
+                <kendo-grid-column field="pdisbursedamount" width="100" title="Disbursed loan amount	" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                </kendo-grid-column>
+                <!-- <kendo-grid-column field="pinstallmentintrest" width="100" title="Installment Interest">
+                </kendo-grid-column> -->
+                <kendo-grid-column field="ploanamount" width="100" title="Total Loan Value" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                </kendo-grid-column>
+                <kendo-grid-column field="ptenureofloan" width="100" title="Tenure">
+                </kendo-grid-column>
+                <!-- <kendo-grid-column field="ppaidamount" width="100" title="Paid">
+                </kendo-grid-column>
+                <kendo-grid-column field="pdueamount" width="100" title="Due">
+                </kendo-grid-column>
+                <kendo-grid-column field="ppenaltyamount" width="100" title="Penalty">
+                </kendo-grid-column>
+                <kendo-grid-column field="ppenaltypaidamount" width="100" title="Penalty Paid">
+                </kendo-grid-column>
+                <kendo-grid-column field="ppenaltydueamount" width="100" title="Penalty Due">
+                </kendo-grid-column> -->
+                <kendo-grid-column field="pstatus" width="100" title="Status">
+                </kendo-grid-column>
+                <kendo-grid-column field="psalesexecutive" width="100" title="Sales executive">
+                </kendo-grid-column>
+                <kendo-grid-column field="pcollectionexecutive" width="100" title="Collection Executive">
+                </kendo-grid-column>
+            </kendo-grid-column-group>
+                <kendo-grid-pdf fileName="Disbursment_Reports.pdf" [repeatHeaders]="true" [allPages]="true">
+                    <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm">
+                    </kendo-grid-pdf-margin>
+                </kendo-grid-pdf>
+                <kendo-grid-excel fileName="Disbursment_Reports.xlsx"></kendo-grid-excel>
+                <!-- <kendo-grid-column field="pvchapplicationid" width="100" title="Loan a/c No">
+             </kendo-grid-column>
+             <kendo-grid-column field="pvchapplicationid" width="100" title="Remarks">
+             </kendo-grid-column>
+             <kendo-grid-column field="pvchapplicationid" width="100" title="View related reports">
+             </kendo-grid-column> -->
+
+            </kendo-grid>
+        </div>
+    </div>
+</div>
+</div>

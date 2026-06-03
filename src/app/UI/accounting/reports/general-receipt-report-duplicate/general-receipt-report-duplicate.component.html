@@ -1,0 +1,221 @@
+<!-- <div class="col-md-12 col-xl-12 mt-5 text-center">
+    <p class="bc-2">{{receiptName}}</p>
+</div> -->
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<style>
+
+</style>
+<div class="col-md-12 mt-5 mb-4">
+    <div id="template">
+        <div class="d-flex justify-content-end mr-3">
+            <ul class="temp-ul">
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs(printFileName+'.pdf')" />
+                </li>
+                <!-- <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li> -->
+            </ul>
+
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <kendo-pdf-export #pdf paperSize="A4" margin="1cm" [allPages]="false" [repeatHeaders]="true" [landscape]="false" [scale]="0.6">
+                        <div id="temp-box">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="duplicatetxt">Duplicate</p>
+
+                                    <app-company-details></app-company-details>
+                                    <div class="report-head">
+                                        <p class="font-18 text-dark text-center m-0">
+                                            {{receiptName}} <span class="font-16" *ngIf="pGstno!==''">(GST NO :
+                                                {{pGstno}})</span>
+                                        </p>
+                                    </div>
+                                    <!-- <div class="temp-head" style="background:#25408e;">
+                                            <p class="font-14 text-dark text-center m-0" style="color:#fff !important;">
+                                                {{receiptName}}
+                                            </p>
+                                            <p *ngIf="pGstno!==''" class="font-14 text-dark text-center m-0" style="color:#fff !important;">
+                                                GST NO : {{pGstno}}
+                                            </p>
+                                        </div> -->
+                                </div>
+                            </div>
+                            <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+
+                                <div class="row">
+                                    <!-- <div class="col-md-6">
+                                        <span class="font-1 4text-left m-0 mr-4" style="font-size: 14px !important;
+              font-weight: bold !important;">Printed on :</span>
+                                        <label class="print-font"> {{todayDate}}
+                            </label>
+                                    </div> -->
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="bc-1 font-14 text-left m-0 mr-4">Receipt No : {{pReceiptId}}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="font-14 text-right m-0 font-weight-bold">Date : <label class="font-weight-normal">{{pReceiptdate}}</label></p>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mr-4 pt-2 font-weight-bold">Received With Thanks From {{pContactname}}
+                                        </p>
+                                        <p class="mr-4">Towards</p>
+                                    </div>
+                                    <div class="col-12">
+                                        <table class="table table-bordered receipt-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-left">S.no</th>
+                                                    <th class="">Particulars</th>
+                                                    <th class="text-right">Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let GrData of GeneralReceiptServiceData.pGeneralReceiptSubDetailsList; let x = index;">
+                                                    <td class="text-center" style="width: 10px;"><label>{{x+1}}</label>
+                                                    </td>
+                                                    <td><label class="font-weight-bold mr-5 w-50">{{GrData.pAccountname}}</label>
+                                                    </td>
+                                                    <td class="text-right"><label class="font-weight-bold">{{GrData.pLedgeramount | mycurrencypipe }}</label>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td class="text-center"><label class="font-weight-bold"></label>
+                                                    </td>
+                                                    <td class="text-right"><label class="font-weight-bold w-50">Total
+                                                        </label></td>
+                                                    <td class="text-right"><label class="font-weight-bold">{{totalParticularsRs | mycurrencypipe}}</label>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="m-0">
+                                            <label class="font-weight-bold col-md-3 pl-0 align-top">Amount In Words<span
+                                                    class="pull-right">: </span></label>
+                                            <label class="col-md-9 p-0 font-weight-normal">
+                                                Rupees
+                                                {{totalParticularsRs | numberToWords | titlecase}}
+                                                Only .
+                                            </label>
+                                        </p>
+                                        <p class="m-0">
+                                            <label class="font-weight-bold col-md-3 pl-0 align-top">Narration <span
+                                                    class="pull-right">: </span></label>
+                                            <label class="col-md-9 p-0 font-weight-normal">{{pNarration}}
+                                                .</label>
+                                        </p>
+                                        <p class="m-0">
+                                            <label class="font-weight-bold col-md-3 pl-0">
+                                                Mode of Receipt <span class="pull-right">: </span>
+                                            </label>
+                                            <label class="col-md-9 p-0 font-weight-normal">
+                                                {{pModeofreceipt}}<span *ngIf="pTypeofpayment=='CHEQUE'">
+                                                    (Cheque No :
+                                                    {{pReferenceorChequeNo}},Cheque Date :
+                                                    {{pChequedate}}, Bank Name : {{pbankname}})
+                                                </span>
+                                                <span *ngIf="pTypeofpayment!=='CHEQUE' && pTypeofpayment!==''">
+                                                    (Reference 
+                                                    No :
+                                                    {{pReferenceorChequeNo}}, Reference Date :
+                                                    {{pChequedate}}, Bank Name : {{pbankname}})
+                                                </span>.
+                                            </label>
+                                        </p>
+                                        <p class="m-0">
+                                            <span *ngIf="totalGstAmt!='0'">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">GST (Include)
+                                                    <span class="pull-right">: </span></label>
+                                            <label class="col-md-9 p-0 font-weight-normal">
+
+                                                    {{totalGstAmt | mycurrencypipe}}
+
+                                                </label>
+                                            </span>
+                                        </p>
+                                        <p class="m-0">
+                                            <span *ngIf="totalTdsAmt!='0'">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">TDS (Include)
+                                                    <span class="pull-right">: </span></label>
+                                            <label class="col-md-9 p-0 font-weight-normal">{{totalTdsAmt | mycurrencypipe}}
+                                                </label>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-md-4 col-sm-4" style="bottom:0px;">
+                                        <div class="temp-sign-box text-center">
+                                            <label class="font-14 m-0">Approved</label>
+                                            <p class="font-14 font-weight-bold text-dark mb-4">
+                                                (Approved By)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4">
+                                        <div class="temp-sign-box text-center">
+                                            <label class="font-14 m-0">Verified</label>
+                                            <p class="font-14 font-weight-bold text-dark mb-4">
+                                                (Verified By)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4">
+                                        <div class="temp-sign-box text-center">
+                                            <label class="font-14 m-0">{{pPosted}}</label>
+                                            <p class="font-14 font-weight-bold text-dark mb-4">
+                                                (Posted By)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </kendo-pdf-export>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<style>
+    .duplicatetxt{
+font-size: 20px;
+color: rgb(255 5 5);
+position: absolute;
+text-transform: uppercase;
+right: 30px;
+font-weight: bold;
+}
+</style>

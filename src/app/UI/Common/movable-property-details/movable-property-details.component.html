@@ -1,0 +1,126 @@
+
+
+      <form [formGroup]="movablePropertyDetailsForm" *ngIf="!showMovablePropertyDetails">
+            <div class="row">
+              <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                  <label id="pTypeofvehicle" title="Vehicle Type">Vehicle Type</label>
+                  <div class="input-group">
+                    <select class="form-control" formControlName="pTypeofvehicle" 
+                    [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pTypeofvehicle}">
+                        <option value="" ng-selected="selected">Select</option>
+                        <option>Commercial Vehicle</option>
+                        <option>Four Wheeler</option>
+                        <option>Tractor</option>
+                        <option>Two Wheeler</option>
+                    </select>
+                    <!-- <div class="input-group-append">
+                      <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" class="" width="20px" height="20px"></button>
+                    </div> -->
+                  </div>
+                  <div class="invalid-feedback-cst">
+                      <span
+                        *ngIf="securityConfigErrorMessage.pTypeofvehicle">{{securityConfigErrorMessage.pTypeofvehicle}}</span>
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                <div class="form-group mb-1">
+                  <label id="pVehicleownername" title="Vehicle Owner">Vehicle Owner</label>
+                  <input class="form-control" formControlName="pVehicleownername" type="text" value=""  maxlength="75" appCharactersonly 
+                  [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pVehicleownername}">
+                  <div class="invalid-feedback-cst">
+                      <span
+                        *ngIf="securityConfigErrorMessage.pVehicleownername">{{securityConfigErrorMessage.pVehicleownername}}</span>
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                <div class="form-group mb-1">
+                  <label id="pVehiclemodelandmake" title="Vehicle Model and Make">Vehicle Model and Make</label>
+                  <textarea class="form-control" style="height:32px" appUppercase appAlphanumeric  maxlength="30" formControlName="pVehiclemodelandmake"  [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pVehiclemodelandmake}"> </textarea>
+                  <div class="invalid-feedback-cst">
+                      <span
+                        *ngIf="securityConfigErrorMessage.pVehiclemodelandmake">{{securityConfigErrorMessage.pVehiclemodelandmake}}</span>
+                    </div>
+                </div>
+              </div>
+              <hr>
+              <div class="col-md-6 col-xl-4">
+                <div class="form-group mb-1">
+                  <label id="pRegistrationno" title="Registration Number">Registration Number</label>
+                  <input class="form-control" formControlName="pRegistrationno" type="text" appUppercase appAlphanumeric  maxlength="20" value="" [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pRegistrationno}">
+                  <div class="invalid-feedback-cst">
+                      <span
+                        *ngIf="securityConfigErrorMessage.pRegistrationno">{{securityConfigErrorMessage.pRegistrationno}}</span>
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                <div class="form-group mb-1">
+                  <label id="pEstimatedmarketvalue" title="Estimated Market Value">Estimated Market Value</label>
+                  <input class="form-control text-right" type="text" formControlName="pEstimatedmarketvalue" appRoundecimal="12@0"  maxlength="13" removeZero value=""  
+                  [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pEstimatedmarketvalue}">
+                  <div class="invalid-feedback-cst">
+                      <span
+                        *ngIf="securityConfigErrorMessage.pEstimatedmarketvalue">{{securityConfigErrorMessage.pEstimatedmarketvalue}}</span>
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-xl-4">
+                  <div class="form-group">
+                      <!-- [value]="imageResponse.name" -->
+                    <label id="pPropertydocpathname" 
+                    title="Upload Property Related document if any">Upload Property Related document if any</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" disabled
+                      [value]="movablePropertyFileResponse?.name"
+                      placeholder="" formControlName="pVehicledocpathname">
+                      <div class="input-group-append">
+                        <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()"> <img
+                            src="assets/images/icon-upload-blue.svg" width="18px" height="18px" class=""></button>
+                        <input id="fileMovableProperty" style="display: none" type="file"  (change)="uploadAndProgressMovableProperty($event, fileInput.files)" #fileInput>
+        
+                      </div>
+                    </div>
+          
+                  </div>
+              </div>
+              <div class="col-md-12 col-xl-12">
+                <div class="form-group mb-1">
+                  <div class="d-flex justify-content-end mt-4"> 
+                    <a  data-toggle="tab" class="btn btn-b-icon border-0 " role="tab" aria-controls="hot" (click)="addMovablePropertyDetails()" aria-selected="false">
+                    <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add</a> </div>
+                </div>
+              </div>
+          </div>
+            </form>
+              <hr *ngIf="!showMovablePropertyDetails">
+              <div class="row mt-4" *ngIf="!showMovablePropertyDetails">
+                  <div class="col-md-12 col-xl-12" >            
+                
+                    <p class="bc-2">Movable Property Details</p>  
+                    <kendo-grid [data]="movablePropertyGridData" [reorderable]="true" [resizable]="true" [sortable]="true"  (remove)="removeHandler($event)">
+                      <kendo-grid-column field="pTypeofvehicle" title="Vehicle Type" width="50">
+                      </kendo-grid-column>
+                      <kendo-grid-column field="pVehicleownername" title="Vehicle Owner" width="100">
+                      </kendo-grid-column>
+                      <kendo-grid-column field="pVehiclemodelandmake" title="Vehicle Model and Make" width="100">
+                        </kendo-grid-column>
+                      <kendo-grid-column field="pRegistrationno" width="100" title="Registration Number">
+                      </kendo-grid-column>
+                      <kendo-grid-column field="pEstimatedmarketvalue" title="Estimated Market Value" width="50" 
+                      [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                      </kendo-grid-column>
+                      <kendo-grid-column field="pVehicledocpathname" title="Upload File Name" width="100">
+                      </kendo-grid-column>               
+                      <kendo-grid-command-column title="" width="220">
+                        <ng-template kendoGridCellTemplate>
+                          <!-- <button kendoGridEditCommand>Edit</button> -->
+                          <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+                        </ng-template>
+                      </kendo-grid-command-column>
+                
+                    </kendo-grid>
+                  </div>
+              </div>

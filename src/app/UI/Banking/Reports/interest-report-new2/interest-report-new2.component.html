@@ -1,0 +1,181 @@
+<div class="row mt-5">
+    <div class="col-md-12 col-xl-12 asset-kendo">
+        <kendo-grid [kendoGridBinding]="prematuritylist" class="lendoAlign" [pageSize]="pageSize" [pageSize]="10"
+            [pageable]="{buttonCount: 2}" [sortable]="true" [resizable]="true" [scrollable]="true">
+
+            <ng-template kendoGridToolbarTemplate>
+                <div class="row mb-3" style="text-align:start;">
+
+                    <div class="col-12" style="text-align: end;">
+                        <ul class="temp-ul  pull-right">
+                            <li class="temp-ico ml-2">
+                                <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg "
+                                        title="pdf" width="20px"></a>
+                            </li>
+                            <li class="temp-ico ml-2">
+                                <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg "
+                                        title="excel" width="20px"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </ng-template>
+
+
+            <kendo-grid-column title="S.NO" width="50" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    {{ rowIndex + 1 }}
+                </ng-template>
+            </kendo-grid-column>
+
+
+                <kendo-grid-column field="pMembername" title="Member" width="110">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pDepositamount" title="FD Amount " class="kendo-center" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pDepositamount |currencypipewithdecimal }}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pDepositdate" title="Application Date" class="kendo-center" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pDepositdate | date: 'dd-MM-yyyy'}}
+                    </ng-template>
+                </kendo-grid-column>
+
+               
+
+                <kendo-grid-column field="pTenor" title="Tenure" width="100"></kendo-grid-column>
+
+                <kendo-grid-column field="pInterestrate" title="Interest Rate" class="kendo-center" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pInterestrate |currencypipewithdecimal }}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pTenor" title="Mode Of Interest" width="100"></kendo-grid-column>
+
+                <kendo-grid-column field="pTenor" title="Jan-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Feb-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Mar-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Apr-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="May-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Jun-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Juk-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Aug-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Sep-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Oct-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Nov-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Dec-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Grand Total" width="100"></kendo-grid-column>
+
+
+            <kendo-grid-pdf fileName="Interest Report.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true"
+                [landscape]="true" [scale]="0.4">
+                <kendo-grid-column>
+
+                    <ng-template kendoGridPDFTemplate>
+                        <div class="page-template">
+                            <div class="header  ">
+                                <h5>Interest Report</h5>
+                            </div>
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-pdf-margin top="0.5cm" left="0.5cm" right="0.5cm" bottom="0.5cm">
+                </kendo-grid-pdf-margin>
+
+                <kendo-grid-column title="S.NO" width="50" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        {{ rowIndex + 1 }}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pMembername" title="Member" width="110">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pDepositamount" title="FD Amount " class="kendo-center" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pDepositamount |currencypipewithdecimal }}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pDepositdate" title="Application Date" class="kendo-center" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pDepositdate | date: 'dd-MM-yyyy'}}
+                    </ng-template>
+                </kendo-grid-column>
+
+               
+
+                <kendo-grid-column field="pTenor" title="Tenure" width="100"></kendo-grid-column>
+
+                <kendo-grid-column field="pInterestrate" title="Interest Rate" class="kendo-center" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pInterestrate |currencypipewithdecimal }}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pTenor" title="Mode Of Interest" width="100"></kendo-grid-column>
+
+                <kendo-grid-column field="pTenor" title="Jan-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Feb-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Mar-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Apr-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="May-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Jun-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Juk-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Aug-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Sep-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Oct-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Nov-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Dec-24" width="100"></kendo-grid-column>
+                <kendo-grid-column field="pTenor" title="Grand Total" width="100"></kendo-grid-column>
+
+            </kendo-grid-pdf>
+
+            <!-- 999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 -->
+
+            <kendo-grid-excel fileName="Interest Report.xlsx" [fetchData]="allData">
+
+                <kendo-excelexport-column title="S.NO" width="80">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        {{ rowIndex + 1 }}
+                    </ng-template>
+                </kendo-excelexport-column>
+
+                <kendo-excelexport-column field="pMembername" title="Member" width="110">
+                </kendo-excelexport-column>
+
+                <kendo-excelexport-column field="pDepositamount" title="FD Amount " class="kendo-center" width="100"></kendo-excelexport-column>
+
+                <kendo-excelexport-column field="pDepositdate" title="Application Date" class="kendo-center" width="100"></kendo-excelexport-column>
+
+               
+
+                <kendo-excelexport-column field="pTenor" title="Tenure" width="100"></kendo-excelexport-column>
+
+                <kendo-excelexport-column field="pInterestrate" title="Interest Rate" class="kendo-center" width="100"></kendo-excelexport-column>
+
+                <kendo-excelexport-column field="pTenor" title="Mode Of Interest" width="100"></kendo-excelexport-column>
+
+                <kendo-excelexport-column field="pTenor" title="Jan-24" width="100"></kendo-excelexport-column>
+                <kendo-excelexport-column field="pTenor" title="Feb-24" width="100"></kendo-excelexport-column>
+                <kendo-excelexport-column field="pTenor" title="Mar-24" width="100"></kendo-excelexport-column>
+                <kendo-excelexport-column field="pTenor" title="Apr-24" width="100"></kendo-excelexport-column>
+                <kendo-excelexport-column field="pTenor" title="May-24" width="100"></kendo-excelexport-column>
+                <kendo-excelexport-column field="pTenor" title="Jun-24" width="100"></kendo-excelexport-column>
+                <kendo-excelexport-column field="pTenor" title="Juk-24" width="100"></kendo-excelexport-column>
+                <kendo-excelexport-column field="pTenor" title="Aug-24" width="100"></kendo-excelexport-column>
+                <kendo-excelexport-column field="pTenor" title="Sep-24" width="100"></kendo-excelexport-column>
+                <kendo-excelexport-column field="pTenor" title="Oct-24" width="100"></kendo-excelexport-column>
+                <kendo-excelexport-column field="pTenor" title="Nov-24" width="100"></kendo-excelexport-column>
+                <kendo-excelexport-column field="pTenor" title="Dec-24" width="100"></kendo-excelexport-column>
+                <kendo-excelexport-column field="pTenor" title="Grand Total" width="100"></kendo-excelexport-column>
+
+
+            </kendo-grid-excel>
+        </kendo-grid>
+    </div>
+</div>

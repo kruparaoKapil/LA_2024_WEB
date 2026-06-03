@@ -1,0 +1,98 @@
+<div class="row">
+    <!-- <div class="col-12 mt-5">
+        <p class="bc-2">A/C Type Name and Code</p>
+    </div> -->
+</div>
+<div class="my-container mt-5">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+            <h3>
+                Loading...
+            </h3>
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+</div>
+<form [formGroup]="Savingnamescodeform">
+    <div class="row mt-1">
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label id="pSavingAccountname" title="A/C Type Name">A/C Type Name</label>
+                <input appUppercase appCharactersonly maxlength="50" class="form-control" (change)="GenerateSavingAccConfigCode($event)" formControlName="pSavingAccountname" placeholder="Enter A/C Type Name" value="" [ngClass]="{ 'is-invalid': SavingNameandCodeErrorMessages.pSavingAccountname }"
+                    [attr.disabled]="SavingAccConfigNameDisable? '' : null" type="text">
+                <div class="invalid-feedback">
+                    <span *ngIf="SavingNameandCodeErrorMessages.pSavingAccountname">{{SavingNameandCodeErrorMessages?.pSavingAccountname}}</span>
+                </div>
+            </div>
+        </div>
+        <!--col-end-->
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label id="pSavingAccountcode" title="A/C Type Code">A/C Type Code</label>
+                <input appUppercase appAlphanumericcharsonly maxlength="25" class="form-control" type="text" style="text-transform: uppercase" (change)="CheckLoanCodeDuplicate()" formControlName="pSavingAccountcode" placeholder="Saving Account code" [ngClass]="{ 'is-invalid': SavingNameandCodeErrorMessages.pSavingAccountcode }"
+                    [attr.disabled]="SavingAccConfigcodeDisable? '' : null">
+                <div class="invalid-feedback">
+                    <span *ngIf="SavingNameandCodeErrorMessages.pSavingAccountcode">{{SavingNameandCodeErrorMessages?.pSavingAccountcode}}</span>
+                </div>
+                <small class="form-text clr-orange"></small>
+            </div>
+        </div>
+        <!--col-end-->
+        <hr class="light">
+        <!--col-end-->
+        <div class="col-md-6 col-xl-4">
+            <div class="row">
+                <div class="col-md-6 col-xl-6 m-0">
+                    <div class="form-group m-0">
+                        <label>Company Code</label>
+                    </div>
+                    <div class="form-group m-0">
+                        <label class="font-weight-bold text-grey">{{ccode}}</label>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-6 m-0">
+                    <div class="form-group m-0">
+                        <label>Branch Code</label>
+                    </div>
+                    <div class="form-group m-0">
+                        <label class="font-weight-bold border-0 text-grey">{{bcode}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--col-end-->
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label id="pSeries" title="Series">Series</label>
+                <input appNumbersonly (blur)="GenerateSeries($event)" maxlength="5" formControlName="pSeries" class="form-control" type="text" [ngClass]="{ 'is-invalid': SavingNameandCodeErrorMessages.pSeries }" [attr.disabled]="SeriesDisable? '' : null">
+                <div class="invalid-feedback">
+                    <span *ngIf="SavingNameandCodeErrorMessages.pSeries">{{SavingNameandCodeErrorMessages?.pSeries}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group m-0">
+                <label>A/C Type Name And Code</label>
+            </div>
+            <div class="form-group ">
+                <label class="font-weight-bold text-grey">{{accNameandCode}}</label>
+            </div>
+        </div>
+        <hr class="light">
+
+    </div>
+    <!--row-end-->
+
+    <!--row-end-->
+</form>
+<!--form-end-->
+<!--form-end-->
+
+<!--row-end-->
+<div class="d-flex justify-content-end mt-4">
+    <a *ngIf="ClearButtonHideShowInEdit" appButtonDoubleClick [debounceTime]="500" (debounceClick)="clearNameandCode()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+    <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="nexttabclick()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i> {{savebutton}}</a>
+</div>
+<!--buttons-end-->

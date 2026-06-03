@@ -1,0 +1,229 @@
+<form [formGroup]="ShareCapitalForm">
+    <!-- <div class="row">
+        <div class="col-12 mt-5 p-0">
+            <p class="bc-2 pl-3">Share Capital Configuration</p>
+        </div>
+    </div> -->
+    <div class="row mt-5">
+        <div class="col-md-6 col-xl-6">
+                <div class="border-box">
+            <div class="form-group">
+                <label id="pmembertypeid" title="Member Type">Member Type</label>
+                <ng-select title="Member Type" id="pmembertypeid" [items]="memberdetails" formControlName="pmembertypeid" bindLabel="pmembertype" bindValue="pmembertypeid" [multiple]=true placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom"
+                    [clearOnBackspace]=true [ngClass]="{ 'is-invalid': ShareCapitalValidationErrors.pmembertypeid }" (change)="MemberTypeChange($event);">
+                </ng-select>
+                <div class="invalid-feedback">
+                    <span *ngIf="ShareCapitalValidationErrors.pmembertypeid">{{ShareCapitalValidationErrors?.pmembertypeid}}</span>
+                </div>
+            </div>
+             <div class="form-group">
+                <label id="papplicanttype" title="Applicant Type">Applicant Type</label>
+                <ng-select title="Member Type" id="pApplicanttype" [items]="ApplicantTypes" formControlName="papplicanttype" bindLabel="pApplicanttype" bindValue="pApplicanttype" [multiple]=true placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom"
+                    [clearOnBackspace]=true [ngClass]="{ 'is-invalid': ShareCapitalValidationErrors.papplicanttype }" (change)="ApplicanttypeChange($event);">
+                </ng-select>
+                <div class="invalid-feedback">
+                    <span *ngIf="ShareCapitalValidationErrors.papplicanttype">{{ShareCapitalValidationErrors?.papplicanttype}}</span>
+                </div>
+            </div>
+             <div class="form-group">
+                <label id="pfacevalue" title="Face Value of Share">Face Value of Share</label>
+                <!-- <input class="form-control" type="text" value="10"> -->
+                <input class="form-control" formControlName="pfacevalue" type="text" appNumbersonly maxlength="6" appMycurrencyFormatter [ngClass]="{ 'is-invalid': ShareCapitalValidationErrors.pfacevalue }">
+                <div class="invalid-feedback">
+                    <span *ngIf="ShareCapitalValidationErrors.pfacevalue">{{ShareCapitalValidationErrors?.pfacevalue}}</span>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-6">
+            <div class="border-box">
+                <div class="form-group">
+                    <label class="sec-head-bold mt-2">Share Issue limit</label>
+                </div>
+                <div class="form-group d-flex">
+                    <label class="col-md-4 w-100 pl-0 pr-0" id="pminshares" title="Minimum">Minimum</label>
+                    <!-- <input type="text" class="form-control col-md-4 ml-2" value=""> -->
+                   
+                   <div class="col-md-8 p-0">
+                    <input appNumbersonly class="form-control" formControlName="pminshares" type="text" appMycurrencyFormatter maxlength="6" (keyup)="minShareChange($event)" placeholder="Minimum" value="" [ngClass]="{ 'is-invalid': ShareCapitalValidationErrors.pminshares }">
+                      <div class="invalid-feedback">
+                        <span *ngIf="ShareCapitalValidationErrors.pminshares">{{ShareCapitalValidationErrors?.pminshares}}</span>
+                    </div>
+                </div>
+                   
+                </div>
+              
+                <div class="form-group d-flex">
+                    <label class="col-md-4 pl-0 pr-0 w-100" id="pmaxshares" title="Maximum">Maximum</label>
+                    <!-- <input type="text" class="form-control col-md-4 ml-2" value=""> -->
+                    <div class="col-md-8 p-0">
+                    <input appNumbersonly class="form-control" (keyup)="maxShareChange($event)" formControlName="pmaxshares" (blur)="Checksharemultiples()" appMycurrencyFormatter type="text" maxlength="6" placeholder="Maximum" value="" [ngClass]="{ 'is-invalid': ShareCapitalValidationErrors.pmaxshares }">
+                    <div class="invalid-feedback">
+                        <span *ngIf="ShareCapitalValidationErrors.pmaxshares">{{ShareCapitalValidationErrors?.pmaxshares}}</span>
+                    </div>
+
+                    </div>
+                  
+                </div>
+
+                <div class="form-group d-flex">
+                    <label class="pl-0 pr-0 col-md-4 w-100" id="pmultipleshares" title="Shares will be issued in multiples of">Shares will be Issued in Multiples of</label>
+                    <!-- <input type="text" class="form-control ml-2 col-md-4" value=""> -->
+                    <div class="col-md-8 p-0">
+                    <input appNumbersonly class="form-control" formControlName="pmultipleshares" type="text" (blur)="Checksharemultiples()" appZero maxlength="3" placeholder="Shares will be issued in multiples of" value="" [ngClass]="{ 'is-invalid': ShareCapitalValidationErrors.pmultipleshares }">
+                    <div class="invalid-feedback">
+                        <span *ngIf="ShareCapitalValidationErrors.pmultipleshares">{{ShareCapitalValidationErrors?.pmultipleshares}}</span>
+                    </div>
+                </div>
+                </div>
+                <div class="col-md-12 p-0">
+                <div class="form-check form-check-inline col-md-8  p-0">
+                        <input class="form-check-input" type="checkbox" (change)="CheckShareMultiple($event.target.checked)" formControlName="pismultipleshares" name="inlineRadioOptions1" id="inlineRadio2" value="individual">
+                        <label class="mt-1" for="inlineRadio2">Not applicable</label>
+                    </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+
+    <div class="row mt-4" style="display: none">
+        <div class="col-md-4 col-xl-4">
+            <label class="mr-3 bc-2" id="pisdivedend" title="Is dividend applicable?">Is dividend applicable?</label>
+            <div class="material-switch pull-right">
+                <input id="dividend" name="dividend" formControlName="pisdivedend" (change)="CheckDividend($event)" type="checkbox"><label class="check-success" for="dividend"></label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2" *ngIf="ShowApplicant">
+        <div class="col-md-4 col-xl-4">
+            <div class="form-group">
+                <label id="pdivedendpayout" title="Face Value of Share">Face Value of Share</label>
+                <select class="form-control" placeholder="Face Value of Share" formControlName="pdivedendpayout" [ngClass]="{ 'is-invalid': ShareCapitalValidationErrors.pdivedendpayout }">
+                    <option value="Monthly">Monthly</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Half yearly">Half yearly</option>
+                    <option value="Yearly">Yearly</option>
+                </select>
+                <div class="invalid-feedback">
+                    <span *ngIf="ShareCapitalValidationErrors.pdivedendpayout">{{ShareCapitalValidationErrors?.pdivedendpayout}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+
+    <div class="row mt-2" style="display: none">
+        <div class="col-md-4 col-xl-4">
+            <label class="mr-3 bc-2">Are Shares Transferable Between Members?</label>
+            <div class="material-switch pull-right">
+                <input id="share-transferable" name="share-transferable" formControlName="psharetransfer" type="checkbox"><label class="check-success" for="share-transferable"></label>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- row end -->
+</form>
+    <div class="row">
+     <div class="col-md-12 col-xl-12">
+            <div class="d-flex justify-content-end mt-4 mb-3">
+        <a (click)="AddorUpdatedata()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">{{Buttonlabel}}</a>
+    </div>
+        </div>
+    </div>
+    <!-- row end -->
+
+    <div class="row mt-2">
+        <div class="col-md-12 col-xl-12 mt-4">
+
+            <!-- <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Applicant type</th>
+                            <th>Face Value of the Share</th>
+                            <th>Shares Issue Limit for a Member</th>
+                            <th>Share issue in multiples of</th>
+                            <th>Shares per transaction</th>
+                            <th>Dividend Release</th>
+                            <th>Shares Tranferable</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Individual</td>
+                            <td>100</td>
+                            <td>10 - 100</td>
+                            <td></td>
+                            <td>10</td>
+                            <td>Yearly</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Woman</td>
+                            <td>100</td>
+                            <td>10 - 100</td>
+                            <td></td>
+                            <td></td>
+                            <td>Yearly</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Senior Citizen</td>
+                            <td>100</td>
+                            <td>10 - 100</td>
+                            <td></td>
+                            <td>10</td>
+                            <td>Yearly</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table> -->
+            <kendo-grid [data]="ShareCapitalDetails" [height]="" [pageSize]="gridState.take" [skip]="gridState.skip" [sort]="gridState.sort" [pageable]="false" [sortable]="true" [resizable]="true" (edit)="editHandler($event)" (remove)="removeHandler($event)" [selectable]="selectableSettings"
+                width="100%">
+                 <kendo-grid-command-column title="" width="220">
+                    <ng-template kendoGridCellTemplate>
+
+                        <div id="icon-delete" kendoGridRemoveCommand disabled></div>
+                    </ng-template>
+                </kendo-grid-command-column>
+                <kendo-grid-column field="pmembertype" title="Member type"></kendo-grid-column>
+                <kendo-grid-column field="papplicanttype" title="Applicant Type"></kendo-grid-column>
+                <kendo-grid-column field="pfacevalue" title="Face Value of the Share">
+                 <ng-template kendoGridCellTemplate let-dataItem>
+                        <div>
+                            {{dataItem.pfacevalue | mycurrencypipe}} 
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column title="Shares Issue Limit for a Member">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div *ngIf="dataItem.pminshares !='' && dataItem.pmaxshares!=''">
+                            {{dataItem.pminshares | mycurrencypipe}} - {{dataItem.pmaxshares | mycurrencypipe}}
+                        </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pismultipleshares" title="Share Issue Not Applicable"></kendo-grid-column>
+                 <kendo-grid-column field="pmultipleshares" title="Shares will be Issued in Multiples of"></kendo-grid-column>
+                <!--<kendo-grid-column field="pdivedendpayout" title="Dividend Release"></kendo-grid-column>
+                <kendo-grid-column field="psharetransfer" title="Shares Tranferable"></kendo-grid-column> -->
+
+            </kendo-grid>
+
+        </div>
+    </div>
+    <!-- row end -->
+
+
+    <!-- row end -->
+
+<div class="d-flex justify-content-end mt-4">
+    <a class="btn btn-g-icon mr-4 px-3 border-0" appButtonDoubleClick [debounceTime]="500" (debounceClick)="clear()">
+        <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" /> Clear
+    </a>
+    <a appButtonDoubleClick [debounceTime]="500" (debounceClick)="saveshareconfigform()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false">
+        <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton, 'fa-check': !disablesavebutton}"></i> {{savebutton}}
+    </a>
+</div>

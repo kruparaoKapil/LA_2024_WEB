@@ -1,0 +1,171 @@
+<!-- <div class="row mt-4">
+
+  <div class="col">
+    <input type="search" (input)="SearchRecord($event.target.value)"
+      class="form-control border-left-0 border-top-0 shadow-none border-right-0 rounded-0 sb"
+      placeholder="Vignesh Kumar 1- 54-896543">
+  </div>
+
+  <div class="col-auto dropdown">
+    <button class="btn btn-sm sm-dd dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false">
+      Select action
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" href="#">Action</a>
+      <a class="dropdown-item" href="#">Another action</a>
+      <a class="dropdown-item" href="#">Something else here</a>
+    </div>
+  </div>
+
+</div> -->
+<!--row-end-->
+<!-- ======================================================================= tab nav end ============================================================================== -->
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<div class="row mt-2">
+    <div class="col-md-12 col-xl-12">
+        <kendo-grid [kendoGridBinding]="gridData" [pageSize]="10" [groupable]="true" [height]="700" [group]="groups" [resizable]="true" [reorderable]="true" [columnMenu]="{ filter: true }" [pageable]="{
+        buttonCount: 2
+      }" [sortable]="true">
+
+            <ng-template kendoGridToolbarTemplate>
+                <div class="row mt-4 mb-3 px-3 py-2">
+                    <div class="col-4 pl-0 mt-n1">
+                        <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="SearchRecord($event.target.value)" />
+                    </div>
+                    <div class="col-7 pr-0 pl-4 ml-4">
+                        <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                            <li class="temp-ico ml-2">
+                                <a kendoGridPDFCommand><img class="pt-1 pl-3" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                            </li>
+                            <li class="temp-ico ml-2">
+                                <a kendoGridExcelCommand><img class="pt-1" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                            </li>
+                            <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                        </ul>
+                    </div>
+                </div>
+
+            </ng-template>
+            <kendo-grid-column-group title="Verification" [headerClass]="{'kendo-g-center' : true}">
+                <kendo-grid-column field="pApplicantName" title="Appl. Name" width="200">
+                </kendo-grid-column>
+                <kendo-grid-column field="pbusinessentitycontactno" title="Contact No" width="100">
+                    <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                        <p class="bc-2">Total</p>
+                    </ng-template>
+
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoanAmount" title="Loan Amount" width="155" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pLoanAmount |mycurrencypipe }}
+                    </ng-template>
+                    <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                        <p class="bc-2 text-right">{{aggregates[field].sum | mycurrencypipe}}</p>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pdateofapplication" title="Date Of Application" width="175" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pdateofapplication }}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoantype" title="Loan Type" width="155">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoanName" title="Loan Name" width="155">
+                </kendo-grid-column>
+                <kendo-grid-column field="pvchapplicationid" title="Application No" width="175">
+                </kendo-grid-column>
+            </kendo-grid-column-group>
+            <kendo-grid-column field="pisteleverification" title="Tele Verif." width="150" [locked]="true">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    <a (click)="TeleVerif(dataItem,'Verified')" *ngIf="dataItem.pisteleverification==true" title="Verificaiton done"><i class="done"></i> Verified</a>
+                    <a (click)="TeleVerif(dataItem,'NotVerified')" *ngIf="dataItem.pisteleverification==false" title="Not yet done"><i class="notdone"></i> Not Verified</a>
+
+                </ng-template>
+
+            </kendo-grid-column>
+            <kendo-grid-column field="pisphysicalverification" title="Field Verif." width="150" [locked]="true">
+                <ng-template kendoGridCellTemplate let-dataItem>
+
+                    <a (click)="FieldVerif(dataItem,'Verified')" *ngIf="dataItem.pisphysicalverification==true" title="Verificaiton done"><i class="done"></i> Verified</a>
+                    <a (click)="FieldVerif(dataItem,'NotVerified')" *ngIf="dataItem.pisphysicalverification==false" title="Not yet done"><i class="notdone"></i> Not Verified</a>
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pisdocumentverified" title="Application Verif." width="150" [locked]="true">
+                <ng-template kendoGridCellTemplate let-dataItem>
+
+                    <a (click)="DocumentVerif(dataItem,'Verified')" *ngIf="dataItem.pisdocumentverified==true" title="Verificaiton done"><i class="done"></i> Verified</a>
+                    <a (click)="DocumentVerif(dataItem,'NotVerified')" *ngIf="dataItem.pisdocumentverified==false" title="Not yet done"><i class="notdone"></i> Not Verified</a>
+
+                </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-pdf fileName="Verification.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+                <ng-template kendoGridPDFTemplate>
+                    <div class="page-template">
+                        <div class="header bc-2 text-center">
+                            <h5> Verificaiton </h5>
+                        </div>
+                    </div>
+                </ng-template>
+                <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+                <kendo-grid-column field="pApplicantName" width="80" title="Appl. Name">
+                </kendo-grid-column>
+                <kendo-grid-column field="pbusinessentitycontactno" width="70" title="Contact No">
+                    <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                        <p class="bc-2">Total</p>
+                    </ng-template>
+                    <ng-template kendoGridFooterTemplate>
+                        <p class="bc-2">Grand Total</p>
+                    </ng-template>
+
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoanAmount" title="Loan Amount" width="80" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pLoanAmount |mycurrencypipe }}
+                    </ng-template>
+                    <ng-template kendoGridFooterTemplate>
+                        <p class="bc-2 text-center">{{loanamount | mycurrencypipe}}</p>
+
+                    </ng-template>
+                    <ng-template kendoGridGroupFooterTemplate let-aggregates let-field="field">
+                        <p class="bc-2 text-center">{{aggregates[field].sum | mycurrencypipe}}</p>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pdateofapplication" width="95" title="Date Of Application" [headerClass]="{'kendo-left': true}" class="kendo-center">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoantype" width="70" title="Loan Type">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoanName" width="70" title="Loan Name">
+                </kendo-grid-column>
+                <kendo-grid-column field="pvchapplicationid" width="130" title="Application No">
+                </kendo-grid-column>
+            </kendo-grid-pdf>
+            <kendo-grid-excel fileName="Verification.xlsx" [fetchData]="allData">
+                <kendo-excelexport-column-group title="Verificaiton" [headerCellOptions]="headerCells">
+                    <kendo-excelexport-column field="pApplicantName" title="Appl. Name">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pbusinessentitycontactno" title="Contact No">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pLoanAmount" title="Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pdateofapplication" title="Date Of Application">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pLoantype" title="Loan Type">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pLoanName" title="Loan Name">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pvchapplicationid" title="Application No">
+                    </kendo-excelexport-column>
+                </kendo-excelexport-column-group>
+            </kendo-grid-excel>
+        </kendo-grid>
+
+    </div>
+</div>

@@ -1,0 +1,48 @@
+<ul class="nav nav-tabs tip-top wiz-tab mt-5" id="myTab" role="tablist">
+  <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Televerification"> <a class="active" data-toggle="tab" href="#tele-verification" role="tab" aria-controls="hot" aria-selected="false">1</a> </li>
+  <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Field Investigation"> <a class="" data-toggle="tab" href="#field-invest" role="tab" aria-controls="fresh" aria-selected="true">2</a> </li>
+  <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Document Information"> <a class="" data-toggle="tab" href="#document-inform" role="tab" aria-controls="warm" aria-selected="false">3</a> </li>
+</ul>
+
+<div class="btn-group quick-links">
+  <a class="btn btn-block dropdown-toggle mt-1 sm-dd" data-toggle="dropdown" href="#">Quick links<span class="caret"></span></a>
+  <ul class="dropdown-menu w-100">
+    <li class="dropdown-item"><a >Televerification</a></li>
+    <li class="dropdown-item"><a >Field Investigation</a></li>
+    <li class="dropdown-item"><a >Document Information</a></li>
+  </ul>
+</div>
+
+<!-- ======================================================================= tab nav end ============================================================================== -->
+
+<div class="row">
+  <div class="col-md-12 col-xl-12">
+    <div class="d-flex justify-content-end">
+      <ol class="breadcrumb mt-2 position-absolute">
+        <li class="breadcrumb-item">Vignesh Kumar - <img src="images/smartphone-call.svg" class="mr-0 mt-n1" width="12" height="12"> 9999 9999 9999 </li>
+        <li class="breadcrumb-item">Vehicle Loan</li>
+        <li class="breadcrumb-item">2 Wheeler </li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- =========================Tab content start===================================== -->
+<div class="tab-content" id="myTabContent">
+  <!-- ============tele-verification start============== -->
+  <div class="tab-pane fade active show" id="tele-verification" role="tabpanel" aria-labelledby="hot-tab">
+    <app-tele-vrification></app-tele-vrification>
+  </div>
+  <!-- ============tele-verification end============== -->
+  <!-- ============field-invest start============== -->
+  <div class="tab-pane fade  " id="field-invest" role="tabpanel" aria-labelledby="fresh-tab">
+    <app-address-verification></app-address-verification>
+  </div>
+  <!-- ============field-invest end============== -->
+  <!-- ============document-inform-start============== -->
+  <div class="tab-pane fade" id="document-inform" role="tabpanel" aria-labelledby="warm-tab">
+    <app-document-verification></app-document-verification>
+  </div>
+  <!-- ============document-inform-end============== -->
+</div>
+<!-- =========================Tab content end===================================== -->

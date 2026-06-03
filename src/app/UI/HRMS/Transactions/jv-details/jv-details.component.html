@@ -1,0 +1,207 @@
+<div class="section-container">
+  <div class="row p-0">
+      <div class="col-xl-12 col-md-12">
+          <div class="section-content ">
+
+              <form [formGroup]="jvDetailsForm">
+
+                <div class="row mt-3">
+                  <!-- <div class="col-md-4 col-xl-4" >
+                    <div class="form-group">
+                      <label  title="Employee" id="employee" class="required-field">Employee</label>
+                      <ng-select title="Select Month"  [items]="employeesList"
+                        formControlName="employee" bindLabel="pEmployeeName" bindValue="pEmployeeName"
+                        placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                        [ngClass]="{ 'is-invalid':ErrorMessages['employee'] && jvDetailsForm.get('employee')?.invalid}" (change)="employeeChange($event)">
+                      </ng-select>
+                      <span style="color: red;" *ngIf="jvDetailsForm.get('employee')?.errors">
+                        {{ErrorMessages['employee']}}</span>
+                    </div>
+                  </div> -->
+                  <div class="col-md-4 col-xl-4" >
+                    <div class="form-group">
+                      <label  title="Year" id="year" class="required-field">Year</label>
+                      <ng-select title="Select Year"  [items]="yearsList"
+                        formControlName="year" bindLabel="pPeriodType" bindValue="pCalenderPeriodId"
+                        placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                        (change)="yearChange($event)" [ngClass]="{ 'is-invalid':ErrorMessages['year'] && jvDetailsForm.get('year')?.invalid}">
+                      </ng-select>
+                      <span style="color: red;" *ngIf="jvDetailsForm.get('year')?.errors">
+                        {{ErrorMessages['year']}}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xl-4" >
+                    <div class="form-group">
+                      <label  title="Month" id="month" class="required-field">Month</label>
+                      <ng-select title="Select Month"  [items]="monthsList"
+                        formControlName="month" bindLabel="pCalendarMonth" bindValue="pCalendarMonth"
+                        placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                        [ngClass]="{ 'is-invalid':ErrorMessages['month'] && jvDetailsForm.get('month')?.invalid}"
+                        (change)="monthChange($event)">
+                      </ng-select>
+                      <span style="color: red;" *ngIf="jvDetailsForm.get('month')?.errors">
+                        {{ErrorMessages['month']}}</span>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row mt-2">
+                  <div class="col-md-4 col-xl-4" >
+                    <div class="form-group">
+                      <label  title="Jv Type" id="jvtype" class="required-field">Jv Type</label>
+                      <ng-select title="Select Jv-Type"  [items]="jvTypesList"
+                        formControlName="jvtype" bindLabel="allowance_Name" bindValue="allowance_type_id"
+                        placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                        [ngClass]="{ 'is-invalid':ErrorMessages['jvtype'] && jvDetailsForm.get('jvtype')?.invalid}"
+                        (change)="jvtypeChange($event)">
+                      </ng-select>
+                      <span style="color: red;" *ngIf="jvDetailsForm.get('jvtype')?.errors">
+                        {{ErrorMessages['jvtype']}}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-xl-2">
+                    <div class="form-group mt-2">
+                      <br>
+                        <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="showJvDetails()">
+                            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                            <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                    width="20px"></span> Show
+                        </a>
+                    </div>
+                  </div>
+                </div>
+
+              </form>
+              <div>
+                <kendo-grid [kendoGridBinding]="jvDetailsList"
+                [pageSize]="10"
+                [pageable]="{buttonCount: 2}"
+                [reorderable]="true"  [sortable]="true" [resizable]="true">
+
+                <ng-template kendoGridToolbarTemplate>
+
+                  <div class="row pb-3 p-0">
+                    <div class="col-4 pl-0 mt-n1">
+                    </div>
+                    <div class="col-7 pr-0 pl-4">
+                      <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                        <li class="temp-ico ml-2">
+                          <a kendoGridPDFCommand>
+                            <img class="pt-2 pl-3" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                                 width="20px">
+                          </a>
+                        </li>
+                        <!-- <li class="temp-ico ml-2">
+                          <a kendoGridExcelCommand>
+                            <img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                                 width="20px">
+                          </a>
+                        </li> -->
+                      </ul>
+                    </div>
+                  </div>
+                </ng-template>
+
+               <kendo-grid-column-group title="Jv's List" [headerClass]="{'kendo-g-center' : true}">
+
+                 <kendo-grid-column field="particulars" width="80" title="Particulars" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                 <kendo-grid-column field="debit_amount" width="50" title="Debit Amount" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                  <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                    <span>{{dataItem.debit_amount | mycurrencypipe}}</span>
+                  </ng-template>
+                 </kendo-grid-column>
+
+                 <kendo-grid-column field="credit_amount" width="50" title="Credit Amount" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                  <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                    <span>{{dataItem.credit_amount | mycurrencypipe}}</span>
+                  </ng-template>
+                 </kendo-grid-column>
+
+                 <!-- <kendo-grid-column field="pEsiAmt" width="50" title="Esi Amount" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                  <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                    <span>{{dataItem.pEsiAmt | mycurrencypipe}}</span>
+                  </ng-template>
+                 </kendo-grid-column> -->
+
+                 <!-- <kendo-grid-column field="pPFAmt" width="50" title="Pf Amount" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                  <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                    <span>{{dataItem.pPFAmt | mycurrencypipe}}</span>
+                  </ng-template>
+                 </kendo-grid-column> -->
+
+                 <!-- <kendo-grid-column field="pProffTaxAmt" width="50" title="Professional Tax" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                  <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                    <span>{{dataItem.pProffTaxAmt | mycurrencypipe}}</span>
+                  </ng-template>
+                 </kendo-grid-column> -->
+
+              </kendo-grid-column-group>
+
+              <kendo-grid-pdf fileName="jvDetailsList.pdf" paperSize="A4"   [allPages]="true" [repeatHeaders]="true" [scale]="0.5" [margin]="0.5"
+                  [landscape]="true">
+                  <kendo-grid-pdf-margin top="4.5cm" left="0.5cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+                  <ng-template kendoGridPDFTemplate>
+                    <div class="page-template">
+                       <div class="header">
+                        <app-company-details></app-company-details>
+                        <div class="report-head mt-2">
+                          <p class="font-20 text-dark text-center m-0">
+                            <span class="text-capitalize">JV's Report for {{selectedjvDd}}</span>
+                          </p>
+                        </div>
+                       </div>
+                     </div>
+                     <div class="page-template">
+                      <div class="footer">
+                        <div class="row justify-content-center">
+                          <table>
+                            <thead>
+                              <th>Debit Amount Total : {{debitamount_Total}}</th>
+                              <th>Credit Amount Total : {{creditamount_Total}}</th>
+                            </thead>
+                          </table>
+                        </div>
+                      </div>
+                     </div>
+                  </ng-template>
+                  <kendo-grid-column field="particulars" width="50" title="Particulars" [headerClass]="{'kendo-g-center': true}"  class="kendo-center"></kendo-grid-column>
+
+                 <kendo-grid-column field="debit_amount" width="60" title="Debit Amount" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                  <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                    <span>{{dataItem.debit_amount | mycurrencypipe}}</span>
+                  </ng-template>
+                 </kendo-grid-column>
+
+                 <kendo-grid-column field="credit_amount" width="30" title="Credit Amount" [headerClass]="{'kendo-g-center': true}"  class="kendo-center">
+                  <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                    <span>{{dataItem.credit_amount | mycurrencypipe}}</span>
+                  </ng-template>
+                 </kendo-grid-column>
+
+                 
+
+              </kendo-grid-pdf>
+
+              </kendo-grid>
+              <div class="row mt-1 ml-1 mb-4">
+                <div class="col-md-12 col-xl-12">
+                  <div class="d-flex justify-content-end mt-4">
+      
+                    <a data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot"
+                      aria-selected="false" appButtonDoubleClick [debounceTime]="1000" (debounceClick)="clearDetails()"><img
+                        src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+
+                  <button appButtonDoubleClick [debounceTime]="500" (debounceClick)="saveJvDetails()"
+                class="btn btn-s-icon px-3 border-0">
+                <img src="assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px"> Save
+              </button>
+                  </div>
+                </div>
+            </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

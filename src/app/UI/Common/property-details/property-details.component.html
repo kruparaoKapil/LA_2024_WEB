@@ -1,0 +1,162 @@
+
+   <form [formGroup]="propertyDetailForm" *ngIf="!showPropertyDetails">
+        <div class="row">
+         
+          <div class="col-md-6 col-xl-4">         
+            <div class="form-group">
+                <label class="sec-head" id="pTypeofproperty" title="Type of immovable Property">Type of immovable Property</label>
+              <div class="input-group">
+                <select class="form-control" formControlName="pTypeofproperty" [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pTypeofproperty}">
+                    <option value="" ng-selected="selected">Select</option>
+                    <option>Flat</option>
+                    <option>House</option>
+                  <option>Plot</option>
+                </select>
+                <!-- <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" class="" width="20px" height="20px"></button>
+                </div> -->
+              </div>
+              <div class="invalid-feedback-cst">
+                  <span
+                    *ngIf="securityConfigErrorMessage.pTypeofproperty">{{securityConfigErrorMessage.pTypeofproperty}}</span>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="">
+              <label class="sec-head" id="pTitledeed" title="Title Deed">Title Deed:</label>
+            </div>
+            <div class="d-flex">
+              <div class="">
+                
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="pTitledeed" name="pTitledeed"
+                   id="securityleasehold" value="Leasehold">
+                  <label class="mt-1" for="securityleasehold" id=""> Leasehold </label>
+                </div>
+              </div>
+              <div class="">
+                <div class="form-check form-check-inline ">
+                  <input class="form-check-input" type="radio" name="pTitledeed" formControlName="pTitledeed" id="securityfreehold" value="Freehold">
+                  <label class="mt-1" for="securityfreehold"> Freehold </label>
+                </div>
+              </div>
+            </div>
+            <div class="invalid-feedback-cst">
+              <span
+                *ngIf="securityConfigErrorMessage.pTitledeed">{{securityConfigErrorMessage.pTitledeed}}</span>
+            </div>
+          </div>
+          <hr>
+          <div class="col-md-6 col-xl-4">
+              <div class="form-group mb-1">
+                  <label id="pDeeddate" title="Title Deed Date">Title Deed Date</label>
+                  <input type="text" class="form-control w-auto" readonly formControlName="pDeeddate" placeholder="Date picker here"
+                  [bsConfig]="pdateofestablishmentConfig" #dp="bsDatepicker" bsDatepicker placement="bottom"
+                    [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pDeeddate}" >
+                    <div class="invalid-feedback-cst">
+                        <span
+                          *ngIf="securityConfigErrorMessage.pDeeddate">{{securityConfigErrorMessage.pDeeddate}}</span>
+                      </div>
+                 
+                </div>
+        
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="form-group mb-1">
+              <label id="pPropertyownername" title="Property is in the name of">Property is in the name of</label>
+              <input class="form-control" type="text" value="" formControlName="pPropertyownername" appCharactersonly maxlength="75"
+              [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pPropertyownername}">
+              <div class="invalid-feedback-cst">
+                  <span
+                    *ngIf="securityConfigErrorMessage.pPropertyownername">{{securityConfigErrorMessage.pPropertyownername}}</span>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="form-group mb-1">
+              <label id="pAddressofproperty" title="Address of Property">Address of Property</label>
+              <textarea class="form-control" style="height:32px" formControlName="pAddressofproperty"  maxlength="300"
+              [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pAddressofproperty}"> </textarea>
+              <div class="invalid-feedback-cst">
+                  <span
+                    *ngIf="securityConfigErrorMessage.pAddressofproperty">{{securityConfigErrorMessage.pAddressofproperty}}</span>
+                </div>
+            </div>
+          </div>
+          <hr>
+          <div class="col-md-6 col-xl-4">
+            <div class="form-group mb-1">
+              <label id="pEstimatedmarketvalue" title="Estimated Market Value">Estimated Market Value</label>
+              <input class="form-control sec-head-bold text-right" formControlName="pEstimatedmarketvalue" type="text" value="" appRoundecimal="12@0" removeZero  maxlength="13"
+              [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pEstimatedmarketvalue}">
+              <div class="invalid-feedback-cst">
+                  <span
+                    *ngIf="securityConfigErrorMessage.pEstimatedmarketvalue">{{securityConfigErrorMessage.pEstimatedmarketvalue}}</span>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+              <div class="form-group">
+                  <!-- [value]="imageResponse.name" -->
+                <label id="pPropertydocpathname" 
+                title="Upload Property Related document if any">Upload Property Related document if any</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" disabled
+                  [value]="propertyDetailFileResponse?.name"
+                  placeholder="" formControlName="pPropertydocpathname" maxlength="300"> 
+                  <div class="input-group-append">
+                    <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()"> <img
+                        src="assets/images/icon-upload-blue.svg" width="18px" height="18px" class=""></button>
+                    <input id="filePropertyDetail" style="display: none" type="file"  (change)="uploadAndProgressPropertyDetail($event, fileInput.files)" #fileInput>
+    
+                  </div>
+                </div>
+      
+              </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="form-group mb-1">
+              <div class="d-flex justify-content-end mt-3 pt-3"> <a data-toggle="tab" class="btn btn-b-icon px-3 border-0 "
+                (click)="addPropertyDetails()" role="tab" aria-controls="hot" aria-selected="false">
+                <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add</a> </div>
+            </div>
+          </div>
+          </div>
+        </form>
+       
+          <hr *ngIf="!showPropertyDetails">
+         
+              <div class="row mt-4" *ngIf="!showPropertyDetails">
+                  <div class="col-md-12 col-xl-12" >            
+                
+                    <p class="bc-2">Property Details</p>      
+                    <kendo-grid [data]="propertyGridData" [reorderable]="true" [resizable]="true" [sortable]="true"  (remove)="removeHandler($event)">
+                      <kendo-grid-column field="pTypeofproperty" title="Type of immovable Property" width="50">
+                      </kendo-grid-column>
+                      <kendo-grid-column field="pTitledeed" title="Title Deed" width="100">
+                      </kendo-grid-column>
+                      <kendo-grid-column field="pDeeddate" title="Title Deed Date" width="100">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pDeeddate | date: 'dd/MM/yyyy'}}
+                          </ng-template>
+                        </kendo-grid-column>
+                      <kendo-grid-column field="pPropertyownername" width="100" title="Property is in the name of">
+                      </kendo-grid-column>
+                      <kendo-grid-column field="pAddressofproperty" width="100" title="Address of Property">
+                      </kendo-grid-column>
+                      <kendo-grid-column field="pEstimatedmarketvalue" title="Estimated Market Value" width="50"
+                      [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                      </kendo-grid-column>
+                      <kendo-grid-column field="pPropertydocpathname" title="Upload File Name" width="100">
+                      </kendo-grid-column>
+                      <kendo-grid-command-column title="" width="220">
+                        <ng-template kendoGridCellTemplate>
+                          <!-- <button kendoGridEditCommand>Edit</button> -->
+                          <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+                        </ng-template>
+                      </kendo-grid-command-column>
+                
+                    </kendo-grid>
+                  </div>
+              </div>  

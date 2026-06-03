@@ -1,0 +1,795 @@
+<div class="row">
+    <!-- <div class="col-12 p-0" hidden>
+    <p class="bc-2 pl-3">Recurring Deposit Configuration</p>
+  </div> -->
+</div>
+<form [formGroup]="Rdconfigurationform">
+    <div class="row mt-5">
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label id="pMembertypeid" title="Member Type">Member Type</label>
+                <!-- <select class="form-control" formControlName="pMembertypeid" (change)="MemberTypeChange($event)">
+          <option value="" disabled>Select</option>
+          <option value="0">All</option>
+          <option *ngFor="let type of MembertypeDetails;trackBy: trackByFn;" [value]="type.pmembertypeid">
+            {{type.pmembertype}}</option>
+        </select> -->
+                <ng-select title="Member Type" id="pMembertypeid" [items]="MembertypeDetails" formControlName="pMembertypeid" bindLabel="pmembertype" [ngModelOptions]="{standalone: true}" [(ngModel)]="pMembertypeid" bindValue="pmembertypeid" [multiple]=true placeholder="Select"
+                    [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': (memberTypeError == true) }" (change)="MemberTypeChange($event);">
+                </ng-select>
+                <div class="invalid-feedback">
+                    <span *ngIf="memberTypeError">Member Type required</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label id="pApplicanttype" title="Applicant Type">Applicant Type</label>
+                <!-- <select class="form-control" formControlName="pApplicanttype">
+          <option value="" disabled>Select</option>
+          <option value="All">All</option>
+          <option *ngFor="let type of ApplicantTypes;trackBy: trackByFn;" [value]="type.pApplicanttype">
+            {{type.pApplicanttype}}</option>
+        </select> -->
+                <ng-select title="Member Type" id="pApplicanttype" [items]="ApplicantTypes" [ngModelOptions]="{standalone: true}" [(ngModel)]="pApplicanttype" bindLabel="pApplicanttype" bindValue="pApplicanttype" formControlName="pApplicanttype" [multiple]=true placeholder="Select"
+                    [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true [ngClass]="{ 'is-invalid': (applicantTypeError == true) }" (change)="ApplicanttypeChange($event);">
+                </ng-select>
+                <div class="invalid-feedback">
+                    <span *ngIf="applicantTypeError">Applicant Type required</span>
+                </div>
+            </div>
+        </div>
+        <hr class="light">
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-xl-12">
+            <label class="font-weight-bold">Interest Payout</label>
+        </div>
+        <div class="col-md-4 col-xl-4">
+            <div class="form-group">
+                <div class="form-check form-check-inline mr-5 " disabled>
+                    <input class="form-check-input" type="checkbox" name="" id="" value="" (change)="forInterestPayout($event)" checked disabled>
+                    <label class="mt-1" for="inlineRadio2">On Maturity</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-lg-12 col-xl-12">
+            <div class="form-group">
+                <div class="form-check form-check-inline mr-5 radio-btn">
+                    <input class="form-check-input radio-btn" type="radio" formControlName="forType" (change)="interestratechecked($event)" name="forType" id="inlineRadio6" value="Interest rate" [checked]="showupdatetable ? false : true ">
+                    <label class="mt-1" for="inlineRadio6"> Interest Rate </label>
+                </div>
+                <div class="form-check form-check-inline mr-5 radio-btn">
+                    <input class="form-check-input radio-btn" type="radio" formControlName="forType" (change)="updatetablechecked($event)" name="forType" id="inlineRadio5" value="TABLE">
+                    <label class="mt-1" for="inlineRadio5">Update Table</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-xl-12">
+            <div *ngIf="showupdatetable" class="update-table">
+                <div formGroupName="lstRdConfigartionDetails" class="row">
+                    <div class="col-md-6 col-xl-6">
+                        <div class="border-box h-100 ">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Recurring Deposit Table</label>
+                            </div>
+                            <div class="row">
+                                <!--col-end-->
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Total Tenure</label>
+                                        <div class="input-group col-6  pl-0">
+                                            <input maxlength="3" class="form-control text-right" type="text" formControlName="pTenure" removeZero appNumbersonly [ngClass]="{ 'is-invalid': (globalTensureFlag == false) }" (keyup)="TenureAmount($event)">
+                                            <div class="input-group-append rounded-right rounded-0">
+                                                <select (change)="onModeChange($event)" [ngClass]="{ 'is-invalid': (globalTensureModeFlag == false) }" id="" class="form-control btn-lg-icon" formControlName="pTenuremode">
+                          <option disabled class="" value="">select</option>
+                          <option class="" value="Days">Days</option>
+                          <option class="" value="Months">Months</option>
+                          <option class="" value="Years">Years</option>
+                        </select>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex col-6 p-0">
+                                            <div class="invalid-feedback col-7">
+                                                <span *ngIf="!globalTensureFlag">Total Tenure Required </span>
+                                            </div>
+                                            <div class="invalid-feedback col-6">
+                                                <span ssclass="text-danger" *ngIf="!globalTensureModeFlag">Select Mode </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Pay-In Denomination</label>
+                                        <div class="input-group">
+                                            <input class="form-control text-right" id="payIn" maxlength="9" type="text" formControlName="pPayindenomination" removeZero appNumbersonly [ngClass]="{ 'is-invalid': (globalPayinFlag == false) }" (keyup)="Payindenomination($event)">
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="!globalPayinFlag">Pay-In Denomination Required </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- zero not aloowing in interest amount :bug no(537) -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Interest Amount</label>
+                                        <input maxlength="9" [ngClass]="{ 'is-invalid': (globalInterestFlag == false) }" class="form-control text-right" type="text" formControlName="pInterestamount" appNumbersonly removeZero appDecimalwithcurrencyformat (keyup)="Intrestamount($event)">
+                                        <div class="invalid-feedback">
+                                            <span *ngIf="!globalInterestFlag">Interest Amount Required </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Deposit Amount</label>
+                                        <input maxlength="17" class="form-control text-right" type="text" formControlName="pDepositamount" readonly removeZero>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Maturity Amount</label>
+                                        <input maxlength="17" class="form-control text-right" type="text" formControlName="pMaturityamount" readonly removeZero>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-12">
+                        <div class="border">
+                            <div class="col-md-12">
+                                <div>
+                                    <div class="row pt-2 pb-3">
+                                        <div class="col-md-6 col-xl-6">
+                                            <div class="form-group">
+                                                <div class="material-switch">
+                                                    <span class="bc-2 mb-2 mr-3 text-decoration-none"> Is Referral Commission Payable?</span>
+                                                    <input id="Referral-fd" name="pIslatefeepayble" formControlName="pIsreferralcommissionapplicable" type="checkbox" data-toggle="collapse" (change)="notApplicable($event)">
+                                                    <label for="Referral-fd" class="badge-success" data-toggle="collapse"></label>
+                                                </div>
+                                            </div>
+                                            <!-- <a class="bc-2 mb-2 text-decoration-none"> Is Referral Commission Payable?</a> -->
+                                        </div>
+                                        <!-- <div class="col-md-4 col-xl-4">
+                          <div class="material-switch">
+                            <input id="Referral-fd" formControlName="pIsreferralcommissionapplicable" type="checkbox"
+                              (change)="notApplicable($event)">
+                            <label for="Referral-fd" class="badge-success"></label>
+                          </div>
+                        </div> -->
+                                    </div>
+
+
+                                    <div class="row" *ngIf="showcommissionpayout">
+                                        <div class="col-md-6 col-xl-4">
+                                            <label>Commission Payout:</label>
+                                            <div class="form-group">
+                                                <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                                                    <input class="form-check-input" type="radio" (change)="onCommissionChange($event)" name="pReferralcommissiontype" id="fixed" value="fixed" formControlName="pReferralcommissiontype">
+                                                    <label class="mt-1" for="fixed"> Fixed </label>
+                                                </div>
+                                                <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                                                    <input class="form-check-input" type="radio" name="pReferralcommissiontype" id="percentage" value="percentage" formControlName="pReferralcommissiontype" (change)="onCommissionChange($event)">
+                                                    <label class="mt-1" for="percentage"> Percentage </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="showcommissionpayout">
+                                        <div class="col-md-6 col-xl-4">
+                                            <div class="form-group">
+                                                <label class="mt-1" for="inlineRadio2" title="Fixed Amount/Percentage">Fixed Amount/Percentage </label>
+                                                <input *ngIf="forFixed" appMycurrencyFormatter maxlength="17" appNumbersonly removeZero class="form-control text-right" formControlName="pCommissionValue" name="pCommissionValue" type="text" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pCommissionValue }"
+                                                    (keyup)="CommissionValue_change($event)">
+                                                <input *ngIf="forPercentage" appRoundecimal="2@2" removeZero class="form-control" formControlName="pCommissionValue" name="pCommissionValue" type="text" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pCommissionValue }" (keyup)="CommissionValue_change($event)">
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="AccountConfigErrorMessages.pCommissionValue">{{AccountConfigErrorMessages.pCommissionValue}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1" *ngIf="showcommissionpayout">
+                                        <div class="col-md-6 col-xl-4">
+                                            <div class="form-group">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="row pt-3 pb-3">
+                                        <div class="col-md-6 col-xl-6">
+                                            <div class="form-group">
+                                                <div class="material-switch">
+                                                    <span class="bc-2 mb-2 mr-3 text-decoration-none"> Is Penalty Applicable?</span>
+                                                    <input id="Penalty-fd" name="pIspenalty" formControlName="pIspenaltyapplicable" type="checkbox" data-toggle="collapse" (change)="notApplicablePenalty($event)">
+                                                    <label for="Penalty-fd" class="badge-success" data-toggle="collapse"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row" *ngIf="showpenalty">
+                                        <div class="col-md-6 col-xl-4">
+                                            <label class="">Penalty Type:</label>
+                                            <div class="form-group">
+                                                <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                                                    <input class="form-check-input" type="radio" (change)="onPenaltyChange($event)" name="pPenaltytype" id="Penaltyfixed" value="fixed" formControlName="pPenaltytype">
+                                                    <label class="mt-1" for="Penaltyfixed"> Fixed </label>
+                                                </div>
+                                                <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                                                    <input class="form-check-input" type="radio" name="pPenaltytype" id="Penaltypercentage" value="percentage" formControlName="pPenaltytype" (change)="onPenaltyChange($event)">
+                                                    <label class="mt-1" for="Penaltypercentage"> Percentage </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="showpenalty">
+                                        <div class="col-md-6 col-xl-4">
+                                            <div class="form-group">
+                                                <label class="mt-1" for="inlineRadio2">Fixed Amount/Percentage </label>
+                                                <input *ngIf="forPenaltyFixed" appMycurrencyFormatter maxlength="17" appNumbersonly removeZero class="form-control text-right" formControlName="pPenaltyvalue" name="pPenaltyvalue" type="text" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pPenaltyvalue }"
+                                                    (keyup)="PenaltyValue_change($event)">
+                                                <input *ngIf="forPenaltyPercentage" appRoundecimal="2@2" removeZero class="form-control" (keyup)="PenaltyValue_change($event)" formControlName="pPenaltyvalue" name="pPenaltyvalue" type="text" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pPenaltyvalue }">
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="AccountConfigErrorMessages.pPenaltyvalue">{{AccountConfigErrorMessages.pPenaltyvalue}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <a (click)="forClear()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" class="mr-3" width="20px" height="20px">Clear</a>
+                            <a (click)="addDataToTable()" class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-3">Add</a>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-md-12 col-xl-12 mt-4">
+            <kendo-grid [data]="DepositGridData"  [groupable]="true" 
+            [group]="groups" [selectedKeys]="mySelection" [pageSize]="10"  [pageable]="{buttonCount: 2}"
+            [reorderable]="true" [resizable]="true" [columnMenu]="{ filter: true }" [pageable]="true"
+            [sortable]="true"
+         (edit)="editHandler($event,'deposite')" (remove)="removeHandler($event,'deposite')">
+              <kendo-grid-column field="pMembertype" title="Member Type" width="150">
+              </kendo-grid-column>
+              <kendo-grid-column field="pApplicanttype" title="Applicant Type" width="150">
+              </kendo-grid-column>
+              <kendo-grid-column field="pTenure" title="Tenure" width="150">
+              </kendo-grid-column>
+              <kendo-grid-column field="pPayindenomination" title="Pay-in Denomination" width="150">
+              </kendo-grid-column>
+              <kendo-grid-column field="pInterestamount" title="Interest Amount" width="150">
+              </kendo-grid-column>
+              <kendo-grid-column field="pDepositamount" title="Deposit Amount" width="150">
+              </kendo-grid-column>
+              <kendo-grid-column field="pMaturityamount" title="Maturity Amount" width="150"></kendo-grid-column>
+              <kendo-grid-command-column title="" width="100">
+                <ng-template kendoGridCellTemplate>
+                  <div id="icon-remove" kendoGridRemoveCommand></div>
+                </ng-template>
+              </kendo-grid-command-column>
+            </kendo-grid>
+          </div> -->
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div formGroupName="lstRdConfigartionDetails" class="col-md-12 col-xl-12">
+            <div *ngIf="showInterestRate" class="interest-rate">
+                <div class="row">
+                    <div class="col-md-6 col-xl-6">
+                        <div class="border-box h-100 ">
+
+                            <div class="form-group">
+                                <label class="font-weight-bold"> Installment Amount and Investment Period </label>
+                            </div>
+                            <div class="row pr-2">
+                                <!--col-end-->
+                                <div class="col-md-12 col-xl-6  ">
+                                    <div class="form-group">
+                                        <label>Min Installment Amount</label>
+                                        <input maxlength="17" class="form-control text-right" type="text" [ngClass]="{ 'is-invalid': ((globalMinAmountFlag == false || validationformin)) }" appNumbersonly removeZero (keyup)="minAmountChange($event)" formControlName="pMininstalmentamount">
+                                        <div class="invalid-feedback" *ngIf="!globalMinAmountFlag">
+                                            <!-- <span class="text-danger"> -->
+                                            Min Installment Amount Required
+                                            <!-- </span> -->
+                                        </div>
+                                        <div class="invalid-feedback" *ngIf="validationformin">
+                                            <!-- <span class="text-danger"> -->
+                                            Minimum Amount should be less than are equal to Maximum Amount
+                                            <!-- </span> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--col-end-->
+                                <div class="col-md-12 col-xl-6 ">
+                                    <div class="form-group">
+                                        <label>Max Installment Amount</label>
+                                        <input maxlength="17" class="form-control  text-right" [ngClass]="{ 'is-invalid': (globalMaxAmountFlag == false) }" type="text" appNumbersonly (keyup)="mixAmountChange($event)" removeZero (change)="MultpleMaxAmountChange($event)" formControlName="pMaxinstalmentamount">
+                                        <small class="form-text clr-orange"></small>
+                                        <div class="invalid-feedback" *ngIf="!globalMaxAmountFlag">
+                                            <!-- <span class="text-danger"> -->
+                                            Max Installment Amount Required
+                                            <!-- </span> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-xl-6 ">
+                                    <div class="form-group">
+                                        <div class="form-check form-check-inline mr-5">
+                                            <input class="form-check-input" type="checkbox" (change)="multipesof($event)" id="option2" [checked]="showmultipesof ? true : false ">
+                                            <label class="pt-2" id="pMultiplesofamount" title="Multiples Of">Multiples Of</label>
+                                        </div>
+                                        <div *ngIf="showmultipesof">
+                                            <input maxlength="17" class="form-control text-right" removeZero appNumbersonly (keyup)="Multiplesofchanges($event)" type="text" formControlName="pMultiplesofamount" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pMultiplesofamount }">
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="AccountConfigErrorMessages.pMultiplesofamount">{{AccountConfigErrorMessages.pMultiplesofamount}}</span>
+                                            </div>
+                                            <!-- <input type="text" class="form-control text-right pl-4" (change)="Multiplesofchanges($event)"   appNumbersonly formControlName="pMultiplesofamount"> -->
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-12 col-xl-6 ">
+                                    <div class="form-group">
+                                        <label>Installment Pay-In</label>
+                                        <!-- <select [ngClass]="{ 'is-invalid': (globalInstallmentFlag == false) }" (change)="changeLoanInstallments($event)" class="form-control" formControlName="pInstalmentpayin">
+                      <option value="" disabled>Select</option>
+                      <option *ngFor="let type of Interestpayouts;trackBy: trackByFn;" [value]="type.pLoanpayin">
+                        {{type.pLoanpayin}}</option>
+                    </select> -->
+                                        <ng-select title="Installment Pay-In" id="pInstalmentpayin" [items]="Interestpayouts" formControlName="pInstalmentpayin" bindLabel="pLoanpayin" bindValue="pLoanpayin" [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                            [clearOnBackspace]=true (change)="changeLoanInstallments($event)" [ngClass]="{ 'is-invalid': (globalInstallmentFlag == false) }">
+                                        </ng-select>
+                                        <div class="invalid-feedback">
+                                            <span ssclass="text-danger" *ngIf="!globalInstallmentFlag">Select Pay-In </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class=""> Investment Period From </label>
+                            </div>
+                            <div class="row pl-0">
+                                <!--col-end-->
+                                <div class="d-flex">
+                                    <div class="col-md-4 col-xl-4 ">
+                                        <div class="input-group">
+                                            <input class="form-control" maxlength="3" type="text" value="" formControlName="pfromnoofyears" [ngClass]="{ 'is-invalid': (investPeriodFromFlag == false) }" (keyup)="InvestmentPeriodfromChange($event)" (change)="Investmentfrom($event)" appNumbersonly>
+                                            <div class="input-group-append">
+                                                <label class="w-auto btn-lg-icon  pt-1 pl-1 pr-1 h-100 rounded-right ">Years</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-xl-4 ">
+                                        <div class="input-group">
+                                            <input class="form-control" maxlength="3" type="text" value="" formControlName="pfromnoofmonths" [ngClass]="{ 'is-invalid': (investPeriodFromFlag == false) }" (keyup)="InvestmentPeriodfromChange($event)" (change)="Investmentfrom($event)" appNumbersonly>
+                                            <div class="input-group-append">
+                                                <label class="w-auto btn-lg-icon  pt-1 pl-1 pr-1 h-100 rounded-right ">Months</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-xl-4 ">
+                                        <div class="input-group">
+                                            <input class="form-control" maxlength="3" type="text" value="" formControlName="pfromnoofdays" [ngClass]="{ 'is-invalid': (investPeriodFromFlag == false) }" (keyup)="InvestmentPeriodfromChange($event)" (change)="Investmentfrom($event)" appNumbersonly>
+                                            <div class="input-group-append">
+                                                <label class="w-auto btn-lg-icon  pt-1 pl-1 pr-1 h-100 rounded-right ">Days</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--col-end-->
+                                </div>
+                            </div>
+                            <div class="invalid-feedback">
+                                <span *ngIf="!investPeriodFromFlag">Investment Period From Required </span>
+                            </div>
+                            <hr class="light">
+                            <div class="form-group ">
+                                <label class=""> Investment Period To </label>
+                            </div>
+                            <div class="row pl-0">
+                                <!--col-end-->
+                                <div class="d-flex">
+                                    <div class="col-md-4 col-xl-4 ">
+                                        <div class="input-group">
+                                            <input class="form-control" maxlength="3" type="text" value="" formControlName="ptonoofyears" appNumbersonly [ngClass]="{ 'is-invalid': (investPeriodToFlag == false) }" (keyup)="InvestmentPeriodToChange($event)" (change)="Investto()">
+                                            <div class="input-group-append">
+                                                <label class="w-auto btn-lg-icon  pt-1 pl-1 pr-1 h-100 rounded-right ">Years</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-xl-4 ">
+                                        <div class="input-group">
+                                            <input class="form-control" maxlength="3" type="text" value="" formControlName="ptonoofmonths" appNumbersonly [ngClass]="{ 'is-invalid': (investPeriodToFlag == false) }" (keyup)="InvestmentPeriodToChange($event)" (change)="Investto()">
+                                            <div class="input-group-append">
+                                                <label class="w-auto btn-lg-icon  pt-1 pl-1 pr-1 h-100 rounded-right ">Months</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-xl-4 ">
+                                        <div class="input-group">
+                                            <input class="form-control" maxlength="3" type="text" value="" formControlName="ptonoofdays" [ngClass]="{ 'is-invalid': (investPeriodToFlag == false) }" (keyup)="InvestmentPeriodToChange($event)" appNumbersonly (change)="Investto()">
+                                            <div class="input-group-append">
+                                                <label class="w-auto btn-lg-icon  pt-1 pl-1 pr-1 h-100 rounded-right ">Days</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--col-end-->
+                            </div>
+                            <div class="invalid-feedback">
+                                <span *ngIf="!investPeriodToFlag">Investment Period To Required </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--col-end-->
+
+                    <div class="col-md-6 col-xl-6">
+                        <div class="border-box pl-0 ">
+                            <div class="form-group">
+                                <label class="font-weight-bold"> Rate of Interest and Payout Details </label>
+                            </div>
+                            <div class="row">
+                                <!-- <div class="col-md-12 col-xl-12">
+                  <label class="font-weight-bold">Interest Payout</label>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <div class="form-group">
+                    <div class="form-check form-check-inline mr-5 ">
+                      <input maxlength="15" class="form-check-input" type="checkbox" name="inlineRadioOptions1" id="inlineRadio2"
+                        formControlName="pInterestpayuot" value="individual">
+                      <label class="mt-1" for="inlineRadio2">On Maturity</label>
+                    </div>
+                  </div>
+                </div> -->
+
+                                <div class="col-md-12 col-xl-12">
+                                    <div class="">
+                                        <label class="font-weight-bold">Interest Type</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-xl-12">
+                                    <div class="form-group">
+                                        <select formControlName="pInteresttype" name="pInteresttype" (change)="changeInterestType($event)" class="form-control">
+                          <option value="Simple Interest">Simple Interest</option>
+                          <option value="Compounding Interest"  *ngIf="compoundinginterest">Compounding Interest</option>
+                      </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-xl-6">
+                                    <div class="form-group" *ngIf="showCompoundInterest">
+                                        <select formControlName="pCompoundInteresttype" name="pCompoundInteresttype" class="form-control">
+                          <option value="" disabled>Select</option>
+                          <option value="Monthly Compounding">Monthly Compounding</option>
+                          <option value="Quarterly Compounding">Quarterly Compounding</option>
+                          <option value="Half Yearly Compounding">Half Yearly Compounding</option>
+                          <option value="Yearly Compounding">Yearly Compounding</option>
+                      </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 col-xl-7">
+                                    <label>Interest Rate P/A</label>
+                                    <!-- <div class="material-switch pull-right">
+                    <input id="Employment" name="Employment" type="checkbox" checked (change)="intrestratechecked($event)"data-toggle="collapse" data-target="#tds">
+                    <label for="Employment" class="badge-success" data-toggle="collapse" data-target="#tds"></label>
+                  </div> -->
+                                </div>
+
+                                <div class="col-md-6 col-xl-6" *ngIf="showrate">
+                                    <div class="input-group">
+                                        <label class="mr-2 mt-1" id="pInterestratefrom" title="From"> From </label>
+                                        <input appRoundecimal="2@2" class="form-control rounded-left" type="text" value="" removeZero [attr.disabled]="Intrestrate ? '' : null" formControlName="pInterestratefrom" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pInterestratefrom }" (change)="checkFromToValue()">
+                                        <div class="input-group-append">
+                                            <label class="w-auto btn-lg-icon  pt-1 pr-2 pl-2 h-100 pb-0  rounded-right "> % </label>
+                                        </div>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <span *ngIf="AccountConfigErrorMessages.pInterestratefrom">{{AccountConfigErrorMessages.pInterestratefrom}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-xl-6" *ngIf="showrate">
+                                    <div class="input-group">
+                                        <label class="mr-2 mt-1" id="pInterestrateto" title="To"> To </label>
+                                        <input appRoundecimal="2@2" class="form-control rounded-left" type="text" value="" removeZero [attr.disabled]="Intrestrate ? '' : null" formControlName="pInterestrateto" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pInterestrateto }" (change)="checkFromToValue()">
+                                        <div class="input-group-append">
+                                            <label class="w-auto btn-lg-icon pt-1 pr-2 pl-2 h-100 rounded-right "> % </label>
+                                        </div>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <span *ngIf="AccountConfigErrorMessages.pInterestrateto">{{AccountConfigErrorMessages.pInterestrateto}}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- code commented as per 492 bug -->
+
+                            <!-- <div class="col-md-12 col-xl-12 pt-2 p-0" *ngIf="showvalue">
+                                <div class=""> <label class="font-weight-bold">OR </label></div>
+                            </div>
+                            <div class="col-md-12 col-xl-12 p-0" *ngIf="showvalue">
+                                <div class="form-group">
+                                    <label class="mr-2 mt-1" id="pValueper100" title="Value Per 100"> Value Per 100 </label>
+                                    <input maxlength="17" class="form-control" [attr.disabled]="Valueper100 ? '' : null" [attr.disabled]="Valueper100 ? '' : null" type="text" value="" ThreeDigitNumber formControlName="pValueper100" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pValueper100 }"
+                                        (change)="valueentered($event)">
+                                </div>
+                                <div class="invalid-feedback">
+                                    <span *ngIf="AccountConfigErrorMessages.pValueper100">{{AccountConfigErrorMessages.pValueper100}}</span>
+                                </div>
+                            </div> -->
+
+                            <!-- </div> -->
+                            <!--col-end-->
+                        </div>
+                    </div>
+                    <!--col-end-->
+
+
+
+                    <div class="col-md-12 col-xl-12 mt-3">
+
+                        <div class="border">
+                            <div class="col-md-12">
+                                <div>
+                                    <div class="row pt-3 pb-3">
+                                        <div class="col-md-6 col-xl-6">
+                                            <div class="form-group">
+                                                <div class="material-switch">
+                                                    <span class="bc-2 mb-2 mr-3 text-decoration-none"> Is Referral Commission Payable?</span>
+                                                    <input id="Referral-fd" name="pIslatefeepayble" formControlName="pIsreferralcommissionapplicable" type="checkbox" data-toggle="collapse" (change)="notApplicable($event)">
+                                                    <label for="Referral-fd" class="badge-success" data-toggle="collapse"></label>
+                                                </div>
+                                            </div>
+                                            <!-- <a class="bc-2 mb-2 text-decoration-none"> Is referral commission payable?</a> -->
+                                        </div>
+                                        <!-- <div class="col-md-4 col-xl-4 mt-1">
+                          <div class="material-switch">
+                            <input id="Referral-fd" formControlName="pIsreferralcommissionapplicable" type="checkbox"
+                              (change)="notApplicable($event)">
+                            <label for="Referral-fd" class="badge-success"></label>
+                          </div>
+                        </div> -->
+                                    </div>
+
+                                    <!-- <div class="row" >
+                                  <div class="col-md-3 col-xl-3">
+                                    <h2 class="sec-head">Is referral commission paid?</h2>
+                                    <div class="form-group">
+                                      <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                                        <input class="form-check-input" formControlName="pIsreferralcommissionapplicable" type="radio" name="pIsreferralcommissionapplicable" id="ref-commission1"
+                                          value="true">
+                                        <label class="mt-1" for="ref-commission1"> Yes </label>
+                                      </div>
+                                
+                                      <div class="form-check form-check-inline mr-0 radio-btn-secondary">
+                                        <input class="form-check-input" formControlName="pIsreferralcommissionapplicable" type="radio" name="pIsreferralcommissionapplicable" id="ref-commission2"
+                                          value="false">
+                                        <label class="mt-1" for="ref-commission2"> No </label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                
+                                </div> -->
+                                    <div class="row" *ngIf="showcommissionpayout">
+                                        <div class="col-md-6 col-xl-4">
+                                            <label class="">
+                            Commission Payout:</label>
+                                            <div class="form-group">
+                                                <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                                                    <input class="form-check-input" type="radio" (change)="onCommissionChange($event)" name="pReferralcommissiontype" id="fixed" value="fixed" formControlName="pReferralcommissiontype">
+                                                    <label class="mt-1" for="fixed"> Fixed </label>
+                                                </div>
+                                                <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                                                    <input class="form-check-input" type="radio" name="pReferralcommissiontype" id="percentage" value="percentage" formControlName="pReferralcommissiontype" (change)="onCommissionChange($event)">
+                                                    <label class="mt-1" for="percentage"> Percentage </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="showcommissionpayout">
+                                        <div class="col-md-6 col-xl-4">
+                                            <div class="form-group">
+                                                <label class="mt-1" for="inlineRadio2">Fixed Amount/Percentage </label>
+                                                <input *ngIf="forFixed" appMycurrencyFormatter maxlength="17" appNumbersonly removeZero class="form-control text-right" formControlName="pCommissionValue" name="pCommissionValue" type="text" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pCommissionValue }"
+                                                    (keyup)="CommissionValue_change($event)">
+                                                <input *ngIf="forPercentage" appRoundecimal="2@2" removeZero class="form-control" (keyup)="CommissionValue_change($event)" formControlName="pCommissionValue" name="pCommissionValue" type="text" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pCommissionValue }">
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="AccountConfigErrorMessages.pCommissionValue">{{AccountConfigErrorMessages.pCommissionValue}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1" *ngIf="showcommissionpayout">
+                                        <div class="col-md-6 col-xl-4">
+                                            <div class="form-group">
+                                                <!-- <div class="material-switch">
+                                        <span class="mr-2">TDS</span>
+                                        <input id="Employment-fd" name="pIstdsapplicable" formControlName="pIstdsapplicable" type="checkbox"
+                                          (change)="tdsCheck($event)">
+                                        <label for="Employment-fd" class="badge-success"></label>
+                                      </div> -->
+                                            </div>
+
+                                            <!-- <div class="form-group" *ngIf="tdsshow">
+                            <label id="ptdsSectionName" title="TDS Section No">Select TDS Section No.</label>
+                            <div class="input-group">
+                              <select id="ptdssection" title="TDS" class="form-control" name="pTdssection"
+                                formControlName="pTdssection"   [ngClass]="{ 'is-invalid': (globalrefferalcommisiontype == false) }">
+                                <option value="" ng-selected="selected">Select</option>
+                                <option *ngFor="let tdsdetails of TDSsectiondetails" [value]="tdsdetails.pTdsSection">
+                                  {{tdsdetails.pTdsSection}}</option>
+              
+                              </select>
+                              <div class="invalid-feedback" *ngIf="!globalrefferalcommisiontype">
+                                <span class="text-danger">
+                                TDS Section No. Required
+                                </span>
+                              </div>
+                            </div>
+                          </div> -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="row pt-3 pb-3">
+                                        <div class="col-md-6 col-xl-6">
+                                            <div class="form-group">
+                                                <div class="material-switch">
+                                                    <span class="bc-2 mb-2 mr-3 text-decoration-none"> Is Penalty Applicable?</span>
+                                                    <input id="Penalty-fd" name="pIspenalty" formControlName="pIspenaltyapplicable" type="checkbox" data-toggle="collapse" (change)="notApplicablePenalty($event)">
+                                                    <label for="Penalty-fd" class="badge-success" data-toggle="collapse"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row" *ngIf="showpenalty">
+                                        <div class="col-md-6 col-xl-4">
+                                            <label class="">Penalty Type:</label>
+                                            <div class="form-group">
+                                                <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                                                    <input class="form-check-input" type="radio" (change)="onPenaltyChange($event)" name="pPenaltytype" id="Penaltyfixed" value="fixed" formControlName="pPenaltytype">
+                                                    <label class="mt-1" for="Penaltyfixed"> Fixed </label>
+                                                </div>
+                                                <div class="form-check form-check-inline mr-5 radio-btn-secondary">
+                                                    <input class="form-check-input" type="radio" name="pPenaltytype" id="Penaltypercentage" value="percentage" formControlName="pPenaltytype" (change)="onPenaltyChange($event)">
+                                                    <label class="mt-1" for="Penaltypercentage"> Percentage </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="showpenalty">
+                                        <div class="col-md-6 col-xl-4">
+                                            <div class="form-group">
+                                                <label class="mt-1" for="inlineRadio2">Fixed Amount/Percentage </label>
+                                                <input *ngIf="forPenaltyFixed" appMycurrencyFormatter maxlength="17" appNumbersonly removeZero class="form-control text-right" formControlName="pPenaltyvalue" name="pPenaltyvalue" type="text" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pPenaltyvalue }"
+                                                    (keyup)="PenaltyValue_change($event)">
+                                                <input *ngIf="forPenaltyPercentage" appRoundecimal="2@2" removeZero class="form-control" (keyup)="PenaltyValue_change($event)" formControlName="pPenaltyvalue" name="pPenaltyvalue" type="text" [ngClass]="{ 'is-invalid': AccountConfigErrorMessages.pPenaltyvalue }">
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <span *ngIf="AccountConfigErrorMessages.pPenaltyvalue">{{AccountConfigErrorMessages.pPenaltyvalue}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xl-12 pb-3 p-0">
+                            <div class="d-flex justify-content-end mt-4">
+                                <a (click)="forClear()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" class="mr-3" width="20px" height="20px">Clear</a>
+                                <a (click)="addDataToTable()" class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-3">Add</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-md-12 col-xl-12">
+            <div class="d-flex justify-content-end mt-4"> 
+              <a href="#" class="btn btn-g-icon mr-4 px-3 border-0"><img
+                  src="assets/images/icon-cancel-white.svg" class="mr-3" width="20px" height="20px">Clear</a>
+                   <a (click)="addDataToTable()"
+                class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg" width="20px"
+                  height="20px" class="mr-3">Add</a> </div>
+          </div> -->
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row"> -->
+
+        <div class="col-md-12 col-xl-12">
+            <kendo-grid [data]="DepositGridData" [groupable]="true" [group]="groups" [selectedKeys]="mySelection" [skip]="skip" [reorderable]="true" [resizable]="true" [columnMenu]="{ filter: true }" [sortable]="true" (edit)="editHandler($event,'deposite')" (remove)="removeHandler($event,'deposite')">
+                <ng-template kendoGridToolbarTemplate>
+                    <div class="row mb-3">
+                        <div class="col-4 pl-0 mt-n1">
+                            <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+                        </div>
+                    </div>
+                </ng-template>
+                <kendo-grid-command-column title="" width="100">
+                    <ng-template kendoGridCellTemplate>
+                        <div id="icon-delete" kendoGridRemoveCommand disabled></div>
+                    </ng-template>
+                </kendo-grid-command-column>
+                <kendo-grid-column field="pMembertype" title="Member Type" width="150">
+                </kendo-grid-column>
+                <kendo-grid-column field="pApplicanttype" title="Applicant Type" width="150">
+                </kendo-grid-column>
+                <kendo-grid-column field="pRdcalucationmode" title="Calculation Mode" width="150">
+                </kendo-grid-column>
+                <kendo-grid-column field="pMininstalmentamount" title="Min Installment Amount" width="150">
+                    <ng-template kendoGridFooterTemplate>
+                        {{pMininstalmentamount | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pMaxinstalmentamount" title="Max Installment Amount" width="150">
+                    <ng-template kendoGridFooterTemplate>
+                        {{pMaxinstalmentamount | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pInvestmentperiodfrom" title="Investment Period From" width="150"></kendo-grid-column>
+                <kendo-grid-column field="pInvestmentperiodto" title="Investment Period To" width="150"></kendo-grid-column>
+                <kendo-grid-column field="pInstalmentpayin" title="Installment Pay-In" width="150"></kendo-grid-column>
+                <kendo-grid-column field="pInterestpayuot" title="Interest Payout" width="150"></kendo-grid-column>
+                <kendo-grid-column field="pInteresttype" title="Interest compounding" width="150"></kendo-grid-column>
+                <kendo-grid-column field=" " title="Interest Rate P/A" width="150">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pInterestratefrom}}-{{dataItem.pInterestrateto}}
+                    </ng-template>
+                </kendo-grid-column>
+                <!-- <kendo-grid-column field="pValueper100" title="Value Per 100" width="150"></kendo-grid-column> -->
+                <kendo-grid-column field="pTenure" title="Tenure" width="150">
+                </kendo-grid-column>
+                <kendo-grid-column field="pTenuremode" title="Tenure Mode" width="150">
+                </kendo-grid-column>
+                <kendo-grid-column field="pPayindenomination" title="Pay-In Denomination" width="150">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pInterestamount" title="Interest Amount" width="150">
+                </kendo-grid-column>
+                <kendo-grid-column field="pDepositamount" title="Deposit Amount" width="150">
+                </kendo-grid-column>
+                <kendo-grid-column field="pMaturityamount" title="Maturity Amount" width="150"></kendo-grid-column>
+                <kendo-grid-column field="pReferralcommissiontype" title="Commission Payout" width="150"></kendo-grid-column>
+                <kendo-grid-column field="pCommissionValue" title="Fixed Amount/Percentage" width="150">
+                    <ng-template kendoGridFooterTemplate>
+                        {{pCommissionValue | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="pPenaltytype" title="Penalty Type" width="150"></kendo-grid-column>
+                <kendo-grid-column field="pPenaltyvalue" title="Penalty Amount/Percentage" width="150">
+                    <ng-template kendoGridFooterTemplate>
+                        {{pPenaltyvalue | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+
+
+            </kendo-grid>
+        </div>
+        <!-- </div> -->
+
+    </div>
+</form>
+<!--row-end-->

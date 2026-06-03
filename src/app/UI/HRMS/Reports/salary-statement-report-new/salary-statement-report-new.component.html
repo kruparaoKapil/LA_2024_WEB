@@ -1,0 +1,255 @@
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+
+<div class="section-container">
+    <div class="row p-0">
+        <div class="col-xl-12 col-md-12">
+            <div class="section-content">
+                <form [formGroup]="salaryForm">
+                    <div class="row mt-3">
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label id="year" title="Year" class="required-field">Year</label>
+                                <ng-select title="Year" [items]="yearsList" [multiple]="false" formControlName="year"
+                                    bindLabel="pPeriodType" bindValue="pCalenderPeriodId" placeholder="Select"
+                                    [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                                    (change)="yearChange($event)"
+                                    [ngClass]="{ 'is-invalid': employeeHRMSValidation.year }">
+                                </ng-select>
+                                <div class="invalid-feedback">
+                                    <span *ngIf="employeeHRMSValidation.year">{{employeeHRMSValidation?.year}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-xl-4">
+                            <div class="form-group">
+                                <label class="required-field" id="month" title="Month">Month</label>
+                                <ng-select title="Month" [items]="monthsList" [multiple]="false" formControlName="month"
+                                    bindLabel="pCalendarMonth" bindValue="pCalendarMonth" placeholder="Select"
+                                    [searchable]=true [clearable]=true dropdownPosition="bottom" [clearOnBackspace]=true
+                                    [ngClass]="{ 'is-invalid': employeeHRMSValidation.month }"
+                                    (change)="monthChange($event)">
+                                </ng-select>
+                                <div class="invalid-feedback">
+                                    <span *ngIf="employeeHRMSValidation.month">{{employeeHRMSValidation?.month}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xl-2">
+                            <div class="form-group">
+                                <br>
+                                <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="showSalaryStatement()">
+                                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': showLoading}"></i>
+                                  <span *ngIf="!showLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                          width="20px"></span> Show
+                              </a>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xl-2 pl-0">
+                            <div class="form-group">
+                                <br>
+                             <a class="btn btn-b-icon px-1 border-0 d-flex align-items-center" (click)="showSalaryReimReimbursement()">
+                               <i *ngIf="reimbursementLoading" class="fa fa-spinner fa-spin mr-2"></i>
+                                <span *ngIf="!reimbursementLoading">
+                                    <img class="mr-2" height="20" width="20" src="assets/images/reports-white.svg">
+                                </span>
+                               <span>Reimbursement</span>
+                            </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row mt-2">
+                    <div class="col-md-12">        
+                        <div class="form-group pt-2">
+                            <div class="d-flex justify-content-end" *ngIf="salaryStatementListData.length!=0 || reimbursementListData.length > 0" >
+                                <a  class="export-icons" (click)="pdfOrprint('Pdf')">
+                                    <img src="assets/images/pdf-icon-blue.svg " title="pdf" width="18px">
+                                </a>
+                           
+                                <a  class="export-icons" (click)="pdfOrprint('Print')"><img
+                                    src="assets/images/print-icon-blue.svg " title="Print" width="18px"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="showSalaryGrid">
+                <kendo-grid [kendoGridBinding]="salaryStatementListData" [pageable]="false" [sortable]="false"
+                [groupable]="false" [reorderable]="false" [resizable]="true">
+    
+                <kendo-grid-column field="pEmployeecode" title="Emp. ID" [headerClass]="{'kendo-g-center': true}"
+                    class="kendo-center" width="90">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pEmployeeName" title="Emp. Name" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                <kendo-grid-column field="pDeptName" title="Designation" width="110"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                <kendo-grid-column field="pDateOfJoining" title="DOJ" width="60"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+                <kendo-grid-column field="pBasicAmount" width="60" title="Basic"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pBasicAmount | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pVdaAmt" width="50" title="VDA"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pVdaAmt | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pArrearsAmt" width="60" title="Arrears"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pArrearsAmt | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pBasicProtection" title="Basic Protection" width="90"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pBasicProtection | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pAllowancesAmt" width="100" title="Allowances"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pAllowancesAmt | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pSpecialAllowAmt" width="90" title="Special Allowance"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pSpecialAllowAmt | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pIncrementalProtection" width="100" title="Increment Protection"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pIncrementalProtection | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pGrossSalary" width="50" title="Gross Salary"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pGrossSalary | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pAdvanceAmt" width="100" title="Advance"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pAdvanceAmt | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pInsuranceAmt" width="90" title="Insurance"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pInsuranceAmt | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pRecoveryAmt" width="90" title="Recoveries"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pRecoveryAmt | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pIncomeTaxAmt" width="100" title="Income Tax"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pIncomeTaxAmt | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pPFAmt" width="90" title="PF Amt."
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pEmpPFAmt | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pEmpEsiAmt" width="100" title="ESI Amount"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pEmpEsiAmt | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pProffTaxAmt" width="100" title="Prof Tax"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pProffTaxAmt | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pDedectionAmt" width="100" title="Deductions"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pDedectionAmt | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="pNetSalary" width="100" title="Net Salary"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pNetSalary | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+
+            </kendo-grid>
+            </div>
+
+            <div *ngIf="showReimbursementGrid">
+                <kendo-grid [kendoGridBinding]="reimbursementListData" [pageable]="false" [sortable]="false"
+                [groupable]="false" [reorderable]="false" [resizable]="true">
+    
+                <kendo-grid-column field="pEmployeeName" title="Emp. Name" width="100"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-grid-column>
+
+              <kendo-grid-column field="pEducationAllowAmt" width="90" title="Children Education Allowance"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pEducationAllowAmt | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+                 <kendo-grid-column field="pLoyaltyAllowAmt" width="90" title="Loyalty Allowance"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pLoyaltyAllowAmt | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+                 <kendo-grid-column field="pVehicleAllowAmt" width="90" title="Vehicle Allowance"
+                    [headerClass]="{'kendo-g-center': true}" class="kendo-center">
+                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                        <span>{{dataItem.pVehicleAllowAmt | mycurrencypipe}}</span>
+                    </ng-template>
+                </kendo-grid-column>
+            </kendo-grid>
+            </div>
+            </div>
+        </div>
+    </div>                 
+</div>

@@ -1,0 +1,157 @@
+<div class="row">
+    <div class="col-6">
+        <p class="bc-2">First Information</p>
+    </div>
+    <div class="col-6">
+    <a class="btn btn-b-icon border-0 pull-right" routerLink="/Fiindividual"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+</div>
+</div>
+<!-- <a class="btn btn-b-icon border-0" routerLink="/Fiindividual"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a> -->
+
+
+<div class="row mt-3">
+    <div class="col-md-12 col-xl-12">
+        <!-- <p class="bc-2">Credit Score</p>             -->
+        <!-- <kendo-grid [data]="gridView" [resizable]="true" [pageSize]="pageSize"    [skip]="skip"  [pageable]="true"
+       (pageChange)="pageChange($event)" (edit)="editHandler($event)" (remove)="removeHandler($event)"> -->
+        <kendo-grid [kendoGridBinding]="gridView" [kendoGridSelectBy]="'id'" [groupable]="true" [group]="groups" [selectedKeys]="mySelection" [pageSize]="10" [skip]="skip" [pageable]="{buttonCount: 2}" [reorderable]="true" [resizable]="true" [columnMenu]="{ filter: true }"
+            [pageable]="true" [sortable]="true" (edit)="editHandler($event)" (remove)="removeHandler($event)">
+            <!-- <ng-template kendoGridToolbarTemplate>
+        <input placeholder="Search in all columns..." kendoTextBox (input)="onFilter($event.target.value)" />
+        <button kendoGridExcelCommand type="button" icon="file-excel" style="float:right;">Export to Excel</button>
+        <button kendoGridPDFCommand icon="file-pdf" style="float:right;">Export to PDF</button>
+      </ng-template> -->
+            <ng-template kendoGridToolbarTemplate>
+                <div class="row mb-3 pl-3 pr-0 pt-4">
+                    <div class="col-4 pl-0 mt-n1">
+                        <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+                    </div>
+                    <div class="col-7 pr-0 pl-4 ml-4">
+                        <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                            <li class="temp-ico ml-2">
+                                <a kendoGridPDFCommand><img class="pt-1 pl-3" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                            </li>
+                            <li class="temp-ico ml-2">
+                                <a kendoGridExcelCommand><img class="pt-1" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                            </li>
+                            <!-- <li class="temp-ico ml-2"><a kendoGridExcelCommand><img class="pt-2" src="assets/images/print-icon-blue.svg " title="Excel" width="20px"></a></li> -->
+                        </ul>
+                    </div>
+                </div>
+            </ng-template>
+            <kendo-grid-column-group title="First Information" [headerClass]="{'kendo-g-center' : true}">
+                <kendo-grid-command-column field="" title="Edit" width="100" [locked]="true">
+                    <ng-template kendoGridCellTemplate>
+                        <button kendoGridEditCommand>
+            <div id="icon-edit"></div>
+          </button>
+                    </ng-template>
+                </kendo-grid-command-column>
+
+
+                <!-- <kendo-grid-column field="sno" title="S.No" width="70">
+      </kendo-grid-column> -->
+
+                <kendo-grid-column field="pApplicantname" title="Applicant Name" width="150" [locked]="true">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoantype" width="130" title="Loan Type" [locked]="true">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoanname" width="130" title="Loan Name">
+                </kendo-grid-column>
+                <kendo-grid-column field="pAmountrequested" width="180" title="Amount Requested" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                </kendo-grid-column>
+                <kendo-grid-column field="pTenureofloan" title="Tenure" width="100" [headerClass]="{'kendo-center': true}" class="kendo-center">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoanpayin" title="Loan Payin" width="110">
+                </kendo-grid-column>
+                <kendo-grid-column field="pRateofinterest" title="Rate of Interest" width="160">
+                </kendo-grid-column>
+                <kendo-grid-column field="pVchapplicationid" title="Application Id" width="140">
+                </kendo-grid-column>
+                <kendo-grid-column field="pDateofapplication" title="Application Date" width="160">
+                </kendo-grid-column>
+                <!-- <kendo-grid-column field="pProoffilepath" title="Upload File path" width="100">
+          </kendo-grid-column> -->
+                <kendo-grid-column field="pStatusname" title="Status" width="100">
+                </kendo-grid-column>
+            </kendo-grid-column-group>
+            <!-- <kendo-grid-command-column title="Remove" width="100">
+        <ng-template kendoGridCellTemplate>
+          <button kendoGridRemoveCommand>
+            <div id="icon-delete"></div>
+          </button>
+        </ng-template>
+      </kendo-grid-command-column> -->
+            <!-- <kendo-grid-pdf fileName="fi-view.pdf" [repeatHeaders]="true"></kendo-grid-pdf> -->
+            <kendo-grid-pdf fileName="fi-view.pdf" [allPages]="true" paperSize="A2" [repeatHeaders]="true" [landscape]="true">
+                <ng-template kendoGridPDFTemplate>
+                    <div class="page-template">
+                        <div class="header bc-2 text-center">
+                            <h5> First Information </h5>
+                        </div>
+                    </div>
+                </ng-template>
+                <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+                <kendo-grid-column field="sno" title="S.No" width="70">
+                </kendo-grid-column>
+                <kendo-grid-column field="pVchapplicationid" title="Application Id" width="140">
+                </kendo-grid-column>
+                <kendo-grid-column field="pDateofapplication" title="Application Date" width="160">
+                </kendo-grid-column>
+                <kendo-grid-column field="pApplicantname" title="Applicant Name" width="150">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoantype" width="130" title="Loan Type">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoanname" width="130" title="Loan Name">
+                </kendo-grid-column>
+                <kendo-grid-column field="pAmountrequested" width="180" title="Amount Requested" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                </kendo-grid-column>
+                <kendo-grid-column field="pTenureofloan" title="Tenure" width="100">
+                </kendo-grid-column>
+                <kendo-grid-column field="pLoanpayin" title="Loan Payin" width="110">
+                </kendo-grid-column>
+                <kendo-grid-column field="pRateofinterest" title="Rate of Interest" width="160">
+                </kendo-grid-column>
+                <!-- <kendo-grid-column field="pProoffilepath" title="Upload File path" width="100">
+            </kendo-grid-column> -->
+                <kendo-grid-column field="pStatusname" title="Status" width="100">
+                </kendo-grid-column>
+
+            </kendo-grid-pdf>
+
+            <kendo-grid-excel fileName="fi-view.xlsx" [fetchData]="allData">
+                <kendo-excelexport-column-group title="First Information" [headerCellOptions]="headerCells">
+
+                    <kendo-excelexport-column field="pApplicantname" title="Applicant Name" [locked]="true">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pLoantype" title="Loan Type" [locked]="true">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pLoanname" title="Loan Name">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pAmountrequested" title="Amount Requested" [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pTenureofloan" title="Tenure">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pLoanpayin" title="Loan Payin">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pRateofinterest" title="Rate of Interest">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pVchapplicationid" title="Application Id">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pDateofapplication" title="Application Date">
+                    </kendo-excelexport-column>
+                    <kendo-excelexport-column field="pStatusname" title="Status">
+                    </kendo-excelexport-column>
+                </kendo-excelexport-column-group>
+
+            </kendo-grid-excel>
+
+        </kendo-grid>
+    </div>
+</div>
+
+<div class="my-container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplateForFiView">
+    </ngx-loading>
+
+</div>

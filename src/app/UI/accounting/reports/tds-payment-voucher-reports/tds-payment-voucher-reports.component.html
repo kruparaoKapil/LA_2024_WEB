@@ -1,0 +1,293 @@
+<!-- <div class="col-md-12 col-xl-12 mt-5  text-center">
+    <p class="bc-2">{{receiptName}}</p>
+</div> -->
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<div class="col-md-12 mt-5 mb-4">
+    <div id="template">
+        <div class="d-flex justify-content-end mr-3">
+            <ul class="temp-ul">
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('TDS_PaymentVoucherReport_'+pvnumber+'.pdf')" />
+                </li>
+                <!-- <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li> -->
+            </ul>
+
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="false" [landscape]="false" forcePageBreak=".page-break" [scale]="0.6">
+                        <div id="temp-box">
+                            <div *ngFor="let PaymentData of tempPaymentData;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <app-company-details></app-company-details>
+                                        <div class="report-head">
+                                            <p class="font-18 text-dark text-center m-0">
+                                                {{receiptName}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                                    <div class="row">
+                                        <!-- <div class="col-md-6">
+                                              <div class="">
+                                                  <span class="font-14 text-left m-0 mr-4" style="font-size: 14px !important;
+                    font-weight: bold !important;">Printed on :</span>
+                                                  <label class="print-font">{{todayDate}}</label>
+                                              </div>
+                                          </div> -->
+                                        <div class="col-md-12">
+                                            <div class="">
+                                                <p class="font-14 text-right m-0" style="font-size: 14px !important;
+                  font-weight: bold !important;">
+                                                    Date :
+                                                    <label>{{PaymentData.ppaymentdate | date:'dd-MM-yyyy'}}</label>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="">
+                                                <p class="m-0">
+                                                    <label class="font-weight-bold w-25">Voucher No.</label>
+                                                    <label class="font-weight-normal">:
+                                                        {{PaymentData.ppaymentid}}</label>
+                                                </p>
+                                                <p class="m-0">
+                                                    <label class="font-weight-bold w-25">Paid To.</label>
+                                                    <label class="font-weight-normal">: {{PaymentData.pcontactname}}
+                                                    </label>
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <!--<p class="mr-4 pt-4 font-weight-bold">Received With Thanks From </p>-->
+                                            <p class="mr-4">Towards</p>
+                                        </div>
+                                        <div class="col-12">
+                                            <table class="table table-bordered receipt-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 10px;">S.no</th>
+                                                        <th>Particulars</th>
+                                                        <th class="text-right">Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let subPaymentData of PaymentData.ppaymentslist; let i=index;">
+                                                        <td class="text-center" style="width: 10px;">
+                                                            <label>{{i+1}}</label>
+                                                        </td>
+                                                        <td>
+                                                            <label class="font-weight-bold mr-5 w-50">{{subPaymentData.pAccountname}}</label>
+                                                        </td>
+                                                        <td class="text-right">
+                                                            <label class="">{{subPaymentData.pLedgeramount | mycurrencypipe}}</label>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td class="text-center"><label></label></td>
+                                                        <td class="text-right">
+                                                            <label class="font-weight-bold w-50">
+                                                                Total
+                                                            </label>
+                                                        </td>
+                                                        <td class="text-right">
+                                                            <label class="font-weight-bold">{{PaymentData.totvalue | mycurrencypipe }}</label>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="row justify-content-md-center">
+                      <div class="col-12   pl-0">
+                          <table class="table table-bordered receipt-table">
+                              <thead>
+                                  <tr>
+                                      <th>S.no</th>
+                                      <th>Particulars</th>
+                                      <th>Amount</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let subPaymentData of PaymentData.ppaymentslist; let i=index;">
+                                      <td class="text-center" style="width: 10px;">
+                                          <label>{{i+1}}</label></td>
+                                      <td><label class="font-weight-bold mr-5 w-50">{{subPaymentData.pAccountname}}</label>
+                                      </td>
+                                      <td class="text-right"><label class="print-font">{{subPaymentData.pLedgeramount | mycurrencypipe}}</label>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td class="text-center"><label></label></td>
+                                      <td class="text-right"><label class="font-weight-bold w-50">Total
+                                              Rs.</label>
+                                      </td>
+                                      <td class="text-right"><label class="print-font font-weight-bold">{{PaymentData.totvalue | mycurrencypipe }}</label>
+                                      </td>
+                                  </tr>
+                                  <tbody>
+                          </table>
+                      </div>
+                  </div> -->
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">
+                                                    Amount In
+                                                    Words <span class="pull-right">: </span>
+                                                </label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                    Rupees
+                                                    {{PaymentData.totvalue | numberToWords | titlecase}} Only .
+                                                </label>
+                                            </p>
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">Narration <span
+                                                        class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">{{PaymentData.pnarration}}
+                                                    .</label>
+                                            </p>
+
+
+                                            <p class="m-0">
+                                                <label class="font-weight-bold col-md-3 pl-0 align-top">
+                                                    Mode of
+                                                    Payment <span class="pull-right">: </span>
+                                                </label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                      {{PaymentData.pmodofPayment}} {{PaymentData.ptypeofpayment}}<span
+                                                        *ngIf="PaymentData.ptypeofpayment=='CHEQUE'">
+                                                        (Cheque No :
+                                                        {{PaymentData.pChequenumber}}) {{PaymentData.pBankname}}
+                                                    </span>
+                                                    <span
+                                                        *ngIf="PaymentData.ptypeofpayment!='CHEQUE' && PaymentData.ptypeofpayment!='CASH'">
+                                                        (Reference
+                                                        No :
+                                                        {{PaymentData.pChequenumber}})
+                                                    </span>.
+                                                </label>
+                                            </p>
+                                            <!-- <p class="m-0">
+                                                <span *ngIf="PaymentData.gstvalue!='0'">
+                          <label class="font-weight-bold col-md-2 pl-0 align-top">GST (Exclude) <span class="pull-right">: </span></label>
+                                                <label class="col-md-10 p-0 font-weight-normal">
+
+                            {{PaymentData.gstvalue | mycurrencypipe}}
+
+                          </label>
+                                                </span>
+                                            </p> -->
+                                            <p class="m-0">
+                                                <span *ngIf="PaymentData.tdsvalue!='0'">
+                                                    <label class="font-weight-bold col-md-3 pl-0 align-top">GST
+                                                        (Exclude) <span class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">
+                                                        {{PaymentData.gstvalue | mycurrencypipe}} </label>
+                                                </span>
+                                            </p>
+                                            <p class="m-0">
+                                                <span *ngIf="PaymentData.tdsvalue!='0'">
+                                                    <label class="font-weight-bold col-md-3 pl-0 align-top">TDS
+                                                        (Exclude) <span class="pull-right">: </span></label>
+                                                <label class="col-md-9 p-0 font-weight-normal">{{PaymentData.tdsvalue | mycurrencypipe}}
+                                                    </label>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- <div class="row">
+                      <div class="col-md-3">
+                          <div class="">
+                              <label class="mb-5"></label>
+                              <p class="font-14 text-left m-0 mr-4 font-weight-bold m-0 mb-5 "> <input class="form-control" type="text" style="border-style:dashed;font-family: 'PT Mono', monospace !important; color:#222 !important;">
+                              </p>
+                          </div>
+                      </div>
+                      <div class="col-md-3">
+                          <label class="mb-5"></label>
+                          <p class="font-14 text-left m-0 mr-4 font-weight-bold m-0 mb-5">(Verified by)
+                          </p>
+                      </div>
+                      <div class="col-md-3">
+                          <label class="mb-5"></label>
+                          <p class="font-14 text-left m-0 mr-2 font-weight-bold m-0 mb-5">(Approved by)
+                          </p>
+                      </div>
+                      <div class="col-md-3">
+                          <label class="mb-4 font-14 ml-2">{{PaymentData.pemployeename}}</label>
+                          <p class="font-14  font-weight-bold text-left mb-5">
+                              (Posted By)
+                          </p>
+
+                      </div>
+
+                  </div> -->
+
+                                    <div class="row mt-5">
+                                        <div class="col-md-3">
+                                            <div class="temp-sign-box text-center">
+                                                <p class="font-14 text-left mr-4 font-weight-bold mb-4">
+                                                    <input class="form-control" type="text" style="border-style:dashed; color:#222 !important;" readonly>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3" style="bottom:0px;">
+                                            <div class="temp-sign-box text-center">&nbsp;
+                                                <!-- <label class="font-14 m-0">Approved</label> -->
+                                                <p class="font-14 font-weight-bold text-dark mb-4">
+                                                    (Approved By)
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="temp-sign-box text-center">&nbsp;
+                                                <!-- <label class="font-14 m-0">Verified</label> -->
+                                                <p class="font-14 font-weight-bold text-dark mb-4">
+                                                    (Verified By)
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="temp-sign-box text-center">
+                                                <label class="font-14 m-0">{{PaymentData.pemployeename}}</label>
+                                                <p class="font-14 font-weight-bold text-dark mb-4">
+                                                    (Posted By)
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </kendo-pdf-export>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

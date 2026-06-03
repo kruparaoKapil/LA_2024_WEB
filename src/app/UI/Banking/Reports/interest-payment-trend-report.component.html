@@ -1,0 +1,312 @@
+<div class="row">
+  <div class="col-md-6 col-xl-6 ">
+    <p class="bc-2">Interest Payment Trend</p>
+  </div>
+
+</div>
+<div class="row mt-3">
+  <div class="col-md-12 col-xl-12">
+    <div class="section-container">
+
+      <form [formGroup]="InterestPaymentTrendForm" autocomplete="off">
+        <div class="">
+
+          <div class="col-md-12 p-0">
+            <div class="row">
+              <div class="col-md-4  col-xl-4 pt-2">
+                <div class="form-group">
+                  <label id="pAsOn" title="From Date">Date</label>
+                  <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpAsOnConfig" #dp="bsDatepicker"
+                         bsDatepicker formControlName="pAsOn" (onShown)="onOpenCalendar($event)" [ngClass]="{ 'is-invalid': InterestPaymentTrendErrors.pAsOn }" disabled>
+
+                </div>
+              </div>
+           
+              <div class="justify-content-end">
+                <div class="form-group mt-4 pt-3">
+                  <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetShowInterestPaymentTrend()">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                    <span *ngIf="!isLoading">
+                      <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                           width="20px">
+                    </span> {{savebutton}}
+                  </a>
+                </div>
+              </div>
+
+              <div class="justify-content-end ml-3">
+                <div class="form-group mt-4 pt-3">
+                  <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetPrintInterestPaymentTrend()">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                    <span *ngIf="!isLoading">
+                      <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                           width="20px">
+                    </span> Print
+                  </a>
+                  
+                </div>
+                
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </form>
+
+
+
+      <div class="row mt-3">
+        <div class="col-md-12 ">
+
+          <kendo-grid [kendoGridBinding]="gridData1" [reorderable]="true" [resizable]="true"
+                      [sortable]="true" [group]="groups">
+
+            <ng-template kendoGridToolbarTemplate>
+              <div class="row mb-3">
+                <div class="col-12 mt-5">
+                  <ul class="temp-ul pull-right mr-4 pb-3">
+                    <li class="temp-ico">
+                      <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                    </li>
+                    <li class="temp-ico">
+                      <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="Excel" width="20px"></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </ng-template>
+
+            <kendo-grid-column field="pschemename" title="{{gridData[0].pschemename}}" width="150" [headerClass]="{'kendo-left': true}" class="kendo-left trend-inner ">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pschemename}}
+              </ng-template>
+              <ng-template let-value="value" kendoGridFooterTemplate>
+                <div class="bc-2 pl-4 text-left">Grand Total </div>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pcurrentmonth" title="{{gridData[0]?.pcurrentmonth}}" width="120" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="getMaturityDetails(dataItem,gridData[0].pcurrentmonth)">{{dataItem.pcurrentmonth | mycurrencypipe}}</a>
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <a (click)="getMaturityTotalDetails(gridData[0].pcurrentmonth)"><p class="bc-2 text-right"> {{totalpcurrentmonth | mycurrencypipe}}</p></a>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pcurrentmonth1" title="{{gridData[0]?.pcurrentmonth1}}" width="120" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="getMaturityDetails(dataItem,gridData[0].pcurrentmonth1)">{{dataItem.pcurrentmonth1 | mycurrencypipe}}</a>
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <a (click)="getMaturityTotalDetails(gridData[0].pcurrentmonth1)"><p class="bc-2 text-right"> {{totalpcurrentmonth1 | mycurrencypipe}}</p></a>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pcurrentmonth2" title="{{gridData[0]?.pcurrentmonth2}}" width="120" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="getMaturityDetails(dataItem,gridData[0].pcurrentmonth2)">{{dataItem.pcurrentmonth2 | mycurrencypipe}}</a>
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <a (click)="getMaturityTotalDetails(gridData[0].pcurrentmonth2)"><p class="bc-2 text-right"> {{totalpcurrentmonth2 | mycurrencypipe}}</p></a>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pcurrentmonth3" title="{{gridData[0]?.pcurrentmonth3}}" width="120" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="getMaturityDetails(dataItem,gridData[0].pcurrentmonth3)">{{dataItem.pcurrentmonth3 | mycurrencypipe}}</a>
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <a (click)="getMaturityTotalDetails(gridData[0].pcurrentmonth3)"><p class="bc-2 text-right"> {{totalpcurrentmonth3 | mycurrencypipe}}</p></a>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pcurrentmonth4" title="{{gridData[0]?.pcurrentmonth4}}" width="120" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="getMaturityDetails(dataItem,gridData[0].pcurrentmonth4)">{{dataItem.pcurrentmonth4 | mycurrencypipe}}</a>
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <a (click)="getMaturityTotalDetails(gridData[0].pcurrentmonth4)"><p class="bc-2 text-right"> {{totalpcurrentmonth4 | mycurrencypipe}}</p></a>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pcurrentmonth5" title="{{gridData[0]?.pcurrentmonth5}}" width="120" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="getMaturityDetails(dataItem,gridData[0].pcurrentmonth5)">{{dataItem.pcurrentmonth5 | mycurrencypipe}}</a>
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <a (click)="getMaturityTotalDetails(gridData[0].pcurrentmonth5)"><p class="bc-2 text-right"> {{totalpcurrentmonth5 | mycurrencypipe}}</p></a>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pcurrentmonth6" title="{{gridData[0]?.pcurrentmonth6}}" width="120" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="getMaturityDetails(dataItem,gridData[0].pcurrentmonth6)">{{dataItem.pcurrentmonth6 | mycurrencypipe}}</a>
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <a (click)="getMaturityTotalDetails(gridData[0].pcurrentmonth6)"><p class="bc-2 text-right"> {{totalpcurrentmonth6 | mycurrencypipe}}</p></a>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pcurrentmonth7" title="{{gridData[0]?.pcurrentmonth7}}" width="120" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="getMaturityDetails(dataItem,gridData[0].pcurrentmonth7)">{{dataItem.pcurrentmonth7 | mycurrencypipe}}</a>
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <a (click)="getMaturityTotalDetails(gridData[0].pcurrentmonth7)"><p class="bc-2 text-right"> {{totalpcurrentmonth7 | mycurrencypipe}}</p></a>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pcurrentmonth8" title="{{gridData[0]?.pcurrentmonth8}}" width="120" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="getMaturityDetails(dataItem,gridData[0].pcurrentmonth8)">{{dataItem.pcurrentmonth8 | mycurrencypipe}}</a>
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <a (click)="getMaturityTotalDetails(gridData[0].pcurrentmonth8)"><p class="bc-2 text-right"> {{totalpcurrentmonth8 | mycurrencypipe}}</p></a>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pcurrentmonth9" title="{{gridData[0]?.pcurrentmonth9}}" width="120" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="getMaturityDetails(dataItem,gridData[0].pcurrentmonth9)">{{dataItem.pcurrentmonth9 | mycurrencypipe}}</a>
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <a (click)="getMaturityTotalDetails(gridData[0].pcurrentmonth9)"><p class="bc-2 text-right"> {{totalpcurrentmonth9 | mycurrencypipe}}</p></a>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pcurrentmonth10" title="{{gridData[0]?.pcurrentmonth10}}" width="120" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="getMaturityDetails(dataItem,gridData[0].pcurrentmonth10)">{{dataItem.pcurrentmonth10 | mycurrencypipe}}</a>
+
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <a (click)="getMaturityTotalDetails(gridData[0].pcurrentmonth10)"><p class="bc-2 text-right"> {{totalpcurrentmonth10 | mycurrencypipe}}</p></a>
+              </ng-template>
+
+            </kendo-grid-column>
+            <kendo-grid-column field="pcurrentmonth11" title="{{gridData[0]?.pcurrentmonth11}}" width="120" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="getMaturityDetails(dataItem,gridData[0].pcurrentmonth11)">{{dataItem.pcurrentmonth11 | mycurrencypipe}}</a>
+              </ng-template>
+              <ng-template kendoGridFooterTemplate>
+                <a (click)="getMaturityTotalDetails(gridData[0].pcurrentmonth11)"><p class="bc-2 text-right"> {{totalpcurrentmonth11 | mycurrencypipe}}</p></a>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pcurrentmonth12" title="{{gridData[0]?.pcurrentmonth12}}" width="120" [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a (click)="getMaturityDetails(dataItem,gridData[0].pcurrentmonth12)">{{dataItem.pcurrentmonth12 | mycurrencypipe}}</a>
+              </ng-template>
+
+              <ng-template kendoGridFooterTemplate>
+                <a (click)="getMaturityTotalDetails(gridData[0].pcurrentmonth12)"> <p class="bc-2 text-right">{{totalpcurrentmonth12 | mycurrencypipe}}</p></a>
+              </ng-template>
+            </kendo-grid-column>
+
+
+
+            <kendo-grid-pdf fileName="InterestPaymentTrend_Reports.pdf" [repeatHeaders]="true" [allPages]="true">
+              <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm">
+              </kendo-grid-pdf-margin>
+            </kendo-grid-pdf>
+            <kendo-grid-excel fileName="InterestPaymentTrend_Reports.xlsx"></kendo-grid-excel>
+          </kendo-grid>
+
+
+          <div class="rounded border p-2 pt-3 pl-3 shadow-sm mt-2" *ngIf="showdetails">
+            <div class="row  mt-2">
+              <div class="col-md-12">
+                <div class="accordion border mt-3" id="bankdetails">
+                  <div class="card">
+                    <div>
+                      <h1 class="mb-0"> <label class="col-md-7 col-xl-7 pl-0 mt-1 sec-head-bold" for="">  {{showmonth}}   Month wise Interest Payment Trend Details </label></h1>
+                    </div>
+                    <!--<div class="card-header" id="bankheading">
+                      <h2 class="mb-0">
+                        <button class="btn btn-link position-relative text-none col-md-12 d-flex" type="button"
+                                data-toggle="collapse" data-target="#bankheadingone" aria-expanded="true"
+                                aria-controls="bankheadingone" id="showmonth">
+                          Month wise Interest Payment Trend Details
+                        </button>
+                      </h2>
+                    </div>-->
+
+                    <div class="row">
+                      <div class="col-md-12 col-xl-12">
+                        <kendo-grid [data]="Detailsdata" [reorderable]="true" [resizable]="true"
+                                    [sortable]="true">
+                          <kendo-grid-column field="pSchemename1" width="180" title="Scheme Name" class="kendo-left">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pMonth" width="120" title="Month" class="kendo-left">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pMaturitydate" width="120" title="Maturity Date" class="kendo-left">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pMaturitydate | date: 'dd-MMM-yyyy'}}
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pFdAccountNo" width="140" title="Advance Account No." class="kendo-left">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pTransdate" width="120" title="Transaction Date" class="kendo-left">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pTransdate | date: 'dd-MMM-yyyy'}}
+                            </ng-template>
+                          </kendo-grid-column>
+
+                          <kendo-grid-column field="pMembercode" width="120" title="Member Code" class="kendo-left">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pMembername" width="120" title="Member" class="kendo-left">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pTenor" width="120" title="Tenure" class="kendo-left">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pDepositamount" width="120" title="Deposit Amount" class="kendo-right">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pDepositamount | mycurrencypipe}}
+                            </ng-template>
+                          </kendo-grid-column>
+
+                          <kendo-grid-column field="pInterestrate" width="120" title="Interest Rate" class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pInterestrate | mycurrencypipe}}
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pMaturityamount" width="120" title="Maturity Amount" class="kendo-right">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pMaturityamount | mycurrencypipe}}
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pInterestamount" width="120" title="Interest Amount" class="kendo-right">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pInterestamount | mycurrencypipe}}
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pTdsamount" width="120" title="TDS Amount" class="kendo-right">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pTdsamount | mycurrencypipe}}
+                            </ng-template>
+                            <ng-template let-value="value" kendoGridFooterTemplate>
+                              <p class="bc-2 text-left">Grand Total </p>
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pTotalinterestamount" width="120" title="Total Interest Amount" class="kendo-right">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pTotalinterestamount | mycurrencypipe}}
+                            </ng-template>
+                            <ng-template kendoGridFooterTemplate>
+                              <p class="bc-2 text-right">{{totalpinterestamount | mycurrencypipe}}</p>
+                            </ng-template>
+                          </kendo-grid-column>
+
+
+
+
+
+
+                        </kendo-grid>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+         
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

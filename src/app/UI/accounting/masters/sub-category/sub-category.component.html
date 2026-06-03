@@ -1,0 +1,50 @@
+<div class="container">
+    <form [formGroup]="SubcategoryForm" autocomplete="off">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label id="pAccountHeads" title="Project Name">Account Heads</label>
+                <ng-select [items]="Subcategorydata"  id="pProjectName"
+                    (change)="AccountHeads($event)" formControlName="pAccountHeads" bindLabel="pACCOUNTNAME"
+                    bindValue="pACCOUNTID" [multiple]=false placeholder="Select" [searchable]=true
+                    [clearable]=false dropdownPosition="bottom" [clearOnBackspace]=true >
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="pl-0 pr-0" id="pSubCategory">Sub Category</label>
+                <input class="form-control" type="text" placeholder="" id="pSubCategory" title="Sub Category" formControlName="pSubCategory"  
+                (change)="ChangeSubcategorychange($event)">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="d-flex justify-content-end mt-4">
+    
+                <a data-toggle="tab" class="btn btn-g-icon mr-4 px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"(click)="clearsubcategory()"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3">Clear</a>
+    
+                <a data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" (click)="savesubcategory()"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save</a>
+    
+                
+        </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-8 col-xl-8">
+          <kendo-grid [kendoGridBinding]="griddata" [groupable]="false" [height]="480" 
+            [pageSize]="10"  [reorderable]="true" [resizable]="true" [height]="480"
+            [columnMenu]="{ filter: true }" [pageable]="{ buttonCount: 2 }" [sortable]="true" >
+            <kendo-grid-column-group title="Account Heads" [headerClass]="{'kendo-g-center' : true}">
+            <kendo-grid-column field="pACCOUNTID" title="SNO" width="40" class="kendo-left">
+                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
+                    {{ rowIndex + 1 }}
+                  </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pACCOUNTID" title="Account Id" width="60" class="kendo-left"></kendo-grid-column>
+            <kendo-grid-column field="pACCOUNTNAME" title="Account Name" width="100" class="kendo-left"></kendo-grid-column>
+            </kendo-grid-column-group>
+          </kendo-grid>
+        </div>
+      </div>
+</form>
+</div>

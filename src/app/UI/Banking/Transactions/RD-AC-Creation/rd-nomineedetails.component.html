@@ -1,0 +1,222 @@
+<div class=" mt-3" *ngIf="showNominee">
+    <form [formGroup]="nomineeForm">
+        <div class="row">
+
+            <div class="col-md-6 col-xl-6">
+                <fieldset [disabled]="disablenominee">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input title="Full Name" appCharactersonly maxlength="100" id="pnomineename" class="form-control" type="text" placeholder="Enter Full Name" formControlName="pnomineename" [ngClass]="{ 'is-invalid': formValidationMessages.pnomineename }">
+                        <app-validation-message [messgae]="formValidationMessages.pnomineename"></app-validation-message>
+                    </div>
+                    <div class="form-group">
+                        <label>Relationship</label>
+                        <input title="Relationship" appCharactersonly maxlength="30" id="prelationship" class="form-control" type="text" placeholder="Enter Relationship" formControlName="prelationship" [ngClass]="{ 'is-invalid': formValidationMessages.prelationship }">
+                        <app-validation-message [messgae]="formValidationMessages.prelationship"></app-validation-message>
+                    </div>
+                    <div class="d-flex">
+                        <div class="col-md-6 col-xl-6 pl-0">
+                            <div class="form-group">
+                                <label>Date of Birth</label>
+                                <input title="Date of Birth" readonly appEnterpriseNameFormat maxlength="75" id="pdateofbirth" class="form-control" type="text" placeholder="Enter Date of Birth" formControlName="pdateofbirth" [ngClass]="{ 'is-invalid': formValidationMessages.pdateofbirth }"
+                                    [bsConfig]="pdateofbirthConfig" bsDatepicker (ngModelChange)="ageCalculation()">
+                                <app-validation-message [messgae]="formValidationMessages.pdateofbirth">
+                                </app-validation-message>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-6 pr-0">
+                            <div class="form-group">
+                                <label>Age</label>
+                                <input title="Age" readonly id="page" class="form-control" type="text" formControlName="page" [ngClass]="{ 'is-invalid': formValidationMessages.page }">
+                                <app-validation-message [messgae]="formValidationMessages.page"></app-validation-message>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact No.</label>
+                        <input title="Contact No" maxlength="12" id="pcontactno" class="form-control" type="text" appNumbersonly placeholder="Enter Contact No" formControlName="pcontactno" [ngClass]="{ 'is-invalid': formValidationMessages.pcontactno }">
+                        <app-validation-message [messgae]="formValidationMessages.pcontactno"></app-validation-message>
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    <label>Proportional</label>
+                    <input title="Proportional" appNumbersonly maxlength="3" id="pPercentage" class="form-control" type="text" placeholder=0 appZero formControlName="pPercentage" (change)="Percentagechange($event)" [ngClass]="{ 'is-invalid': formValidationMessages.pPercentage }">
+                    <app-validation-message [messgae]="formValidationMessages.pPercentage"></app-validation-message>
+                </div>
+                <!-- <div class="form-group" *ngIf="showpercentage">
+            <label>Percentage</label>
+            <input type="text" title="Percentage" class="form-control" id="pPercentage" formCotrolName="pPercentage" (change)="Percentagechange($event); " [ngClass]="{ 'is-invalid': formValidationMessages.pPercentage }"> 
+          </div> -->
+            </div>
+
+
+            <div class="col-md-6 col-xl-6">
+                <fieldset [disabled]="disablenominee">
+                    <div class="border-box">
+                        <div class="form-group">
+                            <label class="sec-head">KYC Documents</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xl-6">
+                                <label>ID Proof Type</label>
+                            </div>
+                            <div class="col-md-6 col-xl-6">
+                                <label>ID Proof</label>
+                            </div>
+                        </div>
+                        <div class="d-flex p-0">
+                            <div class="col-md-6 col-xl-6 pl-0">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <select class="form-control" id="pDocumentGroup" title="ID Proof Type" formControlName="pDocumentGroupId" [ngClass]="{ 'is-invalid': formValidationMessages.pDocumentGroup }" (change)="pidprooftypeChange($event)">
+                                        <option value="" ng-selected="selected">Select</option>
+                                        <option *ngFor="let idProofType of idProofTypeList;trackBy: trackByFn"
+                                            [value]="idProofType.pDocumentGroupId">{{idProofType.pDocumentGroup}}
+                                        </option>
+                                    </select>
+                                        <app-validation-message [messgae]="formValidationMessages.pEnterpriseType">
+                                        </app-validation-message>
+                                        <!-- <div class="input-group-append">
+                      <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" class="" width="20px" height="20px"></button>
+                    </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-6 pr-0">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <select class="form-control" id="pDocumentName" title="ID Proof Name" formControlName="pDocumentName" [ngClass]="{ 'is-invalid': formValidationMessages.pDocumentName }" (change)="pidproofChange($event)">
+                                        <option value="" ng-selected="selected" disabled>Select</option>
+                                        <option *ngFor="let idProof of idProofList;trackBy: trackByFn"
+                                            [value]="idProof.pDocumentId">{{idProof.pDocumentName}}</option>
+                                    </select>
+                                        <app-validation-message [messgae]="formValidationMessages.pDocumentName">
+                                        </app-validation-message>
+                                        <!-- <div class="input-group-append">
+                      <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-add-blue.svg" class="" width="20px" height="20px"></button>
+                    </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Reference Number</label>
+                            <input title="Reference Number" id="preferencenumber" class="form-control" maxlength="30" type="text" placeholder="Enter Reference Number" appUppercase formControlName="preferencenumber" [attr.disabled]="referenceno ? '' : null" [ngClass]="{ 'is-invalid': formValidationMessages.preferencenumber }">
+                            <app-validation-message [messgae]="formValidationMessages.preferencenumber">
+                            </app-validation-message>
+                        </div>
+                        <!-- <div class="form-group">
+              <label>Upload Identification Proof</label>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="">
+                <div class="input-group-append">
+                  <button class="btn btn-lg-icon px-2 p-0"> <img src="assets/images/icon-upload-blue.svg" class="" width="18px" height="18px"></button>
+                </div>
+              </div>
+            </div> -->
+                        <div class="form-group">
+                            <label id="pdocidproofpath" title="Upload Identification Proof">Upload Identification
+                            Proof</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="" [value]="imageResponse?.name" disabled formControlName="pdocidproofpath">
+                                <div class="input-group-append">
+                                    <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()">
+                                    <img src="assets/images/icon-upload-blue.svg" class="" width="18px" height="18px">
+                                </button>
+                                    <!-- to uplaod the image -->
+                                    <input id="fileKycNomineeDetails" style="display: none" type="file" (change)="uploadAndProgress($event,fileInput.files)" #fileInput>
+                                </div>
+                                <!-- <span class="text-success">
+                  <ng-container *ngIf="uploadSuccess"></ng-container>
+                </span> -->
+                            </div>
+
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="d-flex justify-content-end mt-4">
+                    <a href="" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" appButtonDoubleClick [debounceTime]="500" (debounceClick)="addNominee()">
+                        <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="col-md-12 col-xl-12 p-0">
+        <!-- <table id="example" class="table text-center w-auto">
+
+        <thead>
+          <tr>
+            <th>Select Nominee</th>
+            <th>Full Name</th>
+            <th>Relationship</th>
+            <th>Contact No.</th>
+            <th>D.O.B</th>
+            <th>ID Proof</th>
+            <th>Percentage</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let nominee of nomineeList;let i=index; trackBy: trackByFn">
+            <td>
+               <input class="form-check-input" type="radio" name="nominees" id="nominee1" value=""> 
+              <input *ngIf="nominee.pisprimarynominee" checked class="form-check-input" type="radio" name="nominees" id="nominee1" value="{{nominee.pisprimarynominee}}">
+              <input *ngIf="!(nominee.pisprimarynominee)" (click)="primarychecked(nominee)" class="form-check-input" type="radio" name="nominees" id="nominee1" value="{{nominee.pisprimarynominee}}">
+              <label for="nominee1"></label>
+            </td>
+            <td>{{nominee.pnomineename}}</td>
+            <td>{{nominee.prelationship}}</td>
+            <td>{{nominee.pcontactno}}</td>
+            <td>{{nominee.pdateofbirth | date : 'dd/MM/yyyy'}}</td>
+            <td>{{nominee.pidproofname}}</td>
+            <td>{{nominee.pPercentage}}</td>
+            <td>
+             
+              <a (click)="deleteNominee(i)">
+                <div id="icon-delete"></div>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>   -->
+        <kendo-grid [data]="nomineeList" [pageable]="false" [sortable]="true" [height]="150" (remove)="removeHandler($event)">
+            <!-- <kendo-grid-command-column title="" width="50">
+                <ng-template kendoGridCellTemplate>
+               
+                  <button kendoGridEditCommand><div id="icon-edit"></div></button>
+                </ng-template>
+              </kendo-grid-command-column> -->
+            <kendo-grid-command-column title="" width="80">
+
+                <ng-template kendoGridCellTemplate>
+
+                    <div id="icon-delete" kendoGridRemoveCommand></div>
+                </ng-template>
+            </kendo-grid-command-column>
+            <kendo-grid-column field="pTypeChk" title="Select Nominee" width="100">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <input type="checkbox" name="pisprimarynominee" [checked]="dataItem.pisprimarynominee=='true'" (change)="changePriority($event,dataItem,rowIndex)" />
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pnomineename" title="Full Name" width="80">
+            </kendo-grid-column>
+            <kendo-grid-column field="prelationship" title="Relationship" width="100"></kendo-grid-column>
+            <!-- <kendo-grid-column field="pcontactno" title="Contact No" width="100"></kendo-grid-column> 
+            <kendo-grid-column field="pdateofbirth" title="D.O.B" width="100">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.pdateofbirth | date : 'dd/MM/yyyy'}}
+                </ng-template>
+            </kendo-grid-column>  -->
+            <!-- <kendo-grid-column field="pidproofname" title="ID Proof" width="150"></kendo-grid-column>  -->
+            <kendo-grid-column field="pPercentage" title="Proportional" width="100">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <input appNumbersonly type="text" maxlength="3" value="{{dataItem.pPercentage}}" class="form-controll w-50" (change)="Percentagechangeingrid($event,dataItem,rowIndex)" />
+                </ng-template>
+
+            </kendo-grid-column>
+
+
+        </kendo-grid>
+    </div>
+</div>

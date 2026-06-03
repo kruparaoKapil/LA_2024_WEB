@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-xl-4 col-md-4">
+  <form [formGroup]="ContactSelectForm" id="myform">
+        <div class="form-group">
+              
+
+                    <div *ngIf="hidewhileupdate" class="demo-section k-content">
+                        <input id="contacts" name="Contact" formControlName="pContactId" width="100%" required />
+                    </div>
+                   
+            </div>
+            <div class="loans-card  mb-4 " *ngIf="ShowImageCard">
+                    <div class="row">
+                        <div class="col-12 pt-2">
+                         
+                            <div class="user-pic"> <img [src]="croppedImage"> </div>
+                        </div>
+                        <div class="col-12 pt-2">
+                            <p class="lc-title text-center mb-auto">{{DisplayCardData?.pContactName}}</p>
+                            <div class="mt-3">
+                                <p class="lc-sub-title mb-0 text-center mt-3">{{DisplayCardData?.pBusinessEntitycontactNo}}
+                                </p>
+                                <p class="lc-txt mb-0 mt-1 text-center"> Unique ID - {{DisplayCardData?.pReferenceId}} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+  </form>
+  </div>
+  </div>

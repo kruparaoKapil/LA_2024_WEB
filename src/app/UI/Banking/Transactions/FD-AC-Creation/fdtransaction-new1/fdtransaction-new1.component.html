@@ -1,0 +1,986 @@
+<div class="row">
+
+    <div class="col-md-6 col-xl-6 ">
+        <p class="bc-2">Advance Transaction</p>
+    </div>
+    <div class="col-md-6 col-xl-6 ">
+        <span (click)="back()" class="btn btn-b-icon border-0" style="background-color: #4b70ff;
+      color: #fff; padding: 5px 10px 3px 0px;cursor: pointer;float: right;"><img src="assets/images/icon-back-blue.svg"
+                width="25px" height="25px">View</span>
+    </div>
+</div>
+<!-- <div class="btn-group quick-links"> <a class="btn btn-block dropdown-toggle" data-toggle="dropdown" href="#">Select<span class="caret"></span></a>
+    <ul class="dropdown-menu">
+        <li class="dropdown-item"><a href="#">Select Member </a></li>
+        <li class="dropdown-item"><a href="#">FD A/C Creation</a></li>
+        <li class="dropdown-item"><a href="#">Add Joint Member</a></li>
+        <li class="dropdown-item"><a href="#">Referral/CP/Agent Details </a></li>
+    </ul>
+</div> -->
+<!-- ======================================================================= tab nav end ============================================================================== -->
+<div class="row">
+    <div class="col-md-8 col-xl-8">
+        <div class="section-container mt-3 P-0">
+            <ul class="nav nav-tabs tip-top wiz-tab " id="myTab" role="tablist">
+                <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover"
+                    data-content="Select Member">
+                    <a class="active disableTabs" data-toggle="tab" href="#selectmember" role="tab"
+                        aria-controls="fresh" aria-selected="true">Select Member</a>
+                </li>
+                <!-- <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="FD A/C"> <a
+        class="" data-toggle="tab" href="#fd-ac" role="tab" aria-controls="cold" aria-selected="false">2</a></li> -->
+                <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover"
+                    data-content="Add Joint Member">
+                    <a class="disableTabs" data-toggle="tab" href="#add-joint-member" role="tab" aria-controls="warm"
+                        aria-selected="false">Joint Member & Nominee</a>
+                </li>
+                <li class="nav-item" data-toggle="popover" data-placement="top" data-trigger="hover"
+                    data-content="Referral/CP/Agent Details">
+                    <a class="disableTabs" data-toggle="tab" href="#refferral" role="tab" aria-controls="cold"
+                        aria-selected="false">Referral</a>
+                </li>
+            </ul>
+            <form [formGroup]="FdTranscationform">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade  active show " id="selectmember" role="tabpanel"
+                        aria-labelledby="fresh-tab">
+                        <div class="row mt-5 ">
+                            <!-- <div class="col-md-12 col-xl-12">
+              <h2 class="sec-head-bold"></h2>
+            </div> -->
+
+                        </div>
+
+
+                        <!-- <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" *ngIf="showchit">
+                                    <label id="pChitbranchname" title="Chit Branch" class="sec-head mt-2" for="">Chit
+                                        Branch</label>
+                                    <ng-select title="Interest Payout" id="pChitbranchId" [items]="Branchdetails"
+                                        formControlName="pChitbranchname" bindLabel="pBranchname"
+                                        bindValue="pBranchname" [multiple]=false (change)="chitbranchchanges($event)"
+                                        placeholder="Select" [searchable]=true [clearable]=true
+                                        dropdownPosition="bottom" [clearOnBackspace]=true
+                                        [ngClass]="{ 'is-invalid': FdtranscationErrors.pChitbranchname }">
+                                    </ng-select>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pChitbranchname">{{FdtranscationErrors?.pChitbranchname}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label id="pRegion" title="Region">Region</label>
+                                    <div class="demo-section k-content">
+                                        <input type="text" class="form-control" style="text-align:left;"
+                                            formControlName="pRegion" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label id="pCluster" title="Cluster">Cluster</label>
+                                    <div class="demo-section k-content">
+                                        <input type="text" class="form-control" style="text-align:left;"
+                                            formControlName="pCluster" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div> -->
+
+
+                        <div class="row align-items-end">
+                            <div class="col-md-4">
+                                <div class="form-group" *ngIf="showchit">
+                                    <label id="pChitbranchname" title="Chit Branch" class="sec-head mt-2 fs-6"
+                                        for="">Chit
+                                        Branch</label>
+                                    <!-- <ng-select title="Interest Payout" id="pChitbranchId" [items]="Branchdetails"
+                                        formControlName="pChitbranchname" bindLabel="pBranchname"
+                                        bindValue="pBranchname" [multiple]=false (change)="chitbranchchanges($event)"
+                                        placeholder="Select" [searchable]=true [clearable]=true
+                                        dropdownPosition="bottom" [clearOnBackspace]=true
+                                        [ngClass]="{ 'is-invalid': FdtranscationErrors.pChitbranchname }">
+                                    </ng-select> -->
+                                    <div class="demo-section k-content">
+                                        <select class="form-control" formControlName="pBranchName"
+                                            [ngClass]="{ 'is-invalid': formValidationMessages?.pBranch }"
+                                            (change)="chitbranchchanges($event)">
+                                            <option value="" ng-selected="selected">Select</option>
+                                            <option *ngFor="let branchesData of Branchdetails"
+                                                [value]="branchesData.pBranchname">
+                                                {{branchesData.pBranchname}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pBranch">{{FdtranscationErrors?.pBranch}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- </div> -->
+                            <!-- <div class="row"> -->
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label id="pRegion" title="Region">Region</label>
+                                    <div class="demo-section k-content">
+                                        <input type="text" class="form-control" style="text-align:left;"
+                                            formControlName="pRegion" readonly>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pRegion">{{FdtranscationErrors?.pRegion}}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label id="pCluster" title="Cluster">Cluster</label>
+                                    <div class="demo-section k-content">
+                                        <input type="text" class="form-control" style="text-align:left;"
+                                            formControlName="pCluster" readonly>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pCluster">{{FdtranscationErrors?.pCluster}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label id="pEmployeeName" title="Select Employee">Select Employee</label>
+                                    <ng-select title="Select Employee" [items]="employees"
+                                        formControlName="pEmployeeName" bindLabel="pemployeename"
+                                        bindValue="pemployeename" [multiple]=false placeholder="Select"
+                                        [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                        [clearOnBackspace]=true (change)="onEmployeeChange($event)"></ng-select>
+
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pEmployeeName">{{FdtranscationErrors?.pEmployeeName}}</span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label id="pDesignation" title="Designation">Designation</label>
+                                    <input type="text" formControlName="pDesignation" class="form-control">
+
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pDesignation">{{FdtranscationErrors?.pDesignation}}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" [ngClass]="{'for-disable-radio-btn': DateLockStatus}">
+                                    <label id="pTransdate" title="Date Of Opening Account" class="mt-1"
+                                        for="">Date</label>
+                                    <input readonly type="text" class="form-control" formControlName="pTransdate"
+                                        [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom"
+                                        [ngClass]="{ 'is-invalid': FdtranscationErrors.pTransdate }">
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pTransdate">{{FdtranscationErrors?.pTransdate}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="mt-1" for="" id="pMembertypeId" title="Member Type">Member
+                                        Type</label>
+                                    <ng-select title="Member Type" id="pMembertypeId" [items]="membertypedetails"
+                                        formControlName="pMembertypeId" bindLabel="pmembertype"
+                                        bindValue="pmembertypeid" [multiple]=false placeholder="Select"
+                                        [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                        [clearOnBackspace]=false (change)="MemberTypeChange($event);"
+                                        [ngClass]="{ 'is-invalid': FdtranscationErrors.pMembertypeId }">
+                                    </ng-select>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pMembertypeId">{{FdtranscationErrors?.pMembertypeId}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2 class="sec-head-bold">Contact Type</h2>
+                                <div class="form-group" [ngClass]="notEditable ? 'cursor-not-allowaed' : ''">
+                                    <div class="form-check form-check-inline mr-5 radio-btn"
+                                        [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                        <input class="form-check-input radio-btn" type="radio"
+                                            formControlName="pEntitytype" name="pEntitytype" id="inlineRadio1"
+                                            value="Individual" (change)="SelectTypeChange('Individual')">
+                                        <label class="mt-1" for="inlineRadio1"> Individual </label>
+                                    </div>
+                                    <div class="form-check form-check-inline mr-5 radio-btn"
+                                        [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                        <input class="form-check-input radio-btn" formControlName="pEntitytype"
+                                            type="radio" name="pEntitytype" id="inlineRadio2" value="BusinessEntity"
+                                            (change)="SelectTypeChange('Business Entity')">
+                                        <label class="mt-1" for="inlineRadio2"> Business Entity </label>
+                                    </div>
+                                    <div class="form-check form-check-inline mr-5 radio-btn"
+                                        [ngClass]="{'for-disable-radio-btn': notEditable}">
+                                        <input class="form-check-input radio-btn" formControlName="pEntitytype"
+                                            type="radio" name="pEntitytype" id="inlineRadio3" value="Group"
+                                            (change)="SelectTypeChange('Group')">
+                                        <label class="mt-1" for="inlineRadio3"> Group</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2" *ngIf="groupshow">
+                            <div class="col-md-4 col-xl-4">
+                                <div class="form-group">
+                                    <label id="pGroupID" title="Group">Group</label>
+                                    <ng-select title="Group" id="pGroupID" [items]="GroupDetails"
+                                        formControlName="pGroupID" bindLabel="pGroupname" bindValue="pGroupid"
+                                        [multiple]=false placeholder="Select" [searchable]=true [clearable]=false
+                                        dropdownPosition="bottom" [clearOnBackspace]=true
+                                        (change)="GroupName_Change($event);"
+                                        [ngClass]="{ 'is-invalid': FdtranscationErrors.pGroupID }">
+                                    </ng-select>
+                                    <app-validation-message
+                                        [messgae]="FdtranscationErrors?.pGroupID"></app-validation-message>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-4 members" *ngIf="showmember">
+                                <label class="mt-1" id="pMemberId" title="Member">Member</label>
+                                <div class="form-group" [ngClass]="{'for-disable-radio-btn': notEditable}">
+
+                                    <ng-select [items]="memberdetails" formControlName="pMemberId"
+                                        bindLabel="pMemberName" bindValue="pMemberId" [multiple]=false
+                                        placeholder="Select" [searchable]="true" [searchFn]="memberSearchFn"
+                                        (change)="MemberChanges($event);" [clearable]=false dropdownPosition="bottom"
+                                        [clearOnBackspace]=false
+                                        [ngClass]="{ 'is-invalid': FdtranscationErrors.pMemberId }">
+                                        <ng-template ng-header-tmp>
+                                            <label class="col-4 p-0"><strong>Member</strong> </label>
+                                            <label class="col-4 p-0" style="text-align:center"><strong>Member
+                                                    code</strong> </label>
+                                            <label class="col-4 p-0" style="text-align:center"><strong>Contact
+                                                    No.</strong> </label>
+                                        </ng-template>
+                                        <ng-template ng-option-tmp let-item="item" let-index="index"
+                                            let-search="searchTerm">
+                                            <div class="row">
+                                                <span
+                                                    class="col-4 text-dark word-break text-wrap">{{item.pMemberName}}</span>
+                                                <span class="col-4 text-dark">{{item.pMemberCode}}</span>
+                                                <span class="col-4 text-dark">{{item.pContactnumber}}</span>
+                                            </div>
+                                        </ng-template>
+                                    </ng-select>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pMemberId">{{FdtranscationErrors?.pMemberId}}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="individual">
+
+                                    <div class="form-group">
+                                        <label class="mt-1" for="" id="pApplicantType" title="Applicant Type">Applicant
+                                            Type</label>
+                                        <div class="form-group">
+                                            <ng-select title="Member Type" id="pApplicantType" [items]="ApplicantTypes"
+                                                formControlName="pApplicantType" bindLabel="pApplicantType"
+                                                bindValue="pApplicantType" [multiple]=false placeholder="Select"
+                                                [searchable]=true [clearable]=false dropdownPosition="bottom"
+                                                [clearOnBackspace]=false (change)="ApplicanttypeChange($event);"
+                                                [ngClass]="{ 'is-invalid': FdtranscationErrors.pApplicantType }">
+                                            </ng-select>
+                                            <div class="invalid-feedback">
+                                                <span
+                                                    *ngIf="FdtranscationErrors.pApplicantType">{{FdtranscationErrors?.pApplicantType}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mt-1" for="" id="pFdConfigId" title="FD Name">Advance Name</label>
+                                    <ng-select title="Land Advance" id="pFdConfigId" [items]="FdSchemes"
+                                        formControlName="pFdConfigId" bindLabel="pFdname" bindValue="pFdConfigId"
+                                        [multiple]=false placeholder="Select" [searchable]=true [clearable]=false
+                                        dropdownPosition="bottom" [clearOnBackspace]=false
+                                        [ngClass]="{ 'is-invalid': FdtranscationErrors.pFdConfigId }"
+                                        (change)="Fdschemechange($event)">
+                                    </ng-select>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pFdConfigId">{{FdtranscationErrors?.pFdConfigId}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="form-group m-0">
+            <div class="d-flex">
+              <label class="col-md-6 col-xl-6 pl-0 mt-1" for="">FD Name and Code:</label>
+              <label class="col-md-6 col-xl-6 pl-0 mt-1 sec-head-bold" for=""></label>
+            </div>
+          </div> -->
+
+                            <div class="col-md-4" *ngIf="DepositAmountBaseconintrest">
+                                <div class="form-group">
+                                    <!-- <div class="d-flex">
+                      <label  for="">FD Name and Code:</label>
+                      <label class="sec-head-bold" for="">{{FdNameandCode}}</label>
+                  </div> -->
+                                    <label id="pDepositAmount" title="Advance Amount">Advance Amount </label>
+                                    <div class="d-flex">
+                                        <input class="form-control  col-md-12 col-xl-12" maxlength="12"
+                                            [ngClass]="{ 'is-invalid': FdtranscationErrors.pDepositAmount}"
+                                            appNumbersonly style="text-align:right;" appMycurrencyFormatter
+                                            formControlName="pDepositAmount" (change)="Depositchanges($event)">
+
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pDepositAmount">{{FdtranscationErrors?.pDepositAmount}}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4" *ngIf="tenureontable">
+                                <div class="form-group">
+                                    <div class="col-md-6 p-0">
+                                        <label class="mt-1" id="pInterestTenureMode" title="Tenure">Tenure</label>
+                                        <div class="input-group">
+                                            <div class="input-group-append">
+                                                <select class="form-control col-md-12 btn-lg-icon"
+                                                    formControlName="pInterestTenureMode"
+                                                    (change)="Tenuremodechanges($event)"
+                                                    [ngClass]="{'is-invalid': FdtranscationErrors.pInterestTenureMode}">
+                                                    <option value="" ng-selected="selected" disabled>select</option>
+                                                    <option>Days</option>
+                                                    <option>Months</option>
+                                                    <option>Years</option>
+                                                </select>
+
+                                                <!-- <span class="invalid-feedback"
+                              *ngIf="FdtranscationErrors.pInterestTenureMode">{{FdtranscationErrors?.pInterestTenureMode}}</span> -->
+
+
+                                                <!-- <input class="form-control text-right" type="text" value=""formControlName="pInterestTenure"
+                      (change)="Tenurechanges($event)"> -->
+                                                <label id="pInterestTenure" title="Tenure"></label>
+                                                <select class="form-control col-md-12 btn-lg-icon"
+                                                    formControlName="pInterestTenure"
+                                                    [ngClass]="{ 'is-invalid': FdtranscationErrors.pInterestTenure}"
+                                                    (change)="Tenurechanges($event)">
+                                                    <option value="" ng-selected="selected" disabled>select</option>
+                                                    <option *ngFor="let i of Tenuremodedetails"
+                                                        [value]="i.pInterestTenure">
+                                                        {{i.pInterestTenure}}</option>
+                                                </select>
+
+
+                                            </div>
+                                            <span class="invalid-feedback"
+                                                *ngIf="FdtranscationErrors.pInterestTenure">{{FdtranscationErrors?.pInterestTenure}}</span>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4" *ngIf="showtenureonintrest">
+                                <div class="form-group">
+                                    <label class="mt-1" id="pInterestTenure" title="Tenure">Tenure</label>
+                                    <div class="input-group">
+                                        <input class="form-control text-right" maxlength="3" type="text" value=""
+                                            appNumbersonly formControlName="pInterestTenure"
+                                            (change)="Tenurechanges($event)"
+                                            [ngClass]="{ 'is-invalid': FdtranscationErrors.pInterestTenure }">
+                                        <!-- <span class="invalid-feedback" *ngIf="FdtranscationErrors.pInterestTenure">{{FdtranscationErrors?.pInterestTenure}}</span>  -->
+                                        <div class="input-group-append">
+                                            <label id="pInterestTenureMode" title="Tenure Mode"></label>
+                                            <select class="form-control w-auto btn-lg-icon"
+                                                [ngClass]="{ 'is-invalid': FdtranscationErrors.pInterestTenureMode}"
+                                                formControlName="pInterestTenureMode"
+                                                (change)="Tenuremodechanges($event)">
+                                                <option value="" ng-selected="selected" disabled>select</option>
+                                                <option *ngFor="let i of tenuremodelist" [value]="i.pTenurename">
+                                                    {{i.pTenurename}}</option>
+                                            </select>
+
+                                        </div>
+                                        <span class="invalid-feedback"
+                                            *ngIf="FdtranscationErrors.pInterestTenureMode">{{FdtranscationErrors?.pInterestTenureMode}}</span>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div class="col-md-4" *ngIf="DepositAmountBasedontable">
+                                <div class="form-group">
+                                    <label class="mt-1 pr-3" for="" id="pDepositAmount" title="Advance Amount">Advance
+                                        Amount</label>
+                                    <select class="form-control col-md-12 btn-lg-icon" formControlName="pDepositAmount"
+                                        [ngClass]="{ 'is-invalid': FdtranscationErrors.pDepositAmount }"
+                                        (change)="DepositAmountontablechanges($event)">
+                                        <option value="" ng-selected="selected" disabled>select</option>
+                                        <option *ngFor="let i of DepositAmountdetails" [value]="i.pDepositAmount">
+                                            {{i.pDepositAmount | mycurrencypipe}}</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pDepositAmount">{{FdtranscationErrors?.pDepositAmount}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mt-1" for="" id="pInterestPayOut" title="Interest Payout">Interest
+                                        Payout</label>
+                                    <div class="d-flex ">
+                                        <ng-select title="Interest Payout" class="col-md-12 col-xl-12 p-0"
+                                            id="pInterestPayOut" [items]="FdSchemeDetails"
+                                            formControlName="pInterestPayOut" bindLabel="pInterestPayOut"
+                                            bindValue="pInterestPayOut" [multiple]=false placeholder="Select"
+                                            [searchable]=true (change)="Intrestpayoutchanges($event)" [clearable]=false
+                                            dropdownPosition="bottom"
+                                            [ngClass]="{ 'is-invalid': FdtranscationErrors.pInterestPayOut }"
+                                            [clearOnBackspace]=false>
+                                        </ng-select>
+
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pInterestPayOut">{{FdtranscationErrors?.pInterestPayOut}}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-4" *ngIf="showintrestrate">
+
+                                <div class="form-group">
+                                    <label class="mt-1" for="" id="pInterestRate"
+                                        title="Interest Rate Percentage">Interest
+                                        Rate</label>
+                                    <div class="input-group">
+                                        <input class="form-control col-md-12"
+                                            [attr.disabled]="Intrestratedisable ? '' : null"
+                                            formControlName="pInterestRate" appRoundecimal="2@2"
+                                            [ngClass]="{ 'is-invalid': FdtranscationErrors.pInterestRate }"
+                                            appMycurrencyFormatter (change)="Intrestratechanges($event)">
+                                        <div class="input-group-append">
+                                            <label
+                                                class="w-auto btn-lg-icon  pt-1 pl-1 pr-1 h-100 rounded-right ">P.A</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pInterestRate">{{FdtranscationErrors?.pInterestRate}}</span>
+                                    </div>
+                                </div>
+
+
+                                <a *ngIf="showcalculate" (click)="GetintrestAmount()"
+                                    class="btn btn-b-icon  pl-2 mt-2 ">
+                                    <img src="assets/images/icon-add-white.svg" class="mr-3 col-md-3" width="20px"
+                                        height="20px">Calculate
+                                </a>
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="col-md-4" *ngIf="showvalueper100">
+
+                                <div class="form-group">
+                                    <label class="mt-1" for="" id="pInterestRate" title="Interest Rate Percentage">Value
+                                        Per 100
+                                    </label>
+                                    <div class="input-group">
+                                        <input class="form-control col-md-12"
+                                            [attr.disabled]="Intrestratedisable ? '' : null"
+                                            formControlName="pInterestRate" appRoundecimal="2@2"
+                                            [ngClass]="{ 'is-invalid': FdtranscationErrors.pInterestRate }">
+
+                                    </div>
+
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pInterestRate">{{FdtranscationErrors?.pInterestRate}}</span>
+                                    </div>
+                                </div>
+
+
+                                <a *ngIf="showcalculate" (click)="GetintrestAmount()"
+                                    class="btn btn-b-icon  pl-2 mt-2 ">
+                                    <img src="assets/images/icon-add-white.svg" class="mr-3 col-md-3" width="20px"
+                                        height="20px">Calculate
+                                </a>
+
+
+                            </div>
+
+                            <div *ngIf="ShowIntrestamount" class="col-md-4">
+                                <div class="form-group">
+                                    <div class="d-flex pt-4">
+                                        <label id="pInterestAmount" class="col-md-6 col-xl-6 pl-0 mt-1"
+                                            title="Intrest Amount">Interest Amount :</label>
+                                        <label class="col-md-6 col-xl-6 pl-0 mt-1 font-weight-bold"
+                                            for="">{{intrestamountontable|mycurrencypipe}}</label>
+                                    </div>
+                                    <!-- <input class="form-control w-auto border-warning sec-head-bold" formControlName="pInterestAmount" readonly
+              [ngClass]="{ 'is-invalid': FdtranscationErrors.pInterestAmount }"> -->
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pInterestAmount">{{FdtranscationErrors?.pInterestAmount}}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="Showmaturityamount" class="col-md-4">
+                                <div class="form-group">
+                                    <div class="d-flex pt-4">
+                                        <label id="pMaturityAmount" title="Maturity Amount"
+                                            class="col-md-6 col-xl-6 pl-0 mt-1" for="">Maturity Amount: </label>
+                                        <label class="col-md-6 col-xl-6 pl-0 mt-1 font-weight-bold"
+                                            for="">{{Matrityamountontable|mycurrencypipe}}</label>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pMaturityAmount">{{FdtranscationErrors?.pMaturityAmount}}</span>
+                                    </div>
+                                    <!-- <input class="form-control w-auto border-warning sec-head-bold" formControlName="pMaturityAmount" readonly
+              [ngClass]="{ 'is-invalid': FdtranscationErrors.pMaturityAmount }"> -->
+
+                                </div>
+                            </div>
+
+                            <div *ngIf="ShowIntrestamountforintrest" class="col-md-4">
+                                <div class="form-group">
+                                    <div class="d-flex pt-4">
+                                        <label id="pInterestAmount" class="col-md-6 col-xl-6 pl-0 mt-1"
+                                            title="Intrest Amount">Interest Amount </label>
+                                        <label class="col-md-6 col-xl-6 pl-0 mt-1 font-weight-bold"
+                                            for="">{{IntrestAmount|mycurrencypipe}}</label>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pInterestAmount">{{FdtranscationErrors?.pInterestAmount}}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div *ngIf="Showmaturityamountforintrest" class="col-md-4">
+                                <div class="form-group">
+                                    <div class="d-flex pt-4">
+                                        <label id="pMaturityAmount" title="Maturity Amount"
+                                            class="col-md-6 col-xl-6 pl-0 mt-1" for="">Maturity Amount </label>
+                                        <label class="col-md-6 col-xl-6 pl-0 mt-1 font-weight-bold"
+                                            for="">{{MaturityAmnt|mycurrencypipe}}</label>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pMaturityAmount">{{FdtranscationErrors?.pMaturityAmount}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" hidden>
+                                <div class="form-group">
+                                    <label id="pDepositDate" title="Advance Date" for="">Expected Advance Date</label>
+                                    <input class="col-md-12 col-xl-12 form-control" readonly
+                                        [bsConfig]="depositdateConfig" formControlName="pDepositDate"
+                                        [ngClass]="{'is-invalid': FdtranscationErrors.pDepositDate}"
+                                        (ngModelChange)="DepositDatechanges()" #dp="bsDatepicker" bsDatepicker
+                                        placement="bottom" />
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pDepositDate">{{FdtranscationErrors?.pDepositDate}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" hidden>
+                                <div class="form-group">
+                                    <label id="pMaturityDate" title="Expected Maturity Date" class="mt-1"
+                                        for="">Expected
+                                        Maturity Date</label>
+                                    <input class="col-md-12 col-xl-12  form-control" readonly
+                                        [bsConfig]="maturitydateConfig" formControlName="pMaturityDate"
+                                        [attr.disabled]="maturitydate ? '' : null"
+                                        [ngClass]="{ 'is-invalid': FdtranscationErrors.pMaturityDate }"
+                                        #dp="bsDatepicker" bsDatepicker placement="bottom" />
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="FdtranscationErrors.pMaturityDate">{{FdtranscationErrors?.pMaturityDate}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- ================================================================= Select business entity======================================================================== -->
+
+
+                        <!-- ==================================================================== tab content pannnel 1 end =================================================================== -->
+
+                        <div class="row mt-4 ml-1">
+                            <div class="col-md-12 col-xl-12">
+                                <div class="d-flex justify-content-end mt-4">
+                                    <a (click)="clearform()" class="btn btn-g-icon mr-4 px-3 border-0"><img
+                                            src="assets/images/icon-cancel-white.svg" width="20px" height="20px"
+                                            class="mr-3" />Clear</a>
+                                    <!-- <a href="#" data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" role="tab"
+                              aria-controls="hot" aria-selected="false"><img src="assets/images/icon-chewron-left-whitesolid.svg"
+                                  width="20px" height="20px" class="mr-3" />Back</a> -->
+                                    <a (click)="SaveForm()" data-toggle="tab" class="btn btn-b-icon px-3 border-0 "
+                                        role="tab" aria-controls="hot" aria-selected="false"><img
+                                            src="assets/images/icon-check-white.svg" width="20px" height="20px"
+                                            class="mr-3" />Next</a>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+
+                    <!-- ==================================================================== tab content pannnel 2 end =================================================================== -->
+
+                    <div class="tab-pane fade" id="add-joint-member" role="tabpanel" aria-labelledby="warm-tab">
+                        <!-- <app-fd-jointmember [status]=status></app-fd-jointmember> -->
+                        <app-co-jointmember
+                            [jointmemberdata]="{accounttype:'FD Transaction',AddJointMembervalidation:false,AddNomineevalidation:true,Button:true}">
+                        </app-co-jointmember>
+                    </div>
+
+
+                    <!-- ==================================================================== tab content pannnel 3 end =================================================================== -->
+                    <div class="tab-pane fade" id="refferral" role="tabpanel" aria-labelledby="cold-tab">
+                        <!-- <app-fd-referral></app-fd-referral> -->
+                        <!-- <app-co-referral [referraldata]="{accounttype:'FD Transaction',validation:false}"></app-co-referral> -->
+                        <app-co-referral
+                            [referraldata]="{accounttype:'FD Transaction',validation:false,returnurl:'FdTransactionView',Button:true}">
+                        </app-co-referral>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-xl-4 pl-0 mt-3" *ngIf="showgrid">
+
+        <div class="card-box ">
+            <div class="">
+                <div class="card-body">
+                    <!-- <h2 class="sec-head">View here</h2> -->
+                    <div class="row  member-content">
+                        <div class="col-md-12 col-xl-12">
+                            <h2 class="sec-head">Advance- {{Fdname}} Details</h2>
+                        </div>
+                        <!-- <a class="btn btn-sec mr-2 mb-2" data-target="#FDDetails" data-toggle="modal"> FD-  {{Fdname}} Details</a> -->
+                        <!-- <div class="modal-header">
+                                        <div class="col-12">
+                                            <h2 class="sec-head-bold">FD- {{Fdname}} Details</h2>
+                                        </div>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div> -->
+
+                        <div class="col-md-12 col-xl-12 p-0 mt-2">
+
+                            <div class="col-md-12 col-xl-12" *ngIf="FdCalculationmode == 'Interest rate'">
+
+                                <kendo-grid [data]="griddata" [columnMenu]="{ filter: true }">
+                                    <!-- <kendo-grid-column field="pFdCalculationmode" title="FdCalculationmode" width="100">
+                                      </kendo-grid-column> -->
+                                    <kendo-grid-column field="pMinDepositAmount" title="Advance Amount" width="150"
+                                        class="kendo-center">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pMinDepositAmount|mycurrencypipe}}-{{dataItem.pMaxdepositAmount|mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pInvestmentPeriodFrom" title="Investment Period"
+                                        width="150" class="kendo-center">
+
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <div
+                                                *ngIf="(dataItem.pInvestmentPeriodFrom!='' && dataItem.pInvestmentPeriodTo!='')">
+                                                {{dataItem.pInvestmentPeriodFrom}}-{{dataItem.pInvestmentPeriodTo}}
+                                            </div>
+                                            <div *ngIf="dataItem.pInvestmentPeriodTo==''">
+
+                                                {{dataItem.pInvestmentPeriodFrom}}
+
+                                            </div>
+                                            <div *ngIf="dataItem.pInvestmentPeriodFrom==''">
+
+                                                {{dataItem.pInvestmentPeriodTo}}
+
+                                            </div>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pInterestRateFrom" title="Interest Rate/Value Per 100"
+                                        width="150" class="kendo-center">
+
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <div
+                                                *ngIf="(dataItem.pInterestRateFrom!='' && dataItem.pInterestRateTo!='')">
+                                                {{dataItem.pInterestRateFrom}}-{{dataItem.pInterestRateTo}}
+                                            </div>
+
+                                            <div *ngIf="dataItem.pInterestRateTo=='' && dataItem.pInterestRateFrom==''">
+
+                                                {{dataItem.pValuefor100 | mycurrencypipe}}
+
+                                            </div>
+
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <!-- <kendo-grid-column field="pValuefor100" title="Value Per 100" width="100">
+                                      </kendo-grid-column> -->
+                                    <kendo-grid-column field="pInterestPayOut" title="Interest PayOut" width="100"
+                                        class="kendo-center">
+                                    </kendo-grid-column>
+                                    <!-- <kendo-grid-column field="pMultiplesof" title="Multiplesof" width="100">
+                                      </kendo-grid-column> - -->
+
+                                </kendo-grid>
+
+
+
+
+
+                            </div>
+                            <div class="col-md-12 col-xl-12" *ngIf="FdCalculationmode == 'TABLE'">
+
+                                <kendo-grid [data]="griddata" [columnMenu]="{ filter: true }">
+                                    <!--<kendo-grid-column field="pFdCalculationmode" title="FdCalculationmode" width="100">
+                                        </kendo-grid-column> -->
+                                    <kendo-grid-column field="pFdtabledepositamount" title="Advance Amount" width="150"
+                                        class="kendo-center">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pFdtabledepositamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pFdtabletenure" title="Investment Period" width="150"
+                                        class="kendo-center">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pFdtabletenuremode" title="Tenure Mode" width="100"
+                                        class="kendo-center">
+                                    </kendo-grid-column>
+
+                                    <kendo-grid-column field="pFdtableinterestamount" title="Interest Amount"
+                                        width="150" class="kendo-center">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pFdtableinterestamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+
+                                    <kendo-grid-column field="pInterestPayOut" title="Interest PayOut" width="100"
+                                        class="kendo-center">
+                                    </kendo-grid-column>
+                                    <!-- <kendo-grid-column field="pMultiplesof" title="Multiplesof" width="100">
+                                      </kendo-grid-column> - -->
+
+                                </kendo-grid>
+
+
+
+
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<div class="modal right slideInRight" id="FDDetails">
+    <div class="modal-dialog modal-xl" style="width:100% !important;margin-right:0px !important;">
+        <div class="model-cst modal-content">
+            <div class="modal-header">
+                <div class="col-12">
+                    <h2 class="sec-head-bold">Advance- {{Fdname}} Details</h2>
+                </div>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 col-xl-12">
+
+                    <kendo-grid [data]="griddata" [columnMenu]="{ filter: true }">
+                        <!-- <kendo-grid-column field="pFdCalculationmode" title="FdCalculationmode" width="100">
+              </kendo-grid-column> -->
+                        <kendo-grid-column field="pMaxdepositAmount" title="Advance Amount" width="150">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pMinDepositAmount|mycurrencypipe}}-{{dataItem.pMaxdepositAmount|mycurrencypipe}}
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pInvestmentPeriodFrom" title="Investment Period" width="150">
+
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <div *ngIf="(dataItem.pInvestmentPeriodFrom!='' && dataItem.pInvestmentPeriodTo!='')">
+                                    {{dataItem.pInvestmentPeriodFrom}}-{{dataItem.pInvestmentPeriodTo}}
+                                </div>
+                                <div *ngIf="dataItem.pInvestmentPeriodTo==''">
+
+                                    {{dataItem.pInvestmentPeriodFrom}}
+
+                                </div>
+                                <div *ngIf="dataItem.pInvestmentPeriodFrom==''">
+
+                                    {{dataItem.pInvestmentPeriodTo}}
+
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pInterestRateFrom" title="Interest Rate/Value Per 100" width="150">
+
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <div *ngIf="(dataItem.pInterestRateFrom!='' && dataItem.pInterestRateTo!='')">
+                                    {{dataItem.pInterestRateFrom}}-{{dataItem.pInterestRateTo}}
+                                </div>
+
+                                <div *ngIf="dataItem.pInterestRateTo=='' && dataItem.pInterestRateFrom==''">
+
+                                    {{dataItem.pValuefor100}}
+
+                                </div>
+
+                            </ng-template>
+                        </kendo-grid-column>
+                        <!-- <kendo-grid-column field="pValuefor100" title="Value Per 100" width="100">
+              </kendo-grid-column> -->
+                        <kendo-grid-column field="pInterestPayOut" title="Interest PayOut" width="100">
+                        </kendo-grid-column>
+                        <!-- <kendo-grid-column field="pMultiplesof" title="Multiplesof" width="100">
+              </kendo-grid-column> - -->
+
+                    </kendo-grid>
+
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="custom-modal-overlay" *ngIf="showModal">
+    <div class="custom-modal-content">
+        <h3>Warning</h3>
+        <p>Please Add Nominee , Referral Details.</p>
+        <button (click)="closeModal()">Close</button>
+    </div>
+</div>
+
+<style>
+    /*  */
+
+    .custom-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        /* Dark overlay */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        /* Ensure it's on top of other content */
+    }
+
+    .custom-modal-content {
+        background: #ff4444;
+        /* Bright red background */
+        padding: 15px 25px;
+        /* Smaller padding to decrease the size */
+        border-radius: 10px;
+        /* Rounded corners */
+        color: white;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        /* Adding shadow for a lifted look */
+        width: 200px;
+        /* Small width for the modal */
+        /* min-height: 100px;  Small height */
+        text-align: center;
+    }
+
+    .custom-modal-content h3 {
+        margin: 0 0 10px;
+        /* Slightly reduce space between header and text */
+        font-size: 18px;
+    }
+
+    .custom-modal-content p {
+        font-size: 14px;
+    }
+
+    button {
+        margin-top: 15px;
+        padding: 6px 12px;
+        background-color: white;
+        color: #ff4444;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #ff6666;
+    }
+</style>

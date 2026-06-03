@@ -1,0 +1,131 @@
+<div class="row">
+  <div class=" mt-4 pt-3">
+    <p class="bc-2">Loan Creation</p>
+  </div>
+</div>
+
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+          <h3>
+            Loading...
+          </h3>
+        
+        </div>
+      </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+</div>
+
+<form [formGroup]="Loansnamescodeform">
+  <div class="row mt-1">
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label id="pLoantypeid" title="Loan Type">* Loan Type</label>
+        <select class="form-control" placeholder="Loan Type" (change)="ChangeLoanType($event)" formControlName="pLoantypeid" [ngClass]="{ 'is-invalid': f.pLoantypeid.errors && submitted}" [attr.disabled]="LoanTypeDisable? '' : null">
+          <option value="" disabled>Select</option>
+          <option *ngFor="let loan of loans;trackBy: trackByFn;" [value]="loan.pLoantypeid"> {{loan.pLoantype}}</option>
+        </select>
+        <div *ngIf=" submitted &&  f.pLoantypeid.errors" class="invalid-feedback">
+          <div *ngIf="f.pLoantypeid.errors.required">Select Loan Type</div>
+        </div>
+      </div>
+    </div>
+    <!--col-end-->
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label>* Loan Name</label>
+        <input appInitCap appAlphanumericwithSpecialCharacters maxlength="50" class="form-control" (blur)="GenerateLoanCode($event)" formControlName="pLoanname" type="text" placeholder="Enter Loan Name" value="" [ngClass]="{ 'is-invalid': f.pLoanname.errors && submitted }" [attr.disabled]="LoanNameDisable? '' : null">
+        <!-- <small class="form-text clr-orange"></small> -->
+        <div *ngIf=" submitted &&  f.pLoanname.errors" class="invalid-feedback">
+          <div *ngIf="f.pLoanname.errors.required">Enter Loan Name</div>
+        </div>
+      </div>
+    </div>
+    <!--col-end-->
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group">
+        <label>* Loan code</label>
+        <input appUppercase appAlphanumericcharsonly maxlength="25" class="form-control" type="text" style="text-transform: uppercase" (blur)="CheckLoanCodeDuplicate()" formControlName="pLoancode" placeholder="Loan Code" [ngClass]="{ 'is-invalid': f.pLoancode.errors && submitted }" [attr.disabled]="LoanCodeDisable? '' : null">
+        <div *ngIf=" submitted &&  f.pLoancode.errors" class="invalid-feedback">
+          <div *ngIf="f.pLoancode.errors.required">Enter Loan Code</div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <!--col-end-->
+    <div class="col-md-6 col-xl-4">
+      <div class="row">
+        <div class="col-md-6 col-xl-6 m-0">
+          <div class="form-group m-0">
+            <label>Company Code</label>
+          </div>
+          <div class="form-group m-0">
+            <label class="font-weight-bold text-grey">{{Ccode}}</label>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-6 m-0">
+          <div class="form-group m-0">
+            <label>Branch Code</label>
+          </div>
+          <div class="form-group m-0">
+            <label class="font-weight-bold text-grey">{{Bcode}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--col-end-->
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group m-0">
+        <label>Series</label>
+      </div>
+      <div class="form-group m-0">
+        <input appNumbersonly class="form-control" (blur)="GenerateSeries($event)" maxlength="5" formControlName="pSeries" type="text" placeholder="101" [ngClass]="{ 'is-invalid': f.pSeries.errors && submitted }" [attr.disabled]="SeriesDisable? '' : null">
+        <div *ngIf=" submitted &&  f.pSeries.errors" class="invalid-feedback">
+          <div *ngIf="f.pSeries.errors.required">Enter Series</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="form-group m-0">
+        <label>Loan ID</label>
+      </div>
+      <div class="form-group ">
+        <label class="font-weight-bold text-grey">{{Lnamecode}}</label>
+      </div>
+    </div>
+    <hr>
+    <div *ngIf="statusShowHide" class="col-md-6 col-xl-4">
+      <div>
+        <p class="mb-2 cb-l">Status</p>
+      </div>
+      <div class="form-check form-check-inline mr-5">
+        <input class="form-check-input" type="radio" (change)="CheckStatus($event)" formControlName="pStatusname" id="1" value="Active">
+        <label class="form-check-label" for="1">Active</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" (change)="CheckStatus($event)" formControlName="pStatusname" id="2" value="In-Active">
+        <label class="form-check-label" for="2">Inactive</label>
+      </div>
+    </div>
+    <!--col-end-->
+  </div>
+  <!--row-end-->
+  <!--row-end-->
+</form>
+<!--form-end--><!--form-end-->
+<!--row-end-->
+<div class="d-flex justify-content-end mt-4"> <a *ngIf="ClearButtonHideShowInEdit" (click)="Clear()" class="btn btn-g-icon mr-4 px-3 border-0"><img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a> <a (click)="NextTabClick()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-chewron-right-whitesolid.svg" width="20px" height="20px" class="mr-3" />Next</a> </div>
+<!--buttons-end-->
+<div class="row py-2 overflow-y-auto height-350">
+  <div class="col-12">
+    <table id="Transfer"
+           class="table"
+           cellspacing="0" width="100%" style="width:100%">
+      <thead>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+</div>

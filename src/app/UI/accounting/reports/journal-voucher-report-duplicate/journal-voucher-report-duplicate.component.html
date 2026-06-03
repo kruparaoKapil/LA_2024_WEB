@@ -1,0 +1,226 @@
+<!-- <div class="col-md-12 col-xl-12 mt-5 text-center">
+    <p class="bc-2">{{receiptName}}</p>
+</div> -->
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+
+</div>
+<div class="col-md-12 mt-5 mb-4">
+    <div id="template">
+        <div class="d-flex justify-content-end mr-3">
+            <ul class="temp-ul">
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Journal-Voucher-Report.pdf')" />
+                </li>
+                <!-- <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li> -->
+            </ul>
+
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="float" [scale]="0.5">
+                        <div id="temp-box">
+                            <div class="mt-2 border rounded shadow-sm bg-white">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        
+                                        <p class="duplicatetxt">Duplicate</p>
+                                        <app-company-details></app-company-details>
+                                        <div class="report-head">
+                                            <p class="font-18 text-dark text-center m-0">
+                                                {{receiptName}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <p class="bc-1 font-14 text-left m-0 mr-4">JV No : {{pJvnumber}}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="font-14 text-right m-0 font-weight-bold">Date : <label class="">{{pJvDate}}</label></p>
+                                    </div>
+                                </div>
+
+                                <div class="row pt-2">
+                                    <div class="col-12">
+                                        <!-- <kendo-grid [kendoGridBinding]="JournalVoucherData">
+                                                <kendo-grid-column field="ptransactionno" title="S.No." width="100">
+                                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                        {{rowIndex+ 1}}
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="pParticulars" title="Particulars" width="300">
+                                                </kendo-grid-column>
+    
+                                                <kendo-grid-column title="Debit Amount" width="100">
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        {{dataItem.pDebitamount | mycurrencypipe}}
+                                                    </ng-template>
+                                                    <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex1">
+                                                        {{pDebitamount | mycurrencypipe}}
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column title="Credit Amount" width="100">
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        {{dataItem.pCreditAmount | mycurrencypipe}}
+                                                    </ng-template>
+                                                    <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+                                                        {{pCreditAmount | mycurrencypipe}}
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                            </kendo-grid> -->
+                                        <table class="table table-bordered receipt-table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10px;">S.no</th>
+                                                    <th class="">Particulars</th>
+                                                    <th class="">Debit Amount</th>
+                                                    <th class="text-right">Credit Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tr *ngFor="let JvData of JournalVoucherData; let x = index;">
+                                                <td class="text-center" style="width: 10px;"><label>{{x+1}}</label></td>
+                                                <td><label class="">{{JvData.pParticulars}}</label>
+                                                </td>
+                                                <td class="text-right"><label class="font-weight-bold">{{JvData.pDebitamount | mycurrencypipe}}</label>
+                                                </td>
+                                                <td class="text-right"><label class="font-weight-bold">{{JvData.pCreditAmount | mycurrencypipe}}</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center"><label></label></td>
+                                                <td class="text-right"><label class="font-weight-bold w-50">Total</label></td>
+                                                <td class="text-right">
+                                                    <label class="font-weight-bold">{{pDebitamount | mycurrencypipe }}</label>
+                                                </td>
+                                                <td class="text-right"><label class="font-weight-bold">{{pCreditAmount | mycurrencypipe }}</label>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="m-0"><label class="font-weight-bold col-md-2 pl-0">Narration<span class="pull-right">:</span></label>
+                                            <label class="col-md-10"> {{pNarration | titlecase}} <span *ngIf="pNarration!=''">.</span></label>
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="">
+                                            <label class="mb-4"></label>
+                                            <p class="font-14 text-center m-0 mr-4 font-weight-bold m-0 mb-5 mt-5">
+                                                (Verified by)</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="">
+                                            <label class="mb-4"></label>
+                                            <p class="font-14 text-center m-0 font-weight-bold m-0 mb-5 mt-5">(Approved
+                                                by)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="">
+                                            <label class="mb-4"></label>
+                                            <p class="font-14 text-center m-0 font-weight-bold m-0 mb-5 mt-5">(Posted
+                                                by)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+
+                                <div class="row mt-5">
+                                    <div class="col-md-4">
+                                        <div class="temp-sign-box text-center">
+                                            <label class="font-14 m-0">Approved</label>
+                                            <p class="font-14 font-weight-bold text-dark mb-4">
+                                                (Approved By)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="temp-sign-box text-center">
+                                            <label class="font-14 m-0">Verified</label>
+                                            <p class="font-14 font-weight-bold text-dark mb-4">
+                                                (Verified By)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="temp-sign-box text-center">
+                                            <label class="font-14 m-0">Posted</label>
+                                            <p class="font-14 font-weight-bold text-dark mb-4">
+                                                (Posted By)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="row mt-4">
+                                    <div class="col-md-3">
+                                        <div class="">
+                                            <label class="mb-4"></label>
+                                            <p class="font-14 text-center m-0 mr-4 font-weight-bold m-0 mb-5 mt-5">
+                                                (Verified by)</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" style="bottom:0px;">
+                                        <div class="temp-sign-box text-center">
+                                            <label class="mb-4"></label>
+                                            <p class="font-14 font-weight-bold text-dark mt-4 mb-4">
+                                                (Approved By)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="temp-sign-box text-center">
+                                            <label class="mb-4"></label>
+                                            <p class="font-14 font-weight-bold text-dark mt-4 mb-4">
+                                                (Verified By)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="temp-sign-box text-center">
+                                            <label class="mb-4 font-16"></label>
+                                            <p class="font-14 font-weight-bold text-dark  mb-4">
+                                                (Posted By)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                            </div>
+                        </div>
+                    </kendo-pdf-export>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .duplicatetxt{
+    font-size: 20px;
+    color: rgb(255 5 5);
+    position: absolute;
+    text-transform: uppercase;
+    right: 30px;
+    font-weight: bold;
+}
+    </style>

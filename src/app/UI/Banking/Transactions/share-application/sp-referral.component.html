@@ -1,0 +1,68 @@
+<form [formGroup]="referralForm">
+    <div class="row mt-5 ">
+        <div class="col-3">
+            <label class="bc-2">Referral</label>
+        </div>
+        <div class="form-group">
+            <div class="material-switch">
+                <span class="mr-2"></span>
+
+                <input id="refferal" name="refferal" type="checkbox" formControlName="pIsReferralsapplicable" [ngClass]="{ 'is-invalid': referralTypeErrorMessage.pIsReferralsapplicable}" (change)="RefferalApplicable($event)">
+                <label for="refferal" class="badge-success" data-toggle="collapse" data-target="#tds"></label>
+                <div class="invalid-feedback">
+                    <span *ngIf="referralTypeErrorMessage.pIsReferralsapplicable">{{referralTypeErrorMessage?.pIsReferralsapplicable}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="ShowReferral">
+        <div class="col-md-6 col-xl-6">
+
+            <div class="form-group">
+                <label class="mt-1" id="pReferralId" title="Referral">Select Referral/Channel Partner/Agent</label>
+                <div class="form-group ">
+                    <ng-select title="Member" id="pMemberid" [items]="referralAgents" formControlName="pReferralId" bindLabel="pReferralName" bindValue="pReferralId" [multiple]=false placeholder="Select" [searchable]=true [clearable]=true dropdownPosition="bottom" [ngClass]="{'is-invalid': referralTypeErrorMessage.pReferralId}"
+                        [clearOnBackspace]=true (change)="referralAgentDetails($event);">
+                    </ng-select>
+                    <div class="invalid-feedback">
+                        <span *ngIf="referralTypeErrorMessage.pReferralId">{{referralTypeErrorMessage?.pReferralId}}</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-6 ">
+
+            <div class="form-group">
+                <label class="mt-1" id="pSalesPersonName" title="Sales Personnel">Select Sales Personnel</label>
+                <div class="form-group ">
+                    <ng-select title="Member" id="pMemberid" [items]="allEmployeeDetails" formControlName="pSalesPersonName" bindLabel="pEmployeeName" bindValue="pEmployeeName" [multiple]=false placeholder="Select" [searchable]=true [clearable]=true [ngClass]="{'is-invalid': referralTypeErrorMessage.pSalesPersonName}"
+                        dropdownPosition="bottom" [clearOnBackspace]=true (change)="employeeDetails($event)">
+                    </ng-select>
+                    <div class="invalid-feedback">
+                        <span *ngIf="referralTypeErrorMessage.pSalesPersonName">{{referralTypeErrorMessage?.pSalesPersonName}}</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="row mt-4 ml-1">
+    <div class="col-md-12 col-xl-12" *ngIf="ShowSaveClearbuttons">
+        <div class="col-md-12 col-xl-12">
+            <div class="d-flex justify-content-end mt-4">
+                <a (click)="clear()" class="btn btn-g-icon mr-4 px-3 border-0">
+                    <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear
+                </a>
+                <!-- <a href="#" data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" role="tab" aria-controls="hot"
+                    aria-selected="false"><img src="assets/images/icon-chewron-left-whitesolid.svg" width="20px" height="20px"
+                      class="mr-3" />Back</a> -->
+                <a (click)="SaveReferral()" data-toggle="tab" class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" aria-selected="false">
+                    <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />Submit
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,456 @@
+<div class="card-header">
+    <div class="col-md-6 col-xl-6 mb-3">
+        <p class="bc-2">Fund Transfer</p>
+    </div>
+</div>
+
+<div class="section-container">
+    <form [formGroup]="fundTransferForm" autocomplete="off">
+        <div>
+            <div class="card-box">
+
+                <!-- Date -->
+                <div class="row">
+                    <div class="col-md-4 col-xl-3">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <fieldset [disabled]="!disabletransactiondate">
+                                <input class="form-control" readonly type="text"
+                                    [bsConfig]="ppaymentdateConfig" bsDatepicker
+                                    formControlName="ppaymentdate"
+                                    [ngClass]="{'is-invalid': formValidationMessages?.ppaymentdate}">
+                            </fieldset>
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="formValidationMessages?.ppaymentdate">
+                                    {{ formValidationMessages.ppaymentdate }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Company / Office -->
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label id="company_code" title="Company">Company <span class="text-danger">*</span></label>
+                        <ng-select [items]="companies" formControlName="company_code"
+                            bindLabel="company_name" bindValue="branch_id"
+                            placeholder="Select" [searchable]="true" [clearable]="true"
+                            dropdownPosition="bottom" [clearOnBackspace]="true"
+                            (change)="onCompanyChange($event)"
+                            [ngClass]="{'is-invalid': formValidationMessages?.company_code}">
+                        </ng-select>
+                        <div class="invalid-feedback-cst">
+                            <span *ngIf="formValidationMessages?.company_code">
+                                {{ formValidationMessages.company_code }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label id="branch_code" title="Office">Office <span class="text-danger">*</span></label>
+                        <!-- <select class="form-control" formControlName="branch_code"
+                            [ngClass]="{'is-invalid': formValidationMessages?.branch_code}">
+                            <option value="">-- Select Office --</option>
+                            <option *ngFor="let o of offices; trackBy: trackByFn" [value]="o.company_branch">
+                                {{ o.company_branch }}
+                            </option>
+                        </select> -->
+                        <ng-select [items]="offices" formControlName="branch_code" bindLabel="company_branch" 
+                        bindValue="branch_id" placeholder="-- Select Office --" [searchable]="true" [clearable]="true"
+                        dropdownPosition="bottom" [clearOnBackspace]="true" [ngClass]="{'is-invalid': formValidationMessages?.branch_code}">
+                        </ng-select>
+                        <div class="invalid-feedback-cst">
+                            <span *ngIf="formValidationMessages?.branch_code">
+                                {{ formValidationMessages.branch_code }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mode of Payment -->
+                <div class="row mt-2">
+                    <div class="mt-1 mb-4 col-12">
+                        <div class="rounded border p-2 pt-3 pl-3 shadow-sm">
+                            <p class="bc-2">Mode of Payment</p>
+
+                            <div class="form-group mt-2 pl-0">
+                                <div class="form-check form-check-inline radio-btn">
+                                    <input class="form-check-input" type="radio"
+                                        formControlName="pModeofreceipt" id="CASH" value="CASH"
+                                        (change)="modeofPaymentChange()">
+                                    <label class="mt-1 text-center" for="CASH">
+                                        Cash - {{ cashBalance }}
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline radio-btn">
+                                    <input class="form-check-input" type="radio"
+                                        formControlName="pModeofreceipt" id="BANK" value="BANK"
+                                        (change)="modeofPaymentChange()">
+                                    <label class="mt-1 text-center" for="BANK">
+                                        Bank - {{ bankBalance }}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- CASH: Amount Paid -->
+                            <div *ngIf="showamountpaid" class="col-md-3">
+                                <div class="form-group">
+                                    <label id="pactualpaidamount" title="Amount Paid">Amount Paid <span class="text-danger">*</span></label>
+                                    <input class="form-control border-warning" style="text-align:right"
+                                        type="text" formControlName="pactualpaidamount"
+                                        (blur)="pamount_change()"
+                                        [ngClass]="{'is-invalid': formValidationMessages?.pactualpaidamount}">
+                                    <div class="invalid-feedback-cst">
+                                        <span *ngIf="formValidationMessages?.pactualpaidamount">
+                                            {{ formValidationMessages.pactualpaidamount }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- BANK: Transaction type radios -->
+                            <div *ngIf="showModeofPayment">
+                                <div class="ml-3 mb-3 rounded border pl-2 pr-2 badge-light d-inline-block">
+                                    <div class="form-check form-check-inline radio-btn-secondary">
+                                        <input class="form-check-input" type="radio"
+                                            formControlName="ptranstype" id="cheque" value="CHEQUE"
+                                            (change)="transofPaymentChange('CHEQUE')">
+                                        <label class="mt-1" for="cheque">Cheque</label>
+                                    </div>
+                                    <div class="form-check form-check-inline radio-btn-secondary">
+                                        <input class="form-check-input" type="radio"
+                                            formControlName="ptranstype" id="net" value="ONLINE"
+                                            (change)="transofPaymentChange('ONLINE')">
+                                        <label class="mt-1" for="net">Online</label>
+                                    </div>
+                                    <div class="form-check form-check-inline radio-btn-secondary">
+                                        <input class="form-check-input" type="radio"
+                                            formControlName="ptranstype" id="debitCard" value="DEBIT CARD"
+                                            (change)="transofPaymentChange('DEBIT CARD')">
+                                        <label class="mt-1" for="debitCard">Debit Card</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CHEQUE fields -->
+                            <div class="col-md-12" *ngIf="showCheque">
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <label>Bank Name <span class="text-danger">*</span></label>
+                                        <select class="form-control" formControlName="pbankid"
+                                            (change)="bankName_Change($event)"
+                                            [ngClass]="{'is-invalid': CommisionPaymentErrors?.pbankid}">
+                                            <option value="" [disabled]="true">Select</option>
+                                            <option *ngFor="let bank of banklist; trackBy: trackByFn"
+                                                [value]="bank.pbankid">{{ bank.pbankname }}</option>
+                                        </select>
+                                        <div class="invalid-feedback-cst">
+                                            <span *ngIf="CommisionPaymentErrors?.pbankid">
+                                                {{ CommisionPaymentErrors.pbankid }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 form-group">
+                                        <label>Branch Name <span class="text-danger">*</span></label>
+                                        <input class="form-control" type="text" formControlName="pbranchname"
+                                            [ngClass]="{'is-invalid': CommisionPaymentErrors?.pbranchname}">
+                                        <div class="invalid-feedback-cst">
+                                            <span *ngIf="CommisionPaymentErrors?.pbranchname">
+                                                {{ CommisionPaymentErrors.pbranchname }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 form-group">
+                                        <label>Cheque No. <span class="text-danger">*</span></label>
+                                        <select class="form-control" formControlName="pchequeno"
+                                            (change)="chequenumber_Change()"
+                                            [ngClass]="{'is-invalid': CommisionPaymentErrors?.pchequeno}">
+                                            <option value="" [disabled]="true">Select</option>
+                                            <option *ngFor="let c of chequenumberslist; trackBy: trackByFn"
+                                                [value]="c.pChequenumber">{{ c.pChequenumber }}</option>
+                                        </select>
+                                        <div class="invalid-feedback-cst">
+                                            <span *ngIf="CommisionPaymentErrors?.pchequeno">
+                                                {{ CommisionPaymentErrors.pchequeno }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 form-group">
+                                        <label id="pactualpaidamount" title="Amount Paid">Amount Paid <span class="text-danger">*</span></label>
+                                        <input class="form-control border-warning" style="text-align:right"
+                                            type="text" formControlName="pactualpaidamount"
+                                            (blur)="pamount_change()"
+                                            [ngClass]="{'is-invalid': formValidationMessages?.pactualpaidamount}">
+                                        <div class="invalid-feedback-cst">
+                                            <span *ngIf="formValidationMessages?.pactualpaidamount">
+                                                {{ formValidationMessages.pactualpaidamount }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ONLINE fields -->
+                            <div class="row" *ngIf="showOnline">
+                                <div class="col-md-3 form-group">
+                                    <label>Bank Name <span class="text-danger">*</span></label>
+                                    <select class="form-control" formControlName="pbankid"
+                                        (change)="bankName_Change($event)"
+                                        [ngClass]="{'is-invalid': CommisionPaymentErrors?.pbankid}">
+                                        <option value="" [disabled]="true">Select</option>
+                                        <option *ngFor="let bank of banklist1; trackBy: trackByFn"
+                                            [value]="bank.pbankid">{{ bank.pbankname }}</option>
+                                    </select>
+                                    <div class="invalid-feedback-cst">
+                                        <span *ngIf="CommisionPaymentErrors?.pbankid">
+                                            {{ CommisionPaymentErrors.pbankid }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <label>Type of Payment <span class="text-danger">*</span></label>
+                                    <select class="form-control" formControlName="ptypeofpayment"
+                                        (change)="typeofPaymentChange()"
+                                        [ngClass]="{'is-invalid': CommisionPaymentErrors?.ptypeofpayment}">
+                                        <option value="" [disabled]="true">Select</option>
+                                        <option *ngFor="let t of typeofpaymentlist; trackBy: trackByFn"
+                                            [value]="t.ptypeofpayment">{{ t.ptypeofpayment }}</option>
+                                    </select>
+                                    <div class="invalid-feedback-cst">
+                                        <span *ngIf="CommisionPaymentErrors?.ptypeofpayment">
+                                            {{ CommisionPaymentErrors.ptypeofpayment }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <label>Reference No. <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" placeholder="Reference No"
+                                        maxlength="30" formControlName="preferencenoonline"
+                                        [ngClass]="{'is-invalid': CommisionPaymentErrors?.preferencenoonline}">
+                                    <div class="invalid-feedback-cst">
+                                        <span *ngIf="CommisionPaymentErrors?.preferencenoonline">
+                                            {{ CommisionPaymentErrors.preferencenoonline }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <label id="pactualpaidamount" title="Amount Paid">Amount Paid <span class="text-danger">*</span></label>
+                                    <input class="form-control border-warning" style="text-align:right"
+                                        type="text" formControlName="pactualpaidamount"
+                                        (blur)="pamount_change()"
+                                        [ngClass]="{'is-invalid': formValidationMessages?.pactualpaidamount}">
+                                    <div class="invalid-feedback-cst">
+                                        <span *ngIf="formValidationMessages?.pactualpaidamount">
+                                            {{ formValidationMessages.pactualpaidamount }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- UPI -->
+                                <ng-container *ngIf="showupi">
+                                    <div class="col-md-4 form-group">
+                                        <label>UPI</label>
+                                        <select class="form-control" formControlName="pUpiname"
+                                            (change)="upiName_Change($event)"
+                                            [ngClass]="{'is-invalid': CommisionPaymentErrors?.pUpiname}">
+                                            <option value="" [disabled]="true">Select</option>
+                                            <option *ngFor="let u of upinameslist; trackBy: trackByFn"
+                                                [value]="u.pUpiname">{{ u.pUpiname }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 form-group">
+                                        <label>UPI ID</label>
+                                        <select class="form-control" formControlName="pUpiid"
+                                            [ngClass]="{'is-invalid': CommisionPaymentErrors?.pUpiid}">
+                                            <option value="" [disabled]="true">Select</option>
+                                            <option *ngFor="let u of upiidlist; trackBy: trackByFn"
+                                                [value]="u.pUpiid">{{ u.pUpiid }}</option>
+                                        </select>
+                                    </div>
+                                </ng-container>
+                            </div>
+
+                            <!-- DEBIT CARD fields -->
+                            <div class="row" *ngIf="showdebitcard">
+                                <div class="col-md-3 form-group">
+                                    <label>Debit Card <span class="text-danger">*</span></label>
+                                    <select class="form-control" formControlName="pdebitcard"
+                                        (change)="debitCard_Change($event)"
+                                        [ngClass]="{'is-invalid': CommisionPaymentErrors?.pdebitcard}">
+                                        <option value="" [disabled]="true">Select</option>
+                                        <option *ngFor="let d of debitcardlist; trackBy: trackByFn"
+                                            [value]="d.pCardNumber">{{ d.pCardNumber }}</option>
+                                    </select>
+                                    <div class="invalid-feedback-cst">
+                                        <span *ngIf="CommisionPaymentErrors?.pdebitcard">
+                                            {{ CommisionPaymentErrors.pdebitcard }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <label>Bank / Financial Services <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" formControlName="pfinancialservice"
+                                        [ngClass]="{'is-invalid': CommisionPaymentErrors?.pfinancialservice}">
+                                    <div class="invalid-feedback-cst">
+                                        <span *ngIf="CommisionPaymentErrors?.pfinancialservice">
+                                            {{ CommisionPaymentErrors.pfinancialservice }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <label>Reference No. <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" placeholder="Reference No"
+                                        formControlName="preferencenodcard"
+                                        [ngClass]="{'is-invalid': CommisionPaymentErrors?.preferencenodcard}">
+                                    <div class="invalid-feedback-cst">
+                                        <span *ngIf="CommisionPaymentErrors?.preferencenodcard">
+                                            {{ CommisionPaymentErrors.preferencenodcard }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <label id="pactualpaidamount" title="Amount Paid">Amount Paid <span class="text-danger">*</span></label>
+                                    <input class="form-control border-warning" style="text-align:right"
+                                        type="text" formControlName="pactualpaidamount"
+                                        (blur)="pamount_change()"
+                                        [ngClass]="{'is-invalid': formValidationMessages?.pactualpaidamount}">
+                                    <div class="invalid-feedback-cst">
+                                        <span *ngIf="formValidationMessages?.pactualpaidamount">
+                                            {{ formValidationMessages.pactualpaidamount }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bank Book / Pass Book balances -->
+                            <div class="col-12 mb-2">
+                                <span class="badge bg-info text-white px-2 py-1">
+                                    Bank Book - {{ bankbookBalance || 0 }}
+                                </span>
+                                <span class="badge bg-warning text-dark px-2 py-1 ml-2">
+                                    Pass Book - {{ bankpassbookBalance || 0 }}
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid -->
+                <div class="row mt-3">
+                    <div class="col-md-12 col-xl-12 pt-4">
+                        <div class="rounded border">
+                            <kendo-grid [data]="paymentslist" [height]="250"
+                                [pageSize]="gridState.take" [skip]="gridState.skip"
+                                [sort]="gridState.sort" [pageable]="false" [sortable]="true"
+                                [resizable]="true" (remove)="removeHandler($event)"
+                                [selectable]="selectableSettings">
+
+                                <kendo-grid-column field="company_name" title="Company Name" width="180">
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="branch_name" title="Branch Name" width="150">
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="pModeofreceipt" title="Mode" width="100">
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="ptranstype" title="Trans Type" width="120">
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="pbankname" title="Bank Name" width="150">
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="pbranchname" title="Branch" width="130">
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="pchequeno" title="Cheque / Ref No." width="140">
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="pactualpaidamount" title="Amount Paid" width="130">
+                                    <ng-template kendoGridFooterTemplate>
+                                        {{ paymentlistcolumnwiselist.pactualpaidamount }}
+                                    </ng-template>
+                                </kendo-grid-column>
+
+                                <kendo-grid-command-column title="" width="80">
+                                    <ng-template kendoGridCellTemplate>
+                                        <div id="icon-remove" kendoGridRemoveCommand></div>
+                                    </ng-template>
+                                </kendo-grid-command-column>
+
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Narration + Upload -->
+                <div class="row mt-2">
+                    <div class="col-md-6 form-group">
+                        <label>Narration</label>
+                        <textarea class="form-control" rows="4" formControlName="pnarration"
+                            maxlength="300"
+                            [ngClass]="{'is-invalid': formValidationMessages?.pnarration}">
+                        </textarea>
+                        <div class="invalid-feedback-cst">
+                            <span *ngIf="formValidationMessages?.pnarration">
+                                {{ formValidationMessages.pnarration }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label>Upload Document</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control"
+                                [value]="imageResponse?.name" [disabled]="true"
+                                formControlName="pDocStorePath">
+                            <div class="input-group-append">
+                                <button class="btn btn-lg-icon px-2 p0" type="button"
+                                    (click)="fileInput.click()">
+                                    <img src="assets/images/icon-upload-blue.svg"
+                                        width="18px" height="18px">
+                                </button>
+                                <input style="display:none" type="file" #fileInput
+                                    (change)="uploadAndProgress($event, fileInput.files)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /card-box -->
+
+            <!-- Action Buttons -->
+            <div class="row mt-4 ml-1 mb-4">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="button" class="btn btn-secondary mr-4 px-3 border-0"
+                            (click)="clearPaymentVoucher()">
+                            <img src="assets/images/icon-cancel-white.svg"
+                                width="20px" height="20px" class="mr-2">
+                            Clear
+                        </button>
+                        <button type="button" class="btn btn-primary px-3 border-0 ml-4"
+                            [disabled]="disablesavebutton" (click)="savePaymentVoucher()">
+                            <i class="fa"
+                                [ngClass]="{'fa-spin fa-spinner': disablesavebutton,
+                                            'fa-check': !disablesavebutton}"></i>
+                            &nbsp;{{ savebutton }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>

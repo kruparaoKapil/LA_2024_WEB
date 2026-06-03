@@ -1,0 +1,141 @@
+<div class="section-container">
+  <div class="row">
+    <div class="col-md-6 col-xl-6 ">
+      <p class="bc-2">Schedule Trail Balance
+      </p>
+    </div>
+  </div>
+  <form [formGroup]="DocumentsForm">
+
+    <div class="row d-flex col-md-12 mt-3 ">
+
+
+      <div class="form-group">
+        <div class="form-check radio-btn form-check-inline mr-1  ">
+          <input class="form-check-input " [checked]="Type === 'STB'" type="radio" name="inlineRadioOptions1"
+            id="inlineRadio2" value="STB" (click)="scheduleTBClick()">
+          <label class="mt-1" for="inlineRadio2">SCHEDULE TB</label>
+        </div>
+        <div class="form-check radio-btn form-check-inline mr-2">
+          <input class="form-check-input radio-btn" [checked]="Type === 'PAL'" type="radio" name="inlineRadioOptions1"
+            id="inlineRadio3" value="PAL" (click)="profitAndLossClick()">
+          <label class="mt-1" for="inlineRadio3">PROFIT AND LOSS</label>
+        </div>
+        <div class="form-check radio-btn form-check-inline mr-2">
+          <input class="form-check-input radio-btn" [checked]="Type === 'STBL'" type="radio" name="inlineRadioOptions1"
+            id="inlineRadio4" value="STBL" (click)="stbsubledgerclick()">
+          <label class="mt-1" for="inlineRadio4">STB SUBLEDGER</label>
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+    <div class="row">
+      <!-- <div class="col-xl-4 col-md-4 form-group">
+            <input class="form-check-input" id="asdate" type="checkbox" checked (change)="checkox($event)"
+            disabled>
+        <label class="mt-2" for="asdate"> Date :</label> 
+        </div> -->
+
+      <!-- <div class="col-xl-4 col-md-4 form-group">
+            <label class="required-field">Date</label>
+                    <fieldset [disabled]="!disabletransactiondate">
+                        <input class="form-control" readonly type="text" [bsConfig]="dpConfig" bsDatepicker
+                            formControlName="todate">
+                    </fieldset>
+        </div> -->
+
+      <div class="col-xl-2 col-md-2 mt-4">
+        <div class="form-check form-check-inline">
+          <fieldset [disabled]="!disabletransactiondate">
+            <input class="form-check-input" type="checkbox" (change)="checkboxChecked($event)" checked>
+            <label class="mt-2">As On :</label>
+          </fieldset>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-3 form-group ">
+        <label>{{FromDate}}</label>
+        <input type="text" class="form-control" formControlName="fromdate" placeholder="Date picker here"
+          [bsConfig]="dpConfig" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+
+      </div>
+
+      <div class=" col-xl-3 col-md-3 form-group" *ngIf="hide">
+        <div>
+          <label>To Date</label>
+          <input type="text" class="form-control " formControlName="todate" placeholder="Date picker here"
+            [bsConfig]="dpConfig1" #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+        </div>
+      </div>
+
+
+      <div class="col-xl-3 col-md-4 d-flex form-group mt-3 pt-3 pl-0" *ngIf="STBflag">
+        <label></label>
+
+        <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon mr-2  border-0" data-toggle="tab"
+          (click)="show()" class="btn btn-s-icon px-3  border-0 " [disabled]="disablesavebutton">
+          <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton}"></i>Generate Schedule TB
+        </button>
+      </div>
+
+      <!-- PROFIT AND LOSS -->
+
+      <div class="col-xl-3 col-md-4 d-flex form-group mt-3 pt-3 pl-0" *ngIf="pALflag">
+        <label></label>
+
+        <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon mr-2  border-0" data-toggle="tab"
+          (click)="generatePAL()" class="btn btn-s-icon px-3  border-0 " [disabled]="disablesavebutton">
+          <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton}"></i>Generate Profit And Loss
+        </button>
+      </div>
+
+
+      <div class="col-xl-3 col-md-4 d-flex form-group mt-3 pt-3 pl-0" *ngIf="STBLflag">
+        <label></label>
+
+        <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon mr-2  border-0" data-toggle="tab"
+          (click)="generateSTBL()" class="btn btn-s-icon px-3  border-0 " [disabled]="disablesavebutton">
+          <i class="fa" [ngClass]="{'fa-spin fa-spinner': disablesavebutton}"></i>Generate Schedule TB Ledger
+        </button>
+      </div>
+
+
+
+
+
+    </div>
+  </form>
+
+
+
+</div>
+
+<div class="section-container mt-3" *ngIf="pdfSource!=''">
+  <div class="container">
+    <div class="row mt-2">
+      <div class="col-12 ">
+        <div *ngIf="pdfSource!=''" class="d-flex justify-content-end" style="margin-right: 114px;">
+          <button class="btn btn-s-icon mr-1"  (click)="Print_Crystal_Report()">
+            <img src="assets/images/print-icon-blue.svg" title="pdf" width="18px" class="mr-1">Print</button>
+        </div>
+
+        <div *ngIf="pdfSource!=''" class="d-flex justify-content-end" style="margin-top: -33px;">
+          <button class="btn btn-s-icon mr-1"  (click)="pdf()">
+            <img src="assets/images/pdf-icon-blue.svg" title="pdf" width="18px" class="mr-1">PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12 col-xl-12 mt-2" *ngIf="pdfSource!=''">
+    <div style="height: 570px;border: 2px solid cornflowerblue;">
+      <embed [src]="pdfSource" type="application/pdf" width="100%" height="100%">
+
+    </div>
+  </div>
+</div>

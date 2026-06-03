@@ -1,0 +1,295 @@
+<div class="section-container">
+  <div class="row p-0">
+    <div class="col-xl-12 col-md-12">
+      <div class="section-content ">
+        <form [formGroup]="ProfessionalTaxForm">
+          <div class="row mt-3">
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label title="Employee Name">Employee Name</label>
+                <ng-select  title="Employee Name" [items]="employeeList"
+                  formControlName="employee" bindLabel="pEmployeeName" bindValue="pEmployeeId"
+                  placeholder="Select" title="Employee" [searchable]=true [clearable]="true" dropdownPosition=""
+                  [clearOnBackspace]=true (change)="EmployeeId_change($event)">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label title="Year" id="year" class="required-field">Year</label>
+                <ng-select  title="Year" [items]="calendarYearData"
+                  formControlName="year" bindLabel="pPeriodType" bindValue="pCalenderPeriodId" [multiple]="false"
+                  placeholder="Select" [searchable]="true" [clearable]="true" dropdownPosition="bottom"
+                  [clearOnBackspace]="true" (change)="CalendarYear_change($event)" [ngClass]="{'is-invalid': ProfessionalTaxFormValidationErrorMessages.month}">
+                </ng-select>
+                <div class="invalid-feedback">
+                  <span *ngIf="ProfessionalTaxFormValidationErrorMessages.month">{{ProfessionalTaxFormValidationErrorMessages?.month}}</span>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-4 col-xl-4">
+              <div class="form-group">
+                <label id="month" class="required-field" title="Month">Month</label>
+                <ng-select  title="Calendar Month" [items]="calendarMonthData"
+                  formControlName="month" bindLabel="pCalendarMonth" bindValue="pCalenderPeriodDetailsId"
+                  [multiple]="false" placeholder="Select Month" [searchable]="true" [clearable]="true"
+                  dropdownPosition="bottom" [clearOnBackspace]="true" (change)="CalendarMonth_change($event)"
+                  [ngClass]="{'is-invalid':ProfessionalTaxFormValidationErrorMessages.month}">
+                </ng-select>
+                <div class="invalid-feedback">
+                  <span *ngIf="ProfessionalTaxFormValidationErrorMessages.month">{{ProfessionalTaxFormValidationErrorMessages?.month}}</span>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-2 col-xl-2">
+              <div class="form-group">
+                <br>
+                <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="showProfessionalTax()">
+                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                  <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                          width="20px"></span> Show
+              </a>
+            </div>
+            </div>
+          </div>
+        </form>
+
+
+        <div class="row mt-2">
+          <div class="col-md-12">
+                            
+            <div class="form-group pt-2">
+              <div class="d-flex justify-content-end" *ngIf="ProfessionalTaxList.length!=0">
+                  <a  class="export-icons" (click)="pdfOrprint('Pdf')">
+                      <img src="assets/images/pdf-icon-blue.svg " title="pdf" width="18px">
+                  </a>
+                 
+                  <a  class="export-icons" (click)="pdfOrprint('Print')"><img
+                          src="assets/images/print-icon-blue.svg " title="Print" width="18px"></a>
+              </div>
+          </div>
+          </div>
+        </div>
+
+
+        <kendo-grid [kendoGridBinding]="ProfessionalTaxList" [pageSize]="pageSize" [pageable]="{buttonCount: 2}" [reorderable]="true"  [resizable]="true" >
+
+<!-- <ng-template kendoGridToolbarTemplate>
+
+<div class="row pb-3 p-0">
+  <div class="col-4 pl-0 mt-n1">
+  </div>
+  <div class="col-7 pr-0 pl-4">
+    <ul class="temp-ul mt-n1 mr-n2  pull-right">
+      <li class="temp-ico ml-2">
+        <a kendoGridPDFCommand>
+          <img class="pt-2 pl-3" src="assets/images/pdf-icon-blue.svg"   title="pdf" width="20px">
+        </a>
+      </li>
+      <li class="temp-ico ml-2">
+        <a kendoGridExcelCommand>
+          <img class="pt-2" src="assets/images/icon-excel.svg"   title="excel" width="20px">
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+</ng-template> -->
+
+
+<kendo-grid-column field="pEmployeecode" title="Emp Id" width="90">
+</kendo-grid-column>
+
+
+<kendo-grid-column field="pPfno" title="PF No." width="90">
+</kendo-grid-column>
+
+
+<kendo-grid-column field="pUANno" title="UAN No." width="90">
+</kendo-grid-column>
+
+
+
+<kendo-grid-column field="pEmployeeName" title="Employee Name" width="90">
+</kendo-grid-column>
+
+
+
+  <kendo-grid-column field="pGrossSalary" title="Gross Salary" width="90" lass="kendo-right" class="kendo-right" [headerClass]="'header-right2'" [footerClass]="{'kendo-right': true}">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.pGrossSalary | mycurrencypipe }}<span class="ml-5"></span>
+    </ng-template>
+    <ng-template kendoGridFooterTemplate>
+      <span class="mr-4">  {{totalGrossSalary | mycurrencypipe}} </span>
+  </ng-template>
+
+  </kendo-grid-column>
+
+
+
+  <kendo-grid-column field="pNetSalary" title="Net Salary" width="90" lass="kendo-right" class="kendo-right" [headerClass]="'header-right2'" [footerClass]="{'kendo-right': true}">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.pNetSalary | mycurrencypipe }}<span class="ml-5"></span>
+    </ng-template>
+    <ng-template kendoGridFooterTemplate>
+      <span class="mr-4">  {{totalNetSalary | mycurrencypipe}} </span>
+  </ng-template>
+
+  </kendo-grid-column>
+
+
+
+  <kendo-grid-column field="pProffesionalTax" title="Professional Tax" width="90" lass="kendo-right" class="kendo-right" [headerClass]="'header-right2'" [footerClass]="{'kendo-right': true}">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.pProffesionalTax | mycurrencypipe }}<span class="ml-5"></span>
+    </ng-template>
+    <ng-template kendoGridFooterTemplate>
+      <span class="mr-4">  {{totalTax | mycurrencypipe}} </span>
+  </ng-template>
+  </kendo-grid-column>
+
+<!--   
+<kendo-grid-pdf fileName="Pf_Statement.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+[scale]="0.5" [margin]="0.5" [landscape]="true">
+
+<kendo-grid-pdf-margin top="4.5cm" left="0.5cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+<ng-template kendoGridPDFTemplate>
+  <div class="page-template">
+    <div class="header">
+      <app-company-details></app-company-details>
+      <div class="report-head mt-2">
+        <p class="font-20 text-dark text-center m-0">
+          <span class="text-capitalize"> <b></b>  Professional Tax for the Month of {{MonthName}}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<kendo-grid-column field="pEmployeecode" title="Emp.Id" width="90">
+</kendo-grid-column>
+
+
+<kendo-grid-column field="pPfno" title="PF No." width="90">
+</kendo-grid-column>
+
+
+<kendo-grid-column field="pUANno" title="UAN No." width="90">
+</kendo-grid-column>
+
+
+
+<kendo-grid-column field="pEmployeeName" title="Employee Name" width="90">
+</kendo-grid-column>
+
+
+  <kendo-grid-column field="pGrossSalary" title="Gross Salary" width="90" lass="kendo-right" class="kendo-right" [headerClass]="'header-right2'" [footerClass]="{'kendo-right': true}">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.pGrossSalary | mycurrencypipe }}<span class="ml-5"></span>
+    </ng-template>
+    <ng-template kendoGridFooterTemplate>
+      <span class="mr-4">  {{totalGrossSalary | mycurrencypipe}} </span>
+  </ng-template>
+
+  </kendo-grid-column>
+
+
+
+  <kendo-grid-column field="pNetSalary" title="Professional Tax" width="90" lass="kendo-right" class="kendo-right" [headerClass]="'header-right2'" [footerClass]="{'kendo-right': true}">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.pNetSalary | mycurrencypipe }}<span class="ml-5"></span>
+    </ng-template>
+    <ng-template kendoGridFooterTemplate>
+      <span class="mr-4">  {{totalNetSalary | mycurrencypipe}} </span>
+  </ng-template>
+
+  </kendo-grid-column>
+
+
+
+  <kendo-grid-column field="pProffesionalTax" title="Professional Tax" width="90" lass="kendo-right" class="kendo-right" [headerClass]="'header-right2'" [footerClass]="{'kendo-right': true}">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.pProffesionalTax | mycurrencypipe }}<span class="ml-5"></span>
+    </ng-template>
+    <ng-template kendoGridFooterTemplate>
+      <span class="mr-4">  {{totalTax | mycurrencypipe}} </span>
+  </ng-template>
+  </kendo-grid-column>
+
+</kendo-grid-pdf>
+
+
+
+<kendo-grid-excel fileName="Payroll_Approval.xlsx" [fetchData]="allData">
+<kendo-excelexport-column-group title="ESI Statement" [headerCellOptions]="headerCells">
+
+
+  <kendo-excelexport-column field="pEmployeecode" title="Emp ID" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center" width="90">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column field="pPfno" title="PF No." width="90"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-excelexport-column>
+
+  <kendo-excelexport-column field="pUANno" title="UAN No." width="90" [headerClass]="{'kendo-g-center': true}"
+  class="kendo-center"></kendo-excelexport-column>
+
+  <kendo-excelexport-column field="pEmployeeName" title="Employee Name" width="140"
+  [headerClass]="{'kendo-g-center': true}" class="kendo-center"></kendo-excelexport-column>
+
+  <kendo-excelexport-column field="pGrossSalary" title="Gross Salary" width="90" lass="kendo-right" class="kendo-right" [headerClass]="'header-right2'" [footerClass]="{'kendo-right': true}">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.pGrossSalary | mycurrencypipe }}<span class="ml-5"></span>
+    </ng-template>
+    <ng-template kendoGridFooterTemplate>
+      <span class="mr-4">  {{totalGrossSalary | mycurrencypipe}} </span>
+  </ng-template>
+
+  </kendo-excelexport-column>
+
+
+
+  <kendo-excelexport-column field="pNetSalary" title="Professional Tax" width="90" lass="kendo-right" class="kendo-right" [headerClass]="'header-right2'" [footerClass]="{'kendo-right': true}">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.pNetSalary | mycurrencypipe }}<span class="ml-5"></span>
+    </ng-template>
+    <ng-template kendoGridFooterTemplate>
+      <span class="mr-4">  {{totalNetSalary | mycurrencypipe}} </span>
+  </ng-template>
+
+  </kendo-excelexport-column>
+
+
+
+  <kendo-excelexport-column field="pProffesionalTax" title="Professional Tax" width="90" lass="kendo-right" class="kendo-right" [headerClass]="'header-right2'" [footerClass]="{'kendo-right': true}">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.pProffesionalTax | mycurrencypipe }}<span class="ml-5"></span>
+    </ng-template>
+    <ng-template kendoGridFooterTemplate>
+      <span class="mr-4">  {{totalTax | mycurrencypipe}} </span>
+  </ng-template>
+  </kendo-excelexport-column>
+
+
+
+</kendo-excelexport-column-group>
+</kendo-grid-excel> -->
+
+</kendo-grid>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+

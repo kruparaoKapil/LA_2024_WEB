@@ -1,0 +1,547 @@
+<div class="row mt-5">
+    <div class="col-md-6 col-xl-4">
+        <p class="bc-2">Security and Collateral</p>
+    </div>
+    <div class="col-md-6 col-xl-4">
+        <div class="material-switch pull-right mr-3">
+            <span class="mr-2">Not applicable</span>
+            <input id="securitry-all-notapplicable" [(ngModel)]="notApplicableForAll" name="securitry-all-notapplicable" (change)="notApplicableAll($event)" type="checkbox">
+            <label for="securitry-all-notapplicable" class="check-danger"></label>
+        </div>
+    </div>
+</div>
+<ng-container *ngIf="permissionData[1]?.psubsectionenablestatus">
+    <hr>
+    <div class="col-12 pl-0">
+        <div class="d-flex mt-2">
+            <div class="col-md-6 col-xl-4 p-0" (click)="getPropertyData()">
+                <a class="lc-title acc1 mb-2 text-decoration-none" [ngClass]="showPropertyDetails ? 'for-disable-anchor-links' : '' " data-toggle="collapse" href="#propertydetails" role="button" aria-expanded="false" aria-controls="personaldetails"> <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" /> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Property Details</a>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="material-switch pull-right" *ngIf="notApplicableForPropertyLoan ==true"> <span class="mr-2">Not applicable</span>
+                    <input id="property" name="property" type="checkbox" [(ngModel)]="showPropertyDetails" (change)="notApplicable($event, 'propertyDetail')">
+                    <label for="property" class="check-danger"></label>
+                </div>
+            </div>
+        </div>
+        <div class="collapse mt-3" id="propertydetails">
+            <app-property-details [showPropertyDetails]="showPropertyDetails" [lstApplicantsandothers]="lstApplicantsandothers" (propertyDetailsEmitEvent)="propertyDetailsEmitEvent($event)"></app-property-details>
+        </div>
+
+    </div>
+</ng-container>
+<ng-container *ngIf="permissionData[2]?.psubsectionenablestatus">
+    <hr>
+    <div class="col-12 pl-0">
+
+        <div class="d-flex">
+            <div class="col-md-6 col-xl-4 p-0" (click)="getImmovablePropertyData()">
+                <a class="lc-title acc2 mb-2 text-decoration-none" [ngClass]="showMovablePropertyDetails ? 'for-disable-anchor-links' : '' " data-toggle="collapse" href="#movableproperty" role="button" aria-expanded="false" aria-controls="personaldetails"> <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" /> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Movable Property Details </a>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="material-switch pull-right"> <span class="mr-2">Not applicable</span>
+                    <input id="movable-property" name="movable-property" [(ngModel)]="showMovablePropertyDetails" type="checkbox" (change)="notApplicable($event, 'movablePropertyDetail')">
+                    <label for="movable-property" class="check-danger"></label>
+                </div>
+            </div>
+        </div>
+        <div class="collapse mt-3" id="movableproperty">
+            <app-movable-property-details [showMovablePropertyDetails]="showMovablePropertyDetails" [lstApplicantsandothers]="lstApplicantsandothers" (movablepropertyDetailsEmitEvent)="movablepropertyDetailsEmitEvent($event)">
+            </app-movable-property-details>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="permissionData[3]?.psubsectionenablestatus">
+    <hr>
+
+    <div class="col-12 pl-0">
+
+        <div class="d-flex">
+            <div class="col-md-6 col-xl-4 p-0">
+                <a class="lc-title acc3 mb-2 text-decoration-none" data-toggle="collapse" href="#chequesnpdc" role="button" aria-expanded="false" aria-controls="personaldetails">
+                    <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" />
+                    <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp;Security Cheques and PDC Cheques</a>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="material-switch pull-right"> <span class="mr-2">Not applicable</span>
+                    <input id="security-chq" name="security-chq" type="checkbox" [(ngModel)]="showPdcChequesDetails" (change)="notApplicable($event, 'securityCheque')">
+                    <label for="security-chq" class="check-danger"></label>
+                </div>
+            </div>
+        </div>
+        <div class="collapse mt-3" id="chequesnpdc" *ngIf="!showPdcChequesDetails">
+            <form [formGroup]="securityChequesForm">
+                <div class="row">
+                    <div class="col-md-12 col-xl-12">
+                        <table id="example" class="table text-center w-auto">
+                            <thead>
+                                <tr>
+                                    <th>Select</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let applicants of lstApplicantsandothers; let i = index">
+                                    <td>
+                                        <!-- <input class="form-check-input" type="radio"
+                         name="personaldetails" id="perapplicant" 
+                         value="{{applicants?.pContactreferenceid}}"
+                          (change)="onChangeSecurityCheques(i)"> -->
+
+                                        <input *ngIf="applicants.papplicanttype == 'Applicant'" class="form-check-input" checked type="radio" name="personaldetails" id="perapplicant" value="{{applicants.pcontactreferenceid}}" (change)="onChangeSecurityCheques(i)">
+                                        <input *ngIf="applicants.papplicanttype != 'Applicant'" class="form-check-input" type="radio" name="personaldetails" id="perapplicant" value="{{applicants.pcontactreferenceid}}" (change)="onChangeSecurityCheques(i)">
+
+                                        <label for="perapplicant"></label>
+                                    </td>
+                                    <td>{{applicants?.papplicantname}}</td>
+                                    <td>{{applicants?.papplicanttype}}</td>
+                                    <td *ngIf="applicants?.status == true">
+                                        <div class="done"></div>
+                                    </td>
+                                    <td *ngIf="applicants?.status == false">
+                                        <div class="notdone"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group mb-1">
+                            <label id="pBankname" title="Bank Name">Bank Name</label>
+                            <input class="form-control" name="pBankname" formControlName="pBankname" maxlength="50" appTitlecaseword appCharactersonly type="text" value="" [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pBankname}">
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="securityConfigErrorMessage.pBankname">{{securityConfigErrorMessage.pBankname}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group mb-1">
+                            <label id="pIfsccode" title="IFSC Code">IFSC Code</label>
+                            <input class="form-control" appAlphanumericcharsonly appUppercase maxlength="20" name="pIfsccode" appIfsccodevalidator formControlName="pIfsccode" type="text" value="" [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pIfsccode}">
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="securityConfigErrorMessage.pIfsccode">{{securityConfigErrorMessage.pIfsccode}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group mb-1">
+                            <label id="pAccountno" title="Account Number">Account Number</label>
+                            <input class="form-control" name="pAccountno" formControlName="pAccountno" appNumbersonly maxlength="30" type="text" value="" [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pAccountno}">
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="securityConfigErrorMessage.pAccountno">{{securityConfigErrorMessage.pAccountno}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group mb-1">
+                            <label id="pChequeno" title="Cheque Number">Cheque Number</label>
+                            <input class="form-control" name="pChequeno" appUppercase appAlphanumeric maxlength="6" formControlName="pChequeno" type="text" value="" [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pChequeno}">
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="securityConfigErrorMessage.pChequeno">{{securityConfigErrorMessage.pChequeno}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <!-- [value]="imageResponse.name" -->
+                            <label id="pSecuritychequesdocpathname" title="Upload Cheques">Upload Cheques</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" disabled [value]="securityChequeFileResponse?.name" placeholder="" formControlName="pSecuritychequesdocpathname">
+                                <div class="input-group-append">
+                                    <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()"> <img
+                                            src="assets/images/icon-upload-blue.svg" width="18px" height="18px"
+                                            class=""></button>
+                                    <input id="fileSecurityCheque" style="display: none" type="file" (change)="uploadAndProgressFiles($event,fileInput.files, 'securityCheque')" #fileInput>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group mb-1">
+                            <div class="d-flex justify-content-end mt-3 pt-3">
+                                <a href="#" data-toggle="tab" (click)="addSecurityCheques()" class="btn btn-b-icon px-3 border-0 mr-3" role="tab" aria-controls="hot" aria-selected="false">
+                                    <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr>
+            <div class="row mt-4">
+                <div class="col-md-12 col-xl-12">
+
+                    <p class="bc-2">Security Cheques and PDC Cheques</p>
+                    <kendo-grid [data]="securityChequesGridData" [reorderable]="true" [resizable]="true" [sortable]="true" (remove)="removeHandler($event, 'securytyCheque')">
+                        <kendo-grid-column field="pApplicanttype" title="Type" width="100">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pApplicantname" title="Name" width="50">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pTypeofsecurity" title="Security Type" width="100">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pBankname" width="100" title="Bank Name">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pIfsccode" width="100" title="IFSC Code">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pAccountno" title="Account Number" width="50">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pChequeno" title="Cheque Number" width="100">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pSecuritychequesdocpathname" title="Upload File Name" width="100">
+                        </kendo-grid-column>
+                        <kendo-grid-command-column title="" width="220">
+                            <ng-template kendoGridCellTemplate>
+                                <!-- <button kendoGridEditCommand>Edit</button> -->
+                                <button kendoGridRemoveCommand>
+                                    <div id="icon-delete"></div>
+                                </button>
+                            </ng-template>
+                        </kendo-grid-command-column>
+
+                    </kendo-grid>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</ng-container>
+<ng-container *ngIf="permissionData[4]?.psubsectionenablestatus">
+    <hr>
+    <div class="col-12 pl-0">
+        <div class="d-flex">
+            <div class="col-md-6 col-xl-4 p-0">
+                <a class="lc-title acc4 mb-2 text-decoration-none" data-toggle="collapse" href="#depositlien" role="button" aria-expanded="false" aria-controls="personaldetails"> <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" />
+                    <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Deposits as Lien </a>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="material-switch pull-right"> <span class="mr-2">Not applicable</span>
+                    <input id="Deposits" name="Deposits" type="checkbox" [(ngModel)]="showDeposits" (change)="notApplicable($event, 'depositsAsLien')">
+                    <label for="Deposits" class="check-danger"></label>
+                </div>
+            </div>
+        </div>
+        <div class="collapse mt-3" id="depositlien" *ngIf="!showDeposits">
+            <form [formGroup]="depositsAsLienForm">
+                <div class="row">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label class="sec-head" id="pDepositin" title="Deposit is in">Deposit is in</label>
+                        </div>
+                        <div class="d-flex">
+                            <div class="form-group">
+                                <div class="form-check form-check-inline radio-btn-secondary">
+                                    <input class="form-check-input" formControlName="pDepositin" type="radio" name="pDepositin" id="depositint" value="Internal">
+                                    <label class="mt-1" for="depositint"> Internal </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check form-check-inline radio-btn-secondary">
+                                    <input class="form-check-input" type="radio" formControlName="pDepositin" name="pDepositin" id="depositext" value="External">
+                                    <label class="mt-1" for="depositext"> External </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback-cst">
+                            <span *ngIf="securityConfigErrorMessage.pDepositin">{{securityConfigErrorMessage.pDepositin}}</span>
+                        </div>
+                    </div>
+                    <hr class="light">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group mb-1">
+                            <label id="pTypeofdeposit" title="Deposit Type">Deposit Type</label>
+                            <select class="form-control" formControlName="pTypeofdeposit" [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pTypeofdeposit}">
+                                    <option value="" ng-selected="selected">Select</option>
+                                    <option>Fixed Deposit</option>
+                                    <option>Recurring Deposit</option>
+                                </select>
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="securityConfigErrorMessage.pTypeofdeposit">{{securityConfigErrorMessage.pTypeofdeposit}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4 depositexternal ">
+                        <div class="form-group mb-1">
+                            <label id="pDepositorbank" title="Depositor / Bank">Depositor / Bank</label>
+                            <input class="form-control" type="text" value="" formControlName="pDepositorbank" maxlength="50" appCharactersonly [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pDepositorbank}">
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="securityConfigErrorMessage.pDepositorbank">{{securityConfigErrorMessage.pDepositorbank}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group mb-1">
+                            <label id="pDepositaccountno" title="Deposit a/c Number">Deposit a/c Number</label>
+                            <input class="form-control" type="text" value="" appNumbersonly maxlength="30" (keyup)="enteredAccountNumber($event)" formControlName="pDepositaccountno" [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pDepositaccountno}">
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="securityConfigErrorMessage.pDepositaccountno">{{securityConfigErrorMessage.pDepositaccountno}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="light">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group mb-1">
+                            <label id="pDepositdate" title="Deposit Date">Deposit Date</label>
+                            <input type="text" class="form-control w-auto" readonly [bsConfig]="pdateofestablishmentConfig" formControlName="pDepositdate" placeholder="Date picker here" bsDatepicker placement="bottom" (bsValueChange)="onValueChange($event)">
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="securityConfigErrorMessage.pDepositdate">{{securityConfigErrorMessage.pDepositdate}}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group mb-1">
+                            <label id="pDepositamount" title="Deposit amount">Deposit amount</label>
+                            <textarea class="form-control text-right" style="height:32px" formControlName="pDepositamount" [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pDepositamount}" maxlength="15" appNumbersonly removeZero> </textarea>
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="securityConfigErrorMessage.pDepositamount">{{securityConfigErrorMessage.pDepositamount}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group mb-1">
+                            <label id="pRateofinterest" title="Rate of Interest">Rate of Interest</label>
+                            <input class="form-control" type="text" value="" formControlName="pRateofinterest" maxlength="5" TwoDigitDecimalNumber [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pRateofinterest}">
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="securityConfigErrorMessage.pRateofinterest">{{securityConfigErrorMessage.pRateofinterest}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="light">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group mb-1">
+                            <label id="pTenureofdeposit" title="Deposit Tenure">Deposit Tenure</label>
+                            <div class="input-group">
+                                <input class="form-control text-right" type="text" value="" appRoundecimal="12@0" removeZero maxlength="3" formControlName="pTenureofdeposit" [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pTenureofdeposit}" (change)="calculateMaturityDate()">
+
+                                <div class="input-group-append">
+                                    <select class="form-control w-auto btn-lg-icon" formControlName="pDeposittenuretype" [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pDeposittenuretype}" (change)="calculateMaturityDate()">
+
+                                            <option ng-selected="selected">Days</option>
+                                            <option>Months</option>
+                                            <option>Years</option>
+                                        </select>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="securityConfigErrorMessage.pTenureofdeposit && securityConfigErrorMessage.pDeposittenuretype">{{securityConfigErrorMessage.pDeposittenuretype}}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group mb-1">
+                            <label id="pMaturitydate" title="Maturity Date">Maturity Date</label>
+                            <input type="text" class="form-control w-auto" readonly formControlName="pMaturitydate" placeholder="Date picker here" [bsConfig]="pMaturityDate" #dp="bsDatepicker" [bsValue]="bsValue" data-date-format="mm/dd/yyyy" bsDatepicker placement="bottom">
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="securityConfigErrorMessage.pMaturitydate">{{securityConfigErrorMessage.pMaturitydate}}</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label id="pDepositdocpathname" title="Upload Document">Upload Document</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" disabled [value]="depositsAsLienFileResponse?.name" placeholder="" formControlName="pDepositdocpathname">
+                                <div class="input-group-append">
+                                    <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()"> <img
+                                                src="assets/images/icon-upload-blue.svg" width="18px" height="18px"
+                                                class=""></button>
+                                    <input id="fileDepositsAsLien" style="display: none" type="file" (change)="uploadAndProgressFiles($event,fileInput.files, 'depositsAsLien')" #fileInput>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xl-12 pr-0">
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="#" data-toggle="tab" (click)="addDepositsasLien()" class="btn btn-b-icon px-3 border-0 mr-3" role="tab" aria-controls="hot" aria-selected="false">
+                                <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr>
+            <div class="row mt-4">
+                <div class="col-md-12 col-xl-12">
+
+                    <p class="bc-2">Deposits As Lien</p>
+                    <kendo-grid [data]="depositAsLienGridData" [reorderable]="true" [resizable]="true" [sortable]="true" (remove)="removeHandler($event, 'depositAsLien')">
+                        <kendo-grid-column field="pDepositin" title="Deposit In" width="100">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pTypeofdeposit" title="Deposit Type" width="50">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pDepositaccountno" title="Deposit A/C No." width="100">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pDepositamount" title="Deposit Amount" width="100">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pDepositdate" width="100" title="Deposit Date">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.pDepositdate | date: 'dd/MM/yyyy'}}
+                                <!-- {{dataItem.pDepositdate}} -->
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pTenureofdeposit" width="100" title="Deposit Tenure">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pRateofinterest" title="Rate of Interest" width="50">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pDepositdocpathname" title="Upload File Name" width="100">
+                        </kendo-grid-column>
+                        <!-- <kendo-grid-column field="pChequeno" title="Lien Against Loan" width="100">
+                            </kendo-grid-column> -->
+                        <kendo-grid-command-column title="" width="220">
+                            <ng-template kendoGridCellTemplate>
+                                <!-- <button kendoGridEditCommand>Edit</button> -->
+                                <button kendoGridRemoveCommand>
+                                        <div id="icon-delete"></div>
+                                    </button>
+                            </ng-template>
+                        </kendo-grid-command-column>
+
+                    </kendo-grid>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="permissionData[5]?.psubsectionenablestatus">
+    <hr>
+
+    <div class="col-12 pl-0">
+
+        <div class="d-flex">
+            <div class="col-md-6 col-xl-4 p-0">
+                <a class="lc-title acc5 mb-2 text-decoration-none" data-toggle="collapse" href="#otherpropertydetails" role="button" aria-expanded="false" aria-controls="personaldetails"> <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px" /> <img id="open" src="assets/images/icon-toogle-bottom.svg" width="12px" height="12px" /> &nbsp; &nbsp; Any other Property or Security as Lien</a>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="material-switch pull-right"> <span class="mr-2">Not applicable</span>
+                    <input id="otherproperty" name="otherproperty" type="checkbox" [(ngModel)]="showOtherPropertyDetails" (change)="notApplicable($event, 'anyOtherProperty')">
+                    <label for="otherproperty" class="check-danger"></label>
+                </div>
+            </div>
+        </div>
+        <div class="collapse mt-3" id="otherpropertydetails" *ngIf="!showOtherPropertyDetails">
+            <form [formGroup]="anyOtherPropertyForm">
+                <div class="row">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group mb-1">
+                            <label id="pNameofthesecurity" title="Name of the Security">Name of the
+                                        Security</label>
+                            <input class="form-control" formControlName="pNameofthesecurity" type="text" maxlength="100" appCharactersonly value="" [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pNameofthesecurity}">
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="securityConfigErrorMessage.pNameofthesecurity">{{securityConfigErrorMessage.pNameofthesecurity}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group mb-1">
+                            <label id="pEstimatedvalue" title="">Estimated Value </label>
+                            <input class="form-control text-right" formControlName="pEstimatedvalue" type="text" value="" maxlength="13" appRoundecimal="12@0" removeZero [ngClass]="{ 'is-invalid': securityConfigErrorMessage.pEstimatedvalue}">
+                            <div class="invalid-feedback-cst">
+                                <span *ngIf="securityConfigErrorMessage.pEstimatedvalue">{{securityConfigErrorMessage.pEstimatedvalue}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label id="pSecuritydocpathname">Upload Property Related document if any</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" disabled [value]="anyOtherPropertyFileResponse?.name" placeholder="" formControlName="pSecuritydocpathname">
+                                <div class="input-group-append">
+                                    <button class="btn btn-lg-icon px-2 p-0" (click)="fileInput.click()"> <img
+                                                    src="assets/images/icon-upload-blue.svg" width="18px" height="18px"
+                                                    class=""></button>
+                                    <input id="fileAnyOtherProperty" style="display: none" type="file" (change)="uploadAndProgressFiles($event,fileInput.files, 'anyOtherProperty')" #fileInput>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-xl-12">
+                        <div class="form-group mb-1">
+                            <div class="d-flex justify-content-end mt-4">
+                                <a href="#" data-toggle="tab" (click)="addAnyOthersPropertyDetail()" class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" aria-selected="false">
+                                    <img src="assets/images/icon-add-white.svg" class="mr-3" width="20px" height="20px">Add</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr>
+            <div class="row mt-4">
+                <div class="col-md-12 col-xl-12">
+
+                    <p class="bc-2">Any Others Property Details</p>
+                    <kendo-grid [data]="anyOtherPropertyGridData" [reorderable]="true" [resizable]="true" [sortable]="true" (remove)="removeHandler($event, 'anyOtherProperty')">
+                        <kendo-grid-column field="pNameofthesecurity" title="Name of the Security" width="100">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pEstimatedvalue" title="Estimated Value" width="50">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="pSecuritydocpathname" title="Upload Document" width="100">
+                        </kendo-grid-column>
+                        <kendo-grid-command-column title="" width="220">
+                            <ng-template kendoGridCellTemplate>
+                                <!-- <button kendoGridEditCommand>Edit</button> -->
+                                <button kendoGridRemoveCommand>
+                                            <div id="icon-delete"></div>
+                                        </button>
+                            </ng-template>
+                        </kendo-grid-command-column>
+
+                    </kendo-grid>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</ng-container>
+
+<hr>
+
+<div class="row mt-4 ml-1">
+    <div class="col-md-12 col-xl-12">
+        <div class="col-md-12 col-xl-12">
+            <div class="d-flex justify-content-end mt-4">
+                <a *ngIf="forClearButton" (click)="clearForm()" class="btn btn-g-icon mr-4 px-3 border-0">
+                    <img src="assets/images/icon-cancel-white.svg" width="20px" height="20px" class="mr-3" />Clear</a>
+                <a href="#" data-toggle="tab" class="btn btn-g-icon px-3 border-0 mr-4" (click)="moveToPreviousTab()" role="tab" aria-controls="hot" aria-selected="false">
+                    <img src="assets/images/icon-chewron-left-whitesolid.svg" width="20px" height="20px" class="mr-3" />Back</a>
+
+                <!-- <a href="#" (click)="saveSecurityAndCollateral()" data-toggle="tab" 
+               class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" aria-selected="false">
+                  <img src="assets/images/icon-chewron-right-whitesolid.svg" width="20px" 
+                  height="20px" class="mr-3" />Save & Continue</a>  -->
+
+                <button (click)="saveSecurityAndCollateral()" data-toggle="tab" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false" [disabled]="isLoading">
+                                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading,'fa-check': !isLoading}"></i>
+                                <span *ngIf="!isLoading">
+                                </span>{{buttonName}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="my-container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplateForFiView">
+    </ngx-loading>
+
+</div>

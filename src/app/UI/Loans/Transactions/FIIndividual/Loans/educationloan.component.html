@@ -1,0 +1,746 @@
+<div id="Education-Loan">
+    <div class="row">
+        <div class="col-12 mt-5">
+            <p class="bc-2">Education Loan </p>
+        </div>
+    </div>
+
+    <hr class="light">
+    <form [formGroup]="educationloanform">
+
+        <div class="row">
+            <div class="col-12">
+                <h2 class="sec-head">Educational Institution Details </h2>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label id="pNameoftheinstitution" title="Name of the institution">Name of the institution</label>
+                    <input type="text" value="" class="form-control" formControlName="pNameoftheinstitution" appAlphanumeric appTitlecaseword maxlength="100"
+                        [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pNameoftheinstitution }">
+                    <div class="invalid-feedback-cst">
+                        <span
+                            *ngIf="educationLoanConfigErrorMessage.pNameoftheinstitution">{{educationLoanConfigErrorMessage.pNameoftheinstitution}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label id="pNameofProposedcourse" title="Name of Proposed course of study">Name of Proposed course
+                        of
+                        study</label>
+                    <textarea value="" class="form-control" formControlName="pNameofProposedcourse" rows="1" appAlphanumeric appTitlecaseword maxlength="30"
+                        style="height:32px"
+                        [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pNameofProposedcourse }"></textarea>
+                    <div class="invalid-feedback-cst">
+                        <span
+                            *ngIf="educationLoanConfigErrorMessage.pNameofProposedcourse">{{educationLoanConfigErrorMessage.pNameofProposedcourse}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="form-group">
+                    <label id="pselectionoftheinstitute" title="Reason for selection of the institute">Reason for
+                        selection
+                        of the institute</label>
+                    <textarea value="" class="form-control" formControlName="pselectionoftheinstitute" rows="1" appAlphanumeric maxlength="100"
+                        style="height:32px"
+                        [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pselectionoftheinstitute }"></textarea>
+                    <div class="invalid-feedback-cst">
+                        <span
+                            *ngIf="educationLoanConfigErrorMessage.pselectionoftheinstitute">{{educationLoanConfigErrorMessage.pselectionoftheinstitute}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+
+        <div class="row">
+            <!-- <a class="lc-title"> Course Details</a> -->
+            <div class="col-md-12 col-xl-12">
+                <a class="lc-title text-decoration-none" data-toggle="collapse" (click)="arrowChange()"
+                    href="#coursedetails" role="button" aria-expanded="false" aria-controls="family">
+                    <img id="close" src="assets/images/icon-toggle-default.svg" width="12px" height="12px"
+                        [ngClass]="arrow?'arrowright':'down'">
+                    &nbsp; &nbsp; Course Details </a> </div>
+        </div>
+        <div class="collapse show mt-3" id="coursedetails">
+                <form [formGroup]="coursedetailsform">
+            <div class="row">
+                <div class="col-md-12 col-xl-12">
+                    <div class="row">
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label id="pRankingofinstitution" title="Ranking of institution or course">Ranking of
+                                    institution or
+                                    course</label>
+                                <input type="text" value="" formControlName="pRankingofinstitution" class="form-control" appAlphanumeric  maxlength="10"
+                                    [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pRankingofinstitution }">
+                                <div class="invalid-feedback-cst">
+                                    <span
+                                        *ngIf="educationLoanConfigErrorMessage.pRankingofinstitution">{{educationLoanConfigErrorMessage.pRankingofinstitution}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div class="d-flex">
+                                <div class="col-md-6 col-xl-5 pl-0">
+                                    <div class="form-group">
+                                        <label id="pDurationofCourse" title="Duration of Course">Duration of
+                                            Course</label>
+                                        <input type="text" value="" class="form-control" appAlphanumeric appTitlecaseword maxlength="10"
+                                            formControlName="pDurationofCourse"
+                                            [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pDurationofCourse }">
+                                        <div class="invalid-feedback-cst">
+                                            <span
+                                                *ngIf="educationLoanConfigErrorMessage.pDurationofCourse">{{educationLoanConfigErrorMessage.pDurationofCourse}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-xl-7 pr-0">
+                                    <div class="form-group">
+                                        <label id="pDateofCommencement" title="Date of Commencement">Date of
+                                            Commencement</label>
+
+                                        <input type="text" class="form-control" [bsConfig]="pdateofestablishmentConfig" 
+                                            #dp="bsDatepicker" readonly bsDatepicker formControlName="pDateofCommencement"
+                                            [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pDateofCommencement }">
+                                        <div class="invalid-feedback-cst">
+                                            <span
+                                                *ngIf="educationLoanConfigErrorMessage.pDateofCommencement">{{educationLoanConfigErrorMessage.pDateofCommencement}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label id="pseatsecured" title="How was the seat secured?">How was the seat
+                                    secured?</label>
+                                <input type="text" value="" formControlName="pseatsecured" class="form-control" appAlphanumeric appTitlecaseword maxlength="200"
+                                    [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pseatsecured }">
+                                <div class="invalid-feedback-cst">
+                                    <span
+                                        *ngIf="educationLoanConfigErrorMessage.pseatsecured">{{educationLoanConfigErrorMessage.pseatsecured}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div> 
+        <hr class="">
+        <!-- Address component -->
+        <!-- <app-address></app-address> -->
+        <div class="row">
+        <div class="col-md-12 col-xl-12">
+            <a class="lc-title text-decoration-none" data-toggle="collapse" href="#educationaddress" role="button"
+                aria-expanded="false" aria-controls="family" (click)="arrowChangeforeducationaddress()">
+                <img id="close" src="/assets/images/icon-toggle-default.svg" width="12px" height="12px"
+                    [ngClass]="arrowforeducationaddress?'down':'arrowright'">
+                    &nbsp; &nbsp; Address of institution</a> </div>
+        </div>
+ <div class="collapse  mt-3" id="educationaddress">
+        <form [formGroup]="addressForm">
+            <div class="row">
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="paddress1" title="Address Line 1">Address Line 1</label>
+                        <input type="text" value="" maxlength="200" formControlName="paddress1" class="form-control" appAddressformat
+                            >
+                            <!-- [ngClass]="{ 'is-invalid': LoanErrorMessage.paddress1 }" -->
+                        <!-- <div class="invalid-feedback-cst">
+                            <span *ngIf="LoanErrorMessage.paddress1">{{LoanErrorMessage.paddress1}}</span>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="paddress2" title="Address Line 2">Address Line 2</label>
+                        <input type="text" value=""  maxlength="200" formControlName="paddress2" class="form-control" appAddressformat
+                            >
+                            <!-- [ngClass]="{ 'is-invalid': LoanErrorMessage.paddress2 }" -->
+                        <!-- <div class="invalid-feedback-cst">
+                            <span *ngIf="LoanErrorMessage.paddress2">{{LoanErrorMessage.paddress2}}</span>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="pcity" title="City / Village">City / Village</label>
+                        <input type="text" value="" maxlength="75" class="form-control" formControlName="pcity" appAddressformat
+                           >
+                           <!-- [ngClass]="{ 'is-invalid': LoanErrorMessage.pcity }" -->
+                        <!-- <div class="invalid-feedback-cst">
+                            <span *ngIf="LoanErrorMessage.pcity">{{LoanErrorMessage.pcity}}</span>
+                        </div> -->
+                    </div>
+                </div>
+                <hr class="light">
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="pCountry" title="Country">Country</label>
+                        <select id="" class="form-control" formControlName="pCountryId"
+                            (change)="pCountry_Change($event)">
+                            <option value="" ng-selected="selected">Select</option>
+                            <option *ngFor="let country of countryDetails" [value]="country.pCountryId">{{country.pCountry}}
+                            </option>
+    
+                        </select>
+                        <!-- [ngClass]="{ 'is-invalid': LoanErrorMessage.pCountry }" -->
+                        <!-- <div class="invalid-feedback-cst">
+                            <span *ngIf="LoanErrorMessage.pCountry">{{LoanErrorMessage.pCountry}}</span>
+                        </div> -->
+    
+    
+    
+    
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="d-flex">
+                        <div class="col-md-6 col-xl-6 pl-0">
+                            <div class="form-group">
+                                <label id="pState" title="State">State</label>
+                                <select id="" class="form-control" formControlName="pStateId" 
+                                    
+                                    (change)="pState_Change($event)">
+                                    <option value="" ng-selected="selected">Select</option>
+                                    <option *ngFor="let state of stateDetails" [value]="state?.pStateId">{{state?.pState}}
+                                    </option>
+    
+                                </select>
+                                <!-- [ngClass]="{ 'is-invalid': LoanErrorMessage.pState }" -->
+                                <!-- <div class="invalid-feedback-cst">
+                                    <span *ngIf="LoanErrorMessage.pState">{{LoanErrorMessage.pState}}</span>
+                                </div> -->
+    
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-6 pr-0">
+                            <div class="form-group">
+                                <label id="pDistrict" title="District">District</label>
+                                <select id="" class="form-control" formControlName="pDistrictId"
+                                   
+                                    (change)="pDistrict_Change($event)">
+                                    <option value="" ng-selected="selected">Select</option>
+                                    <option *ngFor="let district of districtDetails" [value]="district?.pDistrictId">
+                                        {{district?.pDistrict}}</option>
+    
+                                </select>
+                                <!-- [ngClass]="{ 'is-invalid': LoanErrorMessage.pDistrict }" -->
+                                <!-- <div class="invalid-feedback-cst">
+                                    <span
+                                        *ngIf="LoanErrorMessage.pDistrict">{{LoanErrorMessage.pDistrict}}</span>
+                                </div> -->
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="Pincode" title="pincode">Pincode</label>
+                        <input type="text" value="" maxlength="6" class="form-control" appNumbersonly formControlName="Pincode"
+                           >
+                           <!-- [ngClass]="{ 'is-invalid': LoanErrorMessage.Pincode }" -->
+                        <!-- <div class="invalid-feedback-cst">
+                            <span *ngIf="LoanErrorMessage.Pincode">{{LoanErrorMessage.Pincode}}</span>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+        <hr>
+        <div class="row">
+            <!-- <a class="lc-title"> Educational Qualification</a> -->
+
+
+            <div class="col-md-12 col-xl-12">
+                <a class="lc-title text-decoration-none" data-toggle="collapse" href="#previouseducation" role="button"
+                    aria-expanded="false" aria-controls="family" (click)="arrowChangeforeducation()">
+                    <img id="close" src="/assets/images/icon-toggle-default.svg" width="12px" height="12px"
+                        [ngClass]="arrowforeducation?'down':'arrowright'">
+                    &nbsp; &nbsp;
+                    Educational Qualification</a> </div>
+        </div>
+        <div class="collapse  mt-3" id="previouseducation">
+                <form [formGroup]="completededucationloanform">
+            <div class="row">
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="pqualification" title="Completed Educational Qualification">Completed Educational
+                            Qualification</label>
+                        <div class="input-group">
+                            <select id="u1430_input" class="form-control" formControlName="pqualification"
+                                [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pqualification }">
+                                <option value="" ng-selected="selected">Select</option>
+                                <option class="" *ngFor="let data of pqualification">{{data.quali}}</option>
+
+                            </select>
+                            <!-- <button class="btn btn-lg-icon px-2 p-0" data-target="#Edutype" data-toggle="modal"
+                                tabindex="-1">
+                                <img class="" height="18px" src="/assets/images/icon-add-blue.svg"
+                                    width="18px"></button> -->
+
+
+
+                        </div>
+                        <div class="invalid-feedback-cst">
+                            <span
+                                *ngIf="educationLoanConfigErrorMessage.pqualification">{{educationLoanConfigErrorMessage.pqualification}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="pinstitute" title="Institute/University of Passing">Institute/University of
+                            Passing</label>
+                        <input type="text" value="" class="form-control" formControlName="pinstitute" appAlphanumeric appTitlecaseword maxlength="100"
+                            [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pinstitute }">
+                        <div class="invalid-feedback-cst">
+                            <span
+                                *ngIf="educationLoanConfigErrorMessage.pinstitute">{{educationLoanConfigErrorMessage.pinstitute}}</span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="light">
+                <div class="col-md-6 col-xl-4">
+                    <div class="d-flex">
+                        <div class="col-md-6 col-xl-6 pl-0">
+                            <div class="form-group">
+                                <label id="pyearofpassing" title="Year of Passing">Year of Passing</label>
+
+                                <input type="text" value="" formControlName="pyearofpassing" class="form-control" appAlphanumeric appTitlecaseword maxlength="15"
+                                    [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pyearofpassing }">
+                                <div class="invalid-feedback-cst">
+                                    <span
+                                        *ngIf="educationLoanConfigErrorMessage.pyearofpassing">{{educationLoanConfigErrorMessage.pyearofpassing}}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-6 pr-0">
+                            <div class="form-group">
+                                <label id="pnoofattempts" title="Attempts Made">Attempts Made</label>
+                                <input type="text" value="" formControlName="pnoofattempts" class="form-control" appAlphanumeric appTitlecaseword maxlength="5"
+                                    placeholder=""
+                                    [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pnoofattempts }">
+                                <div class="invalid-feedback-cst">
+                                    <span
+                                        *ngIf="educationLoanConfigErrorMessage.pnoofattempts">{{educationLoanConfigErrorMessage.pnoofattempts}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="d-flex">
+                        <div class="col-md-6 col-xl-6 pl-0">
+                            <div class="form-group">
+                                <label id="pmarkspercentage" title="% of Marks">% of Marks</label>
+                                <input type="text" value="" class="form-control" placeholder=""  appRoundecimal="2@2" maxlength="5"
+                                    formControlName="pmarkspercentage"
+                                    [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pmarkspercentage }">
+                                <div class="invalid-feedback-cst">
+                                    <span
+                                        *ngIf="educationLoanConfigErrorMessage.pmarkspercentage">{{educationLoanConfigErrorMessage.pmarkspercentage}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-6 pr-0">
+                            <div class="form-group">
+                                <label id="pgrade" title="Grade/Class Obtained">Grade/Class Obtained</label>
+                                <input type="text" value="" class="form-control" formControlName="pgrade" placeholder="" appAlphanumeric appTitlecaseword maxlength="20"
+                                    [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pgrade }">
+                                <div class="invalid-feedback-cst">
+                                    <span
+                                        *ngIf="educationLoanConfigErrorMessage.pgrade">{{educationLoanConfigErrorMessage.pgrade}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xl-12">
+                    <div class="form-group">
+                        <div class="form-check form-check-inline mr-5">
+                            <label class="mt-1 sec-head" for="inlineRadio2" id="pscholarshipname"
+                                title="Scholarships">Scholarships &nbsp;&nbsp;&nbsp;</label>
+                            <input class="form-check-input" type="checkbox" name="inlineRadioOptions1" [pattern]="'^[a-zA-Z0-9]+$'" maxlength="50" formControlName="pisscholarshipsapplicable"
+                                id="pscholarshipname" value="pscholarshipname" (change)="notApplicableKyc($event)">
+
+                            <label class="mt-1" for="inlineRadio2">Not applicable</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label class="text-eclipse w-100" id="pscholarshiporprize" title="Scholarship Prize>Academic Distinction
+                        for which the Scholarship/Prize was awarded">Academic Distinction for which the
+                            Scholarship/Prize</label>
+                    <fieldset [disabled]="diableforscholar">
+                        <input class="form-control " type="text" value=""  formControlName="pscholarshiporprize" appAlphanumeric appTitlecaseword maxlength="20"
+                            [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pscholarshiporprize }">
+                            </fieldset>
+                        <div class="invalid-feedback-cst">
+                            <span
+                                *ngIf="educationLoanConfigErrorMessage.pscholarshiporprize">{{educationLoanConfigErrorMessage.pscholarshiporprize}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="pscholarshipname" title="Name of the Scholarship/Prize">Name of the
+                            Scholarship/Prize</label>
+                    <fieldset [disabled]="diableforscholar">
+                        <input class="form-control" type="text" value=""  formControlName="pscholarshipname" appAlphanumeric appTitlecaseword maxlength="50"
+                            [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pscholarshipname }">
+                            </fieldset>
+                        <div class="invalid-feedback-cst">
+                            <span
+                                *ngIf="educationLoanConfigErrorMessage.pscholarshipname">{{educationLoanConfigErrorMessage.pscholarshipname}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+            <div class="d-flex justify-content-end mt-4"> <a href="#" data-toggle="tab"
+                    class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" (click)="submitcompletededucationloan()" aria-selected="false"><img
+                        src="\assets\images\icon-add-white.svg" class="mr-3" width="20px" height="20px"
+                        >Add</a> </div>
+       
+    <div class="row mt-4">
+        <div class="col-md-12 col-xl-12">        
+          <kendo-grid [data]="formDetails" [reorderable]="true" [resizable]="true" [sortable]="true" (edit)="editforEdu($event)" (remove)="deleteforEdu($event)">
+      
+            <kendo-grid-column field="pqualification" title="Qualification" width="50">
+            </kendo-grid-column>
+            <kendo-grid-column field="pinstitute" title="Institute/University" width="100">
+            </kendo-grid-column>
+            <kendo-grid-column field="pyearofpassing" width="100" title="Year of passing">
+            </kendo-grid-column>
+            <kendo-grid-column field="pnoofattempts" title="Attempts Made" width="100">
+            </kendo-grid-column>
+            <kendo-grid-column field="pmarkspercentage" title="% of Marks" width="100">
+            </kendo-grid-column>
+            <kendo-grid-column field="pgrade" title="Grade/Class" width="100">
+            </kendo-grid-column>
+            <kendo-grid-column field="pscholarshiporprize" title="Scholarship/Prize " width="100">
+            </kendo-grid-column>
+            <kendo-grid-column field="pscholarshipname" title="Name of the Scholarship/Prize" width="100">
+            </kendo-grid-column>
+            <kendo-grid-command-column title="" width="220">
+              <ng-template kendoGridCellTemplate>
+                <!-- <button kendoGridEditCommand>Edit</button> -->
+                <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+                <!-- <button kendoGridEditCommand><div id="icon-edit"></div></button> -->
+              </ng-template>
+            </kendo-grid-command-column>
+      
+          </kendo-grid>
+        </div>
+    </div>
+</div>
+    <!-- <table id="example" class="table text-center w-auto" *ngIf="formDetails.length>0">
+        <thead>
+            <tr>
+                <th>Examination</th>
+                <th>Institute/University</th>
+                <th>Year of passing</th>
+                <th>Attempts Made</th>
+                <th>% of Marks</th>
+                <th>Grade/Class</th>
+                <th>Scholarship/Prize </th>
+                <th>Name of the Scholarship/Prize</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of formDetails">
+                <td>{{data.pqualification}}</td>
+                <td>{{data.pinstitute}}</td>
+                <td>{{data.pyearofpassing}}</td>
+                <td>{{data.pnoofattempts}}</td>
+                <td>{{data.pmarkspercentage}}</td>
+                <td>{{data.pgrade}}</td>
+                <td>{{data.pscholarshiporprize}}</td>
+                <td>{{data.pscholarshipname}}</td>
+                <td>
+                    <div id="icon-edit" (click)="edit(data,i)"></div>
+                    <a>
+                        <div id="icon-delete" (click)="delete(i)"></div>
+                    </a>
+                </td>
+            </tr>
+
+        </tbody>
+    </table> -->
+</div>
+<hr>
+
+<div class="row">
+    <div class="col-12">
+        <a class="lc-title acc2 mb-2 text-decoration-none collapsed" (click)="arrowChangeforfeedetilas()"
+            data-toggle="collapse" href="#feedetails" role="button" aria-expanded="false" aria-controls="feedetails">
+            <img id="false" src="/assets/images/icon-toggle-default.svg" class="" width="12px" height="12px"
+                [ngClass]="arrowforfee?'arrowright':'down'">
+            &nbsp; &nbsp; Fee details </a>
+        <div class="mt-3 collapse show" id="feedetails">
+            <form [formGroup]="FeedetailsForm">
+
+                <div class="row">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label id="sYear" title="Select Year">Select Year</label>
+                            <div class="input-group">
+                                <select id="pyear" class="form-control" formControlName="pyear"
+                                    [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pyear}">
+                                    <option value="" ng-selected="selected">Select</option>
+                                    <option class="" *ngFor="let data of yeartype">{{data.year}}</option>
+
+
+                                </select>
+                                <!-- <div class="input-group-append">
+                                    <button class="btn btn-lg-icon px-2 p-0" data-target="#year" data-toggle="modal"
+                                        tabindex="-1">
+                                        <img class="" height="18px" src="/assets/images/icon-add-blue.svg"
+                                            width="18px"></button>
+                                </div> -->
+
+
+                            </div>
+                            <div class="invalid-feedback-cst">
+                                <span
+                                    *ngIf="educationLoanConfigErrorMessage.pyear">{{educationLoanConfigErrorMessage.pyear}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label id="pqualification" title="Completed Educational Qualification">Completed
+                                Educational Qualification</label>
+                            <div class="input-group">
+                                <select id="" class="form-control" formControlName="pqualification"
+                                    [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pqualification}">
+                                    <option value="" ng-selected="selected">Select</option>
+                                    <option class="" *ngFor="let data of feequalification">{{data.quali}}</option>
+
+
+                                </select>
+                                <!-- <div class="input-group-append">
+                                    <button class="btn btn-lg-icon px-2 p-0" data-target="#Feeeduqualification"
+                                        data-toggle="modal" tabindex="-1">
+                                        <img class="" height="18px" src="/assets/images/icon-add-blue.svg"
+                                            width="18px"></button>
+                                </div> -->
+
+                            </div>
+                            <div class="invalid-feedback-cst">
+                                <span
+                                    *ngIf="educationLoanConfigErrorMessage.pqualification">{{educationLoanConfigErrorMessage.pqualification}}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="form-group">
+                            <label id="pfee" title="Fee">Fee</label>
+                            <input type="text" class="form-control text-right" formControlName="pfee" appNumbersonly removeZero maxlength="10"
+                                [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pfee}">
+                            <div class="invalid-feedback-cst">
+                                <span
+                                    *ngIf="educationLoanConfigErrorMessage.pfee">{{educationLoanConfigErrorMessage.pfee}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4"> <a href="#" data-toggle="tab"
+                        class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot" aria-selected="false" (click)="submitFeeDetails()"><img
+                            src="\assets\images\icon-add-white.svg" class="mr-3" width="20px" height="20px"
+                            >Add</a>
+                </div>
+            </form>
+            <div class="row mt-4">
+                <div class="col-md-12 col-xl-12">        
+                  <kendo-grid [data]="formDetails2" [reorderable]="true" [resizable]="true" [sortable]="true" (edit)="editforFee($event)" (remove)="deleteforFee($event)">
+              
+                    <kendo-grid-column field="pqualification" title="Particulars" width="50">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pyear" title="Year" width="100">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="pfee" width="100" title="Total"
+                    [headerClass]="{'kendo-right': true}" class="kendo-right" [footerClass]="{'kendo-right': true}">
+                    </kendo-grid-column>
+               
+                    <kendo-grid-command-column title="" width="220">
+                      <ng-template kendoGridCellTemplate>
+                        <!-- <button kendoGridEditCommand>Edit</button> -->
+                        <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+                        <!-- <button kendoGridEditCommand><div id="icon-edit"></div></button> -->
+                      </ng-template>
+                    </kendo-grid-command-column>
+              
+                  </kendo-grid>
+                </div>
+            </div>
+          
+            <!-- <div class="d-flex justify-content-end mt-4"> <a href="#" class="btn btn-b-icon px-3 border-0"
+                    data-toggle="collapse" data-target="#education-compute"><img
+                        src="/assets/images/icon-check-white.svg" class="mr-3" width="20px" height="20px">Compute</a>
+            </div> -->
+            <!-- <div class="collapse" id="education-compute"> -->
+                <form [formGroup]="EducationLoanFeeDetailsForm">
+            <div class="row">
+                <div class="col-md-12 col-xl-12">
+                    <label>Total Fund Requirement: <span class="bc-2-bold"> :
+                            {{computedfeevalue}}</span></label>
+                </div>
+                <!-- ptotalfundrequirement -->
+                <hr>
+                <div class="col-md-12 col-xl-12">
+                    <h2 class="sec-head-bold">Sources of Funds</h2>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="pnonrepayablescholarship" title="Details of Non-Repayable Scholarship">Details of Non-Repayable Scholarship</label>
+                        <input type="text" value="" class="form-control"  formControlName="pnonrepayablescholarship"  maxlength="50"
+                        [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pnonrepayablescholarship}">
+                        <div class="invalid-feedback-cst">
+                            <span
+                                *ngIf="educationLoanConfigErrorMessage.pnonrepayablescholarship">{{educationLoanConfigErrorMessage.pnonrepayablescholarship}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="prepayablescholarship" title="Details of Repayable Scholarship">Details of Repayable Scholarship</label>
+                        <input type="text" value="" class="form-control"  formControlName="prepayablescholarship"  maxlength="50"
+                        [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.prepayablescholarship}">
+                        <div class="invalid-feedback-cst">
+                            <span
+                                *ngIf="educationLoanConfigErrorMessage.prepayablescholarship">{{educationLoanConfigErrorMessage.prepayablescholarship}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div class="form-group">
+                        <label id="pfundsavailablefromfamily" title="Details of Funds available from family">Details of Funds available from family</label>
+                        <input type="text" value="" class="form-control"  formControlName="pfundsavailablefromfamily" appNumbersonly maxlength="12"
+                        [ngClass]="{ 'is-invalid': educationLoanConfigErrorMessage.pfundsavailablefromfamily}">
+                        <div class="invalid-feedback-cst">
+                            <span
+                                *ngIf="educationLoanConfigErrorMessage.pfundsavailablefromfamily">{{educationLoanConfigErrorMessage.pfundsavailablefromfamily}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- <div class="row mt-4 ml-1">
+    <div class="col-md-12 col-xl-12">
+        <div class="col-md-12 col-xl-12">
+            <div class="d-flex justify-content-end mt-4"><a aria-controls="hot"
+                    aria-selected="false" class="btn btn-b-icon px-3 border-0 " data-toggle="tab" href="#"
+                    role="tab"><img class="mr-3" height="20px" src="assets/images/icon-chewron-right-whitesolid.svg"
+                        width="20px" (click)="saveAllFormdata()">submit</a></div>
+        </div>
+    </div>
+</div> -->
+
+<div class="modal right slideInRight" id="Edutype" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="margin-right:0px !important; ">
+        <div class="model-cst modal-content">
+
+            <div class="modal-body">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <form [formGroup]="edutype">
+                    <div class="form-group">
+                        <label>Add Education Qualification</label>
+                        <input type="text" class="form-control" appTitlecaseword 
+                            placeholder="Enter Education Qualification" formControlName="quali" />
+
+                    </div>
+                    <div class="d-flex justify-content-end mt-4">
+                        <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0"
+                            ><img src="assets/images/icon-cancel-white.svg" width="20px"
+                                height="20px" class="mr-3">Clear</a>
+                        <a href="" data-toggle="tab" data-dismiss="modal" class="btn btn-b-icon px-3 border-0"
+                            role="tab" aria-controls="hot" aria-selected="false" (click)="saveAddressType()"><img
+                                src="assets/images/icon-check-white.svg" width="20px" height="20px"
+                                class="mr-3">Save</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal right slideInRight" id="year" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="margin-right:0px !important; ">
+        <div class="model-cst modal-content">
+
+            <div class="modal-body">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <form [formGroup]="yearType">
+                    <div class="form-group">
+                        <label>Add Year</label>
+                        <input type="text" class="form-control" appTitlecaseword [pattern]="'^[a-zA-Z0-9]+$'"
+                            placeholder="Enter Year" formControlName="year" />
+
+
+                    </div>
+                    <div class="d-flex justify-content-end mt-4">
+                        <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0"
+                           ><img src="assets/images/icon-cancel-white.svg" width="20px"
+                                height="20px" class="mr-3">Clear</a>
+                        <a href="" data-toggle="tab" data-dismiss="modal" class="btn btn-b-icon px-3 border-0"
+                            role="tab" aria-controls="hot" aria-selected="false" (click)="saveYear()"><img
+                                src="assets/images/icon-check-white.svg" width="20px" height="20px"
+                                class="mr-3">Save</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal right slideInRight" id="Feeeduqualification" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="margin-right:0px !important; ">
+        <div class="model-cst modal-content">
+
+            <div class="modal-body">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <form [formGroup]="Feeeduqualification" autocomplete="off">
+                    <div class="form-group">
+                        <label>Add Education Qualification</label>
+                        <input type="text" class="form-control" appTitlecaseword appAlphanumeric
+                            placeholder="Enter Education Qualification" formControlName="quali" />
+
+                    </div>
+                    <div class="d-flex justify-content-end mt-4">
+                        <a class="close" data-dismiss="modal" class="btn btn-g-icon mr-4 px-3 border-0"
+                            ><img src="assets/images/icon-cancel-white.svg" width="20px"
+                                height="20px" class="mr-3">Clear</a>
+                        <a href="" data-toggle="tab" data-dismiss="modal" class="btn btn-b-icon px-3 border-0"
+                            role="tab" aria-controls="hot" aria-selected="false" (click)="savefeequalification()"><img
+                                src="assets/images/icon-check-white.svg" width="20px" height="20px"
+                                class="mr-3">Save</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .arrowright {
+        transform: rotate(90deg)
+    }
+</style>

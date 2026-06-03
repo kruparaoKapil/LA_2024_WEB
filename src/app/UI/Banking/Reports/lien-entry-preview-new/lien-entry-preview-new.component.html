@@ -1,0 +1,109 @@
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+        <div class="custom-class">
+  
+        </div>
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+    </ngx-loading>
+  
+  </div>
+  <div class="col-md-12 mt-5 mb-4">
+    <div id="template">
+        <div class="d-flex justify-content-end mr-3">
+            <ul class="temp-ul">
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Lien_Entry_Preview.pdf')" />
+                </li>
+                <li class="temp-ico ml-2">
+                    <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                </li>
+            </ul>
+  
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <kendo-pdf-export #pdf paperSize="A4" [allPages]="true" [repeatHeaders]="false" [landscape]="false" forcePageBreak=".page-break" [scale]="0.8">
+                        <div id="temp-box">
+                            <div *ngFor="let lienData of lienEntryList;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <app-company-details></app-company-details>
+                                        <div class="report-head">
+                                            <p class="font-18 text-dark text-center m-0">
+                                               Lien Entry Preview
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="temp-box-inner border rounded shadow-sm bg-white p-3" style="overflow:hidden; height:auto !important;">
+                                  
+                                  <div class=" row pt-2">
+                                    <hr class="m-0">
+                                    <div class="col-md-12 text-right mt-2">
+                                      <p class="text-inner-left">Date : {{lienData.pLiendate}}</p>
+                                      <!-- <span>:</span> -->
+                                    </div>
+                                  </div>
+                                  <div class="col-md-12 p-0">
+                                    <p>
+                                    To,
+                                    <br>{{lienData.pMembername}}<br>,
+                                    {{lienData.pAddress}}
+                                  </p>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <div class="text-center pt-3"><p><b>Sub : Pledge Notice - Invoke off.</b></p></div>
+                                  </div>
+                                  <p class="pt-1">Sir / Madam</p>
+                                  <p>
+                                    1. Based on your request for pledge, vide letter dated on .................this company Stood guarantee
+                                    for payment of future installments to <b>M/S,{{lienData.pCompanyname}} </b>,
+                                   <b> {{lienData.pCompanybranch}}</b> branch against  chit no <b>{{lienData.pLienadjuestto}}</b> . A Notice From <b>M/S,{{lienData.pCompanyname}} </b> has since been received to invoke the guarantee.
+                                  
+                                   
+                                  </p>
+                                  <p class="pt-0">
+                                    2. If the defaulting amount due to <b>M/S,{{lienData.pCompanyname}} </b> Is not
+                                    cleared with in seven days of receipt of this notice, this company will have No option but to
+                                    discharge CERTIFICATE No.<b> {{lienData.pFdaccountno}}</b>, for an amount of Rs.<b> {{lienData.pDepositamount |mycurrencypipe}}/-</b>
+                                    and Lien amount of <b>{{lienData.pLienamount |mycurrencypipe}}/- </b>in favor of <b>M/S,{{lienData.pCompanyname}} </b>,
+                                    and Recover the amount from the amount payable to you, in this company.
+                                  </p>
+                                  <br>
+                                  <div class="row mt-5">
+                                    <div class="col-md-6 col-sm-6">
+                                      <p class="text-inner-left ">Date : {{lienData.pLiendate}}</p>
+                                    </div>
+                                    
+                                    <div class="col-md-6 col-sm-6">
+                                      <div class="d-flex justify-content-end">
+                                        <div>
+                                          <p class="font-18 text-dark text-center m-0 font-weight-bold"> {{pCompanyName}}</p><br><br><br><br>
+                                          <p class="font-bold text-right"><b>ACCOUNTANT / MANAGER</b></p>
+                                      </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                <br><br>
+                                  <div class=" row">
+                                    <div class="col-md-12">
+                                      <div class="pull-left">
+                                        <p class="font-bold text-left"><b>Copy to :</b></p>
+                                        <p class="font-bold text-left"><b>M/S,{{lienData.pCompanyname}} .  {{lienData.pCompanybranch}}</b></p>
+                                        <p class="font-bold text-left"><b>With reference your letter date ...............</b></p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </kendo-pdf-export>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  

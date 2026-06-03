@@ -1,0 +1,160 @@
+<div class="row">
+  <!-- <div class="col-12  p-0">
+    <p class="bc-2 pl-3">Identification Documents</p>
+  </div> -->
+</div>
+
+
+<div class="row mt-5">
+  <div class="col-12">
+    <label class="">Select a <strong class="sec-head-bold">single proof as mandatory.</strong> Other selected proofs are
+      required but not mandatory</label>
+  </div>
+  <div class="col-12">
+    <app-identification-documents (forRdConfigTab)="forRdConfigTab($event)" [forButtons]="false" [formtype]="formtype"></app-identification-documents>
+  </div>
+  <!-- <div class="col-md-6 col-xl-6">
+    <div class="border-box mt-2">
+      <h2 class="sec-head">Identification Proof</h2>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio1" class="mt-2 ml-2">Pan Card</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio1" class="mt-2 ml-2">Aadhar Card</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio1" class="mt-2 ml-2">Voter ID card</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio1" class="mt-2 ml-2">Driving License</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio1" class="mt-2 ml-2">Passport</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio1" class="mt-2 ml-2">Govt issued document with date of birth</label>
+        </div>
+      </div>
+      <h2 class="sec-head mt-4">Address Proof</h2>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio2" class="mt-2 ml-2">Electricity bill</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio2" class="mt-2 ml-2">Water bill</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio2" class="mt-2 ml-2">Property Tax bill</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio2" class="mt-2 ml-2">Possession Letter</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio2" class="mt-2 ml-2">Aadhar Card</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio2" class="mt-2 ml-2">Voter ID card</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xl-6">
+    <div class="border-box mt-2">
+      <h2 class="sec-head">Income Proof</h2>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio3" class="mt-2 ml-2">Pay Slips</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio3" class="mt-2 ml-2">Bank Statements</label>
+        </div>
+      </div>
+      <h2 class="sec-head mt-4">Financial Statements and other documents</h2>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio4" class="mt-2 ml-2">Audited Profit and Loss statement and Balance sheets</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio4" class="mt-2 ml-2">MOA (Memorandum of Association)</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio4" class="mt-2 ml-2">AOA (Articles of Association)</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio4" class="mt-2 ml-2">GSTN Certificate</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio4" class="mt-2 ml-2">Company registration certificate</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio4" class="mt-2 ml-2">Trade License</label>
+        </div>
+      </div>
+      <div class="form-group mb-0 ">
+        <div class="form-check form-check-inline mr-5">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label for="inlineRadio4" class="mt-2 ml-2">CIN No</label>
+        </div>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+    
+  </div> -->
+</div>
+<!--row-end-->

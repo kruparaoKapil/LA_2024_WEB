@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col d-flex flex-wrap align-items-center">
+    <a class="btn btn-b-icon border-0" routerLink="/CommissionPaymentNew">
+      <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+    </a>
+
+  </div>
+</div>
+
+<form [formGroup]="CommissionPaymentForm" autocomplete="off">
+
+  <!------------------Start-Grid----------------------------------------->
+  <div class="row mt-3" formGroupName="pcommissionpaymentlist">
+
+    <div class="col-md-12 col-xl-12"> 
+      <div class="rounded border">
+        <kendo-grid [data]="commissionpaymentlist" [groupable]="true" [group]="groups" [selectedKeys]="mySelection"
+          [pageable]="true" [sortable]="true" [pageSize]="10" [pageable]="{buttonCount: 2}" [resizable]="true" [reorderable]="true"
+          [columnMenu]="{ filter: true }" (remove)="removeHandler($event)" [selectable]="selectableSettings">
+
+          <kendo-grid-column field="ptranstype" title="Trans Type" width="90" [locked]="false">
+          </kendo-grid-column>
+          <kendo-grid-column field="ptransdate" title="Date" width="90" [locked]="false">
+          </kendo-grid-column>
+          <kendo-grid-column field="pAgentname" title="Referral Name" width="100" [locked]="false">
+          </kendo-grid-column>
+          <kendo-grid-column field="pMembername" title="Member Name" width="130" [locked]="false">
+          </kendo-grid-column>
+          <kendo-grid-column field="pSchemeAccountno" title="Account No." width="150">
+          </kendo-grid-column>
+          <kendo-grid-column field="pCommissionamount" title="Commission Amount" width="150" class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pCommissionamount |currencypipewithdecimal }}
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pTdsamount" title="TDS Amount" width="100" class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pTdsamount |currencypipewithdecimal }}
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="ptotalamount" title="Paid Amount" width="120" class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.ptotalamount |currencypipewithdecimal }}
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pTenor" title="Tenure" class="kendo-center" width="100">
+
+          </kendo-grid-column>
+          <kendo-grid-column field="pDepositamount" title="Deposit Amount" width="130" class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pDepositamount |currencypipewithdecimal }}
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="pCommissionvalue" title="Referral Commission Percentage" width="200"
+            class="kendo-center">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.pCommissionvalue |currencypipewithdecimal }}
+            </ng-template>
+          </kendo-grid-column>
+
+
+        </kendo-grid>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-----------------End-Grid ----------------------------------------------------->
+
+
+
+
+</form>

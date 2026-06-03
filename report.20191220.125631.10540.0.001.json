@@ -1,0 +1,368 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20191220.125631.10540.0.001.json",
+    "dumpEventTime": "2019-12-20T12:56:31Z",
+    "dumpEventTimeStamp": "1576826791430",
+    "processId": 10540,
+    "cwd": "D:\\Git-Finsta-Sprint5,6\\FINSTA\\FinstaGenericWeb\\PresentationPages",
+    "commandLine": [
+      "node",
+      "C:\\Users\\Admin\\AppData\\Roaming\\npm\\\\node_modules\\@angular\\cli\\bin\\ng",
+      "s",
+      "-o"
+    ],
+    "nodejsVersion": "v12.8.0",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "win32",
+    "componentVersions": {
+      "node": "12.8.0",
+      "v8": "7.5.288.22-node.16",
+      "uv": "1.30.1",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.39.1",
+      "napi": "4",
+      "llhttp": "1.1.4",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1c",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019a",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "headersUrl": "https://nodejs.org/download/release/v12.8.0/node-v12.8.0-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.8.0/node-v12.8.0.tar.gz",
+      "libUrl": "https://nodejs.org/download/release/v12.8.0/win-x64/node.lib"
+    },
+    "osName": "Windows_NT",
+    "osRelease": "10.0.18362",
+    "osVersion": "Windows 10 Pro",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "Intel(R) Core(TM) i3-4170 CPU @ 3.70GHz",
+        "speed": 3691,
+        "user": 6793000,
+        "nice": 0,
+        "sys": 2570765,
+        "idle": 36895000,
+        "irq": 264359
+      },
+      {
+        "model": "Intel(R) Core(TM) i3-4170 CPU @ 3.70GHz",
+        "speed": 3691,
+        "user": 6597171,
+        "nice": 0,
+        "sys": 1980671,
+        "idle": 37680812,
+        "irq": 44609
+      },
+      {
+        "model": "Intel(R) Core(TM) i3-4170 CPU @ 3.70GHz",
+        "speed": 3691,
+        "user": 7594468,
+        "nice": 0,
+        "sys": 2153531,
+        "idle": 36510656,
+        "irq": 33484
+      },
+      {
+        "model": "Intel(R) Core(TM) i3-4170 CPU @ 3.70GHz",
+        "speed": 3691,
+        "user": 7007468,
+        "nice": 0,
+        "sys": 1726328,
+        "idle": 37524859,
+        "irq": 28390
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "Ethernet",
+        "internal": false,
+        "mac": "64:00:6a:1a:73:05",
+        "address": "192.168.2.61",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      }
+    ],
+    "host": "KT-TECH-061"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x00007ff621006d99",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff62100b38c",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff62100a338",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6210f4f3b",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6218dbc1e",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6218c3f6a",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff62175567c",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff62175d5af",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff621753843",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6217520d4",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff621770bb5",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff621526f2d",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff621cfb06d",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff621cd6c54",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff621ce5e88",
+      "symbol": ""
+    },
+    {
+      "pc": "0x000001c785b11511",
+      "symbol": ""
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 572715008,
+    "totalCommittedMemory": 572715008,
+    "usedMemory": 529155152,
+    "availableMemory": 1668432952,
+    "memoryLimit": 2197815296,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 262144,
+        "capacity": 261832,
+        "used": 31960,
+        "available": 229872
+      },
+      "new_space": {
+        "memorySize": 1048576,
+        "committedMemory": 1048576,
+        "capacity": 1047328,
+        "used": 1047232,
+        "available": 96
+      },
+      "old_space": {
+        "memorySize": 437923840,
+        "committedMemory": 437923840,
+        "capacity": 437192040,
+        "used": 417363376,
+        "available": 19828664
+      },
+      "code_space": {
+        "memorySize": 4620288,
+        "committedMemory": 4620288,
+        "capacity": 4389152,
+        "used": 3970176,
+        "available": 418976
+      },
+      "map_space": {
+        "memorySize": 25432064,
+        "committedMemory": 25432064,
+        "capacity": 25401168,
+        "used": 3593440,
+        "available": 21807728
+      },
+      "large_object_space": {
+        "memorySize": 102805504,
+        "committedMemory": 102805504,
+        "capacity": 102598664,
+        "used": 102598664,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 622592,
+        "committedMemory": 622592,
+        "capacity": 550304,
+        "used": 550304,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 1047328,
+        "used": 0,
+        "available": 1047328
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 645.437,
+    "kernelCpuSeconds": 42.25,
+    "cpuConsumptionPercent": 8.91133,
+    "maxRss": 1448677376,
+    "pageFaults": {
+      "IORequired": 5242945,
+      "IONotRequired": 0
+    },
+    "fsActivity": {
+      "reads": 14278,
+      "writes": 63
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "=C:": "C:\\",
+    "=D:": "D:\\Git-Finsta-Sprint5,6\\FINSTA\\FinstaGenericWeb\\PresentationPages",
+    "ALLUSERSPROFILE": "C:\\ProgramData",
+    "APPDATA": "C:\\Users\\Admin\\AppData\\Roaming",
+    "ChocolateyInstall": "C:\\ProgramData\\chocolatey",
+    "ChocolateyLastPathUpdate": "132097443263108725",
+    "CommonProgramFiles": "C:\\Program Files\\Common Files",
+    "CommonProgramFiles(x86)": "C:\\Program Files (x86)\\Common Files",
+    "CommonProgramW6432": "C:\\Program Files\\Common Files",
+    "COMPUTERNAME": "KT-TECH-061",
+    "ComSpec": "C:\\Windows\\system32\\cmd.exe",
+    "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
+    "HOMEDRIVE": "C:",
+    "HOMEPATH": "\\Users\\Admin",
+    "LOCALAPPDATA": "C:\\Users\\Admin\\AppData\\Local",
+    "LOGONSERVER": "\\\\KT-TECH-061",
+    "NUMBER_OF_PROCESSORS": "4",
+    "OneDrive": "C:\\Users\\Admin\\OneDrive",
+    "OS": "Windows_NT",
+    "Path": "C:\\Python27\\;C:\\Python27\\Scripts;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\nodejs\\;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\Git\\cmd;C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\Admin\\AppData\\Roaming\\npm;C:\\Users\\Admin\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\Admin\\AppData\\Local\\Programs\\Fiddler;C:\\Users\\Admin\\Desktop\\Fiddler",
+    "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JSE;.WSF;.WSH;.MSC;.CPL",
+    "PROCESSOR_ARCHITECTURE": "AMD64",
+    "PROCESSOR_IDENTIFIER": "Intel64 Family 6 Model 60 Stepping 3, GenuineIntel",
+    "PROCESSOR_LEVEL": "6",
+    "PROCESSOR_REVISION": "3c03",
+    "ProgramData": "C:\\ProgramData",
+    "ProgramFiles": "C:\\Program Files",
+    "ProgramFiles(x86)": "C:\\Program Files (x86)",
+    "ProgramW6432": "C:\\Program Files",
+    "PROMPT": "$P$G",
+    "PSModulePath": "C:\\Users\\Admin\\Documents\\WindowsPowerShell\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules",
+    "PUBLIC": "C:\\Users\\Public",
+    "SESSIONNAME": "Console",
+    "SystemDrive": "C:",
+    "SystemRoot": "C:\\Windows",
+    "TEMP": "C:\\Users\\Admin\\AppData\\Local\\Temp",
+    "TMP": "C:\\Users\\Admin\\AppData\\Local\\Temp",
+    "USERDOMAIN": "KT-TECH-061",
+    "USERDOMAIN_ROAMINGPROFILE": "KT-TECH-061",
+    "USERNAME": "Admin",
+    "USERPROFILE": "C:\\Users\\Admin",
+    "WEBPACK_DEV_SERVER": "true",
+    "windir": "C:\\Windows",
+    "TERM_PROGRAM": "vscode",
+    "TERM_PROGRAM_VERSION": "1.41.0",
+    "LANG": "en_US.UTF-8",
+    "COLORTERM": "truecolor"
+  },
+  "sharedObjects": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\Windows\\SYSTEM32\\ntdll.dll",
+    "C:\\Windows\\System32\\KERNEL32.DLL",
+    "C:\\Windows\\System32\\KERNELBASE.dll",
+    "C:\\Windows\\System32\\WS2_32.dll",
+    "C:\\Windows\\System32\\RPCRT4.dll",
+    "C:\\Windows\\SYSTEM32\\dbghelp.dll",
+    "C:\\Windows\\System32\\ADVAPI32.dll",
+    "C:\\Windows\\System32\\ucrtbase.dll",
+    "C:\\Windows\\System32\\msvcrt.dll",
+    "C:\\Windows\\System32\\sechost.dll",
+    "C:\\Windows\\System32\\USER32.dll",
+    "C:\\Windows\\System32\\win32u.dll",
+    "C:\\Windows\\System32\\GDI32.dll",
+    "C:\\Windows\\System32\\gdi32full.dll",
+    "C:\\Windows\\System32\\msvcp_win.dll",
+    "C:\\Windows\\System32\\PSAPI.DLL",
+    "C:\\Windows\\System32\\CRYPT32.dll",
+    "C:\\Windows\\System32\\MSASN1.dll",
+    "C:\\Windows\\SYSTEM32\\IPHLPAPI.DLL",
+    "C:\\Windows\\System32\\bcrypt.dll",
+    "C:\\Windows\\SYSTEM32\\USERENV.dll",
+    "C:\\Windows\\System32\\profapi.dll",
+    "C:\\Windows\\SYSTEM32\\WINMM.dll",
+    "C:\\Windows\\SYSTEM32\\winmmbase.dll",
+    "C:\\Windows\\System32\\cfgmgr32.dll",
+    "C:\\Windows\\System32\\bcryptPrimitives.dll",
+    "C:\\Windows\\System32\\IMM32.DLL",
+    "C:\\Windows\\System32\\powrprof.dll",
+    "C:\\Windows\\System32\\UMPDC.dll",
+    "C:\\Windows\\system32\\uxtheme.dll",
+    "C:\\Windows\\System32\\combase.dll",
+    "C:\\Windows\\system32\\mswsock.dll",
+    "C:\\Windows\\System32\\kernel.appcore.dll",
+    "\\\\?\\D:\\Git-Finsta-Sprint5,6\\FINSTA\\FinstaGenericWeb\\PresentationPages\\node_modules\\node-sass\\vendor\\win32-x64-72\\binding.node",
+    "C:\\Windows\\SYSTEM32\\CRYPTBASE.DLL",
+    "C:\\Windows\\System32\\NSI.dll",
+    "C:\\Windows\\SYSTEM32\\dhcpcsvc6.DLL",
+    "C:\\Windows\\SYSTEM32\\dhcpcsvc.DLL",
+    "C:\\Windows\\SYSTEM32\\DNSAPI.dll",
+    "C:\\Windows\\system32\\napinsp.dll",
+    "C:\\Windows\\system32\\pnrpnsp.dll",
+    "C:\\Windows\\System32\\winrnr.dll",
+    "C:\\Windows\\system32\\NLAapi.dll",
+    "C:\\Windows\\system32\\wshbth.dll",
+    "C:\\Windows\\System32\\rasadhlp.dll",
+    "C:\\Windows\\System32\\fwpuclnt.dll"
+  ]
+}

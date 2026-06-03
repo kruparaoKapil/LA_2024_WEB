@@ -1,0 +1,166 @@
+<div class="row  mb-3 py-1">
+    <div class="col d-flex flex-wrap align-items-center">
+        <a (click)="Newform()" class="btn btn-b-icon border-0" routerLink="/FdNew">
+          <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+        </a>
+       </div>
+</div>
+
+
+<!-- <div class="row mt-4">
+  <div class="col d-flex flex-wrap align-items-center" >
+    <a (click)="Newform()" class="btn btn-b-icon border-0" routerLink="/FdTransactionNew">
+      <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+    </a>
+
+  </div>
+</div> -->
+<div class="row mt-2">
+  <div class="col-md-12 col-xl-12">
+    <div class="section-container">
+
+    <kendo-grid [kendoGridBinding]="gridView"  
+    [pageSize]="10" [skip]="skip" [pageable]="{buttonCount: 2}"
+    [reorderable]="true" [resizable]="true" [columnMenu]="{ filter: true }" [pageable]="true"
+    [sortable]="true" (edit)="editHandler($event)" (remove)="removeHandler($event)">
+    <ng-template kendoGridToolbarTemplate>
+      <div class="row mb-2">
+        <div class="col-4 pl-0 mt-n1">
+          <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+            (input)="onFilter($event.target.value)" />
+        </div>
+         <!-- <div class="col-7 pr-0 pl-4 ml-4">
+              <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                <li class="temp-ico ml-2">
+                  <a kendoGridPDFCommand>
+                    <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                         width="20px">
+                  </a>
+                </li>
+                <li class="temp-ico ml-2">
+                  <a kendoGridExcelCommand>
+                    <img class="pt-2" src="assets/images/icon-excel.svg " title="excel"
+                         width="20px">
+                  </a>
+                </li>
+              </ul>
+            </div> -->
+      </div>
+    </ng-template>
+    <kendo-grid-command-column title="Actions" width="100">
+      <ng-template kendoGridCellTemplate>
+       
+       <div id="icon-edit" kendoGridEditCommand [primary]="true"></div>
+                 <div id="icon-delete" kendoGridRemoveCommand disabled></div>
+      </ng-template>
+    </kendo-grid-command-column>
+    
+      <kendo-grid-column field="pFDname"  title="FD Name" width="150">
+     </kendo-grid-column>
+     <kendo-grid-column field="pFdnamecode"  title="FD Code" width="150">
+       </kendo-grid-column>                                           
+     <kendo-grid-column  title="Status" width="150">
+       <ng-template let-dataItem  let-rowIndex="rowIndex"  kendoGridCellTemplate>
+         <!-- <div class="material-switch">
+           <input data-target="#yes" data-toggle="collapse" type="checkbox"  id="status{{rowIndex}}" [checked]="dataItem.pstatus">
+           <label class="badge-success" data-target="#yes" data-toggle="collapse" for="status{{rowIndex}}" ></label>
+         </div> -->
+         <span *ngIf="dataItem.pstatus">Active</span>
+         <span *ngIf="!(dataItem.pstatus)">In-active</span>
+       </ng-template>
+       </kendo-grid-column>
+           <kendo-grid-pdf fileName="FD_Configuration.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true"
+        [landscape]="true">
+        <ng-template kendoGridPDFTemplate>
+          <div class="page-template">
+             <div class="header bc-2 text-center">
+              <h5>FD Configuration</h5>
+             </div>
+           </div>
+         </ng-template>
+  <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+        <kendo-grid-column field="pFDname" width="100" title="Fixed Deposit Name">
+        </kendo-grid-column>
+        <kendo-grid-column field="pFdnamecode" width="100" title="Fixed Deposit Code">
+        </kendo-grid-column>
+        <kendo-grid-column field="pstatus" width="100" title="Status">
+          <ng-template let-dataItem let-rowIndex="rowIndex" kendoGridCellTemplate>
+                    <span *ngIf="dataItem.pstatus">Active</span>
+                    <span *ngIf="!(dataItem.pstatus)">In-active</span>
+                </ng-template>
+        </kendo-grid-column>
+      </kendo-grid-pdf>
+      <kendo-grid-excel fileName="FD_Configuration.xlsx" [fetchData]="allData">
+          <kendo-excelexport-column-group title="FD Configuration" [headerCellOptions]="headerCells">
+        <kendo-excelexport-column field="pFDname"  title="Fixed Deposit Name">
+        </kendo-excelexport-column>
+        <kendo-excelexport-column field="pFdnamecode"  title="Fixed Deposit Code">
+        </kendo-excelexport-column>
+        <kendo-excelexport-column field="pstatus"  title="Status">
+          <ng-template let-dataItem let-rowIndex="rowIndex" kendoGridCellTemplate>
+                    <span *ngIf="dataItem.pstatus">Active</span>
+                    <span *ngIf="!(dataItem.pstatus)">In-active</span>
+                </ng-template>
+        </kendo-excelexport-column>
+      </kendo-excelexport-column-group>
+      </kendo-grid-excel>
+
+</kendo-grid>
+
+  <!-- <table id="example" class="table" >
+        <thead>
+          <tr>
+            <th>Fixed Deposit Name</th>
+            <th>Fixed Deposit Code</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Regular Fixed Deposit</td>
+            <td>RFDBJS01001</td>
+             <td class="material-switch" colspan="1">
+             <input data-target="#yes" data-toggle="collapse" type="checkbox" id="status0" checked><label class="badge-success" data-target="#yes" data-toggle="collapse" for="status0"></label></td>
+            <td><a href="#">
+              <div id="icon-edit"></div>
+              </a></td>
+          </tr>
+          <tr>
+            <td>Regular Fixed Deposit</td>
+            <td>RFDBJS01002</td>
+             <td class="material-switch" colspan="1">
+             <input data-target="#yes" data-toggle="collapse" type="checkbox" id="status0" checked><label class="badge-success" data-target="#yes" data-toggle="collapse" for="status0"></label></td>
+            <td><a href="#">
+              <div id="icon-edit"></div>
+              </a></td>
+          </tr>
+          <tr>
+            <td>Regular Fixed Deposit</td>
+            <td>RFDBJS01003</td>
+             <td class="material-switch" colspan="1">
+             <input data-target="#yes" data-toggle="collapse" type="checkbox" id="status0" checked><label class="badge-success" data-target="#yes" data-toggle="collapse" for="status0"></label></td>
+            <td><a href="#">
+              <div id="icon-edit"></div>
+              </a></td>
+          </tr>
+          <tr>
+            <td>Regular Fixed Deposit</td>
+            <td>RFDBJS01001</td>
+             <td class="material-switch" colspan="1">
+             <input data-target="#yes" data-toggle="collapse" type="checkbox" id="status0" checked><label class="badge-success" data-target="#yes" data-toggle="collapse" for="status0"></label></td>
+            <td><a href="#">
+              <div id="icon-edit"></div>
+              </a></td>
+          </tr>
+          
+        </tbody>
+      </table> -->
+  </div>
+</div>
+</div>
+<div class="my-container">
+  <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplateForFiView">
+  </ngx-loading>
+
+</div>

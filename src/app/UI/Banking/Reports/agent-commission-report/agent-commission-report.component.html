@@ -1,0 +1,232 @@
+<div class="row">
+  <div class="col-md-6 col-xl-6 ">
+    <p class="bc-2">Agent Commission Report</p>
+  </div>
+</div>
+<div class="row mt-2">
+  <div class="col-md-12 col-xl-12">
+    <div class="section-container">
+      <form [formGroup]="agentCommissionForm" autocomplete="off">
+        <div class="row mt-1">
+          <div class="col-md-4 col-xl-4">
+            <label id="pagentid" title="Agent Name">Agent Name</label>
+
+            <ng-select [items]="ShowAgentnames" formControlName="pagentid" bindLabel="pagentname" bindValue="pagentid"
+              [multiple]=false placeholder="Select" [searchable]=true [clearable]=false dropdownPosition="bottom"
+              [clearOnBackspace]=true (change)="agentnamechange($event)"
+              [ngClass]="{ 'is-invalid': agentCommissionErrors.pagentid }">
+
+            </ng-select>
+            <div class="invalid-feedback">
+              <span *ngIf="agentCommissionErrors.pagentid">{{agentCommissionErrors?.pagentid}}</span>
+
+            </div>
+          </div>
+
+          <div class="col-md-4 col-xl-4">
+            <div class="form-group">
+              <label id="pMonthOf" title="Month Of">Month Of</label>
+
+              <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                bsDatepicker formControlName="pMonthOf" (ngModelChange)="DateChange($event)" placeholder="mmm/YY"
+                (onShown)="onOpenCalendar($event)" [ngClass]="{ 'is-invalid': agentCommissionErrors.pMonthOf }">
+
+              <div class="invalid-feedback">
+                <span *ngIf="agentCommissionErrors.pMonthOf">{{agentCommissionErrors?.pMonthOf}}</span>
+
+              </div>
+
+            </div>
+          </div>
+
+          <div class="justify-content-end mx-3 d-flex">
+            <div class="form-group mt-4 pt-2">
+              <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab"
+                role="tab" (click)="GetShowAgentdetails()">
+                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                <span *ngIf="!isLoading">
+                  <img class="mr-3" height="20px" src="assets/images/reports-white.svg" width="20px">
+                </span> {{savebutton}}
+              </a>
+
+            </div>
+          </div>
+
+       
+
+
+
+
+
+
+        </div>
+      </form>
+
+      <div class="row mt-3">
+        <div class="col-md-12">
+
+          <!-- [group]="group" -->
+          <kendo-grid [data]="agentCommissionRepData" [sortable]="true" [pageSize]="10" [pageable]="true" height="500"
+            [group]="group" [sort]="sort">
+
+            <ng-template kendoGridToolbarTemplate>
+              <div class="mb-3">
+                <div class="col-12 mt-5">
+                  <ul class="temp-ul pull-right mr-4 pb-3">
+                    <li class="temp-ico ml-2">
+                      <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf"
+                          width="20px"></a>
+                    </li>
+
+                  </ul>
+                </div>
+              </div>
+            </ng-template>
+
+
+            <kendo-grid-column field="pstatus" title="Payment Status" width="150" [hidden]="hdnpPaymentstatus">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ptransactiondate" title="Date" width="90">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="ptransactionno" title="Transaction No." width="130">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pagentname" title="Agent Name" width="130">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pparticulars" title="Details" width="110">
+            </kendo-grid-column>
+
+            <!-- Opening Balance -->
+            <!-- <kendo-grid-column field="popeningbalance" title="Opening Bal" width="115"
+    [headerClass]="{'kendo-right': true}" class="kendo-right">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.popeningbalance | mycurrencypipe}}<span class="ml-5"></span>
+    </ng-template>
+  </kendo-grid-column> -->
+
+            <!-- Released Amount -->
+            <kendo-grid-column field="preleasedamount" title="Released Amount" width="115"
+              [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.preleasedamount | mycurrencypipe }}<span class="ml-5"></span>
+              </ng-template>
+
+              <!-- Group footer template to show sum -->
+              <ng-template kendoGridGroupFooterTemplate let-group let-aggregates>
+                <p class="bc-2 text-center" style="margin-right: -71px;"> {{aggregates.preleasedamount.sum |
+                  mycurrencypipe}}</p>
+              </ng-template>
+            </kendo-grid-column>
+
+            <!-- TDS -->
+            <kendo-grid-column field="pTdsamount" title="TDS" width="80" [headerClass]="{'kendo-right': true}"
+              class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pTdsamount | mycurrencypipe }}<span class="ml-5"></span>
+              </ng-template>
+
+              <!-- Group footer template to show sum -->
+              <ng-template kendoGridGroupFooterTemplate let-group let-aggregates>
+                <p class="bc-2 text-center" style="margin-right: -23px;"> {{aggregates.pTdsamount.sum | mycurrencypipe}}
+                </p>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pNetPayableAmount" title="Net payable Amount" width="110"
+              [headerClass]="{'kendo-right': true}" class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pNetPayableAmount | mycurrencypipe }}<span class="ml-5"></span>
+              </ng-template>
+
+              <!-- Group footer template to show sum -->
+              <ng-template kendoGridGroupFooterTemplate let-group let-aggregates>
+                <p class="bc-2 text-center" style="margin-right: -30px;">{{aggregates.pNetPayableAmount.sum |
+                  mycurrencypipe}}</p>
+              </ng-template>
+            </kendo-grid-column>
+
+            <!-- Paid Amount -->
+            <kendo-grid-column field="ppaidamount" title="Paid Amount" width="95" [headerClass]="{'kendo-right': true}"
+              class="kendo-right">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.ppaidamount | mycurrencypipe }}<span class="ml-5"></span>
+              </ng-template>
+
+              <!-- Group footer template to show sum -->
+              <ng-template kendoGridGroupFooterTemplate let-group let-aggregates>
+                <p class="bc-2 text-center" style="margin-right: -30px;">{{aggregates.ppaidamount.sum | mycurrencypipe}}
+                </p>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-pdf fileName="Agent_Commission.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true"
+              [scale]="0.6" [margin]="0.5" [landscape]="true">
+              <kendo-grid-pdf-margin top="5.5cm" left="0.5cm" right="0.5cm" bottom="3cm"></kendo-grid-pdf-margin>
+
+              <!-- Custom PDF Template -->
+              <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                  <div class="header">
+                    <app-company-details></app-company-details>
+
+                    <div class="report-head mt-2">
+                      <div class="font-15 text-dark text-center m-0" [ngClass]="{ 'bold-text': isBold }"
+                        style="font-weight: bold; color: black;">
+                        <span class="text-capitalize font-bold mt-5">AGENT COMMISSION REPORT </span>
+                        <span class="text-capitalize mt-5" [ngStyle]="{ 'margin-left': '10px' }">FOR THE PERIOD :
+                          {{monthof}}, AGENT : {{agentname}}({{agentPan}}) </span>
+                      </div>
+                    </div>
+
+
+                  </div>
+
+                  <div class="footer" style="text-align: center; font-weight: bold; margin-top: 20px;">
+                    Closing Balance: {{pClosingBal | mycurrencypipe}}
+                  </div>
+
+                </div>
+              </ng-template>
+
+              <!-- <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                  <div class="header">
+                    <app-company-details></app-company-details>
+                    <div class="row">
+                      <span class="font-14 text-left m-0 mr-4"
+                        style="font-size: 14px !important; font-weight: bold !important;">Agent Name:
+                        {{agentname}}</span>
+                      <span class="font-14 text-left m-0 mr-4"
+                        style="font-size: 14px !important; font-weight: bold !important; margin-left: 100px !important;">Month
+                        Of: {{monthof}}</span>
+                    </div>
+                  </div>
+
+                  <div class="footer" style="text-align: center; font-weight: bold; margin-top: 20px;">
+                    Closing Balance: {{pClosingBal | mycurrencypipe}}
+                  </div>
+                </div>
+              </ng-template> -->
+            </kendo-grid-pdf>
+
+          </kendo-grid>
+
+          <div class="kendo-grid-footer text-center p-3">
+            <strong>Closing Balance:</strong> {{pClosingBal | mycurrencypipe}}
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  .bold-text {
+    font-weight: bold;
+  }
+</style>
