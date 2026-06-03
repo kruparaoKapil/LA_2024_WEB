@@ -26,6 +26,8 @@ Output: `dist/PresentationPages/`
 
 ## Migration
 
-Side-by-side migration notes and phase history: [`migration/MIGRATION_PLAN.md`](migration/MIGRATION_PLAN.md).
+- **Handoff summary:** [`migration/MIGRATION_NOTES.md`](migration/MIGRATION_NOTES.md)
+- Phase history: [`migration/MIGRATION_PLAN.md`](migration/MIGRATION_PLAN.md)
+- QA: [`migration/QA_REPORT.md`](migration/QA_REPORT.md), [`migration/QA_CHECKLIST.md`](migration/QA_CHECKLIST.md)
 
 Legacy Angular 8 sources are archived under [`legacy/`](legacy/README.md).

@@ -1,6 +1,6 @@
 # LA_2024_WEB — Angular 8 → Angular 21 + PrimeNG Migration Plan
 
-> Working document. Final summary lives in `MIGRATION_NOTES.md` after Phase 13.
+> Working document. Final handoff: [`MIGRATION_NOTES.md`](MIGRATION_NOTES.md).
 
 ## Source-of-truth tag and branch
 
@@ -320,5 +320,5 @@ All `*.service.ts` retain identical method signatures and HTTP request/response 
   - Bundle: ~4 MB total output, ~160 KB initial transfer; largest lazy chunk is jsPDF/html2canvas (~1.3 MB).
   - Manual visual parity checklist + screenshot table in `QA_CHECKLIST.md`; legacy UI via `legacy/` or tag `pre-migration-snapshot`.
   - E2E (Cypress/Playwright) deferred — recommended before production cutover to `main`.
-- Phase 13: write `MIGRATION_NOTES.md`
+- [x] Phase 13: `migration/MIGRATION_NOTES.md` — final replacement map, signal/shell patterns, directive/pipe disposition, rollback, runbook, next steps
 
