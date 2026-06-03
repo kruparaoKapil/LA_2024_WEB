@@ -14,3 +14,4 @@ export * from './toolbar/toolbar.component';
 export * from './rich-editor/rich-editor.component';
 export * from './validation-message/validation-message.component';
 export * from './feature-placeholder/feature-placeholder.component';
+export * from './document-upload/document-upload.component';

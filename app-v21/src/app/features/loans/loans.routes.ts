@@ -128,22 +128,181 @@ export const LOANS_ROUTES: Routes = [
       ),
   },
 
-  // verification + approval + disbursement flow
-  { path: 'VerificationView', ...placeholder('Verification View') },
-  { path: 'VerificationNew', ...placeholder('Verification New') },
-  { path: 'VerificationNew/:id', ...placeholder('Verification New') },
-  { path: 'Televerification', ...placeholder('Tele Verification') },
-  { path: 'Televerification/:id', ...placeholder('Tele Verification') },
-  { path: 'Documentverification', ...placeholder('Document Verification') },
-  { path: 'Documentverification/:id', ...placeholder('Document Verification') },
-  { path: 'Fieldverification', ...placeholder('Field Verification') },
-  { path: 'Fieldverification/:id', ...placeholder('Field Verification') },
-  { path: 'AprovalView', ...placeholder('Approval View') },
-  { path: 'AprovalNew', ...placeholder('Approval New') },
-  { path: 'AprovalNew/:id', ...placeholder('Approval New') },
-  { path: 'DisbursementView', ...placeholder('Disbursement View') },
-  { path: 'DisbursementNew', ...placeholder('Disbursement New') },
-  { path: 'DisbursementNew/:id', ...placeholder('Disbursement New') },
+  // -------- Phase 7C: verification + approval + disbursement flow --------
+  // Tele verification
+  {
+    path: 'TeleverificationView',
+    loadComponent: () =>
+      import('./verification/verification-view.component').then(
+        (m) => m.VerificationViewComponent,
+      ),
+    data: { kind: 'Tele' },
+  },
+  {
+    path: 'Televerification',
+    loadComponent: () =>
+      import('./verification/verification-view.component').then(
+        (m) => m.VerificationViewComponent,
+      ),
+    data: { kind: 'Tele' },
+  },
+  {
+    path: 'Televerification/:applicationId',
+    loadComponent: () =>
+      import('./verification/verification-shell.component').then(
+        (m) => m.VerificationShellComponent,
+      ),
+    data: { kind: 'Tele' },
+  },
+  // Document verification
+  {
+    path: 'DocumentverificationView',
+    loadComponent: () =>
+      import('./verification/verification-view.component').then(
+        (m) => m.VerificationViewComponent,
+      ),
+    data: { kind: 'Document' },
+  },
+  {
+    path: 'Documentverification',
+    loadComponent: () =>
+      import('./verification/verification-view.component').then(
+        (m) => m.VerificationViewComponent,
+      ),
+    data: { kind: 'Document' },
+  },
+  {
+    path: 'Documentverification/:applicationId',
+    loadComponent: () =>
+      import('./verification/verification-shell.component').then(
+        (m) => m.VerificationShellComponent,
+      ),
+    data: { kind: 'Document' },
+  },
+  // Field verification
+  {
+    path: 'FieldverificationView',
+    loadComponent: () =>
+      import('./verification/verification-view.component').then(
+        (m) => m.VerificationViewComponent,
+      ),
+    data: { kind: 'Field' },
+  },
+  {
+    path: 'Fieldverification',
+    loadComponent: () =>
+      import('./verification/verification-view.component').then(
+        (m) => m.VerificationViewComponent,
+      ),
+    data: { kind: 'Field' },
+  },
+  {
+    path: 'Fieldverification/:applicationId',
+    loadComponent: () =>
+      import('./verification/verification-shell.component').then(
+        (m) => m.VerificationShellComponent,
+      ),
+    data: { kind: 'Field' },
+  },
+  // Generic VerificationView (legacy hash routed here too)
+  {
+    path: 'VerificationView',
+    loadComponent: () =>
+      import('./verification/verification-view.component').then(
+        (m) => m.VerificationViewComponent,
+      ),
+    data: { kind: 'Tele' },
+  },
+  {
+    path: 'VerificationNew',
+    loadComponent: () =>
+      import('./verification/verification-shell.component').then(
+        (m) => m.VerificationShellComponent,
+      ),
+    data: { kind: 'Tele' },
+  },
+  {
+    path: 'VerificationNew/:applicationId',
+    loadComponent: () =>
+      import('./verification/verification-shell.component').then(
+        (m) => m.VerificationShellComponent,
+      ),
+    data: { kind: 'Tele' },
+  },
+
+  // Approval
+  {
+    path: 'ApprovalView',
+    loadComponent: () =>
+      import('./approval/approval-view.component').then(
+        (m) => m.ApprovalViewComponent,
+      ),
+  },
+  {
+    path: 'AprovalView',
+    loadComponent: () =>
+      import('./approval/approval-view.component').then(
+        (m) => m.ApprovalViewComponent,
+      ),
+  },
+  {
+    path: 'AprovalNew',
+    loadComponent: () =>
+      import('./approval/approval-shell.component').then(
+        (m) => m.ApprovalShellComponent,
+      ),
+  },
+  {
+    path: 'AprovalNew/:applicationId',
+    loadComponent: () =>
+      import('./approval/approval-shell.component').then(
+        (m) => m.ApprovalShellComponent,
+      ),
+  },
+  {
+    path: 'Approval/:applicationId',
+    loadComponent: () =>
+      import('./approval/approval-shell.component').then(
+        (m) => m.ApprovalShellComponent,
+      ),
+  },
+
+  // Disbursement
+  {
+    path: 'DisbursementView',
+    loadComponent: () =>
+      import('./disbursement/disbursement-view.component').then(
+        (m) => m.DisbursementViewComponent,
+      ),
+  },
+  {
+    path: 'DisbursmentView',
+    loadComponent: () =>
+      import('./disbursement/disbursement-view.component').then(
+        (m) => m.DisbursementViewComponent,
+      ),
+  },
+  {
+    path: 'DisbursementNew',
+    loadComponent: () =>
+      import('./disbursement/disbursement-shell.component').then(
+        (m) => m.DisbursementShellComponent,
+      ),
+  },
+  {
+    path: 'DisbursementNew/:applicationId',
+    loadComponent: () =>
+      import('./disbursement/disbursement-shell.component').then(
+        (m) => m.DisbursementShellComponent,
+      ),
+  },
+  {
+    path: 'Disbursment/:applicationId',
+    loadComponent: () =>
+      import('./disbursement/disbursement-shell.component').then(
+        (m) => m.DisbursementShellComponent,
+      ),
+  },
 
   // receipts + closure + moratorium
   { path: 'LoanreceiptView', ...placeholder('Loan Receipt View') },

@@ -18,11 +18,20 @@ import { ContactSelectComponent, type ContactSelectionEvent } from '../contact/c
 import { BankDetailsSubformComponent, type BankRecord } from '../sub-forms/bank-details-subform.component';
 import { KycDocumentsSubformComponent, type KycRecord } from '../sub-forms/kyc-documents-subform.component';
 import { PersonalDetailsSubformComponent, type PersonalDetailsValue } from '../sub-forms/personal-details-subform.component';
+import { FamilyDetailsSubformComponent, type FamilyMemberRecord } from '../sub-forms/family-details-subform.component';
+import { PropertyDetailsSubformComponent, type PropertyRecord } from '../sub-forms/property-details-subform.component';
+import { MovablePropertySubformComponent, type MovablePropertyRecord } from '../sub-forms/movable-property-subform.component';
+import { EmploymentDetailsSubformComponent, type EmploymentDetailsValue } from '../sub-forms/employment-details-subform.component';
+import { CoApplicantSubformComponent, type CoApplicantRecord } from '../sub-forms/co-applicant-subform.component';
+import { NomineeDetailsSubformComponent, type NomineeRecord } from '../sub-forms/nominee-details-subform.component';
+import { ReferralSubformComponent, type ReferralValue } from '../sub-forms/referral-subform.component';
+import { TdsDetailsSubformComponent, type TdsValue } from '../sub-forms/tds-details-subform.component';
 import { AddressSubformComponent } from '../../common/address/address-subform.component';
 import { FeaturePlaceholderComponent } from '../../../shared/ui';
 import { ToastService } from '../../../core/notifications/toast.service';
 import { LoaderService } from '../../../core/loader/loader.service';
 import { FIIndividualService } from '../services/fi-individual.service';
+import { asOldRows } from '../sub-forms/list-record.types';
 
 const TAB_IDS = {
   applicant: 'applicant',
@@ -72,6 +81,14 @@ type TabId = (typeof TAB_IDS)[keyof typeof TAB_IDS];
     BankDetailsSubformComponent,
     KycDocumentsSubformComponent,
     PersonalDetailsSubformComponent,
+    FamilyDetailsSubformComponent,
+    PropertyDetailsSubformComponent,
+    MovablePropertySubformComponent,
+    EmploymentDetailsSubformComponent,
+    CoApplicantSubformComponent,
+    NomineeDetailsSubformComponent,
+    ReferralSubformComponent,
+    TdsDetailsSubformComponent,
     AddressSubformComponent,
     FeaturePlaceholderComponent,
   ],
@@ -163,10 +180,60 @@ type TabId = (typeof TAB_IDS)[keyof typeof TAB_IDS];
                 (ngModelChange)="dirty.set(true)"
               />
             }
+            @case ('family') {
+              <app-family-details-subform
+                [(ngModel)]="familyMembers"
+                (ngModelChange)="dirty.set(true)"
+              />
+            }
+            @case ('property') {
+              <app-property-details-subform
+                [contactId]="selectedContact()?.contactId ?? 0"
+                [(ngModel)]="properties"
+                (ngModelChange)="dirty.set(true)"
+              />
+            }
+            @case ('movable') {
+              <app-movable-property-subform
+                [contactId]="selectedContact()?.contactId ?? 0"
+                [(ngModel)]="movableProperties"
+                (ngModelChange)="dirty.set(true)"
+              />
+            }
+            @case ('employment') {
+              <app-employment-details-subform
+                [(ngModel)]="employmentDetails"
+                (ngModelChange)="dirty.set(true)"
+              />
+            }
+            @case ('co-applicant') {
+              <app-co-applicant-subform
+                [(ngModel)]="coApplicants"
+                (ngModelChange)="dirty.set(true)"
+              />
+            }
+            @case ('nominee') {
+              <app-nominee-details-subform
+                [(ngModel)]="nominees"
+                (ngModelChange)="dirty.set(true)"
+              />
+            }
+            @case ('referral') {
+              <app-referral-subform
+                [(ngModel)]="referral"
+                (ngModelChange)="dirty.set(true)"
+              />
+            }
+            @case ('tds') {
+              <app-tds-details-subform
+                [(ngModel)]="tds"
+                (ngModelChange)="dirty.set(true)"
+              />
+            }
             @default {
               <app-feature-placeholder
                 [title]="placeholderTitle(id)"
-                description="Coming up in Phase 7C — Family, Property, Movable Property, Employment, Co-Applicant, Nominee, Referral, TDS."
+                description="Application tab is part of the LoansCreation flow (Phase 7D)."
               />
             }
           }
@@ -266,6 +333,14 @@ export class FIIndividualShellComponent implements OnInit {
   protected bankAccounts: BankRecord[] = [];
   protected kycDocs: KycRecord[] = [];
   protected personalDetails: PersonalDetailsValue | null = null;
+  protected familyMembers: FamilyMemberRecord[] = [];
+  protected properties: PropertyRecord[] = [];
+  protected movableProperties: MovablePropertyRecord[] = [];
+  protected employmentDetails: EmploymentDetailsValue | null = null;
+  protected coApplicants: CoApplicantRecord[] = [];
+  protected nominees: NomineeRecord[] = [];
+  protected referral: ReferralValue | null = null;
+  protected tds: TdsValue | null = null;
 
   protected readonly headerTitle = computed(() =>
     this.applicationId() ? `Application ${this.applicationId()}` : 'New FI – Individual',
@@ -289,17 +364,35 @@ export class FIIndividualShellComponent implements OnInit {
     this.fi.getFiUserData(applicationId).subscribe({
       next: (data) => {
         const d = data as Record<string, unknown> | null;
-        if (d) {
-          if (Array.isArray(d['applicantBankAccounts'])) {
-            this.bankAccounts = (d['applicantBankAccounts'] as BankRecord[]).map(
-              (r) => ({ ...r, ptypeofoperation: 'OLD' as const }),
-            );
-          }
-          if (Array.isArray(d['applicantKycDocuments'])) {
-            this.kycDocs = (d['applicantKycDocuments'] as KycRecord[]).map(
-              (r) => ({ ...r, ptypeofoperation: 'OLD' as const }),
-            );
-          }
+        if (!d) return;
+        const pull = <T>(key: string): T[] =>
+          Array.isArray(d[key]) ? (d[key] as T[]) : [];
+
+        this.bankAccounts = asOldRows(pull('applicantBankAccounts')) as BankRecord[];
+        this.kycDocs = asOldRows(pull('applicantKycDocuments')) as KycRecord[];
+        this.familyMembers = asOldRows(pull('applicantFamilyMembers')) as FamilyMemberRecord[];
+        this.properties = asOldRows(pull('applicantProperties')) as PropertyRecord[];
+        this.movableProperties = asOldRows(
+          pull('applicantMovableProperties'),
+        ) as MovablePropertyRecord[];
+        this.coApplicants = asOldRows(pull('coApplicantsAndGuarantors')) as CoApplicantRecord[];
+        this.nominees = asOldRows(pull('applicantNominees')) as NomineeRecord[];
+
+        const personal = d['applicantPersonalDetails'];
+        if (personal && typeof personal === 'object') {
+          this.personalDetails = personal as PersonalDetailsValue;
+        }
+        const employment = d['applicantEmploymentDetails'];
+        if (employment && typeof employment === 'object') {
+          this.employmentDetails = employment as EmploymentDetailsValue;
+        }
+        const referral = d['applicantReferral'];
+        if (referral && typeof referral === 'object') {
+          this.referral = referral as ReferralValue;
+        }
+        const tds = d['applicantTds'];
+        if (tds && typeof tds === 'object') {
+          this.tds = tds as TdsValue;
         }
       },
       error: (err) => {
