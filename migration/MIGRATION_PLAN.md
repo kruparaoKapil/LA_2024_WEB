@@ -190,7 +190,15 @@ All `*.service.ts` retain identical method signatures and HTTP request/response 
     - `features/tds/tds.routes.ts` (~15 routes — Phase 10)
   - All shell-children also mounted at `path: ''` so legacy un-prefixed bookmarks (`#/CashBook`, `#/Fiindividual`) resolve unchanged.
   - Bundle: chunks split per feature (loans-routes 6.2 KB, accounting-routes 5.9 KB, etc.); only the shell + dashboard load on first visit.
-- Phase 5: Common
+- [x] Phase 5 (partial): Common slice — `app-v21/src/app/features/common/`
+  - `group.service.ts` — port of `Services/Common/group.service.ts` over `ApiClient`; signal-stashed `rowEditId` replaces ad-hoc field
+  - `location.service.ts` — country/state/district lookups with per-id Map cache (replaces `ContacmasterService.getCountryDetails / getStates / getDistrictDetails` and dozens of duplicate calls)
+  - `group/group-view.component.ts` — full port over `<app-data-grid>`, signals, paged + sortable; row dbl-click → edit
+  - `group/group-creation.component.ts` — signal-driven form (no FormBuilder), inline member add/edit, integrates `<app-select>` for role lookup; full member-pick dialog flows through Phase 7 `<app-contact-select>`
+  - `branch-selection/branch-selection.component.ts` — multi-branch picker over `p-listbox`, persists via `AuthStore.setBranch`
+  - `address/address-subform.component.ts` — reusable CVA with cascading country→state→district from `LocationService`, signal-only state, replaces 325-LOC legacy `address.component.ts`
+  - `<app-validation-message>` shipped under `shared/ui/` (accepts both `[message]` and legacy mis-spelled `[messgae]`)
+  - Bank/KYC/Personal/Contact-select sub-forms ship in-context with FIIndividual (Phase 7)
 - Phase 6: Settings
 - Phase 7: Loans
 - Phase 8: Accounting
