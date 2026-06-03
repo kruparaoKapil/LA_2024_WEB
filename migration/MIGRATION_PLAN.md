@@ -199,7 +199,23 @@ All `*.service.ts` retain identical method signatures and HTTP request/response 
   - `address/address-subform.component.ts` — reusable CVA with cascading country→state→district from `LocationService`, signal-only state, replaces 325-LOC legacy `address.component.ts`
   - `<app-validation-message>` shipped under `shared/ui/` (accepts both `[message]` and legacy mis-spelled `[messgae]`)
   - Bank/KYC/Personal/Contact-select sub-forms ship in-context with FIIndividual (Phase 7)
-- Phase 6: Settings
+- [x] Phase 6 (partial): Settings — `app-v21/src/app/features/settings/`
+  - 8 services ported off `CommonService.callGetAPI/callPostAPI` onto the new `ApiClient`:
+    - `users.service.ts` — Settings/Users surface (the legacy `UsersService` Banking-dashboard methods will move to `BankingDashboardService` in Phase 9)
+    - `menu-modules.service.ts` — modules / submodules / functions / sort order
+    - `branch-config.service.ts`, `company-config.service.ts`
+    - `employee.service.ts` — list / save / update / dup-check (legacy `Subject` flags replaced by signals)
+    - `generate-id.service.ts` — id-generator master
+    - `advocate-lawyer.service.ts`, `referral-agent.service.ts` — were empty stubs in legacy; now have real CRUD surfaces
+  - 6 components shipped fresh on PrimeNG + signals:
+    - `users/users-view.component.ts` (replaces `usersview.component.ts`)
+    - `users/users-registration.component.ts` (replaces `usersregistration.component.ts`)
+    - `branch-config/branch-config.component.ts` (uses `<app-dialog>` + `<app-address-subform>`; replaces 600-LOC kendo-grid + bsDatepicker version)
+    - `advocate-lawyer/advocate-lawyer.component.ts` — list + dialog edit
+    - `referral-agent/referral-agent.component.ts` — list + dialog edit
+    - `generate-id/generate-id.component.ts` — list + dialog edit with form/mode cascade
+  - Settings routes wired both at PrimeNG-style paths (`/settings/users`, `/settings/branch-config`) and legacy hash names (`/UsersView`, `/BranchConfig`, `/AdvocateLawyerView`, `/AdvocateLawyerMaster`, `/ReferralAgentView`, `/ReferralAgentMaster`, `/GenerateidMaster`).
+  - Multi-tab forms (Company Config, Employee Master, User Rights / Add Menu / Menu Sorting, Party Master / Contacts) deferred — they share sub-form building blocks (KYC, Family Details, Contact tree) with FIIndividual and port together in Phase 7.
 - Phase 7: Loans
 - Phase 8: Accounting
 - Phase 9: Banking
