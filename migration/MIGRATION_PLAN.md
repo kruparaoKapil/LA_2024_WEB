@@ -164,7 +164,19 @@ All `*.service.ts` retain identical method signatures and HTTP request/response 
   - `DashboardComponent` reads `AuthStore.user()`, supports sign-out
   - Build green (2.07 MB initial dev), tests pass, 0 lint errors
 - Phase 2B: per-feature service ports happen alongside their feature phases (5–10)
-- Phase 3: shared/ui wrappers
+- Phase 3: shared/ui PrimeNG wrapper library — `app-v21/src/app/shared/ui/`
+  - `data-grid/` — `<app-data-grid>` over `p-table` with toolbar (search/Excel/PDF), sortable/filterable columns, paginator, single/multi selection, row-double-click; replaces 249 `kendo-grid` blocks
+  - `date-input/` — `<app-date-input>` (ControlValueAccessor) over `p-datepicker`, dd/MM/yyyy en-IN
+  - `currency-input/` — `<app-currency-input>` (CVA) over `p-inputNumber`, locale en-IN, INR currency
+  - `select/`, `multi-select/` — `<app-select>` / `<app-multi-select>` (CVA) over `p-select` / `p-multiSelect`
+  - `dialog/` — `<app-dialog>` over `p-dialog` with header/footer template slots and built-in OK/Cancel
+  - `confirm-button/` — `<app-confirm-button>` raises `ConfirmationService` before emitting `confirmed`
+  - `tree/` — `<app-tree>` over `p-tree`
+  - `tabs/` — `<app-tabs>` over `p-tabs` (replaces ngx-bootstrap `tabset`)
+  - `toolbar/` — `<app-toolbar>` over `p-toolbar` with `[slot=start]` / `[slot=end]` content slots
+  - `rich-editor/` — `<app-rich-editor>` (CVA) over `p-editor` (Quill)
+  - `index.ts` barrel for one-line consumer imports
+  - Wrappers tree-shake: 0 KB initial impact when not consumed; build still 2.07 MB initial.
 - Phase 4: lazy routing skeleton
 - Phase 5: Common
 - Phase 6: Settings
