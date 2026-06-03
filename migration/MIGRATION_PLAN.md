@@ -293,7 +293,21 @@ All `*.service.ts` retain identical method signatures and HTTP request/response 
   - `reports/banking-report-shell.component.ts` — generic banking-report shell. Filters auto-show based on `data.reportKind` (date-range / as-on / month / branch / account / type / account-type). Columns auto-derived from the first row. Drives 25 report kinds (interest payment, interest trend, maturity trend, maturity intimation, pre-maturity, pre-maturity month-wise, lien release, self adjustment, member-wise / branch-wise receipts, agent points, agent business, target, cash flow, application form, member enquiry, member details, share issue, savings account, share-savings withdraw, production summary / achieved / target). Replaces ~3500 LOC of legacy report components.
   - Routes wired (legacy hash names preserved): masters (`/MemberView`, `/MemberNew`, `/FdView`, `/FdNew`, `/RdView`, `/RdNew`, plus placeholders for Savings / Shares / Insurance / Lien); transactions (`/FDACCreationView`, `/FDACCreationNew`, `/RDACCreationView`, `/RDACCreationNew`, `/FdReceiptView`, `/FdReceiptNew`, `/RdReceiptView`, `/RdReceiptNew`, `/SAReceipt`, `/ShareReceipt`, `/ShareReceiptView`, `/MemberReceipt`, `/MemberReceiptView`, `/MaturityPayment`, `/MaturityRenewal`, `/InterestPayment`, `/PreMaturity`, `/BondPreview`, `/MaturityBond`); letters (12 individual letter routes); reports (25 individual report routes).
   - Deferred to a follow-up pass: Insurance / Member-Type / Savings / Shares masters, Self-Adjustment / Transfer / Commission Payment transactions, BRS preview, lien-release, share-application/withdrawal — kept as `<app-feature-placeholder>` so the navigation stays intact.
-- Phase 10: HRMS, TDS, rest
+- [x] Phase 10: HRMS + TDS — `app-v21/src/app/features/hrms/`, `app-v21/src/app/features/tds/`
+  - `services/hrms.service.ts` — consolidates legacy HRMS payroll / attendance / on-roll / JV / employee / challana / report APIs (~10 legacy services). Shared calendar-year/month lookups; typed row interfaces (`HrmsReportRow`, `CalendarYear`, `CalendarMonth`).
+  - `reports/hrms-report-shell.component.ts` — generic HRMS report shell driven by `data.reportKind` (salary statement, payroll approval, pay slip, loyalty, monthly bonus, ESI/PF, professional tax, earned leaves, biometric attendance/summary). Calendar year/month filters where required; `<app-data-grid>` with Excel/PDF export.
+  - `transactions/payroll-shell.component.ts` — `process` | `approval` via `data.kind`; branch + calendar month cascade, grid edit/save/authorise.
+  - `transactions/attendance-shell.component.ts` — branch employee list + month attendance save.
+  - `transactions/onroll-shell.component.ts` — allowances / recoveries / advances tabs via `<app-tabs>`.
+  - `masters/employee-view.component.ts` + `masters/employee-shell.component.ts` — employee list + create/edit shell (designation/branch/role lookups).
+  - `transactions/jv-details-shell.component.ts` — JV type + authorised month grid save.
+  - `transactions/challana-hrms-shell.component.ts` — `entry` | `view` via `data.kind`.
+  - HRMS routes wired (legacy hash names preserved); placeholders for SSC Agenda, Salary Update, Leave Details, Promote Salary Report, Member Type.
+  - `services/tds.service.ts` — challana checking/payment/CIN entry, TDS reports, PAN update/validation, Form 15-H / 121 APIs (legacy `/TDS/`, `/Banking/Transactions/FdReceipt/`, contact master paths).
+  - `reports/tds-report-shell.component.ts` — TDS report, section-wise, challana payment, CIN entry reports.
+  - `transactions/challana-tds-shell.component.ts` — `checking` | `payment` | `cin-entry` via `data.kind`.
+  - `masters/pan-update.component.ts`, `masters/pan-validation.component.ts`, `masters/tds-form-shell.component.ts` — PAN maintenance + simplified Form 15-H/121/reprint (full legacy multi-tab forms deferred).
+  - TDS routes wired; `TdsAccountsSetup` still placeholder.
 - Phase 11: cutover
 - Phase 12: QA + perf
 - Phase 13: write `MIGRATION_NOTES.md`
