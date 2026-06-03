@@ -15,14 +15,16 @@ import { LoaderService } from './core/loader/loader.service';
   template: `
     <p-toast position="top-right" />
     <p-confirmDialog />
-    <p-blockUI [blocked]="loaderVisible()" styleClass="app-blockui">
-      <div class="app-loader-overlay">
-        <p-progressSpinner strokeWidth="3" />
-        @if (loaderText(); as msg) {
-          <span class="app-loader-text">{{ msg }}</span>
-        }
-      </div>
-    </p-blockUI>
+    @if (loaderVisible()) {
+      <p-blockUI [blocked]="true" styleClass="app-blockui">
+        <div class="app-loader-overlay">
+          <p-progressSpinner strokeWidth="3" />
+          @if (loaderText(); as msg) {
+            <span class="app-loader-text">{{ msg }}</span>
+          }
+        </div>
+      </p-blockUI>
+    }
     <router-outlet />
   `,
   styles: [

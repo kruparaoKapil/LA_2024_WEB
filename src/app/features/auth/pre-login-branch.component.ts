@@ -12,6 +12,9 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { SelectModule } from 'primeng/select';
 
+import { finalize } from 'rxjs/operators';
+
+import { LoaderService } from '../../core/loader/loader.service';
 import { ToastService } from '../../core/notifications/toast.service';
 import {
   PreLoginBranchService,
@@ -32,9 +35,13 @@ import {
   template: `
     <div class="prelogin-shell">
       <p-card header="Select office / branch" styleClass="prelogin-card">
+        @if (loadingLocations()) {
+          <p class="hint">Loading locations…</p>
+        }
         <div class="location-row">
           <label for="location">Office / Branch location</label>
           <p-select
+            [disabled]="loadingLocations()"
             inputId="location"
             [options]="locations()"
             [ngModel]="selectedLocation()"
@@ -137,39 +144,50 @@ import {
 export class PreLoginBranchComponent implements OnInit {
   private readonly api = inject(PreLoginBranchService);
   private readonly toast = inject(ToastService);
+  private readonly loader = inject(LoaderService);
   private readonly router = inject(Router);
 
   protected readonly locations = signal<BranchLocationRow[]>([]);
   protected readonly branches = signal<BranchNameRow[]>([]);
   protected readonly selectedLocation = signal<string | null>(null);
   protected readonly selectedBranch = signal<BranchNameRow | null>(null);
+  protected readonly loadingLocations = signal(true);
   protected readonly loadingBranches = signal(false);
 
   ngOnInit(): void {
+    this.loader.reset();
     this.api.clearSelection();
-    this.api.getBranchLocations().subscribe({
-      next: (list) => {
-        const sorted = [...(list ?? [])].sort((a, b) =>
-          (a.pbranchlocation ?? '').localeCompare(b.pbranchlocation ?? ''),
-        );
-        this.locations.set(sorted);
-      },
-      error: () => this.toast.error('Could not load branch locations.'),
-    });
+    this.api
+      .getBranchLocations()
+      .pipe(finalize(() => this.loadingLocations.set(false)))
+      .subscribe({
+        next: (list) => {
+          const sorted = [...(list ?? [])].sort((a, b) =>
+            (a.pbranchlocation ?? '').localeCompare(b.pbranchlocation ?? ''),
+          );
+          this.locations.set(sorted);
+        },
+        error: () => this.toast.error('Could not load branch locations.'),
+      });
   }
 
   protected onLocationChange(location: string | null): void {
     this.selectedLocation.set(location);
     this.selectedBranch.set(null);
     this.branches.set([]);
-    if (!location) return;
+    if (!location) {
+      this.loadingBranches.set(false);
+      return;
+    }
 
     this.loadingBranches.set(true);
-    this.api.getBranchNameDetails(location).subscribe({
-      next: (rows) => this.branches.set(rows ?? []),
-      error: () => this.toast.error('Could not load branches for this location.'),
-      complete: () => this.loadingBranches.set(false),
-    });
+    this.api
+      .getBranchNameDetails(location)
+      .pipe(finalize(() => this.loadingBranches.set(false)))
+      .subscribe({
+        next: (rows) => this.branches.set(rows ?? []),
+        error: () => this.toast.error('Could not load branches for this location.'),
+      });
   }
 
   protected pickBranch(branch: BranchNameRow): void {
