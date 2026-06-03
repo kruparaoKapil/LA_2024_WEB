@@ -26,6 +26,7 @@ import { CoApplicantSubformComponent, type CoApplicantRecord } from '../sub-form
 import { NomineeDetailsSubformComponent, type NomineeRecord } from '../sub-forms/nominee-details-subform.component';
 import { ReferralSubformComponent, type ReferralValue } from '../sub-forms/referral-subform.component';
 import { TdsDetailsSubformComponent, type TdsValue } from '../sub-forms/tds-details-subform.component';
+import { LoanApplicationSubformComponent, type LoanApplicationValue } from '../sub-forms/loan-application-subform.component';
 import { AddressSubformComponent } from '../../common/address/address-subform.component';
 import { FeaturePlaceholderComponent } from '../../../shared/ui';
 import { ToastService } from '../../../core/notifications/toast.service';
@@ -89,6 +90,7 @@ type TabId = (typeof TAB_IDS)[keyof typeof TAB_IDS];
     NomineeDetailsSubformComponent,
     ReferralSubformComponent,
     TdsDetailsSubformComponent,
+    LoanApplicationSubformComponent,
     AddressSubformComponent,
     FeaturePlaceholderComponent,
   ],
@@ -230,10 +232,17 @@ type TabId = (typeof TAB_IDS)[keyof typeof TAB_IDS];
                 (ngModelChange)="dirty.set(true)"
               />
             }
+            @case ('application') {
+              <app-loan-application-subform
+                [applicationId]="applicationId()"
+                [(ngModel)]="loanApplication"
+                (ngModelChange)="dirty.set(true)"
+              />
+            }
             @default {
               <app-feature-placeholder
                 [title]="placeholderTitle(id)"
-                description="Application tab is part of the LoansCreation flow (Phase 7D)."
+                description="Tab not yet implemented."
               />
             }
           }
@@ -341,6 +350,7 @@ export class FIIndividualShellComponent implements OnInit {
   protected nominees: NomineeRecord[] = [];
   protected referral: ReferralValue | null = null;
   protected tds: TdsValue | null = null;
+  protected loanApplication: LoanApplicationValue | null = null;
 
   protected readonly headerTitle = computed(() =>
     this.applicationId() ? `Application ${this.applicationId()}` : 'New FI – Individual',
@@ -393,6 +403,10 @@ export class FIIndividualShellComponent implements OnInit {
         const tds = d['applicantTds'];
         if (tds && typeof tds === 'object') {
           this.tds = tds as TdsValue;
+        }
+        const loanApp = d['applicantLoanDetails'];
+        if (loanApp && typeof loanApp === 'object') {
+          this.loanApplication = loanApp as LoanApplicationValue;
         }
       },
       error: (err) => {

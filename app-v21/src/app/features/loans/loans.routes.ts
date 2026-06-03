@@ -304,35 +304,276 @@ export const LOANS_ROUTES: Routes = [
       ),
   },
 
-  // receipts + closure + moratorium
-  { path: 'LoanreceiptView', ...placeholder('Loan Receipt View') },
-  { path: 'LoanreceiptNew', ...placeholder('Loan Receipt New') },
-  { path: 'LoanreceiptNew/:id', ...placeholder('Loan Receipt New') },
-  { path: 'LoanpreclosureView', ...placeholder('Loan Preclosure View') },
-  { path: 'LoanpreclosureNew', ...placeholder('Loan Preclosure New') },
-  { path: 'PartPayment', ...placeholder('Part Payment') },
-  { path: 'PartPaymentView', ...placeholder('Part Payment View') },
-  { path: 'Moratorium', ...placeholder('Moratorium') },
-  { path: 'MoratoriumView', ...placeholder('Moratorium View') },
+  // -------- Phase 7D: receipts / part-payment / moratorium / preclosure --------
+  // Loan receipts
+  {
+    path: 'LoanreceiptView',
+    loadComponent: () =>
+      import('./receipts/receipts-view.component').then(
+        (m) => m.ReceiptsViewComponent,
+      ),
+    data: { formName: 'Receipt' },
+  },
+  {
+    path: 'LoanreceiptNew',
+    loadComponent: () =>
+      import('./receipts/receipts-shell.component').then(
+        (m) => m.ReceiptsShellComponent,
+      ),
+    data: { formName: 'Receipt' },
+  },
+  {
+    path: 'LoanreceiptNew/:applicationId',
+    loadComponent: () =>
+      import('./receipts/receipts-shell.component').then(
+        (m) => m.ReceiptsShellComponent,
+      ),
+    data: { formName: 'Receipt' },
+  },
+  // Part payment
+  {
+    path: 'PartPaymentView',
+    loadComponent: () =>
+      import('./receipts/receipts-view.component').then(
+        (m) => m.ReceiptsViewComponent,
+      ),
+    data: { formName: 'PartPayment' },
+  },
+  {
+    path: 'PartPayment',
+    loadComponent: () =>
+      import('./receipts/receipts-shell.component').then(
+        (m) => m.ReceiptsShellComponent,
+      ),
+    data: { formName: 'PartPayment' },
+  },
+  {
+    path: 'PartPayment/:applicationId',
+    loadComponent: () =>
+      import('./receipts/receipts-shell.component').then(
+        (m) => m.ReceiptsShellComponent,
+      ),
+    data: { formName: 'PartPayment' },
+  },
+  // Moratorium
+  {
+    path: 'MoratoriumView',
+    loadComponent: () =>
+      import('./receipts/receipts-view.component').then(
+        (m) => m.ReceiptsViewComponent,
+      ),
+    data: { formName: 'Moratorium' },
+  },
+  {
+    path: 'Moratorium',
+    loadComponent: () =>
+      import('./receipts/receipts-shell.component').then(
+        (m) => m.ReceiptsShellComponent,
+      ),
+    data: { formName: 'Moratorium' },
+  },
+  {
+    path: 'Moratorium/:applicationId',
+    loadComponent: () =>
+      import('./receipts/receipts-shell.component').then(
+        (m) => m.ReceiptsShellComponent,
+      ),
+    data: { formName: 'Moratorium' },
+  },
+  // Preclosure transaction (master is at PreclosureMaster/PreclosureView)
+  {
+    path: 'LoanpreclosureView',
+    loadComponent: () =>
+      import('./preclosure/preclosure-tx-view.component').then(
+        (m) => m.PreclosureTxViewComponent,
+      ),
+  },
+  {
+    path: 'LoanpreclosureNew',
+    loadComponent: () =>
+      import('./receipts/receipts-shell.component').then(
+        (m) => m.ReceiptsShellComponent,
+      ),
+    data: { formName: 'Preclosure' },
+  },
+  {
+    path: 'LoanpreclosureNew/:applicationId',
+    loadComponent: () =>
+      import('./receipts/receipts-shell.component').then(
+        (m) => m.ReceiptsShellComponent,
+      ),
+    data: { formName: 'Preclosure' },
+  },
 
-  // letters & reports
-  { path: 'DeliveryorderNew', ...placeholder('Delivery Order') },
-  { path: 'DeliveryorderNew/:id', ...placeholder('Delivery Order') },
-  { path: 'AcknowledgementsNew', ...placeholder('Acknowledgements') },
-  { path: 'AcknowledgementsNew/:id', ...placeholder('Acknowledgements') },
-  { path: 'SanctionLetter', ...placeholder('Sanction Letter') },
-  { path: 'SanctionLetter/:id', ...placeholder('Sanction Letter') },
-  { path: 'DisburementLetter', ...placeholder('Disbursement Letter') },
-  { path: 'DisburementLetter/:id', ...placeholder('Disbursement Letter') },
-  { path: 'CollectionsReport', ...placeholder('Collections Report') },
-  { path: 'CollectionsReport/:id', ...placeholder('Collections Report') },
-  { path: 'Duereports', ...placeholder('Due Reports') },
-  { path: 'Duereports/:id', ...placeholder('Due Reports') },
-  { path: 'DisbursmentReports', ...placeholder('Disbursement Reports') },
-  { path: 'DisbursmentReports/:id', ...placeholder('Disbursement Reports') },
-  { path: 'LoanStatement', ...placeholder('Loan Statement') },
-  { path: 'LoanStatement/:id', ...placeholder('Loan Statement') },
-  { path: 'EmiChartView', ...placeholder('EMI Chart View') },
-  { path: 'EmiChartReport', ...placeholder('EMI Chart Report') },
-  { path: 'EmiChartReport/:id', ...placeholder('EMI Chart Report') },
+  // -------- Phase 7D: letters --------
+  {
+    path: 'SanctionLetterView',
+    loadComponent: () =>
+      import('./letters/letter-view.component').then((m) => m.LetterViewComponent),
+    data: { letterKind: 'sanction' },
+  },
+  {
+    path: 'SanctionLetter',
+    loadComponent: () =>
+      import('./letters/letter-view.component').then((m) => m.LetterViewComponent),
+    data: { letterKind: 'sanction' },
+  },
+  {
+    path: 'SanctionLetter/:applicationId',
+    loadComponent: () =>
+      import('./letters/letter-shell.component').then((m) => m.LetterShellComponent),
+    data: { letterKind: 'sanction' },
+  },
+  {
+    path: 'DisburementLetterView',
+    loadComponent: () =>
+      import('./letters/letter-view.component').then((m) => m.LetterViewComponent),
+    data: { letterKind: 'disbursement' },
+  },
+  {
+    path: 'DisburementLetter',
+    loadComponent: () =>
+      import('./letters/letter-view.component').then((m) => m.LetterViewComponent),
+    data: { letterKind: 'disbursement' },
+  },
+  {
+    path: 'DisburementLetter/:applicationId',
+    loadComponent: () =>
+      import('./letters/letter-shell.component').then((m) => m.LetterShellComponent),
+    data: { letterKind: 'disbursement' },
+  },
+  {
+    path: 'DeliveryorderView',
+    loadComponent: () =>
+      import('./letters/letter-view.component').then((m) => m.LetterViewComponent),
+    data: { letterKind: 'deliveryorder' },
+  },
+  {
+    path: 'DeliveryorderNew',
+    loadComponent: () =>
+      import('./letters/letter-view.component').then((m) => m.LetterViewComponent),
+    data: { letterKind: 'deliveryorder' },
+  },
+  {
+    path: 'DeliveryorderNew/:applicationId',
+    loadComponent: () =>
+      import('./letters/letter-shell.component').then((m) => m.LetterShellComponent),
+    data: { letterKind: 'deliveryorder' },
+  },
+  {
+    path: 'AcknowledgementsView',
+    loadComponent: () =>
+      import('./letters/letter-view.component').then((m) => m.LetterViewComponent),
+    data: { letterKind: 'acknowledgement' },
+  },
+  {
+    path: 'AcknowledgementsNew',
+    loadComponent: () =>
+      import('./letters/letter-view.component').then((m) => m.LetterViewComponent),
+    data: { letterKind: 'acknowledgement' },
+  },
+  {
+    path: 'AcknowledgementsNew/:applicationId',
+    loadComponent: () =>
+      import('./letters/letter-shell.component').then((m) => m.LetterShellComponent),
+    data: { letterKind: 'acknowledgement' },
+  },
+
+  // -------- Phase 7D: reports --------
+  {
+    path: 'LoanStatement',
+    loadComponent: () =>
+      import('./reports/loan-report-shell.component').then(
+        (m) => m.LoanReportShellComponent,
+      ),
+    data: { reportKind: 'statement' },
+  },
+  {
+    path: 'LoanStatement/:applicationId',
+    loadComponent: () =>
+      import('./reports/loan-report-shell.component').then(
+        (m) => m.LoanReportShellComponent,
+      ),
+    data: { reportKind: 'statement' },
+  },
+  {
+    path: 'EmiChartView',
+    loadComponent: () =>
+      import('./reports/loan-report-shell.component').then(
+        (m) => m.LoanReportShellComponent,
+      ),
+    data: { reportKind: 'emi-chart' },
+  },
+  {
+    path: 'EmiChartReport',
+    loadComponent: () =>
+      import('./reports/loan-report-shell.component').then(
+        (m) => m.LoanReportShellComponent,
+      ),
+    data: { reportKind: 'emi-chart' },
+  },
+  {
+    path: 'EmiChartReport/:applicationId',
+    loadComponent: () =>
+      import('./reports/loan-report-shell.component').then(
+        (m) => m.LoanReportShellComponent,
+      ),
+    data: { reportKind: 'emi-chart' },
+  },
+  {
+    path: 'Duereports',
+    loadComponent: () =>
+      import('./reports/loan-report-shell.component').then(
+        (m) => m.LoanReportShellComponent,
+      ),
+    data: { reportKind: 'dues' },
+  },
+  {
+    path: 'Duereports/:id',
+    loadComponent: () =>
+      import('./reports/loan-report-shell.component').then(
+        (m) => m.LoanReportShellComponent,
+      ),
+    data: { reportKind: 'dues' },
+  },
+  {
+    path: 'CollectionsReport',
+    loadComponent: () =>
+      import('./reports/loan-report-shell.component').then(
+        (m) => m.LoanReportShellComponent,
+      ),
+    data: { reportKind: 'collections' },
+  },
+  {
+    path: 'CollectionsReport/:id',
+    loadComponent: () =>
+      import('./reports/loan-report-shell.component').then(
+        (m) => m.LoanReportShellComponent,
+      ),
+    data: { reportKind: 'collections' },
+  },
+  {
+    path: 'DisbursmentReports',
+    loadComponent: () =>
+      import('./reports/loan-report-shell.component').then(
+        (m) => m.LoanReportShellComponent,
+      ),
+    data: { reportKind: 'disbursement-report' },
+  },
+  {
+    path: 'DisbursmentReports/:id',
+    loadComponent: () =>
+      import('./reports/loan-report-shell.component').then(
+        (m) => m.LoanReportShellComponent,
+      ),
+    data: { reportKind: 'disbursement-report' },
+  },
+  {
+    path: 'GstReport',
+    loadComponent: () =>
+      import('./reports/loan-report-shell.component').then(
+        (m) => m.LoanReportShellComponent,
+      ),
+    data: { reportKind: 'gst' },
+  },
 ];
