@@ -1,6 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -8,6 +16,7 @@ import { PasswordModule } from 'primeng/password';
 import { CardModule } from 'primeng/card';
 
 import { AuthService } from '../../core/auth/auth.service';
+import { PreLoginBranchService } from '../../core/auth/pre-login-branch.service';
 import { ToastService } from '../../core/notifications/toast.service';
 import { LoaderService } from '../../core/loader/loader.service';
 
@@ -19,6 +28,15 @@ import { LoaderService } from '../../core/loader/loader.service';
   template: `
     <div class="login-shell">
       <p-card header="LA 2024 — Sign in" styleClass="login-card">
+        @if (branchLabel(); as branch) {
+          <p class="branch-banner">
+            <i class="pi pi-building"></i>
+            Branch: <strong>{{ branch }}</strong>
+            <button type="button" class="change-branch" (click)="changeBranch()">
+              Change
+            </button>
+          </p>
+        }
         <div class="field">
           <label for="username">Username</label>
           <input
@@ -63,6 +81,26 @@ import { LoaderService } from '../../core/loader/loader.service';
       :host ::ng-deep .login-card {
         width: min(420px, 100%);
       }
+      .branch-banner {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.35rem 0.5rem;
+        margin: 0 0 1rem;
+        padding: 0.6rem 0.75rem;
+        background: var(--p-surface-100);
+        border-radius: var(--p-border-radius, 6px);
+        font-size: 0.9rem;
+      }
+      .change-branch {
+        margin-left: auto;
+        border: none;
+        background: none;
+        color: var(--p-primary-color);
+        cursor: pointer;
+        font-size: 0.85rem;
+        text-decoration: underline;
+      }
       .field {
         display: flex;
         flex-direction: column;
@@ -72,8 +110,9 @@ import { LoaderService } from '../../core/loader/loader.service';
     `,
   ],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private readonly auth = inject(AuthService);
+  private readonly branchSvc = inject(PreLoginBranchService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly toast = inject(ToastService);
@@ -82,10 +121,33 @@ export class LoginComponent {
   protected readonly username = signal('');
   protected readonly password = signal('');
   protected readonly busy = signal(false);
+  protected readonly branchLabel = signal<string | null>(null);
 
   protected readonly signInDisabled = computed(
     () => this.busy() || !this.username().trim() || !this.password(),
   );
+
+  ngOnInit(): void {
+    this.loader.reset();
+    const branch = this.branchSvc.readSelection();
+    if (!branch?.pbranch_name) {
+      void this.router.navigate(['/']);
+      return;
+    }
+    this.branchLabel.set(branch.pbranch_name);
+    this.auth.store.setBranch({
+      pbranch_id: branch.pbranch_id,
+      pbranch_name: branch.pbranch_name,
+      pbranch_location: branch.pbranch_location,
+      pBranchID: branch.pbranch_id,
+      pBranchName: branch.pbranch_name,
+    });
+  }
+
+  protected changeBranch(): void {
+    this.branchSvc.clearSelection();
+    void this.router.navigate(['/']);
+  }
 
   protected signIn(): void {
     if (this.signInDisabled()) {
@@ -96,17 +158,19 @@ export class LoginComponent {
     this.loader.show('Signing in…');
     this.auth
       .login({ username: this.username().trim(), password: this.password() })
-      .subscribe({
-        next: () => {
+      .pipe(
+        finalize(() => {
           this.busy.set(false);
           this.loader.hide();
+        }),
+      )
+      .subscribe({
+        next: () => {
           const target = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/Dashboard';
           void this.router.navigateByUrl(target);
         },
         error: () => {
-          // toast already raised by errorInterceptor
-          this.busy.set(false);
-          this.loader.hide();
+          // toast raised by errorInterceptor
         },
       });
   }

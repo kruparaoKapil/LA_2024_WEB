@@ -15,6 +15,14 @@ import { authGuard } from './core/auth/auth.guard';
  */
 export const routes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./features/auth/pre-login-branch.component').then(
+        (m) => m.PreLoginBranchComponent,
+      ),
+  },
+  {
     path: 'Login',
     loadComponent: () =>
       import('./features/auth/login.component').then((m) => m.LoginComponent),
@@ -129,5 +137,5 @@ export const routes: Routes = [
     ],
   },
 
-  { path: '**', redirectTo: 'Login' },
+  { path: '**', redirectTo: '' },
 ];

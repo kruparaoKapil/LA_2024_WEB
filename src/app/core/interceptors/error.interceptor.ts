@@ -13,8 +13,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       const status = err.status;
       const message = err.error?.message ?? err.message ?? 'Request failed';
 
-      if (status === 401) {
-        router.navigate(['/Login']);
+      if (status === 401 && !req.url.includes('/login')) {
+        void router.navigate(['/Login']);
       }
 
       messages?.add({

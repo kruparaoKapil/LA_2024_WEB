@@ -4,7 +4,7 @@ import { Observable, tap } from 'rxjs';
 
 import { ApiClient } from '../api/api-client.service';
 import { AuthStore } from './auth.store';
-import { LoginRequest, LoginResponse } from './auth.types';
+import { CurrentUser, LoginRequest, LoginResponse } from './auth.types';
 
 /**
  * Replacement for the auth-related methods on legacy `UsersService`:
@@ -55,10 +55,16 @@ export class AuthService {
     void this.router.navigate(['/Login']);
   }
 
-  private applyLoginResponse(resp: LoginResponse | undefined | null): void {
+  private applyLoginResponse(resp: LoginResponse | CurrentUser | undefined | null): void {
     if (!resp) return;
-    if (resp.user) this.store.setUser(resp.user);
-    if (resp.roles) this.store.setRoles(resp.roles);
-    if (resp.company) this.store.setCompany(resp.company);
+    // Legacy API returns the user DTO at the top level (pUserID, pToken, …).
+    if ('pUserID' in resp && !('user' in resp)) {
+      this.store.setUser(resp as CurrentUser);
+      return;
+    }
+    const wrapped = resp as LoginResponse;
+    if (wrapped.user) this.store.setUser(wrapped.user);
+    if (wrapped.roles) this.store.setRoles(wrapped.roles);
+    if (wrapped.company) this.store.setCompany(wrapped.company);
   }
 }

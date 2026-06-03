@@ -42,6 +42,10 @@ export interface CurrentUser {
 export interface BranchSelection {
   pBranchID?: number | string;
   pBranchName?: string;
+  /** Legacy pre-login keys (kept for parity with Angular 8). */
+  pbranch_id?: number | string;
+  pbranch_name?: string;
+  pbranch_location?: string;
   [key: string]: unknown;
 }
 
