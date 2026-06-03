@@ -60,21 +60,73 @@ export const LOANS_ROUTES: Routes = [
   { path: 'LoansMaster', ...placeholder('Loans Master (multi-tab)') },
   { path: 'ChargeconfigurationView', ...placeholder('Charge Configuration View') },
   { path: 'ChargeconfigurationMaster', ...placeholder('Charge Configuration Master') },
+  // -------- Phase 7B: contact list + FI Individual shell --------
+  {
+    path: 'ContactView',
+    loadComponent: () =>
+      import('./contact/contact-view.component').then(
+        (m) => m.ContactViewComponent,
+      ),
+  },
+  {
+    path: 'ContactViewNew',
+    loadComponent: () =>
+      import('./contact/contact-view.component').then(
+        (m) => m.ContactViewComponent,
+      ),
+  },
   { path: 'ContactForm', ...placeholder('Contact Form') },
   { path: 'ContactMore', ...placeholder('Contact More') },
   { path: 'ContactMoreNew', ...placeholder('Contact More (New)') },
   { path: 'ContactNew', ...placeholder('Contact New') },
   { path: 'ContactNewViewDetailed', ...placeholder('Contact View — Detailed') },
-  { path: 'ContactViewNew', ...placeholder('Contact View (New)') },
-  { path: 'ContactView', ...placeholder('Contact View') },
   { path: 'ContactIndividual', ...placeholder('Contact Individual') },
   { path: 'ContactBusiness', ...placeholder('Contact Business') },
   { path: 'LoansCreation', ...placeholder('Loan Creation') },
 
   // FI Individual (multi-step form, biggest feature)
-  { path: 'FiView', ...placeholder('FI View') },
-  { path: 'Fiindividual', ...placeholder('FI Individual') },
-  { path: 'Fiindividual/:id', ...placeholder('FI Individual') },
+  {
+    path: 'FiView',
+    loadComponent: () =>
+      import('./fi-individual/fi-individual-view.component').then(
+        (m) => m.FIIndividualViewComponent,
+      ),
+  },
+  {
+    path: 'fi-individual',
+    loadComponent: () =>
+      import('./fi-individual/fi-individual-view.component').then(
+        (m) => m.FIIndividualViewComponent,
+      ),
+  },
+  {
+    path: 'fi-individual/new',
+    loadComponent: () =>
+      import('./fi-individual/fi-individual-shell.component').then(
+        (m) => m.FIIndividualShellComponent,
+      ),
+  },
+  {
+    path: 'fi-individual/:applicationId',
+    loadComponent: () =>
+      import('./fi-individual/fi-individual-shell.component').then(
+        (m) => m.FIIndividualShellComponent,
+      ),
+  },
+  {
+    path: 'Fiindividual',
+    loadComponent: () =>
+      import('./fi-individual/fi-individual-shell.component').then(
+        (m) => m.FIIndividualShellComponent,
+      ),
+  },
+  {
+    path: 'Fiindividual/:applicationId',
+    loadComponent: () =>
+      import('./fi-individual/fi-individual-shell.component').then(
+        (m) => m.FIIndividualShellComponent,
+      ),
+  },
 
   // verification + approval + disbursement flow
   { path: 'VerificationView', ...placeholder('Verification View') },

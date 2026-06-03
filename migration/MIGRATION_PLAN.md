@@ -224,8 +224,18 @@ All `*.service.ts` retain identical method signatures and HTTP request/response 
     - `scheme/scheme.component.ts` — cascading Loan Type → Loan Name picker
     - `preclosure/preclosure.component.ts`
   - Routes wired at legacy hash names (`/ChargesMaster`, `/Documents`, `/SchemeView`, `/SchemeMaster`, `/PreclosureView`, `/PreclosureMaster`); LoanCreation, ChargeconfigurationView/Master remain placeholders pending Phase 7B
-- Phase 7B: FIIndividual + bank/kyc/personal/contact-select sub-forms (next)
-- Phase 7C: Verification / Approval / Disbursement
+- [x] Phase 7B: FIIndividual shell + Contact / Bank / KYC / Personal sub-forms — `app-v21/src/app/features/loans/`
+  - 3 services on `ApiClient`: `contact-master.service.ts` (replaces 549-LOC `ContacmasterService`), `fi-individual.service.ts` (replaces 543-LOC `FIIndividualService`, cross-tab `Subject`s converted to signals), `fi-individual-loan-specific.service.ts`
+  - `contact/contact-view.component.ts` — listing of all contacts using `<app-data-grid>`
+  - `contact/contact-select.component.ts` — autocomplete + applicant card replaces kendo-multi-column-combobox + `window` global callbacks
+  - `sub-forms/bank-details-subform.component.ts` — CVA wrapper (replaces 555-LOC `BankdetailsnewComponent`); add/edit/delete with `ptypeofoperation` lifecycle, primary-account radio, IFSC validator, dup A/C-no guard
+  - `sub-forms/kyc-documents-subform.component.ts` — CVA wrapper (replaces 746-LOC `KycdocumentsnewComponent`); cascading Group → Type, dup-doc guard, lifecycle markers (file-upload deferred to Phase 7C generic `<app-document-upload>`)
+  - `sub-forms/personal-details-subform.component.ts` — CVA wrapper (replaces 235-LOC `PersonalDetailsComponent`); residential-status / marital-status radios, country-of-birth via `LocationService` (Phase 5)
+  - `fi-individual/fi-individual-view.component.ts` — list of FI applications with `<app-data-grid>`
+  - `fi-individual/fi-individual-shell.component.ts` — replaces multi-thousand-LOC FI tabset; 14-tab `<app-tabs>` shell with applicant banner; 5 tabs fully wired (Applicant, Address [Phase 5 sub-form], Bank Details, KYC, Personal); remaining 9 tabs render `<app-feature-placeholder>` pending Phase 7C
+  - Routes: `/ContactView`, `/ContactViewNew`, `/FiView`, `/fi-individual`, `/fi-individual/new`, `/fi-individual/:applicationId` plus legacy hash aliases `/Fiindividual`, `/Fiindividual/:applicationId`
+  - Cross-tab sharing pattern migrated: legacy `_GetContactData()`, `_GetBankUpdate()`, `_GetKYCUpdate()` Subjects → signals on `FIIndividualService` + parent shell holds the per-tab form models in plain class fields and signals (no global Subject hand-shake needed)
+- Phase 7C: Verification / Approval / Disbursement + remaining FIIndividual tabs (Family, Property, Movable Property, Employment, Co-Applicant, Nominee, Referral, TDS) and generic `<app-document-upload>` widget
 - Phase 7D: Receipts / Letters / Reports
 - Phase 8: Accounting
 - Phase 9: Banking
